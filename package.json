@@ -1,23 +1,29 @@
 {
-	"name": "globaloffensive",
+	"name": "sak0a-globaloffensive",
 	"version": "3.2.1",
-	"description": "Exposes a simple API for interacting with the Counter-Strike: Global Offensive/CS2 game coordinator",
+	"description": "Modern CS2/CS:GO Game Coordinator integration with latest GameTracking-CS2 protobuf definitions. Includes support for highlight_reel, variations, and all modern CS2 fields.",
 	"keywords": [
+		"cs2",
+		"counter-strike-2",
 		"csgo",
-		"cs:go",
-		"cs",
-		"counter strike",
+		"cs:go", 
 		"counter-strike",
-		"counter strike global offensive",
-		"counter-strike global offensive",
-		"global offensive",
-		"valve",
-		"steam"
+		"steam",
+		"game-coordinator",
+		"protobuf",
+		"gametracking",
+		"highlight-reel",
+		"inspect",
+		"stickers",
+		"keychains",
+		"variations",
+		"valve"
 	],
 	"homepage": "https://github.com/sak0a/node-globaloffensive",
 	"bugs": {
 		"url": "https://github.com/sak0a/node-globaloffensive/issues"
 	},
+    "author": "sak0a <forked from: DoctorMcKay>",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -38,9 +44,18 @@
 		"steam-user": "^4.26.1"
 	},
 	"scripts": {
-		"generate-protos": "node scripts/generate-protos.js"
+		"generate-protos": "node scripts/generate-protos.js",
 	},
 	"engines": {
 		"node": ">=14.0.0"
-	}
+	},
+	"files": [
+		"index.js",
+		"handlers.js",
+		"enums.js",
+		"language.js",
+		"protobufs/generated/",
+		"README.md",
+		"LICENSE"
+	]
 }
