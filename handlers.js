@@ -2,11 +2,11 @@ const ByteBuffer = require('bytebuffer');
 const Long = require('long');
 const SteamID = require('steamid');
 
-const GlobalOffensive = require('./index.js');
+const NodeCS2 = require('./index.js');
 const Language = require('./language.js');
 const Protos = require('./protobufs/generated/_load.js');
 
-let handlers = GlobalOffensive.prototype._handlers;
+let handlers = NodeCS2.prototype._handlers;
 
 // ClientWelcome and ClientConnectionStatus
 handlers[Language.ClientLogonFatalError] = function(body) {
@@ -72,15 +72,15 @@ handlers[Language.ClientConnectionStatus] = function(body) {
 	this.emit('connectionStatus', proto.status, proto);
 
 	let statusStr = proto.status;
-	for (let i in GlobalOffensive.GCConnectionStatus) {
-		if (GlobalOffensive.GCConnectionStatus.hasOwnProperty(i) && GlobalOffensive.GCConnectionStatus[i] == proto.status) {
+	for (let i in NodeCS2.GCConnectionStatus) {
+		if (NodeCS2.GCConnectionStatus.hasOwnProperty(i) && NodeCS2.GCConnectionStatus[i] == proto.status) {
 			statusStr = i;
 		}
 	}
 
 	this.emit('debug', "Connection status: " + statusStr + " (" + proto.status + "); have session: " + (this.haveGCSession ? 'yes' : 'no'));
 
-	if (proto.status != GlobalOffensive.GCConnectionStatus.HAVE_SESSION && this.haveGCSession) {
+	if (proto.status != NodeCS2.GCConnectionStatus.HAVE_SESSION && this.haveGCSession) {
 		this.emit('disconnectedFromGC', proto.status);
 		this.haveGCSession = false;
 		this._connect(); // Try to reconnect
@@ -201,7 +201,7 @@ handlers[Language.ItemCustomizationNotification] = function(body) {
 };
 
 // SO
-GlobalOffensive.prototype._processSOEconItem = function(item) {
+NodeCS2.prototype._processSOEconItem = function(item) {
 	// Inventory position
 	let isNew = (item.inventory >>> 30) & 1;
 	item.position = (isNew ? 0 : item.inventory & 0xFFFF);
@@ -326,7 +326,7 @@ handlers[Language.SO_Create] = function(body) {
 	this._handleSOCreate(proto);
 };
 
-GlobalOffensive.prototype._handleSOCreate = function(proto) {
+NodeCS2.prototype._handleSOCreate = function(proto) {
 	if (proto.type_id != 1) {
 		return; // Not an item
 	}
@@ -347,7 +347,7 @@ handlers[Language.SO_Update] = function(body) {
 	this._handleSOUpdate(proto);
 };
 
-GlobalOffensive.prototype._handleSOUpdate = function(so) {
+NodeCS2.prototype._handleSOUpdate = function(so) {
 	if (so.type_id != 1) {
 		return; // Not an item, we don't care
 	}
@@ -375,7 +375,7 @@ handlers[Language.SO_Destroy] = function(body) {
 	this._handleSODestroy(proto);
 };
 
-GlobalOffensive.prototype._handleSODestroy = function(proto) {
+NodeCS2.prototype._handleSODestroy = function(proto) {
 	if (proto.type_id != 1) {
 		return; // Not an item
 	}

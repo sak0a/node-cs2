@@ -1,7 +1,7 @@
-# sak0a-globaloffensive
+# node-cs2
 
-[![npm version](https://badge.fury.io/js/sak0a-globaloffensive.svg)](https://badge.fury.io/js/sak0a-globaloffensive)
-[![Node.js Version](https://img.shields.io/node/v/sak0a-globaloffensive.svg)](https://nodejs.org/)
+[![npm version](https://badge.fury.io/js/node-cs2.svg)](https://badge.fury.io/js/node-cs2)
+[![Node.js Version](https://img.shields.io/node/v/node-cs2.svg)](https://nodejs.org/)
 
 Modern **CS2/CS:GO Game Coordinator integration** with the latest **GameTracking-CS2 protobuf definitions**. This package provides a simple API for interacting with the Counter-Strike 2 and CS:GO Game Coordinator, with full support for all modern CS2 features.
 
@@ -68,7 +68,7 @@ This fork addresses critical issues with the original `globaloffensive` package 
 ## 📦 Installation
 
 ```bash
-npm install sak0a-globaloffensive
+npm install node-cs2
 ```
 
 ## 🔄 Migration from `globaloffensive`
@@ -80,20 +80,20 @@ This package is **100% API compatible** with the original `globaloffensive` pack
 const GlobalOffensive = require('globaloffensive');
 
 // New - just change the require!
-const GlobalOffensive = require('sak0a-globaloffensive');
+const NodeCS2 = require('node-cs2');
 
 // All your existing code works unchanged!
-const csgo = new GlobalOffensive(steamUser);
+const cs2 = new NodeCS2(steamUser);
 ```
 
 ## 🚀 Usage
 
 ```javascript
 const SteamUser = require('steam-user');
-const GlobalOffensive = require('sak0a-globaloffensive');
+const NodeCS2 = require('node-cs2');
 
 const user = new SteamUser();
-const csgo = new GlobalOffensive(user);
+const cs2 = new NodeCS2(user);
 
 user.logOn({
     accountName: 'username',
@@ -108,16 +108,16 @@ user.on('loggedOn', () => {
 user.on('appLaunched', (appid) => {
     if (appid == 730) {
         console.log('CS2/CS:GO launched');
-        csgo.helloGC();
+        cs2.helloGC();
     }
 });
 
-csgo.on('connectedToGC', () => {
+cs2.on('connectedToGC', () => {
     console.log('Connected to CS2/CS:GO Game Coordinator');
 });
 
 // Inspect an item with full modern field support
-csgo.on('inspectItemInfo', (item) => {
+cs2.on('inspectItemInfo', (item) => {
     console.log('Item data with all modern fields:', {
         defindex: item.defindex,
         paintindex: item.paintindex,
@@ -137,7 +137,7 @@ csgo.on('inspectItemInfo', (item) => {
 });
 
 // Inspect an item
-csgo.inspectItem('76561198057249394', '2569415699', '7115007497');
+cs2.inspectItem('76561198057249394', '2569415699', '7115007497');
 ```
 
 ## 🔍 **Inspect URL Support**
@@ -152,7 +152,7 @@ const unmaskedUrl = 'steam://rungame/730/76561202255233023/+csgo_econ_action_pre
 const match = unmaskedUrl.match(/S(\d+)A(\d+)D(\d+)/);
 if (match) {
     const [, ownerId, assetId, classId] = match;
-    csgo.inspectItem(ownerId, assetId, classId);
+    cs2.inspectItem(ownerId, assetId, classId);
 }
 ```
 
@@ -193,7 +193,7 @@ if (match) {
 
 ### Building from Source
 ```bash
-git clone https://github.com/sak0a/node-globaloffensive.git
+git clone https://github.com/sak0a/node-cs2.git
 cd node-globaloffensive
 npm install
 npm run generate-protos
@@ -220,7 +220,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 If you encounter any issues or need support:
 1. Check if the issue exists in the original package
-2. Open an issue on [GitHub](https://github.com/sak0a/node-globaloffensive/issues)
+2. Open an issue on [GitHub](https://github.com/sak0a/node-cs2/issues)
 3. Provide detailed information about your use case
 
 ## 🚀 **Why Use This Fork?**

@@ -1,6 +1,6 @@
 {
-	"name": "sak0a-globaloffensive",
-	"version": "3.2.1",
+	"name": "node-cs2",
+	"version": "2.0.0",
 	"description": "Modern CS2/CS:GO Game Coordinator integration with latest GameTracking-CS2 protobuf definitions. Includes support for highlight_reel, variations, and all modern CS2 fields.",
 	"keywords": [
 		"cs2",
@@ -19,15 +19,15 @@
 		"variations",
 		"valve"
 	],
-	"homepage": "https://github.com/sak0a/node-globaloffensive",
+	"homepage": "https://github.com/sak0a/node-cs2",
 	"bugs": {
-		"url": "https://github.com/sak0a/node-globaloffensive/issues"
+		"url": "https://github.com/sak0a/node-cs2/issues"
 	},
     "author": "sak0a <forked from: DoctorMcKay>",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/sak0a/node-globaloffensive.git"
+		"url": "https://github.com/sak0a/node-cs2.git"
 	},
 	"dependencies": {
 		"bytebuffer": "^5.0.1",
@@ -44,7 +44,7 @@
 		"steam-user": "^4.26.1"
 	},
 	"scripts": {
-		"generate-protos": "node scripts/generate-protos.js",
+		"generate-protos": "node scripts/generate-protos.js"
 	},
 	"engines": {
 		"node": ">=14.0.0"

@@ -1,6 +1,6 @@
-var GlobalOffensive = require('./index.js');
+var NodeCS2 = require('./index.js');
 
-GlobalOffensive.GCConnectionStatus = {
+NodeCS2.GCConnectionStatus = {
 	HAVE_SESSION: 0,
 	GC_GOING_DOWN: 1,
 	NO_SESSION: 2,
@@ -8,7 +8,7 @@ GlobalOffensive.GCConnectionStatus = {
 	NO_STEAM: 4
 };
 
-GlobalOffensive.ItemCustomizationNotification = {
+NodeCS2.ItemCustomizationNotification = {
 	NameItem: 1006,
 	UnlockCrate: 1007,
 	XRayItemReveal: 1008,

@@ -9,11 +9,11 @@ const Protos = require('./protobufs/generated/_load.js');
 
 const STEAM_APPID = 730;
 
-module.exports = GlobalOffensive;
+module.exports = NodeCS2;
 
-Util.inherits(GlobalOffensive, EventEmitter);
+Util.inherits(NodeCS2, EventEmitter);
 
-function GlobalOffensive(steam) {
+function NodeCS2(steam) {
 	if (steam.packageName != 'steam-user' || !steam.packageVersion || !steam.constructor) {
 		throw new Error('globaloffensive v2 only supports steam-user v4.2.0 or later.');
 	} else {
@@ -73,7 +73,7 @@ function GlobalOffensive(steam) {
 		}
 
 		if (this.haveGCSession && emitDisconnectEvent) {
-			this.emit('disconnectedFromGC', GlobalOffensive.GCConnectionStatus.NO_SESSION);
+			this.emit('disconnectedFromGC', NodeCS2.GCConnectionStatus.NO_SESSION);
 		}
 
 		this._isInCSGO = false;
@@ -99,7 +99,7 @@ function GlobalOffensive(steam) {
 	});
 }
 
-GlobalOffensive.prototype._connect = function() {
+NodeCS2.prototype._connect = function() {
 	if (!this._isInCSGO || this._helloTimer) {
 		this.emit('debug', "Not trying to connect due to " + (!this._isInCSGO ? "not in CS:GO" : "has helloTimer"));
 		return; // We're not in CS:GO or we're already trying to connect
@@ -132,7 +132,7 @@ GlobalOffensive.prototype._connect = function() {
 	this._helloTimer = setTimeout(sendHello, 500);
 };
 
-GlobalOffensive.prototype._send = function(type, protobuf, body) {
+NodeCS2.prototype._send = function(type, protobuf, body) {
 	if (!this._steam.steamID) {
 		return false;
 	}
@@ -157,7 +157,7 @@ GlobalOffensive.prototype._send = function(type, protobuf, body) {
 	return true;
 };
 
-GlobalOffensive.prototype.requestGame = function(shareCodeOrDetails) {
+NodeCS2.prototype.requestGame = function(shareCodeOrDetails) {
 	if (typeof shareCodeOrDetails == 'string') {
 		shareCodeOrDetails = (new ShareCode(shareCodeOrDetails)).decode();
 	}
@@ -181,11 +181,11 @@ GlobalOffensive.prototype.requestGame = function(shareCodeOrDetails) {
 	});
 };
 
-GlobalOffensive.prototype.requestLiveGames = function() {
+NodeCS2.prototype.requestLiveGames = function() {
 	this._send(Language.MatchListRequestCurrentLiveGames, Protos.CMsgGCCStrike15_v2_MatchListRequestCurrentLiveGames, {});
 };
 
-GlobalOffensive.prototype.requestRecentGames = function(steamid) {
+NodeCS2.prototype.requestRecentGames = function(steamid) {
 	if (typeof steamid === 'string') {
 		steamid = new SteamID(steamid);
 	}
@@ -199,7 +199,7 @@ GlobalOffensive.prototype.requestRecentGames = function(steamid) {
 	});
 };
 
-GlobalOffensive.prototype.requestLiveGameForUser = function(steamid) {
+NodeCS2.prototype.requestLiveGameForUser = function(steamid) {
 	if (typeof steamid === 'string') {
 		steamid = new SteamID(steamid);
 	}
@@ -213,7 +213,7 @@ GlobalOffensive.prototype.requestLiveGameForUser = function(steamid) {
 	});
 };
 
-GlobalOffensive.prototype.inspectItem = function(owner, assetid, d, callback) {
+NodeCS2.prototype.inspectItem = function(owner, assetid, d, callback) {
 	let match;
 	if (typeof owner === 'string' && (match = owner.match(/[SM](\d+)A(\d+)D(\d+)$/))) {
 		callback = assetid;
@@ -261,7 +261,7 @@ GlobalOffensive.prototype.inspectItem = function(owner, assetid, d, callback) {
 	}
 };
 
-GlobalOffensive.prototype.requestPlayersProfile = function(steamid, callback) {
+NodeCS2.prototype.requestPlayersProfile = function(steamid, callback) {
 	if (typeof steamid == 'string') {
 		steamid = new SteamID(steamid);
 	}
@@ -286,7 +286,7 @@ GlobalOffensive.prototype.requestPlayersProfile = function(steamid, callback) {
  * @param {int} itemId
  * @param {string} name
  */
-GlobalOffensive.prototype.nameItem = function(nameTagId, itemId, name) {
+NodeCS2.prototype.nameItem = function(nameTagId, itemId, name) {
 	let buffer = new ByteBuffer(18 + Buffer.byteLength(name), ByteBuffer.LITTLE_ENDIAN);
 	buffer.writeUint64(nameTagId);
 	buffer.writeUint64(itemId);
@@ -299,7 +299,7 @@ GlobalOffensive.prototype.nameItem = function(nameTagId, itemId, name) {
  * Permanently delete an item from your inventory.
  * @param {int} itemId
  */
-GlobalOffensive.prototype.deleteItem = function(itemId) {
+NodeCS2.prototype.deleteItem = function(itemId) {
 	let buffer = new ByteBuffer(8, ByteBuffer.LITTLE_ENDIAN);
 	buffer.writeUint64(itemId);
 	this._send(Language.Delete, null, buffer);
@@ -310,7 +310,7 @@ GlobalOffensive.prototype.deleteItem = function(itemId) {
  * @param {int[]} items - IDs of items to craft
  * @param {int} recipe - The ID of the recipe to use
  */
-GlobalOffensive.prototype.craft = function(items, recipe) {
+NodeCS2.prototype.craft = function(items, recipe) {
 	let buffer = new ByteBuffer(2 + 2 + (8 * items.length), ByteBuffer.LITTLE_ENDIAN);
 	buffer.writeInt16(recipe);
 	buffer.writeInt16(items.length);
@@ -327,7 +327,7 @@ GlobalOffensive.prototype.craft = function(items, recipe) {
  * @param {int} casketId
  * @param {int} itemId
  */
-GlobalOffensive.prototype.addToCasket = function(casketId, itemId) {
+NodeCS2.prototype.addToCasket = function(casketId, itemId) {
 	this._send(Language.CasketItemAdd, Protos.CMsgCasketItem, {
 		casket_item_id: casketId,
 		item_item_id: itemId
@@ -339,7 +339,7 @@ GlobalOffensive.prototype.addToCasket = function(casketId, itemId) {
  * @param {int} casketId
  * @param {int} itemId
  */
-GlobalOffensive.prototype.removeFromCasket = function(casketId, itemId) {
+NodeCS2.prototype.removeFromCasket = function(casketId, itemId) {
 	this._send(Language.CasketItemExtract, Protos.CMsgCasketItem, {
 		casket_item_id: casketId,
 		item_item_id: itemId
@@ -351,7 +351,7 @@ GlobalOffensive.prototype.removeFromCasket = function(casketId, itemId) {
  * @param {int} casketId
  * @param {function} callback
  */
-GlobalOffensive.prototype.getCasketContents = function(casketId, callback) {
+NodeCS2.prototype.getCasketContents = function(casketId, callback) {
 	// First see if we already have this casket's contents in our inventory
 	let casketItem = this.inventory.find(item => item.id == casketId);
 	if (!casketItem) {
@@ -393,7 +393,7 @@ GlobalOffensive.prototype.getCasketContents = function(casketId, callback) {
 			return;
 		}
 
-		if (itemIds[0] != casketId || notificationType != GlobalOffensive.ItemCustomizationNotification.CasketContents) {
+		if (itemIds[0] != casketId || notificationType != NodeCS2.ItemCustomizationNotification.CasketContents) {
 			return;
 		}
 
@@ -407,7 +407,7 @@ GlobalOffensive.prototype.getCasketContents = function(casketId, callback) {
 	this.on('itemCustomizationNotification', customizationNotification);
 };
 
-GlobalOffensive.prototype._handlers = {};
+NodeCS2.prototype._handlers = {};
 
 require('./enums.js');
 require('./handlers.js');
