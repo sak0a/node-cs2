@@ -47,7 +47,7 @@
      * @exports NET_Messages
      * @enum {number}
      * @property {number} net_NOP=0 net_NOP value
-     * @property {number} net_Disconnect=1 net_Disconnect value
+     * @property {number} net_Disconnect_Legacy=1 net_Disconnect_Legacy value
      * @property {number} net_SplitScreenUser=3 net_SplitScreenUser value
      * @property {number} net_Tick=4 net_Tick value
      * @property {number} net_StringCmd=5 net_StringCmd value
@@ -63,7 +63,7 @@
     $root.NET_Messages = (function() {
         var valuesById = {}, values = Object.create(valuesById);
         values[valuesById[0] = "net_NOP"] = 0;
-        values[valuesById[1] = "net_Disconnect"] = 1;
+        values[valuesById[1] = "net_Disconnect_Legacy"] = 1;
         values[valuesById[3] = "net_SplitScreenUser"] = 3;
         values[valuesById[4] = "net_Tick"] = 4;
         values[valuesById[5] = "net_StringCmd"] = 5;
@@ -222,12 +222,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgVector.decode = function decode(reader, length) {
+        CMsgVector.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgVector();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.x = reader.float();
@@ -473,12 +475,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgVector2D.decode = function decode(reader, length) {
+        CMsgVector2D.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgVector2D();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.x = reader.float();
@@ -711,12 +715,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgQAngle.decode = function decode(reader, length) {
+        CMsgQAngle.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgQAngle();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.x = reader.float();
@@ -972,12 +978,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgQuaternion.decode = function decode(reader, length) {
+        CMsgQuaternion.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgQuaternion();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.x = reader.float();
@@ -1234,12 +1242,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgTransform.decode = function decode(reader, length) {
+        CMsgTransform.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgTransform();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.position = $root.CMsgVector.decode(reader, reader.uint32());
@@ -1505,12 +1515,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgRGBA.decode = function decode(reader, length) {
+        CMsgRGBA.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgRGBA();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.r = reader.int32();
@@ -1800,12 +1812,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgPlayerInfo.decode = function decode(reader, length) {
+        CMsgPlayerInfo.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgPlayerInfo();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.name = reader.string();
@@ -2092,12 +2106,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CEntityMsg.decode = function decode(reader, length) {
+        CEntityMsg.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CEntityMsg();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.target_entity = reader.uint32();
@@ -2297,12 +2313,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsg_CVars.decode = function decode(reader, length) {
+        CMsg_CVars.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsg_CVars();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         if (!(message.cvars && message.cvars.length))
@@ -2527,12 +2545,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            CVar.decode = function decode(reader, length) {
+            CVar.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsg_CVars.CVar();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.name = reader.string();
@@ -2735,12 +2755,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_NOP.decode = function decode(reader, length) {
+        CNETMsg_NOP.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_NOP();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 default:
                     reader.skipType(tag & 7);
@@ -2921,12 +2943,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SplitScreenUser.decode = function decode(reader, length) {
+        CNETMsg_SplitScreenUser.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SplitScreenUser();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.slot = reader.int32();
@@ -3039,808 +3063,6 @@
         return CNETMsg_SplitScreenUser;
     })();
     
-    $root.CNETMsg_Disconnect = (function() {
-    
-        /**
-         * Properties of a CNETMsg_Disconnect.
-         * @exports ICNETMsg_Disconnect
-         * @interface ICNETMsg_Disconnect
-         * @property {ENetworkDisconnectionReason|null} [reason] CNETMsg_Disconnect reason
-         */
-    
-        /**
-         * Constructs a new CNETMsg_Disconnect.
-         * @exports CNETMsg_Disconnect
-         * @classdesc Represents a CNETMsg_Disconnect.
-         * @implements ICNETMsg_Disconnect
-         * @constructor
-         * @param {ICNETMsg_Disconnect=} [properties] Properties to set
-         */
-        function CNETMsg_Disconnect(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CNETMsg_Disconnect reason.
-         * @member {ENetworkDisconnectionReason} reason
-         * @memberof CNETMsg_Disconnect
-         * @instance
-         */
-        CNETMsg_Disconnect.prototype.reason = 0;
-    
-        /**
-         * Creates a new CNETMsg_Disconnect instance using the specified properties.
-         * @function create
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {ICNETMsg_Disconnect=} [properties] Properties to set
-         * @returns {CNETMsg_Disconnect} CNETMsg_Disconnect instance
-         */
-        CNETMsg_Disconnect.create = function create(properties) {
-            return new CNETMsg_Disconnect(properties);
-        };
-    
-        /**
-         * Encodes the specified CNETMsg_Disconnect message. Does not implicitly {@link CNETMsg_Disconnect.verify|verify} messages.
-         * @function encode
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {ICNETMsg_Disconnect} message CNETMsg_Disconnect message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CNETMsg_Disconnect.encode = function encode(message, writer) {
-            if (!writer)
-                writer = $Writer.create();
-            if (message.reason != null && Object.hasOwnProperty.call(message, "reason"))
-                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.reason);
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CNETMsg_Disconnect message, length delimited. Does not implicitly {@link CNETMsg_Disconnect.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {ICNETMsg_Disconnect} message CNETMsg_Disconnect message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CNETMsg_Disconnect.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CNETMsg_Disconnect message from the specified reader or buffer.
-         * @function decode
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CNETMsg_Disconnect} CNETMsg_Disconnect
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CNETMsg_Disconnect.decode = function decode(reader, length) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_Disconnect();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                switch (tag >>> 3) {
-                case 2: {
-                        message.reason = reader.int32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-                }
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CNETMsg_Disconnect message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CNETMsg_Disconnect} CNETMsg_Disconnect
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CNETMsg_Disconnect.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CNETMsg_Disconnect message.
-         * @function verify
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CNETMsg_Disconnect.verify = function verify(message) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (message.reason != null && message.hasOwnProperty("reason"))
-                switch (message.reason) {
-                default:
-                    return "reason: enum value expected";
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                case 16:
-                case 17:
-                case 18:
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                case 26:
-                case 27:
-                case 28:
-                case 29:
-                case 30:
-                case 31:
-                case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 40:
-                case 41:
-                case 42:
-                case 43:
-                case 44:
-                case 45:
-                case 46:
-                case 47:
-                case 48:
-                case 49:
-                case 50:
-                case 51:
-                case 52:
-                case 53:
-                case 54:
-                case 55:
-                case 56:
-                case 57:
-                case 58:
-                case 59:
-                case 60:
-                case 61:
-                case 62:
-                case 63:
-                case 64:
-                case 65:
-                case 66:
-                case 67:
-                case 68:
-                case 69:
-                case 71:
-                case 72:
-                case 73:
-                case 74:
-                case 75:
-                case 76:
-                case 77:
-                case 79:
-                case 80:
-                case 81:
-                case 82:
-                case 83:
-                case 84:
-                case 85:
-                case 128:
-                case 129:
-                case 130:
-                case 131:
-                case 132:
-                case 133:
-                case 134:
-                case 135:
-                case 136:
-                case 137:
-                case 138:
-                case 139:
-                case 140:
-                case 141:
-                case 142:
-                case 143:
-                case 144:
-                case 145:
-                case 146:
-                case 147:
-                case 148:
-                case 149:
-                case 150:
-                case 151:
-                case 152:
-                case 153:
-                case 154:
-                case 155:
-                case 156:
-                case 157:
-                case 158:
-                case 159:
-                case 160:
-                case 161:
-                    break;
-                }
-            return null;
-        };
-    
-        /**
-         * Creates a CNETMsg_Disconnect message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CNETMsg_Disconnect} CNETMsg_Disconnect
-         */
-        CNETMsg_Disconnect.fromObject = function fromObject(object) {
-            if (object instanceof $root.CNETMsg_Disconnect)
-                return object;
-            var message = new $root.CNETMsg_Disconnect();
-            switch (object.reason) {
-            default:
-                if (typeof object.reason === "number") {
-                    message.reason = object.reason;
-                    break;
-                }
-                break;
-            case "NETWORK_DISCONNECT_INVALID":
-            case 0:
-                message.reason = 0;
-                break;
-            case "NETWORK_DISCONNECT_SHUTDOWN":
-            case 1:
-                message.reason = 1;
-                break;
-            case "NETWORK_DISCONNECT_DISCONNECT_BY_USER":
-            case 2:
-                message.reason = 2;
-                break;
-            case "NETWORK_DISCONNECT_DISCONNECT_BY_SERVER":
-            case 3:
-                message.reason = 3;
-                break;
-            case "NETWORK_DISCONNECT_LOST":
-            case 4:
-                message.reason = 4;
-                break;
-            case "NETWORK_DISCONNECT_OVERFLOW":
-            case 5:
-                message.reason = 5;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_BANNED":
-            case 6:
-                message.reason = 6;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_INUSE":
-            case 7:
-                message.reason = 7;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_TICKET":
-            case 8:
-                message.reason = 8;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_LOGON":
-            case 9:
-                message.reason = 9;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_AUTHCANCELLED":
-            case 10:
-                message.reason = 10;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_AUTHALREADYUSED":
-            case 11:
-                message.reason = 11;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_AUTHINVALID":
-            case 12:
-                message.reason = 12;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_VACBANSTATE":
-            case 13:
-                message.reason = 13;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_LOGGED_IN_ELSEWHERE":
-            case 14:
-                message.reason = 14;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_VAC_CHECK_TIMEDOUT":
-            case 15:
-                message.reason = 15;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_DROPPED":
-            case 16:
-                message.reason = 16;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_OWNERSHIP":
-            case 17:
-                message.reason = 17;
-                break;
-            case "NETWORK_DISCONNECT_SERVERINFO_OVERFLOW":
-            case 18:
-                message.reason = 18;
-                break;
-            case "NETWORK_DISCONNECT_TICKMSG_OVERFLOW":
-            case 19:
-                message.reason = 19;
-                break;
-            case "NETWORK_DISCONNECT_STRINGTABLEMSG_OVERFLOW":
-            case 20:
-                message.reason = 20;
-                break;
-            case "NETWORK_DISCONNECT_DELTAENTMSG_OVERFLOW":
-            case 21:
-                message.reason = 21;
-                break;
-            case "NETWORK_DISCONNECT_TEMPENTMSG_OVERFLOW":
-            case 22:
-                message.reason = 22;
-                break;
-            case "NETWORK_DISCONNECT_SOUNDSMSG_OVERFLOW":
-            case 23:
-                message.reason = 23;
-                break;
-            case "NETWORK_DISCONNECT_SNAPSHOTOVERFLOW":
-            case 24:
-                message.reason = 24;
-                break;
-            case "NETWORK_DISCONNECT_SNAPSHOTERROR":
-            case 25:
-                message.reason = 25;
-                break;
-            case "NETWORK_DISCONNECT_RELIABLEOVERFLOW":
-            case 26:
-                message.reason = 26;
-                break;
-            case "NETWORK_DISCONNECT_BADDELTATICK":
-            case 27:
-                message.reason = 27;
-                break;
-            case "NETWORK_DISCONNECT_NOMORESPLITS":
-            case 28:
-                message.reason = 28;
-                break;
-            case "NETWORK_DISCONNECT_TIMEDOUT":
-            case 29:
-                message.reason = 29;
-                break;
-            case "NETWORK_DISCONNECT_DISCONNECTED":
-            case 30:
-                message.reason = 30;
-                break;
-            case "NETWORK_DISCONNECT_LEAVINGSPLIT":
-            case 31:
-                message.reason = 31;
-                break;
-            case "NETWORK_DISCONNECT_DIFFERENTCLASSTABLES":
-            case 32:
-                message.reason = 32;
-                break;
-            case "NETWORK_DISCONNECT_BADRELAYPASSWORD":
-            case 33:
-                message.reason = 33;
-                break;
-            case "NETWORK_DISCONNECT_BADSPECTATORPASSWORD":
-            case 34:
-                message.reason = 34;
-                break;
-            case "NETWORK_DISCONNECT_HLTVRESTRICTED":
-            case 35:
-                message.reason = 35;
-                break;
-            case "NETWORK_DISCONNECT_NOSPECTATORS":
-            case 36:
-                message.reason = 36;
-                break;
-            case "NETWORK_DISCONNECT_HLTVUNAVAILABLE":
-            case 37:
-                message.reason = 37;
-                break;
-            case "NETWORK_DISCONNECT_HLTVSTOP":
-            case 38:
-                message.reason = 38;
-                break;
-            case "NETWORK_DISCONNECT_KICKED":
-            case 39:
-                message.reason = 39;
-                break;
-            case "NETWORK_DISCONNECT_BANADDED":
-            case 40:
-                message.reason = 40;
-                break;
-            case "NETWORK_DISCONNECT_KICKBANADDED":
-            case 41:
-                message.reason = 41;
-                break;
-            case "NETWORK_DISCONNECT_HLTVDIRECT":
-            case 42:
-                message.reason = 42;
-                break;
-            case "NETWORK_DISCONNECT_PURESERVER_CLIENTEXTRA":
-            case 43:
-                message.reason = 43;
-                break;
-            case "NETWORK_DISCONNECT_PURESERVER_MISMATCH":
-            case 44:
-                message.reason = 44;
-                break;
-            case "NETWORK_DISCONNECT_USERCMD":
-            case 45:
-                message.reason = 45;
-                break;
-            case "NETWORK_DISCONNECT_REJECTED_BY_GAME":
-            case 46:
-                message.reason = 46;
-                break;
-            case "NETWORK_DISCONNECT_MESSAGE_PARSE_ERROR":
-            case 47:
-                message.reason = 47;
-                break;
-            case "NETWORK_DISCONNECT_INVALID_MESSAGE_ERROR":
-            case 48:
-                message.reason = 48;
-                break;
-            case "NETWORK_DISCONNECT_BAD_SERVER_PASSWORD":
-            case 49:
-                message.reason = 49;
-                break;
-            case "NETWORK_DISCONNECT_DIRECT_CONNECT_RESERVATION":
-            case 50:
-                message.reason = 50;
-                break;
-            case "NETWORK_DISCONNECT_CONNECTION_FAILURE":
-            case 51:
-                message.reason = 51;
-                break;
-            case "NETWORK_DISCONNECT_NO_PEER_GROUP_HANDLERS":
-            case 52:
-                message.reason = 52;
-                break;
-            case "NETWORK_DISCONNECT_RECONNECTION":
-            case 53:
-                message.reason = 53;
-                break;
-            case "NETWORK_DISCONNECT_LOOPSHUTDOWN":
-            case 54:
-                message.reason = 54;
-                break;
-            case "NETWORK_DISCONNECT_LOOPDEACTIVATE":
-            case 55:
-                message.reason = 55;
-                break;
-            case "NETWORK_DISCONNECT_HOST_ENDGAME":
-            case 56:
-                message.reason = 56;
-                break;
-            case "NETWORK_DISCONNECT_LOOP_LEVELLOAD_ACTIVATE":
-            case 57:
-                message.reason = 57;
-                break;
-            case "NETWORK_DISCONNECT_CREATE_SERVER_FAILED":
-            case 58:
-                message.reason = 58;
-                break;
-            case "NETWORK_DISCONNECT_EXITING":
-            case 59:
-                message.reason = 59;
-                break;
-            case "NETWORK_DISCONNECT_REQUEST_HOSTSTATE_IDLE":
-            case 60:
-                message.reason = 60;
-                break;
-            case "NETWORK_DISCONNECT_REQUEST_HOSTSTATE_HLTVRELAY":
-            case 61:
-                message.reason = 61;
-                break;
-            case "NETWORK_DISCONNECT_CLIENT_CONSISTENCY_FAIL":
-            case 62:
-                message.reason = 62;
-                break;
-            case "NETWORK_DISCONNECT_CLIENT_UNABLE_TO_CRC_MAP":
-            case 63:
-                message.reason = 63;
-                break;
-            case "NETWORK_DISCONNECT_CLIENT_NO_MAP":
-            case 64:
-                message.reason = 64;
-                break;
-            case "NETWORK_DISCONNECT_CLIENT_DIFFERENT_MAP":
-            case 65:
-                message.reason = 65;
-                break;
-            case "NETWORK_DISCONNECT_SERVER_REQUIRES_STEAM":
-            case 66:
-                message.reason = 66;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_DENY_MISC":
-            case 67:
-                message.reason = 67;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_DENY_BAD_ANTI_CHEAT":
-            case 68:
-                message.reason = 68;
-                break;
-            case "NETWORK_DISCONNECT_SERVER_SHUTDOWN":
-            case 69:
-                message.reason = 69;
-                break;
-            case "NETWORK_DISCONNECT_REPLAY_INCOMPATIBLE":
-            case 71:
-                message.reason = 71;
-                break;
-            case "NETWORK_DISCONNECT_CONNECT_REQUEST_TIMEDOUT":
-            case 72:
-                message.reason = 72;
-                break;
-            case "NETWORK_DISCONNECT_SERVER_INCOMPATIBLE":
-            case 73:
-                message.reason = 73;
-                break;
-            case "NETWORK_DISCONNECT_LOCALPROBLEM_MANYRELAYS":
-            case 74:
-                message.reason = 74;
-                break;
-            case "NETWORK_DISCONNECT_LOCALPROBLEM_HOSTEDSERVERPRIMARYRELAY":
-            case 75:
-                message.reason = 75;
-                break;
-            case "NETWORK_DISCONNECT_LOCALPROBLEM_NETWORKCONFIG":
-            case 76:
-                message.reason = 76;
-                break;
-            case "NETWORK_DISCONNECT_LOCALPROBLEM_OTHER":
-            case 77:
-                message.reason = 77;
-                break;
-            case "NETWORK_DISCONNECT_REMOTE_TIMEOUT":
-            case 79:
-                message.reason = 79;
-                break;
-            case "NETWORK_DISCONNECT_REMOTE_TIMEOUT_CONNECTING":
-            case 80:
-                message.reason = 80;
-                break;
-            case "NETWORK_DISCONNECT_REMOTE_OTHER":
-            case 81:
-                message.reason = 81;
-                break;
-            case "NETWORK_DISCONNECT_REMOTE_BADCRYPT":
-            case 82:
-                message.reason = 82;
-                break;
-            case "NETWORK_DISCONNECT_REMOTE_CERTNOTTRUSTED":
-            case 83:
-                message.reason = 83;
-                break;
-            case "NETWORK_DISCONNECT_UNUSUAL":
-            case 84:
-                message.reason = 84;
-                break;
-            case "NETWORK_DISCONNECT_INTERNAL_ERROR":
-            case 85:
-                message.reason = 85;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_BADCHALLENGE":
-            case 128:
-                message.reason = 128;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_NOLOBBY":
-            case 129:
-                message.reason = 129;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_BACKGROUND_MAP":
-            case 130:
-                message.reason = 130;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_SINGLE_PLAYER":
-            case 131:
-                message.reason = 131;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_HIDDEN_GAME":
-            case 132:
-                message.reason = 132;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_LANRESTRICT":
-            case 133:
-                message.reason = 133;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_BADPASSWORD":
-            case 134:
-                message.reason = 134;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_SERVERFULL":
-            case 135:
-                message.reason = 135;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_INVALIDRESERVATION":
-            case 136:
-                message.reason = 136;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_FAILEDCHANNEL":
-            case 137:
-                message.reason = 137;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_CONNECT_FROM_LOBBY":
-            case 138:
-                message.reason = 138;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_RESERVED_FOR_LOBBY":
-            case 139:
-                message.reason = 139;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_INVALIDKEYLENGTH":
-            case 140:
-                message.reason = 140;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_OLDPROTOCOL":
-            case 141:
-                message.reason = 141;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_NEWPROTOCOL":
-            case 142:
-                message.reason = 142;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_INVALIDCONNECTION":
-            case 143:
-                message.reason = 143;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_INVALIDCERTLEN":
-            case 144:
-                message.reason = 144;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_INVALIDSTEAMCERTLEN":
-            case 145:
-                message.reason = 145;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_STEAM":
-            case 146:
-                message.reason = 146;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_SERVERAUTHDISABLED":
-            case 147:
-                message.reason = 147;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_SERVERCDKEYAUTHINVALID":
-            case 148:
-                message.reason = 148;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_BANNED":
-            case 149:
-                message.reason = 149;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_TEAMKILLING":
-            case 150:
-                message.reason = 150;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_TK_START":
-            case 151:
-                message.reason = 151;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_UNTRUSTEDACCOUNT":
-            case 152:
-                message.reason = 152;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_CONVICTEDACCOUNT":
-            case 153:
-                message.reason = 153;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_COMPETITIVECOOLDOWN":
-            case 154:
-                message.reason = 154;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_TEAMHURTING":
-            case 155:
-                message.reason = 155;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_HOSTAGEKILLING":
-            case 156:
-                message.reason = 156;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_VOTEDOFF":
-            case 157:
-                message.reason = 157;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_IDLE":
-            case 158:
-                message.reason = 158;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_SUICIDE":
-            case 159:
-                message.reason = 159;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_NOSTEAMLOGIN":
-            case 160:
-                message.reason = 160;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_NOSTEAMTICKET":
-            case 161:
-                message.reason = 161;
-                break;
-            }
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CNETMsg_Disconnect message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {CNETMsg_Disconnect} message CNETMsg_Disconnect
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CNETMsg_Disconnect.toObject = function toObject(message, options) {
-            if (!options)
-                options = {};
-            var object = {};
-            if (options.defaults)
-                object.reason = options.enums === String ? "NETWORK_DISCONNECT_INVALID" : 0;
-            if (message.reason != null && message.hasOwnProperty("reason"))
-                object.reason = options.enums === String ? $root.ENetworkDisconnectionReason[message.reason] === undefined ? message.reason : $root.ENetworkDisconnectionReason[message.reason] : message.reason;
-            return object;
-        };
-    
-        /**
-         * Converts this CNETMsg_Disconnect to JSON.
-         * @function toJSON
-         * @memberof CNETMsg_Disconnect
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CNETMsg_Disconnect.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CNETMsg_Disconnect
-         * @function getTypeUrl
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CNETMsg_Disconnect.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CNETMsg_Disconnect";
-        };
-    
-        return CNETMsg_Disconnect;
-    })();
-    
     $root.CNETMsg_Tick = (function() {
     
         /**
@@ -3848,16 +3070,15 @@
          * @exports ICNETMsg_Tick
          * @interface ICNETMsg_Tick
          * @property {number|null} [tick] CNETMsg_Tick tick
-         * @property {number|null} [host_frametime] CNETMsg_Tick host_frametime
-         * @property {number|null} [host_frametime_std_deviation] CNETMsg_Tick host_frametime_std_deviation
          * @property {number|null} [host_computationtime] CNETMsg_Tick host_computationtime
          * @property {number|null} [host_computationtime_std_deviation] CNETMsg_Tick host_computationtime_std_deviation
-         * @property {number|null} [host_framestarttime_std_deviation] CNETMsg_Tick host_framestarttime_std_deviation
-         * @property {number|null} [host_loss] CNETMsg_Tick host_loss
+         * @property {number|null} [legacy_host_loss] CNETMsg_Tick legacy_host_loss
          * @property {number|null} [host_unfiltered_frametime] CNETMsg_Tick host_unfiltered_frametime
          * @property {number|null} [hltv_replay_flags] CNETMsg_Tick hltv_replay_flags
          * @property {number|null} [expected_long_tick] CNETMsg_Tick expected_long_tick
          * @property {string|null} [expected_long_tick_reason] CNETMsg_Tick expected_long_tick_reason
+         * @property {number|null} [host_frame_dropped_pct_x10] CNETMsg_Tick host_frame_dropped_pct_x10
+         * @property {number|null} [host_frame_irregular_arrival_pct_x10] CNETMsg_Tick host_frame_irregular_arrival_pct_x10
          */
     
         /**
@@ -3884,22 +3105,6 @@
         CNETMsg_Tick.prototype.tick = 0;
     
         /**
-         * CNETMsg_Tick host_frametime.
-         * @member {number} host_frametime
-         * @memberof CNETMsg_Tick
-         * @instance
-         */
-        CNETMsg_Tick.prototype.host_frametime = 0;
-    
-        /**
-         * CNETMsg_Tick host_frametime_std_deviation.
-         * @member {number} host_frametime_std_deviation
-         * @memberof CNETMsg_Tick
-         * @instance
-         */
-        CNETMsg_Tick.prototype.host_frametime_std_deviation = 0;
-    
-        /**
          * CNETMsg_Tick host_computationtime.
          * @member {number} host_computationtime
          * @memberof CNETMsg_Tick
@@ -3916,20 +3121,12 @@
         CNETMsg_Tick.prototype.host_computationtime_std_deviation = 0;
     
         /**
-         * CNETMsg_Tick host_framestarttime_std_deviation.
-         * @member {number} host_framestarttime_std_deviation
+         * CNETMsg_Tick legacy_host_loss.
+         * @member {number} legacy_host_loss
          * @memberof CNETMsg_Tick
          * @instance
          */
-        CNETMsg_Tick.prototype.host_framestarttime_std_deviation = 0;
-    
-        /**
-         * CNETMsg_Tick host_loss.
-         * @member {number} host_loss
-         * @memberof CNETMsg_Tick
-         * @instance
-         */
-        CNETMsg_Tick.prototype.host_loss = 0;
+        CNETMsg_Tick.prototype.legacy_host_loss = 0;
     
         /**
          * CNETMsg_Tick host_unfiltered_frametime.
@@ -3964,6 +3161,22 @@
         CNETMsg_Tick.prototype.expected_long_tick_reason = "";
     
         /**
+         * CNETMsg_Tick host_frame_dropped_pct_x10.
+         * @member {number} host_frame_dropped_pct_x10
+         * @memberof CNETMsg_Tick
+         * @instance
+         */
+        CNETMsg_Tick.prototype.host_frame_dropped_pct_x10 = 0;
+    
+        /**
+         * CNETMsg_Tick host_frame_irregular_arrival_pct_x10.
+         * @member {number} host_frame_irregular_arrival_pct_x10
+         * @memberof CNETMsg_Tick
+         * @instance
+         */
+        CNETMsg_Tick.prototype.host_frame_irregular_arrival_pct_x10 = 0;
+    
+        /**
          * Creates a new CNETMsg_Tick instance using the specified properties.
          * @function create
          * @memberof CNETMsg_Tick
@@ -3989,18 +3202,12 @@
                 writer = $Writer.create();
             if (message.tick != null && Object.hasOwnProperty.call(message, "tick"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.tick);
-            if (message.host_frametime != null && Object.hasOwnProperty.call(message, "host_frametime"))
-                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.host_frametime);
-            if (message.host_frametime_std_deviation != null && Object.hasOwnProperty.call(message, "host_frametime_std_deviation"))
-                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.host_frametime_std_deviation);
             if (message.host_computationtime != null && Object.hasOwnProperty.call(message, "host_computationtime"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.host_computationtime);
             if (message.host_computationtime_std_deviation != null && Object.hasOwnProperty.call(message, "host_computationtime_std_deviation"))
                 writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.host_computationtime_std_deviation);
-            if (message.host_framestarttime_std_deviation != null && Object.hasOwnProperty.call(message, "host_framestarttime_std_deviation"))
-                writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.host_framestarttime_std_deviation);
-            if (message.host_loss != null && Object.hasOwnProperty.call(message, "host_loss"))
-                writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.host_loss);
+            if (message.legacy_host_loss != null && Object.hasOwnProperty.call(message, "legacy_host_loss"))
+                writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.legacy_host_loss);
             if (message.host_unfiltered_frametime != null && Object.hasOwnProperty.call(message, "host_unfiltered_frametime"))
                 writer.uint32(/* id 8, wireType 0 =*/64).uint32(message.host_unfiltered_frametime);
             if (message.hltv_replay_flags != null && Object.hasOwnProperty.call(message, "hltv_replay_flags"))
@@ -4009,6 +3216,10 @@
                 writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.expected_long_tick);
             if (message.expected_long_tick_reason != null && Object.hasOwnProperty.call(message, "expected_long_tick_reason"))
                 writer.uint32(/* id 11, wireType 2 =*/90).string(message.expected_long_tick_reason);
+            if (message.host_frame_dropped_pct_x10 != null && Object.hasOwnProperty.call(message, "host_frame_dropped_pct_x10"))
+                writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.host_frame_dropped_pct_x10);
+            if (message.host_frame_irregular_arrival_pct_x10 != null && Object.hasOwnProperty.call(message, "host_frame_irregular_arrival_pct_x10"))
+                writer.uint32(/* id 13, wireType 0 =*/104).uint32(message.host_frame_irregular_arrival_pct_x10);
             return writer;
         };
     
@@ -4036,23 +3247,17 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_Tick.decode = function decode(reader, length) {
+        CNETMsg_Tick.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_Tick();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.tick = reader.uint32();
-                        break;
-                    }
-                case 2: {
-                        message.host_frametime = reader.uint32();
-                        break;
-                    }
-                case 3: {
-                        message.host_frametime_std_deviation = reader.uint32();
                         break;
                     }
                 case 4: {
@@ -4063,12 +3268,8 @@
                         message.host_computationtime_std_deviation = reader.uint32();
                         break;
                     }
-                case 6: {
-                        message.host_framestarttime_std_deviation = reader.uint32();
-                        break;
-                    }
                 case 7: {
-                        message.host_loss = reader.uint32();
+                        message.legacy_host_loss = reader.uint32();
                         break;
                     }
                 case 8: {
@@ -4085,6 +3286,14 @@
                     }
                 case 11: {
                         message.expected_long_tick_reason = reader.string();
+                        break;
+                    }
+                case 12: {
+                        message.host_frame_dropped_pct_x10 = reader.uint32();
+                        break;
+                    }
+                case 13: {
+                        message.host_frame_irregular_arrival_pct_x10 = reader.uint32();
                         break;
                     }
                 default:
@@ -4125,24 +3334,15 @@
             if (message.tick != null && message.hasOwnProperty("tick"))
                 if (!$util.isInteger(message.tick))
                     return "tick: integer expected";
-            if (message.host_frametime != null && message.hasOwnProperty("host_frametime"))
-                if (!$util.isInteger(message.host_frametime))
-                    return "host_frametime: integer expected";
-            if (message.host_frametime_std_deviation != null && message.hasOwnProperty("host_frametime_std_deviation"))
-                if (!$util.isInteger(message.host_frametime_std_deviation))
-                    return "host_frametime_std_deviation: integer expected";
             if (message.host_computationtime != null && message.hasOwnProperty("host_computationtime"))
                 if (!$util.isInteger(message.host_computationtime))
                     return "host_computationtime: integer expected";
             if (message.host_computationtime_std_deviation != null && message.hasOwnProperty("host_computationtime_std_deviation"))
                 if (!$util.isInteger(message.host_computationtime_std_deviation))
                     return "host_computationtime_std_deviation: integer expected";
-            if (message.host_framestarttime_std_deviation != null && message.hasOwnProperty("host_framestarttime_std_deviation"))
-                if (!$util.isInteger(message.host_framestarttime_std_deviation))
-                    return "host_framestarttime_std_deviation: integer expected";
-            if (message.host_loss != null && message.hasOwnProperty("host_loss"))
-                if (!$util.isInteger(message.host_loss))
-                    return "host_loss: integer expected";
+            if (message.legacy_host_loss != null && message.hasOwnProperty("legacy_host_loss"))
+                if (!$util.isInteger(message.legacy_host_loss))
+                    return "legacy_host_loss: integer expected";
             if (message.host_unfiltered_frametime != null && message.hasOwnProperty("host_unfiltered_frametime"))
                 if (!$util.isInteger(message.host_unfiltered_frametime))
                     return "host_unfiltered_frametime: integer expected";
@@ -4155,6 +3355,12 @@
             if (message.expected_long_tick_reason != null && message.hasOwnProperty("expected_long_tick_reason"))
                 if (!$util.isString(message.expected_long_tick_reason))
                     return "expected_long_tick_reason: string expected";
+            if (message.host_frame_dropped_pct_x10 != null && message.hasOwnProperty("host_frame_dropped_pct_x10"))
+                if (!$util.isInteger(message.host_frame_dropped_pct_x10))
+                    return "host_frame_dropped_pct_x10: integer expected";
+            if (message.host_frame_irregular_arrival_pct_x10 != null && message.hasOwnProperty("host_frame_irregular_arrival_pct_x10"))
+                if (!$util.isInteger(message.host_frame_irregular_arrival_pct_x10))
+                    return "host_frame_irregular_arrival_pct_x10: integer expected";
             return null;
         };
     
@@ -4172,18 +3378,12 @@
             var message = new $root.CNETMsg_Tick();
             if (object.tick != null)
                 message.tick = object.tick >>> 0;
-            if (object.host_frametime != null)
-                message.host_frametime = object.host_frametime >>> 0;
-            if (object.host_frametime_std_deviation != null)
-                message.host_frametime_std_deviation = object.host_frametime_std_deviation >>> 0;
             if (object.host_computationtime != null)
                 message.host_computationtime = object.host_computationtime >>> 0;
             if (object.host_computationtime_std_deviation != null)
                 message.host_computationtime_std_deviation = object.host_computationtime_std_deviation >>> 0;
-            if (object.host_framestarttime_std_deviation != null)
-                message.host_framestarttime_std_deviation = object.host_framestarttime_std_deviation >>> 0;
-            if (object.host_loss != null)
-                message.host_loss = object.host_loss >>> 0;
+            if (object.legacy_host_loss != null)
+                message.legacy_host_loss = object.legacy_host_loss >>> 0;
             if (object.host_unfiltered_frametime != null)
                 message.host_unfiltered_frametime = object.host_unfiltered_frametime >>> 0;
             if (object.hltv_replay_flags != null)
@@ -4192,6 +3392,10 @@
                 message.expected_long_tick = object.expected_long_tick >>> 0;
             if (object.expected_long_tick_reason != null)
                 message.expected_long_tick_reason = String(object.expected_long_tick_reason);
+            if (object.host_frame_dropped_pct_x10 != null)
+                message.host_frame_dropped_pct_x10 = object.host_frame_dropped_pct_x10 >>> 0;
+            if (object.host_frame_irregular_arrival_pct_x10 != null)
+                message.host_frame_irregular_arrival_pct_x10 = object.host_frame_irregular_arrival_pct_x10 >>> 0;
             return message;
         };
     
@@ -4210,31 +3414,24 @@
             var object = {};
             if (options.defaults) {
                 object.tick = 0;
-                object.host_frametime = 0;
-                object.host_frametime_std_deviation = 0;
                 object.host_computationtime = 0;
                 object.host_computationtime_std_deviation = 0;
-                object.host_framestarttime_std_deviation = 0;
-                object.host_loss = 0;
+                object.legacy_host_loss = 0;
                 object.host_unfiltered_frametime = 0;
                 object.hltv_replay_flags = 0;
                 object.expected_long_tick = 0;
                 object.expected_long_tick_reason = "";
+                object.host_frame_dropped_pct_x10 = 0;
+                object.host_frame_irregular_arrival_pct_x10 = 0;
             }
             if (message.tick != null && message.hasOwnProperty("tick"))
                 object.tick = message.tick;
-            if (message.host_frametime != null && message.hasOwnProperty("host_frametime"))
-                object.host_frametime = message.host_frametime;
-            if (message.host_frametime_std_deviation != null && message.hasOwnProperty("host_frametime_std_deviation"))
-                object.host_frametime_std_deviation = message.host_frametime_std_deviation;
             if (message.host_computationtime != null && message.hasOwnProperty("host_computationtime"))
                 object.host_computationtime = message.host_computationtime;
             if (message.host_computationtime_std_deviation != null && message.hasOwnProperty("host_computationtime_std_deviation"))
                 object.host_computationtime_std_deviation = message.host_computationtime_std_deviation;
-            if (message.host_framestarttime_std_deviation != null && message.hasOwnProperty("host_framestarttime_std_deviation"))
-                object.host_framestarttime_std_deviation = message.host_framestarttime_std_deviation;
-            if (message.host_loss != null && message.hasOwnProperty("host_loss"))
-                object.host_loss = message.host_loss;
+            if (message.legacy_host_loss != null && message.hasOwnProperty("legacy_host_loss"))
+                object.legacy_host_loss = message.legacy_host_loss;
             if (message.host_unfiltered_frametime != null && message.hasOwnProperty("host_unfiltered_frametime"))
                 object.host_unfiltered_frametime = message.host_unfiltered_frametime;
             if (message.hltv_replay_flags != null && message.hasOwnProperty("hltv_replay_flags"))
@@ -4243,6 +3440,10 @@
                 object.expected_long_tick = message.expected_long_tick;
             if (message.expected_long_tick_reason != null && message.hasOwnProperty("expected_long_tick_reason"))
                 object.expected_long_tick_reason = message.expected_long_tick_reason;
+            if (message.host_frame_dropped_pct_x10 != null && message.hasOwnProperty("host_frame_dropped_pct_x10"))
+                object.host_frame_dropped_pct_x10 = message.host_frame_dropped_pct_x10;
+            if (message.host_frame_irregular_arrival_pct_x10 != null && message.hasOwnProperty("host_frame_irregular_arrival_pct_x10"))
+                object.host_frame_irregular_arrival_pct_x10 = message.host_frame_irregular_arrival_pct_x10;
             return object;
         };
     
@@ -4371,12 +3572,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_StringCmd.decode = function decode(reader, length) {
+        CNETMsg_StringCmd.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_StringCmd();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.command = reader.string();
@@ -4587,12 +3790,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SetConVar.decode = function decode(reader, length) {
+        CNETMsg_SetConVar.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SetConVar();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.convars = $root.CMsg_CVars.decode(reader, reader.uint32());
@@ -4852,12 +4057,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SignonState.decode = function decode(reader, length) {
+        CNETMsg_SignonState.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SignonState();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.signon_state = reader.int32();
@@ -5204,12 +4411,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_GameEvent.decode = function decode(reader, length) {
+        CSVCMsg_GameEvent.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_GameEvent();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.event_name = reader.string();
@@ -5526,12 +4735,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            key_t.decode = function decode(reader, length) {
+            key_t.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_GameEvent.key_t();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.type = reader.int32();
@@ -5833,12 +5044,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsgList_GameEvents.decode = function decode(reader, length) {
+        CSVCMsgList_GameEvents.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsgList_GameEvents();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         if (!(message.events && message.events.length))
@@ -6063,12 +5276,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            event_t.decode = function decode(reader, length) {
+            event_t.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsgList_GameEvents.event_t();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.tick = reader.int32();
@@ -6496,12 +5711,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SpawnGroup_Load.decode = function decode(reader, length) {
+        CNETMsg_SpawnGroup_Load.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SpawnGroup_Load();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.worldname = reader.string();
@@ -6969,12 +6186,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SpawnGroup_ManifestUpdate.decode = function decode(reader, length) {
+        CNETMsg_SpawnGroup_ManifestUpdate.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SpawnGroup_ManifestUpdate();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.spawngrouphandle = reader.uint32();
@@ -7228,12 +6447,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SpawnGroup_SetCreationTick.decode = function decode(reader, length) {
+        CNETMsg_SpawnGroup_SetCreationTick.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SpawnGroup_SetCreationTick();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.spawngrouphandle = reader.uint32();
@@ -7478,12 +6699,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SpawnGroup_Unload.decode = function decode(reader, length) {
+        CNETMsg_SpawnGroup_Unload.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SpawnGroup_Unload();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.spawngrouphandle = reader.uint32();
@@ -7706,12 +6929,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SpawnGroup_LoadCompleted.decode = function decode(reader, length) {
+        CNETMsg_SpawnGroup_LoadCompleted.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SpawnGroup_LoadCompleted();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.spawngrouphandle = reader.uint32();
@@ -8107,12 +7332,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_GameSessionConfiguration.decode = function decode(reader, length) {
+        CSVCMsg_GameSessionConfiguration.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_GameSessionConfiguration();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.is_multiplayer = reader.bool();
@@ -8627,12 +7854,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_DebugOverlay.decode = function decode(reader, length) {
+        CNETMsg_DebugOverlay.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_DebugOverlay();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.etype = reader.int32();
@@ -9091,6 +8320,9 @@
      * @property {number} NETWORK_DISCONNECT_KICKED_SUICIDE=159 NETWORK_DISCONNECT_KICKED_SUICIDE value
      * @property {number} NETWORK_DISCONNECT_KICKED_NOSTEAMLOGIN=160 NETWORK_DISCONNECT_KICKED_NOSTEAMLOGIN value
      * @property {number} NETWORK_DISCONNECT_KICKED_NOSTEAMTICKET=161 NETWORK_DISCONNECT_KICKED_NOSTEAMTICKET value
+     * @property {number} NETWORK_DISCONNECT_KICKED_INPUTAUTOMATION=162 NETWORK_DISCONNECT_KICKED_INPUTAUTOMATION value
+     * @property {number} NETWORK_DISCONNECT_KICKED_VACNETABNORMALBEHAVIOR=163 NETWORK_DISCONNECT_KICKED_VACNETABNORMALBEHAVIOR value
+     * @property {number} NETWORK_DISCONNECT_KICKED_INSECURECLIENT=164 NETWORK_DISCONNECT_KICKED_INSECURECLIENT value
      */
     $root.ENetworkDisconnectionReason = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -9212,6 +8444,9 @@
         values[valuesById[159] = "NETWORK_DISCONNECT_KICKED_SUICIDE"] = 159;
         values[valuesById[160] = "NETWORK_DISCONNECT_KICKED_NOSTEAMLOGIN"] = 160;
         values[valuesById[161] = "NETWORK_DISCONNECT_KICKED_NOSTEAMTICKET"] = 161;
+        values[valuesById[162] = "NETWORK_DISCONNECT_KICKED_INPUTAUTOMATION"] = 162;
+        values[valuesById[163] = "NETWORK_DISCONNECT_KICKED_VACNETABNORMALBEHAVIOR"] = 163;
+        values[valuesById[164] = "NETWORK_DISCONNECT_KICKED_INSECURECLIENT"] = 164;
         return values;
     })();
     
@@ -9320,12 +8555,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FileDescriptorSet.decode = function decode(reader, length) {
+                FileDescriptorSet.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FileDescriptorSet();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 if (!(message.file && message.file.length))
@@ -9640,12 +8877,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FileDescriptorProto.decode = function decode(reader, length) {
+                FileDescriptorProto.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FileDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.name = reader.string();
@@ -10118,12 +9357,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                DescriptorProto.decode = function decode(reader, length) {
+                DescriptorProto.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.DescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.name = reader.string();
@@ -10504,12 +9745,14 @@
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    ExtensionRange.decode = function decode(reader, length) {
+                    ExtensionRange.decode = function decode(reader, length, error) {
                         if (!(reader instanceof $Reader))
                             reader = $Reader.create(reader);
                         var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.DescriptorProto.ExtensionRange();
                         while (reader.pos < end) {
                             var tag = reader.uint32();
+                            if (tag === error)
+                                break;
                             switch (tag >>> 3) {
                             case 1: {
                                     message.start = reader.int32();
@@ -10800,12 +10043,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FieldDescriptorProto.decode = function decode(reader, length) {
+                FieldDescriptorProto.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FieldDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.name = reader.string();
@@ -11302,12 +10547,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                EnumDescriptorProto.decode = function decode(reader, length) {
+                EnumDescriptorProto.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.EnumDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.name = reader.string();
@@ -11577,12 +10824,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                EnumValueDescriptorProto.decode = function decode(reader, length) {
+                EnumValueDescriptorProto.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.EnumValueDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.name = reader.string();
@@ -11834,12 +11083,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                ServiceDescriptorProto.decode = function decode(reader, length) {
+                ServiceDescriptorProto.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.ServiceDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.name = reader.string();
@@ -12120,12 +11371,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                MethodDescriptorProto.decode = function decode(reader, length) {
+                MethodDescriptorProto.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.MethodDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.name = reader.string();
@@ -12455,12 +11708,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FileOptions.decode = function decode(reader, length) {
+                FileOptions.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FileOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.java_package = reader.string();
@@ -12839,12 +12094,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                MessageOptions.decode = function decode(reader, length) {
+                MessageOptions.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.MessageOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.message_set_wire_format = reader.bool();
@@ -13133,12 +12390,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FieldOptions.decode = function decode(reader, length) {
+                FieldOptions.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FieldOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.ctype = reader.int32();
@@ -13447,12 +12706,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                EnumOptions.decode = function decode(reader, length) {
+                EnumOptions.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.EnumOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
@@ -13592,6 +12853,8 @@
                  * @interface IEnumValueOptions
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] EnumValueOptions uninterpreted_option
                  * @property {string|null} [".network_connection_token"] EnumValueOptions .network_connection_token
+                 * @property {string|null} [".network_connection_detail_token"] EnumValueOptions .network_connection_detail_token
+                 * @property {boolean|null} [".allowed_from_client"] EnumValueOptions .allowed_from_client
                  */
     
                 /**
@@ -13627,6 +12890,22 @@
                 EnumValueOptions.prototype[".network_connection_token"] = "";
     
                 /**
+                 * EnumValueOptions .network_connection_detail_token.
+                 * @member {string} .network_connection_detail_token
+                 * @memberof google.protobuf.EnumValueOptions
+                 * @instance
+                 */
+                EnumValueOptions.prototype[".network_connection_detail_token"] = "";
+    
+                /**
+                 * EnumValueOptions .allowed_from_client.
+                 * @member {boolean} .allowed_from_client
+                 * @memberof google.protobuf.EnumValueOptions
+                 * @instance
+                 */
+                EnumValueOptions.prototype[".allowed_from_client"] = true;
+    
+                /**
                  * Creates a new EnumValueOptions instance using the specified properties.
                  * @function create
                  * @memberof google.protobuf.EnumValueOptions
@@ -13655,6 +12934,10 @@
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
                     if (message[".network_connection_token"] != null && Object.hasOwnProperty.call(message, ".network_connection_token"))
                         writer.uint32(/* id 50500, wireType 2 =*/404002).string(message[".network_connection_token"]);
+                    if (message[".network_connection_detail_token"] != null && Object.hasOwnProperty.call(message, ".network_connection_detail_token"))
+                        writer.uint32(/* id 50501, wireType 2 =*/404010).string(message[".network_connection_detail_token"]);
+                    if (message[".allowed_from_client"] != null && Object.hasOwnProperty.call(message, ".allowed_from_client"))
+                        writer.uint32(/* id 50502, wireType 0 =*/404016).bool(message[".allowed_from_client"]);
                     return writer;
                 };
     
@@ -13682,12 +12965,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                EnumValueOptions.decode = function decode(reader, length) {
+                EnumValueOptions.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.EnumValueOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
@@ -13697,6 +12982,14 @@
                             }
                         case 50500: {
                                 message[".network_connection_token"] = reader.string();
+                                break;
+                            }
+                        case 50501: {
+                                message[".network_connection_detail_token"] = reader.string();
+                                break;
+                            }
+                        case 50502: {
+                                message[".allowed_from_client"] = reader.bool();
                                 break;
                             }
                         default:
@@ -13746,6 +13039,12 @@
                     if (message[".network_connection_token"] != null && message.hasOwnProperty(".network_connection_token"))
                         if (!$util.isString(message[".network_connection_token"]))
                             return ".network_connection_token: string expected";
+                    if (message[".network_connection_detail_token"] != null && message.hasOwnProperty(".network_connection_detail_token"))
+                        if (!$util.isString(message[".network_connection_detail_token"]))
+                            return ".network_connection_detail_token: string expected";
+                    if (message[".allowed_from_client"] != null && message.hasOwnProperty(".allowed_from_client"))
+                        if (typeof message[".allowed_from_client"] !== "boolean")
+                            return ".allowed_from_client: boolean expected";
                     return null;
                 };
     
@@ -13773,6 +13072,10 @@
                     }
                     if (object[".network_connection_token"] != null)
                         message[".network_connection_token"] = String(object[".network_connection_token"]);
+                    if (object[".network_connection_detail_token"] != null)
+                        message[".network_connection_detail_token"] = String(object[".network_connection_detail_token"]);
+                    if (object[".allowed_from_client"] != null)
+                        message[".allowed_from_client"] = Boolean(object[".allowed_from_client"]);
                     return message;
                 };
     
@@ -13791,8 +13094,11 @@
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
-                    if (options.defaults)
+                    if (options.defaults) {
                         object[".network_connection_token"] = "";
+                        object[".network_connection_detail_token"] = "";
+                        object[".allowed_from_client"] = true;
+                    }
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
@@ -13800,6 +13106,10 @@
                     }
                     if (message[".network_connection_token"] != null && message.hasOwnProperty(".network_connection_token"))
                         object[".network_connection_token"] = message[".network_connection_token"];
+                    if (message[".network_connection_detail_token"] != null && message.hasOwnProperty(".network_connection_detail_token"))
+                        object[".network_connection_detail_token"] = message[".network_connection_detail_token"];
+                    if (message[".allowed_from_client"] != null && message.hasOwnProperty(".allowed_from_client"))
+                        object[".allowed_from_client"] = message[".allowed_from_client"];
                     return object;
                 };
     
@@ -13919,12 +13229,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                ServiceOptions.decode = function decode(reader, length) {
+                ServiceOptions.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.ServiceOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
@@ -14143,12 +13455,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                MethodOptions.decode = function decode(reader, length) {
+                MethodOptions.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.MethodOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
@@ -14433,12 +13747,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                UninterpretedOption.decode = function decode(reader, length) {
+                UninterpretedOption.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.UninterpretedOption();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 2: {
                                 if (!(message.name && message.name.length))
@@ -14772,12 +14088,14 @@
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    NamePart.decode = function decode(reader, length) {
+                    NamePart.decode = function decode(reader, length, error) {
                         if (!(reader instanceof $Reader))
                             reader = $Reader.create(reader);
                         var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.UninterpretedOption.NamePart();
                         while (reader.pos < end) {
                             var tag = reader.uint32();
+                            if (tag === error)
+                                break;
                             switch (tag >>> 3) {
                             case 1: {
                                     message.name_part = reader.string();
@@ -14995,12 +14313,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                SourceCodeInfo.decode = function decode(reader, length) {
+                SourceCodeInfo.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.SourceCodeInfo();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 if (!(message.location && message.location.length))
@@ -15235,12 +14555,14 @@
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    Location.decode = function decode(reader, length) {
+                    Location.decode = function decode(reader, length, error) {
                         if (!(reader instanceof $Reader))
                             reader = $Reader.create(reader);
                         var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.SourceCodeInfo.Location();
                         while (reader.pos < end) {
                             var tag = reader.uint32();
+                            if (tag === error)
+                                break;
                             switch (tag >>> 3) {
                             case 1: {
                                     if (!(message.path && message.path.length))

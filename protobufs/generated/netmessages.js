@@ -24,19 +24,17 @@
      * @property {number} clc_Move=21 clc_Move value
      * @property {number} clc_VoiceData=22 clc_VoiceData value
      * @property {number} clc_BaselineAck=23 clc_BaselineAck value
-     * @property {number} clc_ListenEvents=24 clc_ListenEvents value
      * @property {number} clc_RespondCvarValue=25 clc_RespondCvarValue value
      * @property {number} clc_FileCRCCheck=26 clc_FileCRCCheck value
      * @property {number} clc_LoadingProgress=27 clc_LoadingProgress value
      * @property {number} clc_SplitPlayerConnect=28 clc_SplitPlayerConnect value
-     * @property {number} clc_ClientMessage=29 clc_ClientMessage value
      * @property {number} clc_SplitPlayerDisconnect=30 clc_SplitPlayerDisconnect value
      * @property {number} clc_ServerStatus=31 clc_ServerStatus value
-     * @property {number} clc_ServerPing=32 clc_ServerPing value
      * @property {number} clc_RequestPause=33 clc_RequestPause value
      * @property {number} clc_CmdKeyValues=34 clc_CmdKeyValues value
      * @property {number} clc_RconServerDetails=35 clc_RconServerDetails value
      * @property {number} clc_HltvReplay=36 clc_HltvReplay value
+     * @property {number} clc_Diagnostic=37 clc_Diagnostic value
      */
     $root.CLC_Messages = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -44,19 +42,17 @@
         values[valuesById[21] = "clc_Move"] = 21;
         values[valuesById[22] = "clc_VoiceData"] = 22;
         values[valuesById[23] = "clc_BaselineAck"] = 23;
-        values[valuesById[24] = "clc_ListenEvents"] = 24;
         values[valuesById[25] = "clc_RespondCvarValue"] = 25;
         values[valuesById[26] = "clc_FileCRCCheck"] = 26;
         values[valuesById[27] = "clc_LoadingProgress"] = 27;
         values[valuesById[28] = "clc_SplitPlayerConnect"] = 28;
-        values[valuesById[29] = "clc_ClientMessage"] = 29;
         values[valuesById[30] = "clc_SplitPlayerDisconnect"] = 30;
         values[valuesById[31] = "clc_ServerStatus"] = 31;
-        values[valuesById[32] = "clc_ServerPing"] = 32;
         values[valuesById[33] = "clc_RequestPause"] = 33;
         values[valuesById[34] = "clc_CmdKeyValues"] = 34;
         values[valuesById[35] = "clc_RconServerDetails"] = 35;
         values[valuesById[36] = "clc_HltvReplay"] = 36;
+        values[valuesById[37] = "clc_Diagnostic"] = 37;
         return values;
     })();
     
@@ -91,9 +87,9 @@
      * @property {number} svc_FullFrameSplit=70 svc_FullFrameSplit value
      * @property {number} svc_RconServerDetails=71 svc_RconServerDetails value
      * @property {number} svc_UserMessage=72 svc_UserMessage value
-     * @property {number} svc_HltvReplay=73 svc_HltvReplay value
      * @property {number} svc_Broadcast_Command=74 svc_Broadcast_Command value
      * @property {number} svc_HltvFixupOperatorStatus=75 svc_HltvFixupOperatorStatus value
+     * @property {number} svc_UserCmds=76 svc_UserCmds value
      */
     $root.SVC_Messages = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -124,9 +120,9 @@
         values[valuesById[70] = "svc_FullFrameSplit"] = 70;
         values[valuesById[71] = "svc_RconServerDetails"] = 71;
         values[valuesById[72] = "svc_UserMessage"] = 72;
-        values[valuesById[73] = "svc_HltvReplay"] = 73;
         values[valuesById[74] = "svc_Broadcast_Command"] = 74;
         values[valuesById[75] = "svc_HltvFixupOperatorStatus"] = 75;
+        values[valuesById[76] = "svc_UserCmds"] = 76;
         return values;
     })();
     
@@ -245,12 +241,14 @@
      * @property {number} bi_RebroadcastGameEvent=16 bi_RebroadcastGameEvent value
      * @property {number} bi_RebroadcastSource=17 bi_RebroadcastSource value
      * @property {number} bi_GameEvent=18 bi_GameEvent value
+     * @property {number} bi_PredictionEvent=19 bi_PredictionEvent value
      */
     $root.Bidirectional_Messages = (function() {
         var valuesById = {}, values = Object.create(valuesById);
         values[valuesById[16] = "bi_RebroadcastGameEvent"] = 16;
         values[valuesById[17] = "bi_RebroadcastSource"] = 17;
         values[valuesById[18] = "bi_GameEvent"] = 18;
+        values[valuesById[19] = "bi_PredictionEvent"] = 19;
         return values;
     })();
     
@@ -417,12 +415,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_ClientInfo.decode = function decode(reader, length) {
+        CCLCMsg_ClientInfo.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_ClientInfo();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.send_table_crc = reader.fixed32();
@@ -591,8 +591,7 @@
          * @exports ICCLCMsg_Move
          * @interface ICCLCMsg_Move
          * @property {Uint8Array|null} [data] CCLCMsg_Move data
-         * @property {number|null} [command_number] CCLCMsg_Move command_number
-         * @property {number|null} [num_commands] CCLCMsg_Move num_commands
+         * @property {number|null} [last_command_number] CCLCMsg_Move last_command_number
          */
     
         /**
@@ -619,20 +618,12 @@
         CCLCMsg_Move.prototype.data = $util.newBuffer([]);
     
         /**
-         * CCLCMsg_Move command_number.
-         * @member {number} command_number
+         * CCLCMsg_Move last_command_number.
+         * @member {number} last_command_number
          * @memberof CCLCMsg_Move
          * @instance
          */
-        CCLCMsg_Move.prototype.command_number = 0;
-    
-        /**
-         * CCLCMsg_Move num_commands.
-         * @member {number} num_commands
-         * @memberof CCLCMsg_Move
-         * @instance
-         */
-        CCLCMsg_Move.prototype.num_commands = 0;
+        CCLCMsg_Move.prototype.last_command_number = 0;
     
         /**
          * Creates a new CCLCMsg_Move instance using the specified properties.
@@ -660,10 +651,8 @@
                 writer = $Writer.create();
             if (message.data != null && Object.hasOwnProperty.call(message, "data"))
                 writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.data);
-            if (message.command_number != null && Object.hasOwnProperty.call(message, "command_number"))
-                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.command_number);
-            if (message.num_commands != null && Object.hasOwnProperty.call(message, "num_commands"))
-                writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.num_commands);
+            if (message.last_command_number != null && Object.hasOwnProperty.call(message, "last_command_number"))
+                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.last_command_number);
             return writer;
         };
     
@@ -691,23 +680,21 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_Move.decode = function decode(reader, length) {
+        CCLCMsg_Move.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_Move();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 3: {
                         message.data = reader.bytes();
                         break;
                     }
                 case 4: {
-                        message.command_number = reader.uint32();
-                        break;
-                    }
-                case 5: {
-                        message.num_commands = reader.uint32();
+                        message.last_command_number = reader.uint32();
                         break;
                     }
                 default:
@@ -748,12 +735,9 @@
             if (message.data != null && message.hasOwnProperty("data"))
                 if (!(message.data && typeof message.data.length === "number" || $util.isString(message.data)))
                     return "data: buffer expected";
-            if (message.command_number != null && message.hasOwnProperty("command_number"))
-                if (!$util.isInteger(message.command_number))
-                    return "command_number: integer expected";
-            if (message.num_commands != null && message.hasOwnProperty("num_commands"))
-                if (!$util.isInteger(message.num_commands))
-                    return "num_commands: integer expected";
+            if (message.last_command_number != null && message.hasOwnProperty("last_command_number"))
+                if (!$util.isInteger(message.last_command_number))
+                    return "last_command_number: integer expected";
             return null;
         };
     
@@ -774,10 +758,8 @@
                     $util.base64.decode(object.data, message.data = $util.newBuffer($util.base64.length(object.data)), 0);
                 else if (object.data.length >= 0)
                     message.data = object.data;
-            if (object.command_number != null)
-                message.command_number = object.command_number >>> 0;
-            if (object.num_commands != null)
-                message.num_commands = object.num_commands >>> 0;
+            if (object.last_command_number != null)
+                message.last_command_number = object.last_command_number >>> 0;
             return message;
         };
     
@@ -802,15 +784,12 @@
                     if (options.bytes !== Array)
                         object.data = $util.newBuffer(object.data);
                 }
-                object.command_number = 0;
-                object.num_commands = 0;
+                object.last_command_number = 0;
             }
             if (message.data != null && message.hasOwnProperty("data"))
                 object.data = options.bytes === String ? $util.base64.encode(message.data, 0, message.data.length) : options.bytes === Array ? Array.prototype.slice.call(message.data) : message.data;
-            if (message.command_number != null && message.hasOwnProperty("command_number"))
-                object.command_number = message.command_number;
-            if (message.num_commands != null && message.hasOwnProperty("num_commands"))
-                object.num_commands = message.num_commands;
+            if (message.last_command_number != null && message.hasOwnProperty("last_command_number"))
+                object.last_command_number = message.last_command_number;
             return object;
         };
     
@@ -1021,12 +1000,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgVoiceAudio.decode = function decode(reader, length) {
+        CMsgVoiceAudio.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgVoiceAudio();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.format = reader.int32();
@@ -1396,12 +1377,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_VoiceData.decode = function decode(reader, length) {
+        CCLCMsg_VoiceData.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_VoiceData();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.audio = $root.CMsgVoiceAudio.decode(reader, reader.uint32());
@@ -1654,12 +1637,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_BaselineAck.decode = function decode(reader, length) {
+        CCLCMsg_BaselineAck.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_BaselineAck();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.baseline_tick = reader.int32();
@@ -1872,12 +1857,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_ListenEvents.decode = function decode(reader, length) {
+        CCLCMsg_ListenEvents.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_ListenEvents();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         if (!(message.event_mask && message.event_mask.length))
@@ -2127,12 +2114,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_RespondCvarValue.decode = function decode(reader, length) {
+        CCLCMsg_RespondCvarValue.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_RespondCvarValue();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.cookie = reader.int32();
@@ -2411,12 +2400,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_FileCRCCheck.decode = function decode(reader, length) {
+        CCLCMsg_FileCRCCheck.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_FileCRCCheck();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.code_path = reader.int32();
@@ -2663,12 +2654,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_LoadingProgress.decode = function decode(reader, length) {
+        CCLCMsg_LoadingProgress.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_LoadingProgress();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.progress = reader.int32();
@@ -2866,12 +2859,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_SplitPlayerConnect.decode = function decode(reader, length) {
+        CCLCMsg_SplitPlayerConnect.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_SplitPlayerConnect();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.playername = reader.string();
@@ -2984,242 +2979,6 @@
         return CCLCMsg_SplitPlayerConnect;
     })();
     
-    $root.CCLCMsg_ClientMessage = (function() {
-    
-        /**
-         * Properties of a CCLCMsg_ClientMessage.
-         * @exports ICCLCMsg_ClientMessage
-         * @interface ICCLCMsg_ClientMessage
-         * @property {number|null} [msg_type] CCLCMsg_ClientMessage msg_type
-         * @property {Uint8Array|null} [data] CCLCMsg_ClientMessage data
-         */
-    
-        /**
-         * Constructs a new CCLCMsg_ClientMessage.
-         * @exports CCLCMsg_ClientMessage
-         * @classdesc Represents a CCLCMsg_ClientMessage.
-         * @implements ICCLCMsg_ClientMessage
-         * @constructor
-         * @param {ICCLCMsg_ClientMessage=} [properties] Properties to set
-         */
-        function CCLCMsg_ClientMessage(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CCLCMsg_ClientMessage msg_type.
-         * @member {number} msg_type
-         * @memberof CCLCMsg_ClientMessage
-         * @instance
-         */
-        CCLCMsg_ClientMessage.prototype.msg_type = 0;
-    
-        /**
-         * CCLCMsg_ClientMessage data.
-         * @member {Uint8Array} data
-         * @memberof CCLCMsg_ClientMessage
-         * @instance
-         */
-        CCLCMsg_ClientMessage.prototype.data = $util.newBuffer([]);
-    
-        /**
-         * Creates a new CCLCMsg_ClientMessage instance using the specified properties.
-         * @function create
-         * @memberof CCLCMsg_ClientMessage
-         * @static
-         * @param {ICCLCMsg_ClientMessage=} [properties] Properties to set
-         * @returns {CCLCMsg_ClientMessage} CCLCMsg_ClientMessage instance
-         */
-        CCLCMsg_ClientMessage.create = function create(properties) {
-            return new CCLCMsg_ClientMessage(properties);
-        };
-    
-        /**
-         * Encodes the specified CCLCMsg_ClientMessage message. Does not implicitly {@link CCLCMsg_ClientMessage.verify|verify} messages.
-         * @function encode
-         * @memberof CCLCMsg_ClientMessage
-         * @static
-         * @param {ICCLCMsg_ClientMessage} message CCLCMsg_ClientMessage message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CCLCMsg_ClientMessage.encode = function encode(message, writer) {
-            if (!writer)
-                writer = $Writer.create();
-            if (message.msg_type != null && Object.hasOwnProperty.call(message, "msg_type"))
-                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.msg_type);
-            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
-                writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.data);
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CCLCMsg_ClientMessage message, length delimited. Does not implicitly {@link CCLCMsg_ClientMessage.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CCLCMsg_ClientMessage
-         * @static
-         * @param {ICCLCMsg_ClientMessage} message CCLCMsg_ClientMessage message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CCLCMsg_ClientMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CCLCMsg_ClientMessage message from the specified reader or buffer.
-         * @function decode
-         * @memberof CCLCMsg_ClientMessage
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CCLCMsg_ClientMessage} CCLCMsg_ClientMessage
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CCLCMsg_ClientMessage.decode = function decode(reader, length) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_ClientMessage();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                switch (tag >>> 3) {
-                case 1: {
-                        message.msg_type = reader.int32();
-                        break;
-                    }
-                case 2: {
-                        message.data = reader.bytes();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-                }
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CCLCMsg_ClientMessage message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CCLCMsg_ClientMessage
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CCLCMsg_ClientMessage} CCLCMsg_ClientMessage
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CCLCMsg_ClientMessage.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CCLCMsg_ClientMessage message.
-         * @function verify
-         * @memberof CCLCMsg_ClientMessage
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CCLCMsg_ClientMessage.verify = function verify(message) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (message.msg_type != null && message.hasOwnProperty("msg_type"))
-                if (!$util.isInteger(message.msg_type))
-                    return "msg_type: integer expected";
-            if (message.data != null && message.hasOwnProperty("data"))
-                if (!(message.data && typeof message.data.length === "number" || $util.isString(message.data)))
-                    return "data: buffer expected";
-            return null;
-        };
-    
-        /**
-         * Creates a CCLCMsg_ClientMessage message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CCLCMsg_ClientMessage
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CCLCMsg_ClientMessage} CCLCMsg_ClientMessage
-         */
-        CCLCMsg_ClientMessage.fromObject = function fromObject(object) {
-            if (object instanceof $root.CCLCMsg_ClientMessage)
-                return object;
-            var message = new $root.CCLCMsg_ClientMessage();
-            if (object.msg_type != null)
-                message.msg_type = object.msg_type | 0;
-            if (object.data != null)
-                if (typeof object.data === "string")
-                    $util.base64.decode(object.data, message.data = $util.newBuffer($util.base64.length(object.data)), 0);
-                else if (object.data.length >= 0)
-                    message.data = object.data;
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CCLCMsg_ClientMessage message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CCLCMsg_ClientMessage
-         * @static
-         * @param {CCLCMsg_ClientMessage} message CCLCMsg_ClientMessage
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CCLCMsg_ClientMessage.toObject = function toObject(message, options) {
-            if (!options)
-                options = {};
-            var object = {};
-            if (options.defaults) {
-                object.msg_type = 0;
-                if (options.bytes === String)
-                    object.data = "";
-                else {
-                    object.data = [];
-                    if (options.bytes !== Array)
-                        object.data = $util.newBuffer(object.data);
-                }
-            }
-            if (message.msg_type != null && message.hasOwnProperty("msg_type"))
-                object.msg_type = message.msg_type;
-            if (message.data != null && message.hasOwnProperty("data"))
-                object.data = options.bytes === String ? $util.base64.encode(message.data, 0, message.data.length) : options.bytes === Array ? Array.prototype.slice.call(message.data) : message.data;
-            return object;
-        };
-    
-        /**
-         * Converts this CCLCMsg_ClientMessage to JSON.
-         * @function toJSON
-         * @memberof CCLCMsg_ClientMessage
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CCLCMsg_ClientMessage.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CCLCMsg_ClientMessage
-         * @function getTypeUrl
-         * @memberof CCLCMsg_ClientMessage
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CCLCMsg_ClientMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CCLCMsg_ClientMessage";
-        };
-    
-        return CCLCMsg_ClientMessage;
-    })();
-    
     $root.CCLCMsg_SplitPlayerDisconnect = (function() {
     
         /**
@@ -3305,12 +3064,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_SplitPlayerDisconnect.decode = function decode(reader, length) {
+        CCLCMsg_SplitPlayerDisconnect.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_SplitPlayerDisconnect();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.slot = reader.int32();
@@ -3508,12 +3269,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_ServerStatus.decode = function decode(reader, length) {
+        CCLCMsg_ServerStatus.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_ServerStatus();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.simplified = reader.bool();
@@ -3722,12 +3485,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_RequestPause.decode = function decode(reader, length) {
+        CCLCMsg_RequestPause.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_RequestPause();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.pause_type = reader.int32();
@@ -3962,12 +3727,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_CmdKeyValues.decode = function decode(reader, length) {
+        CCLCMsg_CmdKeyValues.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_CmdKeyValues();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.data = reader.bytes();
@@ -4174,12 +3941,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_RconServerDetails.decode = function decode(reader, length) {
+        CCLCMsg_RconServerDetails.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_RconServerDetails();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.token = reader.bytes();
@@ -4299,6 +4068,3231 @@
         };
     
         return CCLCMsg_RconServerDetails;
+    })();
+    
+    $root.CMsgSource2SystemSpecs = (function() {
+    
+        /**
+         * Properties of a CMsgSource2SystemSpecs.
+         * @exports ICMsgSource2SystemSpecs
+         * @interface ICMsgSource2SystemSpecs
+         * @property {string|null} [cpu_id] CMsgSource2SystemSpecs cpu_id
+         * @property {string|null} [cpu_brand] CMsgSource2SystemSpecs cpu_brand
+         * @property {number|null} [cpu_model] CMsgSource2SystemSpecs cpu_model
+         * @property {number|null} [cpu_num_physical] CMsgSource2SystemSpecs cpu_num_physical
+         * @property {number|null} [ram_physical_total_mb] CMsgSource2SystemSpecs ram_physical_total_mb
+         * @property {string|null} [gpu_rendersystem_dll_name] CMsgSource2SystemSpecs gpu_rendersystem_dll_name
+         * @property {number|null} [gpu_vendor_id] CMsgSource2SystemSpecs gpu_vendor_id
+         * @property {string|null} [gpu_driver_name] CMsgSource2SystemSpecs gpu_driver_name
+         * @property {number|null} [gpu_driver_version_high] CMsgSource2SystemSpecs gpu_driver_version_high
+         * @property {number|null} [gpu_driver_version_low] CMsgSource2SystemSpecs gpu_driver_version_low
+         * @property {number|null} [gpu_dx_support_level] CMsgSource2SystemSpecs gpu_dx_support_level
+         * @property {number|null} [gpu_texture_memory_size_mb] CMsgSource2SystemSpecs gpu_texture_memory_size_mb
+         */
+    
+        /**
+         * Constructs a new CMsgSource2SystemSpecs.
+         * @exports CMsgSource2SystemSpecs
+         * @classdesc Represents a CMsgSource2SystemSpecs.
+         * @implements ICMsgSource2SystemSpecs
+         * @constructor
+         * @param {ICMsgSource2SystemSpecs=} [properties] Properties to set
+         */
+        function CMsgSource2SystemSpecs(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CMsgSource2SystemSpecs cpu_id.
+         * @member {string} cpu_id
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.cpu_id = "";
+    
+        /**
+         * CMsgSource2SystemSpecs cpu_brand.
+         * @member {string} cpu_brand
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.cpu_brand = "";
+    
+        /**
+         * CMsgSource2SystemSpecs cpu_model.
+         * @member {number} cpu_model
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.cpu_model = 0;
+    
+        /**
+         * CMsgSource2SystemSpecs cpu_num_physical.
+         * @member {number} cpu_num_physical
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.cpu_num_physical = 0;
+    
+        /**
+         * CMsgSource2SystemSpecs ram_physical_total_mb.
+         * @member {number} ram_physical_total_mb
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.ram_physical_total_mb = 0;
+    
+        /**
+         * CMsgSource2SystemSpecs gpu_rendersystem_dll_name.
+         * @member {string} gpu_rendersystem_dll_name
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.gpu_rendersystem_dll_name = "";
+    
+        /**
+         * CMsgSource2SystemSpecs gpu_vendor_id.
+         * @member {number} gpu_vendor_id
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.gpu_vendor_id = 0;
+    
+        /**
+         * CMsgSource2SystemSpecs gpu_driver_name.
+         * @member {string} gpu_driver_name
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.gpu_driver_name = "";
+    
+        /**
+         * CMsgSource2SystemSpecs gpu_driver_version_high.
+         * @member {number} gpu_driver_version_high
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.gpu_driver_version_high = 0;
+    
+        /**
+         * CMsgSource2SystemSpecs gpu_driver_version_low.
+         * @member {number} gpu_driver_version_low
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.gpu_driver_version_low = 0;
+    
+        /**
+         * CMsgSource2SystemSpecs gpu_dx_support_level.
+         * @member {number} gpu_dx_support_level
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.gpu_dx_support_level = 0;
+    
+        /**
+         * CMsgSource2SystemSpecs gpu_texture_memory_size_mb.
+         * @member {number} gpu_texture_memory_size_mb
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.gpu_texture_memory_size_mb = 0;
+    
+        /**
+         * Creates a new CMsgSource2SystemSpecs instance using the specified properties.
+         * @function create
+         * @memberof CMsgSource2SystemSpecs
+         * @static
+         * @param {ICMsgSource2SystemSpecs=} [properties] Properties to set
+         * @returns {CMsgSource2SystemSpecs} CMsgSource2SystemSpecs instance
+         */
+        CMsgSource2SystemSpecs.create = function create(properties) {
+            return new CMsgSource2SystemSpecs(properties);
+        };
+    
+        /**
+         * Encodes the specified CMsgSource2SystemSpecs message. Does not implicitly {@link CMsgSource2SystemSpecs.verify|verify} messages.
+         * @function encode
+         * @memberof CMsgSource2SystemSpecs
+         * @static
+         * @param {ICMsgSource2SystemSpecs} message CMsgSource2SystemSpecs message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgSource2SystemSpecs.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.cpu_id != null && Object.hasOwnProperty.call(message, "cpu_id"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.cpu_id);
+            if (message.cpu_brand != null && Object.hasOwnProperty.call(message, "cpu_brand"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.cpu_brand);
+            if (message.cpu_model != null && Object.hasOwnProperty.call(message, "cpu_model"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.cpu_model);
+            if (message.cpu_num_physical != null && Object.hasOwnProperty.call(message, "cpu_num_physical"))
+                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.cpu_num_physical);
+            if (message.ram_physical_total_mb != null && Object.hasOwnProperty.call(message, "ram_physical_total_mb"))
+                writer.uint32(/* id 21, wireType 0 =*/168).uint32(message.ram_physical_total_mb);
+            if (message.gpu_rendersystem_dll_name != null && Object.hasOwnProperty.call(message, "gpu_rendersystem_dll_name"))
+                writer.uint32(/* id 41, wireType 2 =*/330).string(message.gpu_rendersystem_dll_name);
+            if (message.gpu_vendor_id != null && Object.hasOwnProperty.call(message, "gpu_vendor_id"))
+                writer.uint32(/* id 42, wireType 0 =*/336).uint32(message.gpu_vendor_id);
+            if (message.gpu_driver_name != null && Object.hasOwnProperty.call(message, "gpu_driver_name"))
+                writer.uint32(/* id 43, wireType 2 =*/346).string(message.gpu_driver_name);
+            if (message.gpu_driver_version_high != null && Object.hasOwnProperty.call(message, "gpu_driver_version_high"))
+                writer.uint32(/* id 44, wireType 0 =*/352).uint32(message.gpu_driver_version_high);
+            if (message.gpu_driver_version_low != null && Object.hasOwnProperty.call(message, "gpu_driver_version_low"))
+                writer.uint32(/* id 45, wireType 0 =*/360).uint32(message.gpu_driver_version_low);
+            if (message.gpu_dx_support_level != null && Object.hasOwnProperty.call(message, "gpu_dx_support_level"))
+                writer.uint32(/* id 46, wireType 0 =*/368).uint32(message.gpu_dx_support_level);
+            if (message.gpu_texture_memory_size_mb != null && Object.hasOwnProperty.call(message, "gpu_texture_memory_size_mb"))
+                writer.uint32(/* id 47, wireType 0 =*/376).uint32(message.gpu_texture_memory_size_mb);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CMsgSource2SystemSpecs message, length delimited. Does not implicitly {@link CMsgSource2SystemSpecs.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CMsgSource2SystemSpecs
+         * @static
+         * @param {ICMsgSource2SystemSpecs} message CMsgSource2SystemSpecs message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgSource2SystemSpecs.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CMsgSource2SystemSpecs message from the specified reader or buffer.
+         * @function decode
+         * @memberof CMsgSource2SystemSpecs
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CMsgSource2SystemSpecs} CMsgSource2SystemSpecs
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgSource2SystemSpecs.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSource2SystemSpecs();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.cpu_id = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.cpu_brand = reader.string();
+                        break;
+                    }
+                case 3: {
+                        message.cpu_model = reader.uint32();
+                        break;
+                    }
+                case 4: {
+                        message.cpu_num_physical = reader.uint32();
+                        break;
+                    }
+                case 21: {
+                        message.ram_physical_total_mb = reader.uint32();
+                        break;
+                    }
+                case 41: {
+                        message.gpu_rendersystem_dll_name = reader.string();
+                        break;
+                    }
+                case 42: {
+                        message.gpu_vendor_id = reader.uint32();
+                        break;
+                    }
+                case 43: {
+                        message.gpu_driver_name = reader.string();
+                        break;
+                    }
+                case 44: {
+                        message.gpu_driver_version_high = reader.uint32();
+                        break;
+                    }
+                case 45: {
+                        message.gpu_driver_version_low = reader.uint32();
+                        break;
+                    }
+                case 46: {
+                        message.gpu_dx_support_level = reader.uint32();
+                        break;
+                    }
+                case 47: {
+                        message.gpu_texture_memory_size_mb = reader.uint32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CMsgSource2SystemSpecs message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CMsgSource2SystemSpecs
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CMsgSource2SystemSpecs} CMsgSource2SystemSpecs
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgSource2SystemSpecs.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CMsgSource2SystemSpecs message.
+         * @function verify
+         * @memberof CMsgSource2SystemSpecs
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CMsgSource2SystemSpecs.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.cpu_id != null && message.hasOwnProperty("cpu_id"))
+                if (!$util.isString(message.cpu_id))
+                    return "cpu_id: string expected";
+            if (message.cpu_brand != null && message.hasOwnProperty("cpu_brand"))
+                if (!$util.isString(message.cpu_brand))
+                    return "cpu_brand: string expected";
+            if (message.cpu_model != null && message.hasOwnProperty("cpu_model"))
+                if (!$util.isInteger(message.cpu_model))
+                    return "cpu_model: integer expected";
+            if (message.cpu_num_physical != null && message.hasOwnProperty("cpu_num_physical"))
+                if (!$util.isInteger(message.cpu_num_physical))
+                    return "cpu_num_physical: integer expected";
+            if (message.ram_physical_total_mb != null && message.hasOwnProperty("ram_physical_total_mb"))
+                if (!$util.isInteger(message.ram_physical_total_mb))
+                    return "ram_physical_total_mb: integer expected";
+            if (message.gpu_rendersystem_dll_name != null && message.hasOwnProperty("gpu_rendersystem_dll_name"))
+                if (!$util.isString(message.gpu_rendersystem_dll_name))
+                    return "gpu_rendersystem_dll_name: string expected";
+            if (message.gpu_vendor_id != null && message.hasOwnProperty("gpu_vendor_id"))
+                if (!$util.isInteger(message.gpu_vendor_id))
+                    return "gpu_vendor_id: integer expected";
+            if (message.gpu_driver_name != null && message.hasOwnProperty("gpu_driver_name"))
+                if (!$util.isString(message.gpu_driver_name))
+                    return "gpu_driver_name: string expected";
+            if (message.gpu_driver_version_high != null && message.hasOwnProperty("gpu_driver_version_high"))
+                if (!$util.isInteger(message.gpu_driver_version_high))
+                    return "gpu_driver_version_high: integer expected";
+            if (message.gpu_driver_version_low != null && message.hasOwnProperty("gpu_driver_version_low"))
+                if (!$util.isInteger(message.gpu_driver_version_low))
+                    return "gpu_driver_version_low: integer expected";
+            if (message.gpu_dx_support_level != null && message.hasOwnProperty("gpu_dx_support_level"))
+                if (!$util.isInteger(message.gpu_dx_support_level))
+                    return "gpu_dx_support_level: integer expected";
+            if (message.gpu_texture_memory_size_mb != null && message.hasOwnProperty("gpu_texture_memory_size_mb"))
+                if (!$util.isInteger(message.gpu_texture_memory_size_mb))
+                    return "gpu_texture_memory_size_mb: integer expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CMsgSource2SystemSpecs message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CMsgSource2SystemSpecs
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CMsgSource2SystemSpecs} CMsgSource2SystemSpecs
+         */
+        CMsgSource2SystemSpecs.fromObject = function fromObject(object) {
+            if (object instanceof $root.CMsgSource2SystemSpecs)
+                return object;
+            var message = new $root.CMsgSource2SystemSpecs();
+            if (object.cpu_id != null)
+                message.cpu_id = String(object.cpu_id);
+            if (object.cpu_brand != null)
+                message.cpu_brand = String(object.cpu_brand);
+            if (object.cpu_model != null)
+                message.cpu_model = object.cpu_model >>> 0;
+            if (object.cpu_num_physical != null)
+                message.cpu_num_physical = object.cpu_num_physical >>> 0;
+            if (object.ram_physical_total_mb != null)
+                message.ram_physical_total_mb = object.ram_physical_total_mb >>> 0;
+            if (object.gpu_rendersystem_dll_name != null)
+                message.gpu_rendersystem_dll_name = String(object.gpu_rendersystem_dll_name);
+            if (object.gpu_vendor_id != null)
+                message.gpu_vendor_id = object.gpu_vendor_id >>> 0;
+            if (object.gpu_driver_name != null)
+                message.gpu_driver_name = String(object.gpu_driver_name);
+            if (object.gpu_driver_version_high != null)
+                message.gpu_driver_version_high = object.gpu_driver_version_high >>> 0;
+            if (object.gpu_driver_version_low != null)
+                message.gpu_driver_version_low = object.gpu_driver_version_low >>> 0;
+            if (object.gpu_dx_support_level != null)
+                message.gpu_dx_support_level = object.gpu_dx_support_level >>> 0;
+            if (object.gpu_texture_memory_size_mb != null)
+                message.gpu_texture_memory_size_mb = object.gpu_texture_memory_size_mb >>> 0;
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CMsgSource2SystemSpecs message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CMsgSource2SystemSpecs
+         * @static
+         * @param {CMsgSource2SystemSpecs} message CMsgSource2SystemSpecs
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CMsgSource2SystemSpecs.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.cpu_id = "";
+                object.cpu_brand = "";
+                object.cpu_model = 0;
+                object.cpu_num_physical = 0;
+                object.ram_physical_total_mb = 0;
+                object.gpu_rendersystem_dll_name = "";
+                object.gpu_vendor_id = 0;
+                object.gpu_driver_name = "";
+                object.gpu_driver_version_high = 0;
+                object.gpu_driver_version_low = 0;
+                object.gpu_dx_support_level = 0;
+                object.gpu_texture_memory_size_mb = 0;
+            }
+            if (message.cpu_id != null && message.hasOwnProperty("cpu_id"))
+                object.cpu_id = message.cpu_id;
+            if (message.cpu_brand != null && message.hasOwnProperty("cpu_brand"))
+                object.cpu_brand = message.cpu_brand;
+            if (message.cpu_model != null && message.hasOwnProperty("cpu_model"))
+                object.cpu_model = message.cpu_model;
+            if (message.cpu_num_physical != null && message.hasOwnProperty("cpu_num_physical"))
+                object.cpu_num_physical = message.cpu_num_physical;
+            if (message.ram_physical_total_mb != null && message.hasOwnProperty("ram_physical_total_mb"))
+                object.ram_physical_total_mb = message.ram_physical_total_mb;
+            if (message.gpu_rendersystem_dll_name != null && message.hasOwnProperty("gpu_rendersystem_dll_name"))
+                object.gpu_rendersystem_dll_name = message.gpu_rendersystem_dll_name;
+            if (message.gpu_vendor_id != null && message.hasOwnProperty("gpu_vendor_id"))
+                object.gpu_vendor_id = message.gpu_vendor_id;
+            if (message.gpu_driver_name != null && message.hasOwnProperty("gpu_driver_name"))
+                object.gpu_driver_name = message.gpu_driver_name;
+            if (message.gpu_driver_version_high != null && message.hasOwnProperty("gpu_driver_version_high"))
+                object.gpu_driver_version_high = message.gpu_driver_version_high;
+            if (message.gpu_driver_version_low != null && message.hasOwnProperty("gpu_driver_version_low"))
+                object.gpu_driver_version_low = message.gpu_driver_version_low;
+            if (message.gpu_dx_support_level != null && message.hasOwnProperty("gpu_dx_support_level"))
+                object.gpu_dx_support_level = message.gpu_dx_support_level;
+            if (message.gpu_texture_memory_size_mb != null && message.hasOwnProperty("gpu_texture_memory_size_mb"))
+                object.gpu_texture_memory_size_mb = message.gpu_texture_memory_size_mb;
+            return object;
+        };
+    
+        /**
+         * Converts this CMsgSource2SystemSpecs to JSON.
+         * @function toJSON
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CMsgSource2SystemSpecs.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CMsgSource2SystemSpecs
+         * @function getTypeUrl
+         * @memberof CMsgSource2SystemSpecs
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CMsgSource2SystemSpecs.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CMsgSource2SystemSpecs";
+        };
+    
+        return CMsgSource2SystemSpecs;
+    })();
+    
+    $root.CMsgSource2VProfLiteReportItem = (function() {
+    
+        /**
+         * Properties of a CMsgSource2VProfLiteReportItem.
+         * @exports ICMsgSource2VProfLiteReportItem
+         * @interface ICMsgSource2VProfLiteReportItem
+         * @property {string|null} [name] CMsgSource2VProfLiteReportItem name
+         * @property {number|null} [active_samples] CMsgSource2VProfLiteReportItem active_samples
+         * @property {number|null} [active_samples_1secmax] CMsgSource2VProfLiteReportItem active_samples_1secmax
+         * @property {number|null} [usec_max] CMsgSource2VProfLiteReportItem usec_max
+         * @property {number|null} [usec_avg_active] CMsgSource2VProfLiteReportItem usec_avg_active
+         * @property {number|null} [usec_p50_active] CMsgSource2VProfLiteReportItem usec_p50_active
+         * @property {number|null} [usec_p99_active] CMsgSource2VProfLiteReportItem usec_p99_active
+         * @property {number|null} [usec_avg_all] CMsgSource2VProfLiteReportItem usec_avg_all
+         * @property {number|null} [usec_p50_all] CMsgSource2VProfLiteReportItem usec_p50_all
+         * @property {number|null} [usec_p99_all] CMsgSource2VProfLiteReportItem usec_p99_all
+         * @property {number|null} [usec_1secmax_avg_active] CMsgSource2VProfLiteReportItem usec_1secmax_avg_active
+         * @property {number|null} [usec_1secmax_p50_active] CMsgSource2VProfLiteReportItem usec_1secmax_p50_active
+         * @property {number|null} [usec_1secmax_p95_active] CMsgSource2VProfLiteReportItem usec_1secmax_p95_active
+         * @property {number|null} [usec_1secmax_p99_active] CMsgSource2VProfLiteReportItem usec_1secmax_p99_active
+         * @property {number|null} [usec_1secmax_avg_all] CMsgSource2VProfLiteReportItem usec_1secmax_avg_all
+         * @property {number|null} [usec_1secmax_p50_all] CMsgSource2VProfLiteReportItem usec_1secmax_p50_all
+         * @property {number|null} [usec_1secmax_p95_all] CMsgSource2VProfLiteReportItem usec_1secmax_p95_all
+         * @property {number|null} [usec_1secmax_p99_all] CMsgSource2VProfLiteReportItem usec_1secmax_p99_all
+         */
+    
+        /**
+         * Constructs a new CMsgSource2VProfLiteReportItem.
+         * @exports CMsgSource2VProfLiteReportItem
+         * @classdesc Represents a CMsgSource2VProfLiteReportItem.
+         * @implements ICMsgSource2VProfLiteReportItem
+         * @constructor
+         * @param {ICMsgSource2VProfLiteReportItem=} [properties] Properties to set
+         */
+        function CMsgSource2VProfLiteReportItem(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CMsgSource2VProfLiteReportItem name.
+         * @member {string} name
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.name = "";
+    
+        /**
+         * CMsgSource2VProfLiteReportItem active_samples.
+         * @member {number} active_samples
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.active_samples = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem active_samples_1secmax.
+         * @member {number} active_samples_1secmax
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.active_samples_1secmax = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_max.
+         * @member {number} usec_max
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_max = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_avg_active.
+         * @member {number} usec_avg_active
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_avg_active = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_p50_active.
+         * @member {number} usec_p50_active
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_p50_active = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_p99_active.
+         * @member {number} usec_p99_active
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_p99_active = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_avg_all.
+         * @member {number} usec_avg_all
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_avg_all = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_p50_all.
+         * @member {number} usec_p50_all
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_p50_all = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_p99_all.
+         * @member {number} usec_p99_all
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_p99_all = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_1secmax_avg_active.
+         * @member {number} usec_1secmax_avg_active
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_1secmax_avg_active = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_1secmax_p50_active.
+         * @member {number} usec_1secmax_p50_active
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_1secmax_p50_active = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_1secmax_p95_active.
+         * @member {number} usec_1secmax_p95_active
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_1secmax_p95_active = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_1secmax_p99_active.
+         * @member {number} usec_1secmax_p99_active
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_1secmax_p99_active = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_1secmax_avg_all.
+         * @member {number} usec_1secmax_avg_all
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_1secmax_avg_all = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_1secmax_p50_all.
+         * @member {number} usec_1secmax_p50_all
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_1secmax_p50_all = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_1secmax_p95_all.
+         * @member {number} usec_1secmax_p95_all
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_1secmax_p95_all = 0;
+    
+        /**
+         * CMsgSource2VProfLiteReportItem usec_1secmax_p99_all.
+         * @member {number} usec_1secmax_p99_all
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         */
+        CMsgSource2VProfLiteReportItem.prototype.usec_1secmax_p99_all = 0;
+    
+        /**
+         * Creates a new CMsgSource2VProfLiteReportItem instance using the specified properties.
+         * @function create
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @static
+         * @param {ICMsgSource2VProfLiteReportItem=} [properties] Properties to set
+         * @returns {CMsgSource2VProfLiteReportItem} CMsgSource2VProfLiteReportItem instance
+         */
+        CMsgSource2VProfLiteReportItem.create = function create(properties) {
+            return new CMsgSource2VProfLiteReportItem(properties);
+        };
+    
+        /**
+         * Encodes the specified CMsgSource2VProfLiteReportItem message. Does not implicitly {@link CMsgSource2VProfLiteReportItem.verify|verify} messages.
+         * @function encode
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @static
+         * @param {ICMsgSource2VProfLiteReportItem} message CMsgSource2VProfLiteReportItem message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgSource2VProfLiteReportItem.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+            if (message.active_samples != null && Object.hasOwnProperty.call(message, "active_samples"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.active_samples);
+            if (message.usec_max != null && Object.hasOwnProperty.call(message, "usec_max"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.usec_max);
+            if (message.active_samples_1secmax != null && Object.hasOwnProperty.call(message, "active_samples_1secmax"))
+                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.active_samples_1secmax);
+            if (message.usec_avg_active != null && Object.hasOwnProperty.call(message, "usec_avg_active"))
+                writer.uint32(/* id 11, wireType 0 =*/88).uint32(message.usec_avg_active);
+            if (message.usec_p50_active != null && Object.hasOwnProperty.call(message, "usec_p50_active"))
+                writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.usec_p50_active);
+            if (message.usec_p99_active != null && Object.hasOwnProperty.call(message, "usec_p99_active"))
+                writer.uint32(/* id 13, wireType 0 =*/104).uint32(message.usec_p99_active);
+            if (message.usec_avg_all != null && Object.hasOwnProperty.call(message, "usec_avg_all"))
+                writer.uint32(/* id 21, wireType 0 =*/168).uint32(message.usec_avg_all);
+            if (message.usec_p50_all != null && Object.hasOwnProperty.call(message, "usec_p50_all"))
+                writer.uint32(/* id 22, wireType 0 =*/176).uint32(message.usec_p50_all);
+            if (message.usec_p99_all != null && Object.hasOwnProperty.call(message, "usec_p99_all"))
+                writer.uint32(/* id 23, wireType 0 =*/184).uint32(message.usec_p99_all);
+            if (message.usec_1secmax_avg_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_avg_active"))
+                writer.uint32(/* id 31, wireType 0 =*/248).uint32(message.usec_1secmax_avg_active);
+            if (message.usec_1secmax_p50_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_p50_active"))
+                writer.uint32(/* id 32, wireType 0 =*/256).uint32(message.usec_1secmax_p50_active);
+            if (message.usec_1secmax_p95_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_p95_active"))
+                writer.uint32(/* id 33, wireType 0 =*/264).uint32(message.usec_1secmax_p95_active);
+            if (message.usec_1secmax_p99_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_p99_active"))
+                writer.uint32(/* id 34, wireType 0 =*/272).uint32(message.usec_1secmax_p99_active);
+            if (message.usec_1secmax_avg_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_avg_all"))
+                writer.uint32(/* id 41, wireType 0 =*/328).uint32(message.usec_1secmax_avg_all);
+            if (message.usec_1secmax_p50_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_p50_all"))
+                writer.uint32(/* id 42, wireType 0 =*/336).uint32(message.usec_1secmax_p50_all);
+            if (message.usec_1secmax_p95_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_p95_all"))
+                writer.uint32(/* id 43, wireType 0 =*/344).uint32(message.usec_1secmax_p95_all);
+            if (message.usec_1secmax_p99_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_p99_all"))
+                writer.uint32(/* id 44, wireType 0 =*/352).uint32(message.usec_1secmax_p99_all);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CMsgSource2VProfLiteReportItem message, length delimited. Does not implicitly {@link CMsgSource2VProfLiteReportItem.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @static
+         * @param {ICMsgSource2VProfLiteReportItem} message CMsgSource2VProfLiteReportItem message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgSource2VProfLiteReportItem.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CMsgSource2VProfLiteReportItem message from the specified reader or buffer.
+         * @function decode
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CMsgSource2VProfLiteReportItem} CMsgSource2VProfLiteReportItem
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgSource2VProfLiteReportItem.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSource2VProfLiteReportItem();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.name = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.active_samples = reader.uint32();
+                        break;
+                    }
+                case 4: {
+                        message.active_samples_1secmax = reader.uint32();
+                        break;
+                    }
+                case 3: {
+                        message.usec_max = reader.uint32();
+                        break;
+                    }
+                case 11: {
+                        message.usec_avg_active = reader.uint32();
+                        break;
+                    }
+                case 12: {
+                        message.usec_p50_active = reader.uint32();
+                        break;
+                    }
+                case 13: {
+                        message.usec_p99_active = reader.uint32();
+                        break;
+                    }
+                case 21: {
+                        message.usec_avg_all = reader.uint32();
+                        break;
+                    }
+                case 22: {
+                        message.usec_p50_all = reader.uint32();
+                        break;
+                    }
+                case 23: {
+                        message.usec_p99_all = reader.uint32();
+                        break;
+                    }
+                case 31: {
+                        message.usec_1secmax_avg_active = reader.uint32();
+                        break;
+                    }
+                case 32: {
+                        message.usec_1secmax_p50_active = reader.uint32();
+                        break;
+                    }
+                case 33: {
+                        message.usec_1secmax_p95_active = reader.uint32();
+                        break;
+                    }
+                case 34: {
+                        message.usec_1secmax_p99_active = reader.uint32();
+                        break;
+                    }
+                case 41: {
+                        message.usec_1secmax_avg_all = reader.uint32();
+                        break;
+                    }
+                case 42: {
+                        message.usec_1secmax_p50_all = reader.uint32();
+                        break;
+                    }
+                case 43: {
+                        message.usec_1secmax_p95_all = reader.uint32();
+                        break;
+                    }
+                case 44: {
+                        message.usec_1secmax_p99_all = reader.uint32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CMsgSource2VProfLiteReportItem message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CMsgSource2VProfLiteReportItem} CMsgSource2VProfLiteReportItem
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgSource2VProfLiteReportItem.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CMsgSource2VProfLiteReportItem message.
+         * @function verify
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CMsgSource2VProfLiteReportItem.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.name != null && message.hasOwnProperty("name"))
+                if (!$util.isString(message.name))
+                    return "name: string expected";
+            if (message.active_samples != null && message.hasOwnProperty("active_samples"))
+                if (!$util.isInteger(message.active_samples))
+                    return "active_samples: integer expected";
+            if (message.active_samples_1secmax != null && message.hasOwnProperty("active_samples_1secmax"))
+                if (!$util.isInteger(message.active_samples_1secmax))
+                    return "active_samples_1secmax: integer expected";
+            if (message.usec_max != null && message.hasOwnProperty("usec_max"))
+                if (!$util.isInteger(message.usec_max))
+                    return "usec_max: integer expected";
+            if (message.usec_avg_active != null && message.hasOwnProperty("usec_avg_active"))
+                if (!$util.isInteger(message.usec_avg_active))
+                    return "usec_avg_active: integer expected";
+            if (message.usec_p50_active != null && message.hasOwnProperty("usec_p50_active"))
+                if (!$util.isInteger(message.usec_p50_active))
+                    return "usec_p50_active: integer expected";
+            if (message.usec_p99_active != null && message.hasOwnProperty("usec_p99_active"))
+                if (!$util.isInteger(message.usec_p99_active))
+                    return "usec_p99_active: integer expected";
+            if (message.usec_avg_all != null && message.hasOwnProperty("usec_avg_all"))
+                if (!$util.isInteger(message.usec_avg_all))
+                    return "usec_avg_all: integer expected";
+            if (message.usec_p50_all != null && message.hasOwnProperty("usec_p50_all"))
+                if (!$util.isInteger(message.usec_p50_all))
+                    return "usec_p50_all: integer expected";
+            if (message.usec_p99_all != null && message.hasOwnProperty("usec_p99_all"))
+                if (!$util.isInteger(message.usec_p99_all))
+                    return "usec_p99_all: integer expected";
+            if (message.usec_1secmax_avg_active != null && message.hasOwnProperty("usec_1secmax_avg_active"))
+                if (!$util.isInteger(message.usec_1secmax_avg_active))
+                    return "usec_1secmax_avg_active: integer expected";
+            if (message.usec_1secmax_p50_active != null && message.hasOwnProperty("usec_1secmax_p50_active"))
+                if (!$util.isInteger(message.usec_1secmax_p50_active))
+                    return "usec_1secmax_p50_active: integer expected";
+            if (message.usec_1secmax_p95_active != null && message.hasOwnProperty("usec_1secmax_p95_active"))
+                if (!$util.isInteger(message.usec_1secmax_p95_active))
+                    return "usec_1secmax_p95_active: integer expected";
+            if (message.usec_1secmax_p99_active != null && message.hasOwnProperty("usec_1secmax_p99_active"))
+                if (!$util.isInteger(message.usec_1secmax_p99_active))
+                    return "usec_1secmax_p99_active: integer expected";
+            if (message.usec_1secmax_avg_all != null && message.hasOwnProperty("usec_1secmax_avg_all"))
+                if (!$util.isInteger(message.usec_1secmax_avg_all))
+                    return "usec_1secmax_avg_all: integer expected";
+            if (message.usec_1secmax_p50_all != null && message.hasOwnProperty("usec_1secmax_p50_all"))
+                if (!$util.isInteger(message.usec_1secmax_p50_all))
+                    return "usec_1secmax_p50_all: integer expected";
+            if (message.usec_1secmax_p95_all != null && message.hasOwnProperty("usec_1secmax_p95_all"))
+                if (!$util.isInteger(message.usec_1secmax_p95_all))
+                    return "usec_1secmax_p95_all: integer expected";
+            if (message.usec_1secmax_p99_all != null && message.hasOwnProperty("usec_1secmax_p99_all"))
+                if (!$util.isInteger(message.usec_1secmax_p99_all))
+                    return "usec_1secmax_p99_all: integer expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CMsgSource2VProfLiteReportItem message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CMsgSource2VProfLiteReportItem} CMsgSource2VProfLiteReportItem
+         */
+        CMsgSource2VProfLiteReportItem.fromObject = function fromObject(object) {
+            if (object instanceof $root.CMsgSource2VProfLiteReportItem)
+                return object;
+            var message = new $root.CMsgSource2VProfLiteReportItem();
+            if (object.name != null)
+                message.name = String(object.name);
+            if (object.active_samples != null)
+                message.active_samples = object.active_samples >>> 0;
+            if (object.active_samples_1secmax != null)
+                message.active_samples_1secmax = object.active_samples_1secmax >>> 0;
+            if (object.usec_max != null)
+                message.usec_max = object.usec_max >>> 0;
+            if (object.usec_avg_active != null)
+                message.usec_avg_active = object.usec_avg_active >>> 0;
+            if (object.usec_p50_active != null)
+                message.usec_p50_active = object.usec_p50_active >>> 0;
+            if (object.usec_p99_active != null)
+                message.usec_p99_active = object.usec_p99_active >>> 0;
+            if (object.usec_avg_all != null)
+                message.usec_avg_all = object.usec_avg_all >>> 0;
+            if (object.usec_p50_all != null)
+                message.usec_p50_all = object.usec_p50_all >>> 0;
+            if (object.usec_p99_all != null)
+                message.usec_p99_all = object.usec_p99_all >>> 0;
+            if (object.usec_1secmax_avg_active != null)
+                message.usec_1secmax_avg_active = object.usec_1secmax_avg_active >>> 0;
+            if (object.usec_1secmax_p50_active != null)
+                message.usec_1secmax_p50_active = object.usec_1secmax_p50_active >>> 0;
+            if (object.usec_1secmax_p95_active != null)
+                message.usec_1secmax_p95_active = object.usec_1secmax_p95_active >>> 0;
+            if (object.usec_1secmax_p99_active != null)
+                message.usec_1secmax_p99_active = object.usec_1secmax_p99_active >>> 0;
+            if (object.usec_1secmax_avg_all != null)
+                message.usec_1secmax_avg_all = object.usec_1secmax_avg_all >>> 0;
+            if (object.usec_1secmax_p50_all != null)
+                message.usec_1secmax_p50_all = object.usec_1secmax_p50_all >>> 0;
+            if (object.usec_1secmax_p95_all != null)
+                message.usec_1secmax_p95_all = object.usec_1secmax_p95_all >>> 0;
+            if (object.usec_1secmax_p99_all != null)
+                message.usec_1secmax_p99_all = object.usec_1secmax_p99_all >>> 0;
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CMsgSource2VProfLiteReportItem message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @static
+         * @param {CMsgSource2VProfLiteReportItem} message CMsgSource2VProfLiteReportItem
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CMsgSource2VProfLiteReportItem.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.name = "";
+                object.active_samples = 0;
+                object.usec_max = 0;
+                object.active_samples_1secmax = 0;
+                object.usec_avg_active = 0;
+                object.usec_p50_active = 0;
+                object.usec_p99_active = 0;
+                object.usec_avg_all = 0;
+                object.usec_p50_all = 0;
+                object.usec_p99_all = 0;
+                object.usec_1secmax_avg_active = 0;
+                object.usec_1secmax_p50_active = 0;
+                object.usec_1secmax_p95_active = 0;
+                object.usec_1secmax_p99_active = 0;
+                object.usec_1secmax_avg_all = 0;
+                object.usec_1secmax_p50_all = 0;
+                object.usec_1secmax_p95_all = 0;
+                object.usec_1secmax_p99_all = 0;
+            }
+            if (message.name != null && message.hasOwnProperty("name"))
+                object.name = message.name;
+            if (message.active_samples != null && message.hasOwnProperty("active_samples"))
+                object.active_samples = message.active_samples;
+            if (message.usec_max != null && message.hasOwnProperty("usec_max"))
+                object.usec_max = message.usec_max;
+            if (message.active_samples_1secmax != null && message.hasOwnProperty("active_samples_1secmax"))
+                object.active_samples_1secmax = message.active_samples_1secmax;
+            if (message.usec_avg_active != null && message.hasOwnProperty("usec_avg_active"))
+                object.usec_avg_active = message.usec_avg_active;
+            if (message.usec_p50_active != null && message.hasOwnProperty("usec_p50_active"))
+                object.usec_p50_active = message.usec_p50_active;
+            if (message.usec_p99_active != null && message.hasOwnProperty("usec_p99_active"))
+                object.usec_p99_active = message.usec_p99_active;
+            if (message.usec_avg_all != null && message.hasOwnProperty("usec_avg_all"))
+                object.usec_avg_all = message.usec_avg_all;
+            if (message.usec_p50_all != null && message.hasOwnProperty("usec_p50_all"))
+                object.usec_p50_all = message.usec_p50_all;
+            if (message.usec_p99_all != null && message.hasOwnProperty("usec_p99_all"))
+                object.usec_p99_all = message.usec_p99_all;
+            if (message.usec_1secmax_avg_active != null && message.hasOwnProperty("usec_1secmax_avg_active"))
+                object.usec_1secmax_avg_active = message.usec_1secmax_avg_active;
+            if (message.usec_1secmax_p50_active != null && message.hasOwnProperty("usec_1secmax_p50_active"))
+                object.usec_1secmax_p50_active = message.usec_1secmax_p50_active;
+            if (message.usec_1secmax_p95_active != null && message.hasOwnProperty("usec_1secmax_p95_active"))
+                object.usec_1secmax_p95_active = message.usec_1secmax_p95_active;
+            if (message.usec_1secmax_p99_active != null && message.hasOwnProperty("usec_1secmax_p99_active"))
+                object.usec_1secmax_p99_active = message.usec_1secmax_p99_active;
+            if (message.usec_1secmax_avg_all != null && message.hasOwnProperty("usec_1secmax_avg_all"))
+                object.usec_1secmax_avg_all = message.usec_1secmax_avg_all;
+            if (message.usec_1secmax_p50_all != null && message.hasOwnProperty("usec_1secmax_p50_all"))
+                object.usec_1secmax_p50_all = message.usec_1secmax_p50_all;
+            if (message.usec_1secmax_p95_all != null && message.hasOwnProperty("usec_1secmax_p95_all"))
+                object.usec_1secmax_p95_all = message.usec_1secmax_p95_all;
+            if (message.usec_1secmax_p99_all != null && message.hasOwnProperty("usec_1secmax_p99_all"))
+                object.usec_1secmax_p99_all = message.usec_1secmax_p99_all;
+            return object;
+        };
+    
+        /**
+         * Converts this CMsgSource2VProfLiteReportItem to JSON.
+         * @function toJSON
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CMsgSource2VProfLiteReportItem.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CMsgSource2VProfLiteReportItem
+         * @function getTypeUrl
+         * @memberof CMsgSource2VProfLiteReportItem
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CMsgSource2VProfLiteReportItem.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CMsgSource2VProfLiteReportItem";
+        };
+    
+        return CMsgSource2VProfLiteReportItem;
+    })();
+    
+    $root.CMsgSource2VProfLiteReport = (function() {
+    
+        /**
+         * Properties of a CMsgSource2VProfLiteReport.
+         * @exports ICMsgSource2VProfLiteReport
+         * @interface ICMsgSource2VProfLiteReport
+         * @property {ICMsgSource2VProfLiteReportItem|null} [total] CMsgSource2VProfLiteReport total
+         * @property {Array.<ICMsgSource2VProfLiteReportItem>|null} [items] CMsgSource2VProfLiteReport items
+         * @property {number|null} [discarded_frames] CMsgSource2VProfLiteReport discarded_frames
+         */
+    
+        /**
+         * Constructs a new CMsgSource2VProfLiteReport.
+         * @exports CMsgSource2VProfLiteReport
+         * @classdesc Represents a CMsgSource2VProfLiteReport.
+         * @implements ICMsgSource2VProfLiteReport
+         * @constructor
+         * @param {ICMsgSource2VProfLiteReport=} [properties] Properties to set
+         */
+        function CMsgSource2VProfLiteReport(properties) {
+            this.items = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CMsgSource2VProfLiteReport total.
+         * @member {ICMsgSource2VProfLiteReportItem|null|undefined} total
+         * @memberof CMsgSource2VProfLiteReport
+         * @instance
+         */
+        CMsgSource2VProfLiteReport.prototype.total = null;
+    
+        /**
+         * CMsgSource2VProfLiteReport items.
+         * @member {Array.<ICMsgSource2VProfLiteReportItem>} items
+         * @memberof CMsgSource2VProfLiteReport
+         * @instance
+         */
+        CMsgSource2VProfLiteReport.prototype.items = $util.emptyArray;
+    
+        /**
+         * CMsgSource2VProfLiteReport discarded_frames.
+         * @member {number} discarded_frames
+         * @memberof CMsgSource2VProfLiteReport
+         * @instance
+         */
+        CMsgSource2VProfLiteReport.prototype.discarded_frames = 0;
+    
+        /**
+         * Creates a new CMsgSource2VProfLiteReport instance using the specified properties.
+         * @function create
+         * @memberof CMsgSource2VProfLiteReport
+         * @static
+         * @param {ICMsgSource2VProfLiteReport=} [properties] Properties to set
+         * @returns {CMsgSource2VProfLiteReport} CMsgSource2VProfLiteReport instance
+         */
+        CMsgSource2VProfLiteReport.create = function create(properties) {
+            return new CMsgSource2VProfLiteReport(properties);
+        };
+    
+        /**
+         * Encodes the specified CMsgSource2VProfLiteReport message. Does not implicitly {@link CMsgSource2VProfLiteReport.verify|verify} messages.
+         * @function encode
+         * @memberof CMsgSource2VProfLiteReport
+         * @static
+         * @param {ICMsgSource2VProfLiteReport} message CMsgSource2VProfLiteReport message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgSource2VProfLiteReport.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.total != null && Object.hasOwnProperty.call(message, "total"))
+                $root.CMsgSource2VProfLiteReportItem.encode(message.total, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.items != null && message.items.length)
+                for (var i = 0; i < message.items.length; ++i)
+                    $root.CMsgSource2VProfLiteReportItem.encode(message.items[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            if (message.discarded_frames != null && Object.hasOwnProperty.call(message, "discarded_frames"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.discarded_frames);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CMsgSource2VProfLiteReport message, length delimited. Does not implicitly {@link CMsgSource2VProfLiteReport.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CMsgSource2VProfLiteReport
+         * @static
+         * @param {ICMsgSource2VProfLiteReport} message CMsgSource2VProfLiteReport message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgSource2VProfLiteReport.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CMsgSource2VProfLiteReport message from the specified reader or buffer.
+         * @function decode
+         * @memberof CMsgSource2VProfLiteReport
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CMsgSource2VProfLiteReport} CMsgSource2VProfLiteReport
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgSource2VProfLiteReport.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSource2VProfLiteReport();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.total = $root.CMsgSource2VProfLiteReportItem.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 2: {
+                        if (!(message.items && message.items.length))
+                            message.items = [];
+                        message.items.push($root.CMsgSource2VProfLiteReportItem.decode(reader, reader.uint32()));
+                        break;
+                    }
+                case 3: {
+                        message.discarded_frames = reader.uint32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CMsgSource2VProfLiteReport message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CMsgSource2VProfLiteReport
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CMsgSource2VProfLiteReport} CMsgSource2VProfLiteReport
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgSource2VProfLiteReport.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CMsgSource2VProfLiteReport message.
+         * @function verify
+         * @memberof CMsgSource2VProfLiteReport
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CMsgSource2VProfLiteReport.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.total != null && message.hasOwnProperty("total")) {
+                var error = $root.CMsgSource2VProfLiteReportItem.verify(message.total);
+                if (error)
+                    return "total." + error;
+            }
+            if (message.items != null && message.hasOwnProperty("items")) {
+                if (!Array.isArray(message.items))
+                    return "items: array expected";
+                for (var i = 0; i < message.items.length; ++i) {
+                    var error = $root.CMsgSource2VProfLiteReportItem.verify(message.items[i]);
+                    if (error)
+                        return "items." + error;
+                }
+            }
+            if (message.discarded_frames != null && message.hasOwnProperty("discarded_frames"))
+                if (!$util.isInteger(message.discarded_frames))
+                    return "discarded_frames: integer expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CMsgSource2VProfLiteReport message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CMsgSource2VProfLiteReport
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CMsgSource2VProfLiteReport} CMsgSource2VProfLiteReport
+         */
+        CMsgSource2VProfLiteReport.fromObject = function fromObject(object) {
+            if (object instanceof $root.CMsgSource2VProfLiteReport)
+                return object;
+            var message = new $root.CMsgSource2VProfLiteReport();
+            if (object.total != null) {
+                if (typeof object.total !== "object")
+                    throw TypeError(".CMsgSource2VProfLiteReport.total: object expected");
+                message.total = $root.CMsgSource2VProfLiteReportItem.fromObject(object.total);
+            }
+            if (object.items) {
+                if (!Array.isArray(object.items))
+                    throw TypeError(".CMsgSource2VProfLiteReport.items: array expected");
+                message.items = [];
+                for (var i = 0; i < object.items.length; ++i) {
+                    if (typeof object.items[i] !== "object")
+                        throw TypeError(".CMsgSource2VProfLiteReport.items: object expected");
+                    message.items[i] = $root.CMsgSource2VProfLiteReportItem.fromObject(object.items[i]);
+                }
+            }
+            if (object.discarded_frames != null)
+                message.discarded_frames = object.discarded_frames >>> 0;
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CMsgSource2VProfLiteReport message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CMsgSource2VProfLiteReport
+         * @static
+         * @param {CMsgSource2VProfLiteReport} message CMsgSource2VProfLiteReport
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CMsgSource2VProfLiteReport.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults)
+                object.items = [];
+            if (options.defaults) {
+                object.total = null;
+                object.discarded_frames = 0;
+            }
+            if (message.total != null && message.hasOwnProperty("total"))
+                object.total = $root.CMsgSource2VProfLiteReportItem.toObject(message.total, options);
+            if (message.items && message.items.length) {
+                object.items = [];
+                for (var j = 0; j < message.items.length; ++j)
+                    object.items[j] = $root.CMsgSource2VProfLiteReportItem.toObject(message.items[j], options);
+            }
+            if (message.discarded_frames != null && message.hasOwnProperty("discarded_frames"))
+                object.discarded_frames = message.discarded_frames;
+            return object;
+        };
+    
+        /**
+         * Converts this CMsgSource2VProfLiteReport to JSON.
+         * @function toJSON
+         * @memberof CMsgSource2VProfLiteReport
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CMsgSource2VProfLiteReport.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CMsgSource2VProfLiteReport
+         * @function getTypeUrl
+         * @memberof CMsgSource2VProfLiteReport
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CMsgSource2VProfLiteReport.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CMsgSource2VProfLiteReport";
+        };
+    
+        return CMsgSource2VProfLiteReport;
+    })();
+    
+    $root.CMsgSource2NetworkFlowQuality = (function() {
+    
+        /**
+         * Properties of a CMsgSource2NetworkFlowQuality.
+         * @exports ICMsgSource2NetworkFlowQuality
+         * @interface ICMsgSource2NetworkFlowQuality
+         * @property {number|null} [duration] CMsgSource2NetworkFlowQuality duration
+         * @property {number|Long|null} [bytes_total] CMsgSource2NetworkFlowQuality bytes_total
+         * @property {number|Long|null} [bytes_total_reliable] CMsgSource2NetworkFlowQuality bytes_total_reliable
+         * @property {number|Long|null} [bytes_total_voice] CMsgSource2NetworkFlowQuality bytes_total_voice
+         * @property {number|null} [bytes_sec_p95] CMsgSource2NetworkFlowQuality bytes_sec_p95
+         * @property {number|null} [bytes_sec_p99] CMsgSource2NetworkFlowQuality bytes_sec_p99
+         * @property {number|null} [enginemsgs_total] CMsgSource2NetworkFlowQuality enginemsgs_total
+         * @property {number|null} [enginemsgs_sec_p95] CMsgSource2NetworkFlowQuality enginemsgs_sec_p95
+         * @property {number|null} [enginemsgs_sec_p99] CMsgSource2NetworkFlowQuality enginemsgs_sec_p99
+         * @property {number|null} [ticks_total] CMsgSource2NetworkFlowQuality ticks_total
+         * @property {number|null} [ticks_good] CMsgSource2NetworkFlowQuality ticks_good
+         * @property {number|null} [ticks_good_almost_late] CMsgSource2NetworkFlowQuality ticks_good_almost_late
+         * @property {number|null} [ticks_fixed_dropped] CMsgSource2NetworkFlowQuality ticks_fixed_dropped
+         * @property {number|null} [ticks_fixed_late] CMsgSource2NetworkFlowQuality ticks_fixed_late
+         * @property {number|null} [ticks_bad_dropped] CMsgSource2NetworkFlowQuality ticks_bad_dropped
+         * @property {number|null} [ticks_bad_late] CMsgSource2NetworkFlowQuality ticks_bad_late
+         * @property {number|null} [ticks_bad_other] CMsgSource2NetworkFlowQuality ticks_bad_other
+         * @property {number|null} [tick_missrate_samples_total] CMsgSource2NetworkFlowQuality tick_missrate_samples_total
+         * @property {number|null} [tick_missrate_samples_perfect] CMsgSource2NetworkFlowQuality tick_missrate_samples_perfect
+         * @property {number|null} [tick_missrate_samples_perfectnet] CMsgSource2NetworkFlowQuality tick_missrate_samples_perfectnet
+         * @property {number|null} [tick_missratenet_p75_x10] CMsgSource2NetworkFlowQuality tick_missratenet_p75_x10
+         * @property {number|null} [tick_missratenet_p95_x10] CMsgSource2NetworkFlowQuality tick_missratenet_p95_x10
+         * @property {number|null} [tick_missratenet_p99_x10] CMsgSource2NetworkFlowQuality tick_missratenet_p99_x10
+         * @property {number|null} [recvmargin_p1] CMsgSource2NetworkFlowQuality recvmargin_p1
+         * @property {number|null} [recvmargin_p5] CMsgSource2NetworkFlowQuality recvmargin_p5
+         * @property {number|null} [recvmargin_p25] CMsgSource2NetworkFlowQuality recvmargin_p25
+         * @property {number|null} [recvmargin_p50] CMsgSource2NetworkFlowQuality recvmargin_p50
+         * @property {number|null} [recvmargin_p75] CMsgSource2NetworkFlowQuality recvmargin_p75
+         * @property {number|null} [recvmargin_p95] CMsgSource2NetworkFlowQuality recvmargin_p95
+         */
+    
+        /**
+         * Constructs a new CMsgSource2NetworkFlowQuality.
+         * @exports CMsgSource2NetworkFlowQuality
+         * @classdesc Represents a CMsgSource2NetworkFlowQuality.
+         * @implements ICMsgSource2NetworkFlowQuality
+         * @constructor
+         * @param {ICMsgSource2NetworkFlowQuality=} [properties] Properties to set
+         */
+        function CMsgSource2NetworkFlowQuality(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CMsgSource2NetworkFlowQuality duration.
+         * @member {number} duration
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.duration = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality bytes_total.
+         * @member {number|Long} bytes_total
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.bytes_total = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality bytes_total_reliable.
+         * @member {number|Long} bytes_total_reliable
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.bytes_total_reliable = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality bytes_total_voice.
+         * @member {number|Long} bytes_total_voice
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.bytes_total_voice = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality bytes_sec_p95.
+         * @member {number} bytes_sec_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.bytes_sec_p95 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality bytes_sec_p99.
+         * @member {number} bytes_sec_p99
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.bytes_sec_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality enginemsgs_total.
+         * @member {number} enginemsgs_total
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.enginemsgs_total = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality enginemsgs_sec_p95.
+         * @member {number} enginemsgs_sec_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.enginemsgs_sec_p95 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality enginemsgs_sec_p99.
+         * @member {number} enginemsgs_sec_p99
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.enginemsgs_sec_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality ticks_total.
+         * @member {number} ticks_total
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.ticks_total = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality ticks_good.
+         * @member {number} ticks_good
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.ticks_good = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality ticks_good_almost_late.
+         * @member {number} ticks_good_almost_late
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.ticks_good_almost_late = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality ticks_fixed_dropped.
+         * @member {number} ticks_fixed_dropped
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.ticks_fixed_dropped = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality ticks_fixed_late.
+         * @member {number} ticks_fixed_late
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.ticks_fixed_late = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality ticks_bad_dropped.
+         * @member {number} ticks_bad_dropped
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.ticks_bad_dropped = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality ticks_bad_late.
+         * @member {number} ticks_bad_late
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.ticks_bad_late = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality ticks_bad_other.
+         * @member {number} ticks_bad_other
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.ticks_bad_other = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality tick_missrate_samples_total.
+         * @member {number} tick_missrate_samples_total
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.tick_missrate_samples_total = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality tick_missrate_samples_perfect.
+         * @member {number} tick_missrate_samples_perfect
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.tick_missrate_samples_perfect = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality tick_missrate_samples_perfectnet.
+         * @member {number} tick_missrate_samples_perfectnet
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.tick_missrate_samples_perfectnet = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality tick_missratenet_p75_x10.
+         * @member {number} tick_missratenet_p75_x10
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.tick_missratenet_p75_x10 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality tick_missratenet_p95_x10.
+         * @member {number} tick_missratenet_p95_x10
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.tick_missratenet_p95_x10 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality tick_missratenet_p99_x10.
+         * @member {number} tick_missratenet_p99_x10
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.tick_missratenet_p99_x10 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality recvmargin_p1.
+         * @member {number} recvmargin_p1
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.recvmargin_p1 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality recvmargin_p5.
+         * @member {number} recvmargin_p5
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.recvmargin_p5 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality recvmargin_p25.
+         * @member {number} recvmargin_p25
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.recvmargin_p25 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality recvmargin_p50.
+         * @member {number} recvmargin_p50
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.recvmargin_p50 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality recvmargin_p75.
+         * @member {number} recvmargin_p75
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.recvmargin_p75 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality recvmargin_p95.
+         * @member {number} recvmargin_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.recvmargin_p95 = 0;
+    
+        /**
+         * Creates a new CMsgSource2NetworkFlowQuality instance using the specified properties.
+         * @function create
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @static
+         * @param {ICMsgSource2NetworkFlowQuality=} [properties] Properties to set
+         * @returns {CMsgSource2NetworkFlowQuality} CMsgSource2NetworkFlowQuality instance
+         */
+        CMsgSource2NetworkFlowQuality.create = function create(properties) {
+            return new CMsgSource2NetworkFlowQuality(properties);
+        };
+    
+        /**
+         * Encodes the specified CMsgSource2NetworkFlowQuality message. Does not implicitly {@link CMsgSource2NetworkFlowQuality.verify|verify} messages.
+         * @function encode
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @static
+         * @param {ICMsgSource2NetworkFlowQuality} message CMsgSource2NetworkFlowQuality message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgSource2NetworkFlowQuality.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.duration != null && Object.hasOwnProperty.call(message, "duration"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.duration);
+            if (message.bytes_total != null && Object.hasOwnProperty.call(message, "bytes_total"))
+                writer.uint32(/* id 5, wireType 0 =*/40).uint64(message.bytes_total);
+            if (message.bytes_total_reliable != null && Object.hasOwnProperty.call(message, "bytes_total_reliable"))
+                writer.uint32(/* id 6, wireType 0 =*/48).uint64(message.bytes_total_reliable);
+            if (message.bytes_total_voice != null && Object.hasOwnProperty.call(message, "bytes_total_voice"))
+                writer.uint32(/* id 7, wireType 0 =*/56).uint64(message.bytes_total_voice);
+            if (message.bytes_sec_p95 != null && Object.hasOwnProperty.call(message, "bytes_sec_p95"))
+                writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.bytes_sec_p95);
+            if (message.bytes_sec_p99 != null && Object.hasOwnProperty.call(message, "bytes_sec_p99"))
+                writer.uint32(/* id 11, wireType 0 =*/88).uint32(message.bytes_sec_p99);
+            if (message.enginemsgs_total != null && Object.hasOwnProperty.call(message, "enginemsgs_total"))
+                writer.uint32(/* id 20, wireType 0 =*/160).uint32(message.enginemsgs_total);
+            if (message.enginemsgs_sec_p95 != null && Object.hasOwnProperty.call(message, "enginemsgs_sec_p95"))
+                writer.uint32(/* id 21, wireType 0 =*/168).uint32(message.enginemsgs_sec_p95);
+            if (message.enginemsgs_sec_p99 != null && Object.hasOwnProperty.call(message, "enginemsgs_sec_p99"))
+                writer.uint32(/* id 22, wireType 0 =*/176).uint32(message.enginemsgs_sec_p99);
+            if (message.ticks_total != null && Object.hasOwnProperty.call(message, "ticks_total"))
+                writer.uint32(/* id 40, wireType 0 =*/320).uint32(message.ticks_total);
+            if (message.ticks_good != null && Object.hasOwnProperty.call(message, "ticks_good"))
+                writer.uint32(/* id 41, wireType 0 =*/328).uint32(message.ticks_good);
+            if (message.ticks_good_almost_late != null && Object.hasOwnProperty.call(message, "ticks_good_almost_late"))
+                writer.uint32(/* id 42, wireType 0 =*/336).uint32(message.ticks_good_almost_late);
+            if (message.ticks_fixed_dropped != null && Object.hasOwnProperty.call(message, "ticks_fixed_dropped"))
+                writer.uint32(/* id 43, wireType 0 =*/344).uint32(message.ticks_fixed_dropped);
+            if (message.ticks_fixed_late != null && Object.hasOwnProperty.call(message, "ticks_fixed_late"))
+                writer.uint32(/* id 44, wireType 0 =*/352).uint32(message.ticks_fixed_late);
+            if (message.ticks_bad_dropped != null && Object.hasOwnProperty.call(message, "ticks_bad_dropped"))
+                writer.uint32(/* id 45, wireType 0 =*/360).uint32(message.ticks_bad_dropped);
+            if (message.ticks_bad_late != null && Object.hasOwnProperty.call(message, "ticks_bad_late"))
+                writer.uint32(/* id 46, wireType 0 =*/368).uint32(message.ticks_bad_late);
+            if (message.ticks_bad_other != null && Object.hasOwnProperty.call(message, "ticks_bad_other"))
+                writer.uint32(/* id 47, wireType 0 =*/376).uint32(message.ticks_bad_other);
+            if (message.tick_missrate_samples_total != null && Object.hasOwnProperty.call(message, "tick_missrate_samples_total"))
+                writer.uint32(/* id 50, wireType 0 =*/400).uint32(message.tick_missrate_samples_total);
+            if (message.tick_missrate_samples_perfect != null && Object.hasOwnProperty.call(message, "tick_missrate_samples_perfect"))
+                writer.uint32(/* id 51, wireType 0 =*/408).uint32(message.tick_missrate_samples_perfect);
+            if (message.tick_missrate_samples_perfectnet != null && Object.hasOwnProperty.call(message, "tick_missrate_samples_perfectnet"))
+                writer.uint32(/* id 52, wireType 0 =*/416).uint32(message.tick_missrate_samples_perfectnet);
+            if (message.tick_missratenet_p75_x10 != null && Object.hasOwnProperty.call(message, "tick_missratenet_p75_x10"))
+                writer.uint32(/* id 53, wireType 0 =*/424).uint32(message.tick_missratenet_p75_x10);
+            if (message.tick_missratenet_p95_x10 != null && Object.hasOwnProperty.call(message, "tick_missratenet_p95_x10"))
+                writer.uint32(/* id 54, wireType 0 =*/432).uint32(message.tick_missratenet_p95_x10);
+            if (message.tick_missratenet_p99_x10 != null && Object.hasOwnProperty.call(message, "tick_missratenet_p99_x10"))
+                writer.uint32(/* id 55, wireType 0 =*/440).uint32(message.tick_missratenet_p99_x10);
+            if (message.recvmargin_p1 != null && Object.hasOwnProperty.call(message, "recvmargin_p1"))
+                writer.uint32(/* id 61, wireType 0 =*/488).sint32(message.recvmargin_p1);
+            if (message.recvmargin_p5 != null && Object.hasOwnProperty.call(message, "recvmargin_p5"))
+                writer.uint32(/* id 62, wireType 0 =*/496).sint32(message.recvmargin_p5);
+            if (message.recvmargin_p25 != null && Object.hasOwnProperty.call(message, "recvmargin_p25"))
+                writer.uint32(/* id 63, wireType 0 =*/504).sint32(message.recvmargin_p25);
+            if (message.recvmargin_p50 != null && Object.hasOwnProperty.call(message, "recvmargin_p50"))
+                writer.uint32(/* id 64, wireType 0 =*/512).sint32(message.recvmargin_p50);
+            if (message.recvmargin_p75 != null && Object.hasOwnProperty.call(message, "recvmargin_p75"))
+                writer.uint32(/* id 65, wireType 0 =*/520).sint32(message.recvmargin_p75);
+            if (message.recvmargin_p95 != null && Object.hasOwnProperty.call(message, "recvmargin_p95"))
+                writer.uint32(/* id 66, wireType 0 =*/528).sint32(message.recvmargin_p95);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CMsgSource2NetworkFlowQuality message, length delimited. Does not implicitly {@link CMsgSource2NetworkFlowQuality.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @static
+         * @param {ICMsgSource2NetworkFlowQuality} message CMsgSource2NetworkFlowQuality message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgSource2NetworkFlowQuality.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CMsgSource2NetworkFlowQuality message from the specified reader or buffer.
+         * @function decode
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CMsgSource2NetworkFlowQuality} CMsgSource2NetworkFlowQuality
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgSource2NetworkFlowQuality.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSource2NetworkFlowQuality();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.duration = reader.uint32();
+                        break;
+                    }
+                case 5: {
+                        message.bytes_total = reader.uint64();
+                        break;
+                    }
+                case 6: {
+                        message.bytes_total_reliable = reader.uint64();
+                        break;
+                    }
+                case 7: {
+                        message.bytes_total_voice = reader.uint64();
+                        break;
+                    }
+                case 10: {
+                        message.bytes_sec_p95 = reader.uint32();
+                        break;
+                    }
+                case 11: {
+                        message.bytes_sec_p99 = reader.uint32();
+                        break;
+                    }
+                case 20: {
+                        message.enginemsgs_total = reader.uint32();
+                        break;
+                    }
+                case 21: {
+                        message.enginemsgs_sec_p95 = reader.uint32();
+                        break;
+                    }
+                case 22: {
+                        message.enginemsgs_sec_p99 = reader.uint32();
+                        break;
+                    }
+                case 40: {
+                        message.ticks_total = reader.uint32();
+                        break;
+                    }
+                case 41: {
+                        message.ticks_good = reader.uint32();
+                        break;
+                    }
+                case 42: {
+                        message.ticks_good_almost_late = reader.uint32();
+                        break;
+                    }
+                case 43: {
+                        message.ticks_fixed_dropped = reader.uint32();
+                        break;
+                    }
+                case 44: {
+                        message.ticks_fixed_late = reader.uint32();
+                        break;
+                    }
+                case 45: {
+                        message.ticks_bad_dropped = reader.uint32();
+                        break;
+                    }
+                case 46: {
+                        message.ticks_bad_late = reader.uint32();
+                        break;
+                    }
+                case 47: {
+                        message.ticks_bad_other = reader.uint32();
+                        break;
+                    }
+                case 50: {
+                        message.tick_missrate_samples_total = reader.uint32();
+                        break;
+                    }
+                case 51: {
+                        message.tick_missrate_samples_perfect = reader.uint32();
+                        break;
+                    }
+                case 52: {
+                        message.tick_missrate_samples_perfectnet = reader.uint32();
+                        break;
+                    }
+                case 53: {
+                        message.tick_missratenet_p75_x10 = reader.uint32();
+                        break;
+                    }
+                case 54: {
+                        message.tick_missratenet_p95_x10 = reader.uint32();
+                        break;
+                    }
+                case 55: {
+                        message.tick_missratenet_p99_x10 = reader.uint32();
+                        break;
+                    }
+                case 61: {
+                        message.recvmargin_p1 = reader.sint32();
+                        break;
+                    }
+                case 62: {
+                        message.recvmargin_p5 = reader.sint32();
+                        break;
+                    }
+                case 63: {
+                        message.recvmargin_p25 = reader.sint32();
+                        break;
+                    }
+                case 64: {
+                        message.recvmargin_p50 = reader.sint32();
+                        break;
+                    }
+                case 65: {
+                        message.recvmargin_p75 = reader.sint32();
+                        break;
+                    }
+                case 66: {
+                        message.recvmargin_p95 = reader.sint32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CMsgSource2NetworkFlowQuality message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CMsgSource2NetworkFlowQuality} CMsgSource2NetworkFlowQuality
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgSource2NetworkFlowQuality.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CMsgSource2NetworkFlowQuality message.
+         * @function verify
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CMsgSource2NetworkFlowQuality.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.duration != null && message.hasOwnProperty("duration"))
+                if (!$util.isInteger(message.duration))
+                    return "duration: integer expected";
+            if (message.bytes_total != null && message.hasOwnProperty("bytes_total"))
+                if (!$util.isInteger(message.bytes_total) && !(message.bytes_total && $util.isInteger(message.bytes_total.low) && $util.isInteger(message.bytes_total.high)))
+                    return "bytes_total: integer|Long expected";
+            if (message.bytes_total_reliable != null && message.hasOwnProperty("bytes_total_reliable"))
+                if (!$util.isInteger(message.bytes_total_reliable) && !(message.bytes_total_reliable && $util.isInteger(message.bytes_total_reliable.low) && $util.isInteger(message.bytes_total_reliable.high)))
+                    return "bytes_total_reliable: integer|Long expected";
+            if (message.bytes_total_voice != null && message.hasOwnProperty("bytes_total_voice"))
+                if (!$util.isInteger(message.bytes_total_voice) && !(message.bytes_total_voice && $util.isInteger(message.bytes_total_voice.low) && $util.isInteger(message.bytes_total_voice.high)))
+                    return "bytes_total_voice: integer|Long expected";
+            if (message.bytes_sec_p95 != null && message.hasOwnProperty("bytes_sec_p95"))
+                if (!$util.isInteger(message.bytes_sec_p95))
+                    return "bytes_sec_p95: integer expected";
+            if (message.bytes_sec_p99 != null && message.hasOwnProperty("bytes_sec_p99"))
+                if (!$util.isInteger(message.bytes_sec_p99))
+                    return "bytes_sec_p99: integer expected";
+            if (message.enginemsgs_total != null && message.hasOwnProperty("enginemsgs_total"))
+                if (!$util.isInteger(message.enginemsgs_total))
+                    return "enginemsgs_total: integer expected";
+            if (message.enginemsgs_sec_p95 != null && message.hasOwnProperty("enginemsgs_sec_p95"))
+                if (!$util.isInteger(message.enginemsgs_sec_p95))
+                    return "enginemsgs_sec_p95: integer expected";
+            if (message.enginemsgs_sec_p99 != null && message.hasOwnProperty("enginemsgs_sec_p99"))
+                if (!$util.isInteger(message.enginemsgs_sec_p99))
+                    return "enginemsgs_sec_p99: integer expected";
+            if (message.ticks_total != null && message.hasOwnProperty("ticks_total"))
+                if (!$util.isInteger(message.ticks_total))
+                    return "ticks_total: integer expected";
+            if (message.ticks_good != null && message.hasOwnProperty("ticks_good"))
+                if (!$util.isInteger(message.ticks_good))
+                    return "ticks_good: integer expected";
+            if (message.ticks_good_almost_late != null && message.hasOwnProperty("ticks_good_almost_late"))
+                if (!$util.isInteger(message.ticks_good_almost_late))
+                    return "ticks_good_almost_late: integer expected";
+            if (message.ticks_fixed_dropped != null && message.hasOwnProperty("ticks_fixed_dropped"))
+                if (!$util.isInteger(message.ticks_fixed_dropped))
+                    return "ticks_fixed_dropped: integer expected";
+            if (message.ticks_fixed_late != null && message.hasOwnProperty("ticks_fixed_late"))
+                if (!$util.isInteger(message.ticks_fixed_late))
+                    return "ticks_fixed_late: integer expected";
+            if (message.ticks_bad_dropped != null && message.hasOwnProperty("ticks_bad_dropped"))
+                if (!$util.isInteger(message.ticks_bad_dropped))
+                    return "ticks_bad_dropped: integer expected";
+            if (message.ticks_bad_late != null && message.hasOwnProperty("ticks_bad_late"))
+                if (!$util.isInteger(message.ticks_bad_late))
+                    return "ticks_bad_late: integer expected";
+            if (message.ticks_bad_other != null && message.hasOwnProperty("ticks_bad_other"))
+                if (!$util.isInteger(message.ticks_bad_other))
+                    return "ticks_bad_other: integer expected";
+            if (message.tick_missrate_samples_total != null && message.hasOwnProperty("tick_missrate_samples_total"))
+                if (!$util.isInteger(message.tick_missrate_samples_total))
+                    return "tick_missrate_samples_total: integer expected";
+            if (message.tick_missrate_samples_perfect != null && message.hasOwnProperty("tick_missrate_samples_perfect"))
+                if (!$util.isInteger(message.tick_missrate_samples_perfect))
+                    return "tick_missrate_samples_perfect: integer expected";
+            if (message.tick_missrate_samples_perfectnet != null && message.hasOwnProperty("tick_missrate_samples_perfectnet"))
+                if (!$util.isInteger(message.tick_missrate_samples_perfectnet))
+                    return "tick_missrate_samples_perfectnet: integer expected";
+            if (message.tick_missratenet_p75_x10 != null && message.hasOwnProperty("tick_missratenet_p75_x10"))
+                if (!$util.isInteger(message.tick_missratenet_p75_x10))
+                    return "tick_missratenet_p75_x10: integer expected";
+            if (message.tick_missratenet_p95_x10 != null && message.hasOwnProperty("tick_missratenet_p95_x10"))
+                if (!$util.isInteger(message.tick_missratenet_p95_x10))
+                    return "tick_missratenet_p95_x10: integer expected";
+            if (message.tick_missratenet_p99_x10 != null && message.hasOwnProperty("tick_missratenet_p99_x10"))
+                if (!$util.isInteger(message.tick_missratenet_p99_x10))
+                    return "tick_missratenet_p99_x10: integer expected";
+            if (message.recvmargin_p1 != null && message.hasOwnProperty("recvmargin_p1"))
+                if (!$util.isInteger(message.recvmargin_p1))
+                    return "recvmargin_p1: integer expected";
+            if (message.recvmargin_p5 != null && message.hasOwnProperty("recvmargin_p5"))
+                if (!$util.isInteger(message.recvmargin_p5))
+                    return "recvmargin_p5: integer expected";
+            if (message.recvmargin_p25 != null && message.hasOwnProperty("recvmargin_p25"))
+                if (!$util.isInteger(message.recvmargin_p25))
+                    return "recvmargin_p25: integer expected";
+            if (message.recvmargin_p50 != null && message.hasOwnProperty("recvmargin_p50"))
+                if (!$util.isInteger(message.recvmargin_p50))
+                    return "recvmargin_p50: integer expected";
+            if (message.recvmargin_p75 != null && message.hasOwnProperty("recvmargin_p75"))
+                if (!$util.isInteger(message.recvmargin_p75))
+                    return "recvmargin_p75: integer expected";
+            if (message.recvmargin_p95 != null && message.hasOwnProperty("recvmargin_p95"))
+                if (!$util.isInteger(message.recvmargin_p95))
+                    return "recvmargin_p95: integer expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CMsgSource2NetworkFlowQuality message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CMsgSource2NetworkFlowQuality} CMsgSource2NetworkFlowQuality
+         */
+        CMsgSource2NetworkFlowQuality.fromObject = function fromObject(object) {
+            if (object instanceof $root.CMsgSource2NetworkFlowQuality)
+                return object;
+            var message = new $root.CMsgSource2NetworkFlowQuality();
+            if (object.duration != null)
+                message.duration = object.duration >>> 0;
+            if (object.bytes_total != null)
+                if ($util.Long)
+                    (message.bytes_total = $util.Long.fromValue(object.bytes_total)).unsigned = true;
+                else if (typeof object.bytes_total === "string")
+                    message.bytes_total = parseInt(object.bytes_total, 10);
+                else if (typeof object.bytes_total === "number")
+                    message.bytes_total = object.bytes_total;
+                else if (typeof object.bytes_total === "object")
+                    message.bytes_total = new $util.LongBits(object.bytes_total.low >>> 0, object.bytes_total.high >>> 0).toNumber(true);
+            if (object.bytes_total_reliable != null)
+                if ($util.Long)
+                    (message.bytes_total_reliable = $util.Long.fromValue(object.bytes_total_reliable)).unsigned = true;
+                else if (typeof object.bytes_total_reliable === "string")
+                    message.bytes_total_reliable = parseInt(object.bytes_total_reliable, 10);
+                else if (typeof object.bytes_total_reliable === "number")
+                    message.bytes_total_reliable = object.bytes_total_reliable;
+                else if (typeof object.bytes_total_reliable === "object")
+                    message.bytes_total_reliable = new $util.LongBits(object.bytes_total_reliable.low >>> 0, object.bytes_total_reliable.high >>> 0).toNumber(true);
+            if (object.bytes_total_voice != null)
+                if ($util.Long)
+                    (message.bytes_total_voice = $util.Long.fromValue(object.bytes_total_voice)).unsigned = true;
+                else if (typeof object.bytes_total_voice === "string")
+                    message.bytes_total_voice = parseInt(object.bytes_total_voice, 10);
+                else if (typeof object.bytes_total_voice === "number")
+                    message.bytes_total_voice = object.bytes_total_voice;
+                else if (typeof object.bytes_total_voice === "object")
+                    message.bytes_total_voice = new $util.LongBits(object.bytes_total_voice.low >>> 0, object.bytes_total_voice.high >>> 0).toNumber(true);
+            if (object.bytes_sec_p95 != null)
+                message.bytes_sec_p95 = object.bytes_sec_p95 >>> 0;
+            if (object.bytes_sec_p99 != null)
+                message.bytes_sec_p99 = object.bytes_sec_p99 >>> 0;
+            if (object.enginemsgs_total != null)
+                message.enginemsgs_total = object.enginemsgs_total >>> 0;
+            if (object.enginemsgs_sec_p95 != null)
+                message.enginemsgs_sec_p95 = object.enginemsgs_sec_p95 >>> 0;
+            if (object.enginemsgs_sec_p99 != null)
+                message.enginemsgs_sec_p99 = object.enginemsgs_sec_p99 >>> 0;
+            if (object.ticks_total != null)
+                message.ticks_total = object.ticks_total >>> 0;
+            if (object.ticks_good != null)
+                message.ticks_good = object.ticks_good >>> 0;
+            if (object.ticks_good_almost_late != null)
+                message.ticks_good_almost_late = object.ticks_good_almost_late >>> 0;
+            if (object.ticks_fixed_dropped != null)
+                message.ticks_fixed_dropped = object.ticks_fixed_dropped >>> 0;
+            if (object.ticks_fixed_late != null)
+                message.ticks_fixed_late = object.ticks_fixed_late >>> 0;
+            if (object.ticks_bad_dropped != null)
+                message.ticks_bad_dropped = object.ticks_bad_dropped >>> 0;
+            if (object.ticks_bad_late != null)
+                message.ticks_bad_late = object.ticks_bad_late >>> 0;
+            if (object.ticks_bad_other != null)
+                message.ticks_bad_other = object.ticks_bad_other >>> 0;
+            if (object.tick_missrate_samples_total != null)
+                message.tick_missrate_samples_total = object.tick_missrate_samples_total >>> 0;
+            if (object.tick_missrate_samples_perfect != null)
+                message.tick_missrate_samples_perfect = object.tick_missrate_samples_perfect >>> 0;
+            if (object.tick_missrate_samples_perfectnet != null)
+                message.tick_missrate_samples_perfectnet = object.tick_missrate_samples_perfectnet >>> 0;
+            if (object.tick_missratenet_p75_x10 != null)
+                message.tick_missratenet_p75_x10 = object.tick_missratenet_p75_x10 >>> 0;
+            if (object.tick_missratenet_p95_x10 != null)
+                message.tick_missratenet_p95_x10 = object.tick_missratenet_p95_x10 >>> 0;
+            if (object.tick_missratenet_p99_x10 != null)
+                message.tick_missratenet_p99_x10 = object.tick_missratenet_p99_x10 >>> 0;
+            if (object.recvmargin_p1 != null)
+                message.recvmargin_p1 = object.recvmargin_p1 | 0;
+            if (object.recvmargin_p5 != null)
+                message.recvmargin_p5 = object.recvmargin_p5 | 0;
+            if (object.recvmargin_p25 != null)
+                message.recvmargin_p25 = object.recvmargin_p25 | 0;
+            if (object.recvmargin_p50 != null)
+                message.recvmargin_p50 = object.recvmargin_p50 | 0;
+            if (object.recvmargin_p75 != null)
+                message.recvmargin_p75 = object.recvmargin_p75 | 0;
+            if (object.recvmargin_p95 != null)
+                message.recvmargin_p95 = object.recvmargin_p95 | 0;
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CMsgSource2NetworkFlowQuality message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @static
+         * @param {CMsgSource2NetworkFlowQuality} message CMsgSource2NetworkFlowQuality
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CMsgSource2NetworkFlowQuality.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.duration = 0;
+                if ($util.Long) {
+                    var long = new $util.Long(0, 0, true);
+                    object.bytes_total = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.bytes_total = options.longs === String ? "0" : 0;
+                if ($util.Long) {
+                    var long = new $util.Long(0, 0, true);
+                    object.bytes_total_reliable = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.bytes_total_reliable = options.longs === String ? "0" : 0;
+                if ($util.Long) {
+                    var long = new $util.Long(0, 0, true);
+                    object.bytes_total_voice = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.bytes_total_voice = options.longs === String ? "0" : 0;
+                object.bytes_sec_p95 = 0;
+                object.bytes_sec_p99 = 0;
+                object.enginemsgs_total = 0;
+                object.enginemsgs_sec_p95 = 0;
+                object.enginemsgs_sec_p99 = 0;
+                object.ticks_total = 0;
+                object.ticks_good = 0;
+                object.ticks_good_almost_late = 0;
+                object.ticks_fixed_dropped = 0;
+                object.ticks_fixed_late = 0;
+                object.ticks_bad_dropped = 0;
+                object.ticks_bad_late = 0;
+                object.ticks_bad_other = 0;
+                object.tick_missrate_samples_total = 0;
+                object.tick_missrate_samples_perfect = 0;
+                object.tick_missrate_samples_perfectnet = 0;
+                object.tick_missratenet_p75_x10 = 0;
+                object.tick_missratenet_p95_x10 = 0;
+                object.tick_missratenet_p99_x10 = 0;
+                object.recvmargin_p1 = 0;
+                object.recvmargin_p5 = 0;
+                object.recvmargin_p25 = 0;
+                object.recvmargin_p50 = 0;
+                object.recvmargin_p75 = 0;
+                object.recvmargin_p95 = 0;
+            }
+            if (message.duration != null && message.hasOwnProperty("duration"))
+                object.duration = message.duration;
+            if (message.bytes_total != null && message.hasOwnProperty("bytes_total"))
+                if (typeof message.bytes_total === "number")
+                    object.bytes_total = options.longs === String ? String(message.bytes_total) : message.bytes_total;
+                else
+                    object.bytes_total = options.longs === String ? $util.Long.prototype.toString.call(message.bytes_total) : options.longs === Number ? new $util.LongBits(message.bytes_total.low >>> 0, message.bytes_total.high >>> 0).toNumber(true) : message.bytes_total;
+            if (message.bytes_total_reliable != null && message.hasOwnProperty("bytes_total_reliable"))
+                if (typeof message.bytes_total_reliable === "number")
+                    object.bytes_total_reliable = options.longs === String ? String(message.bytes_total_reliable) : message.bytes_total_reliable;
+                else
+                    object.bytes_total_reliable = options.longs === String ? $util.Long.prototype.toString.call(message.bytes_total_reliable) : options.longs === Number ? new $util.LongBits(message.bytes_total_reliable.low >>> 0, message.bytes_total_reliable.high >>> 0).toNumber(true) : message.bytes_total_reliable;
+            if (message.bytes_total_voice != null && message.hasOwnProperty("bytes_total_voice"))
+                if (typeof message.bytes_total_voice === "number")
+                    object.bytes_total_voice = options.longs === String ? String(message.bytes_total_voice) : message.bytes_total_voice;
+                else
+                    object.bytes_total_voice = options.longs === String ? $util.Long.prototype.toString.call(message.bytes_total_voice) : options.longs === Number ? new $util.LongBits(message.bytes_total_voice.low >>> 0, message.bytes_total_voice.high >>> 0).toNumber(true) : message.bytes_total_voice;
+            if (message.bytes_sec_p95 != null && message.hasOwnProperty("bytes_sec_p95"))
+                object.bytes_sec_p95 = message.bytes_sec_p95;
+            if (message.bytes_sec_p99 != null && message.hasOwnProperty("bytes_sec_p99"))
+                object.bytes_sec_p99 = message.bytes_sec_p99;
+            if (message.enginemsgs_total != null && message.hasOwnProperty("enginemsgs_total"))
+                object.enginemsgs_total = message.enginemsgs_total;
+            if (message.enginemsgs_sec_p95 != null && message.hasOwnProperty("enginemsgs_sec_p95"))
+                object.enginemsgs_sec_p95 = message.enginemsgs_sec_p95;
+            if (message.enginemsgs_sec_p99 != null && message.hasOwnProperty("enginemsgs_sec_p99"))
+                object.enginemsgs_sec_p99 = message.enginemsgs_sec_p99;
+            if (message.ticks_total != null && message.hasOwnProperty("ticks_total"))
+                object.ticks_total = message.ticks_total;
+            if (message.ticks_good != null && message.hasOwnProperty("ticks_good"))
+                object.ticks_good = message.ticks_good;
+            if (message.ticks_good_almost_late != null && message.hasOwnProperty("ticks_good_almost_late"))
+                object.ticks_good_almost_late = message.ticks_good_almost_late;
+            if (message.ticks_fixed_dropped != null && message.hasOwnProperty("ticks_fixed_dropped"))
+                object.ticks_fixed_dropped = message.ticks_fixed_dropped;
+            if (message.ticks_fixed_late != null && message.hasOwnProperty("ticks_fixed_late"))
+                object.ticks_fixed_late = message.ticks_fixed_late;
+            if (message.ticks_bad_dropped != null && message.hasOwnProperty("ticks_bad_dropped"))
+                object.ticks_bad_dropped = message.ticks_bad_dropped;
+            if (message.ticks_bad_late != null && message.hasOwnProperty("ticks_bad_late"))
+                object.ticks_bad_late = message.ticks_bad_late;
+            if (message.ticks_bad_other != null && message.hasOwnProperty("ticks_bad_other"))
+                object.ticks_bad_other = message.ticks_bad_other;
+            if (message.tick_missrate_samples_total != null && message.hasOwnProperty("tick_missrate_samples_total"))
+                object.tick_missrate_samples_total = message.tick_missrate_samples_total;
+            if (message.tick_missrate_samples_perfect != null && message.hasOwnProperty("tick_missrate_samples_perfect"))
+                object.tick_missrate_samples_perfect = message.tick_missrate_samples_perfect;
+            if (message.tick_missrate_samples_perfectnet != null && message.hasOwnProperty("tick_missrate_samples_perfectnet"))
+                object.tick_missrate_samples_perfectnet = message.tick_missrate_samples_perfectnet;
+            if (message.tick_missratenet_p75_x10 != null && message.hasOwnProperty("tick_missratenet_p75_x10"))
+                object.tick_missratenet_p75_x10 = message.tick_missratenet_p75_x10;
+            if (message.tick_missratenet_p95_x10 != null && message.hasOwnProperty("tick_missratenet_p95_x10"))
+                object.tick_missratenet_p95_x10 = message.tick_missratenet_p95_x10;
+            if (message.tick_missratenet_p99_x10 != null && message.hasOwnProperty("tick_missratenet_p99_x10"))
+                object.tick_missratenet_p99_x10 = message.tick_missratenet_p99_x10;
+            if (message.recvmargin_p1 != null && message.hasOwnProperty("recvmargin_p1"))
+                object.recvmargin_p1 = message.recvmargin_p1;
+            if (message.recvmargin_p5 != null && message.hasOwnProperty("recvmargin_p5"))
+                object.recvmargin_p5 = message.recvmargin_p5;
+            if (message.recvmargin_p25 != null && message.hasOwnProperty("recvmargin_p25"))
+                object.recvmargin_p25 = message.recvmargin_p25;
+            if (message.recvmargin_p50 != null && message.hasOwnProperty("recvmargin_p50"))
+                object.recvmargin_p50 = message.recvmargin_p50;
+            if (message.recvmargin_p75 != null && message.hasOwnProperty("recvmargin_p75"))
+                object.recvmargin_p75 = message.recvmargin_p75;
+            if (message.recvmargin_p95 != null && message.hasOwnProperty("recvmargin_p95"))
+                object.recvmargin_p95 = message.recvmargin_p95;
+            return object;
+        };
+    
+        /**
+         * Converts this CMsgSource2NetworkFlowQuality to JSON.
+         * @function toJSON
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CMsgSource2NetworkFlowQuality.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CMsgSource2NetworkFlowQuality
+         * @function getTypeUrl
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CMsgSource2NetworkFlowQuality.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CMsgSource2NetworkFlowQuality";
+        };
+    
+        return CMsgSource2NetworkFlowQuality;
+    })();
+    
+    $root.CCLCMsg_Diagnostic = (function() {
+    
+        /**
+         * Properties of a CCLCMsg_Diagnostic.
+         * @exports ICCLCMsg_Diagnostic
+         * @interface ICCLCMsg_Diagnostic
+         * @property {ICMsgSource2SystemSpecs|null} [system_specs] CCLCMsg_Diagnostic system_specs
+         * @property {ICMsgSource2VProfLiteReport|null} [vprof_report] CCLCMsg_Diagnostic vprof_report
+         * @property {ICMsgSource2NetworkFlowQuality|null} [downstream_flow] CCLCMsg_Diagnostic downstream_flow
+         * @property {ICMsgSource2NetworkFlowQuality|null} [upstream_flow] CCLCMsg_Diagnostic upstream_flow
+         */
+    
+        /**
+         * Constructs a new CCLCMsg_Diagnostic.
+         * @exports CCLCMsg_Diagnostic
+         * @classdesc Represents a CCLCMsg_Diagnostic.
+         * @implements ICCLCMsg_Diagnostic
+         * @constructor
+         * @param {ICCLCMsg_Diagnostic=} [properties] Properties to set
+         */
+        function CCLCMsg_Diagnostic(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CCLCMsg_Diagnostic system_specs.
+         * @member {ICMsgSource2SystemSpecs|null|undefined} system_specs
+         * @memberof CCLCMsg_Diagnostic
+         * @instance
+         */
+        CCLCMsg_Diagnostic.prototype.system_specs = null;
+    
+        /**
+         * CCLCMsg_Diagnostic vprof_report.
+         * @member {ICMsgSource2VProfLiteReport|null|undefined} vprof_report
+         * @memberof CCLCMsg_Diagnostic
+         * @instance
+         */
+        CCLCMsg_Diagnostic.prototype.vprof_report = null;
+    
+        /**
+         * CCLCMsg_Diagnostic downstream_flow.
+         * @member {ICMsgSource2NetworkFlowQuality|null|undefined} downstream_flow
+         * @memberof CCLCMsg_Diagnostic
+         * @instance
+         */
+        CCLCMsg_Diagnostic.prototype.downstream_flow = null;
+    
+        /**
+         * CCLCMsg_Diagnostic upstream_flow.
+         * @member {ICMsgSource2NetworkFlowQuality|null|undefined} upstream_flow
+         * @memberof CCLCMsg_Diagnostic
+         * @instance
+         */
+        CCLCMsg_Diagnostic.prototype.upstream_flow = null;
+    
+        /**
+         * Creates a new CCLCMsg_Diagnostic instance using the specified properties.
+         * @function create
+         * @memberof CCLCMsg_Diagnostic
+         * @static
+         * @param {ICCLCMsg_Diagnostic=} [properties] Properties to set
+         * @returns {CCLCMsg_Diagnostic} CCLCMsg_Diagnostic instance
+         */
+        CCLCMsg_Diagnostic.create = function create(properties) {
+            return new CCLCMsg_Diagnostic(properties);
+        };
+    
+        /**
+         * Encodes the specified CCLCMsg_Diagnostic message. Does not implicitly {@link CCLCMsg_Diagnostic.verify|verify} messages.
+         * @function encode
+         * @memberof CCLCMsg_Diagnostic
+         * @static
+         * @param {ICCLCMsg_Diagnostic} message CCLCMsg_Diagnostic message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CCLCMsg_Diagnostic.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.system_specs != null && Object.hasOwnProperty.call(message, "system_specs"))
+                $root.CMsgSource2SystemSpecs.encode(message.system_specs, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.vprof_report != null && Object.hasOwnProperty.call(message, "vprof_report"))
+                $root.CMsgSource2VProfLiteReport.encode(message.vprof_report, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+            if (message.downstream_flow != null && Object.hasOwnProperty.call(message, "downstream_flow"))
+                $root.CMsgSource2NetworkFlowQuality.encode(message.downstream_flow, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            if (message.upstream_flow != null && Object.hasOwnProperty.call(message, "upstream_flow"))
+                $root.CMsgSource2NetworkFlowQuality.encode(message.upstream_flow, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CCLCMsg_Diagnostic message, length delimited. Does not implicitly {@link CCLCMsg_Diagnostic.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CCLCMsg_Diagnostic
+         * @static
+         * @param {ICCLCMsg_Diagnostic} message CCLCMsg_Diagnostic message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CCLCMsg_Diagnostic.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CCLCMsg_Diagnostic message from the specified reader or buffer.
+         * @function decode
+         * @memberof CCLCMsg_Diagnostic
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CCLCMsg_Diagnostic} CCLCMsg_Diagnostic
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CCLCMsg_Diagnostic.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_Diagnostic();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.system_specs = $root.CMsgSource2SystemSpecs.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 2: {
+                        message.vprof_report = $root.CMsgSource2VProfLiteReport.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 3: {
+                        message.downstream_flow = $root.CMsgSource2NetworkFlowQuality.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 4: {
+                        message.upstream_flow = $root.CMsgSource2NetworkFlowQuality.decode(reader, reader.uint32());
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CCLCMsg_Diagnostic message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CCLCMsg_Diagnostic
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CCLCMsg_Diagnostic} CCLCMsg_Diagnostic
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CCLCMsg_Diagnostic.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CCLCMsg_Diagnostic message.
+         * @function verify
+         * @memberof CCLCMsg_Diagnostic
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CCLCMsg_Diagnostic.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.system_specs != null && message.hasOwnProperty("system_specs")) {
+                var error = $root.CMsgSource2SystemSpecs.verify(message.system_specs);
+                if (error)
+                    return "system_specs." + error;
+            }
+            if (message.vprof_report != null && message.hasOwnProperty("vprof_report")) {
+                var error = $root.CMsgSource2VProfLiteReport.verify(message.vprof_report);
+                if (error)
+                    return "vprof_report." + error;
+            }
+            if (message.downstream_flow != null && message.hasOwnProperty("downstream_flow")) {
+                var error = $root.CMsgSource2NetworkFlowQuality.verify(message.downstream_flow);
+                if (error)
+                    return "downstream_flow." + error;
+            }
+            if (message.upstream_flow != null && message.hasOwnProperty("upstream_flow")) {
+                var error = $root.CMsgSource2NetworkFlowQuality.verify(message.upstream_flow);
+                if (error)
+                    return "upstream_flow." + error;
+            }
+            return null;
+        };
+    
+        /**
+         * Creates a CCLCMsg_Diagnostic message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CCLCMsg_Diagnostic
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CCLCMsg_Diagnostic} CCLCMsg_Diagnostic
+         */
+        CCLCMsg_Diagnostic.fromObject = function fromObject(object) {
+            if (object instanceof $root.CCLCMsg_Diagnostic)
+                return object;
+            var message = new $root.CCLCMsg_Diagnostic();
+            if (object.system_specs != null) {
+                if (typeof object.system_specs !== "object")
+                    throw TypeError(".CCLCMsg_Diagnostic.system_specs: object expected");
+                message.system_specs = $root.CMsgSource2SystemSpecs.fromObject(object.system_specs);
+            }
+            if (object.vprof_report != null) {
+                if (typeof object.vprof_report !== "object")
+                    throw TypeError(".CCLCMsg_Diagnostic.vprof_report: object expected");
+                message.vprof_report = $root.CMsgSource2VProfLiteReport.fromObject(object.vprof_report);
+            }
+            if (object.downstream_flow != null) {
+                if (typeof object.downstream_flow !== "object")
+                    throw TypeError(".CCLCMsg_Diagnostic.downstream_flow: object expected");
+                message.downstream_flow = $root.CMsgSource2NetworkFlowQuality.fromObject(object.downstream_flow);
+            }
+            if (object.upstream_flow != null) {
+                if (typeof object.upstream_flow !== "object")
+                    throw TypeError(".CCLCMsg_Diagnostic.upstream_flow: object expected");
+                message.upstream_flow = $root.CMsgSource2NetworkFlowQuality.fromObject(object.upstream_flow);
+            }
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CCLCMsg_Diagnostic message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CCLCMsg_Diagnostic
+         * @static
+         * @param {CCLCMsg_Diagnostic} message CCLCMsg_Diagnostic
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CCLCMsg_Diagnostic.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.system_specs = null;
+                object.vprof_report = null;
+                object.downstream_flow = null;
+                object.upstream_flow = null;
+            }
+            if (message.system_specs != null && message.hasOwnProperty("system_specs"))
+                object.system_specs = $root.CMsgSource2SystemSpecs.toObject(message.system_specs, options);
+            if (message.vprof_report != null && message.hasOwnProperty("vprof_report"))
+                object.vprof_report = $root.CMsgSource2VProfLiteReport.toObject(message.vprof_report, options);
+            if (message.downstream_flow != null && message.hasOwnProperty("downstream_flow"))
+                object.downstream_flow = $root.CMsgSource2NetworkFlowQuality.toObject(message.downstream_flow, options);
+            if (message.upstream_flow != null && message.hasOwnProperty("upstream_flow"))
+                object.upstream_flow = $root.CMsgSource2NetworkFlowQuality.toObject(message.upstream_flow, options);
+            return object;
+        };
+    
+        /**
+         * Converts this CCLCMsg_Diagnostic to JSON.
+         * @function toJSON
+         * @memberof CCLCMsg_Diagnostic
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CCLCMsg_Diagnostic.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CCLCMsg_Diagnostic
+         * @function getTypeUrl
+         * @memberof CCLCMsg_Diagnostic
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CCLCMsg_Diagnostic.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CCLCMsg_Diagnostic";
+        };
+    
+        return CCLCMsg_Diagnostic;
+    })();
+    
+    $root.CSource2Metrics_MatchPerfSummary_Notification = (function() {
+    
+        /**
+         * Properties of a CSource2Metrics_MatchPerfSummary_Notification.
+         * @exports ICSource2Metrics_MatchPerfSummary_Notification
+         * @interface ICSource2Metrics_MatchPerfSummary_Notification
+         * @property {number|null} [appid] CSource2Metrics_MatchPerfSummary_Notification appid
+         * @property {string|null} [game_mode] CSource2Metrics_MatchPerfSummary_Notification game_mode
+         * @property {number|null} [server_build_id] CSource2Metrics_MatchPerfSummary_Notification server_build_id
+         * @property {ICMsgSource2VProfLiteReport|null} [server_profile] CSource2Metrics_MatchPerfSummary_Notification server_profile
+         * @property {Array.<CSource2Metrics_MatchPerfSummary_Notification.IClient>|null} [clients] CSource2Metrics_MatchPerfSummary_Notification clients
+         * @property {string|null} [map] CSource2Metrics_MatchPerfSummary_Notification map
+         */
+    
+        /**
+         * Constructs a new CSource2Metrics_MatchPerfSummary_Notification.
+         * @exports CSource2Metrics_MatchPerfSummary_Notification
+         * @classdesc Represents a CSource2Metrics_MatchPerfSummary_Notification.
+         * @implements ICSource2Metrics_MatchPerfSummary_Notification
+         * @constructor
+         * @param {ICSource2Metrics_MatchPerfSummary_Notification=} [properties] Properties to set
+         */
+        function CSource2Metrics_MatchPerfSummary_Notification(properties) {
+            this.clients = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CSource2Metrics_MatchPerfSummary_Notification appid.
+         * @member {number} appid
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @instance
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.prototype.appid = 0;
+    
+        /**
+         * CSource2Metrics_MatchPerfSummary_Notification game_mode.
+         * @member {string} game_mode
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @instance
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.prototype.game_mode = "";
+    
+        /**
+         * CSource2Metrics_MatchPerfSummary_Notification server_build_id.
+         * @member {number} server_build_id
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @instance
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.prototype.server_build_id = 0;
+    
+        /**
+         * CSource2Metrics_MatchPerfSummary_Notification server_profile.
+         * @member {ICMsgSource2VProfLiteReport|null|undefined} server_profile
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @instance
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.prototype.server_profile = null;
+    
+        /**
+         * CSource2Metrics_MatchPerfSummary_Notification clients.
+         * @member {Array.<CSource2Metrics_MatchPerfSummary_Notification.IClient>} clients
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @instance
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.prototype.clients = $util.emptyArray;
+    
+        /**
+         * CSource2Metrics_MatchPerfSummary_Notification map.
+         * @member {string} map
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @instance
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.prototype.map = "";
+    
+        /**
+         * Creates a new CSource2Metrics_MatchPerfSummary_Notification instance using the specified properties.
+         * @function create
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @static
+         * @param {ICSource2Metrics_MatchPerfSummary_Notification=} [properties] Properties to set
+         * @returns {CSource2Metrics_MatchPerfSummary_Notification} CSource2Metrics_MatchPerfSummary_Notification instance
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.create = function create(properties) {
+            return new CSource2Metrics_MatchPerfSummary_Notification(properties);
+        };
+    
+        /**
+         * Encodes the specified CSource2Metrics_MatchPerfSummary_Notification message. Does not implicitly {@link CSource2Metrics_MatchPerfSummary_Notification.verify|verify} messages.
+         * @function encode
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @static
+         * @param {ICSource2Metrics_MatchPerfSummary_Notification} message CSource2Metrics_MatchPerfSummary_Notification message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.appid);
+            if (message.game_mode != null && Object.hasOwnProperty.call(message, "game_mode"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.game_mode);
+            if (message.server_build_id != null && Object.hasOwnProperty.call(message, "server_build_id"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.server_build_id);
+            if (message.server_profile != null && Object.hasOwnProperty.call(message, "server_profile"))
+                $root.CMsgSource2VProfLiteReport.encode(message.server_profile, writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
+            if (message.clients != null && message.clients.length)
+                for (var i = 0; i < message.clients.length; ++i)
+                    $root.CSource2Metrics_MatchPerfSummary_Notification.Client.encode(message.clients[i], writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
+            if (message.map != null && Object.hasOwnProperty.call(message, "map"))
+                writer.uint32(/* id 20, wireType 2 =*/162).string(message.map);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CSource2Metrics_MatchPerfSummary_Notification message, length delimited. Does not implicitly {@link CSource2Metrics_MatchPerfSummary_Notification.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @static
+         * @param {ICSource2Metrics_MatchPerfSummary_Notification} message CSource2Metrics_MatchPerfSummary_Notification message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CSource2Metrics_MatchPerfSummary_Notification message from the specified reader or buffer.
+         * @function decode
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CSource2Metrics_MatchPerfSummary_Notification} CSource2Metrics_MatchPerfSummary_Notification
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSource2Metrics_MatchPerfSummary_Notification();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.appid = reader.uint32();
+                        break;
+                    }
+                case 2: {
+                        message.game_mode = reader.string();
+                        break;
+                    }
+                case 3: {
+                        message.server_build_id = reader.uint32();
+                        break;
+                    }
+                case 10: {
+                        message.server_profile = $root.CMsgSource2VProfLiteReport.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 11: {
+                        if (!(message.clients && message.clients.length))
+                            message.clients = [];
+                        message.clients.push($root.CSource2Metrics_MatchPerfSummary_Notification.Client.decode(reader, reader.uint32()));
+                        break;
+                    }
+                case 20: {
+                        message.map = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CSource2Metrics_MatchPerfSummary_Notification message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CSource2Metrics_MatchPerfSummary_Notification} CSource2Metrics_MatchPerfSummary_Notification
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CSource2Metrics_MatchPerfSummary_Notification message.
+         * @function verify
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.appid != null && message.hasOwnProperty("appid"))
+                if (!$util.isInteger(message.appid))
+                    return "appid: integer expected";
+            if (message.game_mode != null && message.hasOwnProperty("game_mode"))
+                if (!$util.isString(message.game_mode))
+                    return "game_mode: string expected";
+            if (message.server_build_id != null && message.hasOwnProperty("server_build_id"))
+                if (!$util.isInteger(message.server_build_id))
+                    return "server_build_id: integer expected";
+            if (message.server_profile != null && message.hasOwnProperty("server_profile")) {
+                var error = $root.CMsgSource2VProfLiteReport.verify(message.server_profile);
+                if (error)
+                    return "server_profile." + error;
+            }
+            if (message.clients != null && message.hasOwnProperty("clients")) {
+                if (!Array.isArray(message.clients))
+                    return "clients: array expected";
+                for (var i = 0; i < message.clients.length; ++i) {
+                    var error = $root.CSource2Metrics_MatchPerfSummary_Notification.Client.verify(message.clients[i]);
+                    if (error)
+                        return "clients." + error;
+                }
+            }
+            if (message.map != null && message.hasOwnProperty("map"))
+                if (!$util.isString(message.map))
+                    return "map: string expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CSource2Metrics_MatchPerfSummary_Notification message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CSource2Metrics_MatchPerfSummary_Notification} CSource2Metrics_MatchPerfSummary_Notification
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.fromObject = function fromObject(object) {
+            if (object instanceof $root.CSource2Metrics_MatchPerfSummary_Notification)
+                return object;
+            var message = new $root.CSource2Metrics_MatchPerfSummary_Notification();
+            if (object.appid != null)
+                message.appid = object.appid >>> 0;
+            if (object.game_mode != null)
+                message.game_mode = String(object.game_mode);
+            if (object.server_build_id != null)
+                message.server_build_id = object.server_build_id >>> 0;
+            if (object.server_profile != null) {
+                if (typeof object.server_profile !== "object")
+                    throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.server_profile: object expected");
+                message.server_profile = $root.CMsgSource2VProfLiteReport.fromObject(object.server_profile);
+            }
+            if (object.clients) {
+                if (!Array.isArray(object.clients))
+                    throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.clients: array expected");
+                message.clients = [];
+                for (var i = 0; i < object.clients.length; ++i) {
+                    if (typeof object.clients[i] !== "object")
+                        throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.clients: object expected");
+                    message.clients[i] = $root.CSource2Metrics_MatchPerfSummary_Notification.Client.fromObject(object.clients[i]);
+                }
+            }
+            if (object.map != null)
+                message.map = String(object.map);
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CSource2Metrics_MatchPerfSummary_Notification message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @static
+         * @param {CSource2Metrics_MatchPerfSummary_Notification} message CSource2Metrics_MatchPerfSummary_Notification
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults)
+                object.clients = [];
+            if (options.defaults) {
+                object.appid = 0;
+                object.game_mode = "";
+                object.server_build_id = 0;
+                object.server_profile = null;
+                object.map = "";
+            }
+            if (message.appid != null && message.hasOwnProperty("appid"))
+                object.appid = message.appid;
+            if (message.game_mode != null && message.hasOwnProperty("game_mode"))
+                object.game_mode = message.game_mode;
+            if (message.server_build_id != null && message.hasOwnProperty("server_build_id"))
+                object.server_build_id = message.server_build_id;
+            if (message.server_profile != null && message.hasOwnProperty("server_profile"))
+                object.server_profile = $root.CMsgSource2VProfLiteReport.toObject(message.server_profile, options);
+            if (message.clients && message.clients.length) {
+                object.clients = [];
+                for (var j = 0; j < message.clients.length; ++j)
+                    object.clients[j] = $root.CSource2Metrics_MatchPerfSummary_Notification.Client.toObject(message.clients[j], options);
+            }
+            if (message.map != null && message.hasOwnProperty("map"))
+                object.map = message.map;
+            return object;
+        };
+    
+        /**
+         * Converts this CSource2Metrics_MatchPerfSummary_Notification to JSON.
+         * @function toJSON
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CSource2Metrics_MatchPerfSummary_Notification
+         * @function getTypeUrl
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CSource2Metrics_MatchPerfSummary_Notification";
+        };
+    
+        CSource2Metrics_MatchPerfSummary_Notification.Client = (function() {
+    
+            /**
+             * Properties of a Client.
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification
+             * @interface IClient
+             * @property {ICMsgSource2SystemSpecs|null} [system_specs] Client system_specs
+             * @property {ICMsgSource2VProfLiteReport|null} [profile] Client profile
+             * @property {number|null} [build_id] Client build_id
+             * @property {ICMsgSource2NetworkFlowQuality|null} [downstream_flow] Client downstream_flow
+             * @property {ICMsgSource2NetworkFlowQuality|null} [upstream_flow] Client upstream_flow
+             * @property {number|Long|null} [steamid] Client steamid
+             */
+    
+            /**
+             * Constructs a new Client.
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification
+             * @classdesc Represents a Client.
+             * @implements IClient
+             * @constructor
+             * @param {CSource2Metrics_MatchPerfSummary_Notification.IClient=} [properties] Properties to set
+             */
+            function Client(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Client system_specs.
+             * @member {ICMsgSource2SystemSpecs|null|undefined} system_specs
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @instance
+             */
+            Client.prototype.system_specs = null;
+    
+            /**
+             * Client profile.
+             * @member {ICMsgSource2VProfLiteReport|null|undefined} profile
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @instance
+             */
+            Client.prototype.profile = null;
+    
+            /**
+             * Client build_id.
+             * @member {number} build_id
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @instance
+             */
+            Client.prototype.build_id = 0;
+    
+            /**
+             * Client downstream_flow.
+             * @member {ICMsgSource2NetworkFlowQuality|null|undefined} downstream_flow
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @instance
+             */
+            Client.prototype.downstream_flow = null;
+    
+            /**
+             * Client upstream_flow.
+             * @member {ICMsgSource2NetworkFlowQuality|null|undefined} upstream_flow
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @instance
+             */
+            Client.prototype.upstream_flow = null;
+    
+            /**
+             * Client steamid.
+             * @member {number|Long} steamid
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @instance
+             */
+            Client.prototype.steamid = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+    
+            /**
+             * Creates a new Client instance using the specified properties.
+             * @function create
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @static
+             * @param {CSource2Metrics_MatchPerfSummary_Notification.IClient=} [properties] Properties to set
+             * @returns {CSource2Metrics_MatchPerfSummary_Notification.Client} Client instance
+             */
+            Client.create = function create(properties) {
+                return new Client(properties);
+            };
+    
+            /**
+             * Encodes the specified Client message. Does not implicitly {@link CSource2Metrics_MatchPerfSummary_Notification.Client.verify|verify} messages.
+             * @function encode
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @static
+             * @param {CSource2Metrics_MatchPerfSummary_Notification.IClient} message Client message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Client.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.system_specs != null && Object.hasOwnProperty.call(message, "system_specs"))
+                    $root.CMsgSource2SystemSpecs.encode(message.system_specs, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                if (message.profile != null && Object.hasOwnProperty.call(message, "profile"))
+                    $root.CMsgSource2VProfLiteReport.encode(message.profile, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                if (message.build_id != null && Object.hasOwnProperty.call(message, "build_id"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.build_id);
+                if (message.downstream_flow != null && Object.hasOwnProperty.call(message, "downstream_flow"))
+                    $root.CMsgSource2NetworkFlowQuality.encode(message.downstream_flow, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                if (message.upstream_flow != null && Object.hasOwnProperty.call(message, "upstream_flow"))
+                    $root.CMsgSource2NetworkFlowQuality.encode(message.upstream_flow, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+                    writer.uint32(/* id 10, wireType 1 =*/81).fixed64(message.steamid);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified Client message, length delimited. Does not implicitly {@link CSource2Metrics_MatchPerfSummary_Notification.Client.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @static
+             * @param {CSource2Metrics_MatchPerfSummary_Notification.IClient} message Client message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Client.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a Client message from the specified reader or buffer.
+             * @function decode
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {CSource2Metrics_MatchPerfSummary_Notification.Client} Client
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Client.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSource2Metrics_MatchPerfSummary_Notification.Client();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.system_specs = $root.CMsgSource2SystemSpecs.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 2: {
+                            message.profile = $root.CMsgSource2VProfLiteReport.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 3: {
+                            message.build_id = reader.uint32();
+                            break;
+                        }
+                    case 4: {
+                            message.downstream_flow = $root.CMsgSource2NetworkFlowQuality.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 5: {
+                            message.upstream_flow = $root.CMsgSource2NetworkFlowQuality.decode(reader, reader.uint32());
+                            break;
+                        }
+                    case 10: {
+                            message.steamid = reader.fixed64();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a Client message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {CSource2Metrics_MatchPerfSummary_Notification.Client} Client
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Client.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a Client message.
+             * @function verify
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Client.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.system_specs != null && message.hasOwnProperty("system_specs")) {
+                    var error = $root.CMsgSource2SystemSpecs.verify(message.system_specs);
+                    if (error)
+                        return "system_specs." + error;
+                }
+                if (message.profile != null && message.hasOwnProperty("profile")) {
+                    var error = $root.CMsgSource2VProfLiteReport.verify(message.profile);
+                    if (error)
+                        return "profile." + error;
+                }
+                if (message.build_id != null && message.hasOwnProperty("build_id"))
+                    if (!$util.isInteger(message.build_id))
+                        return "build_id: integer expected";
+                if (message.downstream_flow != null && message.hasOwnProperty("downstream_flow")) {
+                    var error = $root.CMsgSource2NetworkFlowQuality.verify(message.downstream_flow);
+                    if (error)
+                        return "downstream_flow." + error;
+                }
+                if (message.upstream_flow != null && message.hasOwnProperty("upstream_flow")) {
+                    var error = $root.CMsgSource2NetworkFlowQuality.verify(message.upstream_flow);
+                    if (error)
+                        return "upstream_flow." + error;
+                }
+                if (message.steamid != null && message.hasOwnProperty("steamid"))
+                    if (!$util.isInteger(message.steamid) && !(message.steamid && $util.isInteger(message.steamid.low) && $util.isInteger(message.steamid.high)))
+                        return "steamid: integer|Long expected";
+                return null;
+            };
+    
+            /**
+             * Creates a Client message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {CSource2Metrics_MatchPerfSummary_Notification.Client} Client
+             */
+            Client.fromObject = function fromObject(object) {
+                if (object instanceof $root.CSource2Metrics_MatchPerfSummary_Notification.Client)
+                    return object;
+                var message = new $root.CSource2Metrics_MatchPerfSummary_Notification.Client();
+                if (object.system_specs != null) {
+                    if (typeof object.system_specs !== "object")
+                        throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.system_specs: object expected");
+                    message.system_specs = $root.CMsgSource2SystemSpecs.fromObject(object.system_specs);
+                }
+                if (object.profile != null) {
+                    if (typeof object.profile !== "object")
+                        throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.profile: object expected");
+                    message.profile = $root.CMsgSource2VProfLiteReport.fromObject(object.profile);
+                }
+                if (object.build_id != null)
+                    message.build_id = object.build_id >>> 0;
+                if (object.downstream_flow != null) {
+                    if (typeof object.downstream_flow !== "object")
+                        throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.downstream_flow: object expected");
+                    message.downstream_flow = $root.CMsgSource2NetworkFlowQuality.fromObject(object.downstream_flow);
+                }
+                if (object.upstream_flow != null) {
+                    if (typeof object.upstream_flow !== "object")
+                        throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.upstream_flow: object expected");
+                    message.upstream_flow = $root.CMsgSource2NetworkFlowQuality.fromObject(object.upstream_flow);
+                }
+                if (object.steamid != null)
+                    if ($util.Long)
+                        (message.steamid = $util.Long.fromValue(object.steamid)).unsigned = false;
+                    else if (typeof object.steamid === "string")
+                        message.steamid = parseInt(object.steamid, 10);
+                    else if (typeof object.steamid === "number")
+                        message.steamid = object.steamid;
+                    else if (typeof object.steamid === "object")
+                        message.steamid = new $util.LongBits(object.steamid.low >>> 0, object.steamid.high >>> 0).toNumber();
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a Client message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @static
+             * @param {CSource2Metrics_MatchPerfSummary_Notification.Client} message Client
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Client.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.system_specs = null;
+                    object.profile = null;
+                    object.build_id = 0;
+                    object.downstream_flow = null;
+                    object.upstream_flow = null;
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, false);
+                        object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.steamid = options.longs === String ? "0" : 0;
+                }
+                if (message.system_specs != null && message.hasOwnProperty("system_specs"))
+                    object.system_specs = $root.CMsgSource2SystemSpecs.toObject(message.system_specs, options);
+                if (message.profile != null && message.hasOwnProperty("profile"))
+                    object.profile = $root.CMsgSource2VProfLiteReport.toObject(message.profile, options);
+                if (message.build_id != null && message.hasOwnProperty("build_id"))
+                    object.build_id = message.build_id;
+                if (message.downstream_flow != null && message.hasOwnProperty("downstream_flow"))
+                    object.downstream_flow = $root.CMsgSource2NetworkFlowQuality.toObject(message.downstream_flow, options);
+                if (message.upstream_flow != null && message.hasOwnProperty("upstream_flow"))
+                    object.upstream_flow = $root.CMsgSource2NetworkFlowQuality.toObject(message.upstream_flow, options);
+                if (message.steamid != null && message.hasOwnProperty("steamid"))
+                    if (typeof message.steamid === "number")
+                        object.steamid = options.longs === String ? String(message.steamid) : message.steamid;
+                    else
+                        object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber() : message.steamid;
+                return object;
+            };
+    
+            /**
+             * Converts this Client to JSON.
+             * @function toJSON
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Client.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            /**
+             * Gets the default type url for Client
+             * @function getTypeUrl
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            Client.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/CSource2Metrics_MatchPerfSummary_Notification.Client";
+            };
+    
+            return Client;
+        })();
+    
+        return CSource2Metrics_MatchPerfSummary_Notification;
     })();
     
     $root.CSVCMsg_ServerInfo = (function() {
@@ -4551,12 +7545,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_ServerInfo.decode = function decode(reader, length) {
+        CSVCMsg_ServerInfo.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_ServerInfo();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.protocol = reader.int32();
@@ -4962,12 +7958,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_ClassInfo.decode = function decode(reader, length) {
+        CSVCMsg_ClassInfo.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_ClassInfo();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.create_on_client = reader.bool();
@@ -5205,12 +8203,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            class_t.decode = function decode(reader, length) {
+            class_t.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_ClassInfo.class_t();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.class_id = reader.int32();
@@ -5424,12 +8424,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_SetPause.decode = function decode(reader, length) {
+        CSVCMsg_SetPause.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_SetPause();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.paused = reader.bool();
@@ -5649,12 +8651,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_VoiceInit.decode = function decode(reader, length) {
+        CSVCMsg_VoiceInit.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_VoiceInit();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.quality = reader.int32();
@@ -5877,12 +8881,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_Print.decode = function decode(reader, length) {
+        CSVCMsg_Print.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_Print();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.text = reader.string();
@@ -6093,12 +9099,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_Sounds.decode = function decode(reader, length) {
+        CSVCMsg_Sounds.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_Sounds();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.reliable_sound = reader.bool();
@@ -6523,12 +9531,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            sounddata_t.decode = function decode(reader, length) {
+            sounddata_t.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_Sounds.sounddata_t();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.origin_x = reader.sint32();
@@ -6971,12 +9981,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_Prefetch.decode = function decode(reader, length) {
+        CSVCMsg_Prefetch.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_Prefetch();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.sound_index = reader.int32();
@@ -7212,12 +10224,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_SetView.decode = function decode(reader, length) {
+        CSVCMsg_SetView.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_SetView();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.entity_index = reader.int32();
@@ -7439,12 +10453,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_FixAngle.decode = function decode(reader, length) {
+        CSVCMsg_FixAngle.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_FixAngle();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.relative = reader.bool();
@@ -7660,12 +10676,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_CrosshairAngle.decode = function decode(reader, length) {
+        CSVCMsg_CrosshairAngle.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_CrosshairAngle();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.angle = $root.CMsgQAngle.decode(reader, reader.uint32());
@@ -7912,12 +10930,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_BSPDecal.decode = function decode(reader, length) {
+        CSVCMsg_BSPDecal.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_BSPDecal();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.pos = $root.CMsgVector.decode(reader, reader.uint32());
@@ -8191,12 +11211,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_SplitScreen.decode = function decode(reader, length) {
+        CSVCMsg_SplitScreen.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_SplitScreen();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.type = reader.int32();
@@ -8449,12 +11471,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_GetCvarValue.decode = function decode(reader, length) {
+        CSVCMsg_GetCvarValue.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_GetCvarValue();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.cookie = reader.int32();
@@ -8676,12 +11700,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_Menu.decode = function decode(reader, length) {
+        CSVCMsg_Menu.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_Menu();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.dialog_type = reader.int32();
@@ -8923,12 +11949,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_UserMessage.decode = function decode(reader, length) {
+        CSVCMsg_UserMessage.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_UserMessage();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.msg_type = reader.int32();
@@ -9195,12 +12223,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_SendTable.decode = function decode(reader, length) {
+        CSVCMsg_SendTable.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_SendTable();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.is_end = reader.bool();
@@ -9540,12 +12570,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            sendprop_t.decode = function decode(reader, length) {
+            sendprop_t.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_SendTable.sendprop_t();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.type = reader.int32();
@@ -9845,12 +12877,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_GameEventList.decode = function decode(reader, length) {
+        CSVCMsg_GameEventList.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_GameEventList();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         if (!(message.descriptors && message.descriptors.length))
@@ -10075,12 +13109,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            key_t.decode = function decode(reader, length) {
+            key_t.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_GameEventList.key_t();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.type = reader.int32();
@@ -10315,12 +13351,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            descriptor_t.decode = function decode(reader, length) {
+            descriptor_t.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_GameEventList.descriptor_t();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.eventid = reader.int32();
@@ -10501,11 +13539,13 @@
          * @property {number|null} [last_cmd_number_recv_delta] CSVCMsg_PacketEntities last_cmd_number_recv_delta
          * @property {number|null} [server_tick] CSVCMsg_PacketEntities server_tick
          * @property {Uint8Array|null} [serialized_entities] CSVCMsg_PacketEntities serialized_entities
-         * @property {CSVCMsg_PacketEntities.Icommand_queue_info_t|null} [command_queue_info] CSVCMsg_PacketEntities command_queue_info
          * @property {Array.<CSVCMsg_PacketEntities.Ialternate_baseline_t>|null} [alternate_baselines] CSVCMsg_PacketEntities alternate_baselines
-         * @property {number|null} [has_pvs_vis_bits] CSVCMsg_PacketEntities has_pvs_vis_bits
-         * @property {number|null} [last_cmd_recv_margin] CSVCMsg_PacketEntities last_cmd_recv_margin
+         * @property {number|null} [has_pvs_vis_bits_deprecated] CSVCMsg_PacketEntities has_pvs_vis_bits_deprecated
+         * @property {Array.<number>|null} [cmd_recv_status] CSVCMsg_PacketEntities cmd_recv_status
          * @property {CSVCMsg_PacketEntities.Inon_transmitted_entities_t|null} [non_transmitted_entities] CSVCMsg_PacketEntities non_transmitted_entities
+         * @property {number|null} [cq_starved_command_ticks] CSVCMsg_PacketEntities cq_starved_command_ticks
+         * @property {number|null} [cq_discarded_command_ticks] CSVCMsg_PacketEntities cq_discarded_command_ticks
+         * @property {CSVCMsg_PacketEntities.Ioutofpvs_entity_updates_t|null} [outofpvs_entity_updates] CSVCMsg_PacketEntities outofpvs_entity_updates
          * @property {Uint8Array|null} [dev_padding] CSVCMsg_PacketEntities dev_padding
          */
     
@@ -10519,6 +13559,7 @@
          */
         function CSVCMsg_PacketEntities(properties) {
             this.alternate_baselines = [];
+            this.cmd_recv_status = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -10638,14 +13679,6 @@
         CSVCMsg_PacketEntities.prototype.serialized_entities = $util.newBuffer([]);
     
         /**
-         * CSVCMsg_PacketEntities command_queue_info.
-         * @member {CSVCMsg_PacketEntities.Icommand_queue_info_t|null|undefined} command_queue_info
-         * @memberof CSVCMsg_PacketEntities
-         * @instance
-         */
-        CSVCMsg_PacketEntities.prototype.command_queue_info = null;
-    
-        /**
          * CSVCMsg_PacketEntities alternate_baselines.
          * @member {Array.<CSVCMsg_PacketEntities.Ialternate_baseline_t>} alternate_baselines
          * @memberof CSVCMsg_PacketEntities
@@ -10654,20 +13687,20 @@
         CSVCMsg_PacketEntities.prototype.alternate_baselines = $util.emptyArray;
     
         /**
-         * CSVCMsg_PacketEntities has_pvs_vis_bits.
-         * @member {number} has_pvs_vis_bits
+         * CSVCMsg_PacketEntities has_pvs_vis_bits_deprecated.
+         * @member {number} has_pvs_vis_bits_deprecated
          * @memberof CSVCMsg_PacketEntities
          * @instance
          */
-        CSVCMsg_PacketEntities.prototype.has_pvs_vis_bits = 0;
+        CSVCMsg_PacketEntities.prototype.has_pvs_vis_bits_deprecated = 0;
     
         /**
-         * CSVCMsg_PacketEntities last_cmd_recv_margin.
-         * @member {number} last_cmd_recv_margin
+         * CSVCMsg_PacketEntities cmd_recv_status.
+         * @member {Array.<number>} cmd_recv_status
          * @memberof CSVCMsg_PacketEntities
          * @instance
          */
-        CSVCMsg_PacketEntities.prototype.last_cmd_recv_margin = 0;
+        CSVCMsg_PacketEntities.prototype.cmd_recv_status = $util.emptyArray;
     
         /**
          * CSVCMsg_PacketEntities non_transmitted_entities.
@@ -10676,6 +13709,30 @@
          * @instance
          */
         CSVCMsg_PacketEntities.prototype.non_transmitted_entities = null;
+    
+        /**
+         * CSVCMsg_PacketEntities cq_starved_command_ticks.
+         * @member {number} cq_starved_command_ticks
+         * @memberof CSVCMsg_PacketEntities
+         * @instance
+         */
+        CSVCMsg_PacketEntities.prototype.cq_starved_command_ticks = 0;
+    
+        /**
+         * CSVCMsg_PacketEntities cq_discarded_command_ticks.
+         * @member {number} cq_discarded_command_ticks
+         * @memberof CSVCMsg_PacketEntities
+         * @instance
+         */
+        CSVCMsg_PacketEntities.prototype.cq_discarded_command_ticks = 0;
+    
+        /**
+         * CSVCMsg_PacketEntities outofpvs_entity_updates.
+         * @member {CSVCMsg_PacketEntities.Ioutofpvs_entity_updates_t|null|undefined} outofpvs_entity_updates
+         * @memberof CSVCMsg_PacketEntities
+         * @instance
+         */
+        CSVCMsg_PacketEntities.prototype.outofpvs_entity_updates = null;
     
         /**
          * CSVCMsg_PacketEntities dev_padding.
@@ -10735,19 +13792,27 @@
                 writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.server_tick);
             if (message.serialized_entities != null && Object.hasOwnProperty.call(message, "serialized_entities"))
                 writer.uint32(/* id 13, wireType 2 =*/106).bytes(message.serialized_entities);
-            if (message.command_queue_info != null && Object.hasOwnProperty.call(message, "command_queue_info"))
-                $root.CSVCMsg_PacketEntities.command_queue_info_t.encode(message.command_queue_info, writer.uint32(/* id 14, wireType 2 =*/114).fork()).ldelim();
             if (message.alternate_baselines != null && message.alternate_baselines.length)
                 for (var i = 0; i < message.alternate_baselines.length; ++i)
                     $root.CSVCMsg_PacketEntities.alternate_baseline_t.encode(message.alternate_baselines[i], writer.uint32(/* id 15, wireType 2 =*/122).fork()).ldelim();
-            if (message.has_pvs_vis_bits != null && Object.hasOwnProperty.call(message, "has_pvs_vis_bits"))
-                writer.uint32(/* id 16, wireType 0 =*/128).uint32(message.has_pvs_vis_bits);
+            if (message.has_pvs_vis_bits_deprecated != null && Object.hasOwnProperty.call(message, "has_pvs_vis_bits_deprecated"))
+                writer.uint32(/* id 16, wireType 0 =*/128).uint32(message.has_pvs_vis_bits_deprecated);
             if (message.last_cmd_number_recv_delta != null && Object.hasOwnProperty.call(message, "last_cmd_number_recv_delta"))
                 writer.uint32(/* id 17, wireType 0 =*/136).sint32(message.last_cmd_number_recv_delta);
-            if (message.last_cmd_recv_margin != null && Object.hasOwnProperty.call(message, "last_cmd_recv_margin"))
-                writer.uint32(/* id 18, wireType 0 =*/144).uint32(message.last_cmd_recv_margin);
             if (message.non_transmitted_entities != null && Object.hasOwnProperty.call(message, "non_transmitted_entities"))
                 $root.CSVCMsg_PacketEntities.non_transmitted_entities_t.encode(message.non_transmitted_entities, writer.uint32(/* id 19, wireType 2 =*/154).fork()).ldelim();
+            if (message.cq_starved_command_ticks != null && Object.hasOwnProperty.call(message, "cq_starved_command_ticks"))
+                writer.uint32(/* id 20, wireType 0 =*/160).uint32(message.cq_starved_command_ticks);
+            if (message.cq_discarded_command_ticks != null && Object.hasOwnProperty.call(message, "cq_discarded_command_ticks"))
+                writer.uint32(/* id 21, wireType 0 =*/168).uint32(message.cq_discarded_command_ticks);
+            if (message.cmd_recv_status != null && message.cmd_recv_status.length) {
+                writer.uint32(/* id 22, wireType 2 =*/178).fork();
+                for (var i = 0; i < message.cmd_recv_status.length; ++i)
+                    writer.sint32(message.cmd_recv_status[i]);
+                writer.ldelim();
+            }
+            if (message.outofpvs_entity_updates != null && Object.hasOwnProperty.call(message, "outofpvs_entity_updates"))
+                $root.CSVCMsg_PacketEntities.outofpvs_entity_updates_t.encode(message.outofpvs_entity_updates, writer.uint32(/* id 23, wireType 2 =*/186).fork()).ldelim();
             if (message.dev_padding != null && Object.hasOwnProperty.call(message, "dev_padding"))
                 writer.uint32(/* id 999, wireType 2 =*/7994).bytes(message.dev_padding);
             return writer;
@@ -10777,12 +13842,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_PacketEntities.decode = function decode(reader, length) {
+        CSVCMsg_PacketEntities.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_PacketEntities();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.max_entries = reader.int32();
@@ -10840,10 +13907,6 @@
                         message.serialized_entities = reader.bytes();
                         break;
                     }
-                case 14: {
-                        message.command_queue_info = $root.CSVCMsg_PacketEntities.command_queue_info_t.decode(reader, reader.uint32());
-                        break;
-                    }
                 case 15: {
                         if (!(message.alternate_baselines && message.alternate_baselines.length))
                             message.alternate_baselines = [];
@@ -10851,15 +13914,34 @@
                         break;
                     }
                 case 16: {
-                        message.has_pvs_vis_bits = reader.uint32();
+                        message.has_pvs_vis_bits_deprecated = reader.uint32();
                         break;
                     }
-                case 18: {
-                        message.last_cmd_recv_margin = reader.uint32();
+                case 22: {
+                        if (!(message.cmd_recv_status && message.cmd_recv_status.length))
+                            message.cmd_recv_status = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.cmd_recv_status.push(reader.sint32());
+                        } else
+                            message.cmd_recv_status.push(reader.sint32());
                         break;
                     }
                 case 19: {
                         message.non_transmitted_entities = $root.CSVCMsg_PacketEntities.non_transmitted_entities_t.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 20: {
+                        message.cq_starved_command_ticks = reader.uint32();
+                        break;
+                    }
+                case 21: {
+                        message.cq_discarded_command_ticks = reader.uint32();
+                        break;
+                    }
+                case 23: {
+                        message.outofpvs_entity_updates = $root.CSVCMsg_PacketEntities.outofpvs_entity_updates_t.decode(reader, reader.uint32());
                         break;
                     }
                 case 999: {
@@ -10943,11 +14025,6 @@
             if (message.serialized_entities != null && message.hasOwnProperty("serialized_entities"))
                 if (!(message.serialized_entities && typeof message.serialized_entities.length === "number" || $util.isString(message.serialized_entities)))
                     return "serialized_entities: buffer expected";
-            if (message.command_queue_info != null && message.hasOwnProperty("command_queue_info")) {
-                var error = $root.CSVCMsg_PacketEntities.command_queue_info_t.verify(message.command_queue_info);
-                if (error)
-                    return "command_queue_info." + error;
-            }
             if (message.alternate_baselines != null && message.hasOwnProperty("alternate_baselines")) {
                 if (!Array.isArray(message.alternate_baselines))
                     return "alternate_baselines: array expected";
@@ -10957,16 +14034,31 @@
                         return "alternate_baselines." + error;
                 }
             }
-            if (message.has_pvs_vis_bits != null && message.hasOwnProperty("has_pvs_vis_bits"))
-                if (!$util.isInteger(message.has_pvs_vis_bits))
-                    return "has_pvs_vis_bits: integer expected";
-            if (message.last_cmd_recv_margin != null && message.hasOwnProperty("last_cmd_recv_margin"))
-                if (!$util.isInteger(message.last_cmd_recv_margin))
-                    return "last_cmd_recv_margin: integer expected";
+            if (message.has_pvs_vis_bits_deprecated != null && message.hasOwnProperty("has_pvs_vis_bits_deprecated"))
+                if (!$util.isInteger(message.has_pvs_vis_bits_deprecated))
+                    return "has_pvs_vis_bits_deprecated: integer expected";
+            if (message.cmd_recv_status != null && message.hasOwnProperty("cmd_recv_status")) {
+                if (!Array.isArray(message.cmd_recv_status))
+                    return "cmd_recv_status: array expected";
+                for (var i = 0; i < message.cmd_recv_status.length; ++i)
+                    if (!$util.isInteger(message.cmd_recv_status[i]))
+                        return "cmd_recv_status: integer[] expected";
+            }
             if (message.non_transmitted_entities != null && message.hasOwnProperty("non_transmitted_entities")) {
                 var error = $root.CSVCMsg_PacketEntities.non_transmitted_entities_t.verify(message.non_transmitted_entities);
                 if (error)
                     return "non_transmitted_entities." + error;
+            }
+            if (message.cq_starved_command_ticks != null && message.hasOwnProperty("cq_starved_command_ticks"))
+                if (!$util.isInteger(message.cq_starved_command_ticks))
+                    return "cq_starved_command_ticks: integer expected";
+            if (message.cq_discarded_command_ticks != null && message.hasOwnProperty("cq_discarded_command_ticks"))
+                if (!$util.isInteger(message.cq_discarded_command_ticks))
+                    return "cq_discarded_command_ticks: integer expected";
+            if (message.outofpvs_entity_updates != null && message.hasOwnProperty("outofpvs_entity_updates")) {
+                var error = $root.CSVCMsg_PacketEntities.outofpvs_entity_updates_t.verify(message.outofpvs_entity_updates);
+                if (error)
+                    return "outofpvs_entity_updates." + error;
             }
             if (message.dev_padding != null && message.hasOwnProperty("dev_padding"))
                 if (!(message.dev_padding && typeof message.dev_padding.length === "number" || $util.isString(message.dev_padding)))
@@ -11020,11 +14112,6 @@
                     $util.base64.decode(object.serialized_entities, message.serialized_entities = $util.newBuffer($util.base64.length(object.serialized_entities)), 0);
                 else if (object.serialized_entities.length >= 0)
                     message.serialized_entities = object.serialized_entities;
-            if (object.command_queue_info != null) {
-                if (typeof object.command_queue_info !== "object")
-                    throw TypeError(".CSVCMsg_PacketEntities.command_queue_info: object expected");
-                message.command_queue_info = $root.CSVCMsg_PacketEntities.command_queue_info_t.fromObject(object.command_queue_info);
-            }
             if (object.alternate_baselines) {
                 if (!Array.isArray(object.alternate_baselines))
                     throw TypeError(".CSVCMsg_PacketEntities.alternate_baselines: array expected");
@@ -11035,14 +14122,28 @@
                     message.alternate_baselines[i] = $root.CSVCMsg_PacketEntities.alternate_baseline_t.fromObject(object.alternate_baselines[i]);
                 }
             }
-            if (object.has_pvs_vis_bits != null)
-                message.has_pvs_vis_bits = object.has_pvs_vis_bits >>> 0;
-            if (object.last_cmd_recv_margin != null)
-                message.last_cmd_recv_margin = object.last_cmd_recv_margin >>> 0;
+            if (object.has_pvs_vis_bits_deprecated != null)
+                message.has_pvs_vis_bits_deprecated = object.has_pvs_vis_bits_deprecated >>> 0;
+            if (object.cmd_recv_status) {
+                if (!Array.isArray(object.cmd_recv_status))
+                    throw TypeError(".CSVCMsg_PacketEntities.cmd_recv_status: array expected");
+                message.cmd_recv_status = [];
+                for (var i = 0; i < object.cmd_recv_status.length; ++i)
+                    message.cmd_recv_status[i] = object.cmd_recv_status[i] | 0;
+            }
             if (object.non_transmitted_entities != null) {
                 if (typeof object.non_transmitted_entities !== "object")
                     throw TypeError(".CSVCMsg_PacketEntities.non_transmitted_entities: object expected");
                 message.non_transmitted_entities = $root.CSVCMsg_PacketEntities.non_transmitted_entities_t.fromObject(object.non_transmitted_entities);
+            }
+            if (object.cq_starved_command_ticks != null)
+                message.cq_starved_command_ticks = object.cq_starved_command_ticks >>> 0;
+            if (object.cq_discarded_command_ticks != null)
+                message.cq_discarded_command_ticks = object.cq_discarded_command_ticks >>> 0;
+            if (object.outofpvs_entity_updates != null) {
+                if (typeof object.outofpvs_entity_updates !== "object")
+                    throw TypeError(".CSVCMsg_PacketEntities.outofpvs_entity_updates: object expected");
+                message.outofpvs_entity_updates = $root.CSVCMsg_PacketEntities.outofpvs_entity_updates_t.fromObject(object.outofpvs_entity_updates);
             }
             if (object.dev_padding != null)
                 if (typeof object.dev_padding === "string")
@@ -11065,8 +14166,10 @@
             if (!options)
                 options = {};
             var object = {};
-            if (options.arrays || options.defaults)
+            if (options.arrays || options.defaults) {
                 object.alternate_baselines = [];
+                object.cmd_recv_status = [];
+            }
             if (options.defaults) {
                 object.max_entries = 0;
                 object.updated_entries = 0;
@@ -11093,11 +14196,12 @@
                     if (options.bytes !== Array)
                         object.serialized_entities = $util.newBuffer(object.serialized_entities);
                 }
-                object.command_queue_info = null;
-                object.has_pvs_vis_bits = 0;
+                object.has_pvs_vis_bits_deprecated = 0;
                 object.last_cmd_number_recv_delta = 0;
-                object.last_cmd_recv_margin = 0;
                 object.non_transmitted_entities = null;
+                object.cq_starved_command_ticks = 0;
+                object.cq_discarded_command_ticks = 0;
+                object.outofpvs_entity_updates = null;
                 if (options.bytes === String)
                     object.dev_padding = "";
                 else {
@@ -11132,21 +14236,28 @@
                 object.server_tick = message.server_tick;
             if (message.serialized_entities != null && message.hasOwnProperty("serialized_entities"))
                 object.serialized_entities = options.bytes === String ? $util.base64.encode(message.serialized_entities, 0, message.serialized_entities.length) : options.bytes === Array ? Array.prototype.slice.call(message.serialized_entities) : message.serialized_entities;
-            if (message.command_queue_info != null && message.hasOwnProperty("command_queue_info"))
-                object.command_queue_info = $root.CSVCMsg_PacketEntities.command_queue_info_t.toObject(message.command_queue_info, options);
             if (message.alternate_baselines && message.alternate_baselines.length) {
                 object.alternate_baselines = [];
                 for (var j = 0; j < message.alternate_baselines.length; ++j)
                     object.alternate_baselines[j] = $root.CSVCMsg_PacketEntities.alternate_baseline_t.toObject(message.alternate_baselines[j], options);
             }
-            if (message.has_pvs_vis_bits != null && message.hasOwnProperty("has_pvs_vis_bits"))
-                object.has_pvs_vis_bits = message.has_pvs_vis_bits;
+            if (message.has_pvs_vis_bits_deprecated != null && message.hasOwnProperty("has_pvs_vis_bits_deprecated"))
+                object.has_pvs_vis_bits_deprecated = message.has_pvs_vis_bits_deprecated;
             if (message.last_cmd_number_recv_delta != null && message.hasOwnProperty("last_cmd_number_recv_delta"))
                 object.last_cmd_number_recv_delta = message.last_cmd_number_recv_delta;
-            if (message.last_cmd_recv_margin != null && message.hasOwnProperty("last_cmd_recv_margin"))
-                object.last_cmd_recv_margin = message.last_cmd_recv_margin;
             if (message.non_transmitted_entities != null && message.hasOwnProperty("non_transmitted_entities"))
                 object.non_transmitted_entities = $root.CSVCMsg_PacketEntities.non_transmitted_entities_t.toObject(message.non_transmitted_entities, options);
+            if (message.cq_starved_command_ticks != null && message.hasOwnProperty("cq_starved_command_ticks"))
+                object.cq_starved_command_ticks = message.cq_starved_command_ticks;
+            if (message.cq_discarded_command_ticks != null && message.hasOwnProperty("cq_discarded_command_ticks"))
+                object.cq_discarded_command_ticks = message.cq_discarded_command_ticks;
+            if (message.cmd_recv_status && message.cmd_recv_status.length) {
+                object.cmd_recv_status = [];
+                for (var j = 0; j < message.cmd_recv_status.length; ++j)
+                    object.cmd_recv_status[j] = message.cmd_recv_status[j];
+            }
+            if (message.outofpvs_entity_updates != null && message.hasOwnProperty("outofpvs_entity_updates"))
+                object.outofpvs_entity_updates = $root.CSVCMsg_PacketEntities.outofpvs_entity_updates_t.toObject(message.outofpvs_entity_updates, options);
             if (message.dev_padding != null && message.hasOwnProperty("dev_padding"))
                 object.dev_padding = options.bytes === String ? $util.base64.encode(message.dev_padding, 0, message.dev_padding.length) : options.bytes === Array ? Array.prototype.slice.call(message.dev_padding) : message.dev_padding;
             return object;
@@ -11177,302 +14288,6 @@
             }
             return typeUrlPrefix + "/CSVCMsg_PacketEntities";
         };
-    
-        CSVCMsg_PacketEntities.command_queue_info_t = (function() {
-    
-            /**
-             * Properties of a command_queue_info_t.
-             * @memberof CSVCMsg_PacketEntities
-             * @interface Icommand_queue_info_t
-             * @property {number|null} [commands_queued] command_queue_info_t commands_queued
-             * @property {number|null} [command_queue_desired_size] command_queue_info_t command_queue_desired_size
-             * @property {number|null} [starved_command_ticks] command_queue_info_t starved_command_ticks
-             * @property {number|null} [time_dilation_percent] command_queue_info_t time_dilation_percent
-             * @property {number|null} [discarded_command_ticks] command_queue_info_t discarded_command_ticks
-             */
-    
-            /**
-             * Constructs a new command_queue_info_t.
-             * @memberof CSVCMsg_PacketEntities
-             * @classdesc Represents a command_queue_info_t.
-             * @implements Icommand_queue_info_t
-             * @constructor
-             * @param {CSVCMsg_PacketEntities.Icommand_queue_info_t=} [properties] Properties to set
-             */
-            function command_queue_info_t(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * command_queue_info_t commands_queued.
-             * @member {number} commands_queued
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @instance
-             */
-            command_queue_info_t.prototype.commands_queued = 0;
-    
-            /**
-             * command_queue_info_t command_queue_desired_size.
-             * @member {number} command_queue_desired_size
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @instance
-             */
-            command_queue_info_t.prototype.command_queue_desired_size = 0;
-    
-            /**
-             * command_queue_info_t starved_command_ticks.
-             * @member {number} starved_command_ticks
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @instance
-             */
-            command_queue_info_t.prototype.starved_command_ticks = 0;
-    
-            /**
-             * command_queue_info_t time_dilation_percent.
-             * @member {number} time_dilation_percent
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @instance
-             */
-            command_queue_info_t.prototype.time_dilation_percent = 0;
-    
-            /**
-             * command_queue_info_t discarded_command_ticks.
-             * @member {number} discarded_command_ticks
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @instance
-             */
-            command_queue_info_t.prototype.discarded_command_ticks = 0;
-    
-            /**
-             * Creates a new command_queue_info_t instance using the specified properties.
-             * @function create
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @static
-             * @param {CSVCMsg_PacketEntities.Icommand_queue_info_t=} [properties] Properties to set
-             * @returns {CSVCMsg_PacketEntities.command_queue_info_t} command_queue_info_t instance
-             */
-            command_queue_info_t.create = function create(properties) {
-                return new command_queue_info_t(properties);
-            };
-    
-            /**
-             * Encodes the specified command_queue_info_t message. Does not implicitly {@link CSVCMsg_PacketEntities.command_queue_info_t.verify|verify} messages.
-             * @function encode
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @static
-             * @param {CSVCMsg_PacketEntities.Icommand_queue_info_t} message command_queue_info_t message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            command_queue_info_t.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.commands_queued != null && Object.hasOwnProperty.call(message, "commands_queued"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.commands_queued);
-                if (message.command_queue_desired_size != null && Object.hasOwnProperty.call(message, "command_queue_desired_size"))
-                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.command_queue_desired_size);
-                if (message.starved_command_ticks != null && Object.hasOwnProperty.call(message, "starved_command_ticks"))
-                    writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.starved_command_ticks);
-                if (message.time_dilation_percent != null && Object.hasOwnProperty.call(message, "time_dilation_percent"))
-                    writer.uint32(/* id 4, wireType 5 =*/37).float(message.time_dilation_percent);
-                if (message.discarded_command_ticks != null && Object.hasOwnProperty.call(message, "discarded_command_ticks"))
-                    writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.discarded_command_ticks);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified command_queue_info_t message, length delimited. Does not implicitly {@link CSVCMsg_PacketEntities.command_queue_info_t.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @static
-             * @param {CSVCMsg_PacketEntities.Icommand_queue_info_t} message command_queue_info_t message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            command_queue_info_t.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a command_queue_info_t message from the specified reader or buffer.
-             * @function decode
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {CSVCMsg_PacketEntities.command_queue_info_t} command_queue_info_t
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            command_queue_info_t.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_PacketEntities.command_queue_info_t();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1: {
-                            message.commands_queued = reader.uint32();
-                            break;
-                        }
-                    case 2: {
-                            message.command_queue_desired_size = reader.uint32();
-                            break;
-                        }
-                    case 3: {
-                            message.starved_command_ticks = reader.uint32();
-                            break;
-                        }
-                    case 4: {
-                            message.time_dilation_percent = reader.float();
-                            break;
-                        }
-                    case 5: {
-                            message.discarded_command_ticks = reader.uint32();
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a command_queue_info_t message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {CSVCMsg_PacketEntities.command_queue_info_t} command_queue_info_t
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            command_queue_info_t.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a command_queue_info_t message.
-             * @function verify
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            command_queue_info_t.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.commands_queued != null && message.hasOwnProperty("commands_queued"))
-                    if (!$util.isInteger(message.commands_queued))
-                        return "commands_queued: integer expected";
-                if (message.command_queue_desired_size != null && message.hasOwnProperty("command_queue_desired_size"))
-                    if (!$util.isInteger(message.command_queue_desired_size))
-                        return "command_queue_desired_size: integer expected";
-                if (message.starved_command_ticks != null && message.hasOwnProperty("starved_command_ticks"))
-                    if (!$util.isInteger(message.starved_command_ticks))
-                        return "starved_command_ticks: integer expected";
-                if (message.time_dilation_percent != null && message.hasOwnProperty("time_dilation_percent"))
-                    if (typeof message.time_dilation_percent !== "number")
-                        return "time_dilation_percent: number expected";
-                if (message.discarded_command_ticks != null && message.hasOwnProperty("discarded_command_ticks"))
-                    if (!$util.isInteger(message.discarded_command_ticks))
-                        return "discarded_command_ticks: integer expected";
-                return null;
-            };
-    
-            /**
-             * Creates a command_queue_info_t message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {CSVCMsg_PacketEntities.command_queue_info_t} command_queue_info_t
-             */
-            command_queue_info_t.fromObject = function fromObject(object) {
-                if (object instanceof $root.CSVCMsg_PacketEntities.command_queue_info_t)
-                    return object;
-                var message = new $root.CSVCMsg_PacketEntities.command_queue_info_t();
-                if (object.commands_queued != null)
-                    message.commands_queued = object.commands_queued >>> 0;
-                if (object.command_queue_desired_size != null)
-                    message.command_queue_desired_size = object.command_queue_desired_size >>> 0;
-                if (object.starved_command_ticks != null)
-                    message.starved_command_ticks = object.starved_command_ticks >>> 0;
-                if (object.time_dilation_percent != null)
-                    message.time_dilation_percent = Number(object.time_dilation_percent);
-                if (object.discarded_command_ticks != null)
-                    message.discarded_command_ticks = object.discarded_command_ticks >>> 0;
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a command_queue_info_t message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @static
-             * @param {CSVCMsg_PacketEntities.command_queue_info_t} message command_queue_info_t
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            command_queue_info_t.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.commands_queued = 0;
-                    object.command_queue_desired_size = 0;
-                    object.starved_command_ticks = 0;
-                    object.time_dilation_percent = 0;
-                    object.discarded_command_ticks = 0;
-                }
-                if (message.commands_queued != null && message.hasOwnProperty("commands_queued"))
-                    object.commands_queued = message.commands_queued;
-                if (message.command_queue_desired_size != null && message.hasOwnProperty("command_queue_desired_size"))
-                    object.command_queue_desired_size = message.command_queue_desired_size;
-                if (message.starved_command_ticks != null && message.hasOwnProperty("starved_command_ticks"))
-                    object.starved_command_ticks = message.starved_command_ticks;
-                if (message.time_dilation_percent != null && message.hasOwnProperty("time_dilation_percent"))
-                    object.time_dilation_percent = options.json && !isFinite(message.time_dilation_percent) ? String(message.time_dilation_percent) : message.time_dilation_percent;
-                if (message.discarded_command_ticks != null && message.hasOwnProperty("discarded_command_ticks"))
-                    object.discarded_command_ticks = message.discarded_command_ticks;
-                return object;
-            };
-    
-            /**
-             * Converts this command_queue_info_t to JSON.
-             * @function toJSON
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            command_queue_info_t.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            /**
-             * Gets the default type url for command_queue_info_t
-             * @function getTypeUrl
-             * @memberof CSVCMsg_PacketEntities.command_queue_info_t
-             * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
-             */
-            command_queue_info_t.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/CSVCMsg_PacketEntities.command_queue_info_t";
-            };
-    
-            return command_queue_info_t;
-        })();
     
         CSVCMsg_PacketEntities.alternate_baseline_t = (function() {
     
@@ -11570,12 +14385,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            alternate_baseline_t.decode = function decode(reader, length) {
+            alternate_baseline_t.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_PacketEntities.alternate_baseline_t();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.entity_index = reader.int32();
@@ -11797,12 +14614,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            non_transmitted_entities_t.decode = function decode(reader, length) {
+            non_transmitted_entities_t.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_PacketEntities.non_transmitted_entities_t();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.header_count = reader.int32();
@@ -11937,6 +14756,244 @@
             return non_transmitted_entities_t;
         })();
     
+        CSVCMsg_PacketEntities.outofpvs_entity_updates_t = (function() {
+    
+            /**
+             * Properties of an outofpvs_entity_updates_t.
+             * @memberof CSVCMsg_PacketEntities
+             * @interface Ioutofpvs_entity_updates_t
+             * @property {number|null} [count] outofpvs_entity_updates_t count
+             * @property {Uint8Array|null} [data] outofpvs_entity_updates_t data
+             */
+    
+            /**
+             * Constructs a new outofpvs_entity_updates_t.
+             * @memberof CSVCMsg_PacketEntities
+             * @classdesc Represents an outofpvs_entity_updates_t.
+             * @implements Ioutofpvs_entity_updates_t
+             * @constructor
+             * @param {CSVCMsg_PacketEntities.Ioutofpvs_entity_updates_t=} [properties] Properties to set
+             */
+            function outofpvs_entity_updates_t(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * outofpvs_entity_updates_t count.
+             * @member {number} count
+             * @memberof CSVCMsg_PacketEntities.outofpvs_entity_updates_t
+             * @instance
+             */
+            outofpvs_entity_updates_t.prototype.count = 0;
+    
+            /**
+             * outofpvs_entity_updates_t data.
+             * @member {Uint8Array} data
+             * @memberof CSVCMsg_PacketEntities.outofpvs_entity_updates_t
+             * @instance
+             */
+            outofpvs_entity_updates_t.prototype.data = $util.newBuffer([]);
+    
+            /**
+             * Creates a new outofpvs_entity_updates_t instance using the specified properties.
+             * @function create
+             * @memberof CSVCMsg_PacketEntities.outofpvs_entity_updates_t
+             * @static
+             * @param {CSVCMsg_PacketEntities.Ioutofpvs_entity_updates_t=} [properties] Properties to set
+             * @returns {CSVCMsg_PacketEntities.outofpvs_entity_updates_t} outofpvs_entity_updates_t instance
+             */
+            outofpvs_entity_updates_t.create = function create(properties) {
+                return new outofpvs_entity_updates_t(properties);
+            };
+    
+            /**
+             * Encodes the specified outofpvs_entity_updates_t message. Does not implicitly {@link CSVCMsg_PacketEntities.outofpvs_entity_updates_t.verify|verify} messages.
+             * @function encode
+             * @memberof CSVCMsg_PacketEntities.outofpvs_entity_updates_t
+             * @static
+             * @param {CSVCMsg_PacketEntities.Ioutofpvs_entity_updates_t} message outofpvs_entity_updates_t message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            outofpvs_entity_updates_t.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.count != null && Object.hasOwnProperty.call(message, "count"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.count);
+                if (message.data != null && Object.hasOwnProperty.call(message, "data"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.data);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified outofpvs_entity_updates_t message, length delimited. Does not implicitly {@link CSVCMsg_PacketEntities.outofpvs_entity_updates_t.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof CSVCMsg_PacketEntities.outofpvs_entity_updates_t
+             * @static
+             * @param {CSVCMsg_PacketEntities.Ioutofpvs_entity_updates_t} message outofpvs_entity_updates_t message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            outofpvs_entity_updates_t.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes an outofpvs_entity_updates_t message from the specified reader or buffer.
+             * @function decode
+             * @memberof CSVCMsg_PacketEntities.outofpvs_entity_updates_t
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {CSVCMsg_PacketEntities.outofpvs_entity_updates_t} outofpvs_entity_updates_t
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            outofpvs_entity_updates_t.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_PacketEntities.outofpvs_entity_updates_t();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.count = reader.int32();
+                            break;
+                        }
+                    case 2: {
+                            message.data = reader.bytes();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes an outofpvs_entity_updates_t message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof CSVCMsg_PacketEntities.outofpvs_entity_updates_t
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {CSVCMsg_PacketEntities.outofpvs_entity_updates_t} outofpvs_entity_updates_t
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            outofpvs_entity_updates_t.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies an outofpvs_entity_updates_t message.
+             * @function verify
+             * @memberof CSVCMsg_PacketEntities.outofpvs_entity_updates_t
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            outofpvs_entity_updates_t.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.count != null && message.hasOwnProperty("count"))
+                    if (!$util.isInteger(message.count))
+                        return "count: integer expected";
+                if (message.data != null && message.hasOwnProperty("data"))
+                    if (!(message.data && typeof message.data.length === "number" || $util.isString(message.data)))
+                        return "data: buffer expected";
+                return null;
+            };
+    
+            /**
+             * Creates an outofpvs_entity_updates_t message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof CSVCMsg_PacketEntities.outofpvs_entity_updates_t
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {CSVCMsg_PacketEntities.outofpvs_entity_updates_t} outofpvs_entity_updates_t
+             */
+            outofpvs_entity_updates_t.fromObject = function fromObject(object) {
+                if (object instanceof $root.CSVCMsg_PacketEntities.outofpvs_entity_updates_t)
+                    return object;
+                var message = new $root.CSVCMsg_PacketEntities.outofpvs_entity_updates_t();
+                if (object.count != null)
+                    message.count = object.count | 0;
+                if (object.data != null)
+                    if (typeof object.data === "string")
+                        $util.base64.decode(object.data, message.data = $util.newBuffer($util.base64.length(object.data)), 0);
+                    else if (object.data.length >= 0)
+                        message.data = object.data;
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from an outofpvs_entity_updates_t message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof CSVCMsg_PacketEntities.outofpvs_entity_updates_t
+             * @static
+             * @param {CSVCMsg_PacketEntities.outofpvs_entity_updates_t} message outofpvs_entity_updates_t
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            outofpvs_entity_updates_t.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.count = 0;
+                    if (options.bytes === String)
+                        object.data = "";
+                    else {
+                        object.data = [];
+                        if (options.bytes !== Array)
+                            object.data = $util.newBuffer(object.data);
+                    }
+                }
+                if (message.count != null && message.hasOwnProperty("count"))
+                    object.count = message.count;
+                if (message.data != null && message.hasOwnProperty("data"))
+                    object.data = options.bytes === String ? $util.base64.encode(message.data, 0, message.data.length) : options.bytes === Array ? Array.prototype.slice.call(message.data) : message.data;
+                return object;
+            };
+    
+            /**
+             * Converts this outofpvs_entity_updates_t to JSON.
+             * @function toJSON
+             * @memberof CSVCMsg_PacketEntities.outofpvs_entity_updates_t
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            outofpvs_entity_updates_t.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            /**
+             * Gets the default type url for outofpvs_entity_updates_t
+             * @function getTypeUrl
+             * @memberof CSVCMsg_PacketEntities.outofpvs_entity_updates_t
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            outofpvs_entity_updates_t.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/CSVCMsg_PacketEntities.outofpvs_entity_updates_t";
+            };
+    
+            return outofpvs_entity_updates_t;
+        })();
+    
         return CSVCMsg_PacketEntities;
     })();
     
@@ -12047,12 +15104,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_TempEntities.decode = function decode(reader, length) {
+        CSVCMsg_TempEntities.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_TempEntities();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.reliable = reader.bool();
@@ -12383,12 +15442,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_CreateStringTable.decode = function decode(reader, length) {
+        CSVCMsg_CreateStringTable.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_CreateStringTable();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.name = reader.string();
@@ -12726,12 +15787,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_UpdateStringTable.decode = function decode(reader, length) {
+        CSVCMsg_UpdateStringTable.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_UpdateStringTable();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.table_id = reader.int32();
@@ -13029,12 +16092,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_VoiceData.decode = function decode(reader, length) {
+        CSVCMsg_VoiceData.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_VoiceData();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.audio = $root.CMsgVoiceAudio.decode(reader, reader.uint32());
@@ -13346,12 +16411,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_PacketReliable.decode = function decode(reader, length) {
+        CSVCMsg_PacketReliable.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_PacketReliable();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.tick = reader.int32();
@@ -13607,12 +16674,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_FullFrameSplit.decode = function decode(reader, length) {
+        CSVCMsg_FullFrameSplit.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_FullFrameSplit();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.tick = reader.int32();
@@ -13889,12 +16958,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_HLTVStatus.decode = function decode(reader, length) {
+        CSVCMsg_HLTVStatus.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_HLTVStatus();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.master = reader.string();
@@ -14129,12 +17200,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_ServerSteamID.decode = function decode(reader, length) {
+        CSVCMsg_ServerSteamID.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_ServerSteamID();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.steam_id = reader.uint64();
@@ -14346,12 +17419,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_CmdKeyValues.decode = function decode(reader, length) {
+        CSVCMsg_CmdKeyValues.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_CmdKeyValues();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.data = reader.bytes();
@@ -14569,12 +17644,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_RconServerDetails.decode = function decode(reader, length) {
+        CSVCMsg_RconServerDetails.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_RconServerDetails();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.token = reader.bytes();
@@ -14805,12 +17882,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgIPCAddress.decode = function decode(reader, length) {
+        CMsgIPCAddress.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgIPCAddress();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.computer_guid = reader.fixed64();
@@ -15090,12 +18169,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgServerPeer.decode = function decode(reader, length) {
+        CMsgServerPeer.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgServerPeer();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.player_slot = reader.int32();
@@ -15375,12 +18456,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_PeerList.decode = function decode(reader, length) {
+        CSVCMsg_PeerList.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_PeerList();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         if (!(message.peer && message.peer.length))
@@ -15608,12 +18691,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_ClearAllStringTables.decode = function decode(reader, length) {
+        CSVCMsg_ClearAllStringTables.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_ClearAllStringTables();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.mapname = reader.string();
@@ -15947,12 +19032,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        ProtoFlattenedSerializerField_t.decode = function decode(reader, length) {
+        ProtoFlattenedSerializerField_t.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ProtoFlattenedSerializerField_t();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.var_type_sym = reader.int32();
@@ -16311,12 +19398,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            polymorphic_field_t.decode = function decode(reader, length) {
+            polymorphic_field_t.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ProtoFlattenedSerializerField_t.polymorphic_field_t();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.polymorphic_field_serializer_name_sym = reader.int32();
@@ -16554,12 +19643,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        ProtoFlattenedSerializer_t.decode = function decode(reader, length) {
+        ProtoFlattenedSerializer_t.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.ProtoFlattenedSerializer_t();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.serializer_name_sym = reader.int32();
@@ -16830,12 +19921,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_FlattenedSerializer.decode = function decode(reader, length) {
+        CSVCMsg_FlattenedSerializer.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_FlattenedSerializer();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         if (!(message.serializers && message.serializers.length))
@@ -17110,12 +20203,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_StopSound.decode = function decode(reader, length) {
+        CSVCMsg_StopSound.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_StopSound();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.guid = reader.fixed32();
@@ -17346,12 +20441,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CBidirMsg_RebroadcastGameEvent.decode = function decode(reader, length) {
+        CBidirMsg_RebroadcastGameEvent.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CBidirMsg_RebroadcastGameEvent();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.posttoserver = reader.bool();
@@ -17600,12 +20697,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CBidirMsg_RebroadcastSource.decode = function decode(reader, length) {
+        CBidirMsg_RebroadcastSource.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CBidirMsg_RebroadcastSource();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.eventsource = reader.int32();
@@ -17716,6 +20815,304 @@
         };
     
         return CBidirMsg_RebroadcastSource;
+    })();
+    
+    $root.CBidirMsg_PredictionEvent = (function() {
+    
+        /**
+         * Properties of a CBidirMsg_PredictionEvent.
+         * @exports ICBidirMsg_PredictionEvent
+         * @interface ICBidirMsg_PredictionEvent
+         * @property {number} event_id CBidirMsg_PredictionEvent event_id
+         * @property {Uint8Array} event_data CBidirMsg_PredictionEvent event_data
+         * @property {number|null} [sync_type] CBidirMsg_PredictionEvent sync_type
+         * @property {number|null} [sync_val_uint32] CBidirMsg_PredictionEvent sync_val_uint32
+         */
+    
+        /**
+         * Constructs a new CBidirMsg_PredictionEvent.
+         * @exports CBidirMsg_PredictionEvent
+         * @classdesc Represents a CBidirMsg_PredictionEvent.
+         * @implements ICBidirMsg_PredictionEvent
+         * @constructor
+         * @param {ICBidirMsg_PredictionEvent=} [properties] Properties to set
+         */
+        function CBidirMsg_PredictionEvent(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CBidirMsg_PredictionEvent event_id.
+         * @member {number} event_id
+         * @memberof CBidirMsg_PredictionEvent
+         * @instance
+         */
+        CBidirMsg_PredictionEvent.prototype.event_id = 0;
+    
+        /**
+         * CBidirMsg_PredictionEvent event_data.
+         * @member {Uint8Array} event_data
+         * @memberof CBidirMsg_PredictionEvent
+         * @instance
+         */
+        CBidirMsg_PredictionEvent.prototype.event_data = $util.newBuffer([]);
+    
+        /**
+         * CBidirMsg_PredictionEvent sync_type.
+         * @member {number} sync_type
+         * @memberof CBidirMsg_PredictionEvent
+         * @instance
+         */
+        CBidirMsg_PredictionEvent.prototype.sync_type = 0;
+    
+        /**
+         * CBidirMsg_PredictionEvent sync_val_uint32.
+         * @member {number} sync_val_uint32
+         * @memberof CBidirMsg_PredictionEvent
+         * @instance
+         */
+        CBidirMsg_PredictionEvent.prototype.sync_val_uint32 = 0;
+    
+        /**
+         * Creates a new CBidirMsg_PredictionEvent instance using the specified properties.
+         * @function create
+         * @memberof CBidirMsg_PredictionEvent
+         * @static
+         * @param {ICBidirMsg_PredictionEvent=} [properties] Properties to set
+         * @returns {CBidirMsg_PredictionEvent} CBidirMsg_PredictionEvent instance
+         */
+        CBidirMsg_PredictionEvent.create = function create(properties) {
+            return new CBidirMsg_PredictionEvent(properties);
+        };
+    
+        /**
+         * Encodes the specified CBidirMsg_PredictionEvent message. Does not implicitly {@link CBidirMsg_PredictionEvent.verify|verify} messages.
+         * @function encode
+         * @memberof CBidirMsg_PredictionEvent
+         * @static
+         * @param {ICBidirMsg_PredictionEvent} message CBidirMsg_PredictionEvent message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CBidirMsg_PredictionEvent.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.event_id);
+            writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.event_data);
+            if (message.sync_type != null && Object.hasOwnProperty.call(message, "sync_type"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.sync_type);
+            if (message.sync_val_uint32 != null && Object.hasOwnProperty.call(message, "sync_val_uint32"))
+                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.sync_val_uint32);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CBidirMsg_PredictionEvent message, length delimited. Does not implicitly {@link CBidirMsg_PredictionEvent.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CBidirMsg_PredictionEvent
+         * @static
+         * @param {ICBidirMsg_PredictionEvent} message CBidirMsg_PredictionEvent message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CBidirMsg_PredictionEvent.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CBidirMsg_PredictionEvent message from the specified reader or buffer.
+         * @function decode
+         * @memberof CBidirMsg_PredictionEvent
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CBidirMsg_PredictionEvent} CBidirMsg_PredictionEvent
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CBidirMsg_PredictionEvent.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CBidirMsg_PredictionEvent();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.event_id = reader.uint32();
+                        break;
+                    }
+                case 2: {
+                        message.event_data = reader.bytes();
+                        break;
+                    }
+                case 3: {
+                        message.sync_type = reader.uint32();
+                        break;
+                    }
+                case 4: {
+                        message.sync_val_uint32 = reader.uint32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            if (!message.hasOwnProperty("event_id"))
+                throw $util.ProtocolError("missing required 'event_id'", { instance: message });
+            if (!message.hasOwnProperty("event_data"))
+                throw $util.ProtocolError("missing required 'event_data'", { instance: message });
+            return message;
+        };
+    
+        /**
+         * Decodes a CBidirMsg_PredictionEvent message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CBidirMsg_PredictionEvent
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CBidirMsg_PredictionEvent} CBidirMsg_PredictionEvent
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CBidirMsg_PredictionEvent.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CBidirMsg_PredictionEvent message.
+         * @function verify
+         * @memberof CBidirMsg_PredictionEvent
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CBidirMsg_PredictionEvent.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (!$util.isInteger(message.event_id))
+                return "event_id: integer expected";
+            if (!(message.event_data && typeof message.event_data.length === "number" || $util.isString(message.event_data)))
+                return "event_data: buffer expected";
+            if (message.sync_type != null && message.hasOwnProperty("sync_type"))
+                if (!$util.isInteger(message.sync_type))
+                    return "sync_type: integer expected";
+            if (message.sync_val_uint32 != null && message.hasOwnProperty("sync_val_uint32"))
+                if (!$util.isInteger(message.sync_val_uint32))
+                    return "sync_val_uint32: integer expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CBidirMsg_PredictionEvent message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CBidirMsg_PredictionEvent
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CBidirMsg_PredictionEvent} CBidirMsg_PredictionEvent
+         */
+        CBidirMsg_PredictionEvent.fromObject = function fromObject(object) {
+            if (object instanceof $root.CBidirMsg_PredictionEvent)
+                return object;
+            var message = new $root.CBidirMsg_PredictionEvent();
+            if (object.event_id != null)
+                message.event_id = object.event_id >>> 0;
+            if (object.event_data != null)
+                if (typeof object.event_data === "string")
+                    $util.base64.decode(object.event_data, message.event_data = $util.newBuffer($util.base64.length(object.event_data)), 0);
+                else if (object.event_data.length >= 0)
+                    message.event_data = object.event_data;
+            if (object.sync_type != null)
+                message.sync_type = object.sync_type >>> 0;
+            if (object.sync_val_uint32 != null)
+                message.sync_val_uint32 = object.sync_val_uint32 >>> 0;
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CBidirMsg_PredictionEvent message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CBidirMsg_PredictionEvent
+         * @static
+         * @param {CBidirMsg_PredictionEvent} message CBidirMsg_PredictionEvent
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CBidirMsg_PredictionEvent.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.event_id = 0;
+                if (options.bytes === String)
+                    object.event_data = "";
+                else {
+                    object.event_data = [];
+                    if (options.bytes !== Array)
+                        object.event_data = $util.newBuffer(object.event_data);
+                }
+                object.sync_type = 0;
+                object.sync_val_uint32 = 0;
+            }
+            if (message.event_id != null && message.hasOwnProperty("event_id"))
+                object.event_id = message.event_id;
+            if (message.event_data != null && message.hasOwnProperty("event_data"))
+                object.event_data = options.bytes === String ? $util.base64.encode(message.event_data, 0, message.event_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.event_data) : message.event_data;
+            if (message.sync_type != null && message.hasOwnProperty("sync_type"))
+                object.sync_type = message.sync_type;
+            if (message.sync_val_uint32 != null && message.hasOwnProperty("sync_val_uint32"))
+                object.sync_val_uint32 = message.sync_val_uint32;
+            return object;
+        };
+    
+        /**
+         * Converts this CBidirMsg_PredictionEvent to JSON.
+         * @function toJSON
+         * @memberof CBidirMsg_PredictionEvent
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CBidirMsg_PredictionEvent.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CBidirMsg_PredictionEvent
+         * @function getTypeUrl
+         * @memberof CBidirMsg_PredictionEvent
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CBidirMsg_PredictionEvent.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CBidirMsg_PredictionEvent";
+        };
+    
+        /**
+         * ESyncType enum.
+         * @name CBidirMsg_PredictionEvent.ESyncType
+         * @enum {number}
+         * @property {number} ST_Tick=0 ST_Tick value
+         * @property {number} ST_UserCmdNum=1 ST_UserCmdNum value
+         */
+        CBidirMsg_PredictionEvent.ESyncType = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "ST_Tick"] = 0;
+            values[valuesById[1] = "ST_UserCmdNum"] = 1;
+            return values;
+        })();
+    
+        return CBidirMsg_PredictionEvent;
     })();
     
     $root.CMsgServerNetworkStats = (function() {
@@ -18071,12 +21468,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgServerNetworkStats.decode = function decode(reader, length) {
+        CMsgServerNetworkStats.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgServerNetworkStats();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.dedicated = reader.bool();
@@ -18667,12 +22066,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Port.decode = function decode(reader, length) {
+            Port.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgServerNetworkStats.Port();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.port = reader.int32();
@@ -18960,12 +22361,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Player.decode = function decode(reader, length) {
+            Player.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgServerNetworkStats.Player();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.steamid = reader.uint64();
@@ -19342,12 +22745,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_HltvReplay.decode = function decode(reader, length) {
+        CSVCMsg_HltvReplay.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_HltvReplay();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.delay = reader.int32();
@@ -19674,12 +23079,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_HltvReplay.decode = function decode(reader, length) {
+        CCLCMsg_HltvReplay.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_HltvReplay();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.request = reader.int32();
@@ -19926,12 +23333,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_Broadcast_Command.decode = function decode(reader, length) {
+        CSVCMsg_Broadcast_Command.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_Broadcast_Command();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.cmd = reader.string();
@@ -20206,12 +23615,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCLCMsg_HltvFixupOperatorTick.decode = function decode(reader, length) {
+        CCLCMsg_HltvFixupOperatorTick.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_HltvFixupOperatorTick();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.tick = reader.int32();
@@ -20529,12 +23940,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_HltvFixupOperatorStatus.decode = function decode(reader, length) {
+        CSVCMsg_HltvFixupOperatorStatus.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_HltvFixupOperatorStatus();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.mode = reader.uint32();
@@ -20660,6 +24073,539 @@
         return CSVCMsg_HltvFixupOperatorStatus;
     })();
     
+    $root.CMsgServerUserCmd = (function() {
+    
+        /**
+         * Properties of a CMsgServerUserCmd.
+         * @exports ICMsgServerUserCmd
+         * @interface ICMsgServerUserCmd
+         * @property {Uint8Array|null} [data] CMsgServerUserCmd data
+         * @property {number|null} [cmd_number] CMsgServerUserCmd cmd_number
+         * @property {number|null} [player_slot] CMsgServerUserCmd player_slot
+         * @property {number|null} [server_tick_executed] CMsgServerUserCmd server_tick_executed
+         * @property {number|null} [client_tick] CMsgServerUserCmd client_tick
+         */
+    
+        /**
+         * Constructs a new CMsgServerUserCmd.
+         * @exports CMsgServerUserCmd
+         * @classdesc Represents a CMsgServerUserCmd.
+         * @implements ICMsgServerUserCmd
+         * @constructor
+         * @param {ICMsgServerUserCmd=} [properties] Properties to set
+         */
+        function CMsgServerUserCmd(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CMsgServerUserCmd data.
+         * @member {Uint8Array} data
+         * @memberof CMsgServerUserCmd
+         * @instance
+         */
+        CMsgServerUserCmd.prototype.data = $util.newBuffer([]);
+    
+        /**
+         * CMsgServerUserCmd cmd_number.
+         * @member {number} cmd_number
+         * @memberof CMsgServerUserCmd
+         * @instance
+         */
+        CMsgServerUserCmd.prototype.cmd_number = 0;
+    
+        /**
+         * CMsgServerUserCmd player_slot.
+         * @member {number} player_slot
+         * @memberof CMsgServerUserCmd
+         * @instance
+         */
+        CMsgServerUserCmd.prototype.player_slot = -1;
+    
+        /**
+         * CMsgServerUserCmd server_tick_executed.
+         * @member {number} server_tick_executed
+         * @memberof CMsgServerUserCmd
+         * @instance
+         */
+        CMsgServerUserCmd.prototype.server_tick_executed = 0;
+    
+        /**
+         * CMsgServerUserCmd client_tick.
+         * @member {number} client_tick
+         * @memberof CMsgServerUserCmd
+         * @instance
+         */
+        CMsgServerUserCmd.prototype.client_tick = 0;
+    
+        /**
+         * Creates a new CMsgServerUserCmd instance using the specified properties.
+         * @function create
+         * @memberof CMsgServerUserCmd
+         * @static
+         * @param {ICMsgServerUserCmd=} [properties] Properties to set
+         * @returns {CMsgServerUserCmd} CMsgServerUserCmd instance
+         */
+        CMsgServerUserCmd.create = function create(properties) {
+            return new CMsgServerUserCmd(properties);
+        };
+    
+        /**
+         * Encodes the specified CMsgServerUserCmd message. Does not implicitly {@link CMsgServerUserCmd.verify|verify} messages.
+         * @function encode
+         * @memberof CMsgServerUserCmd
+         * @static
+         * @param {ICMsgServerUserCmd} message CMsgServerUserCmd message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgServerUserCmd.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.data);
+            if (message.cmd_number != null && Object.hasOwnProperty.call(message, "cmd_number"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.cmd_number);
+            if (message.player_slot != null && Object.hasOwnProperty.call(message, "player_slot"))
+                writer.uint32(/* id 3, wireType 0 =*/24).int32(message.player_slot);
+            if (message.server_tick_executed != null && Object.hasOwnProperty.call(message, "server_tick_executed"))
+                writer.uint32(/* id 4, wireType 0 =*/32).int32(message.server_tick_executed);
+            if (message.client_tick != null && Object.hasOwnProperty.call(message, "client_tick"))
+                writer.uint32(/* id 5, wireType 0 =*/40).int32(message.client_tick);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CMsgServerUserCmd message, length delimited. Does not implicitly {@link CMsgServerUserCmd.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CMsgServerUserCmd
+         * @static
+         * @param {ICMsgServerUserCmd} message CMsgServerUserCmd message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgServerUserCmd.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CMsgServerUserCmd message from the specified reader or buffer.
+         * @function decode
+         * @memberof CMsgServerUserCmd
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CMsgServerUserCmd} CMsgServerUserCmd
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgServerUserCmd.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgServerUserCmd();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.data = reader.bytes();
+                        break;
+                    }
+                case 2: {
+                        message.cmd_number = reader.int32();
+                        break;
+                    }
+                case 3: {
+                        message.player_slot = reader.int32();
+                        break;
+                    }
+                case 4: {
+                        message.server_tick_executed = reader.int32();
+                        break;
+                    }
+                case 5: {
+                        message.client_tick = reader.int32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CMsgServerUserCmd message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CMsgServerUserCmd
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CMsgServerUserCmd} CMsgServerUserCmd
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgServerUserCmd.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CMsgServerUserCmd message.
+         * @function verify
+         * @memberof CMsgServerUserCmd
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CMsgServerUserCmd.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.data != null && message.hasOwnProperty("data"))
+                if (!(message.data && typeof message.data.length === "number" || $util.isString(message.data)))
+                    return "data: buffer expected";
+            if (message.cmd_number != null && message.hasOwnProperty("cmd_number"))
+                if (!$util.isInteger(message.cmd_number))
+                    return "cmd_number: integer expected";
+            if (message.player_slot != null && message.hasOwnProperty("player_slot"))
+                if (!$util.isInteger(message.player_slot))
+                    return "player_slot: integer expected";
+            if (message.server_tick_executed != null && message.hasOwnProperty("server_tick_executed"))
+                if (!$util.isInteger(message.server_tick_executed))
+                    return "server_tick_executed: integer expected";
+            if (message.client_tick != null && message.hasOwnProperty("client_tick"))
+                if (!$util.isInteger(message.client_tick))
+                    return "client_tick: integer expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CMsgServerUserCmd message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CMsgServerUserCmd
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CMsgServerUserCmd} CMsgServerUserCmd
+         */
+        CMsgServerUserCmd.fromObject = function fromObject(object) {
+            if (object instanceof $root.CMsgServerUserCmd)
+                return object;
+            var message = new $root.CMsgServerUserCmd();
+            if (object.data != null)
+                if (typeof object.data === "string")
+                    $util.base64.decode(object.data, message.data = $util.newBuffer($util.base64.length(object.data)), 0);
+                else if (object.data.length >= 0)
+                    message.data = object.data;
+            if (object.cmd_number != null)
+                message.cmd_number = object.cmd_number | 0;
+            if (object.player_slot != null)
+                message.player_slot = object.player_slot | 0;
+            if (object.server_tick_executed != null)
+                message.server_tick_executed = object.server_tick_executed | 0;
+            if (object.client_tick != null)
+                message.client_tick = object.client_tick | 0;
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CMsgServerUserCmd message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CMsgServerUserCmd
+         * @static
+         * @param {CMsgServerUserCmd} message CMsgServerUserCmd
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CMsgServerUserCmd.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                if (options.bytes === String)
+                    object.data = "";
+                else {
+                    object.data = [];
+                    if (options.bytes !== Array)
+                        object.data = $util.newBuffer(object.data);
+                }
+                object.cmd_number = 0;
+                object.player_slot = -1;
+                object.server_tick_executed = 0;
+                object.client_tick = 0;
+            }
+            if (message.data != null && message.hasOwnProperty("data"))
+                object.data = options.bytes === String ? $util.base64.encode(message.data, 0, message.data.length) : options.bytes === Array ? Array.prototype.slice.call(message.data) : message.data;
+            if (message.cmd_number != null && message.hasOwnProperty("cmd_number"))
+                object.cmd_number = message.cmd_number;
+            if (message.player_slot != null && message.hasOwnProperty("player_slot"))
+                object.player_slot = message.player_slot;
+            if (message.server_tick_executed != null && message.hasOwnProperty("server_tick_executed"))
+                object.server_tick_executed = message.server_tick_executed;
+            if (message.client_tick != null && message.hasOwnProperty("client_tick"))
+                object.client_tick = message.client_tick;
+            return object;
+        };
+    
+        /**
+         * Converts this CMsgServerUserCmd to JSON.
+         * @function toJSON
+         * @memberof CMsgServerUserCmd
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CMsgServerUserCmd.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CMsgServerUserCmd
+         * @function getTypeUrl
+         * @memberof CMsgServerUserCmd
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CMsgServerUserCmd.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CMsgServerUserCmd";
+        };
+    
+        return CMsgServerUserCmd;
+    })();
+    
+    $root.CSVCMsg_UserCommands = (function() {
+    
+        /**
+         * Properties of a CSVCMsg_UserCommands.
+         * @exports ICSVCMsg_UserCommands
+         * @interface ICSVCMsg_UserCommands
+         * @property {Array.<ICMsgServerUserCmd>|null} [commands] CSVCMsg_UserCommands commands
+         */
+    
+        /**
+         * Constructs a new CSVCMsg_UserCommands.
+         * @exports CSVCMsg_UserCommands
+         * @classdesc Represents a CSVCMsg_UserCommands.
+         * @implements ICSVCMsg_UserCommands
+         * @constructor
+         * @param {ICSVCMsg_UserCommands=} [properties] Properties to set
+         */
+        function CSVCMsg_UserCommands(properties) {
+            this.commands = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CSVCMsg_UserCommands commands.
+         * @member {Array.<ICMsgServerUserCmd>} commands
+         * @memberof CSVCMsg_UserCommands
+         * @instance
+         */
+        CSVCMsg_UserCommands.prototype.commands = $util.emptyArray;
+    
+        /**
+         * Creates a new CSVCMsg_UserCommands instance using the specified properties.
+         * @function create
+         * @memberof CSVCMsg_UserCommands
+         * @static
+         * @param {ICSVCMsg_UserCommands=} [properties] Properties to set
+         * @returns {CSVCMsg_UserCommands} CSVCMsg_UserCommands instance
+         */
+        CSVCMsg_UserCommands.create = function create(properties) {
+            return new CSVCMsg_UserCommands(properties);
+        };
+    
+        /**
+         * Encodes the specified CSVCMsg_UserCommands message. Does not implicitly {@link CSVCMsg_UserCommands.verify|verify} messages.
+         * @function encode
+         * @memberof CSVCMsg_UserCommands
+         * @static
+         * @param {ICSVCMsg_UserCommands} message CSVCMsg_UserCommands message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CSVCMsg_UserCommands.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.commands != null && message.commands.length)
+                for (var i = 0; i < message.commands.length; ++i)
+                    $root.CMsgServerUserCmd.encode(message.commands[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CSVCMsg_UserCommands message, length delimited. Does not implicitly {@link CSVCMsg_UserCommands.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CSVCMsg_UserCommands
+         * @static
+         * @param {ICSVCMsg_UserCommands} message CSVCMsg_UserCommands message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CSVCMsg_UserCommands.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CSVCMsg_UserCommands message from the specified reader or buffer.
+         * @function decode
+         * @memberof CSVCMsg_UserCommands
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CSVCMsg_UserCommands} CSVCMsg_UserCommands
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CSVCMsg_UserCommands.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_UserCommands();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        if (!(message.commands && message.commands.length))
+                            message.commands = [];
+                        message.commands.push($root.CMsgServerUserCmd.decode(reader, reader.uint32()));
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CSVCMsg_UserCommands message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CSVCMsg_UserCommands
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CSVCMsg_UserCommands} CSVCMsg_UserCommands
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CSVCMsg_UserCommands.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CSVCMsg_UserCommands message.
+         * @function verify
+         * @memberof CSVCMsg_UserCommands
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CSVCMsg_UserCommands.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.commands != null && message.hasOwnProperty("commands")) {
+                if (!Array.isArray(message.commands))
+                    return "commands: array expected";
+                for (var i = 0; i < message.commands.length; ++i) {
+                    var error = $root.CMsgServerUserCmd.verify(message.commands[i]);
+                    if (error)
+                        return "commands." + error;
+                }
+            }
+            return null;
+        };
+    
+        /**
+         * Creates a CSVCMsg_UserCommands message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CSVCMsg_UserCommands
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CSVCMsg_UserCommands} CSVCMsg_UserCommands
+         */
+        CSVCMsg_UserCommands.fromObject = function fromObject(object) {
+            if (object instanceof $root.CSVCMsg_UserCommands)
+                return object;
+            var message = new $root.CSVCMsg_UserCommands();
+            if (object.commands) {
+                if (!Array.isArray(object.commands))
+                    throw TypeError(".CSVCMsg_UserCommands.commands: array expected");
+                message.commands = [];
+                for (var i = 0; i < object.commands.length; ++i) {
+                    if (typeof object.commands[i] !== "object")
+                        throw TypeError(".CSVCMsg_UserCommands.commands: object expected");
+                    message.commands[i] = $root.CMsgServerUserCmd.fromObject(object.commands[i]);
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CSVCMsg_UserCommands message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CSVCMsg_UserCommands
+         * @static
+         * @param {CSVCMsg_UserCommands} message CSVCMsg_UserCommands
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CSVCMsg_UserCommands.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults)
+                object.commands = [];
+            if (message.commands && message.commands.length) {
+                object.commands = [];
+                for (var j = 0; j < message.commands.length; ++j)
+                    object.commands[j] = $root.CMsgServerUserCmd.toObject(message.commands[j], options);
+            }
+            return object;
+        };
+    
+        /**
+         * Converts this CSVCMsg_UserCommands to JSON.
+         * @function toJSON
+         * @memberof CSVCMsg_UserCommands
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CSVCMsg_UserCommands.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CSVCMsg_UserCommands
+         * @function getTypeUrl
+         * @memberof CSVCMsg_UserCommands
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CSVCMsg_UserCommands.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CSVCMsg_UserCommands";
+        };
+    
+        return CSVCMsg_UserCommands;
+    })();
+    
     /**
      * SignonState_t enum.
      * @exports SignonState_t
@@ -20691,7 +24637,7 @@
      * @exports NET_Messages
      * @enum {number}
      * @property {number} net_NOP=0 net_NOP value
-     * @property {number} net_Disconnect=1 net_Disconnect value
+     * @property {number} net_Disconnect_Legacy=1 net_Disconnect_Legacy value
      * @property {number} net_SplitScreenUser=3 net_SplitScreenUser value
      * @property {number} net_Tick=4 net_Tick value
      * @property {number} net_StringCmd=5 net_StringCmd value
@@ -20707,7 +24653,7 @@
     $root.NET_Messages = (function() {
         var valuesById = {}, values = Object.create(valuesById);
         values[valuesById[0] = "net_NOP"] = 0;
-        values[valuesById[1] = "net_Disconnect"] = 1;
+        values[valuesById[1] = "net_Disconnect_Legacy"] = 1;
         values[valuesById[3] = "net_SplitScreenUser"] = 3;
         values[valuesById[4] = "net_Tick"] = 4;
         values[valuesById[5] = "net_StringCmd"] = 5;
@@ -20866,12 +24812,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgVector.decode = function decode(reader, length) {
+        CMsgVector.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgVector();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.x = reader.float();
@@ -21117,12 +25065,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgVector2D.decode = function decode(reader, length) {
+        CMsgVector2D.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgVector2D();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.x = reader.float();
@@ -21355,12 +25305,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgQAngle.decode = function decode(reader, length) {
+        CMsgQAngle.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgQAngle();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.x = reader.float();
@@ -21616,12 +25568,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgQuaternion.decode = function decode(reader, length) {
+        CMsgQuaternion.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgQuaternion();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.x = reader.float();
@@ -21878,12 +25832,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgTransform.decode = function decode(reader, length) {
+        CMsgTransform.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgTransform();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.position = $root.CMsgVector.decode(reader, reader.uint32());
@@ -22149,12 +26105,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgRGBA.decode = function decode(reader, length) {
+        CMsgRGBA.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgRGBA();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.r = reader.int32();
@@ -22444,12 +26402,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgPlayerInfo.decode = function decode(reader, length) {
+        CMsgPlayerInfo.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgPlayerInfo();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.name = reader.string();
@@ -22736,12 +26696,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CEntityMsg.decode = function decode(reader, length) {
+        CEntityMsg.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CEntityMsg();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.target_entity = reader.uint32();
@@ -22941,12 +26903,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsg_CVars.decode = function decode(reader, length) {
+        CMsg_CVars.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsg_CVars();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         if (!(message.cvars && message.cvars.length))
@@ -23171,12 +27135,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            CVar.decode = function decode(reader, length) {
+            CVar.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsg_CVars.CVar();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.name = reader.string();
@@ -23379,12 +27345,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_NOP.decode = function decode(reader, length) {
+        CNETMsg_NOP.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_NOP();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 default:
                     reader.skipType(tag & 7);
@@ -23565,12 +27533,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SplitScreenUser.decode = function decode(reader, length) {
+        CNETMsg_SplitScreenUser.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SplitScreenUser();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.slot = reader.int32();
@@ -23683,808 +27653,6 @@
         return CNETMsg_SplitScreenUser;
     })();
     
-    $root.CNETMsg_Disconnect = (function() {
-    
-        /**
-         * Properties of a CNETMsg_Disconnect.
-         * @exports ICNETMsg_Disconnect
-         * @interface ICNETMsg_Disconnect
-         * @property {ENetworkDisconnectionReason|null} [reason] CNETMsg_Disconnect reason
-         */
-    
-        /**
-         * Constructs a new CNETMsg_Disconnect.
-         * @exports CNETMsg_Disconnect
-         * @classdesc Represents a CNETMsg_Disconnect.
-         * @implements ICNETMsg_Disconnect
-         * @constructor
-         * @param {ICNETMsg_Disconnect=} [properties] Properties to set
-         */
-        function CNETMsg_Disconnect(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CNETMsg_Disconnect reason.
-         * @member {ENetworkDisconnectionReason} reason
-         * @memberof CNETMsg_Disconnect
-         * @instance
-         */
-        CNETMsg_Disconnect.prototype.reason = 0;
-    
-        /**
-         * Creates a new CNETMsg_Disconnect instance using the specified properties.
-         * @function create
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {ICNETMsg_Disconnect=} [properties] Properties to set
-         * @returns {CNETMsg_Disconnect} CNETMsg_Disconnect instance
-         */
-        CNETMsg_Disconnect.create = function create(properties) {
-            return new CNETMsg_Disconnect(properties);
-        };
-    
-        /**
-         * Encodes the specified CNETMsg_Disconnect message. Does not implicitly {@link CNETMsg_Disconnect.verify|verify} messages.
-         * @function encode
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {ICNETMsg_Disconnect} message CNETMsg_Disconnect message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CNETMsg_Disconnect.encode = function encode(message, writer) {
-            if (!writer)
-                writer = $Writer.create();
-            if (message.reason != null && Object.hasOwnProperty.call(message, "reason"))
-                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.reason);
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CNETMsg_Disconnect message, length delimited. Does not implicitly {@link CNETMsg_Disconnect.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {ICNETMsg_Disconnect} message CNETMsg_Disconnect message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CNETMsg_Disconnect.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CNETMsg_Disconnect message from the specified reader or buffer.
-         * @function decode
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CNETMsg_Disconnect} CNETMsg_Disconnect
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CNETMsg_Disconnect.decode = function decode(reader, length) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_Disconnect();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                switch (tag >>> 3) {
-                case 2: {
-                        message.reason = reader.int32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-                }
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CNETMsg_Disconnect message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CNETMsg_Disconnect} CNETMsg_Disconnect
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CNETMsg_Disconnect.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CNETMsg_Disconnect message.
-         * @function verify
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CNETMsg_Disconnect.verify = function verify(message) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (message.reason != null && message.hasOwnProperty("reason"))
-                switch (message.reason) {
-                default:
-                    return "reason: enum value expected";
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                case 16:
-                case 17:
-                case 18:
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                case 26:
-                case 27:
-                case 28:
-                case 29:
-                case 30:
-                case 31:
-                case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 40:
-                case 41:
-                case 42:
-                case 43:
-                case 44:
-                case 45:
-                case 46:
-                case 47:
-                case 48:
-                case 49:
-                case 50:
-                case 51:
-                case 52:
-                case 53:
-                case 54:
-                case 55:
-                case 56:
-                case 57:
-                case 58:
-                case 59:
-                case 60:
-                case 61:
-                case 62:
-                case 63:
-                case 64:
-                case 65:
-                case 66:
-                case 67:
-                case 68:
-                case 69:
-                case 71:
-                case 72:
-                case 73:
-                case 74:
-                case 75:
-                case 76:
-                case 77:
-                case 79:
-                case 80:
-                case 81:
-                case 82:
-                case 83:
-                case 84:
-                case 85:
-                case 128:
-                case 129:
-                case 130:
-                case 131:
-                case 132:
-                case 133:
-                case 134:
-                case 135:
-                case 136:
-                case 137:
-                case 138:
-                case 139:
-                case 140:
-                case 141:
-                case 142:
-                case 143:
-                case 144:
-                case 145:
-                case 146:
-                case 147:
-                case 148:
-                case 149:
-                case 150:
-                case 151:
-                case 152:
-                case 153:
-                case 154:
-                case 155:
-                case 156:
-                case 157:
-                case 158:
-                case 159:
-                case 160:
-                case 161:
-                    break;
-                }
-            return null;
-        };
-    
-        /**
-         * Creates a CNETMsg_Disconnect message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CNETMsg_Disconnect} CNETMsg_Disconnect
-         */
-        CNETMsg_Disconnect.fromObject = function fromObject(object) {
-            if (object instanceof $root.CNETMsg_Disconnect)
-                return object;
-            var message = new $root.CNETMsg_Disconnect();
-            switch (object.reason) {
-            default:
-                if (typeof object.reason === "number") {
-                    message.reason = object.reason;
-                    break;
-                }
-                break;
-            case "NETWORK_DISCONNECT_INVALID":
-            case 0:
-                message.reason = 0;
-                break;
-            case "NETWORK_DISCONNECT_SHUTDOWN":
-            case 1:
-                message.reason = 1;
-                break;
-            case "NETWORK_DISCONNECT_DISCONNECT_BY_USER":
-            case 2:
-                message.reason = 2;
-                break;
-            case "NETWORK_DISCONNECT_DISCONNECT_BY_SERVER":
-            case 3:
-                message.reason = 3;
-                break;
-            case "NETWORK_DISCONNECT_LOST":
-            case 4:
-                message.reason = 4;
-                break;
-            case "NETWORK_DISCONNECT_OVERFLOW":
-            case 5:
-                message.reason = 5;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_BANNED":
-            case 6:
-                message.reason = 6;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_INUSE":
-            case 7:
-                message.reason = 7;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_TICKET":
-            case 8:
-                message.reason = 8;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_LOGON":
-            case 9:
-                message.reason = 9;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_AUTHCANCELLED":
-            case 10:
-                message.reason = 10;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_AUTHALREADYUSED":
-            case 11:
-                message.reason = 11;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_AUTHINVALID":
-            case 12:
-                message.reason = 12;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_VACBANSTATE":
-            case 13:
-                message.reason = 13;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_LOGGED_IN_ELSEWHERE":
-            case 14:
-                message.reason = 14;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_VAC_CHECK_TIMEDOUT":
-            case 15:
-                message.reason = 15;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_DROPPED":
-            case 16:
-                message.reason = 16;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_OWNERSHIP":
-            case 17:
-                message.reason = 17;
-                break;
-            case "NETWORK_DISCONNECT_SERVERINFO_OVERFLOW":
-            case 18:
-                message.reason = 18;
-                break;
-            case "NETWORK_DISCONNECT_TICKMSG_OVERFLOW":
-            case 19:
-                message.reason = 19;
-                break;
-            case "NETWORK_DISCONNECT_STRINGTABLEMSG_OVERFLOW":
-            case 20:
-                message.reason = 20;
-                break;
-            case "NETWORK_DISCONNECT_DELTAENTMSG_OVERFLOW":
-            case 21:
-                message.reason = 21;
-                break;
-            case "NETWORK_DISCONNECT_TEMPENTMSG_OVERFLOW":
-            case 22:
-                message.reason = 22;
-                break;
-            case "NETWORK_DISCONNECT_SOUNDSMSG_OVERFLOW":
-            case 23:
-                message.reason = 23;
-                break;
-            case "NETWORK_DISCONNECT_SNAPSHOTOVERFLOW":
-            case 24:
-                message.reason = 24;
-                break;
-            case "NETWORK_DISCONNECT_SNAPSHOTERROR":
-            case 25:
-                message.reason = 25;
-                break;
-            case "NETWORK_DISCONNECT_RELIABLEOVERFLOW":
-            case 26:
-                message.reason = 26;
-                break;
-            case "NETWORK_DISCONNECT_BADDELTATICK":
-            case 27:
-                message.reason = 27;
-                break;
-            case "NETWORK_DISCONNECT_NOMORESPLITS":
-            case 28:
-                message.reason = 28;
-                break;
-            case "NETWORK_DISCONNECT_TIMEDOUT":
-            case 29:
-                message.reason = 29;
-                break;
-            case "NETWORK_DISCONNECT_DISCONNECTED":
-            case 30:
-                message.reason = 30;
-                break;
-            case "NETWORK_DISCONNECT_LEAVINGSPLIT":
-            case 31:
-                message.reason = 31;
-                break;
-            case "NETWORK_DISCONNECT_DIFFERENTCLASSTABLES":
-            case 32:
-                message.reason = 32;
-                break;
-            case "NETWORK_DISCONNECT_BADRELAYPASSWORD":
-            case 33:
-                message.reason = 33;
-                break;
-            case "NETWORK_DISCONNECT_BADSPECTATORPASSWORD":
-            case 34:
-                message.reason = 34;
-                break;
-            case "NETWORK_DISCONNECT_HLTVRESTRICTED":
-            case 35:
-                message.reason = 35;
-                break;
-            case "NETWORK_DISCONNECT_NOSPECTATORS":
-            case 36:
-                message.reason = 36;
-                break;
-            case "NETWORK_DISCONNECT_HLTVUNAVAILABLE":
-            case 37:
-                message.reason = 37;
-                break;
-            case "NETWORK_DISCONNECT_HLTVSTOP":
-            case 38:
-                message.reason = 38;
-                break;
-            case "NETWORK_DISCONNECT_KICKED":
-            case 39:
-                message.reason = 39;
-                break;
-            case "NETWORK_DISCONNECT_BANADDED":
-            case 40:
-                message.reason = 40;
-                break;
-            case "NETWORK_DISCONNECT_KICKBANADDED":
-            case 41:
-                message.reason = 41;
-                break;
-            case "NETWORK_DISCONNECT_HLTVDIRECT":
-            case 42:
-                message.reason = 42;
-                break;
-            case "NETWORK_DISCONNECT_PURESERVER_CLIENTEXTRA":
-            case 43:
-                message.reason = 43;
-                break;
-            case "NETWORK_DISCONNECT_PURESERVER_MISMATCH":
-            case 44:
-                message.reason = 44;
-                break;
-            case "NETWORK_DISCONNECT_USERCMD":
-            case 45:
-                message.reason = 45;
-                break;
-            case "NETWORK_DISCONNECT_REJECTED_BY_GAME":
-            case 46:
-                message.reason = 46;
-                break;
-            case "NETWORK_DISCONNECT_MESSAGE_PARSE_ERROR":
-            case 47:
-                message.reason = 47;
-                break;
-            case "NETWORK_DISCONNECT_INVALID_MESSAGE_ERROR":
-            case 48:
-                message.reason = 48;
-                break;
-            case "NETWORK_DISCONNECT_BAD_SERVER_PASSWORD":
-            case 49:
-                message.reason = 49;
-                break;
-            case "NETWORK_DISCONNECT_DIRECT_CONNECT_RESERVATION":
-            case 50:
-                message.reason = 50;
-                break;
-            case "NETWORK_DISCONNECT_CONNECTION_FAILURE":
-            case 51:
-                message.reason = 51;
-                break;
-            case "NETWORK_DISCONNECT_NO_PEER_GROUP_HANDLERS":
-            case 52:
-                message.reason = 52;
-                break;
-            case "NETWORK_DISCONNECT_RECONNECTION":
-            case 53:
-                message.reason = 53;
-                break;
-            case "NETWORK_DISCONNECT_LOOPSHUTDOWN":
-            case 54:
-                message.reason = 54;
-                break;
-            case "NETWORK_DISCONNECT_LOOPDEACTIVATE":
-            case 55:
-                message.reason = 55;
-                break;
-            case "NETWORK_DISCONNECT_HOST_ENDGAME":
-            case 56:
-                message.reason = 56;
-                break;
-            case "NETWORK_DISCONNECT_LOOP_LEVELLOAD_ACTIVATE":
-            case 57:
-                message.reason = 57;
-                break;
-            case "NETWORK_DISCONNECT_CREATE_SERVER_FAILED":
-            case 58:
-                message.reason = 58;
-                break;
-            case "NETWORK_DISCONNECT_EXITING":
-            case 59:
-                message.reason = 59;
-                break;
-            case "NETWORK_DISCONNECT_REQUEST_HOSTSTATE_IDLE":
-            case 60:
-                message.reason = 60;
-                break;
-            case "NETWORK_DISCONNECT_REQUEST_HOSTSTATE_HLTVRELAY":
-            case 61:
-                message.reason = 61;
-                break;
-            case "NETWORK_DISCONNECT_CLIENT_CONSISTENCY_FAIL":
-            case 62:
-                message.reason = 62;
-                break;
-            case "NETWORK_DISCONNECT_CLIENT_UNABLE_TO_CRC_MAP":
-            case 63:
-                message.reason = 63;
-                break;
-            case "NETWORK_DISCONNECT_CLIENT_NO_MAP":
-            case 64:
-                message.reason = 64;
-                break;
-            case "NETWORK_DISCONNECT_CLIENT_DIFFERENT_MAP":
-            case 65:
-                message.reason = 65;
-                break;
-            case "NETWORK_DISCONNECT_SERVER_REQUIRES_STEAM":
-            case 66:
-                message.reason = 66;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_DENY_MISC":
-            case 67:
-                message.reason = 67;
-                break;
-            case "NETWORK_DISCONNECT_STEAM_DENY_BAD_ANTI_CHEAT":
-            case 68:
-                message.reason = 68;
-                break;
-            case "NETWORK_DISCONNECT_SERVER_SHUTDOWN":
-            case 69:
-                message.reason = 69;
-                break;
-            case "NETWORK_DISCONNECT_REPLAY_INCOMPATIBLE":
-            case 71:
-                message.reason = 71;
-                break;
-            case "NETWORK_DISCONNECT_CONNECT_REQUEST_TIMEDOUT":
-            case 72:
-                message.reason = 72;
-                break;
-            case "NETWORK_DISCONNECT_SERVER_INCOMPATIBLE":
-            case 73:
-                message.reason = 73;
-                break;
-            case "NETWORK_DISCONNECT_LOCALPROBLEM_MANYRELAYS":
-            case 74:
-                message.reason = 74;
-                break;
-            case "NETWORK_DISCONNECT_LOCALPROBLEM_HOSTEDSERVERPRIMARYRELAY":
-            case 75:
-                message.reason = 75;
-                break;
-            case "NETWORK_DISCONNECT_LOCALPROBLEM_NETWORKCONFIG":
-            case 76:
-                message.reason = 76;
-                break;
-            case "NETWORK_DISCONNECT_LOCALPROBLEM_OTHER":
-            case 77:
-                message.reason = 77;
-                break;
-            case "NETWORK_DISCONNECT_REMOTE_TIMEOUT":
-            case 79:
-                message.reason = 79;
-                break;
-            case "NETWORK_DISCONNECT_REMOTE_TIMEOUT_CONNECTING":
-            case 80:
-                message.reason = 80;
-                break;
-            case "NETWORK_DISCONNECT_REMOTE_OTHER":
-            case 81:
-                message.reason = 81;
-                break;
-            case "NETWORK_DISCONNECT_REMOTE_BADCRYPT":
-            case 82:
-                message.reason = 82;
-                break;
-            case "NETWORK_DISCONNECT_REMOTE_CERTNOTTRUSTED":
-            case 83:
-                message.reason = 83;
-                break;
-            case "NETWORK_DISCONNECT_UNUSUAL":
-            case 84:
-                message.reason = 84;
-                break;
-            case "NETWORK_DISCONNECT_INTERNAL_ERROR":
-            case 85:
-                message.reason = 85;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_BADCHALLENGE":
-            case 128:
-                message.reason = 128;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_NOLOBBY":
-            case 129:
-                message.reason = 129;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_BACKGROUND_MAP":
-            case 130:
-                message.reason = 130;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_SINGLE_PLAYER":
-            case 131:
-                message.reason = 131;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_HIDDEN_GAME":
-            case 132:
-                message.reason = 132;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_LANRESTRICT":
-            case 133:
-                message.reason = 133;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_BADPASSWORD":
-            case 134:
-                message.reason = 134;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_SERVERFULL":
-            case 135:
-                message.reason = 135;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_INVALIDRESERVATION":
-            case 136:
-                message.reason = 136;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_FAILEDCHANNEL":
-            case 137:
-                message.reason = 137;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_CONNECT_FROM_LOBBY":
-            case 138:
-                message.reason = 138;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_RESERVED_FOR_LOBBY":
-            case 139:
-                message.reason = 139;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_INVALIDKEYLENGTH":
-            case 140:
-                message.reason = 140;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_OLDPROTOCOL":
-            case 141:
-                message.reason = 141;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_NEWPROTOCOL":
-            case 142:
-                message.reason = 142;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_INVALIDCONNECTION":
-            case 143:
-                message.reason = 143;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_INVALIDCERTLEN":
-            case 144:
-                message.reason = 144;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_INVALIDSTEAMCERTLEN":
-            case 145:
-                message.reason = 145;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_STEAM":
-            case 146:
-                message.reason = 146;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_SERVERAUTHDISABLED":
-            case 147:
-                message.reason = 147;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_SERVERCDKEYAUTHINVALID":
-            case 148:
-                message.reason = 148;
-                break;
-            case "NETWORK_DISCONNECT_REJECT_BANNED":
-            case 149:
-                message.reason = 149;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_TEAMKILLING":
-            case 150:
-                message.reason = 150;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_TK_START":
-            case 151:
-                message.reason = 151;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_UNTRUSTEDACCOUNT":
-            case 152:
-                message.reason = 152;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_CONVICTEDACCOUNT":
-            case 153:
-                message.reason = 153;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_COMPETITIVECOOLDOWN":
-            case 154:
-                message.reason = 154;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_TEAMHURTING":
-            case 155:
-                message.reason = 155;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_HOSTAGEKILLING":
-            case 156:
-                message.reason = 156;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_VOTEDOFF":
-            case 157:
-                message.reason = 157;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_IDLE":
-            case 158:
-                message.reason = 158;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_SUICIDE":
-            case 159:
-                message.reason = 159;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_NOSTEAMLOGIN":
-            case 160:
-                message.reason = 160;
-                break;
-            case "NETWORK_DISCONNECT_KICKED_NOSTEAMTICKET":
-            case 161:
-                message.reason = 161;
-                break;
-            }
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CNETMsg_Disconnect message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {CNETMsg_Disconnect} message CNETMsg_Disconnect
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CNETMsg_Disconnect.toObject = function toObject(message, options) {
-            if (!options)
-                options = {};
-            var object = {};
-            if (options.defaults)
-                object.reason = options.enums === String ? "NETWORK_DISCONNECT_INVALID" : 0;
-            if (message.reason != null && message.hasOwnProperty("reason"))
-                object.reason = options.enums === String ? $root.ENetworkDisconnectionReason[message.reason] === undefined ? message.reason : $root.ENetworkDisconnectionReason[message.reason] : message.reason;
-            return object;
-        };
-    
-        /**
-         * Converts this CNETMsg_Disconnect to JSON.
-         * @function toJSON
-         * @memberof CNETMsg_Disconnect
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CNETMsg_Disconnect.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CNETMsg_Disconnect
-         * @function getTypeUrl
-         * @memberof CNETMsg_Disconnect
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CNETMsg_Disconnect.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CNETMsg_Disconnect";
-        };
-    
-        return CNETMsg_Disconnect;
-    })();
-    
     $root.CNETMsg_Tick = (function() {
     
         /**
@@ -24492,16 +27660,15 @@
          * @exports ICNETMsg_Tick
          * @interface ICNETMsg_Tick
          * @property {number|null} [tick] CNETMsg_Tick tick
-         * @property {number|null} [host_frametime] CNETMsg_Tick host_frametime
-         * @property {number|null} [host_frametime_std_deviation] CNETMsg_Tick host_frametime_std_deviation
          * @property {number|null} [host_computationtime] CNETMsg_Tick host_computationtime
          * @property {number|null} [host_computationtime_std_deviation] CNETMsg_Tick host_computationtime_std_deviation
-         * @property {number|null} [host_framestarttime_std_deviation] CNETMsg_Tick host_framestarttime_std_deviation
-         * @property {number|null} [host_loss] CNETMsg_Tick host_loss
+         * @property {number|null} [legacy_host_loss] CNETMsg_Tick legacy_host_loss
          * @property {number|null} [host_unfiltered_frametime] CNETMsg_Tick host_unfiltered_frametime
          * @property {number|null} [hltv_replay_flags] CNETMsg_Tick hltv_replay_flags
          * @property {number|null} [expected_long_tick] CNETMsg_Tick expected_long_tick
          * @property {string|null} [expected_long_tick_reason] CNETMsg_Tick expected_long_tick_reason
+         * @property {number|null} [host_frame_dropped_pct_x10] CNETMsg_Tick host_frame_dropped_pct_x10
+         * @property {number|null} [host_frame_irregular_arrival_pct_x10] CNETMsg_Tick host_frame_irregular_arrival_pct_x10
          */
     
         /**
@@ -24528,22 +27695,6 @@
         CNETMsg_Tick.prototype.tick = 0;
     
         /**
-         * CNETMsg_Tick host_frametime.
-         * @member {number} host_frametime
-         * @memberof CNETMsg_Tick
-         * @instance
-         */
-        CNETMsg_Tick.prototype.host_frametime = 0;
-    
-        /**
-         * CNETMsg_Tick host_frametime_std_deviation.
-         * @member {number} host_frametime_std_deviation
-         * @memberof CNETMsg_Tick
-         * @instance
-         */
-        CNETMsg_Tick.prototype.host_frametime_std_deviation = 0;
-    
-        /**
          * CNETMsg_Tick host_computationtime.
          * @member {number} host_computationtime
          * @memberof CNETMsg_Tick
@@ -24560,20 +27711,12 @@
         CNETMsg_Tick.prototype.host_computationtime_std_deviation = 0;
     
         /**
-         * CNETMsg_Tick host_framestarttime_std_deviation.
-         * @member {number} host_framestarttime_std_deviation
+         * CNETMsg_Tick legacy_host_loss.
+         * @member {number} legacy_host_loss
          * @memberof CNETMsg_Tick
          * @instance
          */
-        CNETMsg_Tick.prototype.host_framestarttime_std_deviation = 0;
-    
-        /**
-         * CNETMsg_Tick host_loss.
-         * @member {number} host_loss
-         * @memberof CNETMsg_Tick
-         * @instance
-         */
-        CNETMsg_Tick.prototype.host_loss = 0;
+        CNETMsg_Tick.prototype.legacy_host_loss = 0;
     
         /**
          * CNETMsg_Tick host_unfiltered_frametime.
@@ -24608,6 +27751,22 @@
         CNETMsg_Tick.prototype.expected_long_tick_reason = "";
     
         /**
+         * CNETMsg_Tick host_frame_dropped_pct_x10.
+         * @member {number} host_frame_dropped_pct_x10
+         * @memberof CNETMsg_Tick
+         * @instance
+         */
+        CNETMsg_Tick.prototype.host_frame_dropped_pct_x10 = 0;
+    
+        /**
+         * CNETMsg_Tick host_frame_irregular_arrival_pct_x10.
+         * @member {number} host_frame_irregular_arrival_pct_x10
+         * @memberof CNETMsg_Tick
+         * @instance
+         */
+        CNETMsg_Tick.prototype.host_frame_irregular_arrival_pct_x10 = 0;
+    
+        /**
          * Creates a new CNETMsg_Tick instance using the specified properties.
          * @function create
          * @memberof CNETMsg_Tick
@@ -24633,18 +27792,12 @@
                 writer = $Writer.create();
             if (message.tick != null && Object.hasOwnProperty.call(message, "tick"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.tick);
-            if (message.host_frametime != null && Object.hasOwnProperty.call(message, "host_frametime"))
-                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.host_frametime);
-            if (message.host_frametime_std_deviation != null && Object.hasOwnProperty.call(message, "host_frametime_std_deviation"))
-                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.host_frametime_std_deviation);
             if (message.host_computationtime != null && Object.hasOwnProperty.call(message, "host_computationtime"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.host_computationtime);
             if (message.host_computationtime_std_deviation != null && Object.hasOwnProperty.call(message, "host_computationtime_std_deviation"))
                 writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.host_computationtime_std_deviation);
-            if (message.host_framestarttime_std_deviation != null && Object.hasOwnProperty.call(message, "host_framestarttime_std_deviation"))
-                writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.host_framestarttime_std_deviation);
-            if (message.host_loss != null && Object.hasOwnProperty.call(message, "host_loss"))
-                writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.host_loss);
+            if (message.legacy_host_loss != null && Object.hasOwnProperty.call(message, "legacy_host_loss"))
+                writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.legacy_host_loss);
             if (message.host_unfiltered_frametime != null && Object.hasOwnProperty.call(message, "host_unfiltered_frametime"))
                 writer.uint32(/* id 8, wireType 0 =*/64).uint32(message.host_unfiltered_frametime);
             if (message.hltv_replay_flags != null && Object.hasOwnProperty.call(message, "hltv_replay_flags"))
@@ -24653,6 +27806,10 @@
                 writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.expected_long_tick);
             if (message.expected_long_tick_reason != null && Object.hasOwnProperty.call(message, "expected_long_tick_reason"))
                 writer.uint32(/* id 11, wireType 2 =*/90).string(message.expected_long_tick_reason);
+            if (message.host_frame_dropped_pct_x10 != null && Object.hasOwnProperty.call(message, "host_frame_dropped_pct_x10"))
+                writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.host_frame_dropped_pct_x10);
+            if (message.host_frame_irregular_arrival_pct_x10 != null && Object.hasOwnProperty.call(message, "host_frame_irregular_arrival_pct_x10"))
+                writer.uint32(/* id 13, wireType 0 =*/104).uint32(message.host_frame_irregular_arrival_pct_x10);
             return writer;
         };
     
@@ -24680,23 +27837,17 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_Tick.decode = function decode(reader, length) {
+        CNETMsg_Tick.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_Tick();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.tick = reader.uint32();
-                        break;
-                    }
-                case 2: {
-                        message.host_frametime = reader.uint32();
-                        break;
-                    }
-                case 3: {
-                        message.host_frametime_std_deviation = reader.uint32();
                         break;
                     }
                 case 4: {
@@ -24707,12 +27858,8 @@
                         message.host_computationtime_std_deviation = reader.uint32();
                         break;
                     }
-                case 6: {
-                        message.host_framestarttime_std_deviation = reader.uint32();
-                        break;
-                    }
                 case 7: {
-                        message.host_loss = reader.uint32();
+                        message.legacy_host_loss = reader.uint32();
                         break;
                     }
                 case 8: {
@@ -24729,6 +27876,14 @@
                     }
                 case 11: {
                         message.expected_long_tick_reason = reader.string();
+                        break;
+                    }
+                case 12: {
+                        message.host_frame_dropped_pct_x10 = reader.uint32();
+                        break;
+                    }
+                case 13: {
+                        message.host_frame_irregular_arrival_pct_x10 = reader.uint32();
                         break;
                     }
                 default:
@@ -24769,24 +27924,15 @@
             if (message.tick != null && message.hasOwnProperty("tick"))
                 if (!$util.isInteger(message.tick))
                     return "tick: integer expected";
-            if (message.host_frametime != null && message.hasOwnProperty("host_frametime"))
-                if (!$util.isInteger(message.host_frametime))
-                    return "host_frametime: integer expected";
-            if (message.host_frametime_std_deviation != null && message.hasOwnProperty("host_frametime_std_deviation"))
-                if (!$util.isInteger(message.host_frametime_std_deviation))
-                    return "host_frametime_std_deviation: integer expected";
             if (message.host_computationtime != null && message.hasOwnProperty("host_computationtime"))
                 if (!$util.isInteger(message.host_computationtime))
                     return "host_computationtime: integer expected";
             if (message.host_computationtime_std_deviation != null && message.hasOwnProperty("host_computationtime_std_deviation"))
                 if (!$util.isInteger(message.host_computationtime_std_deviation))
                     return "host_computationtime_std_deviation: integer expected";
-            if (message.host_framestarttime_std_deviation != null && message.hasOwnProperty("host_framestarttime_std_deviation"))
-                if (!$util.isInteger(message.host_framestarttime_std_deviation))
-                    return "host_framestarttime_std_deviation: integer expected";
-            if (message.host_loss != null && message.hasOwnProperty("host_loss"))
-                if (!$util.isInteger(message.host_loss))
-                    return "host_loss: integer expected";
+            if (message.legacy_host_loss != null && message.hasOwnProperty("legacy_host_loss"))
+                if (!$util.isInteger(message.legacy_host_loss))
+                    return "legacy_host_loss: integer expected";
             if (message.host_unfiltered_frametime != null && message.hasOwnProperty("host_unfiltered_frametime"))
                 if (!$util.isInteger(message.host_unfiltered_frametime))
                     return "host_unfiltered_frametime: integer expected";
@@ -24799,6 +27945,12 @@
             if (message.expected_long_tick_reason != null && message.hasOwnProperty("expected_long_tick_reason"))
                 if (!$util.isString(message.expected_long_tick_reason))
                     return "expected_long_tick_reason: string expected";
+            if (message.host_frame_dropped_pct_x10 != null && message.hasOwnProperty("host_frame_dropped_pct_x10"))
+                if (!$util.isInteger(message.host_frame_dropped_pct_x10))
+                    return "host_frame_dropped_pct_x10: integer expected";
+            if (message.host_frame_irregular_arrival_pct_x10 != null && message.hasOwnProperty("host_frame_irregular_arrival_pct_x10"))
+                if (!$util.isInteger(message.host_frame_irregular_arrival_pct_x10))
+                    return "host_frame_irregular_arrival_pct_x10: integer expected";
             return null;
         };
     
@@ -24816,18 +27968,12 @@
             var message = new $root.CNETMsg_Tick();
             if (object.tick != null)
                 message.tick = object.tick >>> 0;
-            if (object.host_frametime != null)
-                message.host_frametime = object.host_frametime >>> 0;
-            if (object.host_frametime_std_deviation != null)
-                message.host_frametime_std_deviation = object.host_frametime_std_deviation >>> 0;
             if (object.host_computationtime != null)
                 message.host_computationtime = object.host_computationtime >>> 0;
             if (object.host_computationtime_std_deviation != null)
                 message.host_computationtime_std_deviation = object.host_computationtime_std_deviation >>> 0;
-            if (object.host_framestarttime_std_deviation != null)
-                message.host_framestarttime_std_deviation = object.host_framestarttime_std_deviation >>> 0;
-            if (object.host_loss != null)
-                message.host_loss = object.host_loss >>> 0;
+            if (object.legacy_host_loss != null)
+                message.legacy_host_loss = object.legacy_host_loss >>> 0;
             if (object.host_unfiltered_frametime != null)
                 message.host_unfiltered_frametime = object.host_unfiltered_frametime >>> 0;
             if (object.hltv_replay_flags != null)
@@ -24836,6 +27982,10 @@
                 message.expected_long_tick = object.expected_long_tick >>> 0;
             if (object.expected_long_tick_reason != null)
                 message.expected_long_tick_reason = String(object.expected_long_tick_reason);
+            if (object.host_frame_dropped_pct_x10 != null)
+                message.host_frame_dropped_pct_x10 = object.host_frame_dropped_pct_x10 >>> 0;
+            if (object.host_frame_irregular_arrival_pct_x10 != null)
+                message.host_frame_irregular_arrival_pct_x10 = object.host_frame_irregular_arrival_pct_x10 >>> 0;
             return message;
         };
     
@@ -24854,31 +28004,24 @@
             var object = {};
             if (options.defaults) {
                 object.tick = 0;
-                object.host_frametime = 0;
-                object.host_frametime_std_deviation = 0;
                 object.host_computationtime = 0;
                 object.host_computationtime_std_deviation = 0;
-                object.host_framestarttime_std_deviation = 0;
-                object.host_loss = 0;
+                object.legacy_host_loss = 0;
                 object.host_unfiltered_frametime = 0;
                 object.hltv_replay_flags = 0;
                 object.expected_long_tick = 0;
                 object.expected_long_tick_reason = "";
+                object.host_frame_dropped_pct_x10 = 0;
+                object.host_frame_irregular_arrival_pct_x10 = 0;
             }
             if (message.tick != null && message.hasOwnProperty("tick"))
                 object.tick = message.tick;
-            if (message.host_frametime != null && message.hasOwnProperty("host_frametime"))
-                object.host_frametime = message.host_frametime;
-            if (message.host_frametime_std_deviation != null && message.hasOwnProperty("host_frametime_std_deviation"))
-                object.host_frametime_std_deviation = message.host_frametime_std_deviation;
             if (message.host_computationtime != null && message.hasOwnProperty("host_computationtime"))
                 object.host_computationtime = message.host_computationtime;
             if (message.host_computationtime_std_deviation != null && message.hasOwnProperty("host_computationtime_std_deviation"))
                 object.host_computationtime_std_deviation = message.host_computationtime_std_deviation;
-            if (message.host_framestarttime_std_deviation != null && message.hasOwnProperty("host_framestarttime_std_deviation"))
-                object.host_framestarttime_std_deviation = message.host_framestarttime_std_deviation;
-            if (message.host_loss != null && message.hasOwnProperty("host_loss"))
-                object.host_loss = message.host_loss;
+            if (message.legacy_host_loss != null && message.hasOwnProperty("legacy_host_loss"))
+                object.legacy_host_loss = message.legacy_host_loss;
             if (message.host_unfiltered_frametime != null && message.hasOwnProperty("host_unfiltered_frametime"))
                 object.host_unfiltered_frametime = message.host_unfiltered_frametime;
             if (message.hltv_replay_flags != null && message.hasOwnProperty("hltv_replay_flags"))
@@ -24887,6 +28030,10 @@
                 object.expected_long_tick = message.expected_long_tick;
             if (message.expected_long_tick_reason != null && message.hasOwnProperty("expected_long_tick_reason"))
                 object.expected_long_tick_reason = message.expected_long_tick_reason;
+            if (message.host_frame_dropped_pct_x10 != null && message.hasOwnProperty("host_frame_dropped_pct_x10"))
+                object.host_frame_dropped_pct_x10 = message.host_frame_dropped_pct_x10;
+            if (message.host_frame_irregular_arrival_pct_x10 != null && message.hasOwnProperty("host_frame_irregular_arrival_pct_x10"))
+                object.host_frame_irregular_arrival_pct_x10 = message.host_frame_irregular_arrival_pct_x10;
             return object;
         };
     
@@ -25015,12 +28162,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_StringCmd.decode = function decode(reader, length) {
+        CNETMsg_StringCmd.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_StringCmd();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.command = reader.string();
@@ -25231,12 +28380,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SetConVar.decode = function decode(reader, length) {
+        CNETMsg_SetConVar.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SetConVar();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.convars = $root.CMsg_CVars.decode(reader, reader.uint32());
@@ -25496,12 +28647,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SignonState.decode = function decode(reader, length) {
+        CNETMsg_SignonState.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SignonState();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.signon_state = reader.int32();
@@ -25848,12 +29001,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_GameEvent.decode = function decode(reader, length) {
+        CSVCMsg_GameEvent.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_GameEvent();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.event_name = reader.string();
@@ -26170,12 +29325,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            key_t.decode = function decode(reader, length) {
+            key_t.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_GameEvent.key_t();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.type = reader.int32();
@@ -26477,12 +29634,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsgList_GameEvents.decode = function decode(reader, length) {
+        CSVCMsgList_GameEvents.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsgList_GameEvents();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         if (!(message.events && message.events.length))
@@ -26707,12 +29866,14 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            event_t.decode = function decode(reader, length) {
+            event_t.decode = function decode(reader, length, error) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsgList_GameEvents.event_t();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
+                    if (tag === error)
+                        break;
                     switch (tag >>> 3) {
                     case 1: {
                             message.tick = reader.int32();
@@ -27140,12 +30301,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SpawnGroup_Load.decode = function decode(reader, length) {
+        CNETMsg_SpawnGroup_Load.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SpawnGroup_Load();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.worldname = reader.string();
@@ -27613,12 +30776,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SpawnGroup_ManifestUpdate.decode = function decode(reader, length) {
+        CNETMsg_SpawnGroup_ManifestUpdate.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SpawnGroup_ManifestUpdate();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.spawngrouphandle = reader.uint32();
@@ -27872,12 +31037,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SpawnGroup_SetCreationTick.decode = function decode(reader, length) {
+        CNETMsg_SpawnGroup_SetCreationTick.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SpawnGroup_SetCreationTick();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.spawngrouphandle = reader.uint32();
@@ -28122,12 +31289,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SpawnGroup_Unload.decode = function decode(reader, length) {
+        CNETMsg_SpawnGroup_Unload.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SpawnGroup_Unload();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.spawngrouphandle = reader.uint32();
@@ -28350,12 +31519,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_SpawnGroup_LoadCompleted.decode = function decode(reader, length) {
+        CNETMsg_SpawnGroup_LoadCompleted.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_SpawnGroup_LoadCompleted();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.spawngrouphandle = reader.uint32();
@@ -28751,12 +31922,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSVCMsg_GameSessionConfiguration.decode = function decode(reader, length) {
+        CSVCMsg_GameSessionConfiguration.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_GameSessionConfiguration();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.is_multiplayer = reader.bool();
@@ -29271,12 +32444,14 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CNETMsg_DebugOverlay.decode = function decode(reader, length) {
+        CNETMsg_DebugOverlay.decode = function decode(reader, length, error) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
             var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CNETMsg_DebugOverlay();
             while (reader.pos < end) {
                 var tag = reader.uint32();
+                if (tag === error)
+                    break;
                 switch (tag >>> 3) {
                 case 1: {
                         message.etype = reader.int32();
@@ -29735,6 +32910,9 @@
      * @property {number} NETWORK_DISCONNECT_KICKED_SUICIDE=159 NETWORK_DISCONNECT_KICKED_SUICIDE value
      * @property {number} NETWORK_DISCONNECT_KICKED_NOSTEAMLOGIN=160 NETWORK_DISCONNECT_KICKED_NOSTEAMLOGIN value
      * @property {number} NETWORK_DISCONNECT_KICKED_NOSTEAMTICKET=161 NETWORK_DISCONNECT_KICKED_NOSTEAMTICKET value
+     * @property {number} NETWORK_DISCONNECT_KICKED_INPUTAUTOMATION=162 NETWORK_DISCONNECT_KICKED_INPUTAUTOMATION value
+     * @property {number} NETWORK_DISCONNECT_KICKED_VACNETABNORMALBEHAVIOR=163 NETWORK_DISCONNECT_KICKED_VACNETABNORMALBEHAVIOR value
+     * @property {number} NETWORK_DISCONNECT_KICKED_INSECURECLIENT=164 NETWORK_DISCONNECT_KICKED_INSECURECLIENT value
      */
     $root.ENetworkDisconnectionReason = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -29856,6 +33034,9 @@
         values[valuesById[159] = "NETWORK_DISCONNECT_KICKED_SUICIDE"] = 159;
         values[valuesById[160] = "NETWORK_DISCONNECT_KICKED_NOSTEAMLOGIN"] = 160;
         values[valuesById[161] = "NETWORK_DISCONNECT_KICKED_NOSTEAMTICKET"] = 161;
+        values[valuesById[162] = "NETWORK_DISCONNECT_KICKED_INPUTAUTOMATION"] = 162;
+        values[valuesById[163] = "NETWORK_DISCONNECT_KICKED_VACNETABNORMALBEHAVIOR"] = 163;
+        values[valuesById[164] = "NETWORK_DISCONNECT_KICKED_INSECURECLIENT"] = 164;
         return values;
     })();
     
@@ -29964,12 +33145,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FileDescriptorSet.decode = function decode(reader, length) {
+                FileDescriptorSet.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FileDescriptorSet();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 if (!(message.file && message.file.length))
@@ -30284,12 +33467,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FileDescriptorProto.decode = function decode(reader, length) {
+                FileDescriptorProto.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FileDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.name = reader.string();
@@ -30762,12 +33947,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                DescriptorProto.decode = function decode(reader, length) {
+                DescriptorProto.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.DescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.name = reader.string();
@@ -31148,12 +34335,14 @@
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    ExtensionRange.decode = function decode(reader, length) {
+                    ExtensionRange.decode = function decode(reader, length, error) {
                         if (!(reader instanceof $Reader))
                             reader = $Reader.create(reader);
                         var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.DescriptorProto.ExtensionRange();
                         while (reader.pos < end) {
                             var tag = reader.uint32();
+                            if (tag === error)
+                                break;
                             switch (tag >>> 3) {
                             case 1: {
                                     message.start = reader.int32();
@@ -31444,12 +34633,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FieldDescriptorProto.decode = function decode(reader, length) {
+                FieldDescriptorProto.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FieldDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.name = reader.string();
@@ -31946,12 +35137,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                EnumDescriptorProto.decode = function decode(reader, length) {
+                EnumDescriptorProto.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.EnumDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.name = reader.string();
@@ -32221,12 +35414,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                EnumValueDescriptorProto.decode = function decode(reader, length) {
+                EnumValueDescriptorProto.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.EnumValueDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.name = reader.string();
@@ -32478,12 +35673,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                ServiceDescriptorProto.decode = function decode(reader, length) {
+                ServiceDescriptorProto.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.ServiceDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.name = reader.string();
@@ -32764,12 +35961,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                MethodDescriptorProto.decode = function decode(reader, length) {
+                MethodDescriptorProto.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.MethodDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.name = reader.string();
@@ -33099,12 +36298,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FileOptions.decode = function decode(reader, length) {
+                FileOptions.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FileOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.java_package = reader.string();
@@ -33483,12 +36684,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                MessageOptions.decode = function decode(reader, length) {
+                MessageOptions.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.MessageOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.message_set_wire_format = reader.bool();
@@ -33777,12 +36980,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FieldOptions.decode = function decode(reader, length) {
+                FieldOptions.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FieldOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 message.ctype = reader.int32();
@@ -34091,12 +37296,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                EnumOptions.decode = function decode(reader, length) {
+                EnumOptions.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.EnumOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
@@ -34236,6 +37443,8 @@
                  * @interface IEnumValueOptions
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] EnumValueOptions uninterpreted_option
                  * @property {string|null} [".network_connection_token"] EnumValueOptions .network_connection_token
+                 * @property {string|null} [".network_connection_detail_token"] EnumValueOptions .network_connection_detail_token
+                 * @property {boolean|null} [".allowed_from_client"] EnumValueOptions .allowed_from_client
                  */
     
                 /**
@@ -34271,6 +37480,22 @@
                 EnumValueOptions.prototype[".network_connection_token"] = "";
     
                 /**
+                 * EnumValueOptions .network_connection_detail_token.
+                 * @member {string} .network_connection_detail_token
+                 * @memberof google.protobuf.EnumValueOptions
+                 * @instance
+                 */
+                EnumValueOptions.prototype[".network_connection_detail_token"] = "";
+    
+                /**
+                 * EnumValueOptions .allowed_from_client.
+                 * @member {boolean} .allowed_from_client
+                 * @memberof google.protobuf.EnumValueOptions
+                 * @instance
+                 */
+                EnumValueOptions.prototype[".allowed_from_client"] = true;
+    
+                /**
                  * Creates a new EnumValueOptions instance using the specified properties.
                  * @function create
                  * @memberof google.protobuf.EnumValueOptions
@@ -34299,6 +37524,10 @@
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
                     if (message[".network_connection_token"] != null && Object.hasOwnProperty.call(message, ".network_connection_token"))
                         writer.uint32(/* id 50500, wireType 2 =*/404002).string(message[".network_connection_token"]);
+                    if (message[".network_connection_detail_token"] != null && Object.hasOwnProperty.call(message, ".network_connection_detail_token"))
+                        writer.uint32(/* id 50501, wireType 2 =*/404010).string(message[".network_connection_detail_token"]);
+                    if (message[".allowed_from_client"] != null && Object.hasOwnProperty.call(message, ".allowed_from_client"))
+                        writer.uint32(/* id 50502, wireType 0 =*/404016).bool(message[".allowed_from_client"]);
                     return writer;
                 };
     
@@ -34326,12 +37555,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                EnumValueOptions.decode = function decode(reader, length) {
+                EnumValueOptions.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.EnumValueOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
@@ -34341,6 +37572,14 @@
                             }
                         case 50500: {
                                 message[".network_connection_token"] = reader.string();
+                                break;
+                            }
+                        case 50501: {
+                                message[".network_connection_detail_token"] = reader.string();
+                                break;
+                            }
+                        case 50502: {
+                                message[".allowed_from_client"] = reader.bool();
                                 break;
                             }
                         default:
@@ -34390,6 +37629,12 @@
                     if (message[".network_connection_token"] != null && message.hasOwnProperty(".network_connection_token"))
                         if (!$util.isString(message[".network_connection_token"]))
                             return ".network_connection_token: string expected";
+                    if (message[".network_connection_detail_token"] != null && message.hasOwnProperty(".network_connection_detail_token"))
+                        if (!$util.isString(message[".network_connection_detail_token"]))
+                            return ".network_connection_detail_token: string expected";
+                    if (message[".allowed_from_client"] != null && message.hasOwnProperty(".allowed_from_client"))
+                        if (typeof message[".allowed_from_client"] !== "boolean")
+                            return ".allowed_from_client: boolean expected";
                     return null;
                 };
     
@@ -34417,6 +37662,10 @@
                     }
                     if (object[".network_connection_token"] != null)
                         message[".network_connection_token"] = String(object[".network_connection_token"]);
+                    if (object[".network_connection_detail_token"] != null)
+                        message[".network_connection_detail_token"] = String(object[".network_connection_detail_token"]);
+                    if (object[".allowed_from_client"] != null)
+                        message[".allowed_from_client"] = Boolean(object[".allowed_from_client"]);
                     return message;
                 };
     
@@ -34435,8 +37684,11 @@
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
-                    if (options.defaults)
+                    if (options.defaults) {
                         object[".network_connection_token"] = "";
+                        object[".network_connection_detail_token"] = "";
+                        object[".allowed_from_client"] = true;
+                    }
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
@@ -34444,6 +37696,10 @@
                     }
                     if (message[".network_connection_token"] != null && message.hasOwnProperty(".network_connection_token"))
                         object[".network_connection_token"] = message[".network_connection_token"];
+                    if (message[".network_connection_detail_token"] != null && message.hasOwnProperty(".network_connection_detail_token"))
+                        object[".network_connection_detail_token"] = message[".network_connection_detail_token"];
+                    if (message[".allowed_from_client"] != null && message.hasOwnProperty(".allowed_from_client"))
+                        object[".allowed_from_client"] = message[".allowed_from_client"];
                     return object;
                 };
     
@@ -34563,12 +37819,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                ServiceOptions.decode = function decode(reader, length) {
+                ServiceOptions.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.ServiceOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
@@ -34787,12 +38045,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                MethodOptions.decode = function decode(reader, length) {
+                MethodOptions.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.MethodOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
@@ -35077,12 +38337,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                UninterpretedOption.decode = function decode(reader, length) {
+                UninterpretedOption.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.UninterpretedOption();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 2: {
                                 if (!(message.name && message.name.length))
@@ -35416,12 +38678,14 @@
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    NamePart.decode = function decode(reader, length) {
+                    NamePart.decode = function decode(reader, length, error) {
                         if (!(reader instanceof $Reader))
                             reader = $Reader.create(reader);
                         var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.UninterpretedOption.NamePart();
                         while (reader.pos < end) {
                             var tag = reader.uint32();
+                            if (tag === error)
+                                break;
                             switch (tag >>> 3) {
                             case 1: {
                                     message.name_part = reader.string();
@@ -35639,12 +38903,14 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                SourceCodeInfo.decode = function decode(reader, length) {
+                SourceCodeInfo.decode = function decode(reader, length, error) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
                     var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.SourceCodeInfo();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
+                        if (tag === error)
+                            break;
                         switch (tag >>> 3) {
                         case 1: {
                                 if (!(message.location && message.location.length))
@@ -35879,12 +39145,14 @@
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    Location.decode = function decode(reader, length) {
+                    Location.decode = function decode(reader, length, error) {
                         if (!(reader instanceof $Reader))
                             reader = $Reader.create(reader);
                         var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.SourceCodeInfo.Location();
                         while (reader.pos < end) {
                             var tag = reader.uint32();
+                            if (tag === error)
+                                break;
                             switch (tag >>> 3) {
                             case 1: {
                                     if (!(message.path && message.path.length))

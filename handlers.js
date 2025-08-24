@@ -121,10 +121,60 @@ handlers[Language.Client2GCEconPreviewDataBlockResponse] = function(body) {
 	let buf = Buffer.alloc(4);
 	buf.writeUInt32BE(item.paintwear, 0);
 	item.paintwear = buf.readFloatBE(0);
-	this.emit('inspectItemInfo', item);
-	this.emit('inspectItemInfo#' + item.itemid, item);
+	
+	// Process stickers array - ensure all fields including highlight_reel are properly handled
+	if (item.stickers && Array.isArray(item.stickers)) {
+		item.stickers = item.stickers.map(sticker => ({
+			slot: sticker.slot || 0,
+			sticker_id: sticker.sticker_id || 0,
+			wear: sticker.wear || null,
+			scale: sticker.scale || null,
+			rotation: sticker.rotation || null,
+			tint_id: sticker.tint_id || null,
+			offset_x: sticker.offset_x || null,
+			offset_y: sticker.offset_y || null,
+			offset_z: sticker.offset_z || null,
+			pattern: sticker.pattern || null,
+			highlight_reel: sticker.highlight_reel || null
+		}));
+	}
+	
+	// Process keychains array - ensure all fields including highlight_reel are properly handled
+	if (item.keychains && Array.isArray(item.keychains)) {
+		item.keychains = item.keychains.map(keychain => ({
+			slot: keychain.slot || 0,
+			sticker_id: keychain.sticker_id || 0,
+			wear: keychain.wear || null,
+			scale: keychain.scale || null,
+			rotation: keychain.rotation || null,
+			tint_id: keychain.tint_id || null,
+			offset_x: keychain.offset_x || null,
+			offset_y: keychain.offset_y || null,
+			offset_z: keychain.offset_z || null,
+			pattern: keychain.pattern || null,
+			highlight_reel: keychain.highlight_reel || null
+		}));
+	}
+	
+	
+	// Process variations array - ensure all fields including highlight_reel are properly handled
+	if (item.variations && Array.isArray(item.variations)) {
+		item.variations = item.variations.map(variation => ({
+			slot: variation.slot || 0,
+			sticker_id: variation.sticker_id || 0,
+			wear: variation.wear || null,
+			scale: variation.scale || null,
+			rotation: variation.rotation || null,
+			tint_id: variation.tint_id || null,
+			offset_x: variation.offset_x || null,
+			offset_y: variation.offset_y || null,
+			offset_z: variation.offset_z || null,
+			pattern: variation.pattern || null,
+			highlight_reel: variation.highlight_reel || null
+		}));
+	}	this.emit("inspectItemInfo", item);
+	this.emit("inspectItemInfo#" + item.itemid, item);
 };
-
 // Item manipulation
 handlers[Language.CraftResponse] = function(body) {
 	let blueprint = body.readInt16(); // recipe ID
