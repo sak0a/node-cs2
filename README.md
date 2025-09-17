@@ -5,34 +5,34 @@
 
 Modern **CS2/CS:GO Game Coordinator integration** with the latest **GameTracking-CS2 protobuf definitions**. This package provides a simple API for interacting with the Counter-Strike 2 and CS:GO Game Coordinator, with full support for all modern CS2 features.
 
-## 🆕 What's New in This Fork
+## What's New in This Fork
 
 This fork addresses critical issues with the original `globaloffensive` package and adds comprehensive support for modern CS2 features:
 
-### ✅ **Latest GameTracking-CS2 Protobuf Definitions**
+### **Latest GameTracking-CS2 Protobuf Definitions**
 - **All protobuf files updated** from the latest [GameTracking-CS2](https://github.com/SteamDatabase/GameTracking-CS2) repository
 - **Future-proof** with current CS2 game definitions
 - **Comprehensive field support** for all modern CS2 items
 
-### ✅ **Fixed Missing Fields**
+### **Fixed Missing Fields**
 - **`highlight_reel`** support in stickers, keychains, and variations
 - **`musicindex`** - Music kit support
-- **`entindex`** - Entity index support  
+- **`entindex`** - Entity index support
 - **`petindex`** - Pet/companion support
 - **`style`** - Style variations support
 - **`upgrade_level`** - Item upgrade level support
 
-### ✅ **New Array Support**
+### **New Array Support**
 - **`variations`** - Complete new array for item variations
 - **Enhanced stickers array** with all new fields
 - **Enhanced keychains array** with all new fields
 
-### ✅ **Enhanced Handler Logic**
+### **Enhanced Handler Logic**
 - Updated `handlers.js` to process **all new fields**
 - Proper field mapping and null handling
 - **100% backward compatible** with existing code
 
-## 🐛 **Critical Bug Fixes**
+## **Critical Bug Fixes**
 
 ### Missing `highlight_reel` Field
 **Problem:** The original package was missing the `highlight_reel` field in inspect responses, causing incomplete data for items with highlight reels.
@@ -47,7 +47,7 @@ This fork addresses critical issues with the original `globaloffensive` package 
       slot: 0,
       sticker_id: 36,
       offset_x: 3.445085287094116,
-      // highlight_reel: MISSING! ❌
+      // highlight_reel: MISSING!
     }
   ]
 }
@@ -59,19 +59,19 @@ This fork addresses critical issues with the original `globaloffensive` package 
       slot: 0,
       sticker_id: 36,
       offset_x: 3.445085287094116,
-      highlight_reel: 67890  // ✅ NOW WORKING!
+      highlight_reel: 67890  // NOW WORKING!
     }
   ]
 }
 ```
 
-## 📦 Installation
+## Installation
 
 ```bash
 npm install node-cs2
 ```
 
-## 🔄 Migration from `globaloffensive`
+## Migration from `globaloffensive`
 
 This package is **100% API compatible** with the original `globaloffensive` package:
 
@@ -86,7 +86,7 @@ const NodeCS2 = require('node-cs2');
 const cs2 = new NodeCS2(steamUser);
 ```
 
-## 🚀 Usage
+## Usage
 
 ```javascript
 const SteamUser = require('steam-user');
@@ -140,7 +140,7 @@ cs2.on('inspectItemInfo', (item) => {
 cs2.inspectItem('76561198057249394', '2569415699', '7115007497');
 ```
 
-## 🔍 **Inspect URL Support**
+## **Inspect URL Support**
 
 Full support for both masked and unmasked inspect URLs:
 
@@ -156,7 +156,7 @@ if (match) {
 }
 ```
 
-## 📋 **Complete Field Support**
+## **Complete Field Support**
 
 ### Basic Item Fields
 - `defindex` - Item definition index
@@ -166,7 +166,7 @@ if (match) {
 - `rarity` - Item rarity
 - `quality` - Item quality
 
-### Modern CS2 Fields ✨
+### Modern CS2 Fields
 - `musicindex` - Music kit index
 - `entindex` - Entity index
 - `petindex` - Pet/companion index
@@ -175,7 +175,7 @@ if (match) {
 
 ### Arrays with Full Field Support
 - `stickers[]` - Sticker applications
-- `keychains[]` - Keychain attachments  
+- `keychains[]` - Keychain attachments
 - `variations[]` - Item variations (**NEW!**)
 
 ### Sticker/Keychain/Variation Fields
@@ -189,12 +189,12 @@ if (match) {
 - `pattern` - Pattern index
 - `highlight_reel` - Highlight reel ID (**FIXED!**)
 
-## 🔧 **Development**
+## **Development**
 
 ### Building from Source
 ```bash
 git clone https://github.com/sak0a/node-cs2.git
-cd node-globaloffensive
+cd node-cs2
 npm install
 npm run generate-protos
 ```
@@ -206,28 +206,28 @@ npm run generate-protos
 npm run generate-protos
 ```
 
-## 📄 **License**
+## **License**
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
-## 🙏 **Credits**
+## **Credits**
 
-- **Original Author:** [Alex Corn (DoctorMcKay)](https://github.com/DoctorMcKay) - Original `globaloffensive` package
+- **Original Author:** [DoctorMcKay](https://github.com/DoctorMcKay) - Original `globaloffensive` package
 - **Protobuf Definitions:** [SteamDatabase GameTracking-CS2](https://github.com/SteamDatabase/GameTracking-CS2)
 - **Fork Maintainer:** [sak0a](https://github.com/sak0a)
 
-## 🐛 **Issues & Support**
+## **Issues & Support**
 
 If you encounter any issues or need support:
 1. Check if the issue exists in the original package
 2. Open an issue on [GitHub](https://github.com/sak0a/node-cs2/issues)
 3. Provide detailed information about your use case
 
-## 🚀 **Why Use This Fork?**
+## **Why Use This Fork?**
 
-- ✅ **Up-to-date** with latest CS2 definitions
-- ✅ **Bug fixes** for missing fields
-- ✅ **Enhanced functionality** with new CS2 features
-- ✅ **100% compatible** with existing code
-- ✅ **Actively maintained** with GameTracking-CS2 updates
-- ✅ **Community-driven** improvements
+- **Up-to-date** with latest CS2 definitions
+- **Bug fixes** for missing fields
+- **Enhanced functionality** with new CS2 features
+- **100% compatible** with existing code
+- **Actively maintained** with GameTracking-CS2 updates
+- **Community-driven** improvements

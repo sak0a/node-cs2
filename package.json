@@ -1,6 +1,6 @@
 {
 	"name": "node-cs2",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"description": "Modern CS2/CS:GO Game Coordinator integration with latest GameTracking-CS2 protobuf definitions. Includes support for highlight_reel, variations, and all modern CS2 fields.",
 	"keywords": [
 		"cs2",
