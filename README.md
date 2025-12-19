@@ -7,15 +7,15 @@ Modern **CS2/CS:GO Game Coordinator integration** with the latest **GameTracking
 
 ## Features
 
-- ✅ **Latest Protobuf Definitions** - Always up-to-date with GameTracking-CS2
-- ✅ **Complete Field Support** - All modern CS2 fields including `highlight_reel`, `wrapped_sticker`, `variations`
-- ✅ **Promise-Based API** - Modern async/await support with backward-compatible callbacks
-- ✅ **Volatile Items** - Support for rental items and temporary items
-- ✅ **XP Shop & Rewards** - Redeem rewards and track XP progress
-- ✅ **Recurring Missions** - Request and track mission schedules
-- ✅ **Premier Season** - Access premier season data and leaderboards
-- ✅ **Enhanced Error Handling** - Comprehensive error detection and validation
-- ✅ **100% Backward Compatible** - Drop-in replacement for `globaloffensive`
+-  **Latest Protobuf Definitions** - Always up-to-date with GameTracking-CS2
+-  **Complete Field Support** - All modern CS2 fields including `highlight_reel`, `wrapped_sticker`, `variations`
+-  **Promise-Based API** - Modern async/await support with backward-compatible callbacks
+-  **Volatile Items** - Support for rental items and temporary items
+-  **XP Shop & Rewards** - Redeem rewards and track XP progress
+-  **Recurring Missions** - Request and track mission schedules
+-  **Premier Season** - Access premier season data and leaderboards
+-  **Enhanced Error Handling** - Comprehensive error detection and validation
+-  **100% Backward Compatible** - Drop-in replacement for `globaloffensive`
 
 ## Installation
 
@@ -145,10 +145,10 @@ const cs2 = new NodeCS2(steamUser);
 
 ## What's Fixed
 
-- ✅ **Missing Fields** - `highlight_reel` and `wrapped_sticker` now properly extracted
-- ✅ **Modern CS2 Support** - All new CS2 fields and arrays supported
-- ✅ **Error Handling** - Comprehensive error detection and validation
-- ✅ **Code Quality** - Deduplication, better maintainability
+-  **Missing Fields** - `highlight_reel` and `wrapped_sticker` now properly extracted
+-  **Modern CS2 Support** - All new CS2 fields and arrays supported
+-  **Error Handling** - Comprehensive error detection and validation
+-  **Code Quality** - Deduplication, better maintainability
 
 ## Requirements
 
@@ -164,6 +164,60 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - **Original Author:** [DoctorMcKay](https://github.com/DoctorMcKay) - Original `globaloffensive` package
 - **Protobuf Definitions:** [SteamDatabase GameTracking-CS2](https://github.com/SteamDatabase/GameTracking-CS2)
 - **Fork Maintainer:** [sak0a](https://github.com/sak0a)
+
+## Changelog
+
+### v2.2.0 (December 19, 2025)
+
+**New Features:**
+- Added crate opening support (`openCrate()`)
+- Added sticker operations (`extractSticker()`, `encapsulateSticker()`)
+- Added patch operations (`applyPatch()`, `removePatch()`)
+- Added keychain operations (`applyKeychain()`, `removeKeychain()`)
+
+**Improvements:**
+- All new methods support Promise and callback APIs
+- Configurable timeouts for all operations
+- Comprehensive error handling
+
+### v2.1.0 (December 19, 2025)
+
+**New Features:**
+- Added 18 missing message IDs to `language.js`
+- Added 10 missing notification types to `enums.js`
+- Prepared library for high-priority feature implementations
+
+**Improvements:**
+- Complete coverage of CS2 message IDs from latest protobuf definitions
+
+### v2.0.1 (September 2025)
+
+**New Features:**
+- Promise-based API for async methods
+- Configurable timeouts for all operations
+- Support for `variations` array
+- Enhanced error handling
+
+**Bug Fixes:**
+- Fixed missing `highlight_reel` field extraction
+- Fixed missing `wrapped_sticker` field extraction
+- Fixed protobuf decoding errors not being caught
+- Fixed missing field validation
+
+**Improvements:**
+- Updated to latest GameTracking-CS2 protobuf definitions
+- Code deduplication with reusable helper functions
+- Better error handling throughout the codebase
+
+### v2.0.0 (Initial Fork)
+
+**Initial Release:**
+- Forked from `globaloffensive` package
+- Updated protobuf definitions from GameTracking-CS2
+- Fixed critical missing fields in item inspection
+- Added support for modern CS2 features
+
+For detailed release notes, see [RELEASE_NOTES.md](./RELEASE_NOTES.md).
 
 ## Support
 

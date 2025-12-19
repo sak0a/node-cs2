@@ -1,6 +1,6 @@
 {
 	"name": "node-cs2",
-	"version": "2.2.0",
+	"version": "2.2.1",
 	"description": "Modern CS2/CS:GO Game Coordinator integration with latest GameTracking-CS2 protobuf definitions. Includes support for highlight_reel, wrapped_sticker, variations, Promise-based API, crate opening, sticker/patch/keychain operations, and all modern CS2 fields.",
 	"keywords": [
 		"cs2",
@@ -13,6 +13,7 @@
 		"protobuf",
 		"gametracking",
 		"highlight-reel",
+		"wrapped-sticker",
 		"inspect",
 		"stickers",
 		"keychains",
