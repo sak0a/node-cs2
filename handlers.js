@@ -233,6 +233,79 @@ handlers[Language.Client2GCEconPreviewDataBlockResponse] = function(body) {
 	this.emit("inspectItemInfo", item);
 	this.emit("inspectItemInfo#" + item.itemid, item);
 };
+
+// XP Shop & Rewards
+handlers[Language.GC2ClientNotifyXPShop] = function(body) {
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgGCCStrike15_v2_GC2ClientNotifyXPShop, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode GC2ClientNotifyXPShop: ${err.message}`));
+		return;
+	}
+
+	if (!proto) {
+		this.emit('debug', "GC2ClientNotifyXPShop missing data");
+		return;
+	}
+
+	this.emit('xpShopNotification', proto);
+};
+
+// Recurring Missions
+handlers[Language.RecurringMissionSchema] = function(body) {
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgRecurringMissionSchema, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode RecurringMissionSchema: ${err.message}`));
+		return;
+	}
+
+	if (!proto) {
+		this.emit('debug', "RecurringMissionSchema missing data");
+		return;
+	}
+
+	this.emit('recurringMissionSchema', proto);
+};
+
+// Premier Season
+handlers[Language.PremierSeasonSummary] = function(body) {
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgGCCStrike15_v2_PremierSeasonSummary, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode PremierSeasonSummary: ${err.message}`));
+		return;
+	}
+
+	if (!proto) {
+		this.emit('debug', "PremierSeasonSummary missing data");
+		return;
+	}
+
+	this.emit('premierSeasonSummary', proto);
+};
+
+// Matchmaking Search Stats
+handlers[Language.MatchmakingGC2ClientSearchStats] = function(body) {
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgGCCStrike15_v2_MatchmakingGC2ClientSearchStats, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode MatchmakingGC2ClientSearchStats: ${err.message}`));
+		return;
+	}
+
+	if (!proto) {
+		this.emit('debug', "MatchmakingGC2ClientSearchStats missing data");
+		return;
+	}
+
+	this.emit('matchmakingSearchStats', proto);
+};
+
 // Item manipulation
 handlers[Language.CraftResponse] = function(body) {
 	let blueprint = body.readInt16(); // recipe ID

@@ -498,6 +498,344 @@ NodeCS2.prototype.getCasketContents = function(casketId, callback) {
 	}
 };
 
+// ============================================================================
+// Volatile Items
+// ============================================================================
+
+/**
+ * Load the contents of a volatile item (rental item, temporary item).
+ * @param {int} volatileItemId - The ID of the volatile item
+ * @param {function} callback - Optional callback. If not provided, returns a Promise.
+ * @returns {Promise|undefined} Returns a Promise if no callback is provided
+ */
+NodeCS2.prototype.loadVolatileItemContents = function(volatileItemId, callback) {
+	// Similar to getCasketContents, but for volatile items
+	let volatileItem = this.inventory.find(item => item.id == volatileItemId);
+	if (!volatileItem) {
+		const error = new Error(`No volatile item matching ID ${volatileItemId} was found`);
+		if (callback) {
+			callback(error);
+			return;
+		}
+		return Promise.reject(error);
+	}
+
+	// We need to load volatile item contents from the GC
+	this._send(Language.VolatileItemLoadContents, Protos.CMsgCasketItem, {
+		casket_item_id: volatileItemId,
+		item_item_id: volatileItemId
+	});
+
+	// Set a timeout (configurable via _volatileItemTimeout)
+	let timedOut = false;
+	let timeout;
+	let customizationNotification;
+
+	if (callback) {
+		timeout = setTimeout(() => {
+			if (timedOut) {
+				return;
+			}
+			timedOut = true;
+			this.off('itemCustomizationNotification', customizationNotification);
+			callback(new Error('Loading volatile item contents timed out'));
+		}, this._volatileItemTimeout || 30000);
+
+		customizationNotification = (itemIds, notificationType) => {
+			if (timedOut) {
+				this.off('itemCustomizationNotification', customizationNotification);
+				return;
+			}
+
+			// Check for volatile item notification (may use VolatileItemClaimReward notification type)
+			if (itemIds[0] != volatileItemId) {
+				return;
+			}
+
+			clearTimeout(timeout);
+			timedOut = true;
+			this.off('itemCustomizationNotification', customizationNotification);
+			callback(null, this.inventory.filter(item => item.volatile_item_id == volatileItemId || item.id == volatileItemId));
+		};
+
+		this.on('itemCustomizationNotification', customizationNotification);
+	} else {
+		return new Promise((resolve, reject) => {
+			timeout = setTimeout(() => {
+				if (timedOut) {
+					return;
+				}
+				timedOut = true;
+				this.off('itemCustomizationNotification', customizationNotification);
+				reject(new Error('Loading volatile item contents timed out'));
+			}, this._volatileItemTimeout || 30000);
+
+			customizationNotification = (itemIds, notificationType) => {
+				if (timedOut) {
+					this.off('itemCustomizationNotification', customizationNotification);
+					return;
+				}
+
+				if (itemIds[0] != volatileItemId) {
+					return;
+				}
+
+				clearTimeout(timeout);
+				timedOut = true;
+				this.off('itemCustomizationNotification', customizationNotification);
+				resolve(this.inventory.filter(item => item.volatile_item_id == volatileItemId || item.id == volatileItemId));
+			};
+
+			this.on('itemCustomizationNotification', customizationNotification);
+		});
+	}
+};
+
+/**
+ * Claim a reward from a volatile item.
+ * Note: Response comes via ItemCustomizationNotification.
+ * @param {int} defindex - The definition index of the volatile item
+ * @param {function} callback - Optional callback. If not provided, returns a Promise.
+ * @returns {Promise|undefined} Returns a Promise if no callback is provided
+ */
+NodeCS2.prototype.claimVolatileItemReward = function(defindex, callback) {
+	// VolatileItemClaimReward doesn't have a protobuf message definition
+	// Send as empty ByteBuffer - response comes via ItemCustomizationNotification
+	let buffer = new ByteBuffer(4, ByteBuffer.LITTLE_ENDIAN);
+	buffer.writeUint32(defindex);
+	this._send(Language.VolatileItemClaimReward, null, buffer);
+
+	if (callback) {
+		// Listen for itemCustomizationNotification with VolatileItemClaimReward type
+		let timeout = setTimeout(() => {
+			this.removeListener('itemCustomizationNotification', notificationListener);
+			callback(new Error('Claiming volatile item reward timed out'));
+		}, this._volatileItemTimeout || 30000);
+
+		let notificationListener = (itemIds, notificationType) => {
+			if (notificationType == NodeCS2.ItemCustomizationNotification.ClientRedeemFreeReward) {
+				clearTimeout(timeout);
+				this.removeListener('itemCustomizationNotification', notificationListener);
+				callback(null, itemIds);
+			}
+		};
+
+		this.on('itemCustomizationNotification', notificationListener);
+	} else {
+		return new Promise((resolve, reject) => {
+			let timeout = setTimeout(() => {
+				this.removeListener('itemCustomizationNotification', notificationListener);
+				reject(new Error('Claiming volatile item reward timed out'));
+			}, this._volatileItemTimeout || 30000);
+
+			let notificationListener = (itemIds, notificationType) => {
+				if (notificationType == NodeCS2.ItemCustomizationNotification.ClientRedeemFreeReward) {
+					clearTimeout(timeout);
+					this.removeListener('itemCustomizationNotification', notificationListener);
+					resolve(itemIds);
+				}
+			};
+
+			this.on('itemCustomizationNotification', notificationListener);
+		});
+	}
+};
+
+/**
+ * Acknowledge rental expiration for a crate/item.
+ * @param {int} crateItemId - The ID of the crate/item
+ */
+NodeCS2.prototype.acknowledgeRentalExpiration = function(crateItemId) {
+	this._send(Language.AcknowledgeRentalExpiration, Protos.CMsgAcknowledgeRentalExpiration, {
+		crate_item_id: crateItemId
+	});
+};
+
+// ============================================================================
+// Recurring Missions
+// ============================================================================
+
+/**
+ * Request the recurring mission schedule.
+ * @param {function} callback - Optional callback. If not provided, returns a Promise.
+ * @returns {Promise|undefined} Returns a Promise if no callback is provided
+ */
+NodeCS2.prototype.requestRecurringMissionSchedule = function(callback) {
+	this._send(Language.RequestRecurringMissionSchedule, Protos.CMsgRequestRecurringMissionSchedule, {});
+
+	if (callback) {
+		// Listen for RecurringMissionSchema response
+		let timeout = setTimeout(() => {
+			this.removeListener('recurringMissionSchema', schemaListener);
+			callback(new Error('Requesting recurring mission schedule timed out'));
+		}, this._missionTimeout || 10000);
+
+		let schemaListener = (schema) => {
+			clearTimeout(timeout);
+			this.removeListener('recurringMissionSchema', schemaListener);
+			callback(null, schema);
+		};
+
+		this.once('recurringMissionSchema', schemaListener);
+	} else {
+		return new Promise((resolve, reject) => {
+			let timeout = setTimeout(() => {
+				this.removeListener('recurringMissionSchema', schemaListener);
+				reject(new Error('Requesting recurring mission schedule timed out'));
+			}, this._missionTimeout || 10000);
+
+			let schemaListener = (schema) => {
+				clearTimeout(timeout);
+				this.removeListener('recurringMissionSchema', schemaListener);
+				resolve(schema);
+			};
+
+			this.once('recurringMissionSchema', schemaListener);
+		});
+	}
+};
+
+// ============================================================================
+// XP Shop & Rewards
+// ============================================================================
+
+/**
+ * Acknowledge XP shop tracks.
+ */
+NodeCS2.prototype.acknowledgeXPShopTracks = function() {
+	this._send(Language.Client2GcAckXPShopTracks, Protos.CMsgGCCStrike15_v2_Client2GcAckXPShopTracks, {});
+};
+
+/**
+ * Redeem a free reward.
+ * @param {int} generationTime - Generation time of the reward
+ * @param {int} redeemableBalance - Redeemable balance
+ * @param {int[]} items - Array of item IDs
+ * @param {function} callback - Optional callback. If not provided, returns a Promise.
+ * @returns {Promise|undefined} Returns a Promise if no callback is provided
+ */
+NodeCS2.prototype.redeemFreeReward = function(generationTime, redeemableBalance, items, callback) {
+	this._send(Language.ClientRedeemFreeReward, Protos.CMsgGCCstrike15_v2_ClientRedeemFreeReward, {
+		generation_time: generationTime,
+		redeemable_balance: redeemableBalance,
+		items: items || []
+	});
+
+	if (callback) {
+		// Listen for itemCustomizationNotification
+		let timeout = setTimeout(() => {
+			this.removeListener('itemCustomizationNotification', notificationListener);
+			callback(new Error('Redeeming free reward timed out'));
+		}, this._rewardTimeout || 10000);
+
+		let notificationListener = (itemIds, notificationType) => {
+			if (notificationType == NodeCS2.ItemCustomizationNotification.ClientRedeemFreeReward) {
+				clearTimeout(timeout);
+				this.removeListener('itemCustomizationNotification', notificationListener);
+				callback(null, itemIds);
+			}
+		};
+
+		this.on('itemCustomizationNotification', notificationListener);
+	} else {
+		return new Promise((resolve, reject) => {
+			let timeout = setTimeout(() => {
+				this.removeListener('itemCustomizationNotification', notificationListener);
+				reject(new Error('Redeeming free reward timed out'));
+			}, this._rewardTimeout || 10000);
+
+			let notificationListener = (itemIds, notificationType) => {
+				if (notificationType == NodeCS2.ItemCustomizationNotification.ClientRedeemFreeReward) {
+					clearTimeout(timeout);
+					this.removeListener('itemCustomizationNotification', notificationListener);
+					resolve(itemIds);
+				}
+			};
+
+			this.on('itemCustomizationNotification', notificationListener);
+		});
+	}
+};
+
+/**
+ * Redeem a mission reward.
+ * @param {int} campaignId - Campaign ID
+ * @param {int} redeemId - Redeem ID
+ * @param {int} redeemableBalance - Redeemable balance
+ * @param {int} expectedCost - Expected cost
+ * @param {int} bidControl - Bid control (optional)
+ * @param {function} callback - Optional callback. If not provided, returns a Promise.
+ * @returns {Promise|undefined} Returns a Promise if no callback is provided
+ */
+NodeCS2.prototype.redeemMissionReward = function(campaignId, redeemId, redeemableBalance, expectedCost, bidControl, callback) {
+	// Handle optional bidControl parameter
+	if (typeof bidControl === 'function') {
+		callback = bidControl;
+		bidControl = undefined;
+	}
+
+	this._send(Language.ClientRedeemMissionReward, Protos.CMsgGCCstrike15_v2_ClientRedeemMissionReward, {
+		campaign_id: campaignId,
+		redeem_id: redeemId,
+		redeemable_balance: redeemableBalance,
+		expected_cost: expectedCost,
+		bid_control: bidControl
+	});
+
+	if (callback) {
+		// Listen for itemCustomizationNotification
+		let timeout = setTimeout(() => {
+			this.removeListener('itemCustomizationNotification', notificationListener);
+			callback(new Error('Redeeming mission reward timed out'));
+		}, this._rewardTimeout || 10000);
+
+		let notificationListener = (itemIds, notificationType) => {
+			if (notificationType == NodeCS2.ItemCustomizationNotification.ClientRedeemMissionReward) {
+				clearTimeout(timeout);
+				this.removeListener('itemCustomizationNotification', notificationListener);
+				callback(null, itemIds);
+			}
+		};
+
+		this.on('itemCustomizationNotification', notificationListener);
+	} else {
+		return new Promise((resolve, reject) => {
+			let timeout = setTimeout(() => {
+				this.removeListener('itemCustomizationNotification', notificationListener);
+				reject(new Error('Redeeming mission reward timed out'));
+			}, this._rewardTimeout || 10000);
+
+			let notificationListener = (itemIds, notificationType) => {
+				if (notificationType == NodeCS2.ItemCustomizationNotification.ClientRedeemMissionReward) {
+					clearTimeout(timeout);
+					this.removeListener('itemCustomizationNotification', notificationListener);
+					resolve(itemIds);
+				}
+			};
+
+			this.on('itemCustomizationNotification', notificationListener);
+		});
+	}
+};
+
+// ============================================================================
+// Premier Season & Leaderboards
+// ============================================================================
+
+/**
+ * Set player leaderboard safe name.
+ * @param {string} leaderboardSafeName - The safe name for leaderboards
+ */
+NodeCS2.prototype.setLeaderboardSafeName = function(leaderboardSafeName) {
+	if (!leaderboardSafeName || typeof leaderboardSafeName !== 'string') {
+		throw new Error('leaderboardSafeName must be a non-empty string');
+	}
+
+	this._send(Language.SetPlayerLeaderboardSafeName, Protos.CMsgGCCStrike15_v2_SetPlayerLeaderboardSafeName, {
+		leaderboard_safe_name: leaderboardSafeName
+	});
+};
+
 NodeCS2.prototype._handlers = {};
 
 require('./enums.js');

@@ -206,6 +206,64 @@ if (match) {
 
 ## **New Features & Improvements**
 
+### High Priority Features (NEW in v2.1.0+)
+
+#### Volatile Items Support
+```javascript
+// Load volatile item contents
+const items = await cs2.loadVolatileItemContents(volatileItemId);
+
+// Claim volatile item reward
+await cs2.claimVolatileItemReward(defindex);
+
+// Acknowledge rental expiration
+cs2.acknowledgeRentalExpiration(crateItemId);
+```
+
+#### Recurring Missions
+```javascript
+// Request recurring mission schedule
+const schema = await cs2.requestRecurringMissionSchedule();
+
+// Listen for mission schema
+cs2.on('recurringMissionSchema', (schema) => {
+    console.log('Mission schema:', schema);
+});
+```
+
+#### XP Shop & Rewards
+```javascript
+// Acknowledge XP shop tracks
+cs2.acknowledgeXPShopTracks();
+
+// Redeem free reward
+await cs2.redeemFreeReward(generationTime, redeemableBalance, items);
+
+// Redeem mission reward
+await cs2.redeemMissionReward(campaignId, redeemId, balance, cost, bidControl);
+
+// Listen for XP shop notifications
+cs2.on('xpShopNotification', (data) => {
+    console.log('XP Shop:', data.current_xp, 'Level:', data.current_level);
+});
+```
+
+#### Premier Season & Leaderboards
+```javascript
+// Set leaderboard safe name
+cs2.setLeaderboardSafeName('MySafeName');
+
+// Listen for premier season summary
+cs2.on('premierSeasonSummary', (summary) => {
+    console.log('Premier season data:', summary);
+});
+
+// Listen for matchmaking search stats
+cs2.on('matchmakingSearchStats', (stats) => {
+    console.log('Search stats:', stats);
+});
+```
+
 ### Promise-Based API
 All async methods now support both callbacks and Promises:
 
@@ -227,15 +285,23 @@ cs2.inspectItem(owner, assetid, classid)
 - `inspectItem()`
 - `getCasketContents()`
 - `requestPlayersProfile()`
+- `loadVolatileItemContents()` ⭐ NEW
+- `claimVolatileItemReward()` ⭐ NEW
+- `requestRecurringMissionSchedule()` ⭐ NEW
+- `redeemFreeReward()` ⭐ NEW
+- `redeemMissionReward()` ⭐ NEW
 
 ### Configurable Timeouts
 Timeouts are now configurable via instance properties:
 
 ```javascript
 const cs2 = new NodeCS2(steamUser);
-cs2._inspectTimeout = 15000;  // 15 seconds (default: 10000)
-cs2._casketTimeout = 45000;    // 45 seconds (default: 30000)
-cs2._profileTimeout = 15000;  // 15 seconds (default: 10000)
+cs2._inspectTimeout = 15000;        // 15 seconds (default: 10000)
+cs2._casketTimeout = 45000;        // 45 seconds (default: 30000)
+cs2._profileTimeout = 15000;       // 15 seconds (default: 10000)
+cs2._volatileItemTimeout = 45000;  // 45 seconds (default: 30000) ⭐ NEW
+cs2._missionTimeout = 15000;       // 15 seconds (default: 10000) ⭐ NEW
+cs2._rewardTimeout = 15000;        // 15 seconds (default: 10000) ⭐ NEW
 ```
 
 ### Error Handling
