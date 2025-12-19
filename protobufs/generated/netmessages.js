@@ -25,7 +25,6 @@
      * @property {number} clc_VoiceData=22 clc_VoiceData value
      * @property {number} clc_BaselineAck=23 clc_BaselineAck value
      * @property {number} clc_RespondCvarValue=25 clc_RespondCvarValue value
-     * @property {number} clc_FileCRCCheck=26 clc_FileCRCCheck value
      * @property {number} clc_LoadingProgress=27 clc_LoadingProgress value
      * @property {number} clc_SplitPlayerConnect=28 clc_SplitPlayerConnect value
      * @property {number} clc_SplitPlayerDisconnect=30 clc_SplitPlayerDisconnect value
@@ -43,7 +42,6 @@
         values[valuesById[22] = "clc_VoiceData"] = 22;
         values[valuesById[23] = "clc_BaselineAck"] = 23;
         values[valuesById[25] = "clc_RespondCvarValue"] = 25;
-        values[valuesById[26] = "clc_FileCRCCheck"] = 26;
         values[valuesById[27] = "clc_LoadingProgress"] = 27;
         values[valuesById[28] = "clc_SplitPlayerConnect"] = 28;
         values[valuesById[30] = "clc_SplitPlayerDisconnect"] = 30;
@@ -90,6 +88,7 @@
      * @property {number} svc_Broadcast_Command=74 svc_Broadcast_Command value
      * @property {number} svc_HltvFixupOperatorStatus=75 svc_HltvFixupOperatorStatus value
      * @property {number} svc_UserCmds=76 svc_UserCmds value
+     * @property {number} svc_NextMsgPredicted=77 svc_NextMsgPredicted value
      */
     $root.SVC_Messages = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -123,6 +122,7 @@
         values[valuesById[74] = "svc_Broadcast_Command"] = 74;
         values[valuesById[75] = "svc_HltvFixupOperatorStatus"] = 75;
         values[valuesById[76] = "svc_UserCmds"] = 76;
+        values[valuesById[77] = "svc_NextMsgPredicted"] = 77;
         return values;
     })();
     
@@ -2271,304 +2271,6 @@
         return CCLCMsg_RespondCvarValue;
     })();
     
-    $root.CCLCMsg_FileCRCCheck = (function() {
-    
-        /**
-         * Properties of a CCLCMsg_FileCRCCheck.
-         * @exports ICCLCMsg_FileCRCCheck
-         * @interface ICCLCMsg_FileCRCCheck
-         * @property {number|null} [code_path] CCLCMsg_FileCRCCheck code_path
-         * @property {string|null} [path] CCLCMsg_FileCRCCheck path
-         * @property {number|null} [code_filename] CCLCMsg_FileCRCCheck code_filename
-         * @property {string|null} [filename] CCLCMsg_FileCRCCheck filename
-         * @property {number|null} [crc] CCLCMsg_FileCRCCheck crc
-         */
-    
-        /**
-         * Constructs a new CCLCMsg_FileCRCCheck.
-         * @exports CCLCMsg_FileCRCCheck
-         * @classdesc Represents a CCLCMsg_FileCRCCheck.
-         * @implements ICCLCMsg_FileCRCCheck
-         * @constructor
-         * @param {ICCLCMsg_FileCRCCheck=} [properties] Properties to set
-         */
-        function CCLCMsg_FileCRCCheck(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CCLCMsg_FileCRCCheck code_path.
-         * @member {number} code_path
-         * @memberof CCLCMsg_FileCRCCheck
-         * @instance
-         */
-        CCLCMsg_FileCRCCheck.prototype.code_path = 0;
-    
-        /**
-         * CCLCMsg_FileCRCCheck path.
-         * @member {string} path
-         * @memberof CCLCMsg_FileCRCCheck
-         * @instance
-         */
-        CCLCMsg_FileCRCCheck.prototype.path = "";
-    
-        /**
-         * CCLCMsg_FileCRCCheck code_filename.
-         * @member {number} code_filename
-         * @memberof CCLCMsg_FileCRCCheck
-         * @instance
-         */
-        CCLCMsg_FileCRCCheck.prototype.code_filename = 0;
-    
-        /**
-         * CCLCMsg_FileCRCCheck filename.
-         * @member {string} filename
-         * @memberof CCLCMsg_FileCRCCheck
-         * @instance
-         */
-        CCLCMsg_FileCRCCheck.prototype.filename = "";
-    
-        /**
-         * CCLCMsg_FileCRCCheck crc.
-         * @member {number} crc
-         * @memberof CCLCMsg_FileCRCCheck
-         * @instance
-         */
-        CCLCMsg_FileCRCCheck.prototype.crc = 0;
-    
-        /**
-         * Creates a new CCLCMsg_FileCRCCheck instance using the specified properties.
-         * @function create
-         * @memberof CCLCMsg_FileCRCCheck
-         * @static
-         * @param {ICCLCMsg_FileCRCCheck=} [properties] Properties to set
-         * @returns {CCLCMsg_FileCRCCheck} CCLCMsg_FileCRCCheck instance
-         */
-        CCLCMsg_FileCRCCheck.create = function create(properties) {
-            return new CCLCMsg_FileCRCCheck(properties);
-        };
-    
-        /**
-         * Encodes the specified CCLCMsg_FileCRCCheck message. Does not implicitly {@link CCLCMsg_FileCRCCheck.verify|verify} messages.
-         * @function encode
-         * @memberof CCLCMsg_FileCRCCheck
-         * @static
-         * @param {ICCLCMsg_FileCRCCheck} message CCLCMsg_FileCRCCheck message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CCLCMsg_FileCRCCheck.encode = function encode(message, writer) {
-            if (!writer)
-                writer = $Writer.create();
-            if (message.code_path != null && Object.hasOwnProperty.call(message, "code_path"))
-                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.code_path);
-            if (message.path != null && Object.hasOwnProperty.call(message, "path"))
-                writer.uint32(/* id 2, wireType 2 =*/18).string(message.path);
-            if (message.code_filename != null && Object.hasOwnProperty.call(message, "code_filename"))
-                writer.uint32(/* id 3, wireType 0 =*/24).int32(message.code_filename);
-            if (message.filename != null && Object.hasOwnProperty.call(message, "filename"))
-                writer.uint32(/* id 4, wireType 2 =*/34).string(message.filename);
-            if (message.crc != null && Object.hasOwnProperty.call(message, "crc"))
-                writer.uint32(/* id 5, wireType 5 =*/45).fixed32(message.crc);
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CCLCMsg_FileCRCCheck message, length delimited. Does not implicitly {@link CCLCMsg_FileCRCCheck.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CCLCMsg_FileCRCCheck
-         * @static
-         * @param {ICCLCMsg_FileCRCCheck} message CCLCMsg_FileCRCCheck message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CCLCMsg_FileCRCCheck.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CCLCMsg_FileCRCCheck message from the specified reader or buffer.
-         * @function decode
-         * @memberof CCLCMsg_FileCRCCheck
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CCLCMsg_FileCRCCheck} CCLCMsg_FileCRCCheck
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CCLCMsg_FileCRCCheck.decode = function decode(reader, length, error) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCLCMsg_FileCRCCheck();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.code_path = reader.int32();
-                        break;
-                    }
-                case 2: {
-                        message.path = reader.string();
-                        break;
-                    }
-                case 3: {
-                        message.code_filename = reader.int32();
-                        break;
-                    }
-                case 4: {
-                        message.filename = reader.string();
-                        break;
-                    }
-                case 5: {
-                        message.crc = reader.fixed32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-                }
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CCLCMsg_FileCRCCheck message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CCLCMsg_FileCRCCheck
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CCLCMsg_FileCRCCheck} CCLCMsg_FileCRCCheck
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CCLCMsg_FileCRCCheck.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CCLCMsg_FileCRCCheck message.
-         * @function verify
-         * @memberof CCLCMsg_FileCRCCheck
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CCLCMsg_FileCRCCheck.verify = function verify(message) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (message.code_path != null && message.hasOwnProperty("code_path"))
-                if (!$util.isInteger(message.code_path))
-                    return "code_path: integer expected";
-            if (message.path != null && message.hasOwnProperty("path"))
-                if (!$util.isString(message.path))
-                    return "path: string expected";
-            if (message.code_filename != null && message.hasOwnProperty("code_filename"))
-                if (!$util.isInteger(message.code_filename))
-                    return "code_filename: integer expected";
-            if (message.filename != null && message.hasOwnProperty("filename"))
-                if (!$util.isString(message.filename))
-                    return "filename: string expected";
-            if (message.crc != null && message.hasOwnProperty("crc"))
-                if (!$util.isInteger(message.crc))
-                    return "crc: integer expected";
-            return null;
-        };
-    
-        /**
-         * Creates a CCLCMsg_FileCRCCheck message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CCLCMsg_FileCRCCheck
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CCLCMsg_FileCRCCheck} CCLCMsg_FileCRCCheck
-         */
-        CCLCMsg_FileCRCCheck.fromObject = function fromObject(object) {
-            if (object instanceof $root.CCLCMsg_FileCRCCheck)
-                return object;
-            var message = new $root.CCLCMsg_FileCRCCheck();
-            if (object.code_path != null)
-                message.code_path = object.code_path | 0;
-            if (object.path != null)
-                message.path = String(object.path);
-            if (object.code_filename != null)
-                message.code_filename = object.code_filename | 0;
-            if (object.filename != null)
-                message.filename = String(object.filename);
-            if (object.crc != null)
-                message.crc = object.crc >>> 0;
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CCLCMsg_FileCRCCheck message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CCLCMsg_FileCRCCheck
-         * @static
-         * @param {CCLCMsg_FileCRCCheck} message CCLCMsg_FileCRCCheck
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CCLCMsg_FileCRCCheck.toObject = function toObject(message, options) {
-            if (!options)
-                options = {};
-            var object = {};
-            if (options.defaults) {
-                object.code_path = 0;
-                object.path = "";
-                object.code_filename = 0;
-                object.filename = "";
-                object.crc = 0;
-            }
-            if (message.code_path != null && message.hasOwnProperty("code_path"))
-                object.code_path = message.code_path;
-            if (message.path != null && message.hasOwnProperty("path"))
-                object.path = message.path;
-            if (message.code_filename != null && message.hasOwnProperty("code_filename"))
-                object.code_filename = message.code_filename;
-            if (message.filename != null && message.hasOwnProperty("filename"))
-                object.filename = message.filename;
-            if (message.crc != null && message.hasOwnProperty("crc"))
-                object.crc = message.crc;
-            return object;
-        };
-    
-        /**
-         * Converts this CCLCMsg_FileCRCCheck to JSON.
-         * @function toJSON
-         * @memberof CCLCMsg_FileCRCCheck
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CCLCMsg_FileCRCCheck.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CCLCMsg_FileCRCCheck
-         * @function getTypeUrl
-         * @memberof CCLCMsg_FileCRCCheck
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CCLCMsg_FileCRCCheck.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CCLCMsg_FileCRCCheck";
-        };
-    
-        return CCLCMsg_FileCRCCheck;
-    })();
-    
     $root.CCLCMsg_LoadingProgress = (function() {
     
         /**
@@ -4088,6 +3790,8 @@
          * @property {number|null} [gpu_driver_version_low] CMsgSource2SystemSpecs gpu_driver_version_low
          * @property {number|null} [gpu_dx_support_level] CMsgSource2SystemSpecs gpu_dx_support_level
          * @property {number|null} [gpu_texture_memory_size_mb] CMsgSource2SystemSpecs gpu_texture_memory_size_mb
+         * @property {number|null} [backbuffer_width] CMsgSource2SystemSpecs backbuffer_width
+         * @property {number|null} [backbuffer_height] CMsgSource2SystemSpecs backbuffer_height
          */
     
         /**
@@ -4202,6 +3906,22 @@
         CMsgSource2SystemSpecs.prototype.gpu_texture_memory_size_mb = 0;
     
         /**
+         * CMsgSource2SystemSpecs backbuffer_width.
+         * @member {number} backbuffer_width
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.backbuffer_width = 0;
+    
+        /**
+         * CMsgSource2SystemSpecs backbuffer_height.
+         * @member {number} backbuffer_height
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.backbuffer_height = 0;
+    
+        /**
          * Creates a new CMsgSource2SystemSpecs instance using the specified properties.
          * @function create
          * @memberof CMsgSource2SystemSpecs
@@ -4249,6 +3969,10 @@
                 writer.uint32(/* id 46, wireType 0 =*/368).uint32(message.gpu_dx_support_level);
             if (message.gpu_texture_memory_size_mb != null && Object.hasOwnProperty.call(message, "gpu_texture_memory_size_mb"))
                 writer.uint32(/* id 47, wireType 0 =*/376).uint32(message.gpu_texture_memory_size_mb);
+            if (message.backbuffer_width != null && Object.hasOwnProperty.call(message, "backbuffer_width"))
+                writer.uint32(/* id 51, wireType 0 =*/408).uint32(message.backbuffer_width);
+            if (message.backbuffer_height != null && Object.hasOwnProperty.call(message, "backbuffer_height"))
+                writer.uint32(/* id 52, wireType 0 =*/416).uint32(message.backbuffer_height);
             return writer;
         };
     
@@ -4333,6 +4057,14 @@
                         message.gpu_texture_memory_size_mb = reader.uint32();
                         break;
                     }
+                case 51: {
+                        message.backbuffer_width = reader.uint32();
+                        break;
+                    }
+                case 52: {
+                        message.backbuffer_height = reader.uint32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -4404,6 +4136,12 @@
             if (message.gpu_texture_memory_size_mb != null && message.hasOwnProperty("gpu_texture_memory_size_mb"))
                 if (!$util.isInteger(message.gpu_texture_memory_size_mb))
                     return "gpu_texture_memory_size_mb: integer expected";
+            if (message.backbuffer_width != null && message.hasOwnProperty("backbuffer_width"))
+                if (!$util.isInteger(message.backbuffer_width))
+                    return "backbuffer_width: integer expected";
+            if (message.backbuffer_height != null && message.hasOwnProperty("backbuffer_height"))
+                if (!$util.isInteger(message.backbuffer_height))
+                    return "backbuffer_height: integer expected";
             return null;
         };
     
@@ -4443,6 +4181,10 @@
                 message.gpu_dx_support_level = object.gpu_dx_support_level >>> 0;
             if (object.gpu_texture_memory_size_mb != null)
                 message.gpu_texture_memory_size_mb = object.gpu_texture_memory_size_mb >>> 0;
+            if (object.backbuffer_width != null)
+                message.backbuffer_width = object.backbuffer_width >>> 0;
+            if (object.backbuffer_height != null)
+                message.backbuffer_height = object.backbuffer_height >>> 0;
             return message;
         };
     
@@ -4472,6 +4214,8 @@
                 object.gpu_driver_version_low = 0;
                 object.gpu_dx_support_level = 0;
                 object.gpu_texture_memory_size_mb = 0;
+                object.backbuffer_width = 0;
+                object.backbuffer_height = 0;
             }
             if (message.cpu_id != null && message.hasOwnProperty("cpu_id"))
                 object.cpu_id = message.cpu_id;
@@ -4497,6 +4241,10 @@
                 object.gpu_dx_support_level = message.gpu_dx_support_level;
             if (message.gpu_texture_memory_size_mb != null && message.hasOwnProperty("gpu_texture_memory_size_mb"))
                 object.gpu_texture_memory_size_mb = message.gpu_texture_memory_size_mb;
+            if (message.backbuffer_width != null && message.hasOwnProperty("backbuffer_width"))
+                object.backbuffer_width = message.backbuffer_width;
+            if (message.backbuffer_height != null && message.hasOwnProperty("backbuffer_height"))
+                object.backbuffer_height = message.backbuffer_height;
             return object;
         };
     
@@ -5420,6 +5168,12 @@
          * @property {number|null} [enginemsgs_total] CMsgSource2NetworkFlowQuality enginemsgs_total
          * @property {number|null} [enginemsgs_sec_p95] CMsgSource2NetworkFlowQuality enginemsgs_sec_p95
          * @property {number|null} [enginemsgs_sec_p99] CMsgSource2NetworkFlowQuality enginemsgs_sec_p99
+         * @property {number|null} [netframes_total] CMsgSource2NetworkFlowQuality netframes_total
+         * @property {number|null} [netframes_dropped] CMsgSource2NetworkFlowQuality netframes_dropped
+         * @property {number|null} [netframes_outoforder] CMsgSource2NetworkFlowQuality netframes_outoforder
+         * @property {number|null} [netframes_size_exceeds_mtu] CMsgSource2NetworkFlowQuality netframes_size_exceeds_mtu
+         * @property {number|null} [netframes_size_p95] CMsgSource2NetworkFlowQuality netframes_size_p95
+         * @property {number|null} [netframes_size_p99] CMsgSource2NetworkFlowQuality netframes_size_p99
          * @property {number|null} [ticks_total] CMsgSource2NetworkFlowQuality ticks_total
          * @property {number|null} [ticks_good] CMsgSource2NetworkFlowQuality ticks_good
          * @property {number|null} [ticks_good_almost_late] CMsgSource2NetworkFlowQuality ticks_good_almost_late
@@ -5440,6 +5194,15 @@
          * @property {number|null} [recvmargin_p50] CMsgSource2NetworkFlowQuality recvmargin_p50
          * @property {number|null} [recvmargin_p75] CMsgSource2NetworkFlowQuality recvmargin_p75
          * @property {number|null} [recvmargin_p95] CMsgSource2NetworkFlowQuality recvmargin_p95
+         * @property {number|null} [netframe_jitter_p50] CMsgSource2NetworkFlowQuality netframe_jitter_p50
+         * @property {number|null} [netframe_jitter_p99] CMsgSource2NetworkFlowQuality netframe_jitter_p99
+         * @property {number|null} [interval_peakjitter_p50] CMsgSource2NetworkFlowQuality interval_peakjitter_p50
+         * @property {number|null} [interval_peakjitter_p95] CMsgSource2NetworkFlowQuality interval_peakjitter_p95
+         * @property {number|null} [packet_misdelivery_rate_p50_x4] CMsgSource2NetworkFlowQuality packet_misdelivery_rate_p50_x4
+         * @property {number|null} [packet_misdelivery_rate_p95_x4] CMsgSource2NetworkFlowQuality packet_misdelivery_rate_p95_x4
+         * @property {number|null} [net_ping_p5] CMsgSource2NetworkFlowQuality net_ping_p5
+         * @property {number|null} [net_ping_p50] CMsgSource2NetworkFlowQuality net_ping_p50
+         * @property {number|null} [net_ping_p95] CMsgSource2NetworkFlowQuality net_ping_p95
          */
     
         /**
@@ -5528,6 +5291,54 @@
          * @instance
          */
         CMsgSource2NetworkFlowQuality.prototype.enginemsgs_sec_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_total.
+         * @member {number} netframes_total
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_total = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_dropped.
+         * @member {number} netframes_dropped
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_dropped = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_outoforder.
+         * @member {number} netframes_outoforder
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_outoforder = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_size_exceeds_mtu.
+         * @member {number} netframes_size_exceeds_mtu
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_size_exceeds_mtu = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_size_p95.
+         * @member {number} netframes_size_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_size_p95 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_size_p99.
+         * @member {number} netframes_size_p99
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_size_p99 = 0;
     
         /**
          * CMsgSource2NetworkFlowQuality ticks_total.
@@ -5690,6 +5501,78 @@
         CMsgSource2NetworkFlowQuality.prototype.recvmargin_p95 = 0;
     
         /**
+         * CMsgSource2NetworkFlowQuality netframe_jitter_p50.
+         * @member {number} netframe_jitter_p50
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframe_jitter_p50 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframe_jitter_p99.
+         * @member {number} netframe_jitter_p99
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframe_jitter_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality interval_peakjitter_p50.
+         * @member {number} interval_peakjitter_p50
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.interval_peakjitter_p50 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality interval_peakjitter_p95.
+         * @member {number} interval_peakjitter_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.interval_peakjitter_p95 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality packet_misdelivery_rate_p50_x4.
+         * @member {number} packet_misdelivery_rate_p50_x4
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.packet_misdelivery_rate_p50_x4 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality packet_misdelivery_rate_p95_x4.
+         * @member {number} packet_misdelivery_rate_p95_x4
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.packet_misdelivery_rate_p95_x4 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality net_ping_p5.
+         * @member {number} net_ping_p5
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.net_ping_p5 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality net_ping_p50.
+         * @member {number} net_ping_p50
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.net_ping_p50 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality net_ping_p95.
+         * @member {number} net_ping_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.net_ping_p95 = 0;
+    
+        /**
          * Creates a new CMsgSource2NetworkFlowQuality instance using the specified properties.
          * @function create
          * @memberof CMsgSource2NetworkFlowQuality
@@ -5731,6 +5614,18 @@
                 writer.uint32(/* id 21, wireType 0 =*/168).uint32(message.enginemsgs_sec_p95);
             if (message.enginemsgs_sec_p99 != null && Object.hasOwnProperty.call(message, "enginemsgs_sec_p99"))
                 writer.uint32(/* id 22, wireType 0 =*/176).uint32(message.enginemsgs_sec_p99);
+            if (message.netframes_total != null && Object.hasOwnProperty.call(message, "netframes_total"))
+                writer.uint32(/* id 30, wireType 0 =*/240).uint32(message.netframes_total);
+            if (message.netframes_dropped != null && Object.hasOwnProperty.call(message, "netframes_dropped"))
+                writer.uint32(/* id 31, wireType 0 =*/248).uint32(message.netframes_dropped);
+            if (message.netframes_outoforder != null && Object.hasOwnProperty.call(message, "netframes_outoforder"))
+                writer.uint32(/* id 32, wireType 0 =*/256).uint32(message.netframes_outoforder);
+            if (message.netframes_size_exceeds_mtu != null && Object.hasOwnProperty.call(message, "netframes_size_exceeds_mtu"))
+                writer.uint32(/* id 34, wireType 0 =*/272).uint32(message.netframes_size_exceeds_mtu);
+            if (message.netframes_size_p95 != null && Object.hasOwnProperty.call(message, "netframes_size_p95"))
+                writer.uint32(/* id 35, wireType 0 =*/280).uint32(message.netframes_size_p95);
+            if (message.netframes_size_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_p99"))
+                writer.uint32(/* id 36, wireType 0 =*/288).uint32(message.netframes_size_p99);
             if (message.ticks_total != null && Object.hasOwnProperty.call(message, "ticks_total"))
                 writer.uint32(/* id 40, wireType 0 =*/320).uint32(message.ticks_total);
             if (message.ticks_good != null && Object.hasOwnProperty.call(message, "ticks_good"))
@@ -5771,6 +5666,24 @@
                 writer.uint32(/* id 65, wireType 0 =*/520).sint32(message.recvmargin_p75);
             if (message.recvmargin_p95 != null && Object.hasOwnProperty.call(message, "recvmargin_p95"))
                 writer.uint32(/* id 66, wireType 0 =*/528).sint32(message.recvmargin_p95);
+            if (message.netframe_jitter_p50 != null && Object.hasOwnProperty.call(message, "netframe_jitter_p50"))
+                writer.uint32(/* id 70, wireType 0 =*/560).uint32(message.netframe_jitter_p50);
+            if (message.netframe_jitter_p99 != null && Object.hasOwnProperty.call(message, "netframe_jitter_p99"))
+                writer.uint32(/* id 71, wireType 0 =*/568).uint32(message.netframe_jitter_p99);
+            if (message.interval_peakjitter_p50 != null && Object.hasOwnProperty.call(message, "interval_peakjitter_p50"))
+                writer.uint32(/* id 72, wireType 0 =*/576).uint32(message.interval_peakjitter_p50);
+            if (message.interval_peakjitter_p95 != null && Object.hasOwnProperty.call(message, "interval_peakjitter_p95"))
+                writer.uint32(/* id 73, wireType 0 =*/584).uint32(message.interval_peakjitter_p95);
+            if (message.packet_misdelivery_rate_p50_x4 != null && Object.hasOwnProperty.call(message, "packet_misdelivery_rate_p50_x4"))
+                writer.uint32(/* id 74, wireType 0 =*/592).uint32(message.packet_misdelivery_rate_p50_x4);
+            if (message.packet_misdelivery_rate_p95_x4 != null && Object.hasOwnProperty.call(message, "packet_misdelivery_rate_p95_x4"))
+                writer.uint32(/* id 75, wireType 0 =*/600).uint32(message.packet_misdelivery_rate_p95_x4);
+            if (message.net_ping_p5 != null && Object.hasOwnProperty.call(message, "net_ping_p5"))
+                writer.uint32(/* id 80, wireType 0 =*/640).uint32(message.net_ping_p5);
+            if (message.net_ping_p50 != null && Object.hasOwnProperty.call(message, "net_ping_p50"))
+                writer.uint32(/* id 81, wireType 0 =*/648).uint32(message.net_ping_p50);
+            if (message.net_ping_p95 != null && Object.hasOwnProperty.call(message, "net_ping_p95"))
+                writer.uint32(/* id 82, wireType 0 =*/656).uint32(message.net_ping_p95);
             return writer;
         };
     
@@ -5841,6 +5754,30 @@
                     }
                 case 22: {
                         message.enginemsgs_sec_p99 = reader.uint32();
+                        break;
+                    }
+                case 30: {
+                        message.netframes_total = reader.uint32();
+                        break;
+                    }
+                case 31: {
+                        message.netframes_dropped = reader.uint32();
+                        break;
+                    }
+                case 32: {
+                        message.netframes_outoforder = reader.uint32();
+                        break;
+                    }
+                case 34: {
+                        message.netframes_size_exceeds_mtu = reader.uint32();
+                        break;
+                    }
+                case 35: {
+                        message.netframes_size_p95 = reader.uint32();
+                        break;
+                    }
+                case 36: {
+                        message.netframes_size_p99 = reader.uint32();
                         break;
                     }
                 case 40: {
@@ -5923,6 +5860,42 @@
                         message.recvmargin_p95 = reader.sint32();
                         break;
                     }
+                case 70: {
+                        message.netframe_jitter_p50 = reader.uint32();
+                        break;
+                    }
+                case 71: {
+                        message.netframe_jitter_p99 = reader.uint32();
+                        break;
+                    }
+                case 72: {
+                        message.interval_peakjitter_p50 = reader.uint32();
+                        break;
+                    }
+                case 73: {
+                        message.interval_peakjitter_p95 = reader.uint32();
+                        break;
+                    }
+                case 74: {
+                        message.packet_misdelivery_rate_p50_x4 = reader.uint32();
+                        break;
+                    }
+                case 75: {
+                        message.packet_misdelivery_rate_p95_x4 = reader.uint32();
+                        break;
+                    }
+                case 80: {
+                        message.net_ping_p5 = reader.uint32();
+                        break;
+                    }
+                case 81: {
+                        message.net_ping_p50 = reader.uint32();
+                        break;
+                    }
+                case 82: {
+                        message.net_ping_p95 = reader.uint32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -5985,6 +5958,24 @@
             if (message.enginemsgs_sec_p99 != null && message.hasOwnProperty("enginemsgs_sec_p99"))
                 if (!$util.isInteger(message.enginemsgs_sec_p99))
                     return "enginemsgs_sec_p99: integer expected";
+            if (message.netframes_total != null && message.hasOwnProperty("netframes_total"))
+                if (!$util.isInteger(message.netframes_total))
+                    return "netframes_total: integer expected";
+            if (message.netframes_dropped != null && message.hasOwnProperty("netframes_dropped"))
+                if (!$util.isInteger(message.netframes_dropped))
+                    return "netframes_dropped: integer expected";
+            if (message.netframes_outoforder != null && message.hasOwnProperty("netframes_outoforder"))
+                if (!$util.isInteger(message.netframes_outoforder))
+                    return "netframes_outoforder: integer expected";
+            if (message.netframes_size_exceeds_mtu != null && message.hasOwnProperty("netframes_size_exceeds_mtu"))
+                if (!$util.isInteger(message.netframes_size_exceeds_mtu))
+                    return "netframes_size_exceeds_mtu: integer expected";
+            if (message.netframes_size_p95 != null && message.hasOwnProperty("netframes_size_p95"))
+                if (!$util.isInteger(message.netframes_size_p95))
+                    return "netframes_size_p95: integer expected";
+            if (message.netframes_size_p99 != null && message.hasOwnProperty("netframes_size_p99"))
+                if (!$util.isInteger(message.netframes_size_p99))
+                    return "netframes_size_p99: integer expected";
             if (message.ticks_total != null && message.hasOwnProperty("ticks_total"))
                 if (!$util.isInteger(message.ticks_total))
                     return "ticks_total: integer expected";
@@ -6045,6 +6036,33 @@
             if (message.recvmargin_p95 != null && message.hasOwnProperty("recvmargin_p95"))
                 if (!$util.isInteger(message.recvmargin_p95))
                     return "recvmargin_p95: integer expected";
+            if (message.netframe_jitter_p50 != null && message.hasOwnProperty("netframe_jitter_p50"))
+                if (!$util.isInteger(message.netframe_jitter_p50))
+                    return "netframe_jitter_p50: integer expected";
+            if (message.netframe_jitter_p99 != null && message.hasOwnProperty("netframe_jitter_p99"))
+                if (!$util.isInteger(message.netframe_jitter_p99))
+                    return "netframe_jitter_p99: integer expected";
+            if (message.interval_peakjitter_p50 != null && message.hasOwnProperty("interval_peakjitter_p50"))
+                if (!$util.isInteger(message.interval_peakjitter_p50))
+                    return "interval_peakjitter_p50: integer expected";
+            if (message.interval_peakjitter_p95 != null && message.hasOwnProperty("interval_peakjitter_p95"))
+                if (!$util.isInteger(message.interval_peakjitter_p95))
+                    return "interval_peakjitter_p95: integer expected";
+            if (message.packet_misdelivery_rate_p50_x4 != null && message.hasOwnProperty("packet_misdelivery_rate_p50_x4"))
+                if (!$util.isInteger(message.packet_misdelivery_rate_p50_x4))
+                    return "packet_misdelivery_rate_p50_x4: integer expected";
+            if (message.packet_misdelivery_rate_p95_x4 != null && message.hasOwnProperty("packet_misdelivery_rate_p95_x4"))
+                if (!$util.isInteger(message.packet_misdelivery_rate_p95_x4))
+                    return "packet_misdelivery_rate_p95_x4: integer expected";
+            if (message.net_ping_p5 != null && message.hasOwnProperty("net_ping_p5"))
+                if (!$util.isInteger(message.net_ping_p5))
+                    return "net_ping_p5: integer expected";
+            if (message.net_ping_p50 != null && message.hasOwnProperty("net_ping_p50"))
+                if (!$util.isInteger(message.net_ping_p50))
+                    return "net_ping_p50: integer expected";
+            if (message.net_ping_p95 != null && message.hasOwnProperty("net_ping_p95"))
+                if (!$util.isInteger(message.net_ping_p95))
+                    return "net_ping_p95: integer expected";
             return null;
         };
     
@@ -6099,6 +6117,18 @@
                 message.enginemsgs_sec_p95 = object.enginemsgs_sec_p95 >>> 0;
             if (object.enginemsgs_sec_p99 != null)
                 message.enginemsgs_sec_p99 = object.enginemsgs_sec_p99 >>> 0;
+            if (object.netframes_total != null)
+                message.netframes_total = object.netframes_total >>> 0;
+            if (object.netframes_dropped != null)
+                message.netframes_dropped = object.netframes_dropped >>> 0;
+            if (object.netframes_outoforder != null)
+                message.netframes_outoforder = object.netframes_outoforder >>> 0;
+            if (object.netframes_size_exceeds_mtu != null)
+                message.netframes_size_exceeds_mtu = object.netframes_size_exceeds_mtu >>> 0;
+            if (object.netframes_size_p95 != null)
+                message.netframes_size_p95 = object.netframes_size_p95 >>> 0;
+            if (object.netframes_size_p99 != null)
+                message.netframes_size_p99 = object.netframes_size_p99 >>> 0;
             if (object.ticks_total != null)
                 message.ticks_total = object.ticks_total >>> 0;
             if (object.ticks_good != null)
@@ -6139,6 +6169,24 @@
                 message.recvmargin_p75 = object.recvmargin_p75 | 0;
             if (object.recvmargin_p95 != null)
                 message.recvmargin_p95 = object.recvmargin_p95 | 0;
+            if (object.netframe_jitter_p50 != null)
+                message.netframe_jitter_p50 = object.netframe_jitter_p50 >>> 0;
+            if (object.netframe_jitter_p99 != null)
+                message.netframe_jitter_p99 = object.netframe_jitter_p99 >>> 0;
+            if (object.interval_peakjitter_p50 != null)
+                message.interval_peakjitter_p50 = object.interval_peakjitter_p50 >>> 0;
+            if (object.interval_peakjitter_p95 != null)
+                message.interval_peakjitter_p95 = object.interval_peakjitter_p95 >>> 0;
+            if (object.packet_misdelivery_rate_p50_x4 != null)
+                message.packet_misdelivery_rate_p50_x4 = object.packet_misdelivery_rate_p50_x4 >>> 0;
+            if (object.packet_misdelivery_rate_p95_x4 != null)
+                message.packet_misdelivery_rate_p95_x4 = object.packet_misdelivery_rate_p95_x4 >>> 0;
+            if (object.net_ping_p5 != null)
+                message.net_ping_p5 = object.net_ping_p5 >>> 0;
+            if (object.net_ping_p50 != null)
+                message.net_ping_p50 = object.net_ping_p50 >>> 0;
+            if (object.net_ping_p95 != null)
+                message.net_ping_p95 = object.net_ping_p95 >>> 0;
             return message;
         };
     
@@ -6177,6 +6225,12 @@
                 object.enginemsgs_total = 0;
                 object.enginemsgs_sec_p95 = 0;
                 object.enginemsgs_sec_p99 = 0;
+                object.netframes_total = 0;
+                object.netframes_dropped = 0;
+                object.netframes_outoforder = 0;
+                object.netframes_size_exceeds_mtu = 0;
+                object.netframes_size_p95 = 0;
+                object.netframes_size_p99 = 0;
                 object.ticks_total = 0;
                 object.ticks_good = 0;
                 object.ticks_good_almost_late = 0;
@@ -6197,6 +6251,15 @@
                 object.recvmargin_p50 = 0;
                 object.recvmargin_p75 = 0;
                 object.recvmargin_p95 = 0;
+                object.netframe_jitter_p50 = 0;
+                object.netframe_jitter_p99 = 0;
+                object.interval_peakjitter_p50 = 0;
+                object.interval_peakjitter_p95 = 0;
+                object.packet_misdelivery_rate_p50_x4 = 0;
+                object.packet_misdelivery_rate_p95_x4 = 0;
+                object.net_ping_p5 = 0;
+                object.net_ping_p50 = 0;
+                object.net_ping_p95 = 0;
             }
             if (message.duration != null && message.hasOwnProperty("duration"))
                 object.duration = message.duration;
@@ -6225,6 +6288,18 @@
                 object.enginemsgs_sec_p95 = message.enginemsgs_sec_p95;
             if (message.enginemsgs_sec_p99 != null && message.hasOwnProperty("enginemsgs_sec_p99"))
                 object.enginemsgs_sec_p99 = message.enginemsgs_sec_p99;
+            if (message.netframes_total != null && message.hasOwnProperty("netframes_total"))
+                object.netframes_total = message.netframes_total;
+            if (message.netframes_dropped != null && message.hasOwnProperty("netframes_dropped"))
+                object.netframes_dropped = message.netframes_dropped;
+            if (message.netframes_outoforder != null && message.hasOwnProperty("netframes_outoforder"))
+                object.netframes_outoforder = message.netframes_outoforder;
+            if (message.netframes_size_exceeds_mtu != null && message.hasOwnProperty("netframes_size_exceeds_mtu"))
+                object.netframes_size_exceeds_mtu = message.netframes_size_exceeds_mtu;
+            if (message.netframes_size_p95 != null && message.hasOwnProperty("netframes_size_p95"))
+                object.netframes_size_p95 = message.netframes_size_p95;
+            if (message.netframes_size_p99 != null && message.hasOwnProperty("netframes_size_p99"))
+                object.netframes_size_p99 = message.netframes_size_p99;
             if (message.ticks_total != null && message.hasOwnProperty("ticks_total"))
                 object.ticks_total = message.ticks_total;
             if (message.ticks_good != null && message.hasOwnProperty("ticks_good"))
@@ -6265,6 +6340,24 @@
                 object.recvmargin_p75 = message.recvmargin_p75;
             if (message.recvmargin_p95 != null && message.hasOwnProperty("recvmargin_p95"))
                 object.recvmargin_p95 = message.recvmargin_p95;
+            if (message.netframe_jitter_p50 != null && message.hasOwnProperty("netframe_jitter_p50"))
+                object.netframe_jitter_p50 = message.netframe_jitter_p50;
+            if (message.netframe_jitter_p99 != null && message.hasOwnProperty("netframe_jitter_p99"))
+                object.netframe_jitter_p99 = message.netframe_jitter_p99;
+            if (message.interval_peakjitter_p50 != null && message.hasOwnProperty("interval_peakjitter_p50"))
+                object.interval_peakjitter_p50 = message.interval_peakjitter_p50;
+            if (message.interval_peakjitter_p95 != null && message.hasOwnProperty("interval_peakjitter_p95"))
+                object.interval_peakjitter_p95 = message.interval_peakjitter_p95;
+            if (message.packet_misdelivery_rate_p50_x4 != null && message.hasOwnProperty("packet_misdelivery_rate_p50_x4"))
+                object.packet_misdelivery_rate_p50_x4 = message.packet_misdelivery_rate_p50_x4;
+            if (message.packet_misdelivery_rate_p95_x4 != null && message.hasOwnProperty("packet_misdelivery_rate_p95_x4"))
+                object.packet_misdelivery_rate_p95_x4 = message.packet_misdelivery_rate_p95_x4;
+            if (message.net_ping_p5 != null && message.hasOwnProperty("net_ping_p5"))
+                object.net_ping_p5 = message.net_ping_p5;
+            if (message.net_ping_p50 != null && message.hasOwnProperty("net_ping_p50"))
+                object.net_ping_p50 = message.net_ping_p50;
+            if (message.net_ping_p95 != null && message.hasOwnProperty("net_ping_p95"))
+                object.net_ping_p95 = message.net_ping_p95;
             return object;
         };
     
@@ -6297,6 +6390,578 @@
         return CMsgSource2NetworkFlowQuality;
     })();
     
+    $root.CMsgSource2PerfIntervalSample = (function() {
+    
+        /**
+         * Properties of a CMsgSource2PerfIntervalSample.
+         * @exports ICMsgSource2PerfIntervalSample
+         * @interface ICMsgSource2PerfIntervalSample
+         * @property {number|null} [frame_time_max_ms] CMsgSource2PerfIntervalSample frame_time_max_ms
+         * @property {number|null} [frame_time_avg_ms] CMsgSource2PerfIntervalSample frame_time_avg_ms
+         * @property {number|null} [frame_time_min_ms] CMsgSource2PerfIntervalSample frame_time_min_ms
+         * @property {number|null} [frame_count] CMsgSource2PerfIntervalSample frame_count
+         * @property {number|null} [frame_time_total_ms] CMsgSource2PerfIntervalSample frame_time_total_ms
+         * @property {Array.<CMsgSource2PerfIntervalSample.ITag>|null} [tags] CMsgSource2PerfIntervalSample tags
+         */
+    
+        /**
+         * Constructs a new CMsgSource2PerfIntervalSample.
+         * @exports CMsgSource2PerfIntervalSample
+         * @classdesc Represents a CMsgSource2PerfIntervalSample.
+         * @implements ICMsgSource2PerfIntervalSample
+         * @constructor
+         * @param {ICMsgSource2PerfIntervalSample=} [properties] Properties to set
+         */
+        function CMsgSource2PerfIntervalSample(properties) {
+            this.tags = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CMsgSource2PerfIntervalSample frame_time_max_ms.
+         * @member {number} frame_time_max_ms
+         * @memberof CMsgSource2PerfIntervalSample
+         * @instance
+         */
+        CMsgSource2PerfIntervalSample.prototype.frame_time_max_ms = 0;
+    
+        /**
+         * CMsgSource2PerfIntervalSample frame_time_avg_ms.
+         * @member {number} frame_time_avg_ms
+         * @memberof CMsgSource2PerfIntervalSample
+         * @instance
+         */
+        CMsgSource2PerfIntervalSample.prototype.frame_time_avg_ms = 0;
+    
+        /**
+         * CMsgSource2PerfIntervalSample frame_time_min_ms.
+         * @member {number} frame_time_min_ms
+         * @memberof CMsgSource2PerfIntervalSample
+         * @instance
+         */
+        CMsgSource2PerfIntervalSample.prototype.frame_time_min_ms = 0;
+    
+        /**
+         * CMsgSource2PerfIntervalSample frame_count.
+         * @member {number} frame_count
+         * @memberof CMsgSource2PerfIntervalSample
+         * @instance
+         */
+        CMsgSource2PerfIntervalSample.prototype.frame_count = 0;
+    
+        /**
+         * CMsgSource2PerfIntervalSample frame_time_total_ms.
+         * @member {number} frame_time_total_ms
+         * @memberof CMsgSource2PerfIntervalSample
+         * @instance
+         */
+        CMsgSource2PerfIntervalSample.prototype.frame_time_total_ms = 0;
+    
+        /**
+         * CMsgSource2PerfIntervalSample tags.
+         * @member {Array.<CMsgSource2PerfIntervalSample.ITag>} tags
+         * @memberof CMsgSource2PerfIntervalSample
+         * @instance
+         */
+        CMsgSource2PerfIntervalSample.prototype.tags = $util.emptyArray;
+    
+        /**
+         * Creates a new CMsgSource2PerfIntervalSample instance using the specified properties.
+         * @function create
+         * @memberof CMsgSource2PerfIntervalSample
+         * @static
+         * @param {ICMsgSource2PerfIntervalSample=} [properties] Properties to set
+         * @returns {CMsgSource2PerfIntervalSample} CMsgSource2PerfIntervalSample instance
+         */
+        CMsgSource2PerfIntervalSample.create = function create(properties) {
+            return new CMsgSource2PerfIntervalSample(properties);
+        };
+    
+        /**
+         * Encodes the specified CMsgSource2PerfIntervalSample message. Does not implicitly {@link CMsgSource2PerfIntervalSample.verify|verify} messages.
+         * @function encode
+         * @memberof CMsgSource2PerfIntervalSample
+         * @static
+         * @param {ICMsgSource2PerfIntervalSample} message CMsgSource2PerfIntervalSample message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgSource2PerfIntervalSample.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.frame_time_max_ms != null && Object.hasOwnProperty.call(message, "frame_time_max_ms"))
+                writer.uint32(/* id 1, wireType 5 =*/13).float(message.frame_time_max_ms);
+            if (message.frame_time_avg_ms != null && Object.hasOwnProperty.call(message, "frame_time_avg_ms"))
+                writer.uint32(/* id 2, wireType 5 =*/21).float(message.frame_time_avg_ms);
+            if (message.frame_time_min_ms != null && Object.hasOwnProperty.call(message, "frame_time_min_ms"))
+                writer.uint32(/* id 3, wireType 5 =*/29).float(message.frame_time_min_ms);
+            if (message.frame_count != null && Object.hasOwnProperty.call(message, "frame_count"))
+                writer.uint32(/* id 4, wireType 0 =*/32).int32(message.frame_count);
+            if (message.frame_time_total_ms != null && Object.hasOwnProperty.call(message, "frame_time_total_ms"))
+                writer.uint32(/* id 5, wireType 5 =*/45).float(message.frame_time_total_ms);
+            if (message.tags != null && message.tags.length)
+                for (var i = 0; i < message.tags.length; ++i)
+                    $root.CMsgSource2PerfIntervalSample.Tag.encode(message.tags[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CMsgSource2PerfIntervalSample message, length delimited. Does not implicitly {@link CMsgSource2PerfIntervalSample.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CMsgSource2PerfIntervalSample
+         * @static
+         * @param {ICMsgSource2PerfIntervalSample} message CMsgSource2PerfIntervalSample message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgSource2PerfIntervalSample.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CMsgSource2PerfIntervalSample message from the specified reader or buffer.
+         * @function decode
+         * @memberof CMsgSource2PerfIntervalSample
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CMsgSource2PerfIntervalSample} CMsgSource2PerfIntervalSample
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgSource2PerfIntervalSample.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSource2PerfIntervalSample();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.frame_time_max_ms = reader.float();
+                        break;
+                    }
+                case 2: {
+                        message.frame_time_avg_ms = reader.float();
+                        break;
+                    }
+                case 3: {
+                        message.frame_time_min_ms = reader.float();
+                        break;
+                    }
+                case 4: {
+                        message.frame_count = reader.int32();
+                        break;
+                    }
+                case 5: {
+                        message.frame_time_total_ms = reader.float();
+                        break;
+                    }
+                case 6: {
+                        if (!(message.tags && message.tags.length))
+                            message.tags = [];
+                        message.tags.push($root.CMsgSource2PerfIntervalSample.Tag.decode(reader, reader.uint32()));
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CMsgSource2PerfIntervalSample message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CMsgSource2PerfIntervalSample
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CMsgSource2PerfIntervalSample} CMsgSource2PerfIntervalSample
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgSource2PerfIntervalSample.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CMsgSource2PerfIntervalSample message.
+         * @function verify
+         * @memberof CMsgSource2PerfIntervalSample
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CMsgSource2PerfIntervalSample.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.frame_time_max_ms != null && message.hasOwnProperty("frame_time_max_ms"))
+                if (typeof message.frame_time_max_ms !== "number")
+                    return "frame_time_max_ms: number expected";
+            if (message.frame_time_avg_ms != null && message.hasOwnProperty("frame_time_avg_ms"))
+                if (typeof message.frame_time_avg_ms !== "number")
+                    return "frame_time_avg_ms: number expected";
+            if (message.frame_time_min_ms != null && message.hasOwnProperty("frame_time_min_ms"))
+                if (typeof message.frame_time_min_ms !== "number")
+                    return "frame_time_min_ms: number expected";
+            if (message.frame_count != null && message.hasOwnProperty("frame_count"))
+                if (!$util.isInteger(message.frame_count))
+                    return "frame_count: integer expected";
+            if (message.frame_time_total_ms != null && message.hasOwnProperty("frame_time_total_ms"))
+                if (typeof message.frame_time_total_ms !== "number")
+                    return "frame_time_total_ms: number expected";
+            if (message.tags != null && message.hasOwnProperty("tags")) {
+                if (!Array.isArray(message.tags))
+                    return "tags: array expected";
+                for (var i = 0; i < message.tags.length; ++i) {
+                    var error = $root.CMsgSource2PerfIntervalSample.Tag.verify(message.tags[i]);
+                    if (error)
+                        return "tags." + error;
+                }
+            }
+            return null;
+        };
+    
+        /**
+         * Creates a CMsgSource2PerfIntervalSample message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CMsgSource2PerfIntervalSample
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CMsgSource2PerfIntervalSample} CMsgSource2PerfIntervalSample
+         */
+        CMsgSource2PerfIntervalSample.fromObject = function fromObject(object) {
+            if (object instanceof $root.CMsgSource2PerfIntervalSample)
+                return object;
+            var message = new $root.CMsgSource2PerfIntervalSample();
+            if (object.frame_time_max_ms != null)
+                message.frame_time_max_ms = Number(object.frame_time_max_ms);
+            if (object.frame_time_avg_ms != null)
+                message.frame_time_avg_ms = Number(object.frame_time_avg_ms);
+            if (object.frame_time_min_ms != null)
+                message.frame_time_min_ms = Number(object.frame_time_min_ms);
+            if (object.frame_count != null)
+                message.frame_count = object.frame_count | 0;
+            if (object.frame_time_total_ms != null)
+                message.frame_time_total_ms = Number(object.frame_time_total_ms);
+            if (object.tags) {
+                if (!Array.isArray(object.tags))
+                    throw TypeError(".CMsgSource2PerfIntervalSample.tags: array expected");
+                message.tags = [];
+                for (var i = 0; i < object.tags.length; ++i) {
+                    if (typeof object.tags[i] !== "object")
+                        throw TypeError(".CMsgSource2PerfIntervalSample.tags: object expected");
+                    message.tags[i] = $root.CMsgSource2PerfIntervalSample.Tag.fromObject(object.tags[i]);
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CMsgSource2PerfIntervalSample message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CMsgSource2PerfIntervalSample
+         * @static
+         * @param {CMsgSource2PerfIntervalSample} message CMsgSource2PerfIntervalSample
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CMsgSource2PerfIntervalSample.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults)
+                object.tags = [];
+            if (options.defaults) {
+                object.frame_time_max_ms = 0;
+                object.frame_time_avg_ms = 0;
+                object.frame_time_min_ms = 0;
+                object.frame_count = 0;
+                object.frame_time_total_ms = 0;
+            }
+            if (message.frame_time_max_ms != null && message.hasOwnProperty("frame_time_max_ms"))
+                object.frame_time_max_ms = options.json && !isFinite(message.frame_time_max_ms) ? String(message.frame_time_max_ms) : message.frame_time_max_ms;
+            if (message.frame_time_avg_ms != null && message.hasOwnProperty("frame_time_avg_ms"))
+                object.frame_time_avg_ms = options.json && !isFinite(message.frame_time_avg_ms) ? String(message.frame_time_avg_ms) : message.frame_time_avg_ms;
+            if (message.frame_time_min_ms != null && message.hasOwnProperty("frame_time_min_ms"))
+                object.frame_time_min_ms = options.json && !isFinite(message.frame_time_min_ms) ? String(message.frame_time_min_ms) : message.frame_time_min_ms;
+            if (message.frame_count != null && message.hasOwnProperty("frame_count"))
+                object.frame_count = message.frame_count;
+            if (message.frame_time_total_ms != null && message.hasOwnProperty("frame_time_total_ms"))
+                object.frame_time_total_ms = options.json && !isFinite(message.frame_time_total_ms) ? String(message.frame_time_total_ms) : message.frame_time_total_ms;
+            if (message.tags && message.tags.length) {
+                object.tags = [];
+                for (var j = 0; j < message.tags.length; ++j)
+                    object.tags[j] = $root.CMsgSource2PerfIntervalSample.Tag.toObject(message.tags[j], options);
+            }
+            return object;
+        };
+    
+        /**
+         * Converts this CMsgSource2PerfIntervalSample to JSON.
+         * @function toJSON
+         * @memberof CMsgSource2PerfIntervalSample
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CMsgSource2PerfIntervalSample.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CMsgSource2PerfIntervalSample
+         * @function getTypeUrl
+         * @memberof CMsgSource2PerfIntervalSample
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CMsgSource2PerfIntervalSample.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CMsgSource2PerfIntervalSample";
+        };
+    
+        CMsgSource2PerfIntervalSample.Tag = (function() {
+    
+            /**
+             * Properties of a Tag.
+             * @memberof CMsgSource2PerfIntervalSample
+             * @interface ITag
+             * @property {string|null} [tag] Tag tag
+             * @property {number|null} [max_value] Tag max_value
+             */
+    
+            /**
+             * Constructs a new Tag.
+             * @memberof CMsgSource2PerfIntervalSample
+             * @classdesc Represents a Tag.
+             * @implements ITag
+             * @constructor
+             * @param {CMsgSource2PerfIntervalSample.ITag=} [properties] Properties to set
+             */
+            function Tag(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Tag tag.
+             * @member {string} tag
+             * @memberof CMsgSource2PerfIntervalSample.Tag
+             * @instance
+             */
+            Tag.prototype.tag = "";
+    
+            /**
+             * Tag max_value.
+             * @member {number} max_value
+             * @memberof CMsgSource2PerfIntervalSample.Tag
+             * @instance
+             */
+            Tag.prototype.max_value = 0;
+    
+            /**
+             * Creates a new Tag instance using the specified properties.
+             * @function create
+             * @memberof CMsgSource2PerfIntervalSample.Tag
+             * @static
+             * @param {CMsgSource2PerfIntervalSample.ITag=} [properties] Properties to set
+             * @returns {CMsgSource2PerfIntervalSample.Tag} Tag instance
+             */
+            Tag.create = function create(properties) {
+                return new Tag(properties);
+            };
+    
+            /**
+             * Encodes the specified Tag message. Does not implicitly {@link CMsgSource2PerfIntervalSample.Tag.verify|verify} messages.
+             * @function encode
+             * @memberof CMsgSource2PerfIntervalSample.Tag
+             * @static
+             * @param {CMsgSource2PerfIntervalSample.ITag} message Tag message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Tag.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.tag != null && Object.hasOwnProperty.call(message, "tag"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.tag);
+                if (message.max_value != null && Object.hasOwnProperty.call(message, "max_value"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.max_value);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified Tag message, length delimited. Does not implicitly {@link CMsgSource2PerfIntervalSample.Tag.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof CMsgSource2PerfIntervalSample.Tag
+             * @static
+             * @param {CMsgSource2PerfIntervalSample.ITag} message Tag message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Tag.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a Tag message from the specified reader or buffer.
+             * @function decode
+             * @memberof CMsgSource2PerfIntervalSample.Tag
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {CMsgSource2PerfIntervalSample.Tag} Tag
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Tag.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSource2PerfIntervalSample.Tag();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.tag = reader.string();
+                            break;
+                        }
+                    case 2: {
+                            message.max_value = reader.uint32();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a Tag message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof CMsgSource2PerfIntervalSample.Tag
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {CMsgSource2PerfIntervalSample.Tag} Tag
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Tag.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a Tag message.
+             * @function verify
+             * @memberof CMsgSource2PerfIntervalSample.Tag
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Tag.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.tag != null && message.hasOwnProperty("tag"))
+                    if (!$util.isString(message.tag))
+                        return "tag: string expected";
+                if (message.max_value != null && message.hasOwnProperty("max_value"))
+                    if (!$util.isInteger(message.max_value))
+                        return "max_value: integer expected";
+                return null;
+            };
+    
+            /**
+             * Creates a Tag message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof CMsgSource2PerfIntervalSample.Tag
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {CMsgSource2PerfIntervalSample.Tag} Tag
+             */
+            Tag.fromObject = function fromObject(object) {
+                if (object instanceof $root.CMsgSource2PerfIntervalSample.Tag)
+                    return object;
+                var message = new $root.CMsgSource2PerfIntervalSample.Tag();
+                if (object.tag != null)
+                    message.tag = String(object.tag);
+                if (object.max_value != null)
+                    message.max_value = object.max_value >>> 0;
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a Tag message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof CMsgSource2PerfIntervalSample.Tag
+             * @static
+             * @param {CMsgSource2PerfIntervalSample.Tag} message Tag
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Tag.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.tag = "";
+                    object.max_value = 0;
+                }
+                if (message.tag != null && message.hasOwnProperty("tag"))
+                    object.tag = message.tag;
+                if (message.max_value != null && message.hasOwnProperty("max_value"))
+                    object.max_value = message.max_value;
+                return object;
+            };
+    
+            /**
+             * Converts this Tag to JSON.
+             * @function toJSON
+             * @memberof CMsgSource2PerfIntervalSample.Tag
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Tag.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            /**
+             * Gets the default type url for Tag
+             * @function getTypeUrl
+             * @memberof CMsgSource2PerfIntervalSample.Tag
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            Tag.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/CMsgSource2PerfIntervalSample.Tag";
+            };
+    
+            return Tag;
+        })();
+    
+        return CMsgSource2PerfIntervalSample;
+    })();
+    
     $root.CCLCMsg_Diagnostic = (function() {
     
         /**
@@ -6307,6 +6972,7 @@
          * @property {ICMsgSource2VProfLiteReport|null} [vprof_report] CCLCMsg_Diagnostic vprof_report
          * @property {ICMsgSource2NetworkFlowQuality|null} [downstream_flow] CCLCMsg_Diagnostic downstream_flow
          * @property {ICMsgSource2NetworkFlowQuality|null} [upstream_flow] CCLCMsg_Diagnostic upstream_flow
+         * @property {Array.<ICMsgSource2PerfIntervalSample>|null} [perf_samples] CCLCMsg_Diagnostic perf_samples
          */
     
         /**
@@ -6318,6 +6984,7 @@
          * @param {ICCLCMsg_Diagnostic=} [properties] Properties to set
          */
         function CCLCMsg_Diagnostic(properties) {
+            this.perf_samples = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -6357,6 +7024,14 @@
         CCLCMsg_Diagnostic.prototype.upstream_flow = null;
     
         /**
+         * CCLCMsg_Diagnostic perf_samples.
+         * @member {Array.<ICMsgSource2PerfIntervalSample>} perf_samples
+         * @memberof CCLCMsg_Diagnostic
+         * @instance
+         */
+        CCLCMsg_Diagnostic.prototype.perf_samples = $util.emptyArray;
+    
+        /**
          * Creates a new CCLCMsg_Diagnostic instance using the specified properties.
          * @function create
          * @memberof CCLCMsg_Diagnostic
@@ -6388,6 +7063,9 @@
                 $root.CMsgSource2NetworkFlowQuality.encode(message.downstream_flow, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             if (message.upstream_flow != null && Object.hasOwnProperty.call(message, "upstream_flow"))
                 $root.CMsgSource2NetworkFlowQuality.encode(message.upstream_flow, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+            if (message.perf_samples != null && message.perf_samples.length)
+                for (var i = 0; i < message.perf_samples.length; ++i)
+                    $root.CMsgSource2PerfIntervalSample.encode(message.perf_samples[i], writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
             return writer;
         };
     
@@ -6438,6 +7116,12 @@
                     }
                 case 4: {
                         message.upstream_flow = $root.CMsgSource2NetworkFlowQuality.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 5: {
+                        if (!(message.perf_samples && message.perf_samples.length))
+                            message.perf_samples = [];
+                        message.perf_samples.push($root.CMsgSource2PerfIntervalSample.decode(reader, reader.uint32()));
                         break;
                     }
                 default:
@@ -6495,6 +7179,15 @@
                 if (error)
                     return "upstream_flow." + error;
             }
+            if (message.perf_samples != null && message.hasOwnProperty("perf_samples")) {
+                if (!Array.isArray(message.perf_samples))
+                    return "perf_samples: array expected";
+                for (var i = 0; i < message.perf_samples.length; ++i) {
+                    var error = $root.CMsgSource2PerfIntervalSample.verify(message.perf_samples[i]);
+                    if (error)
+                        return "perf_samples." + error;
+                }
+            }
             return null;
         };
     
@@ -6530,6 +7223,16 @@
                     throw TypeError(".CCLCMsg_Diagnostic.upstream_flow: object expected");
                 message.upstream_flow = $root.CMsgSource2NetworkFlowQuality.fromObject(object.upstream_flow);
             }
+            if (object.perf_samples) {
+                if (!Array.isArray(object.perf_samples))
+                    throw TypeError(".CCLCMsg_Diagnostic.perf_samples: array expected");
+                message.perf_samples = [];
+                for (var i = 0; i < object.perf_samples.length; ++i) {
+                    if (typeof object.perf_samples[i] !== "object")
+                        throw TypeError(".CCLCMsg_Diagnostic.perf_samples: object expected");
+                    message.perf_samples[i] = $root.CMsgSource2PerfIntervalSample.fromObject(object.perf_samples[i]);
+                }
+            }
             return message;
         };
     
@@ -6546,6 +7249,8 @@
             if (!options)
                 options = {};
             var object = {};
+            if (options.arrays || options.defaults)
+                object.perf_samples = [];
             if (options.defaults) {
                 object.system_specs = null;
                 object.vprof_report = null;
@@ -6560,6 +7265,11 @@
                 object.downstream_flow = $root.CMsgSource2NetworkFlowQuality.toObject(message.downstream_flow, options);
             if (message.upstream_flow != null && message.hasOwnProperty("upstream_flow"))
                 object.upstream_flow = $root.CMsgSource2NetworkFlowQuality.toObject(message.upstream_flow, options);
+            if (message.perf_samples && message.perf_samples.length) {
+                object.perf_samples = [];
+                for (var j = 0; j < message.perf_samples.length; ++j)
+                    object.perf_samples[j] = $root.CMsgSource2PerfIntervalSample.toObject(message.perf_samples[j], options);
+            }
             return object;
         };
     
@@ -6601,6 +7311,7 @@
          * @property {number|null} [appid] CSource2Metrics_MatchPerfSummary_Notification appid
          * @property {string|null} [game_mode] CSource2Metrics_MatchPerfSummary_Notification game_mode
          * @property {number|null} [server_build_id] CSource2Metrics_MatchPerfSummary_Notification server_build_id
+         * @property {number|null} [server_popid] CSource2Metrics_MatchPerfSummary_Notification server_popid
          * @property {ICMsgSource2VProfLiteReport|null} [server_profile] CSource2Metrics_MatchPerfSummary_Notification server_profile
          * @property {Array.<CSource2Metrics_MatchPerfSummary_Notification.IClient>|null} [clients] CSource2Metrics_MatchPerfSummary_Notification clients
          * @property {string|null} [map] CSource2Metrics_MatchPerfSummary_Notification map
@@ -6645,6 +7356,14 @@
          * @instance
          */
         CSource2Metrics_MatchPerfSummary_Notification.prototype.server_build_id = 0;
+    
+        /**
+         * CSource2Metrics_MatchPerfSummary_Notification server_popid.
+         * @member {number} server_popid
+         * @memberof CSource2Metrics_MatchPerfSummary_Notification
+         * @instance
+         */
+        CSource2Metrics_MatchPerfSummary_Notification.prototype.server_popid = 0;
     
         /**
          * CSource2Metrics_MatchPerfSummary_Notification server_profile.
@@ -6700,6 +7419,8 @@
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.game_mode);
             if (message.server_build_id != null && Object.hasOwnProperty.call(message, "server_build_id"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.server_build_id);
+            if (message.server_popid != null && Object.hasOwnProperty.call(message, "server_popid"))
+                writer.uint32(/* id 4, wireType 5 =*/37).fixed32(message.server_popid);
             if (message.server_profile != null && Object.hasOwnProperty.call(message, "server_profile"))
                 $root.CMsgSource2VProfLiteReport.encode(message.server_profile, writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
             if (message.clients != null && message.clients.length)
@@ -6753,6 +7474,10 @@
                     }
                 case 3: {
                         message.server_build_id = reader.uint32();
+                        break;
+                    }
+                case 4: {
+                        message.server_popid = reader.fixed32();
                         break;
                     }
                 case 10: {
@@ -6813,6 +7538,9 @@
             if (message.server_build_id != null && message.hasOwnProperty("server_build_id"))
                 if (!$util.isInteger(message.server_build_id))
                     return "server_build_id: integer expected";
+            if (message.server_popid != null && message.hasOwnProperty("server_popid"))
+                if (!$util.isInteger(message.server_popid))
+                    return "server_popid: integer expected";
             if (message.server_profile != null && message.hasOwnProperty("server_profile")) {
                 var error = $root.CMsgSource2VProfLiteReport.verify(message.server_profile);
                 if (error)
@@ -6851,6 +7579,8 @@
                 message.game_mode = String(object.game_mode);
             if (object.server_build_id != null)
                 message.server_build_id = object.server_build_id >>> 0;
+            if (object.server_popid != null)
+                message.server_popid = object.server_popid >>> 0;
             if (object.server_profile != null) {
                 if (typeof object.server_profile !== "object")
                     throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.server_profile: object expected");
@@ -6890,6 +7620,7 @@
                 object.appid = 0;
                 object.game_mode = "";
                 object.server_build_id = 0;
+                object.server_popid = 0;
                 object.server_profile = null;
                 object.map = "";
             }
@@ -6899,6 +7630,8 @@
                 object.game_mode = message.game_mode;
             if (message.server_build_id != null && message.hasOwnProperty("server_build_id"))
                 object.server_build_id = message.server_build_id;
+            if (message.server_popid != null && message.hasOwnProperty("server_popid"))
+                object.server_popid = message.server_popid;
             if (message.server_profile != null && message.hasOwnProperty("server_profile"))
                 object.server_profile = $root.CMsgSource2VProfLiteReport.toObject(message.server_profile, options);
             if (message.clients && message.clients.length) {
@@ -6949,6 +7682,7 @@
              * @property {ICMsgSource2NetworkFlowQuality|null} [downstream_flow] Client downstream_flow
              * @property {ICMsgSource2NetworkFlowQuality|null} [upstream_flow] Client upstream_flow
              * @property {number|Long|null} [steamid] Client steamid
+             * @property {Array.<ICMsgSource2PerfIntervalSample>|null} [perf_samples] Client perf_samples
              */
     
             /**
@@ -6960,6 +7694,7 @@
              * @param {CSource2Metrics_MatchPerfSummary_Notification.IClient=} [properties] Properties to set
              */
             function Client(properties) {
+                this.perf_samples = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
@@ -7015,6 +7750,14 @@
             Client.prototype.steamid = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
     
             /**
+             * Client perf_samples.
+             * @member {Array.<ICMsgSource2PerfIntervalSample>} perf_samples
+             * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
+             * @instance
+             */
+            Client.prototype.perf_samples = $util.emptyArray;
+    
+            /**
              * Creates a new Client instance using the specified properties.
              * @function create
              * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
@@ -7050,6 +7793,9 @@
                     $root.CMsgSource2NetworkFlowQuality.encode(message.upstream_flow, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                 if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
                     writer.uint32(/* id 10, wireType 1 =*/81).fixed64(message.steamid);
+                if (message.perf_samples != null && message.perf_samples.length)
+                    for (var i = 0; i < message.perf_samples.length; ++i)
+                        $root.CMsgSource2PerfIntervalSample.encode(message.perf_samples[i], writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
                 return writer;
             };
     
@@ -7108,6 +7854,12 @@
                         }
                     case 10: {
                             message.steamid = reader.fixed64();
+                            break;
+                        }
+                    case 11: {
+                            if (!(message.perf_samples && message.perf_samples.length))
+                                message.perf_samples = [];
+                            message.perf_samples.push($root.CMsgSource2PerfIntervalSample.decode(reader, reader.uint32()));
                             break;
                         }
                     default:
@@ -7171,6 +7923,15 @@
                 if (message.steamid != null && message.hasOwnProperty("steamid"))
                     if (!$util.isInteger(message.steamid) && !(message.steamid && $util.isInteger(message.steamid.low) && $util.isInteger(message.steamid.high)))
                         return "steamid: integer|Long expected";
+                if (message.perf_samples != null && message.hasOwnProperty("perf_samples")) {
+                    if (!Array.isArray(message.perf_samples))
+                        return "perf_samples: array expected";
+                    for (var i = 0; i < message.perf_samples.length; ++i) {
+                        var error = $root.CMsgSource2PerfIntervalSample.verify(message.perf_samples[i]);
+                        if (error)
+                            return "perf_samples." + error;
+                    }
+                }
                 return null;
             };
     
@@ -7217,6 +7978,16 @@
                         message.steamid = object.steamid;
                     else if (typeof object.steamid === "object")
                         message.steamid = new $util.LongBits(object.steamid.low >>> 0, object.steamid.high >>> 0).toNumber();
+                if (object.perf_samples) {
+                    if (!Array.isArray(object.perf_samples))
+                        throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.perf_samples: array expected");
+                    message.perf_samples = [];
+                    for (var i = 0; i < object.perf_samples.length; ++i) {
+                        if (typeof object.perf_samples[i] !== "object")
+                            throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.perf_samples: object expected");
+                        message.perf_samples[i] = $root.CMsgSource2PerfIntervalSample.fromObject(object.perf_samples[i]);
+                    }
+                }
                 return message;
             };
     
@@ -7233,6 +8004,8 @@
                 if (!options)
                     options = {};
                 var object = {};
+                if (options.arrays || options.defaults)
+                    object.perf_samples = [];
                 if (options.defaults) {
                     object.system_specs = null;
                     object.profile = null;
@@ -7260,6 +8033,11 @@
                         object.steamid = options.longs === String ? String(message.steamid) : message.steamid;
                     else
                         object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber() : message.steamid;
+                if (message.perf_samples && message.perf_samples.length) {
+                    object.perf_samples = [];
+                    for (var j = 0; j < message.perf_samples.length; ++j)
+                        object.perf_samples[j] = $root.CMsgSource2PerfIntervalSample.toObject(message.perf_samples[j], options);
+                }
                 return object;
             };
     
@@ -24606,6 +25384,235 @@
         return CSVCMsg_UserCommands;
     })();
     
+    $root.CSVCMsg_NextMsgPredicted = (function() {
+    
+        /**
+         * Properties of a CSVCMsg_NextMsgPredicted.
+         * @exports ICSVCMsg_NextMsgPredicted
+         * @interface ICSVCMsg_NextMsgPredicted
+         * @property {number|null} [predicted_by_player_slot] CSVCMsg_NextMsgPredicted predicted_by_player_slot
+         * @property {number|null} [message_type_id] CSVCMsg_NextMsgPredicted message_type_id
+         */
+    
+        /**
+         * Constructs a new CSVCMsg_NextMsgPredicted.
+         * @exports CSVCMsg_NextMsgPredicted
+         * @classdesc Represents a CSVCMsg_NextMsgPredicted.
+         * @implements ICSVCMsg_NextMsgPredicted
+         * @constructor
+         * @param {ICSVCMsg_NextMsgPredicted=} [properties] Properties to set
+         */
+        function CSVCMsg_NextMsgPredicted(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CSVCMsg_NextMsgPredicted predicted_by_player_slot.
+         * @member {number} predicted_by_player_slot
+         * @memberof CSVCMsg_NextMsgPredicted
+         * @instance
+         */
+        CSVCMsg_NextMsgPredicted.prototype.predicted_by_player_slot = -1;
+    
+        /**
+         * CSVCMsg_NextMsgPredicted message_type_id.
+         * @member {number} message_type_id
+         * @memberof CSVCMsg_NextMsgPredicted
+         * @instance
+         */
+        CSVCMsg_NextMsgPredicted.prototype.message_type_id = 0;
+    
+        /**
+         * Creates a new CSVCMsg_NextMsgPredicted instance using the specified properties.
+         * @function create
+         * @memberof CSVCMsg_NextMsgPredicted
+         * @static
+         * @param {ICSVCMsg_NextMsgPredicted=} [properties] Properties to set
+         * @returns {CSVCMsg_NextMsgPredicted} CSVCMsg_NextMsgPredicted instance
+         */
+        CSVCMsg_NextMsgPredicted.create = function create(properties) {
+            return new CSVCMsg_NextMsgPredicted(properties);
+        };
+    
+        /**
+         * Encodes the specified CSVCMsg_NextMsgPredicted message. Does not implicitly {@link CSVCMsg_NextMsgPredicted.verify|verify} messages.
+         * @function encode
+         * @memberof CSVCMsg_NextMsgPredicted
+         * @static
+         * @param {ICSVCMsg_NextMsgPredicted} message CSVCMsg_NextMsgPredicted message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CSVCMsg_NextMsgPredicted.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.predicted_by_player_slot != null && Object.hasOwnProperty.call(message, "predicted_by_player_slot"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.predicted_by_player_slot);
+            if (message.message_type_id != null && Object.hasOwnProperty.call(message, "message_type_id"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.message_type_id);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CSVCMsg_NextMsgPredicted message, length delimited. Does not implicitly {@link CSVCMsg_NextMsgPredicted.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CSVCMsg_NextMsgPredicted
+         * @static
+         * @param {ICSVCMsg_NextMsgPredicted} message CSVCMsg_NextMsgPredicted message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CSVCMsg_NextMsgPredicted.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CSVCMsg_NextMsgPredicted message from the specified reader or buffer.
+         * @function decode
+         * @memberof CSVCMsg_NextMsgPredicted
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CSVCMsg_NextMsgPredicted} CSVCMsg_NextMsgPredicted
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CSVCMsg_NextMsgPredicted.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSVCMsg_NextMsgPredicted();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.predicted_by_player_slot = reader.int32();
+                        break;
+                    }
+                case 2: {
+                        message.message_type_id = reader.uint32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CSVCMsg_NextMsgPredicted message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CSVCMsg_NextMsgPredicted
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CSVCMsg_NextMsgPredicted} CSVCMsg_NextMsgPredicted
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CSVCMsg_NextMsgPredicted.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CSVCMsg_NextMsgPredicted message.
+         * @function verify
+         * @memberof CSVCMsg_NextMsgPredicted
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CSVCMsg_NextMsgPredicted.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.predicted_by_player_slot != null && message.hasOwnProperty("predicted_by_player_slot"))
+                if (!$util.isInteger(message.predicted_by_player_slot))
+                    return "predicted_by_player_slot: integer expected";
+            if (message.message_type_id != null && message.hasOwnProperty("message_type_id"))
+                if (!$util.isInteger(message.message_type_id))
+                    return "message_type_id: integer expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CSVCMsg_NextMsgPredicted message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CSVCMsg_NextMsgPredicted
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CSVCMsg_NextMsgPredicted} CSVCMsg_NextMsgPredicted
+         */
+        CSVCMsg_NextMsgPredicted.fromObject = function fromObject(object) {
+            if (object instanceof $root.CSVCMsg_NextMsgPredicted)
+                return object;
+            var message = new $root.CSVCMsg_NextMsgPredicted();
+            if (object.predicted_by_player_slot != null)
+                message.predicted_by_player_slot = object.predicted_by_player_slot | 0;
+            if (object.message_type_id != null)
+                message.message_type_id = object.message_type_id >>> 0;
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CSVCMsg_NextMsgPredicted message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CSVCMsg_NextMsgPredicted
+         * @static
+         * @param {CSVCMsg_NextMsgPredicted} message CSVCMsg_NextMsgPredicted
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CSVCMsg_NextMsgPredicted.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.predicted_by_player_slot = -1;
+                object.message_type_id = 0;
+            }
+            if (message.predicted_by_player_slot != null && message.hasOwnProperty("predicted_by_player_slot"))
+                object.predicted_by_player_slot = message.predicted_by_player_slot;
+            if (message.message_type_id != null && message.hasOwnProperty("message_type_id"))
+                object.message_type_id = message.message_type_id;
+            return object;
+        };
+    
+        /**
+         * Converts this CSVCMsg_NextMsgPredicted to JSON.
+         * @function toJSON
+         * @memberof CSVCMsg_NextMsgPredicted
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CSVCMsg_NextMsgPredicted.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CSVCMsg_NextMsgPredicted
+         * @function getTypeUrl
+         * @memberof CSVCMsg_NextMsgPredicted
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CSVCMsg_NextMsgPredicted.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CSVCMsg_NextMsgPredicted";
+        };
+    
+        return CSVCMsg_NextMsgPredicted;
+    })();
+    
     /**
      * SignonState_t enum.
      * @exports SignonState_t
@@ -32788,258 +33795,6 @@
         return CNETMsg_DebugOverlay;
     })();
     
-    /**
-     * ENetworkDisconnectionReason enum.
-     * @exports ENetworkDisconnectionReason
-     * @enum {number}
-     * @property {number} NETWORK_DISCONNECT_INVALID=0 NETWORK_DISCONNECT_INVALID value
-     * @property {number} NETWORK_DISCONNECT_SHUTDOWN=1 NETWORK_DISCONNECT_SHUTDOWN value
-     * @property {number} NETWORK_DISCONNECT_DISCONNECT_BY_USER=2 NETWORK_DISCONNECT_DISCONNECT_BY_USER value
-     * @property {number} NETWORK_DISCONNECT_DISCONNECT_BY_SERVER=3 NETWORK_DISCONNECT_DISCONNECT_BY_SERVER value
-     * @property {number} NETWORK_DISCONNECT_LOST=4 NETWORK_DISCONNECT_LOST value
-     * @property {number} NETWORK_DISCONNECT_OVERFLOW=5 NETWORK_DISCONNECT_OVERFLOW value
-     * @property {number} NETWORK_DISCONNECT_STEAM_BANNED=6 NETWORK_DISCONNECT_STEAM_BANNED value
-     * @property {number} NETWORK_DISCONNECT_STEAM_INUSE=7 NETWORK_DISCONNECT_STEAM_INUSE value
-     * @property {number} NETWORK_DISCONNECT_STEAM_TICKET=8 NETWORK_DISCONNECT_STEAM_TICKET value
-     * @property {number} NETWORK_DISCONNECT_STEAM_LOGON=9 NETWORK_DISCONNECT_STEAM_LOGON value
-     * @property {number} NETWORK_DISCONNECT_STEAM_AUTHCANCELLED=10 NETWORK_DISCONNECT_STEAM_AUTHCANCELLED value
-     * @property {number} NETWORK_DISCONNECT_STEAM_AUTHALREADYUSED=11 NETWORK_DISCONNECT_STEAM_AUTHALREADYUSED value
-     * @property {number} NETWORK_DISCONNECT_STEAM_AUTHINVALID=12 NETWORK_DISCONNECT_STEAM_AUTHINVALID value
-     * @property {number} NETWORK_DISCONNECT_STEAM_VACBANSTATE=13 NETWORK_DISCONNECT_STEAM_VACBANSTATE value
-     * @property {number} NETWORK_DISCONNECT_STEAM_LOGGED_IN_ELSEWHERE=14 NETWORK_DISCONNECT_STEAM_LOGGED_IN_ELSEWHERE value
-     * @property {number} NETWORK_DISCONNECT_STEAM_VAC_CHECK_TIMEDOUT=15 NETWORK_DISCONNECT_STEAM_VAC_CHECK_TIMEDOUT value
-     * @property {number} NETWORK_DISCONNECT_STEAM_DROPPED=16 NETWORK_DISCONNECT_STEAM_DROPPED value
-     * @property {number} NETWORK_DISCONNECT_STEAM_OWNERSHIP=17 NETWORK_DISCONNECT_STEAM_OWNERSHIP value
-     * @property {number} NETWORK_DISCONNECT_SERVERINFO_OVERFLOW=18 NETWORK_DISCONNECT_SERVERINFO_OVERFLOW value
-     * @property {number} NETWORK_DISCONNECT_TICKMSG_OVERFLOW=19 NETWORK_DISCONNECT_TICKMSG_OVERFLOW value
-     * @property {number} NETWORK_DISCONNECT_STRINGTABLEMSG_OVERFLOW=20 NETWORK_DISCONNECT_STRINGTABLEMSG_OVERFLOW value
-     * @property {number} NETWORK_DISCONNECT_DELTAENTMSG_OVERFLOW=21 NETWORK_DISCONNECT_DELTAENTMSG_OVERFLOW value
-     * @property {number} NETWORK_DISCONNECT_TEMPENTMSG_OVERFLOW=22 NETWORK_DISCONNECT_TEMPENTMSG_OVERFLOW value
-     * @property {number} NETWORK_DISCONNECT_SOUNDSMSG_OVERFLOW=23 NETWORK_DISCONNECT_SOUNDSMSG_OVERFLOW value
-     * @property {number} NETWORK_DISCONNECT_SNAPSHOTOVERFLOW=24 NETWORK_DISCONNECT_SNAPSHOTOVERFLOW value
-     * @property {number} NETWORK_DISCONNECT_SNAPSHOTERROR=25 NETWORK_DISCONNECT_SNAPSHOTERROR value
-     * @property {number} NETWORK_DISCONNECT_RELIABLEOVERFLOW=26 NETWORK_DISCONNECT_RELIABLEOVERFLOW value
-     * @property {number} NETWORK_DISCONNECT_BADDELTATICK=27 NETWORK_DISCONNECT_BADDELTATICK value
-     * @property {number} NETWORK_DISCONNECT_NOMORESPLITS=28 NETWORK_DISCONNECT_NOMORESPLITS value
-     * @property {number} NETWORK_DISCONNECT_TIMEDOUT=29 NETWORK_DISCONNECT_TIMEDOUT value
-     * @property {number} NETWORK_DISCONNECT_DISCONNECTED=30 NETWORK_DISCONNECT_DISCONNECTED value
-     * @property {number} NETWORK_DISCONNECT_LEAVINGSPLIT=31 NETWORK_DISCONNECT_LEAVINGSPLIT value
-     * @property {number} NETWORK_DISCONNECT_DIFFERENTCLASSTABLES=32 NETWORK_DISCONNECT_DIFFERENTCLASSTABLES value
-     * @property {number} NETWORK_DISCONNECT_BADRELAYPASSWORD=33 NETWORK_DISCONNECT_BADRELAYPASSWORD value
-     * @property {number} NETWORK_DISCONNECT_BADSPECTATORPASSWORD=34 NETWORK_DISCONNECT_BADSPECTATORPASSWORD value
-     * @property {number} NETWORK_DISCONNECT_HLTVRESTRICTED=35 NETWORK_DISCONNECT_HLTVRESTRICTED value
-     * @property {number} NETWORK_DISCONNECT_NOSPECTATORS=36 NETWORK_DISCONNECT_NOSPECTATORS value
-     * @property {number} NETWORK_DISCONNECT_HLTVUNAVAILABLE=37 NETWORK_DISCONNECT_HLTVUNAVAILABLE value
-     * @property {number} NETWORK_DISCONNECT_HLTVSTOP=38 NETWORK_DISCONNECT_HLTVSTOP value
-     * @property {number} NETWORK_DISCONNECT_KICKED=39 NETWORK_DISCONNECT_KICKED value
-     * @property {number} NETWORK_DISCONNECT_BANADDED=40 NETWORK_DISCONNECT_BANADDED value
-     * @property {number} NETWORK_DISCONNECT_KICKBANADDED=41 NETWORK_DISCONNECT_KICKBANADDED value
-     * @property {number} NETWORK_DISCONNECT_HLTVDIRECT=42 NETWORK_DISCONNECT_HLTVDIRECT value
-     * @property {number} NETWORK_DISCONNECT_PURESERVER_CLIENTEXTRA=43 NETWORK_DISCONNECT_PURESERVER_CLIENTEXTRA value
-     * @property {number} NETWORK_DISCONNECT_PURESERVER_MISMATCH=44 NETWORK_DISCONNECT_PURESERVER_MISMATCH value
-     * @property {number} NETWORK_DISCONNECT_USERCMD=45 NETWORK_DISCONNECT_USERCMD value
-     * @property {number} NETWORK_DISCONNECT_REJECTED_BY_GAME=46 NETWORK_DISCONNECT_REJECTED_BY_GAME value
-     * @property {number} NETWORK_DISCONNECT_MESSAGE_PARSE_ERROR=47 NETWORK_DISCONNECT_MESSAGE_PARSE_ERROR value
-     * @property {number} NETWORK_DISCONNECT_INVALID_MESSAGE_ERROR=48 NETWORK_DISCONNECT_INVALID_MESSAGE_ERROR value
-     * @property {number} NETWORK_DISCONNECT_BAD_SERVER_PASSWORD=49 NETWORK_DISCONNECT_BAD_SERVER_PASSWORD value
-     * @property {number} NETWORK_DISCONNECT_DIRECT_CONNECT_RESERVATION=50 NETWORK_DISCONNECT_DIRECT_CONNECT_RESERVATION value
-     * @property {number} NETWORK_DISCONNECT_CONNECTION_FAILURE=51 NETWORK_DISCONNECT_CONNECTION_FAILURE value
-     * @property {number} NETWORK_DISCONNECT_NO_PEER_GROUP_HANDLERS=52 NETWORK_DISCONNECT_NO_PEER_GROUP_HANDLERS value
-     * @property {number} NETWORK_DISCONNECT_RECONNECTION=53 NETWORK_DISCONNECT_RECONNECTION value
-     * @property {number} NETWORK_DISCONNECT_LOOPSHUTDOWN=54 NETWORK_DISCONNECT_LOOPSHUTDOWN value
-     * @property {number} NETWORK_DISCONNECT_LOOPDEACTIVATE=55 NETWORK_DISCONNECT_LOOPDEACTIVATE value
-     * @property {number} NETWORK_DISCONNECT_HOST_ENDGAME=56 NETWORK_DISCONNECT_HOST_ENDGAME value
-     * @property {number} NETWORK_DISCONNECT_LOOP_LEVELLOAD_ACTIVATE=57 NETWORK_DISCONNECT_LOOP_LEVELLOAD_ACTIVATE value
-     * @property {number} NETWORK_DISCONNECT_CREATE_SERVER_FAILED=58 NETWORK_DISCONNECT_CREATE_SERVER_FAILED value
-     * @property {number} NETWORK_DISCONNECT_EXITING=59 NETWORK_DISCONNECT_EXITING value
-     * @property {number} NETWORK_DISCONNECT_REQUEST_HOSTSTATE_IDLE=60 NETWORK_DISCONNECT_REQUEST_HOSTSTATE_IDLE value
-     * @property {number} NETWORK_DISCONNECT_REQUEST_HOSTSTATE_HLTVRELAY=61 NETWORK_DISCONNECT_REQUEST_HOSTSTATE_HLTVRELAY value
-     * @property {number} NETWORK_DISCONNECT_CLIENT_CONSISTENCY_FAIL=62 NETWORK_DISCONNECT_CLIENT_CONSISTENCY_FAIL value
-     * @property {number} NETWORK_DISCONNECT_CLIENT_UNABLE_TO_CRC_MAP=63 NETWORK_DISCONNECT_CLIENT_UNABLE_TO_CRC_MAP value
-     * @property {number} NETWORK_DISCONNECT_CLIENT_NO_MAP=64 NETWORK_DISCONNECT_CLIENT_NO_MAP value
-     * @property {number} NETWORK_DISCONNECT_CLIENT_DIFFERENT_MAP=65 NETWORK_DISCONNECT_CLIENT_DIFFERENT_MAP value
-     * @property {number} NETWORK_DISCONNECT_SERVER_REQUIRES_STEAM=66 NETWORK_DISCONNECT_SERVER_REQUIRES_STEAM value
-     * @property {number} NETWORK_DISCONNECT_STEAM_DENY_MISC=67 NETWORK_DISCONNECT_STEAM_DENY_MISC value
-     * @property {number} NETWORK_DISCONNECT_STEAM_DENY_BAD_ANTI_CHEAT=68 NETWORK_DISCONNECT_STEAM_DENY_BAD_ANTI_CHEAT value
-     * @property {number} NETWORK_DISCONNECT_SERVER_SHUTDOWN=69 NETWORK_DISCONNECT_SERVER_SHUTDOWN value
-     * @property {number} NETWORK_DISCONNECT_REPLAY_INCOMPATIBLE=71 NETWORK_DISCONNECT_REPLAY_INCOMPATIBLE value
-     * @property {number} NETWORK_DISCONNECT_CONNECT_REQUEST_TIMEDOUT=72 NETWORK_DISCONNECT_CONNECT_REQUEST_TIMEDOUT value
-     * @property {number} NETWORK_DISCONNECT_SERVER_INCOMPATIBLE=73 NETWORK_DISCONNECT_SERVER_INCOMPATIBLE value
-     * @property {number} NETWORK_DISCONNECT_LOCALPROBLEM_MANYRELAYS=74 NETWORK_DISCONNECT_LOCALPROBLEM_MANYRELAYS value
-     * @property {number} NETWORK_DISCONNECT_LOCALPROBLEM_HOSTEDSERVERPRIMARYRELAY=75 NETWORK_DISCONNECT_LOCALPROBLEM_HOSTEDSERVERPRIMARYRELAY value
-     * @property {number} NETWORK_DISCONNECT_LOCALPROBLEM_NETWORKCONFIG=76 NETWORK_DISCONNECT_LOCALPROBLEM_NETWORKCONFIG value
-     * @property {number} NETWORK_DISCONNECT_LOCALPROBLEM_OTHER=77 NETWORK_DISCONNECT_LOCALPROBLEM_OTHER value
-     * @property {number} NETWORK_DISCONNECT_REMOTE_TIMEOUT=79 NETWORK_DISCONNECT_REMOTE_TIMEOUT value
-     * @property {number} NETWORK_DISCONNECT_REMOTE_TIMEOUT_CONNECTING=80 NETWORK_DISCONNECT_REMOTE_TIMEOUT_CONNECTING value
-     * @property {number} NETWORK_DISCONNECT_REMOTE_OTHER=81 NETWORK_DISCONNECT_REMOTE_OTHER value
-     * @property {number} NETWORK_DISCONNECT_REMOTE_BADCRYPT=82 NETWORK_DISCONNECT_REMOTE_BADCRYPT value
-     * @property {number} NETWORK_DISCONNECT_REMOTE_CERTNOTTRUSTED=83 NETWORK_DISCONNECT_REMOTE_CERTNOTTRUSTED value
-     * @property {number} NETWORK_DISCONNECT_UNUSUAL=84 NETWORK_DISCONNECT_UNUSUAL value
-     * @property {number} NETWORK_DISCONNECT_INTERNAL_ERROR=85 NETWORK_DISCONNECT_INTERNAL_ERROR value
-     * @property {number} NETWORK_DISCONNECT_REJECT_BADCHALLENGE=128 NETWORK_DISCONNECT_REJECT_BADCHALLENGE value
-     * @property {number} NETWORK_DISCONNECT_REJECT_NOLOBBY=129 NETWORK_DISCONNECT_REJECT_NOLOBBY value
-     * @property {number} NETWORK_DISCONNECT_REJECT_BACKGROUND_MAP=130 NETWORK_DISCONNECT_REJECT_BACKGROUND_MAP value
-     * @property {number} NETWORK_DISCONNECT_REJECT_SINGLE_PLAYER=131 NETWORK_DISCONNECT_REJECT_SINGLE_PLAYER value
-     * @property {number} NETWORK_DISCONNECT_REJECT_HIDDEN_GAME=132 NETWORK_DISCONNECT_REJECT_HIDDEN_GAME value
-     * @property {number} NETWORK_DISCONNECT_REJECT_LANRESTRICT=133 NETWORK_DISCONNECT_REJECT_LANRESTRICT value
-     * @property {number} NETWORK_DISCONNECT_REJECT_BADPASSWORD=134 NETWORK_DISCONNECT_REJECT_BADPASSWORD value
-     * @property {number} NETWORK_DISCONNECT_REJECT_SERVERFULL=135 NETWORK_DISCONNECT_REJECT_SERVERFULL value
-     * @property {number} NETWORK_DISCONNECT_REJECT_INVALIDRESERVATION=136 NETWORK_DISCONNECT_REJECT_INVALIDRESERVATION value
-     * @property {number} NETWORK_DISCONNECT_REJECT_FAILEDCHANNEL=137 NETWORK_DISCONNECT_REJECT_FAILEDCHANNEL value
-     * @property {number} NETWORK_DISCONNECT_REJECT_CONNECT_FROM_LOBBY=138 NETWORK_DISCONNECT_REJECT_CONNECT_FROM_LOBBY value
-     * @property {number} NETWORK_DISCONNECT_REJECT_RESERVED_FOR_LOBBY=139 NETWORK_DISCONNECT_REJECT_RESERVED_FOR_LOBBY value
-     * @property {number} NETWORK_DISCONNECT_REJECT_INVALIDKEYLENGTH=140 NETWORK_DISCONNECT_REJECT_INVALIDKEYLENGTH value
-     * @property {number} NETWORK_DISCONNECT_REJECT_OLDPROTOCOL=141 NETWORK_DISCONNECT_REJECT_OLDPROTOCOL value
-     * @property {number} NETWORK_DISCONNECT_REJECT_NEWPROTOCOL=142 NETWORK_DISCONNECT_REJECT_NEWPROTOCOL value
-     * @property {number} NETWORK_DISCONNECT_REJECT_INVALIDCONNECTION=143 NETWORK_DISCONNECT_REJECT_INVALIDCONNECTION value
-     * @property {number} NETWORK_DISCONNECT_REJECT_INVALIDCERTLEN=144 NETWORK_DISCONNECT_REJECT_INVALIDCERTLEN value
-     * @property {number} NETWORK_DISCONNECT_REJECT_INVALIDSTEAMCERTLEN=145 NETWORK_DISCONNECT_REJECT_INVALIDSTEAMCERTLEN value
-     * @property {number} NETWORK_DISCONNECT_REJECT_STEAM=146 NETWORK_DISCONNECT_REJECT_STEAM value
-     * @property {number} NETWORK_DISCONNECT_REJECT_SERVERAUTHDISABLED=147 NETWORK_DISCONNECT_REJECT_SERVERAUTHDISABLED value
-     * @property {number} NETWORK_DISCONNECT_REJECT_SERVERCDKEYAUTHINVALID=148 NETWORK_DISCONNECT_REJECT_SERVERCDKEYAUTHINVALID value
-     * @property {number} NETWORK_DISCONNECT_REJECT_BANNED=149 NETWORK_DISCONNECT_REJECT_BANNED value
-     * @property {number} NETWORK_DISCONNECT_KICKED_TEAMKILLING=150 NETWORK_DISCONNECT_KICKED_TEAMKILLING value
-     * @property {number} NETWORK_DISCONNECT_KICKED_TK_START=151 NETWORK_DISCONNECT_KICKED_TK_START value
-     * @property {number} NETWORK_DISCONNECT_KICKED_UNTRUSTEDACCOUNT=152 NETWORK_DISCONNECT_KICKED_UNTRUSTEDACCOUNT value
-     * @property {number} NETWORK_DISCONNECT_KICKED_CONVICTEDACCOUNT=153 NETWORK_DISCONNECT_KICKED_CONVICTEDACCOUNT value
-     * @property {number} NETWORK_DISCONNECT_KICKED_COMPETITIVECOOLDOWN=154 NETWORK_DISCONNECT_KICKED_COMPETITIVECOOLDOWN value
-     * @property {number} NETWORK_DISCONNECT_KICKED_TEAMHURTING=155 NETWORK_DISCONNECT_KICKED_TEAMHURTING value
-     * @property {number} NETWORK_DISCONNECT_KICKED_HOSTAGEKILLING=156 NETWORK_DISCONNECT_KICKED_HOSTAGEKILLING value
-     * @property {number} NETWORK_DISCONNECT_KICKED_VOTEDOFF=157 NETWORK_DISCONNECT_KICKED_VOTEDOFF value
-     * @property {number} NETWORK_DISCONNECT_KICKED_IDLE=158 NETWORK_DISCONNECT_KICKED_IDLE value
-     * @property {number} NETWORK_DISCONNECT_KICKED_SUICIDE=159 NETWORK_DISCONNECT_KICKED_SUICIDE value
-     * @property {number} NETWORK_DISCONNECT_KICKED_NOSTEAMLOGIN=160 NETWORK_DISCONNECT_KICKED_NOSTEAMLOGIN value
-     * @property {number} NETWORK_DISCONNECT_KICKED_NOSTEAMTICKET=161 NETWORK_DISCONNECT_KICKED_NOSTEAMTICKET value
-     * @property {number} NETWORK_DISCONNECT_KICKED_INPUTAUTOMATION=162 NETWORK_DISCONNECT_KICKED_INPUTAUTOMATION value
-     * @property {number} NETWORK_DISCONNECT_KICKED_VACNETABNORMALBEHAVIOR=163 NETWORK_DISCONNECT_KICKED_VACNETABNORMALBEHAVIOR value
-     * @property {number} NETWORK_DISCONNECT_KICKED_INSECURECLIENT=164 NETWORK_DISCONNECT_KICKED_INSECURECLIENT value
-     */
-    $root.ENetworkDisconnectionReason = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
-        values[valuesById[0] = "NETWORK_DISCONNECT_INVALID"] = 0;
-        values[valuesById[1] = "NETWORK_DISCONNECT_SHUTDOWN"] = 1;
-        values[valuesById[2] = "NETWORK_DISCONNECT_DISCONNECT_BY_USER"] = 2;
-        values[valuesById[3] = "NETWORK_DISCONNECT_DISCONNECT_BY_SERVER"] = 3;
-        values[valuesById[4] = "NETWORK_DISCONNECT_LOST"] = 4;
-        values[valuesById[5] = "NETWORK_DISCONNECT_OVERFLOW"] = 5;
-        values[valuesById[6] = "NETWORK_DISCONNECT_STEAM_BANNED"] = 6;
-        values[valuesById[7] = "NETWORK_DISCONNECT_STEAM_INUSE"] = 7;
-        values[valuesById[8] = "NETWORK_DISCONNECT_STEAM_TICKET"] = 8;
-        values[valuesById[9] = "NETWORK_DISCONNECT_STEAM_LOGON"] = 9;
-        values[valuesById[10] = "NETWORK_DISCONNECT_STEAM_AUTHCANCELLED"] = 10;
-        values[valuesById[11] = "NETWORK_DISCONNECT_STEAM_AUTHALREADYUSED"] = 11;
-        values[valuesById[12] = "NETWORK_DISCONNECT_STEAM_AUTHINVALID"] = 12;
-        values[valuesById[13] = "NETWORK_DISCONNECT_STEAM_VACBANSTATE"] = 13;
-        values[valuesById[14] = "NETWORK_DISCONNECT_STEAM_LOGGED_IN_ELSEWHERE"] = 14;
-        values[valuesById[15] = "NETWORK_DISCONNECT_STEAM_VAC_CHECK_TIMEDOUT"] = 15;
-        values[valuesById[16] = "NETWORK_DISCONNECT_STEAM_DROPPED"] = 16;
-        values[valuesById[17] = "NETWORK_DISCONNECT_STEAM_OWNERSHIP"] = 17;
-        values[valuesById[18] = "NETWORK_DISCONNECT_SERVERINFO_OVERFLOW"] = 18;
-        values[valuesById[19] = "NETWORK_DISCONNECT_TICKMSG_OVERFLOW"] = 19;
-        values[valuesById[20] = "NETWORK_DISCONNECT_STRINGTABLEMSG_OVERFLOW"] = 20;
-        values[valuesById[21] = "NETWORK_DISCONNECT_DELTAENTMSG_OVERFLOW"] = 21;
-        values[valuesById[22] = "NETWORK_DISCONNECT_TEMPENTMSG_OVERFLOW"] = 22;
-        values[valuesById[23] = "NETWORK_DISCONNECT_SOUNDSMSG_OVERFLOW"] = 23;
-        values[valuesById[24] = "NETWORK_DISCONNECT_SNAPSHOTOVERFLOW"] = 24;
-        values[valuesById[25] = "NETWORK_DISCONNECT_SNAPSHOTERROR"] = 25;
-        values[valuesById[26] = "NETWORK_DISCONNECT_RELIABLEOVERFLOW"] = 26;
-        values[valuesById[27] = "NETWORK_DISCONNECT_BADDELTATICK"] = 27;
-        values[valuesById[28] = "NETWORK_DISCONNECT_NOMORESPLITS"] = 28;
-        values[valuesById[29] = "NETWORK_DISCONNECT_TIMEDOUT"] = 29;
-        values[valuesById[30] = "NETWORK_DISCONNECT_DISCONNECTED"] = 30;
-        values[valuesById[31] = "NETWORK_DISCONNECT_LEAVINGSPLIT"] = 31;
-        values[valuesById[32] = "NETWORK_DISCONNECT_DIFFERENTCLASSTABLES"] = 32;
-        values[valuesById[33] = "NETWORK_DISCONNECT_BADRELAYPASSWORD"] = 33;
-        values[valuesById[34] = "NETWORK_DISCONNECT_BADSPECTATORPASSWORD"] = 34;
-        values[valuesById[35] = "NETWORK_DISCONNECT_HLTVRESTRICTED"] = 35;
-        values[valuesById[36] = "NETWORK_DISCONNECT_NOSPECTATORS"] = 36;
-        values[valuesById[37] = "NETWORK_DISCONNECT_HLTVUNAVAILABLE"] = 37;
-        values[valuesById[38] = "NETWORK_DISCONNECT_HLTVSTOP"] = 38;
-        values[valuesById[39] = "NETWORK_DISCONNECT_KICKED"] = 39;
-        values[valuesById[40] = "NETWORK_DISCONNECT_BANADDED"] = 40;
-        values[valuesById[41] = "NETWORK_DISCONNECT_KICKBANADDED"] = 41;
-        values[valuesById[42] = "NETWORK_DISCONNECT_HLTVDIRECT"] = 42;
-        values[valuesById[43] = "NETWORK_DISCONNECT_PURESERVER_CLIENTEXTRA"] = 43;
-        values[valuesById[44] = "NETWORK_DISCONNECT_PURESERVER_MISMATCH"] = 44;
-        values[valuesById[45] = "NETWORK_DISCONNECT_USERCMD"] = 45;
-        values[valuesById[46] = "NETWORK_DISCONNECT_REJECTED_BY_GAME"] = 46;
-        values[valuesById[47] = "NETWORK_DISCONNECT_MESSAGE_PARSE_ERROR"] = 47;
-        values[valuesById[48] = "NETWORK_DISCONNECT_INVALID_MESSAGE_ERROR"] = 48;
-        values[valuesById[49] = "NETWORK_DISCONNECT_BAD_SERVER_PASSWORD"] = 49;
-        values[valuesById[50] = "NETWORK_DISCONNECT_DIRECT_CONNECT_RESERVATION"] = 50;
-        values[valuesById[51] = "NETWORK_DISCONNECT_CONNECTION_FAILURE"] = 51;
-        values[valuesById[52] = "NETWORK_DISCONNECT_NO_PEER_GROUP_HANDLERS"] = 52;
-        values[valuesById[53] = "NETWORK_DISCONNECT_RECONNECTION"] = 53;
-        values[valuesById[54] = "NETWORK_DISCONNECT_LOOPSHUTDOWN"] = 54;
-        values[valuesById[55] = "NETWORK_DISCONNECT_LOOPDEACTIVATE"] = 55;
-        values[valuesById[56] = "NETWORK_DISCONNECT_HOST_ENDGAME"] = 56;
-        values[valuesById[57] = "NETWORK_DISCONNECT_LOOP_LEVELLOAD_ACTIVATE"] = 57;
-        values[valuesById[58] = "NETWORK_DISCONNECT_CREATE_SERVER_FAILED"] = 58;
-        values[valuesById[59] = "NETWORK_DISCONNECT_EXITING"] = 59;
-        values[valuesById[60] = "NETWORK_DISCONNECT_REQUEST_HOSTSTATE_IDLE"] = 60;
-        values[valuesById[61] = "NETWORK_DISCONNECT_REQUEST_HOSTSTATE_HLTVRELAY"] = 61;
-        values[valuesById[62] = "NETWORK_DISCONNECT_CLIENT_CONSISTENCY_FAIL"] = 62;
-        values[valuesById[63] = "NETWORK_DISCONNECT_CLIENT_UNABLE_TO_CRC_MAP"] = 63;
-        values[valuesById[64] = "NETWORK_DISCONNECT_CLIENT_NO_MAP"] = 64;
-        values[valuesById[65] = "NETWORK_DISCONNECT_CLIENT_DIFFERENT_MAP"] = 65;
-        values[valuesById[66] = "NETWORK_DISCONNECT_SERVER_REQUIRES_STEAM"] = 66;
-        values[valuesById[67] = "NETWORK_DISCONNECT_STEAM_DENY_MISC"] = 67;
-        values[valuesById[68] = "NETWORK_DISCONNECT_STEAM_DENY_BAD_ANTI_CHEAT"] = 68;
-        values[valuesById[69] = "NETWORK_DISCONNECT_SERVER_SHUTDOWN"] = 69;
-        values[valuesById[71] = "NETWORK_DISCONNECT_REPLAY_INCOMPATIBLE"] = 71;
-        values[valuesById[72] = "NETWORK_DISCONNECT_CONNECT_REQUEST_TIMEDOUT"] = 72;
-        values[valuesById[73] = "NETWORK_DISCONNECT_SERVER_INCOMPATIBLE"] = 73;
-        values[valuesById[74] = "NETWORK_DISCONNECT_LOCALPROBLEM_MANYRELAYS"] = 74;
-        values[valuesById[75] = "NETWORK_DISCONNECT_LOCALPROBLEM_HOSTEDSERVERPRIMARYRELAY"] = 75;
-        values[valuesById[76] = "NETWORK_DISCONNECT_LOCALPROBLEM_NETWORKCONFIG"] = 76;
-        values[valuesById[77] = "NETWORK_DISCONNECT_LOCALPROBLEM_OTHER"] = 77;
-        values[valuesById[79] = "NETWORK_DISCONNECT_REMOTE_TIMEOUT"] = 79;
-        values[valuesById[80] = "NETWORK_DISCONNECT_REMOTE_TIMEOUT_CONNECTING"] = 80;
-        values[valuesById[81] = "NETWORK_DISCONNECT_REMOTE_OTHER"] = 81;
-        values[valuesById[82] = "NETWORK_DISCONNECT_REMOTE_BADCRYPT"] = 82;
-        values[valuesById[83] = "NETWORK_DISCONNECT_REMOTE_CERTNOTTRUSTED"] = 83;
-        values[valuesById[84] = "NETWORK_DISCONNECT_UNUSUAL"] = 84;
-        values[valuesById[85] = "NETWORK_DISCONNECT_INTERNAL_ERROR"] = 85;
-        values[valuesById[128] = "NETWORK_DISCONNECT_REJECT_BADCHALLENGE"] = 128;
-        values[valuesById[129] = "NETWORK_DISCONNECT_REJECT_NOLOBBY"] = 129;
-        values[valuesById[130] = "NETWORK_DISCONNECT_REJECT_BACKGROUND_MAP"] = 130;
-        values[valuesById[131] = "NETWORK_DISCONNECT_REJECT_SINGLE_PLAYER"] = 131;
-        values[valuesById[132] = "NETWORK_DISCONNECT_REJECT_HIDDEN_GAME"] = 132;
-        values[valuesById[133] = "NETWORK_DISCONNECT_REJECT_LANRESTRICT"] = 133;
-        values[valuesById[134] = "NETWORK_DISCONNECT_REJECT_BADPASSWORD"] = 134;
-        values[valuesById[135] = "NETWORK_DISCONNECT_REJECT_SERVERFULL"] = 135;
-        values[valuesById[136] = "NETWORK_DISCONNECT_REJECT_INVALIDRESERVATION"] = 136;
-        values[valuesById[137] = "NETWORK_DISCONNECT_REJECT_FAILEDCHANNEL"] = 137;
-        values[valuesById[138] = "NETWORK_DISCONNECT_REJECT_CONNECT_FROM_LOBBY"] = 138;
-        values[valuesById[139] = "NETWORK_DISCONNECT_REJECT_RESERVED_FOR_LOBBY"] = 139;
-        values[valuesById[140] = "NETWORK_DISCONNECT_REJECT_INVALIDKEYLENGTH"] = 140;
-        values[valuesById[141] = "NETWORK_DISCONNECT_REJECT_OLDPROTOCOL"] = 141;
-        values[valuesById[142] = "NETWORK_DISCONNECT_REJECT_NEWPROTOCOL"] = 142;
-        values[valuesById[143] = "NETWORK_DISCONNECT_REJECT_INVALIDCONNECTION"] = 143;
-        values[valuesById[144] = "NETWORK_DISCONNECT_REJECT_INVALIDCERTLEN"] = 144;
-        values[valuesById[145] = "NETWORK_DISCONNECT_REJECT_INVALIDSTEAMCERTLEN"] = 145;
-        values[valuesById[146] = "NETWORK_DISCONNECT_REJECT_STEAM"] = 146;
-        values[valuesById[147] = "NETWORK_DISCONNECT_REJECT_SERVERAUTHDISABLED"] = 147;
-        values[valuesById[148] = "NETWORK_DISCONNECT_REJECT_SERVERCDKEYAUTHINVALID"] = 148;
-        values[valuesById[149] = "NETWORK_DISCONNECT_REJECT_BANNED"] = 149;
-        values[valuesById[150] = "NETWORK_DISCONNECT_KICKED_TEAMKILLING"] = 150;
-        values[valuesById[151] = "NETWORK_DISCONNECT_KICKED_TK_START"] = 151;
-        values[valuesById[152] = "NETWORK_DISCONNECT_KICKED_UNTRUSTEDACCOUNT"] = 152;
-        values[valuesById[153] = "NETWORK_DISCONNECT_KICKED_CONVICTEDACCOUNT"] = 153;
-        values[valuesById[154] = "NETWORK_DISCONNECT_KICKED_COMPETITIVECOOLDOWN"] = 154;
-        values[valuesById[155] = "NETWORK_DISCONNECT_KICKED_TEAMHURTING"] = 155;
-        values[valuesById[156] = "NETWORK_DISCONNECT_KICKED_HOSTAGEKILLING"] = 156;
-        values[valuesById[157] = "NETWORK_DISCONNECT_KICKED_VOTEDOFF"] = 157;
-        values[valuesById[158] = "NETWORK_DISCONNECT_KICKED_IDLE"] = 158;
-        values[valuesById[159] = "NETWORK_DISCONNECT_KICKED_SUICIDE"] = 159;
-        values[valuesById[160] = "NETWORK_DISCONNECT_KICKED_NOSTEAMLOGIN"] = 160;
-        values[valuesById[161] = "NETWORK_DISCONNECT_KICKED_NOSTEAMTICKET"] = 161;
-        values[valuesById[162] = "NETWORK_DISCONNECT_KICKED_INPUTAUTOMATION"] = 162;
-        values[valuesById[163] = "NETWORK_DISCONNECT_KICKED_VACNETABNORMALBEHAVIOR"] = 163;
-        values[valuesById[164] = "NETWORK_DISCONNECT_KICKED_INSECURECLIENT"] = 164;
-        return values;
-    })();
-    
     $root.google = (function() {
     
         /**
@@ -36584,6 +37339,7 @@
                  * @property {boolean|null} [message_set_wire_format] MessageOptions message_set_wire_format
                  * @property {boolean|null} [no_standard_descriptor_accessor] MessageOptions no_standard_descriptor_accessor
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] MessageOptions uninterpreted_option
+                 * @property {number|null} [".maximum_size_bytes"] MessageOptions .maximum_size_bytes
                  */
     
                 /**
@@ -36627,6 +37383,14 @@
                 MessageOptions.prototype.uninterpreted_option = $util.emptyArray;
     
                 /**
+                 * MessageOptions .maximum_size_bytes.
+                 * @member {number} .maximum_size_bytes
+                 * @memberof google.protobuf.MessageOptions
+                 * @instance
+                 */
+                MessageOptions.prototype[".maximum_size_bytes"] = 0;
+    
+                /**
                  * Creates a new MessageOptions instance using the specified properties.
                  * @function create
                  * @memberof google.protobuf.MessageOptions
@@ -36657,6 +37421,8 @@
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
+                    if (message[".maximum_size_bytes"] != null && Object.hasOwnProperty.call(message, ".maximum_size_bytes"))
+                        writer.uint32(/* id 50000, wireType 0 =*/400000).int32(message[".maximum_size_bytes"]);
                     return writer;
                 };
     
@@ -36705,6 +37471,10 @@
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
                                 message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
+                                break;
+                            }
+                        case 50000: {
+                                message[".maximum_size_bytes"] = reader.int32();
                                 break;
                             }
                         default:
@@ -36757,6 +37527,9 @@
                                 return "uninterpreted_option." + error;
                         }
                     }
+                    if (message[".maximum_size_bytes"] != null && message.hasOwnProperty(".maximum_size_bytes"))
+                        if (!$util.isInteger(message[".maximum_size_bytes"]))
+                            return ".maximum_size_bytes: integer expected";
                     return null;
                 };
     
@@ -36786,6 +37559,8 @@
                             message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i]);
                         }
                     }
+                    if (object[".maximum_size_bytes"] != null)
+                        message[".maximum_size_bytes"] = object[".maximum_size_bytes"] | 0;
                     return message;
                 };
     
@@ -36807,6 +37582,7 @@
                     if (options.defaults) {
                         object.message_set_wire_format = false;
                         object.no_standard_descriptor_accessor = false;
+                        object[".maximum_size_bytes"] = 0;
                     }
                     if (message.message_set_wire_format != null && message.hasOwnProperty("message_set_wire_format"))
                         object.message_set_wire_format = message.message_set_wire_format;
@@ -36817,6 +37593,8 @@
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
                             object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options);
                     }
+                    if (message[".maximum_size_bytes"] != null && message.hasOwnProperty(".maximum_size_bytes"))
+                        object[".maximum_size_bytes"] = message[".maximum_size_bytes"];
                     return object;
                 };
     
@@ -39323,6 +40101,258 @@
         })();
     
         return google;
+    })();
+    
+    /**
+     * ENetworkDisconnectionReason enum.
+     * @exports ENetworkDisconnectionReason
+     * @enum {number}
+     * @property {number} NETWORK_DISCONNECT_INVALID=0 NETWORK_DISCONNECT_INVALID value
+     * @property {number} NETWORK_DISCONNECT_SHUTDOWN=1 NETWORK_DISCONNECT_SHUTDOWN value
+     * @property {number} NETWORK_DISCONNECT_DISCONNECT_BY_USER=2 NETWORK_DISCONNECT_DISCONNECT_BY_USER value
+     * @property {number} NETWORK_DISCONNECT_DISCONNECT_BY_SERVER=3 NETWORK_DISCONNECT_DISCONNECT_BY_SERVER value
+     * @property {number} NETWORK_DISCONNECT_LOST=4 NETWORK_DISCONNECT_LOST value
+     * @property {number} NETWORK_DISCONNECT_OVERFLOW=5 NETWORK_DISCONNECT_OVERFLOW value
+     * @property {number} NETWORK_DISCONNECT_STEAM_BANNED=6 NETWORK_DISCONNECT_STEAM_BANNED value
+     * @property {number} NETWORK_DISCONNECT_STEAM_INUSE=7 NETWORK_DISCONNECT_STEAM_INUSE value
+     * @property {number} NETWORK_DISCONNECT_STEAM_TICKET=8 NETWORK_DISCONNECT_STEAM_TICKET value
+     * @property {number} NETWORK_DISCONNECT_STEAM_LOGON=9 NETWORK_DISCONNECT_STEAM_LOGON value
+     * @property {number} NETWORK_DISCONNECT_STEAM_AUTHCANCELLED=10 NETWORK_DISCONNECT_STEAM_AUTHCANCELLED value
+     * @property {number} NETWORK_DISCONNECT_STEAM_AUTHALREADYUSED=11 NETWORK_DISCONNECT_STEAM_AUTHALREADYUSED value
+     * @property {number} NETWORK_DISCONNECT_STEAM_AUTHINVALID=12 NETWORK_DISCONNECT_STEAM_AUTHINVALID value
+     * @property {number} NETWORK_DISCONNECT_STEAM_VACBANSTATE=13 NETWORK_DISCONNECT_STEAM_VACBANSTATE value
+     * @property {number} NETWORK_DISCONNECT_STEAM_LOGGED_IN_ELSEWHERE=14 NETWORK_DISCONNECT_STEAM_LOGGED_IN_ELSEWHERE value
+     * @property {number} NETWORK_DISCONNECT_STEAM_VAC_CHECK_TIMEDOUT=15 NETWORK_DISCONNECT_STEAM_VAC_CHECK_TIMEDOUT value
+     * @property {number} NETWORK_DISCONNECT_STEAM_DROPPED=16 NETWORK_DISCONNECT_STEAM_DROPPED value
+     * @property {number} NETWORK_DISCONNECT_STEAM_OWNERSHIP=17 NETWORK_DISCONNECT_STEAM_OWNERSHIP value
+     * @property {number} NETWORK_DISCONNECT_SERVERINFO_OVERFLOW=18 NETWORK_DISCONNECT_SERVERINFO_OVERFLOW value
+     * @property {number} NETWORK_DISCONNECT_TICKMSG_OVERFLOW=19 NETWORK_DISCONNECT_TICKMSG_OVERFLOW value
+     * @property {number} NETWORK_DISCONNECT_STRINGTABLEMSG_OVERFLOW=20 NETWORK_DISCONNECT_STRINGTABLEMSG_OVERFLOW value
+     * @property {number} NETWORK_DISCONNECT_DELTAENTMSG_OVERFLOW=21 NETWORK_DISCONNECT_DELTAENTMSG_OVERFLOW value
+     * @property {number} NETWORK_DISCONNECT_TEMPENTMSG_OVERFLOW=22 NETWORK_DISCONNECT_TEMPENTMSG_OVERFLOW value
+     * @property {number} NETWORK_DISCONNECT_SOUNDSMSG_OVERFLOW=23 NETWORK_DISCONNECT_SOUNDSMSG_OVERFLOW value
+     * @property {number} NETWORK_DISCONNECT_SNAPSHOTOVERFLOW=24 NETWORK_DISCONNECT_SNAPSHOTOVERFLOW value
+     * @property {number} NETWORK_DISCONNECT_SNAPSHOTERROR=25 NETWORK_DISCONNECT_SNAPSHOTERROR value
+     * @property {number} NETWORK_DISCONNECT_RELIABLEOVERFLOW=26 NETWORK_DISCONNECT_RELIABLEOVERFLOW value
+     * @property {number} NETWORK_DISCONNECT_BADDELTATICK=27 NETWORK_DISCONNECT_BADDELTATICK value
+     * @property {number} NETWORK_DISCONNECT_NOMORESPLITS=28 NETWORK_DISCONNECT_NOMORESPLITS value
+     * @property {number} NETWORK_DISCONNECT_TIMEDOUT=29 NETWORK_DISCONNECT_TIMEDOUT value
+     * @property {number} NETWORK_DISCONNECT_DISCONNECTED=30 NETWORK_DISCONNECT_DISCONNECTED value
+     * @property {number} NETWORK_DISCONNECT_LEAVINGSPLIT=31 NETWORK_DISCONNECT_LEAVINGSPLIT value
+     * @property {number} NETWORK_DISCONNECT_DIFFERENTCLASSTABLES=32 NETWORK_DISCONNECT_DIFFERENTCLASSTABLES value
+     * @property {number} NETWORK_DISCONNECT_BADRELAYPASSWORD=33 NETWORK_DISCONNECT_BADRELAYPASSWORD value
+     * @property {number} NETWORK_DISCONNECT_BADSPECTATORPASSWORD=34 NETWORK_DISCONNECT_BADSPECTATORPASSWORD value
+     * @property {number} NETWORK_DISCONNECT_HLTVRESTRICTED=35 NETWORK_DISCONNECT_HLTVRESTRICTED value
+     * @property {number} NETWORK_DISCONNECT_NOSPECTATORS=36 NETWORK_DISCONNECT_NOSPECTATORS value
+     * @property {number} NETWORK_DISCONNECT_HLTVUNAVAILABLE=37 NETWORK_DISCONNECT_HLTVUNAVAILABLE value
+     * @property {number} NETWORK_DISCONNECT_HLTVSTOP=38 NETWORK_DISCONNECT_HLTVSTOP value
+     * @property {number} NETWORK_DISCONNECT_KICKED=39 NETWORK_DISCONNECT_KICKED value
+     * @property {number} NETWORK_DISCONNECT_BANADDED=40 NETWORK_DISCONNECT_BANADDED value
+     * @property {number} NETWORK_DISCONNECT_KICKBANADDED=41 NETWORK_DISCONNECT_KICKBANADDED value
+     * @property {number} NETWORK_DISCONNECT_HLTVDIRECT=42 NETWORK_DISCONNECT_HLTVDIRECT value
+     * @property {number} NETWORK_DISCONNECT_PURESERVER_CLIENTEXTRA=43 NETWORK_DISCONNECT_PURESERVER_CLIENTEXTRA value
+     * @property {number} NETWORK_DISCONNECT_PURESERVER_MISMATCH=44 NETWORK_DISCONNECT_PURESERVER_MISMATCH value
+     * @property {number} NETWORK_DISCONNECT_USERCMD=45 NETWORK_DISCONNECT_USERCMD value
+     * @property {number} NETWORK_DISCONNECT_REJECTED_BY_GAME=46 NETWORK_DISCONNECT_REJECTED_BY_GAME value
+     * @property {number} NETWORK_DISCONNECT_MESSAGE_PARSE_ERROR=47 NETWORK_DISCONNECT_MESSAGE_PARSE_ERROR value
+     * @property {number} NETWORK_DISCONNECT_INVALID_MESSAGE_ERROR=48 NETWORK_DISCONNECT_INVALID_MESSAGE_ERROR value
+     * @property {number} NETWORK_DISCONNECT_BAD_SERVER_PASSWORD=49 NETWORK_DISCONNECT_BAD_SERVER_PASSWORD value
+     * @property {number} NETWORK_DISCONNECT_DIRECT_CONNECT_RESERVATION=50 NETWORK_DISCONNECT_DIRECT_CONNECT_RESERVATION value
+     * @property {number} NETWORK_DISCONNECT_CONNECTION_FAILURE=51 NETWORK_DISCONNECT_CONNECTION_FAILURE value
+     * @property {number} NETWORK_DISCONNECT_NO_PEER_GROUP_HANDLERS=52 NETWORK_DISCONNECT_NO_PEER_GROUP_HANDLERS value
+     * @property {number} NETWORK_DISCONNECT_RECONNECTION=53 NETWORK_DISCONNECT_RECONNECTION value
+     * @property {number} NETWORK_DISCONNECT_LOOPSHUTDOWN=54 NETWORK_DISCONNECT_LOOPSHUTDOWN value
+     * @property {number} NETWORK_DISCONNECT_LOOPDEACTIVATE=55 NETWORK_DISCONNECT_LOOPDEACTIVATE value
+     * @property {number} NETWORK_DISCONNECT_HOST_ENDGAME=56 NETWORK_DISCONNECT_HOST_ENDGAME value
+     * @property {number} NETWORK_DISCONNECT_LOOP_LEVELLOAD_ACTIVATE=57 NETWORK_DISCONNECT_LOOP_LEVELLOAD_ACTIVATE value
+     * @property {number} NETWORK_DISCONNECT_CREATE_SERVER_FAILED=58 NETWORK_DISCONNECT_CREATE_SERVER_FAILED value
+     * @property {number} NETWORK_DISCONNECT_EXITING=59 NETWORK_DISCONNECT_EXITING value
+     * @property {number} NETWORK_DISCONNECT_REQUEST_HOSTSTATE_IDLE=60 NETWORK_DISCONNECT_REQUEST_HOSTSTATE_IDLE value
+     * @property {number} NETWORK_DISCONNECT_REQUEST_HOSTSTATE_HLTVRELAY=61 NETWORK_DISCONNECT_REQUEST_HOSTSTATE_HLTVRELAY value
+     * @property {number} NETWORK_DISCONNECT_CLIENT_CONSISTENCY_FAIL=62 NETWORK_DISCONNECT_CLIENT_CONSISTENCY_FAIL value
+     * @property {number} NETWORK_DISCONNECT_CLIENT_UNABLE_TO_CRC_MAP=63 NETWORK_DISCONNECT_CLIENT_UNABLE_TO_CRC_MAP value
+     * @property {number} NETWORK_DISCONNECT_CLIENT_NO_MAP=64 NETWORK_DISCONNECT_CLIENT_NO_MAP value
+     * @property {number} NETWORK_DISCONNECT_CLIENT_DIFFERENT_MAP=65 NETWORK_DISCONNECT_CLIENT_DIFFERENT_MAP value
+     * @property {number} NETWORK_DISCONNECT_SERVER_REQUIRES_STEAM=66 NETWORK_DISCONNECT_SERVER_REQUIRES_STEAM value
+     * @property {number} NETWORK_DISCONNECT_STEAM_DENY_MISC=67 NETWORK_DISCONNECT_STEAM_DENY_MISC value
+     * @property {number} NETWORK_DISCONNECT_STEAM_DENY_BAD_ANTI_CHEAT=68 NETWORK_DISCONNECT_STEAM_DENY_BAD_ANTI_CHEAT value
+     * @property {number} NETWORK_DISCONNECT_SERVER_SHUTDOWN=69 NETWORK_DISCONNECT_SERVER_SHUTDOWN value
+     * @property {number} NETWORK_DISCONNECT_REPLAY_INCOMPATIBLE=71 NETWORK_DISCONNECT_REPLAY_INCOMPATIBLE value
+     * @property {number} NETWORK_DISCONNECT_CONNECT_REQUEST_TIMEDOUT=72 NETWORK_DISCONNECT_CONNECT_REQUEST_TIMEDOUT value
+     * @property {number} NETWORK_DISCONNECT_SERVER_INCOMPATIBLE=73 NETWORK_DISCONNECT_SERVER_INCOMPATIBLE value
+     * @property {number} NETWORK_DISCONNECT_LOCALPROBLEM_MANYRELAYS=74 NETWORK_DISCONNECT_LOCALPROBLEM_MANYRELAYS value
+     * @property {number} NETWORK_DISCONNECT_LOCALPROBLEM_HOSTEDSERVERPRIMARYRELAY=75 NETWORK_DISCONNECT_LOCALPROBLEM_HOSTEDSERVERPRIMARYRELAY value
+     * @property {number} NETWORK_DISCONNECT_LOCALPROBLEM_NETWORKCONFIG=76 NETWORK_DISCONNECT_LOCALPROBLEM_NETWORKCONFIG value
+     * @property {number} NETWORK_DISCONNECT_LOCALPROBLEM_OTHER=77 NETWORK_DISCONNECT_LOCALPROBLEM_OTHER value
+     * @property {number} NETWORK_DISCONNECT_REMOTE_TIMEOUT=79 NETWORK_DISCONNECT_REMOTE_TIMEOUT value
+     * @property {number} NETWORK_DISCONNECT_REMOTE_TIMEOUT_CONNECTING=80 NETWORK_DISCONNECT_REMOTE_TIMEOUT_CONNECTING value
+     * @property {number} NETWORK_DISCONNECT_REMOTE_OTHER=81 NETWORK_DISCONNECT_REMOTE_OTHER value
+     * @property {number} NETWORK_DISCONNECT_REMOTE_BADCRYPT=82 NETWORK_DISCONNECT_REMOTE_BADCRYPT value
+     * @property {number} NETWORK_DISCONNECT_REMOTE_CERTNOTTRUSTED=83 NETWORK_DISCONNECT_REMOTE_CERTNOTTRUSTED value
+     * @property {number} NETWORK_DISCONNECT_UNUSUAL=84 NETWORK_DISCONNECT_UNUSUAL value
+     * @property {number} NETWORK_DISCONNECT_INTERNAL_ERROR=85 NETWORK_DISCONNECT_INTERNAL_ERROR value
+     * @property {number} NETWORK_DISCONNECT_REJECT_BADCHALLENGE=128 NETWORK_DISCONNECT_REJECT_BADCHALLENGE value
+     * @property {number} NETWORK_DISCONNECT_REJECT_NOLOBBY=129 NETWORK_DISCONNECT_REJECT_NOLOBBY value
+     * @property {number} NETWORK_DISCONNECT_REJECT_BACKGROUND_MAP=130 NETWORK_DISCONNECT_REJECT_BACKGROUND_MAP value
+     * @property {number} NETWORK_DISCONNECT_REJECT_SINGLE_PLAYER=131 NETWORK_DISCONNECT_REJECT_SINGLE_PLAYER value
+     * @property {number} NETWORK_DISCONNECT_REJECT_HIDDEN_GAME=132 NETWORK_DISCONNECT_REJECT_HIDDEN_GAME value
+     * @property {number} NETWORK_DISCONNECT_REJECT_LANRESTRICT=133 NETWORK_DISCONNECT_REJECT_LANRESTRICT value
+     * @property {number} NETWORK_DISCONNECT_REJECT_BADPASSWORD=134 NETWORK_DISCONNECT_REJECT_BADPASSWORD value
+     * @property {number} NETWORK_DISCONNECT_REJECT_SERVERFULL=135 NETWORK_DISCONNECT_REJECT_SERVERFULL value
+     * @property {number} NETWORK_DISCONNECT_REJECT_INVALIDRESERVATION=136 NETWORK_DISCONNECT_REJECT_INVALIDRESERVATION value
+     * @property {number} NETWORK_DISCONNECT_REJECT_FAILEDCHANNEL=137 NETWORK_DISCONNECT_REJECT_FAILEDCHANNEL value
+     * @property {number} NETWORK_DISCONNECT_REJECT_CONNECT_FROM_LOBBY=138 NETWORK_DISCONNECT_REJECT_CONNECT_FROM_LOBBY value
+     * @property {number} NETWORK_DISCONNECT_REJECT_RESERVED_FOR_LOBBY=139 NETWORK_DISCONNECT_REJECT_RESERVED_FOR_LOBBY value
+     * @property {number} NETWORK_DISCONNECT_REJECT_INVALIDKEYLENGTH=140 NETWORK_DISCONNECT_REJECT_INVALIDKEYLENGTH value
+     * @property {number} NETWORK_DISCONNECT_REJECT_OLDPROTOCOL=141 NETWORK_DISCONNECT_REJECT_OLDPROTOCOL value
+     * @property {number} NETWORK_DISCONNECT_REJECT_NEWPROTOCOL=142 NETWORK_DISCONNECT_REJECT_NEWPROTOCOL value
+     * @property {number} NETWORK_DISCONNECT_REJECT_INVALIDCONNECTION=143 NETWORK_DISCONNECT_REJECT_INVALIDCONNECTION value
+     * @property {number} NETWORK_DISCONNECT_REJECT_INVALIDCERTLEN=144 NETWORK_DISCONNECT_REJECT_INVALIDCERTLEN value
+     * @property {number} NETWORK_DISCONNECT_REJECT_INVALIDSTEAMCERTLEN=145 NETWORK_DISCONNECT_REJECT_INVALIDSTEAMCERTLEN value
+     * @property {number} NETWORK_DISCONNECT_REJECT_STEAM=146 NETWORK_DISCONNECT_REJECT_STEAM value
+     * @property {number} NETWORK_DISCONNECT_REJECT_SERVERAUTHDISABLED=147 NETWORK_DISCONNECT_REJECT_SERVERAUTHDISABLED value
+     * @property {number} NETWORK_DISCONNECT_REJECT_SERVERCDKEYAUTHINVALID=148 NETWORK_DISCONNECT_REJECT_SERVERCDKEYAUTHINVALID value
+     * @property {number} NETWORK_DISCONNECT_REJECT_BANNED=149 NETWORK_DISCONNECT_REJECT_BANNED value
+     * @property {number} NETWORK_DISCONNECT_KICKED_TEAMKILLING=150 NETWORK_DISCONNECT_KICKED_TEAMKILLING value
+     * @property {number} NETWORK_DISCONNECT_KICKED_TK_START=151 NETWORK_DISCONNECT_KICKED_TK_START value
+     * @property {number} NETWORK_DISCONNECT_KICKED_UNTRUSTEDACCOUNT=152 NETWORK_DISCONNECT_KICKED_UNTRUSTEDACCOUNT value
+     * @property {number} NETWORK_DISCONNECT_KICKED_CONVICTEDACCOUNT=153 NETWORK_DISCONNECT_KICKED_CONVICTEDACCOUNT value
+     * @property {number} NETWORK_DISCONNECT_KICKED_COMPETITIVECOOLDOWN=154 NETWORK_DISCONNECT_KICKED_COMPETITIVECOOLDOWN value
+     * @property {number} NETWORK_DISCONNECT_KICKED_TEAMHURTING=155 NETWORK_DISCONNECT_KICKED_TEAMHURTING value
+     * @property {number} NETWORK_DISCONNECT_KICKED_HOSTAGEKILLING=156 NETWORK_DISCONNECT_KICKED_HOSTAGEKILLING value
+     * @property {number} NETWORK_DISCONNECT_KICKED_VOTEDOFF=157 NETWORK_DISCONNECT_KICKED_VOTEDOFF value
+     * @property {number} NETWORK_DISCONNECT_KICKED_IDLE=158 NETWORK_DISCONNECT_KICKED_IDLE value
+     * @property {number} NETWORK_DISCONNECT_KICKED_SUICIDE=159 NETWORK_DISCONNECT_KICKED_SUICIDE value
+     * @property {number} NETWORK_DISCONNECT_KICKED_NOSTEAMLOGIN=160 NETWORK_DISCONNECT_KICKED_NOSTEAMLOGIN value
+     * @property {number} NETWORK_DISCONNECT_KICKED_NOSTEAMTICKET=161 NETWORK_DISCONNECT_KICKED_NOSTEAMTICKET value
+     * @property {number} NETWORK_DISCONNECT_KICKED_INPUTAUTOMATION=162 NETWORK_DISCONNECT_KICKED_INPUTAUTOMATION value
+     * @property {number} NETWORK_DISCONNECT_KICKED_VACNETABNORMALBEHAVIOR=163 NETWORK_DISCONNECT_KICKED_VACNETABNORMALBEHAVIOR value
+     * @property {number} NETWORK_DISCONNECT_KICKED_INSECURECLIENT=164 NETWORK_DISCONNECT_KICKED_INSECURECLIENT value
+     */
+    $root.ENetworkDisconnectionReason = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "NETWORK_DISCONNECT_INVALID"] = 0;
+        values[valuesById[1] = "NETWORK_DISCONNECT_SHUTDOWN"] = 1;
+        values[valuesById[2] = "NETWORK_DISCONNECT_DISCONNECT_BY_USER"] = 2;
+        values[valuesById[3] = "NETWORK_DISCONNECT_DISCONNECT_BY_SERVER"] = 3;
+        values[valuesById[4] = "NETWORK_DISCONNECT_LOST"] = 4;
+        values[valuesById[5] = "NETWORK_DISCONNECT_OVERFLOW"] = 5;
+        values[valuesById[6] = "NETWORK_DISCONNECT_STEAM_BANNED"] = 6;
+        values[valuesById[7] = "NETWORK_DISCONNECT_STEAM_INUSE"] = 7;
+        values[valuesById[8] = "NETWORK_DISCONNECT_STEAM_TICKET"] = 8;
+        values[valuesById[9] = "NETWORK_DISCONNECT_STEAM_LOGON"] = 9;
+        values[valuesById[10] = "NETWORK_DISCONNECT_STEAM_AUTHCANCELLED"] = 10;
+        values[valuesById[11] = "NETWORK_DISCONNECT_STEAM_AUTHALREADYUSED"] = 11;
+        values[valuesById[12] = "NETWORK_DISCONNECT_STEAM_AUTHINVALID"] = 12;
+        values[valuesById[13] = "NETWORK_DISCONNECT_STEAM_VACBANSTATE"] = 13;
+        values[valuesById[14] = "NETWORK_DISCONNECT_STEAM_LOGGED_IN_ELSEWHERE"] = 14;
+        values[valuesById[15] = "NETWORK_DISCONNECT_STEAM_VAC_CHECK_TIMEDOUT"] = 15;
+        values[valuesById[16] = "NETWORK_DISCONNECT_STEAM_DROPPED"] = 16;
+        values[valuesById[17] = "NETWORK_DISCONNECT_STEAM_OWNERSHIP"] = 17;
+        values[valuesById[18] = "NETWORK_DISCONNECT_SERVERINFO_OVERFLOW"] = 18;
+        values[valuesById[19] = "NETWORK_DISCONNECT_TICKMSG_OVERFLOW"] = 19;
+        values[valuesById[20] = "NETWORK_DISCONNECT_STRINGTABLEMSG_OVERFLOW"] = 20;
+        values[valuesById[21] = "NETWORK_DISCONNECT_DELTAENTMSG_OVERFLOW"] = 21;
+        values[valuesById[22] = "NETWORK_DISCONNECT_TEMPENTMSG_OVERFLOW"] = 22;
+        values[valuesById[23] = "NETWORK_DISCONNECT_SOUNDSMSG_OVERFLOW"] = 23;
+        values[valuesById[24] = "NETWORK_DISCONNECT_SNAPSHOTOVERFLOW"] = 24;
+        values[valuesById[25] = "NETWORK_DISCONNECT_SNAPSHOTERROR"] = 25;
+        values[valuesById[26] = "NETWORK_DISCONNECT_RELIABLEOVERFLOW"] = 26;
+        values[valuesById[27] = "NETWORK_DISCONNECT_BADDELTATICK"] = 27;
+        values[valuesById[28] = "NETWORK_DISCONNECT_NOMORESPLITS"] = 28;
+        values[valuesById[29] = "NETWORK_DISCONNECT_TIMEDOUT"] = 29;
+        values[valuesById[30] = "NETWORK_DISCONNECT_DISCONNECTED"] = 30;
+        values[valuesById[31] = "NETWORK_DISCONNECT_LEAVINGSPLIT"] = 31;
+        values[valuesById[32] = "NETWORK_DISCONNECT_DIFFERENTCLASSTABLES"] = 32;
+        values[valuesById[33] = "NETWORK_DISCONNECT_BADRELAYPASSWORD"] = 33;
+        values[valuesById[34] = "NETWORK_DISCONNECT_BADSPECTATORPASSWORD"] = 34;
+        values[valuesById[35] = "NETWORK_DISCONNECT_HLTVRESTRICTED"] = 35;
+        values[valuesById[36] = "NETWORK_DISCONNECT_NOSPECTATORS"] = 36;
+        values[valuesById[37] = "NETWORK_DISCONNECT_HLTVUNAVAILABLE"] = 37;
+        values[valuesById[38] = "NETWORK_DISCONNECT_HLTVSTOP"] = 38;
+        values[valuesById[39] = "NETWORK_DISCONNECT_KICKED"] = 39;
+        values[valuesById[40] = "NETWORK_DISCONNECT_BANADDED"] = 40;
+        values[valuesById[41] = "NETWORK_DISCONNECT_KICKBANADDED"] = 41;
+        values[valuesById[42] = "NETWORK_DISCONNECT_HLTVDIRECT"] = 42;
+        values[valuesById[43] = "NETWORK_DISCONNECT_PURESERVER_CLIENTEXTRA"] = 43;
+        values[valuesById[44] = "NETWORK_DISCONNECT_PURESERVER_MISMATCH"] = 44;
+        values[valuesById[45] = "NETWORK_DISCONNECT_USERCMD"] = 45;
+        values[valuesById[46] = "NETWORK_DISCONNECT_REJECTED_BY_GAME"] = 46;
+        values[valuesById[47] = "NETWORK_DISCONNECT_MESSAGE_PARSE_ERROR"] = 47;
+        values[valuesById[48] = "NETWORK_DISCONNECT_INVALID_MESSAGE_ERROR"] = 48;
+        values[valuesById[49] = "NETWORK_DISCONNECT_BAD_SERVER_PASSWORD"] = 49;
+        values[valuesById[50] = "NETWORK_DISCONNECT_DIRECT_CONNECT_RESERVATION"] = 50;
+        values[valuesById[51] = "NETWORK_DISCONNECT_CONNECTION_FAILURE"] = 51;
+        values[valuesById[52] = "NETWORK_DISCONNECT_NO_PEER_GROUP_HANDLERS"] = 52;
+        values[valuesById[53] = "NETWORK_DISCONNECT_RECONNECTION"] = 53;
+        values[valuesById[54] = "NETWORK_DISCONNECT_LOOPSHUTDOWN"] = 54;
+        values[valuesById[55] = "NETWORK_DISCONNECT_LOOPDEACTIVATE"] = 55;
+        values[valuesById[56] = "NETWORK_DISCONNECT_HOST_ENDGAME"] = 56;
+        values[valuesById[57] = "NETWORK_DISCONNECT_LOOP_LEVELLOAD_ACTIVATE"] = 57;
+        values[valuesById[58] = "NETWORK_DISCONNECT_CREATE_SERVER_FAILED"] = 58;
+        values[valuesById[59] = "NETWORK_DISCONNECT_EXITING"] = 59;
+        values[valuesById[60] = "NETWORK_DISCONNECT_REQUEST_HOSTSTATE_IDLE"] = 60;
+        values[valuesById[61] = "NETWORK_DISCONNECT_REQUEST_HOSTSTATE_HLTVRELAY"] = 61;
+        values[valuesById[62] = "NETWORK_DISCONNECT_CLIENT_CONSISTENCY_FAIL"] = 62;
+        values[valuesById[63] = "NETWORK_DISCONNECT_CLIENT_UNABLE_TO_CRC_MAP"] = 63;
+        values[valuesById[64] = "NETWORK_DISCONNECT_CLIENT_NO_MAP"] = 64;
+        values[valuesById[65] = "NETWORK_DISCONNECT_CLIENT_DIFFERENT_MAP"] = 65;
+        values[valuesById[66] = "NETWORK_DISCONNECT_SERVER_REQUIRES_STEAM"] = 66;
+        values[valuesById[67] = "NETWORK_DISCONNECT_STEAM_DENY_MISC"] = 67;
+        values[valuesById[68] = "NETWORK_DISCONNECT_STEAM_DENY_BAD_ANTI_CHEAT"] = 68;
+        values[valuesById[69] = "NETWORK_DISCONNECT_SERVER_SHUTDOWN"] = 69;
+        values[valuesById[71] = "NETWORK_DISCONNECT_REPLAY_INCOMPATIBLE"] = 71;
+        values[valuesById[72] = "NETWORK_DISCONNECT_CONNECT_REQUEST_TIMEDOUT"] = 72;
+        values[valuesById[73] = "NETWORK_DISCONNECT_SERVER_INCOMPATIBLE"] = 73;
+        values[valuesById[74] = "NETWORK_DISCONNECT_LOCALPROBLEM_MANYRELAYS"] = 74;
+        values[valuesById[75] = "NETWORK_DISCONNECT_LOCALPROBLEM_HOSTEDSERVERPRIMARYRELAY"] = 75;
+        values[valuesById[76] = "NETWORK_DISCONNECT_LOCALPROBLEM_NETWORKCONFIG"] = 76;
+        values[valuesById[77] = "NETWORK_DISCONNECT_LOCALPROBLEM_OTHER"] = 77;
+        values[valuesById[79] = "NETWORK_DISCONNECT_REMOTE_TIMEOUT"] = 79;
+        values[valuesById[80] = "NETWORK_DISCONNECT_REMOTE_TIMEOUT_CONNECTING"] = 80;
+        values[valuesById[81] = "NETWORK_DISCONNECT_REMOTE_OTHER"] = 81;
+        values[valuesById[82] = "NETWORK_DISCONNECT_REMOTE_BADCRYPT"] = 82;
+        values[valuesById[83] = "NETWORK_DISCONNECT_REMOTE_CERTNOTTRUSTED"] = 83;
+        values[valuesById[84] = "NETWORK_DISCONNECT_UNUSUAL"] = 84;
+        values[valuesById[85] = "NETWORK_DISCONNECT_INTERNAL_ERROR"] = 85;
+        values[valuesById[128] = "NETWORK_DISCONNECT_REJECT_BADCHALLENGE"] = 128;
+        values[valuesById[129] = "NETWORK_DISCONNECT_REJECT_NOLOBBY"] = 129;
+        values[valuesById[130] = "NETWORK_DISCONNECT_REJECT_BACKGROUND_MAP"] = 130;
+        values[valuesById[131] = "NETWORK_DISCONNECT_REJECT_SINGLE_PLAYER"] = 131;
+        values[valuesById[132] = "NETWORK_DISCONNECT_REJECT_HIDDEN_GAME"] = 132;
+        values[valuesById[133] = "NETWORK_DISCONNECT_REJECT_LANRESTRICT"] = 133;
+        values[valuesById[134] = "NETWORK_DISCONNECT_REJECT_BADPASSWORD"] = 134;
+        values[valuesById[135] = "NETWORK_DISCONNECT_REJECT_SERVERFULL"] = 135;
+        values[valuesById[136] = "NETWORK_DISCONNECT_REJECT_INVALIDRESERVATION"] = 136;
+        values[valuesById[137] = "NETWORK_DISCONNECT_REJECT_FAILEDCHANNEL"] = 137;
+        values[valuesById[138] = "NETWORK_DISCONNECT_REJECT_CONNECT_FROM_LOBBY"] = 138;
+        values[valuesById[139] = "NETWORK_DISCONNECT_REJECT_RESERVED_FOR_LOBBY"] = 139;
+        values[valuesById[140] = "NETWORK_DISCONNECT_REJECT_INVALIDKEYLENGTH"] = 140;
+        values[valuesById[141] = "NETWORK_DISCONNECT_REJECT_OLDPROTOCOL"] = 141;
+        values[valuesById[142] = "NETWORK_DISCONNECT_REJECT_NEWPROTOCOL"] = 142;
+        values[valuesById[143] = "NETWORK_DISCONNECT_REJECT_INVALIDCONNECTION"] = 143;
+        values[valuesById[144] = "NETWORK_DISCONNECT_REJECT_INVALIDCERTLEN"] = 144;
+        values[valuesById[145] = "NETWORK_DISCONNECT_REJECT_INVALIDSTEAMCERTLEN"] = 145;
+        values[valuesById[146] = "NETWORK_DISCONNECT_REJECT_STEAM"] = 146;
+        values[valuesById[147] = "NETWORK_DISCONNECT_REJECT_SERVERAUTHDISABLED"] = 147;
+        values[valuesById[148] = "NETWORK_DISCONNECT_REJECT_SERVERCDKEYAUTHINVALID"] = 148;
+        values[valuesById[149] = "NETWORK_DISCONNECT_REJECT_BANNED"] = 149;
+        values[valuesById[150] = "NETWORK_DISCONNECT_KICKED_TEAMKILLING"] = 150;
+        values[valuesById[151] = "NETWORK_DISCONNECT_KICKED_TK_START"] = 151;
+        values[valuesById[152] = "NETWORK_DISCONNECT_KICKED_UNTRUSTEDACCOUNT"] = 152;
+        values[valuesById[153] = "NETWORK_DISCONNECT_KICKED_CONVICTEDACCOUNT"] = 153;
+        values[valuesById[154] = "NETWORK_DISCONNECT_KICKED_COMPETITIVECOOLDOWN"] = 154;
+        values[valuesById[155] = "NETWORK_DISCONNECT_KICKED_TEAMHURTING"] = 155;
+        values[valuesById[156] = "NETWORK_DISCONNECT_KICKED_HOSTAGEKILLING"] = 156;
+        values[valuesById[157] = "NETWORK_DISCONNECT_KICKED_VOTEDOFF"] = 157;
+        values[valuesById[158] = "NETWORK_DISCONNECT_KICKED_IDLE"] = 158;
+        values[valuesById[159] = "NETWORK_DISCONNECT_KICKED_SUICIDE"] = 159;
+        values[valuesById[160] = "NETWORK_DISCONNECT_KICKED_NOSTEAMLOGIN"] = 160;
+        values[valuesById[161] = "NETWORK_DISCONNECT_KICKED_NOSTEAMTICKET"] = 161;
+        values[valuesById[162] = "NETWORK_DISCONNECT_KICKED_INPUTAUTOMATION"] = 162;
+        values[valuesById[163] = "NETWORK_DISCONNECT_KICKED_VACNETABNORMALBEHAVIOR"] = 163;
+        values[valuesById[164] = "NETWORK_DISCONNECT_KICKED_INSECURECLIENT"] = 164;
+        return values;
     })();
 
     return $root;

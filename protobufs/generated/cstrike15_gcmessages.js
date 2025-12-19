@@ -127,6 +127,7 @@
      * @property {number} k_EMsgGCCStrike15_v2_PremierSeasonSummary=9224 k_EMsgGCCStrike15_v2_PremierSeasonSummary value
      * @property {number} k_EMsgGCCStrike15_v2_RequestRecurringMissionSchedule=9225 k_EMsgGCCStrike15_v2_RequestRecurringMissionSchedule value
      * @property {number} k_EMsgGCCStrike15_v2_RecurringMissionSchema=9226 k_EMsgGCCStrike15_v2_RecurringMissionSchema value
+     * @property {number} k_EMsgGCCStrike15_v2_VolatileItemClaimReward=9227 k_EMsgGCCStrike15_v2_VolatileItemClaimReward value
      */
     $root.ECsgoGCMsg = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -237,6 +238,7 @@
         values[valuesById[9224] = "k_EMsgGCCStrike15_v2_PremierSeasonSummary"] = 9224;
         values[valuesById[9225] = "k_EMsgGCCStrike15_v2_RequestRecurringMissionSchedule"] = 9225;
         values[valuesById[9226] = "k_EMsgGCCStrike15_v2_RecurringMissionSchema"] = 9226;
+        values[valuesById[9227] = "k_EMsgGCCStrike15_v2_VolatileItemClaimReward"] = 9227;
         return values;
     })();
     
@@ -30816,6 +30818,7 @@
              * @property {number|null} [offset_z] Sticker offset_z
              * @property {number|null} [pattern] Sticker pattern
              * @property {number|null} [highlight_reel] Sticker highlight_reel
+             * @property {number|null} [wrapped_sticker] Sticker wrapped_sticker
              */
     
             /**
@@ -30922,6 +30925,14 @@
             Sticker.prototype.highlight_reel = 0;
     
             /**
+             * Sticker wrapped_sticker.
+             * @member {number} wrapped_sticker
+             * @memberof CEconItemPreviewDataBlock.Sticker
+             * @instance
+             */
+            Sticker.prototype.wrapped_sticker = 0;
+    
+            /**
              * Creates a new Sticker instance using the specified properties.
              * @function create
              * @memberof CEconItemPreviewDataBlock.Sticker
@@ -30967,6 +30978,8 @@
                     writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.pattern);
                 if (message.highlight_reel != null && Object.hasOwnProperty.call(message, "highlight_reel"))
                     writer.uint32(/* id 11, wireType 0 =*/88).uint32(message.highlight_reel);
+                if (message.wrapped_sticker != null && Object.hasOwnProperty.call(message, "wrapped_sticker"))
+                    writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.wrapped_sticker);
                 return writer;
             };
     
@@ -31047,6 +31060,10 @@
                             message.highlight_reel = reader.uint32();
                             break;
                         }
+                    case 12: {
+                            message.wrapped_sticker = reader.uint32();
+                            break;
+                        }
                     default:
                         reader.skipType(tag & 7);
                         break;
@@ -31115,6 +31132,9 @@
                 if (message.highlight_reel != null && message.hasOwnProperty("highlight_reel"))
                     if (!$util.isInteger(message.highlight_reel))
                         return "highlight_reel: integer expected";
+                if (message.wrapped_sticker != null && message.hasOwnProperty("wrapped_sticker"))
+                    if (!$util.isInteger(message.wrapped_sticker))
+                        return "wrapped_sticker: integer expected";
                 return null;
             };
     
@@ -31152,6 +31172,8 @@
                     message.pattern = object.pattern >>> 0;
                 if (object.highlight_reel != null)
                     message.highlight_reel = object.highlight_reel >>> 0;
+                if (object.wrapped_sticker != null)
+                    message.wrapped_sticker = object.wrapped_sticker >>> 0;
                 return message;
             };
     
@@ -31180,6 +31202,7 @@
                     object.offset_z = 0;
                     object.pattern = 0;
                     object.highlight_reel = 0;
+                    object.wrapped_sticker = 0;
                 }
                 if (message.slot != null && message.hasOwnProperty("slot"))
                     object.slot = message.slot;
@@ -31203,6 +31226,8 @@
                     object.pattern = message.pattern;
                 if (message.highlight_reel != null && message.hasOwnProperty("highlight_reel"))
                     object.highlight_reel = message.highlight_reel;
+                if (message.wrapped_sticker != null && message.hasOwnProperty("wrapped_sticker"))
+                    object.wrapped_sticker = message.wrapped_sticker;
                 return object;
             };
     
@@ -41646,6 +41671,606 @@
         };
     
         return CSOAccountXpShopBids;
+    })();
+    
+    $root.CSOVolatileItemOffer = (function() {
+    
+        /**
+         * Properties of a CSOVolatileItemOffer.
+         * @exports ICSOVolatileItemOffer
+         * @interface ICSOVolatileItemOffer
+         * @property {number|null} [defidx] CSOVolatileItemOffer defidx
+         * @property {Array.<number|Long>|null} [faux_itemid] CSOVolatileItemOffer faux_itemid
+         * @property {Array.<number>|null} [generation_time] CSOVolatileItemOffer generation_time
+         */
+    
+        /**
+         * Constructs a new CSOVolatileItemOffer.
+         * @exports CSOVolatileItemOffer
+         * @classdesc Represents a CSOVolatileItemOffer.
+         * @implements ICSOVolatileItemOffer
+         * @constructor
+         * @param {ICSOVolatileItemOffer=} [properties] Properties to set
+         */
+        function CSOVolatileItemOffer(properties) {
+            this.faux_itemid = [];
+            this.generation_time = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CSOVolatileItemOffer defidx.
+         * @member {number} defidx
+         * @memberof CSOVolatileItemOffer
+         * @instance
+         */
+        CSOVolatileItemOffer.prototype.defidx = 0;
+    
+        /**
+         * CSOVolatileItemOffer faux_itemid.
+         * @member {Array.<number|Long>} faux_itemid
+         * @memberof CSOVolatileItemOffer
+         * @instance
+         */
+        CSOVolatileItemOffer.prototype.faux_itemid = $util.emptyArray;
+    
+        /**
+         * CSOVolatileItemOffer generation_time.
+         * @member {Array.<number>} generation_time
+         * @memberof CSOVolatileItemOffer
+         * @instance
+         */
+        CSOVolatileItemOffer.prototype.generation_time = $util.emptyArray;
+    
+        /**
+         * Creates a new CSOVolatileItemOffer instance using the specified properties.
+         * @function create
+         * @memberof CSOVolatileItemOffer
+         * @static
+         * @param {ICSOVolatileItemOffer=} [properties] Properties to set
+         * @returns {CSOVolatileItemOffer} CSOVolatileItemOffer instance
+         */
+        CSOVolatileItemOffer.create = function create(properties) {
+            return new CSOVolatileItemOffer(properties);
+        };
+    
+        /**
+         * Encodes the specified CSOVolatileItemOffer message. Does not implicitly {@link CSOVolatileItemOffer.verify|verify} messages.
+         * @function encode
+         * @memberof CSOVolatileItemOffer
+         * @static
+         * @param {ICSOVolatileItemOffer} message CSOVolatileItemOffer message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CSOVolatileItemOffer.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.defidx != null && Object.hasOwnProperty.call(message, "defidx"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.defidx);
+            if (message.faux_itemid != null && message.faux_itemid.length)
+                for (var i = 0; i < message.faux_itemid.length; ++i)
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.faux_itemid[i]);
+            if (message.generation_time != null && message.generation_time.length)
+                for (var i = 0; i < message.generation_time.length; ++i)
+                    writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.generation_time[i]);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CSOVolatileItemOffer message, length delimited. Does not implicitly {@link CSOVolatileItemOffer.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CSOVolatileItemOffer
+         * @static
+         * @param {ICSOVolatileItemOffer} message CSOVolatileItemOffer message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CSOVolatileItemOffer.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CSOVolatileItemOffer message from the specified reader or buffer.
+         * @function decode
+         * @memberof CSOVolatileItemOffer
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CSOVolatileItemOffer} CSOVolatileItemOffer
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CSOVolatileItemOffer.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSOVolatileItemOffer();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.defidx = reader.uint32();
+                        break;
+                    }
+                case 2: {
+                        if (!(message.faux_itemid && message.faux_itemid.length))
+                            message.faux_itemid = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.faux_itemid.push(reader.uint64());
+                        } else
+                            message.faux_itemid.push(reader.uint64());
+                        break;
+                    }
+                case 3: {
+                        if (!(message.generation_time && message.generation_time.length))
+                            message.generation_time = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.generation_time.push(reader.uint32());
+                        } else
+                            message.generation_time.push(reader.uint32());
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CSOVolatileItemOffer message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CSOVolatileItemOffer
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CSOVolatileItemOffer} CSOVolatileItemOffer
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CSOVolatileItemOffer.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CSOVolatileItemOffer message.
+         * @function verify
+         * @memberof CSOVolatileItemOffer
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CSOVolatileItemOffer.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.defidx != null && message.hasOwnProperty("defidx"))
+                if (!$util.isInteger(message.defidx))
+                    return "defidx: integer expected";
+            if (message.faux_itemid != null && message.hasOwnProperty("faux_itemid")) {
+                if (!Array.isArray(message.faux_itemid))
+                    return "faux_itemid: array expected";
+                for (var i = 0; i < message.faux_itemid.length; ++i)
+                    if (!$util.isInteger(message.faux_itemid[i]) && !(message.faux_itemid[i] && $util.isInteger(message.faux_itemid[i].low) && $util.isInteger(message.faux_itemid[i].high)))
+                        return "faux_itemid: integer|Long[] expected";
+            }
+            if (message.generation_time != null && message.hasOwnProperty("generation_time")) {
+                if (!Array.isArray(message.generation_time))
+                    return "generation_time: array expected";
+                for (var i = 0; i < message.generation_time.length; ++i)
+                    if (!$util.isInteger(message.generation_time[i]))
+                        return "generation_time: integer[] expected";
+            }
+            return null;
+        };
+    
+        /**
+         * Creates a CSOVolatileItemOffer message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CSOVolatileItemOffer
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CSOVolatileItemOffer} CSOVolatileItemOffer
+         */
+        CSOVolatileItemOffer.fromObject = function fromObject(object) {
+            if (object instanceof $root.CSOVolatileItemOffer)
+                return object;
+            var message = new $root.CSOVolatileItemOffer();
+            if (object.defidx != null)
+                message.defidx = object.defidx >>> 0;
+            if (object.faux_itemid) {
+                if (!Array.isArray(object.faux_itemid))
+                    throw TypeError(".CSOVolatileItemOffer.faux_itemid: array expected");
+                message.faux_itemid = [];
+                for (var i = 0; i < object.faux_itemid.length; ++i)
+                    if ($util.Long)
+                        (message.faux_itemid[i] = $util.Long.fromValue(object.faux_itemid[i])).unsigned = true;
+                    else if (typeof object.faux_itemid[i] === "string")
+                        message.faux_itemid[i] = parseInt(object.faux_itemid[i], 10);
+                    else if (typeof object.faux_itemid[i] === "number")
+                        message.faux_itemid[i] = object.faux_itemid[i];
+                    else if (typeof object.faux_itemid[i] === "object")
+                        message.faux_itemid[i] = new $util.LongBits(object.faux_itemid[i].low >>> 0, object.faux_itemid[i].high >>> 0).toNumber(true);
+            }
+            if (object.generation_time) {
+                if (!Array.isArray(object.generation_time))
+                    throw TypeError(".CSOVolatileItemOffer.generation_time: array expected");
+                message.generation_time = [];
+                for (var i = 0; i < object.generation_time.length; ++i)
+                    message.generation_time[i] = object.generation_time[i] >>> 0;
+            }
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CSOVolatileItemOffer message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CSOVolatileItemOffer
+         * @static
+         * @param {CSOVolatileItemOffer} message CSOVolatileItemOffer
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CSOVolatileItemOffer.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults) {
+                object.faux_itemid = [];
+                object.generation_time = [];
+            }
+            if (options.defaults)
+                object.defidx = 0;
+            if (message.defidx != null && message.hasOwnProperty("defidx"))
+                object.defidx = message.defidx;
+            if (message.faux_itemid && message.faux_itemid.length) {
+                object.faux_itemid = [];
+                for (var j = 0; j < message.faux_itemid.length; ++j)
+                    if (typeof message.faux_itemid[j] === "number")
+                        object.faux_itemid[j] = options.longs === String ? String(message.faux_itemid[j]) : message.faux_itemid[j];
+                    else
+                        object.faux_itemid[j] = options.longs === String ? $util.Long.prototype.toString.call(message.faux_itemid[j]) : options.longs === Number ? new $util.LongBits(message.faux_itemid[j].low >>> 0, message.faux_itemid[j].high >>> 0).toNumber(true) : message.faux_itemid[j];
+            }
+            if (message.generation_time && message.generation_time.length) {
+                object.generation_time = [];
+                for (var j = 0; j < message.generation_time.length; ++j)
+                    object.generation_time[j] = message.generation_time[j];
+            }
+            return object;
+        };
+    
+        /**
+         * Converts this CSOVolatileItemOffer to JSON.
+         * @function toJSON
+         * @memberof CSOVolatileItemOffer
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CSOVolatileItemOffer.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CSOVolatileItemOffer
+         * @function getTypeUrl
+         * @memberof CSOVolatileItemOffer
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CSOVolatileItemOffer.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CSOVolatileItemOffer";
+        };
+    
+        return CSOVolatileItemOffer;
+    })();
+    
+    $root.CSOVolatileItemClaimedRewards = (function() {
+    
+        /**
+         * Properties of a CSOVolatileItemClaimedRewards.
+         * @exports ICSOVolatileItemClaimedRewards
+         * @interface ICSOVolatileItemClaimedRewards
+         * @property {number|null} [defidx] CSOVolatileItemClaimedRewards defidx
+         * @property {Array.<number>|null} [reward] CSOVolatileItemClaimedRewards reward
+         * @property {Array.<number>|null} [generation_time] CSOVolatileItemClaimedRewards generation_time
+         */
+    
+        /**
+         * Constructs a new CSOVolatileItemClaimedRewards.
+         * @exports CSOVolatileItemClaimedRewards
+         * @classdesc Represents a CSOVolatileItemClaimedRewards.
+         * @implements ICSOVolatileItemClaimedRewards
+         * @constructor
+         * @param {ICSOVolatileItemClaimedRewards=} [properties] Properties to set
+         */
+        function CSOVolatileItemClaimedRewards(properties) {
+            this.reward = [];
+            this.generation_time = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CSOVolatileItemClaimedRewards defidx.
+         * @member {number} defidx
+         * @memberof CSOVolatileItemClaimedRewards
+         * @instance
+         */
+        CSOVolatileItemClaimedRewards.prototype.defidx = 0;
+    
+        /**
+         * CSOVolatileItemClaimedRewards reward.
+         * @member {Array.<number>} reward
+         * @memberof CSOVolatileItemClaimedRewards
+         * @instance
+         */
+        CSOVolatileItemClaimedRewards.prototype.reward = $util.emptyArray;
+    
+        /**
+         * CSOVolatileItemClaimedRewards generation_time.
+         * @member {Array.<number>} generation_time
+         * @memberof CSOVolatileItemClaimedRewards
+         * @instance
+         */
+        CSOVolatileItemClaimedRewards.prototype.generation_time = $util.emptyArray;
+    
+        /**
+         * Creates a new CSOVolatileItemClaimedRewards instance using the specified properties.
+         * @function create
+         * @memberof CSOVolatileItemClaimedRewards
+         * @static
+         * @param {ICSOVolatileItemClaimedRewards=} [properties] Properties to set
+         * @returns {CSOVolatileItemClaimedRewards} CSOVolatileItemClaimedRewards instance
+         */
+        CSOVolatileItemClaimedRewards.create = function create(properties) {
+            return new CSOVolatileItemClaimedRewards(properties);
+        };
+    
+        /**
+         * Encodes the specified CSOVolatileItemClaimedRewards message. Does not implicitly {@link CSOVolatileItemClaimedRewards.verify|verify} messages.
+         * @function encode
+         * @memberof CSOVolatileItemClaimedRewards
+         * @static
+         * @param {ICSOVolatileItemClaimedRewards} message CSOVolatileItemClaimedRewards message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CSOVolatileItemClaimedRewards.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.defidx != null && Object.hasOwnProperty.call(message, "defidx"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.defidx);
+            if (message.reward != null && message.reward.length)
+                for (var i = 0; i < message.reward.length; ++i)
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.reward[i]);
+            if (message.generation_time != null && message.generation_time.length)
+                for (var i = 0; i < message.generation_time.length; ++i)
+                    writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.generation_time[i]);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CSOVolatileItemClaimedRewards message, length delimited. Does not implicitly {@link CSOVolatileItemClaimedRewards.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CSOVolatileItemClaimedRewards
+         * @static
+         * @param {ICSOVolatileItemClaimedRewards} message CSOVolatileItemClaimedRewards message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CSOVolatileItemClaimedRewards.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CSOVolatileItemClaimedRewards message from the specified reader or buffer.
+         * @function decode
+         * @memberof CSOVolatileItemClaimedRewards
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CSOVolatileItemClaimedRewards} CSOVolatileItemClaimedRewards
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CSOVolatileItemClaimedRewards.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CSOVolatileItemClaimedRewards();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.defidx = reader.uint32();
+                        break;
+                    }
+                case 2: {
+                        if (!(message.reward && message.reward.length))
+                            message.reward = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.reward.push(reader.uint32());
+                        } else
+                            message.reward.push(reader.uint32());
+                        break;
+                    }
+                case 3: {
+                        if (!(message.generation_time && message.generation_time.length))
+                            message.generation_time = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.generation_time.push(reader.uint32());
+                        } else
+                            message.generation_time.push(reader.uint32());
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CSOVolatileItemClaimedRewards message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CSOVolatileItemClaimedRewards
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CSOVolatileItemClaimedRewards} CSOVolatileItemClaimedRewards
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CSOVolatileItemClaimedRewards.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CSOVolatileItemClaimedRewards message.
+         * @function verify
+         * @memberof CSOVolatileItemClaimedRewards
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CSOVolatileItemClaimedRewards.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.defidx != null && message.hasOwnProperty("defidx"))
+                if (!$util.isInteger(message.defidx))
+                    return "defidx: integer expected";
+            if (message.reward != null && message.hasOwnProperty("reward")) {
+                if (!Array.isArray(message.reward))
+                    return "reward: array expected";
+                for (var i = 0; i < message.reward.length; ++i)
+                    if (!$util.isInteger(message.reward[i]))
+                        return "reward: integer[] expected";
+            }
+            if (message.generation_time != null && message.hasOwnProperty("generation_time")) {
+                if (!Array.isArray(message.generation_time))
+                    return "generation_time: array expected";
+                for (var i = 0; i < message.generation_time.length; ++i)
+                    if (!$util.isInteger(message.generation_time[i]))
+                        return "generation_time: integer[] expected";
+            }
+            return null;
+        };
+    
+        /**
+         * Creates a CSOVolatileItemClaimedRewards message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CSOVolatileItemClaimedRewards
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CSOVolatileItemClaimedRewards} CSOVolatileItemClaimedRewards
+         */
+        CSOVolatileItemClaimedRewards.fromObject = function fromObject(object) {
+            if (object instanceof $root.CSOVolatileItemClaimedRewards)
+                return object;
+            var message = new $root.CSOVolatileItemClaimedRewards();
+            if (object.defidx != null)
+                message.defidx = object.defidx >>> 0;
+            if (object.reward) {
+                if (!Array.isArray(object.reward))
+                    throw TypeError(".CSOVolatileItemClaimedRewards.reward: array expected");
+                message.reward = [];
+                for (var i = 0; i < object.reward.length; ++i)
+                    message.reward[i] = object.reward[i] >>> 0;
+            }
+            if (object.generation_time) {
+                if (!Array.isArray(object.generation_time))
+                    throw TypeError(".CSOVolatileItemClaimedRewards.generation_time: array expected");
+                message.generation_time = [];
+                for (var i = 0; i < object.generation_time.length; ++i)
+                    message.generation_time[i] = object.generation_time[i] >>> 0;
+            }
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CSOVolatileItemClaimedRewards message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CSOVolatileItemClaimedRewards
+         * @static
+         * @param {CSOVolatileItemClaimedRewards} message CSOVolatileItemClaimedRewards
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CSOVolatileItemClaimedRewards.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults) {
+                object.reward = [];
+                object.generation_time = [];
+            }
+            if (options.defaults)
+                object.defidx = 0;
+            if (message.defidx != null && message.hasOwnProperty("defidx"))
+                object.defidx = message.defidx;
+            if (message.reward && message.reward.length) {
+                object.reward = [];
+                for (var j = 0; j < message.reward.length; ++j)
+                    object.reward[j] = message.reward[j];
+            }
+            if (message.generation_time && message.generation_time.length) {
+                object.generation_time = [];
+                for (var j = 0; j < message.generation_time.length; ++j)
+                    object.generation_time[j] = message.generation_time[j];
+            }
+            return object;
+        };
+    
+        /**
+         * Converts this CSOVolatileItemClaimedRewards to JSON.
+         * @function toJSON
+         * @memberof CSOVolatileItemClaimedRewards
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CSOVolatileItemClaimedRewards.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CSOVolatileItemClaimedRewards
+         * @function getTypeUrl
+         * @memberof CSOVolatileItemClaimedRewards
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CSOVolatileItemClaimedRewards.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CSOVolatileItemClaimedRewards";
+        };
+    
+        return CSOVolatileItemClaimedRewards;
     })();
     
     $root.CSOAccountKeychainRemoveToolCharges = (function() {

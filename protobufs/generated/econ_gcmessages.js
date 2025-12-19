@@ -390,6 +390,8 @@
      * @property {number} k_EGCItemCustomizationNotification_NameBaseItem=1019 k_EGCItemCustomizationNotification_NameBaseItem value
      * @property {number} k_EGCItemCustomizationNotification_RemoveItemName=1030 k_EGCItemCustomizationNotification_RemoveItemName value
      * @property {number} k_EGCItemCustomizationNotification_RemoveSticker=1053 k_EGCItemCustomizationNotification_RemoveSticker value
+     * @property {number} k_EGCItemCustomizationNotification_ExtractSticker=1054 k_EGCItemCustomizationNotification_ExtractSticker value
+     * @property {number} k_EGCItemCustomizationNotification_EncapsulateSticker=1055 k_EGCItemCustomizationNotification_EncapsulateSticker value
      * @property {number} k_EGCItemCustomizationNotification_ApplySticker=1086 k_EGCItemCustomizationNotification_ApplySticker value
      * @property {number} k_EGCItemCustomizationNotification_StatTrakSwap=1088 k_EGCItemCustomizationNotification_StatTrakSwap value
      * @property {number} k_EGCItemCustomizationNotification_RemovePatch=1089 k_EGCItemCustomizationNotification_RemovePatch value
@@ -419,6 +421,8 @@
         values[valuesById[1019] = "k_EGCItemCustomizationNotification_NameBaseItem"] = 1019;
         values[valuesById[1030] = "k_EGCItemCustomizationNotification_RemoveItemName"] = 1030;
         values[valuesById[1053] = "k_EGCItemCustomizationNotification_RemoveSticker"] = 1053;
+        values[valuesById[1054] = "k_EGCItemCustomizationNotification_ExtractSticker"] = 1054;
+        values[valuesById[1055] = "k_EGCItemCustomizationNotification_EncapsulateSticker"] = 1055;
         values[valuesById[1086] = "k_EGCItemCustomizationNotification_ApplySticker"] = 1086;
         values[valuesById[1088] = "k_EGCItemCustomizationNotification_StatTrakSwap"] = 1088;
         values[valuesById[1089] = "k_EGCItemCustomizationNotification_RemovePatch"] = 1089;
