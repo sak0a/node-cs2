@@ -836,6 +836,426 @@ NodeCS2.prototype.setLeaderboardSafeName = function(leaderboardSafeName) {
 	});
 };
 
+// ============================================================================
+// Crate Opening
+// ============================================================================
+
+/**
+ * Open a crate.
+ * @param {int} toolItemId - The ID of the tool (key) item
+ * @param {int} subjectItemId - The ID of the crate item
+ * @param {boolean} forRental - Whether this is for a rental (optional)
+ * @param {int} pointsRemaining - Points remaining (optional)
+ * @param {function} callback - Optional callback. If not provided, returns a Promise.
+ * @returns {Promise|undefined} Returns a Promise if no callback is provided
+ */
+NodeCS2.prototype.openCrate = function(toolItemId, subjectItemId, forRental, pointsRemaining, callback) {
+	// Handle optional parameters
+	if (typeof forRental === 'function') {
+		callback = forRental;
+		forRental = undefined;
+		pointsRemaining = undefined;
+	} else if (typeof pointsRemaining === 'function') {
+		callback = pointsRemaining;
+		pointsRemaining = undefined;
+	}
+
+	this._send(Language.OpenCrate, Protos.CMsgOpenCrate, {
+		tool_item_id: toolItemId,
+		subject_item_id: subjectItemId,
+		for_rental: forRental,
+		points_remaining: pointsRemaining
+	});
+
+	if (callback) {
+		// Listen for ItemCustomizationNotification with UnlockCrate type
+		let timeout = setTimeout(() => {
+			this.removeListener('itemCustomizationNotification', notificationListener);
+			callback(new Error('Opening crate timed out'));
+		}, this._crateTimeout || 30000);
+
+		let notificationListener = (itemIds, notificationType) => {
+			if (notificationType == NodeCS2.ItemCustomizationNotification.UnlockCrate) {
+				// Check if this is our crate
+				if (itemIds.indexOf(subjectItemId.toString()) !== -1 || itemIds.indexOf(subjectItemId) !== -1) {
+					clearTimeout(timeout);
+					this.removeListener('itemCustomizationNotification', notificationListener);
+					callback(null, itemIds);
+				}
+			}
+		};
+
+		this.on('itemCustomizationNotification', notificationListener);
+	} else {
+		return new Promise((resolve, reject) => {
+			let timeout = setTimeout(() => {
+				this.removeListener('itemCustomizationNotification', notificationListener);
+				reject(new Error('Opening crate timed out'));
+			}, this._crateTimeout || 30000);
+
+			let notificationListener = (itemIds, notificationType) => {
+				if (notificationType == NodeCS2.ItemCustomizationNotification.UnlockCrate) {
+					// Check if this is our crate
+					if (itemIds.indexOf(subjectItemId.toString()) !== -1 || itemIds.indexOf(subjectItemId) !== -1) {
+						clearTimeout(timeout);
+						this.removeListener('itemCustomizationNotification', notificationListener);
+						resolve(itemIds);
+					}
+				}
+			};
+
+			this.on('itemCustomizationNotification', notificationListener);
+		});
+	}
+};
+
+// ============================================================================
+// Sticker Operations
+// ============================================================================
+
+/**
+ * Extract a sticker from an item.
+ * @param {int} itemId - The ID of the item with the sticker
+ * @param {int} stickerSlot - The slot number of the sticker to extract
+ * @param {function} callback - Optional callback. If not provided, returns a Promise.
+ * @returns {Promise|undefined} Returns a Promise if no callback is provided
+ */
+NodeCS2.prototype.extractSticker = function(itemId, stickerSlot, callback) {
+	// Send request via ItemCustomizationNotification
+	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
+		item_id: [itemId],
+		request: NodeCS2.ItemCustomizationNotification.ExtractSticker,
+		extra_data: stickerSlot !== undefined ? [stickerSlot] : []
+	});
+
+	if (callback) {
+		let timeout = setTimeout(() => {
+			this.removeListener('itemCustomizationNotification', notificationListener);
+			callback(new Error('Extracting sticker timed out'));
+		}, this._stickerTimeout || 10000);
+
+		let notificationListener = (itemIds, notificationType) => {
+			if (notificationType == NodeCS2.ItemCustomizationNotification.ExtractSticker) {
+				if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
+					clearTimeout(timeout);
+					this.removeListener('itemCustomizationNotification', notificationListener);
+					callback(null, itemIds);
+				}
+			}
+		};
+
+		this.on('itemCustomizationNotification', notificationListener);
+	} else {
+		return new Promise((resolve, reject) => {
+			let timeout = setTimeout(() => {
+				this.removeListener('itemCustomizationNotification', notificationListener);
+				reject(new Error('Extracting sticker timed out'));
+			}, this._stickerTimeout || 10000);
+
+			let notificationListener = (itemIds, notificationType) => {
+				if (notificationType == NodeCS2.ItemCustomizationNotification.ExtractSticker) {
+					if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
+						clearTimeout(timeout);
+						this.removeListener('itemCustomizationNotification', notificationListener);
+						resolve(itemIds);
+					}
+				}
+			};
+
+			this.on('itemCustomizationNotification', notificationListener);
+		});
+	}
+};
+
+/**
+ * Encapsulate a sticker.
+ * @param {int} stickerId - The ID of the sticker to encapsulate
+ * @param {function} callback - Optional callback. If not provided, returns a Promise.
+ * @returns {Promise|undefined} Returns a Promise if no callback is provided
+ */
+NodeCS2.prototype.encapsulateSticker = function(stickerId, callback) {
+	// Send request via ItemCustomizationNotification
+	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
+		item_id: [stickerId],
+		request: NodeCS2.ItemCustomizationNotification.EncapsulateSticker,
+		extra_data: []
+	});
+
+	if (callback) {
+		let timeout = setTimeout(() => {
+			this.removeListener('itemCustomizationNotification', notificationListener);
+			callback(new Error('Encapsulating sticker timed out'));
+		}, this._stickerTimeout || 10000);
+
+		let notificationListener = (itemIds, notificationType) => {
+			if (notificationType == NodeCS2.ItemCustomizationNotification.EncapsulateSticker) {
+				if (itemIds.indexOf(stickerId.toString()) !== -1 || itemIds.indexOf(stickerId) !== -1) {
+					clearTimeout(timeout);
+					this.removeListener('itemCustomizationNotification', notificationListener);
+					callback(null, itemIds);
+				}
+			}
+		};
+
+		this.on('itemCustomizationNotification', notificationListener);
+	} else {
+		return new Promise((resolve, reject) => {
+			let timeout = setTimeout(() => {
+				this.removeListener('itemCustomizationNotification', notificationListener);
+				reject(new Error('Encapsulating sticker timed out'));
+			}, this._stickerTimeout || 10000);
+
+			let notificationListener = (itemIds, notificationType) => {
+				if (notificationType == NodeCS2.ItemCustomizationNotification.EncapsulateSticker) {
+					if (itemIds.indexOf(stickerId.toString()) !== -1 || itemIds.indexOf(stickerId) !== -1) {
+						clearTimeout(timeout);
+						this.removeListener('itemCustomizationNotification', notificationListener);
+						resolve(itemIds);
+					}
+				}
+			};
+
+			this.on('itemCustomizationNotification', notificationListener);
+		});
+	}
+};
+
+// ============================================================================
+// Patch Operations
+// ============================================================================
+
+/**
+ * Apply a patch to an item.
+ * @param {int} itemId - The ID of the item to apply patch to
+ * @param {int} patchId - The ID of the patch item
+ * @param {int} patchSlot - The slot number for the patch (optional)
+ * @param {function} callback - Optional callback. If not provided, returns a Promise.
+ * @returns {Promise|undefined} Returns a Promise if no callback is provided
+ */
+NodeCS2.prototype.applyPatch = function(itemId, patchId, patchSlot, callback) {
+	if (typeof patchSlot === 'function') {
+		callback = patchSlot;
+		patchSlot = undefined;
+	}
+
+	// Send request via ItemCustomizationNotification
+	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
+		item_id: [itemId, patchId],
+		request: NodeCS2.ItemCustomizationNotification.ApplyPatch,
+		extra_data: patchSlot !== undefined ? [patchSlot] : []
+	});
+
+	if (callback) {
+		let timeout = setTimeout(() => {
+			this.removeListener('itemCustomizationNotification', notificationListener);
+			callback(new Error('Applying patch timed out'));
+		}, this._stickerTimeout || 10000);
+
+		let notificationListener = (itemIds, notificationType) => {
+			if (notificationType == NodeCS2.ItemCustomizationNotification.ApplyPatch) {
+				if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
+					clearTimeout(timeout);
+					this.removeListener('itemCustomizationNotification', notificationListener);
+					callback(null, itemIds);
+				}
+			}
+		};
+
+		this.on('itemCustomizationNotification', notificationListener);
+	} else {
+		return new Promise((resolve, reject) => {
+			let timeout = setTimeout(() => {
+				this.removeListener('itemCustomizationNotification', notificationListener);
+				reject(new Error('Applying patch timed out'));
+			}, this._stickerTimeout || 10000);
+
+			let notificationListener = (itemIds, notificationType) => {
+				if (notificationType == NodeCS2.ItemCustomizationNotification.ApplyPatch) {
+					if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
+						clearTimeout(timeout);
+						this.removeListener('itemCustomizationNotification', notificationListener);
+						resolve(itemIds);
+					}
+				}
+			};
+
+			this.on('itemCustomizationNotification', notificationListener);
+		});
+	}
+};
+
+/**
+ * Remove a patch from an item.
+ * @param {int} itemId - The ID of the item with the patch
+ * @param {int} patchSlot - The slot number of the patch to remove
+ * @param {function} callback - Optional callback. If not provided, returns a Promise.
+ * @returns {Promise|undefined} Returns a Promise if no callback is provided
+ */
+NodeCS2.prototype.removePatch = function(itemId, patchSlot, callback) {
+	// Send request via ItemCustomizationNotification
+	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
+		item_id: [itemId],
+		request: NodeCS2.ItemCustomizationNotification.RemovePatch,
+		extra_data: patchSlot !== undefined ? [patchSlot] : []
+	});
+
+	if (callback) {
+		let timeout = setTimeout(() => {
+			this.removeListener('itemCustomizationNotification', notificationListener);
+			callback(new Error('Removing patch timed out'));
+		}, this._stickerTimeout || 10000);
+
+		let notificationListener = (itemIds, notificationType) => {
+			if (notificationType == NodeCS2.ItemCustomizationNotification.RemovePatch) {
+				if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
+					clearTimeout(timeout);
+					this.removeListener('itemCustomizationNotification', notificationListener);
+					callback(null, itemIds);
+				}
+			}
+		};
+
+		this.on('itemCustomizationNotification', notificationListener);
+	} else {
+		return new Promise((resolve, reject) => {
+			let timeout = setTimeout(() => {
+				this.removeListener('itemCustomizationNotification', notificationListener);
+				reject(new Error('Removing patch timed out'));
+			}, this._stickerTimeout || 10000);
+
+			let notificationListener = (itemIds, notificationType) => {
+				if (notificationType == NodeCS2.ItemCustomizationNotification.RemovePatch) {
+					if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
+						clearTimeout(timeout);
+						this.removeListener('itemCustomizationNotification', notificationListener);
+						resolve(itemIds);
+					}
+				}
+			};
+
+			this.on('itemCustomizationNotification', notificationListener);
+		});
+	}
+};
+
+// ============================================================================
+// Keychain Operations
+// ============================================================================
+
+/**
+ * Apply a keychain to an item.
+ * @param {int} itemId - The ID of the item to apply keychain to
+ * @param {int} keychainId - The ID of the keychain item
+ * @param {int} keychainSlot - The slot number for the keychain (optional)
+ * @param {function} callback - Optional callback. If not provided, returns a Promise.
+ * @returns {Promise|undefined} Returns a Promise if no callback is provided
+ */
+NodeCS2.prototype.applyKeychain = function(itemId, keychainId, keychainSlot, callback) {
+	if (typeof keychainSlot === 'function') {
+		callback = keychainSlot;
+		keychainSlot = undefined;
+	}
+
+	// Send request via ItemCustomizationNotification
+	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
+		item_id: [itemId, keychainId],
+		request: NodeCS2.ItemCustomizationNotification.ApplyKeychain,
+		extra_data: keychainSlot !== undefined ? [keychainSlot] : []
+	});
+
+	if (callback) {
+		let timeout = setTimeout(() => {
+			this.removeListener('itemCustomizationNotification', notificationListener);
+			callback(new Error('Applying keychain timed out'));
+		}, this._stickerTimeout || 10000);
+
+		let notificationListener = (itemIds, notificationType) => {
+			if (notificationType == NodeCS2.ItemCustomizationNotification.ApplyKeychain) {
+				if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
+					clearTimeout(timeout);
+					this.removeListener('itemCustomizationNotification', notificationListener);
+					callback(null, itemIds);
+				}
+			}
+		};
+
+		this.on('itemCustomizationNotification', notificationListener);
+	} else {
+		return new Promise((resolve, reject) => {
+			let timeout = setTimeout(() => {
+				this.removeListener('itemCustomizationNotification', notificationListener);
+				reject(new Error('Applying keychain timed out'));
+			}, this._stickerTimeout || 10000);
+
+			let notificationListener = (itemIds, notificationType) => {
+				if (notificationType == NodeCS2.ItemCustomizationNotification.ApplyKeychain) {
+					if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
+						clearTimeout(timeout);
+						this.removeListener('itemCustomizationNotification', notificationListener);
+						resolve(itemIds);
+					}
+				}
+			};
+
+			this.on('itemCustomizationNotification', notificationListener);
+		});
+	}
+};
+
+/**
+ * Remove a keychain from an item.
+ * @param {int} itemId - The ID of the item with the keychain
+ * @param {int} keychainSlot - The slot number of the keychain to remove
+ * @param {function} callback - Optional callback. If not provided, returns a Promise.
+ * @returns {Promise|undefined} Returns a Promise if no callback is provided
+ */
+NodeCS2.prototype.removeKeychain = function(itemId, keychainSlot, callback) {
+	// Send request via ItemCustomizationNotification
+	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
+		item_id: [itemId],
+		request: NodeCS2.ItemCustomizationNotification.RemoveKeychain,
+		extra_data: keychainSlot !== undefined ? [keychainSlot] : []
+	});
+
+	if (callback) {
+		let timeout = setTimeout(() => {
+			this.removeListener('itemCustomizationNotification', notificationListener);
+			callback(new Error('Removing keychain timed out'));
+		}, this._stickerTimeout || 10000);
+
+		let notificationListener = (itemIds, notificationType) => {
+			if (notificationType == NodeCS2.ItemCustomizationNotification.RemoveKeychain) {
+				if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
+					clearTimeout(timeout);
+					this.removeListener('itemCustomizationNotification', notificationListener);
+					callback(null, itemIds);
+				}
+			}
+		};
+
+		this.on('itemCustomizationNotification', notificationListener);
+	} else {
+		return new Promise((resolve, reject) => {
+			let timeout = setTimeout(() => {
+				this.removeListener('itemCustomizationNotification', notificationListener);
+				reject(new Error('Removing keychain timed out'));
+			}, this._stickerTimeout || 10000);
+
+			let notificationListener = (itemIds, notificationType) => {
+				if (notificationType == NodeCS2.ItemCustomizationNotification.RemoveKeychain) {
+					if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
+						clearTimeout(timeout);
+						this.removeListener('itemCustomizationNotification', notificationListener);
+						resolve(itemIds);
+					}
+				}
+			};
+
+			this.on('itemCustomizationNotification', notificationListener);
+		});
+	}
+};
+
 NodeCS2.prototype._handlers = {};
 
 require('./enums.js');
