@@ -8,9 +8,38 @@ const Protos = require('./protobufs/generated/_load.js');
 
 let handlers = NodeCS2.prototype._handlers;
 
+/**
+ * Helper function to map sticker-like items (stickers, keychains, variations)
+ * Ensures all fields including highlight_reel and wrapped_sticker are properly handled
+ * @param {Object} stickerLike - The sticker/keychain/variation object from protobuf
+ * @returns {Object} Normalized sticker-like object with all fields
+ */
+NodeCS2.prototype._mapStickerLikeItem = function(stickerLike) {
+	return {
+		slot: stickerLike.slot || 0,
+		sticker_id: stickerLike.sticker_id || 0,
+		wear: stickerLike.wear || null,
+		scale: stickerLike.scale || null,
+		rotation: stickerLike.rotation || null,
+		tint_id: stickerLike.tint_id || null,
+		offset_x: stickerLike.offset_x || null,
+		offset_y: stickerLike.offset_y || null,
+		offset_z: stickerLike.offset_z || null,
+		pattern: stickerLike.pattern || null,
+		highlight_reel: stickerLike.highlight_reel || null,
+		wrapped_sticker: stickerLike.wrapped_sticker || null
+	};
+};
+
 // ClientWelcome and ClientConnectionStatus
 handlers[Language.ClientLogonFatalError] = function(body) {
-	let proto = decodeProto(Protos.CMsgGCCStrike15_v2_ClientLogonFatalError, body);
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgGCCStrike15_v2_ClientLogonFatalError, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode ClientLogonFatalError: ${err.message}`));
+		return;
+	}
 
 	clearTimeout(this._helloTimer);
 
@@ -21,7 +50,13 @@ handlers[Language.ClientLogonFatalError] = function(body) {
 };
 
 handlers[Language.ClientWelcome] = function(body) {
-	let proto = decodeProto(Protos.CMsgClientWelcome, body);
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgClientWelcome, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode ClientWelcome: ${err.message}`));
+		return;
+	}
 
 	if (proto.outofdate_subscribed_caches && proto.outofdate_subscribed_caches.length) {
 		proto.outofdate_subscribed_caches[0].objects.forEach((cache) => {
@@ -29,10 +64,15 @@ handlers[Language.ClientWelcome] = function(body) {
 				case 1:
 					// Inventory
 					let items = cache.object_data.map((object) => {
-						let item = decodeProto(Protos.CSOEconItem, object);
-						this._processSOEconItem(item);
-						return item;
-					});
+						try {
+							let item = decodeProto(Protos.CSOEconItem, object);
+							this._processSOEconItem(item);
+							return item;
+						} catch (err) {
+							this.emit('debug', `Failed to decode inventory item: ${err.message}`);
+							return null;
+						}
+					}).filter(item => item !== null);
 
 					this.inventory = items;
 					break;
@@ -62,13 +102,31 @@ handlers[Language.ClientWelcome] = function(body) {
 };
 
 handlers[Language.MatchmakingGC2ClientHello] = function(body) {
-	let proto = decodeProto(Protos.CMsgGCCStrike15_v2_MatchmakingGC2ClientHello, body);
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgGCCStrike15_v2_MatchmakingGC2ClientHello, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode MatchmakingGC2ClientHello: ${err.message}`));
+		return;
+	}
 	this.emit('accountData', proto);
 	this.accountData = proto;
 };
 
 handlers[Language.ClientConnectionStatus] = function(body) {
-	let proto = decodeProto(Protos.CMsgConnectionStatus, body);
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgConnectionStatus, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode ClientConnectionStatus: ${err.message}`));
+		return;
+	}
+	
+	if (!proto || typeof proto.status === 'undefined') {
+		this.emit('debug', "ClientConnectionStatus missing status field");
+		return;
+	}
+
 	this.emit('connectionStatus', proto.status, proto);
 
 	let statusStr = proto.status;
@@ -89,19 +147,37 @@ handlers[Language.ClientConnectionStatus] = function(body) {
 
 // MatchList
 handlers[Language.MatchList] = function(body) {
-	let proto = decodeProto(Protos.CMsgGCCStrike15_v2_MatchList, body);
-	this.emit('matchList', proto.matches, proto);
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgGCCStrike15_v2_MatchList, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode MatchList: ${err.message}`));
+		return;
+	}
+	this.emit('matchList', proto.matches || [], proto);
 };
 
 // PlayersProfile
 handlers[Language.PlayersProfile] = function(body) {
-	let proto = decodeProto(Protos.CMsgGCCStrike15_v2_PlayersProfile, body);
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgGCCStrike15_v2_PlayersProfile, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode PlayersProfile: ${err.message}`));
+		return;
+	}
 
-	if (!proto.account_profiles[0]) {
+	if (!proto.account_profiles || !proto.account_profiles[0]) {
+		this.emit('debug', "PlayersProfile missing account_profiles");
 		return;
 	}
 
 	let profile = proto.account_profiles[0];
+	
+	if (!profile.account_id) {
+		this.emit('debug', "PlayersProfile missing account_id");
+		return;
+	}
 
 	let sid = SteamID.fromIndividualAccountID(profile.account_id);
 
@@ -111,68 +187,50 @@ handlers[Language.PlayersProfile] = function(body) {
 
 // Inspecting items
 handlers[Language.Client2GCEconPreviewDataBlockResponse] = function(body) {
-	let proto = decodeProto(Protos.CMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockResponse, body);
-	if (!proto.iteminfo) {
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockResponse, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode Client2GCEconPreviewDataBlockResponse: ${err.message}`));
+		return;
+	}
+
+	if (!proto || !proto.iteminfo) {
+		this.emit('debug', "Client2GCEconPreviewDataBlockResponse missing iteminfo");
 		return;
 	}
 
 	let item = proto.iteminfo;
+	
+	// Validate critical fields
+	if (typeof item.itemid === 'undefined') {
+		this.emit('debug', "Item inspection missing itemid");
+		return;
+	}
+
 	// decode the wear
-	let buf = Buffer.alloc(4);
-	buf.writeUInt32BE(item.paintwear, 0);
-	item.paintwear = buf.readFloatBE(0);
+	if (typeof item.paintwear !== 'undefined') {
+		let buf = Buffer.alloc(4);
+		buf.writeUInt32BE(item.paintwear, 0);
+		item.paintwear = buf.readFloatBE(0);
+	}
 	
-	// Process stickers array - ensure all fields including highlight_reel are properly handled
+	// Process stickers array - using helper function for consistency
 	if (item.stickers && Array.isArray(item.stickers)) {
-		item.stickers = item.stickers.map(sticker => ({
-			slot: sticker.slot || 0,
-			sticker_id: sticker.sticker_id || 0,
-			wear: sticker.wear || null,
-			scale: sticker.scale || null,
-			rotation: sticker.rotation || null,
-			tint_id: sticker.tint_id || null,
-			offset_x: sticker.offset_x || null,
-			offset_y: sticker.offset_y || null,
-			offset_z: sticker.offset_z || null,
-			pattern: sticker.pattern || null,
-			highlight_reel: sticker.highlight_reel || null
-		}));
+		item.stickers = item.stickers.map(sticker => this._mapStickerLikeItem(sticker));
 	}
 	
-	// Process keychains array - ensure all fields including highlight_reel are properly handled
+	// Process keychains array - using helper function for consistency
 	if (item.keychains && Array.isArray(item.keychains)) {
-		item.keychains = item.keychains.map(keychain => ({
-			slot: keychain.slot || 0,
-			sticker_id: keychain.sticker_id || 0,
-			wear: keychain.wear || null,
-			scale: keychain.scale || null,
-			rotation: keychain.rotation || null,
-			tint_id: keychain.tint_id || null,
-			offset_x: keychain.offset_x || null,
-			offset_y: keychain.offset_y || null,
-			offset_z: keychain.offset_z || null,
-			pattern: keychain.pattern || null,
-			highlight_reel: keychain.highlight_reel || null
-		}));
+		item.keychains = item.keychains.map(keychain => this._mapStickerLikeItem(keychain));
 	}
 	
-	
-	// Process variations array - ensure all fields including highlight_reel are properly handled
+	// Process variations array - using helper function for consistency
 	if (item.variations && Array.isArray(item.variations)) {
-		item.variations = item.variations.map(variation => ({
-			slot: variation.slot || 0,
-			sticker_id: variation.sticker_id || 0,
-			wear: variation.wear || null,
-			scale: variation.scale || null,
-			rotation: variation.rotation || null,
-			tint_id: variation.tint_id || null,
-			offset_x: variation.offset_x || null,
-			offset_y: variation.offset_y || null,
-			offset_z: variation.offset_z || null,
-			pattern: variation.pattern || null,
-			highlight_reel: variation.highlight_reel || null
-		}));
-	}	this.emit("inspectItemInfo", item);
+		item.variations = item.variations.map(variation => this._mapStickerLikeItem(variation));
+	}
+
+	this.emit("inspectItemInfo", item);
 	this.emit("inspectItemInfo#" + item.itemid, item);
 };
 // Item manipulation
@@ -192,8 +250,16 @@ handlers[Language.CraftResponse] = function(body) {
 };
 
 handlers[Language.ItemCustomizationNotification] = function(body) {
-	let proto = decodeProto(Protos.CMsgGCItemCustomizationNotification, body);
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgGCItemCustomizationNotification, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode ItemCustomizationNotification: ${err.message}`));
+		return;
+	}
+	
 	if (!proto.item_id || proto.item_id.length == 0 || !proto.request) {
+		this.emit('debug', "ItemCustomizationNotification missing required fields");
 		return;
 	}
 
@@ -322,12 +388,18 @@ NodeCS2.prototype._processSOEconItem = function(item) {
 };
 
 handlers[Language.SO_Create] = function(body) {
-	let proto = decodeProto(Protos.CMsgSOSingleObject, body);
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgSOSingleObject, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode SO_Create: ${err.message}`));
+		return;
+	}
 	this._handleSOCreate(proto);
 };
 
 NodeCS2.prototype._handleSOCreate = function(proto) {
-	if (proto.type_id != 1) {
+	if (!proto || proto.type_id != 1) {
 		return; // Not an item
 	}
 
@@ -335,7 +407,14 @@ NodeCS2.prototype._handleSOCreate = function(proto) {
 		return; // We don't have our inventory yet! (this shouldn't be possible in CS:GO, but wutevs)
 	}
 
-	let item = decodeProto(Protos.CSOEconItem, proto.object_data);
+	let item;
+	try {
+		item = decodeProto(Protos.CSOEconItem, proto.object_data);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode SO_Create item: ${err.message}`));
+		return;
+	}
+	
 	this._processSOEconItem(item);
 	this.inventory.push(item);
 
@@ -343,12 +422,18 @@ NodeCS2.prototype._handleSOCreate = function(proto) {
 };
 
 handlers[Language.SO_Update] = function(body) {
-	let proto = decodeProto(Protos.CMsgSOSingleObject, body);
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgSOSingleObject, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode SO_Update: ${err.message}`));
+		return;
+	}
 	this._handleSOUpdate(proto);
 };
 
 NodeCS2.prototype._handleSOUpdate = function(so) {
-	if (so.type_id != 1) {
+	if (!so || so.type_id != 1) {
 		return; // Not an item, we don't care
 	}
 
@@ -356,7 +441,19 @@ NodeCS2.prototype._handleSOUpdate = function(so) {
 		return; // We somehow don't have our inventory yet!
 	}
 
-	let item = decodeProto(Protos.CSOEconItem, so.object_data);
+	let item;
+	try {
+		item = decodeProto(Protos.CSOEconItem, so.object_data);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode SO_Update item: ${err.message}`));
+		return;
+	}
+	
+	if (!item || !item.id) {
+		this.emit('debug', "SO_Update item missing id");
+		return;
+	}
+
 	this._processSOEconItem(item);
 
 	for (let i = 0; i < this.inventory.length; i++) {
@@ -371,12 +468,18 @@ NodeCS2.prototype._handleSOUpdate = function(so) {
 };
 
 handlers[Language.SO_Destroy] = function(body) {
-	let proto = decodeProto(Protos.CMsgSOSingleObject, body);
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgSOSingleObject, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode SO_Destroy: ${err.message}`));
+		return;
+	}
 	this._handleSODestroy(proto);
 };
 
 NodeCS2.prototype._handleSODestroy = function(proto) {
-	if (proto.type_id != 1) {
+	if (!proto || proto.type_id != 1) {
 		return; // Not an item
 	}
 
@@ -384,7 +487,19 @@ NodeCS2.prototype._handleSODestroy = function(proto) {
 		return; // Inventory not loaded yet
 	}
 
-	let item = decodeProto(Protos.CSOEconItem, proto.object_data);
+	let item;
+	try {
+		item = decodeProto(Protos.CSOEconItem, proto.object_data);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode SO_Destroy item: ${err.message}`));
+		return;
+	}
+	
+	if (!item || !item.id) {
+		this.emit('debug', "SO_Destroy item missing id");
+		return;
+	}
+
 	item.id = item.id.toString();
 	let itemData = null;
 	for (let i = 0; i < this.inventory.length; i++) {
@@ -400,7 +515,13 @@ NodeCS2.prototype._handleSODestroy = function(proto) {
 
 
 handlers[Language.SO_UpdateMultiple] = function(body) {
-	let proto = decodeProto(Protos.CMsgSOMultipleObjects, body);
+	let proto;
+	try {
+		proto = decodeProto(Protos.CMsgSOMultipleObjects, body);
+	} catch (err) {
+		this.emit('error', new Error(`Failed to decode SO_UpdateMultiple: ${err.message}`));
+		return;
+	}
 
 	(proto.objects_added || []).forEach(item => this._handleSOCreate(item));
 	(proto.objects_modified || []).forEach(item => this._handleSOUpdate(item));

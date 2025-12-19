@@ -1,7 +1,7 @@
 {
 	"name": "node-cs2",
-	"version": "2.0.1",
-	"description": "Modern CS2/CS:GO Game Coordinator integration with latest GameTracking-CS2 protobuf definitions. Includes support for highlight_reel, variations, and all modern CS2 fields.",
+	"version": "2.1.0",
+	"description": "Modern CS2/CS:GO Game Coordinator integration with latest GameTracking-CS2 protobuf definitions. Includes support for highlight_reel, wrapped_sticker, variations, Promise-based API, and all modern CS2 fields.",
 	"keywords": [
 		"cs2",
 		"counter-strike-2",

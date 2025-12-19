@@ -245,6 +245,8 @@ NodeCS2.prototype.inspectItem = function(owner, assetid, d, callback) {
 	}
 
 	this._send(Language.Client2GCEconPreviewDataBlockRequest, Protos.CMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockRequest, msg);
+	
+	// Support both callback and Promise-based API
 	if (callback) {
 		let timeout;
 		let listener = (item) => {
@@ -255,9 +257,32 @@ NodeCS2.prototype.inspectItem = function(owner, assetid, d, callback) {
 			this.removeListener('inspectItemInfo#' + assetid, listener);
 			this.emit('inspectItemTimedOut', assetid);
 			this.emit('inspectItemTimedOut#' + assetid, assetid);
-		}, 10000);
+		}, this._inspectTimeout || 10000);
 
 		this.once('inspectItemInfo#' + assetid, listener);
+	} else {
+		// Return Promise when no callback provided
+		return new Promise((resolve, reject) => {
+			let timeout;
+			let successListener = (item) => {
+				clearTimeout(timeout);
+				this.removeListener('inspectItemTimedOut#' + assetid, timeoutListener);
+				resolve(item);
+			};
+			let timeoutListener = () => {
+				this.removeListener('inspectItemInfo#' + assetid, successListener);
+				reject(new Error(`Inspect item timed out for assetid: ${assetid}`));
+			};
+			
+			timeout = setTimeout(() => {
+				this.removeListener('inspectItemInfo#' + assetid, successListener);
+				this.emit('inspectItemTimedOut', assetid);
+				this.emit('inspectItemTimedOut#' + assetid, assetid);
+			}, this._inspectTimeout || 10000);
+			
+			this.once('inspectItemInfo#' + assetid, successListener);
+			this.once('inspectItemTimedOut#' + assetid, timeoutListener);
+		});
 	}
 };
 
@@ -267,7 +292,11 @@ NodeCS2.prototype.requestPlayersProfile = function(steamid, callback) {
 	}
 
 	if (!steamid.isValid() || steamid.universe != SteamID.Universe.PUBLIC || steamid.type != SteamID.Type.INDIVIDUAL || steamid.instance != SteamID.Instance.DESKTOP) {
-		return false;
+		if (callback) {
+			callback(new Error('Invalid SteamID'));
+			return false;
+		}
+		return Promise.reject(new Error('Invalid SteamID'));
 	}
 
 	this._send(Language.ClientRequestPlayersProfile, Protos.CMsgGCCStrike15_v2_ClientRequestPlayersProfile, {
@@ -277,6 +306,19 @@ NodeCS2.prototype.requestPlayersProfile = function(steamid, callback) {
 
 	if (callback) {
 		this.once('playersProfile#' + steamid.getSteamID64(), callback);
+	} else {
+		// Return Promise when no callback provided
+		return new Promise((resolve, reject) => {
+			let timeout = setTimeout(() => {
+				this.removeListener('playersProfile#' + steamid.getSteamID64(), resolve);
+				reject(new Error(`Request players profile timed out for SteamID: ${steamid.getSteamID64()}`));
+			}, this._profileTimeout || 10000);
+			
+			this.once('playersProfile#' + steamid.getSteamID64(), (profile) => {
+				clearTimeout(timeout);
+				resolve(profile);
+			});
+		});
 	}
 };
 
@@ -349,26 +391,37 @@ NodeCS2.prototype.removeFromCasket = function(casketId, itemId) {
 /**
  * Get the contents of a casket (aka a storage unit).
  * @param {int} casketId
- * @param {function} callback
+ * @param {function} callback - Optional callback. If not provided, returns a Promise.
+ * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
 NodeCS2.prototype.getCasketContents = function(casketId, callback) {
 	// First see if we already have this casket's contents in our inventory
 	let casketItem = this.inventory.find(item => item.id == casketId);
 	if (!casketItem) {
-		callback(new Error(`No casket matching ID ${casketId} was found`));
-		return;
+		const error = new Error(`No casket matching ID ${casketId} was found`);
+		if (callback) {
+			callback(error);
+			return;
+		}
+		return Promise.reject(error);
 	}
 
 	if (!casketItem.casket_contained_item_count) {
 		// Casket is empty, I guess
-		callback(null, []);
-		return;
+		if (callback) {
+			callback(null, []);
+			return;
+		}
+		return Promise.resolve([]);
 	}
 
 	let loadedItems = this.inventory.filter(item => item.casket_id == casketId);
 	if (loadedItems.length == casketItem.casket_contained_item_count) {
-		callback(null, loadedItems);
-		return;
+		if (callback) {
+			callback(null, loadedItems);
+			return;
+		}
+		return Promise.resolve(loadedItems);
 	}
 
 	// We need to load casket contents from the GC
@@ -377,34 +430,72 @@ NodeCS2.prototype.getCasketContents = function(casketId, callback) {
 		item_item_id: casketId
 	});
 
-	// Set a 30 second timeout in case the GC isn't being cooperative
+	// Set a timeout in case the GC isn't being cooperative (configurable via _casketTimeout)
 	let timedOut = false;
-	let timeout = setTimeout(() => {
-		if (timedOut) {
-			return;
-		}
+	let timeout;
+	let customizationNotification;
 
-		callback(new Error('Loading casket contents timed out'));
-	}, 30000);
-
-	let customizationNotification = (itemIds, notificationType) => {
-		if (timedOut) {
+	if (callback) {
+		// Callback-based API
+		timeout = setTimeout(() => {
+			if (timedOut) {
+				return;
+			}
+			timedOut = true;
 			this.off('itemCustomizationNotification', customizationNotification);
-			return;
-		}
+			callback(new Error('Loading casket contents timed out'));
+		}, this._casketTimeout || 30000);
 
-		if (itemIds[0] != casketId || notificationType != NodeCS2.ItemCustomizationNotification.CasketContents) {
-			return;
-		}
+		customizationNotification = (itemIds, notificationType) => {
+			if (timedOut) {
+				this.off('itemCustomizationNotification', customizationNotification);
+				return;
+			}
 
-		// This is our casket, and it's the correct notification
-		clearTimeout(timeout);
-		timedOut = true;
-		this.off('itemCustomizationNotification', customizationNotification);
-		callback(null, this.inventory.filter(item => item.casket_id == casketId));
-	};
+			if (itemIds[0] != casketId || notificationType != NodeCS2.ItemCustomizationNotification.CasketContents) {
+				return;
+			}
 
-	this.on('itemCustomizationNotification', customizationNotification);
+			// This is our casket, and it's the correct notification
+			clearTimeout(timeout);
+			timedOut = true;
+			this.off('itemCustomizationNotification', customizationNotification);
+			callback(null, this.inventory.filter(item => item.casket_id == casketId));
+		};
+
+		this.on('itemCustomizationNotification', customizationNotification);
+	} else {
+		// Promise-based API
+		return new Promise((resolve, reject) => {
+			timeout = setTimeout(() => {
+				if (timedOut) {
+					return;
+				}
+				timedOut = true;
+				this.off('itemCustomizationNotification', customizationNotification);
+				reject(new Error('Loading casket contents timed out'));
+			}, this._casketTimeout || 30000);
+
+			customizationNotification = (itemIds, notificationType) => {
+				if (timedOut) {
+					this.off('itemCustomizationNotification', customizationNotification);
+					return;
+				}
+
+				if (itemIds[0] != casketId || notificationType != NodeCS2.ItemCustomizationNotification.CasketContents) {
+					return;
+				}
+
+				// This is our casket, and it's the correct notification
+				clearTimeout(timeout);
+				timedOut = true;
+				this.off('itemCustomizationNotification', customizationNotification);
+				resolve(this.inventory.filter(item => item.casket_id == casketId));
+			};
+
+			this.on('itemCustomizationNotification', customizationNotification);
+		});
+	}
 };
 
 NodeCS2.prototype._handlers = {};

@@ -21,10 +21,20 @@ NodeCS2.ItemCustomizationNotification = {
 	NameBaseItem: 1019,
 	RemoveItemName: 1030,
 	RemoveSticker: 1053,
+	ExtractSticker: 1054, // NEW: Extract sticker from item
+	EncapsulateSticker: 1055, // NEW: Encapsulate sticker
 	ApplySticker: 1086,
 	StatTrakSwap: 1088,
+	RemovePatch: 1089, // NEW: Remove patch from item
+	ApplyPatch: 1090, // NEW: Apply patch to item
+	ApplyKeychain: 1091, // NEW: Apply keychain to item
+	RemoveKeychain: 1092, // NEW: Remove keychain from item
 	ActivateFanToken: 9178,
 	ActivateOperationCoin: 9179,
 	GraffitiUnseal: 9185,
-	GenerateSouvenir: 9204
+	GenerateSouvenir: 9204,
+	ClientRedeemMissionReward: 9209, // NEW: Redeem mission reward
+	ClientRedeemFreeReward: 9219, // NEW: Redeem free reward
+	XpShopUseTicket: 9221, // NEW: Use XP shop ticket
+	XpShopAckTracks: 9222 // NEW: Acknowledge XP shop tracks
 };

@@ -16,6 +16,7 @@ This fork addresses critical issues with the original `globaloffensive` package 
 
 ### **Fixed Missing Fields**
 - **`highlight_reel`** support in stickers, keychains, and variations
+- **`wrapped_sticker`** - Wrapped sticker support (**NEW!**)
 - **`musicindex`** - Music kit support
 - **`entindex`** - Entity index support
 - **`petindex`** - Pet/companion support
@@ -30,14 +31,17 @@ This fork addresses critical issues with the original `globaloffensive` package 
 ### **Enhanced Handler Logic**
 - Updated `handlers.js` to process **all new fields**
 - Proper field mapping and null handling
+- **Code deduplication** - Reusable helper functions
+- **Comprehensive error handling** - All protobuf decoding wrapped in try-catch
+- **Field validation** - Defensive checks for critical data
 - **100% backward compatible** with existing code
 
 ## **Critical Bug Fixes**
 
-### Missing `highlight_reel` Field
-**Problem:** The original package was missing the `highlight_reel` field in inspect responses, causing incomplete data for items with highlight reels.
+### Missing Fields (`highlight_reel`, `wrapped_sticker`)
+**Problem:** The original package was missing the `highlight_reel` and `wrapped_sticker` fields in inspect responses, causing incomplete data for items with these features.
 
-**Solution:** Updated protobuf definitions and enhanced handlers to properly capture and return `highlight_reel` data.
+**Solution:** Updated protobuf definitions and enhanced handlers to properly capture and return all field data, including `highlight_reel` and `wrapped_sticker`.
 
 ```javascript
 // Before (missing data)
@@ -136,8 +140,18 @@ cs2.on('inspectItemInfo', (item) => {
     });
 });
 
-// Inspect an item
-cs2.inspectItem('76561198057249394', '2569415699', '7115007497');
+// Inspect an item (callback style)
+cs2.inspectItem('76561198057249394', '2569415699', '7115007497', (item) => {
+    console.log('Item inspected:', item);
+});
+
+// Or use Promise/async-await style (NEW!)
+try {
+    const item = await cs2.inspectItem('76561198057249394', '2569415699', '7115007497');
+    console.log('Item inspected:', item);
+} catch (err) {
+    console.error('Inspection failed:', err);
+}
 ```
 
 ## **Inspect URL Support**
@@ -188,6 +202,51 @@ if (match) {
 - `offset_x`, `offset_y`, `offset_z` - Position offsets
 - `pattern` - Pattern index
 - `highlight_reel` - Highlight reel ID (**FIXED!**)
+- `wrapped_sticker` - Wrapped sticker ID (**NEW!**)
+
+## **New Features & Improvements**
+
+### Promise-Based API
+All async methods now support both callbacks and Promises:
+
+```javascript
+// Callback style (backward compatible)
+cs2.inspectItem(owner, assetid, classid, (item) => {
+    console.log(item);
+});
+
+// Promise style (new)
+const item = await cs2.inspectItem(owner, assetid, classid);
+// or
+cs2.inspectItem(owner, assetid, classid)
+    .then(item => console.log(item))
+    .catch(err => console.error(err));
+```
+
+**Methods with Promise support:**
+- `inspectItem()`
+- `getCasketContents()`
+- `requestPlayersProfile()`
+
+### Configurable Timeouts
+Timeouts are now configurable via instance properties:
+
+```javascript
+const cs2 = new NodeCS2(steamUser);
+cs2._inspectTimeout = 15000;  // 15 seconds (default: 10000)
+cs2._casketTimeout = 45000;    // 45 seconds (default: 30000)
+cs2._profileTimeout = 15000;  // 15 seconds (default: 10000)
+```
+
+### Error Handling
+- All protobuf decoding is wrapped in try-catch blocks
+- Errors are emitted via `emit('error', ...)` for proper error propagation
+- Field validation prevents runtime errors from missing data
+
+### Code Quality
+- Eliminated code duplication with reusable helper functions
+- Comprehensive error handling and field validation
+- Better maintainability and extensibility
 
 ## **Development**
 
@@ -205,6 +264,9 @@ npm run generate-protos
 # Then regenerate:
 npm run generate-protos
 ```
+
+### Protobuf Files
+See [PROTOBUF_ANALYSIS.md](./PROTOBUF_ANALYSIS.md) for detailed information about which proto files are used and required.
 
 ## **License**
 
@@ -226,8 +288,11 @@ If you encounter any issues or need support:
 ## **Why Use This Fork?**
 
 - **Up-to-date** with latest CS2 definitions
-- **Bug fixes** for missing fields
+- **Bug fixes** for missing fields (`highlight_reel`, `wrapped_sticker`)
 - **Enhanced functionality** with new CS2 features
-- **100% compatible** with existing code
+- **Promise-based API** for modern async/await support
+- **Better error handling** and field validation
+- **Improved code quality** with deduplication and maintainability
+- **100% backward compatible** with existing code
 - **Actively maintained** with GameTracking-CS2 updates
 - **Community-driven** improvements
