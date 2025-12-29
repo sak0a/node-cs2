@@ -14,7 +14,7 @@ let handlers = NodeCS2.prototype._handlers;
  * @param {Object} stickerLike - The sticker/keychain/variation object from protobuf
  * @returns {Object} Normalized sticker-like object with all fields
  */
-NodeCS2.prototype._mapStickerLikeItem = function(stickerLike) {
+NodeCS2.prototype._mapStickerLikeItem = function (stickerLike) {
 	return {
 		slot: stickerLike.slot || 0,
 		sticker_id: stickerLike.sticker_id || 0,
@@ -32,7 +32,7 @@ NodeCS2.prototype._mapStickerLikeItem = function(stickerLike) {
 };
 
 // ClientWelcome and ClientConnectionStatus
-handlers[Language.ClientLogonFatalError] = function(body) {
+handlers[Language.ClientLogonFatalError] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_ClientLogonFatalError, body);
@@ -49,7 +49,7 @@ handlers[Language.ClientLogonFatalError] = function(body) {
 	this.emit('error', err);
 };
 
-handlers[Language.ClientWelcome] = function(body) {
+handlers[Language.ClientWelcome] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgClientWelcome, body);
@@ -84,6 +84,28 @@ handlers[Language.ClientWelcome] = function(body) {
 					// Most likely item presets (multiple)
 					let data = decodeProto(Protos.CSOSelectedItemPreset, cache.object_data[0]);
 					break;*/
+				case 46:
+					// XP Shop Bids - contains campaignId and redeemId for mission rewards
+					let bids = cache.object_data.map((object) => {
+						try {
+							let bid = decodeProto(Protos.CSOAccountXpShopBids, object);
+							return {
+								campaign_id: bid.campaign_id,
+								redeem_id: bid.redeem_id,
+								expected_cost: bid.expected_cost,
+								generation_time: bid.generation_time
+							};
+						} catch (err) {
+							this.emit('debug', `Failed to decode XP shop bid: ${err.message}`);
+							return null;
+						}
+					}).filter(bid => bid !== null);
+
+					this.xpShopBids = bids;
+					if (bids.length > 0) {
+						this.emit('xpShopBidsUpdate', bids);
+					}
+					break;
 				default:
 					this.emit('debug', "Unknown SO type " + cache.type_id + " with " + cache.object_data.length + " items");
 					break;
@@ -101,7 +123,7 @@ handlers[Language.ClientWelcome] = function(body) {
 	this.emit('connectedToGC');
 };
 
-handlers[Language.MatchmakingGC2ClientHello] = function(body) {
+handlers[Language.MatchmakingGC2ClientHello] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_MatchmakingGC2ClientHello, body);
@@ -113,7 +135,7 @@ handlers[Language.MatchmakingGC2ClientHello] = function(body) {
 	this.accountData = proto;
 };
 
-handlers[Language.ClientConnectionStatus] = function(body) {
+handlers[Language.ClientConnectionStatus] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgConnectionStatus, body);
@@ -121,7 +143,7 @@ handlers[Language.ClientConnectionStatus] = function(body) {
 		this.emit('error', new Error(`Failed to decode ClientConnectionStatus: ${err.message}`));
 		return;
 	}
-	
+
 	if (!proto || typeof proto.status === 'undefined') {
 		this.emit('debug', "ClientConnectionStatus missing status field");
 		return;
@@ -146,7 +168,7 @@ handlers[Language.ClientConnectionStatus] = function(body) {
 };
 
 // MatchList
-handlers[Language.MatchList] = function(body) {
+handlers[Language.MatchList] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_MatchList, body);
@@ -158,7 +180,7 @@ handlers[Language.MatchList] = function(body) {
 };
 
 // PlayersProfile
-handlers[Language.PlayersProfile] = function(body) {
+handlers[Language.PlayersProfile] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_PlayersProfile, body);
@@ -173,7 +195,7 @@ handlers[Language.PlayersProfile] = function(body) {
 	}
 
 	let profile = proto.account_profiles[0];
-	
+
 	if (!profile.account_id) {
 		this.emit('debug', "PlayersProfile missing account_id");
 		return;
@@ -186,7 +208,7 @@ handlers[Language.PlayersProfile] = function(body) {
 };
 
 // Inspecting items
-handlers[Language.Client2GCEconPreviewDataBlockResponse] = function(body) {
+handlers[Language.Client2GCEconPreviewDataBlockResponse] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockResponse, body);
@@ -201,7 +223,7 @@ handlers[Language.Client2GCEconPreviewDataBlockResponse] = function(body) {
 	}
 
 	let item = proto.iteminfo;
-	
+
 	// Validate critical fields
 	if (typeof item.itemid === 'undefined') {
 		this.emit('debug', "Item inspection missing itemid");
@@ -214,17 +236,17 @@ handlers[Language.Client2GCEconPreviewDataBlockResponse] = function(body) {
 		buf.writeUInt32BE(item.paintwear, 0);
 		item.paintwear = buf.readFloatBE(0);
 	}
-	
+
 	// Process stickers array - using helper function for consistency
 	if (item.stickers && Array.isArray(item.stickers)) {
 		item.stickers = item.stickers.map(sticker => this._mapStickerLikeItem(sticker));
 	}
-	
+
 	// Process keychains array - using helper function for consistency
 	if (item.keychains && Array.isArray(item.keychains)) {
 		item.keychains = item.keychains.map(keychain => this._mapStickerLikeItem(keychain));
 	}
-	
+
 	// Process variations array - using helper function for consistency
 	if (item.variations && Array.isArray(item.variations)) {
 		item.variations = item.variations.map(variation => this._mapStickerLikeItem(variation));
@@ -235,7 +257,7 @@ handlers[Language.Client2GCEconPreviewDataBlockResponse] = function(body) {
 };
 
 // XP Shop & Rewards
-handlers[Language.GC2ClientNotifyXPShop] = function(body) {
+handlers[Language.GC2ClientNotifyXPShop] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_GC2ClientNotifyXPShop, body);
@@ -253,7 +275,7 @@ handlers[Language.GC2ClientNotifyXPShop] = function(body) {
 };
 
 // Recurring Missions
-handlers[Language.RecurringMissionSchema] = function(body) {
+handlers[Language.RecurringMissionSchema] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgRecurringMissionSchema, body);
@@ -271,7 +293,7 @@ handlers[Language.RecurringMissionSchema] = function(body) {
 };
 
 // Premier Season
-handlers[Language.PremierSeasonSummary] = function(body) {
+handlers[Language.PremierSeasonSummary] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_PremierSeasonSummary, body);
@@ -289,7 +311,7 @@ handlers[Language.PremierSeasonSummary] = function(body) {
 };
 
 // Matchmaking Search Stats
-handlers[Language.MatchmakingGC2ClientSearchStats] = function(body) {
+handlers[Language.MatchmakingGC2ClientSearchStats] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_MatchmakingGC2ClientSearchStats, body);
@@ -307,7 +329,7 @@ handlers[Language.MatchmakingGC2ClientSearchStats] = function(body) {
 };
 
 // Item manipulation
-handlers[Language.CraftResponse] = function(body) {
+handlers[Language.CraftResponse] = function (body) {
 	let blueprint = body.readInt16(); // recipe ID
 	let unknown = body.readUint32(); // always 0 in my experience
 
@@ -322,7 +344,7 @@ handlers[Language.CraftResponse] = function(body) {
 	this.emit('craftingComplete', blueprint, idList);
 };
 
-handlers[Language.ItemCustomizationNotification] = function(body) {
+handlers[Language.ItemCustomizationNotification] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCItemCustomizationNotification, body);
@@ -330,7 +352,7 @@ handlers[Language.ItemCustomizationNotification] = function(body) {
 		this.emit('error', new Error(`Failed to decode ItemCustomizationNotification: ${err.message}`));
 		return;
 	}
-	
+
 	if (!proto.item_id || proto.item_id.length == 0 || !proto.request) {
 		this.emit('debug', "ItemCustomizationNotification missing required fields");
 		return;
@@ -340,7 +362,7 @@ handlers[Language.ItemCustomizationNotification] = function(body) {
 };
 
 // SO
-NodeCS2.prototype._processSOEconItem = function(item) {
+NodeCS2.prototype._processSOEconItem = function (item) {
 	// Inventory position
 	let isNew = (item.inventory >>> 30) & 1;
 	item.position = (isNew ? 0 : item.inventory & 0xFFFF);
@@ -460,7 +482,7 @@ NodeCS2.prototype._processSOEconItem = function(item) {
 	}
 };
 
-handlers[Language.SO_Create] = function(body) {
+handlers[Language.SO_Create] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgSOSingleObject, body);
@@ -471,9 +493,36 @@ handlers[Language.SO_Create] = function(body) {
 	this._handleSOCreate(proto);
 };
 
-NodeCS2.prototype._handleSOCreate = function(proto) {
-	if (!proto || proto.type_id != 1) {
-		return; // Not an item
+NodeCS2.prototype._handleSOCreate = function (proto) {
+	if (!proto) {
+		return;
+	}
+
+	// Handle XP Shop Bids (type_id 46)
+	if (proto.type_id == 46) {
+		let bid;
+		try {
+			bid = decodeProto(Protos.CSOAccountXpShopBids, proto.object_data);
+		} catch (err) {
+			this.emit('debug', `Failed to decode XP shop bid in SO_Create: ${err.message}`);
+			return;
+		}
+
+		let newBid = {
+			campaign_id: bid.campaign_id,
+			redeem_id: bid.redeem_id,
+			expected_cost: bid.expected_cost,
+			generation_time: bid.generation_time
+		};
+
+		this.xpShopBids = this.xpShopBids || [];
+		this.xpShopBids.push(newBid);
+		this.emit('xpShopBidsUpdate', this.xpShopBids);
+		return;
+	}
+
+	if (proto.type_id != 1) {
+		return; // Not an item we care about
 	}
 
 	if (!this.inventory) {
@@ -487,14 +536,14 @@ NodeCS2.prototype._handleSOCreate = function(proto) {
 		this.emit('error', new Error(`Failed to decode SO_Create item: ${err.message}`));
 		return;
 	}
-	
+
 	this._processSOEconItem(item);
 	this.inventory.push(item);
 
 	this.emit('itemAcquired', item);
 };
 
-handlers[Language.SO_Update] = function(body) {
+handlers[Language.SO_Update] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgSOSingleObject, body);
@@ -505,8 +554,52 @@ handlers[Language.SO_Update] = function(body) {
 	this._handleSOUpdate(proto);
 };
 
-NodeCS2.prototype._handleSOUpdate = function(so) {
-	if (!so || so.type_id != 1) {
+NodeCS2.prototype._handleSOUpdate = function (so) {
+	if (!so) {
+		return;
+	}
+
+	// Handle XP Shop Bids (type_id 46)
+	if (so.type_id == 46) {
+		let bid;
+		try {
+			bid = decodeProto(Protos.CSOAccountXpShopBids, so.object_data);
+		} catch (err) {
+			this.emit('debug', `Failed to decode XP shop bid in SO_Update: ${err.message}`);
+			return;
+		}
+
+		this.xpShopBids = this.xpShopBids || [];
+
+		// Find and update existing bid with same campaign_id and redeem_id
+		let found = false;
+		for (let i = 0; i < this.xpShopBids.length; i++) {
+			if (this.xpShopBids[i].campaign_id == bid.campaign_id && this.xpShopBids[i].redeem_id == bid.redeem_id) {
+				this.xpShopBids[i] = {
+					campaign_id: bid.campaign_id,
+					redeem_id: bid.redeem_id,
+					expected_cost: bid.expected_cost,
+					generation_time: bid.generation_time
+				};
+				found = true;
+				break;
+			}
+		}
+
+		if (!found) {
+			this.xpShopBids.push({
+				campaign_id: bid.campaign_id,
+				redeem_id: bid.redeem_id,
+				expected_cost: bid.expected_cost,
+				generation_time: bid.generation_time
+			});
+		}
+
+		this.emit('xpShopBidsUpdate', this.xpShopBids);
+		return;
+	}
+
+	if (so.type_id != 1) {
 		return; // Not an item, we don't care
 	}
 
@@ -521,7 +614,7 @@ NodeCS2.prototype._handleSOUpdate = function(so) {
 		this.emit('error', new Error(`Failed to decode SO_Update item: ${err.message}`));
 		return;
 	}
-	
+
 	if (!item || !item.id) {
 		this.emit('debug', "SO_Update item missing id");
 		return;
@@ -540,7 +633,7 @@ NodeCS2.prototype._handleSOUpdate = function(so) {
 	}
 };
 
-handlers[Language.SO_Destroy] = function(body) {
+handlers[Language.SO_Destroy] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgSOSingleObject, body);
@@ -551,8 +644,36 @@ handlers[Language.SO_Destroy] = function(body) {
 	this._handleSODestroy(proto);
 };
 
-NodeCS2.prototype._handleSODestroy = function(proto) {
-	if (!proto || proto.type_id != 1) {
+NodeCS2.prototype._handleSODestroy = function (proto) {
+	if (!proto) {
+		return;
+	}
+
+	// Handle XP Shop Bids (type_id 46)
+	if (proto.type_id == 46) {
+		let bid;
+		try {
+			bid = decodeProto(Protos.CSOAccountXpShopBids, proto.object_data);
+		} catch (err) {
+			this.emit('debug', `Failed to decode XP shop bid in SO_Destroy: ${err.message}`);
+			return;
+		}
+
+		this.xpShopBids = this.xpShopBids || [];
+
+		// Remove bid with matching campaign_id and redeem_id
+		for (let i = 0; i < this.xpShopBids.length; i++) {
+			if (this.xpShopBids[i].campaign_id == bid.campaign_id && this.xpShopBids[i].redeem_id == bid.redeem_id) {
+				this.xpShopBids.splice(i, 1);
+				break;
+			}
+		}
+
+		this.emit('xpShopBidsUpdate', this.xpShopBids);
+		return;
+	}
+
+	if (proto.type_id != 1) {
 		return; // Not an item
 	}
 
@@ -567,7 +688,7 @@ NodeCS2.prototype._handleSODestroy = function(proto) {
 		this.emit('error', new Error(`Failed to decode SO_Destroy item: ${err.message}`));
 		return;
 	}
-	
+
 	if (!item || !item.id) {
 		this.emit('debug', "SO_Destroy item missing id");
 		return;
@@ -587,7 +708,7 @@ NodeCS2.prototype._handleSODestroy = function(proto) {
 };
 
 
-handlers[Language.SO_UpdateMultiple] = function(body) {
+handlers[Language.SO_UpdateMultiple] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgSOMultipleObjects, body);
@@ -607,8 +728,8 @@ function decodeProto(proto, encoded) {
 	}
 
 	let decoded = proto.decode(encoded);
-	let objNoDefaults = proto.toObject(decoded, {"longs": String});
-	let objWithDefaults = proto.toObject(decoded, {"defaults": true, "longs": String});
+	let objNoDefaults = proto.toObject(decoded, { "longs": String });
+	let objWithDefaults = proto.toObject(decoded, { "defaults": true, "longs": String });
 	return replaceDefaults(objNoDefaults, objWithDefaults);
 
 	function replaceDefaults(noDefaults, withDefaults) {

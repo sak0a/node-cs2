@@ -26,6 +26,7 @@ function NodeCS2(steam) {
 	this._steam = steam;
 	this.haveGCSession = false;
 	this._isInCSGO = false;
+	this.xpShopBids = []; // Array of XP shop bids containing campaignId, redeemId, expectedCost, generationTime
 
 	this._steam.on('receivedFromGC', (appid, msgType, payload) => {
 		if (appid != STEAM_APPID) {

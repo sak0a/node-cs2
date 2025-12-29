@@ -254,10 +254,10 @@ Redeems a free reward.
 Redeems a mission reward.
 
 **Parameters:**
-- `campaignId` (number) - Campaign ID
-- `redeemId` (number) - Redeem ID
+- `campaignId` (number) - Campaign ID (obtained from `xpShopBids` property)
+- `redeemId` (number) - Redeem ID (obtained from `xpShopBids` property)
 - `redeemableBalance` (number) - Redeemable balance
-- `expectedCost` (number) - Expected cost
+- `expectedCost` (number) - Expected cost (obtained from `xpShopBids` property)
 - `bidControl` (number, optional) - Bid control value
 - `callback` (function, optional) - Callback function `(err, itemIds) => {}`
 
@@ -266,6 +266,24 @@ Redeems a mission reward.
 - If no callback: `Promise<Array>` - Resolves with array of item IDs
 
 **Timeout:** Configurable via `_rewardTimeout` (default: 10000ms)
+
+**How to obtain campaignId and redeemId:**
+These values are automatically populated in the `xpShopBids` property when you connect to the GC. See the [xpShopBids property](#xp-shop-bids) and the [xpShopBidsUpdate event](#xpshopbidsupdate) for more information.
+
+```javascript
+// Example: Using xpShopBids to redeem a mission reward
+cs2.on('xpShopBidsUpdate', (bids) => {
+    if (bids.length > 0) {
+        const bid = bids[0];
+        cs2.redeemMissionReward(
+            bid.campaign_id,
+            bid.redeem_id,
+            100, // your redeemable balance
+            bid.expected_cost
+        );
+    }
+});
+```
 
 ---
 
@@ -434,6 +452,21 @@ Requests a player's profile data.
 - `haveGCSession` (boolean) - Whether GC session is active
 - `_isInCSGO` (boolean) - Whether CS2/CS:GO is launched
 
+#### XP Shop Bids
+- `xpShopBids` (Array) - Array of active XP shop bids, automatically populated from the GC
+
+Each bid object contains:
+```javascript
+{
+    campaign_id: number,    // Campaign ID for redeemMissionReward
+    redeem_id: number,      // Redeem ID for redeemMissionReward
+    expected_cost: number,  // Expected cost for redeeming
+    generation_time: number // When the bid was generated
+}
+```
+
+> **Note:** This property is empty if the user has no active XP shop bids. The bids are automatically updated via the `xpShopBidsUpdate` event.
+
 #### Timeouts (Configurable)
 - `_inspectTimeout` (number) - Inspection timeout in ms (default: 10000)
 - `_casketTimeout` (number) - Casket loading timeout in ms (default: 30000)
@@ -565,6 +598,34 @@ Emitted when matchmaking search statistics are received.
 
 **Parameters:**
 - `stats` (Object) - Search statistics object
+
+---
+
+#### `xpShopBidsUpdate`
+Emitted when XP shop bids are created, updated, or removed. This event provides the `campaignId` and `redeemId` values needed for `redeemMissionReward`.
+
+**Parameters:**
+- `bids` (Array) - Array of XP shop bid objects
+
+Each bid object contains:
+```javascript
+{
+    campaign_id: number,    // Campaign ID for redeemMissionReward
+    redeem_id: number,      // Redeem ID for redeemMissionReward
+    expected_cost: number,  // Expected cost for redeeming
+    generation_time: number // When the bid was generated
+}
+```
+
+**Example:**
+```javascript
+cs2.on('xpShopBidsUpdate', (bids) => {
+    console.log('XP Shop Bids updated:', bids);
+    bids.forEach(bid => {
+        console.log(`Campaign: ${bid.campaign_id}, Redeem: ${bid.redeem_id}, Cost: ${bid.expected_cost}`);
+    });
+});
+```
 
 ---
 

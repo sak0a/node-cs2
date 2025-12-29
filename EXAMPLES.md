@@ -304,17 +304,41 @@ cs2.redeemFreeReward(generationTime, redeemableBalance, items, (err, itemIds) =>
 
 ### Redeem Mission Reward
 
+The `campaignId` and `redeemId` values are obtained from the `xpShopBids` property, which is automatically populated when you connect to the GC.
+
 ```javascript
-const campaignId = 1;
-const redeemId = 123;
-const redeemableBalance = 50;
-const expectedCost = 25;
-const bidControl = 0; // Optional
+// Listen for XP shop bids updates
+cs2.on('xpShopBidsUpdate', (bids) => {
+    console.log('Available bids:', bids);
+    // Each bid contains: campaign_id, redeem_id, expected_cost, generation_time
+});
 
+// Wait for connection and then check available bids
+cs2.on('connectedToGC', () => {
+    // xpShopBids will be populated after connection
+    console.log('Current bids:', cs2.xpShopBids);
+});
+
+// Redeem using values from xpShopBids
+async function redeemFirstAvailableBid(redeemableBalance) {
+    if (cs2.xpShopBids.length === 0) {
+        console.log('No XP shop bids available');
+        return;
+    }
+
+    const bid = cs2.xpShopBids[0];
+    console.log(`Redeeming bid: Campaign ${bid.campaign_id}, Redeem ${bid.redeem_id}`);
+    
+    await cs2.redeemMissionReward(
+        bid.campaign_id,
+        bid.redeem_id,
+        redeemableBalance,
+        bid.expected_cost
+    );
+}
+
+// You can also pass bidControl (optional)
 await cs2.redeemMissionReward(campaignId, redeemId, redeemableBalance, expectedCost, bidControl);
-
-// Without bidControl
-await cs2.redeemMissionReward(campaignId, redeemId, redeemableBalance, expectedCost);
 ```
 
 ### Listen for XP Shop Notifications
