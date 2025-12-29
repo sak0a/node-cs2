@@ -84,26 +84,20 @@ handlers[Language.ClientWelcome] = function (body) {
 					// Most likely item presets (multiple)
 					let data = decodeProto(Protos.CSOSelectedItemPreset, cache.object_data[0]);
 					break;*/
-				case 46:
-					// XP Shop Bids - contains campaignId and redeemId for mission rewards
-					let bids = cache.object_data.map((object) => {
+				case 6:
+					// XP Shop Account - contains redeemable_balance (stars) and xp_tracks
+					let xpShopData = cache.object_data.map((object) => {
 						try {
-							let bid = decodeProto(Protos.CSOAccountXpShopBids, object);
-							return {
-								campaign_id: bid.campaign_id,
-								redeem_id: bid.redeem_id,
-								expected_cost: bid.expected_cost,
-								generation_time: bid.generation_time
-							};
+							return decodeProto(Protos.CSOAccountXpShop, object);
 						} catch (err) {
-							this.emit('debug', `Failed to decode XP shop bid: ${err.message}`);
+							this.emit('debug', `Failed to decode XP shop account: ${err.message}`);
 							return null;
 						}
-					}).filter(bid => bid !== null);
+					}).filter(item => item !== null);
 
-					this.xpShopBids = bids;
-					if (bids.length > 0) {
-						this.emit('xpShopBidsUpdate', bids);
+					if (xpShopData.length > 0) {
+						this.xpShop = xpShopData[0];
+						this.emit('xpShopUpdate', this.xpShop);
 					}
 					break;
 				default:
@@ -498,26 +492,18 @@ NodeCS2.prototype._handleSOCreate = function (proto) {
 		return;
 	}
 
-	// Handle XP Shop Bids (type_id 46)
-	if (proto.type_id == 46) {
-		let bid;
+	// Handle XP Shop Account (type_id 6)
+	if (proto.type_id == 6) {
+		let xpShop;
 		try {
-			bid = decodeProto(Protos.CSOAccountXpShopBids, proto.object_data);
+			xpShop = decodeProto(Protos.CSOAccountXpShop, proto.object_data);
 		} catch (err) {
-			this.emit('debug', `Failed to decode XP shop bid in SO_Create: ${err.message}`);
+			this.emit('debug', `Failed to decode XP shop account in SO_Create: ${err.message}`);
 			return;
 		}
 
-		let newBid = {
-			campaign_id: bid.campaign_id,
-			redeem_id: bid.redeem_id,
-			expected_cost: bid.expected_cost,
-			generation_time: bid.generation_time
-		};
-
-		this.xpShopBids = this.xpShopBids || [];
-		this.xpShopBids.push(newBid);
-		this.emit('xpShopBidsUpdate', this.xpShopBids);
+		this.xpShop = xpShop;
+		this.emit('xpShopUpdate', this.xpShop);
 		return;
 	}
 
@@ -559,43 +545,18 @@ NodeCS2.prototype._handleSOUpdate = function (so) {
 		return;
 	}
 
-	// Handle XP Shop Bids (type_id 46)
-	if (so.type_id == 46) {
-		let bid;
+	// Handle XP Shop Account (type_id 6)
+	if (so.type_id == 6) {
+		let xpShop;
 		try {
-			bid = decodeProto(Protos.CSOAccountXpShopBids, so.object_data);
+			xpShop = decodeProto(Protos.CSOAccountXpShop, so.object_data);
 		} catch (err) {
-			this.emit('debug', `Failed to decode XP shop bid in SO_Update: ${err.message}`);
+			this.emit('debug', `Failed to decode XP shop account in SO_Update: ${err.message}`);
 			return;
 		}
 
-		this.xpShopBids = this.xpShopBids || [];
-
-		// Find and update existing bid with same campaign_id and redeem_id
-		let found = false;
-		for (let i = 0; i < this.xpShopBids.length; i++) {
-			if (this.xpShopBids[i].campaign_id == bid.campaign_id && this.xpShopBids[i].redeem_id == bid.redeem_id) {
-				this.xpShopBids[i] = {
-					campaign_id: bid.campaign_id,
-					redeem_id: bid.redeem_id,
-					expected_cost: bid.expected_cost,
-					generation_time: bid.generation_time
-				};
-				found = true;
-				break;
-			}
-		}
-
-		if (!found) {
-			this.xpShopBids.push({
-				campaign_id: bid.campaign_id,
-				redeem_id: bid.redeem_id,
-				expected_cost: bid.expected_cost,
-				generation_time: bid.generation_time
-			});
-		}
-
-		this.emit('xpShopBidsUpdate', this.xpShopBids);
+		this.xpShop = xpShop;
+		this.emit('xpShopUpdate', this.xpShop);
 		return;
 	}
 
@@ -649,27 +610,10 @@ NodeCS2.prototype._handleSODestroy = function (proto) {
 		return;
 	}
 
-	// Handle XP Shop Bids (type_id 46)
-	if (proto.type_id == 46) {
-		let bid;
-		try {
-			bid = decodeProto(Protos.CSOAccountXpShopBids, proto.object_data);
-		} catch (err) {
-			this.emit('debug', `Failed to decode XP shop bid in SO_Destroy: ${err.message}`);
-			return;
-		}
-
-		this.xpShopBids = this.xpShopBids || [];
-
-		// Remove bid with matching campaign_id and redeem_id
-		for (let i = 0; i < this.xpShopBids.length; i++) {
-			if (this.xpShopBids[i].campaign_id == bid.campaign_id && this.xpShopBids[i].redeem_id == bid.redeem_id) {
-				this.xpShopBids.splice(i, 1);
-				break;
-			}
-		}
-
-		this.emit('xpShopBidsUpdate', this.xpShopBids);
+	// Handle XP Shop Account (type_id 6)
+	if (proto.type_id == 6) {
+		this.xpShop = null;
+		this.emit('xpShopUpdate', null);
 		return;
 	}
 
