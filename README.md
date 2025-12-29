@@ -2,6 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/node-cs2.svg)](https://badge.fury.io/js/node-cs2)
 [![Node.js Version](https://img.shields.io/node/v/node-cs2.svg)](https://nodejs.org/)
+[![Downloads](https://img.shields.io/npm/dm/node-cs2.svg)](https://npmjs.com/package/node-cs2)
 
 Modern **CS2/CS:GO Game Coordinator integration** with the latest **GameTracking-CS2 protobuf definitions**. This package provides a simple API for interacting with the Counter-Strike 2 and CS:GO Game Coordinator, with full support for all modern CS2 features.
 
