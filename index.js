@@ -1204,56 +1204,13 @@ NodeCS2.prototype.applyKeychain = function(itemId, keychainId, keychainSlot, cal
 
 /**
  * Remove a keychain from an item.
- * @param {int} itemId - The ID of the item with the keychain
- * @param {int} keychainSlot - The slot number of the keychain to remove
- * @param {function} callback - Optional callback. If not provided, returns a Promise.
- * @returns {Promise|undefined} Returns a Promise if no callback is provided
+ * @param {string} itemId - The ID of the item with the keychain
  */
-NodeCS2.prototype.removeKeychain = function(itemId, keychainSlot, callback) {
-	// Send request via ItemCustomizationNotification
-	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
-		item_id: [itemId],
-		request: NodeCS2.ItemCustomizationNotification.RemoveKeychain,
-		extra_data: keychainSlot !== undefined ? [keychainSlot] : []
+NodeCS2.prototype.removeKeychain = function(itemId) {
+	this._send(Language.ApplySticker, Protos.CMsgApplySticker, {
+		sticker_item_id: "17293822569102704705",
+		item_item_id: itemId,
 	});
-
-	if (callback) {
-		let timeout = setTimeout(() => {
-			this.removeListener('itemCustomizationNotification', notificationListener);
-			callback(new Error('Removing keychain timed out'));
-		}, this._stickerTimeout || 10000);
-
-		let notificationListener = (itemIds, notificationType) => {
-			if (notificationType == NodeCS2.ItemCustomizationNotification.RemoveKeychain) {
-				if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
-					clearTimeout(timeout);
-					this.removeListener('itemCustomizationNotification', notificationListener);
-					callback(null, itemIds);
-				}
-			}
-		};
-
-		this.on('itemCustomizationNotification', notificationListener);
-	} else {
-		return new Promise((resolve, reject) => {
-			let timeout = setTimeout(() => {
-				this.removeListener('itemCustomizationNotification', notificationListener);
-				reject(new Error('Removing keychain timed out'));
-			}, this._stickerTimeout || 10000);
-
-			let notificationListener = (itemIds, notificationType) => {
-				if (notificationType == NodeCS2.ItemCustomizationNotification.RemoveKeychain) {
-					if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
-						clearTimeout(timeout);
-						this.removeListener('itemCustomizationNotification', notificationListener);
-						resolve(itemIds);
-					}
-				}
-			};
-
-			this.on('itemCustomizationNotification', notificationListener);
-		});
-	}
 };
 
 NodeCS2.prototype._handlers = {};
