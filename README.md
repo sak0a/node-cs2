@@ -6,6 +6,8 @@
 
 Modern **CS2/CS:GO Game Coordinator integration** with the latest **GameTracking-CS2 protobuf definitions**. This package provides a simple API for interacting with the Counter-Strike 2 and CS:GO Game Coordinator, with full support for all modern CS2 features.
 
+> **Note:** Large portions of this library were generated with the assistance of AI. While core functionality has been verified, some features — particularly around volatile items — may not have been thoroughly tested and could behave unexpectedly. If you discover a bug or have a working fix for an open issue, I'd appreciate it if you could submit a Pull Request or leave a comment on the [GitHub Issue](https://github.com/sak0a/node-cs2/issues) with your solution. Community contributions help make this project better for everyone.
+
 ## Features
 
 -  **Latest Protobuf Definitions** - Always up-to-date with GameTracking-CS2
@@ -120,7 +122,7 @@ await cs2.removePatch(itemId, patchSlot);
 
 // Apply/remove keychains
 await cs2.applyKeychain(itemId, keychainId, keychainSlot);
-await cs2.removeKeychain(itemId, keychainSlot);
+cs2.removeKeychain(itemId);
 ```
 
 ## Documentation
@@ -167,6 +169,19 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - **Fork Maintainer:** [sak0a](https://github.com/sak0a)
 
 ## Changelog
+
+### v2.2.2 (February 2026)
+
+**Bug Fixes:**
+- Fixed `removeKeychain()` always timing out — now uses `CMsgApplySticker` instead of `CMsgGCItemCustomizationNotification` ([#2](https://github.com/sak0a/node-cs2/issues/2))
+
+**Breaking Changes:**
+- `removeKeychain(itemId)` no longer accepts `keychainSlot` or `callback` parameters — it is now a fire-and-forget operation
+
+### v2.2.1 (January 2026)
+
+**Improvements:**
+- Updated README
 
 ### v2.2.0 (December 19, 2025)
 
