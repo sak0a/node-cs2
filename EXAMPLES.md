@@ -662,20 +662,10 @@ cs2.applyKeychain(itemId, keychainId, keychainSlot, (err, itemIds) => {
 ### Remove Keychain
 
 ```javascript
-// Remove keychain from item
-const itemId = 1234567890;
-const keychainSlot = 0;
+// Remove keychain from item (fire-and-forget)
+const itemId = '1234567890';
 
-await cs2.removeKeychain(itemId, keychainSlot);
-
-// With callback
-cs2.removeKeychain(itemId, keychainSlot, (err, itemIds) => {
-    if (err) {
-        console.error('Error:', err);
-        return;
-    }
-    console.log('Keychain removed, items:', itemIds);
-});
+cs2.removeKeychain(itemId);
 ```
 
 ---

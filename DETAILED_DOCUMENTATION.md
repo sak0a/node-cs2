@@ -391,19 +391,13 @@ Applies a keychain to an item.
 
 ---
 
-##### `removeKeychain(itemId, keychainSlot, callback)`
-Removes a keychain from an item.
+##### `removeKeychain(itemId)`
+Removes a keychain from an item. This is a fire-and-forget operation — it sends the removal request to the Game Coordinator without waiting for a response.
 
 **Parameters:**
-- `itemId` (number) - The ID of the item with the keychain
-- `keychainSlot` (number) - The slot number of the keychain to remove
-- `callback` (function, optional) - Callback function `(err, itemIds) => {}`
+- `itemId` (string) - The ID of the item with the keychain
 
-**Returns:**
-- If callback provided: `undefined`
-- If no callback: `Promise<Array>` - Resolves with array of item IDs
-
-**Timeout:** Configurable via `_stickerTimeout` (default: 10000ms)
+**Returns:** `undefined`
 
 ---
 
