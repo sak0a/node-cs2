@@ -5,8 +5,9 @@ const SteamID = require('steamid');
 const NodeCS2 = require('./index.js');
 const Language = require('./language.js');
 const Protos = require('./protobufs/generated/_load.js');
+const Constants = require('./constants.js');
 
-let handlers = NodeCS2.prototype._handlers;
+const handlers = NodeCS2.prototype._handlers;
 
 /**
  * Helper function to map sticker-like items (stickers, keychains, variations)
@@ -43,7 +44,7 @@ handlers[Language.ClientLogonFatalError] = function(body) {
 
 	clearTimeout(this._helloTimer);
 
-	let err = new Error(`Logon Fatal Error: ${proto.message || proto.errorcode}`);
+	const err = new Error(`Logon Fatal Error: ${proto.message || proto.errorcode}`);
 	err.code = proto.errorcode;
 	err.country = proto.country;
 	this.emit('error', err);
@@ -61,11 +62,11 @@ handlers[Language.ClientWelcome] = function(body) {
 	if (proto.outofdate_subscribed_caches && proto.outofdate_subscribed_caches.length) {
 		proto.outofdate_subscribed_caches[0].objects.forEach((cache) => {
 			switch (cache.type_id) {
-				case 1:
+				case Constants.SO_TYPE_ECON_ITEM:
 					// Inventory
-					let items = cache.object_data.map((object) => {
+					const items = cache.object_data.map((object) => {
 						try {
-							let item = decodeProto(Protos.CSOEconItem, object);
+							const item = decodeProto(Protos.CSOEconItem, object);
 							this._processSOEconItem(item);
 							return item;
 						} catch (err) {
@@ -130,7 +131,7 @@ handlers[Language.ClientConnectionStatus] = function(body) {
 	this.emit('connectionStatus', proto.status, proto);
 
 	let statusStr = proto.status;
-	for (let i in NodeCS2.GCConnectionStatus) {
+	for (const i in NodeCS2.GCConnectionStatus) {
 		if (NodeCS2.GCConnectionStatus.hasOwnProperty(i) && NodeCS2.GCConnectionStatus[i] == proto.status) {
 			statusStr = i;
 		}
@@ -172,14 +173,14 @@ handlers[Language.PlayersProfile] = function(body) {
 		return;
 	}
 
-	let profile = proto.account_profiles[0];
+	const profile = proto.account_profiles[0];
 	
 	if (!profile.account_id) {
 		this.emit('debug', "PlayersProfile missing account_id");
 		return;
 	}
 
-	let sid = SteamID.fromIndividualAccountID(profile.account_id);
+	const sid = SteamID.fromIndividualAccountID(profile.account_id);
 
 	this.emit('playersProfile', profile);
 	this.emit('playersProfile#' + sid.getSteamID64(), profile);
@@ -200,7 +201,7 @@ handlers[Language.Client2GCEconPreviewDataBlockResponse] = function(body) {
 		return;
 	}
 
-	let item = proto.iteminfo;
+	const item = proto.iteminfo;
 	
 	// Validate critical fields
 	if (typeof item.itemid === 'undefined') {
@@ -210,7 +211,7 @@ handlers[Language.Client2GCEconPreviewDataBlockResponse] = function(body) {
 
 	// decode the wear
 	if (typeof item.paintwear !== 'undefined') {
-		let buf = Buffer.alloc(4);
+		const buf = Buffer.alloc(4);
 		buf.writeUInt32BE(item.paintwear, 0);
 		item.paintwear = buf.readFloatBE(0);
 	}
@@ -308,14 +309,14 @@ handlers[Language.MatchmakingGC2ClientSearchStats] = function(body) {
 
 // Item manipulation
 handlers[Language.CraftResponse] = function(body) {
-	let blueprint = body.readInt16(); // recipe ID
-	let unknown = body.readUint32(); // always 0 in my experience
+	const blueprint = body.readInt16(); // recipe ID
+	const unknown = body.readUint32(); // always 0 in my experience
 
-	let idCount = body.readUint16();
-	let idList = []; // let's form an array of IDs
+	const idCount = body.readUint16();
+	const idList = []; // let's form an array of IDs
 
 	for (let i = 0; i < idCount; i++) {
-		let id = body.readUint64().toString(); // grab the next id
+		const id = body.readUint64().toString(); // grab the next id
 		idList.push(id); // item id
 	}
 
@@ -342,64 +343,64 @@ handlers[Language.ItemCustomizationNotification] = function(body) {
 // SO
 NodeCS2.prototype._processSOEconItem = function(item) {
 	// Inventory position
-	let isNew = (item.inventory >>> 30) & 1;
+	const isNew = (item.inventory >>> 30) & 1;
 	item.position = (isNew ? 0 : item.inventory & 0xFFFF);
 
 	// Is this item contained in a casket?
-	let casketIdLow = getAttributeValueBytes(272);
-	let casketIdHigh = getAttributeValueBytes(273);
+	const casketIdLow = getAttributeValueBytes(Constants.ATTRIB_CASKET_ID_LOW);
+	const casketIdHigh = getAttributeValueBytes(Constants.ATTRIB_CASKET_ID_HIGH);
 	if (casketIdLow && casketIdHigh) {
-		let casketIdLong = new Long(casketIdLow.readUInt32LE(0), casketIdHigh.readUInt32LE(0));
+		const casketIdLong = new Long(casketIdLow.readUInt32LE(0), casketIdHigh.readUInt32LE(0));
 		item.casket_id = casketIdLong.toString();
 	}
 
 	// Item custom names
-	let customNameBytes = getAttributeValueBytes(111);
+	const customNameBytes = getAttributeValueBytes(Constants.ATTRIB_CUSTOM_NAME);
 	if (customNameBytes && !item.custom_name) {
 		item.custom_name = customNameBytes.slice(2).toString('utf8');
 	}
 
 	// Paint index/seed/wear
-	let paintIndexBytes = getAttributeValueBytes(6);
+	const paintIndexBytes = getAttributeValueBytes(Constants.ATTRIB_PAINT_INDEX);
 	if (paintIndexBytes) {
 		item.paint_index = paintIndexBytes.readFloatLE(0);
 	}
 
-	let paintSeedBytes = getAttributeValueBytes(7);
+	const paintSeedBytes = getAttributeValueBytes(Constants.ATTRIB_PAINT_SEED);
 	if (paintSeedBytes) {
 		item.paint_seed = Math.floor(paintSeedBytes.readFloatLE(0));
 	}
 
-	let paintWearBytes = getAttributeValueBytes(8);
+	const paintWearBytes = getAttributeValueBytes(Constants.ATTRIB_PAINT_WEAR);
 	if (paintWearBytes) {
 		item.paint_wear = paintWearBytes.readFloatLE(0);
 	}
 
-	let tradableAfterDateBytes = getAttributeValueBytes(75);
+	const tradableAfterDateBytes = getAttributeValueBytes(Constants.ATTRIB_TRADABLE_AFTER_DATE);
 	if (tradableAfterDateBytes) {
 		item.tradable_after = new Date(tradableAfterDateBytes.readUInt32LE(0) * 1000);
 	}
 
-	let killEaterBytes = getAttributeValueBytes(80);
+	const killEaterBytes = getAttributeValueBytes(Constants.ATTRIB_KILL_EATER_VALUE);
 	if (killEaterBytes) {
 		item.kill_eater_value = killEaterBytes.readUInt32LE(0);
 	}
 
-	let killEaterScoreTypeBytes = getAttributeValueBytes(81);
+	const killEaterScoreTypeBytes = getAttributeValueBytes(Constants.ATTRIB_KILL_EATER_SCORE_TYPE);
 	if (killEaterScoreTypeBytes) {
 		item.kill_eater_score_type = killEaterScoreTypeBytes.readUInt32LE(0);
 	}
 
-	let questIdBytes = getAttributeValueBytes(168);
+	const questIdBytes = getAttributeValueBytes(Constants.ATTRIB_QUEST_ID);
 	if (questIdBytes) {
 		item.quest_id = questIdBytes.readUInt32LE(0);
 	}
 
-	let stickers = [];
+	const stickers = [];
 	for (let i = 0; i <= 5; i++) {
-		let stickerIdBytes = getAttributeValueBytes(113 + (i * 4));
+		const stickerIdBytes = getAttributeValueBytes(Constants.ATTRIB_STICKER_ID_BASE + (i * 4));
 		if (stickerIdBytes) {
-			let sticker = {
+			const sticker = {
 				slot: i,
 				sticker_id: stickerIdBytes.readUInt32LE(0),
 				wear: null,
@@ -412,20 +413,20 @@ NodeCS2.prototype._processSOEconItem = function(item) {
 			// As of the 2024-02-06 update, the value of the "sticker slot x schema" attribute (290-295) seems to indicate
 			// which slot the sticker occupies, rather than the actual slot named by the attribute. Why? Who knows?
 			// I sure hope no items exist with schema set for some stickers but not for others.
-			let schemaBytes = getAttributeValueBytes(290 + i);
+			const schemaBytes = getAttributeValueBytes(Constants.ATTRIB_STICKER_SCHEMA_BASE + i);
 			if (schemaBytes) {
 				sticker.slot = schemaBytes.readUInt32LE(0);
 			}
 
 			['wear', 'scale', 'rotation'].forEach((attrib, idx) => {
-				let bytes = getAttributeValueBytes(114 + (i * 4) + idx);
+				const bytes = getAttributeValueBytes(Constants.ATTRIB_STICKER_WEAR_BASE + (i * 4) + idx);
 				if (bytes) {
 					sticker[attrib] = bytes.readFloatLE(0);
 				}
 			});
 
 			['offset_x', 'offset_y'].forEach((attrib, idx) => {
-				let bytes = getAttributeValueBytes(278 + (i * 2) + idx);
+				const bytes = getAttributeValueBytes(Constants.ATTRIB_STICKER_OFFSET_BASE + (i * 2) + idx);
 				if (bytes) {
 					sticker[attrib] = bytes.readFloatLE(0);
 				}
@@ -440,10 +441,10 @@ NodeCS2.prototype._processSOEconItem = function(item) {
 
 	// def_index-specific attribute parsing
 	switch (item.def_index) {
-		case 1201:
+		case Constants.DEFINDEX_STORAGE_UNIT:
 			// Storage Unit
 			item.casket_contained_item_count = 0;
-			let itemCountBytes = getAttributeValueBytes(270);
+			const itemCountBytes = getAttributeValueBytes(Constants.ATTRIB_CASKET_ITEM_COUNT);
 			if (itemCountBytes) {
 				item.casket_contained_item_count = itemCountBytes.readUInt32LE(0);
 			}
@@ -455,7 +456,7 @@ NodeCS2.prototype._processSOEconItem = function(item) {
 	 * @returns {null|Buffer}
 	 */
 	function getAttributeValueBytes(attribDefIndex) {
-		let attrib = (item.attribute || []).find(attrib => attrib.def_index == attribDefIndex);
+		const attrib = (item.attribute || []).find(attrib => attrib.def_index == attribDefIndex);
 		return attrib ? attrib.value_bytes : null;
 	}
 };
@@ -472,7 +473,7 @@ handlers[Language.SO_Create] = function(body) {
 };
 
 NodeCS2.prototype._handleSOCreate = function(proto) {
-	if (!proto || proto.type_id != 1) {
+	if (!proto || proto.type_id != Constants.SO_TYPE_ECON_ITEM) {
 		return; // Not an item
 	}
 
@@ -506,7 +507,7 @@ handlers[Language.SO_Update] = function(body) {
 };
 
 NodeCS2.prototype._handleSOUpdate = function(so) {
-	if (!so || so.type_id != 1) {
+	if (!so || so.type_id != Constants.SO_TYPE_ECON_ITEM) {
 		return; // Not an item, we don't care
 	}
 
@@ -531,7 +532,7 @@ NodeCS2.prototype._handleSOUpdate = function(so) {
 
 	for (let i = 0; i < this.inventory.length; i++) {
 		if (this.inventory[i].id == item.id) {
-			let oldItem = this.inventory[i];
+			const oldItem = this.inventory[i];
 			this.inventory[i] = item;
 
 			this.emit('itemChanged', oldItem, item);
@@ -552,7 +553,7 @@ handlers[Language.SO_Destroy] = function(body) {
 };
 
 NodeCS2.prototype._handleSODestroy = function(proto) {
-	if (!proto || proto.type_id != 1) {
+	if (!proto || proto.type_id != Constants.SO_TYPE_ECON_ITEM) {
 		return; // Not an item
 	}
 
@@ -606,9 +607,9 @@ function decodeProto(proto, encoded) {
 		encoded = encoded.toBuffer();
 	}
 
-	let decoded = proto.decode(encoded);
-	let objNoDefaults = proto.toObject(decoded, {"longs": String});
-	let objWithDefaults = proto.toObject(decoded, {"defaults": true, "longs": String});
+	const decoded = proto.decode(encoded);
+	const objNoDefaults = proto.toObject(decoded, {"longs": String});
+	const objWithDefaults = proto.toObject(decoded, {"defaults": true, "longs": String});
 	return replaceDefaults(objNoDefaults, objWithDefaults);
 
 	function replaceDefaults(noDefaults, withDefaults) {
@@ -616,7 +617,7 @@ function decodeProto(proto, encoded) {
 			return withDefaults.map((val, idx) => replaceDefaults(noDefaults[idx], val));
 		}
 
-		for (let i in withDefaults) {
+		for (const i in withDefaults) {
 			if (!withDefaults.hasOwnProperty(i)) {
 				continue;
 			}

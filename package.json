@@ -6,7 +6,7 @@
 		"cs2",
 		"counter-strike-2",
 		"csgo",
-		"cs:go", 
+		"cs:go",
 		"counter-strike",
 		"steam",
 		"game-coordinator",
@@ -24,8 +24,9 @@
 	"bugs": {
 		"url": "https://github.com/sak0a/node-cs2/issues"
 	},
-    "author": "sak0a <forked from: DoctorMcKay>",
+	"author": "sak0a <forked from: DoctorMcKay>",
 	"license": "MIT",
+	"types": "types/index.d.ts",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/sak0a/node-cs2.git"
@@ -41,11 +42,19 @@
 		"steam-user": ">=4.2.0"
 	},
 	"devDependencies": {
+		"eslint": "^10.0.3",
+		"eslint-config-prettier": "^10.1.8",
+		"prettier": "^3.8.1",
 		"protobufjs-cli": "^1.1.2",
-		"steam-user": "^4.26.1"
+		"steam-user": "^4.26.1",
+		"vitest": "^4.0.18"
 	},
 	"scripts": {
-		"generate-protos": "node scripts/generate-protos.js"
+		"generate-protos": "node scripts/generate-protos.js",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"format": "prettier --write .",
+		"test": "vitest run"
 	},
 	"engines": {
 		"node": ">=14.0.0"
@@ -55,7 +64,9 @@
 		"handlers.js",
 		"enums.js",
 		"language.js",
+		"constants.js",
 		"protobufs/generated/",
+		"types/",
 		"README.md",
 		"LICENSE"
 	]

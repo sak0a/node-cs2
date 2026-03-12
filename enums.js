@@ -1,4 +1,4 @@
-var NodeCS2 = require('./index.js');
+const NodeCS2 = require('./index.js');
 
 NodeCS2.GCConnectionStatus = {
 	HAVE_SESSION: 0,

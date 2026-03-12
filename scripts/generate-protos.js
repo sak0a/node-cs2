@@ -20,8 +20,8 @@ FS.readdirSync(__dirname + '/../protobufs').forEach((filename) => {
 		return;
 	}
 
-	let filenameWithoutExtension = filename.replace('.proto', '');
-	let cmdLine = PBJS_COMMAND_LINE.replace(/%s/g, filenameWithoutExtension);
+	const filenameWithoutExtension = filename.replace('.proto', '');
+	const cmdLine = PBJS_COMMAND_LINE.replace(/%s/g, filenameWithoutExtension);
 	console.log(cmdLine);
 
 	ChildProcess.execSync(cmdLine);
@@ -33,7 +33,7 @@ loader += "\n" + mergeObjects.toString() + "\n";
 FS.writeFileSync(GENERATED_DIR + '/_load.js', loader);
 
 function mergeObjects(destinationObject, sourceObject) {
-	for (let i in sourceObject) {
+	for (const i in sourceObject) {
 		if (sourceObject.hasOwnProperty(i)) {
 			destinationObject[i] = sourceObject[i];
 		}
