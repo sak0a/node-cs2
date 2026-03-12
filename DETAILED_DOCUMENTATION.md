@@ -42,9 +42,17 @@ Comprehensive technical documentation for the `node-cs2` library.
    - Defines constants (GCConnectionStatus, ItemCustomizationNotification)
    - Used throughout the library
 
-5. **Protobuf Definitions** (`protobufs/generated/`)
+5. **Constants** (`constants.js`)
+   - Named constants replacing magic numbers (timeouts, attribute indices, app IDs, etc.)
+   - Improves readability and maintainability
+
+6. **Protobuf Definitions** (`protobufs/generated/`)
    - Auto-generated from `.proto` files
    - Provides message encoding/decoding
+
+7. **TypeScript Definitions** (`types/index.d.ts`)
+   - Full type definitions for all public APIs, events, and data structures
+   - Enables IntelliSense and compile-time checking in TypeScript projects
 
 ### Message Flow
 
@@ -63,13 +71,15 @@ Application → NodeCS2 → steam-user → Game Coordinator
 ### Constructor
 
 ```javascript
-new NodeCS2(steamUser)
+new NodeCS2(steamUser);
 ```
 
 **Parameters:**
+
 - `steamUser` (SteamUser) - An instance of `steam-user` v4.2.0+
 
 **Throws:**
+
 - `Error` if `steam-user` version is incompatible
 
 ### Methods
@@ -77,6 +87,7 @@ new NodeCS2(steamUser)
 #### Connection Methods
 
 ##### `helloGC()`
+
 Sends a hello message to the Game Coordinator to establish connection.
 
 ```javascript
@@ -90,19 +101,23 @@ cs2.helloGC();
 #### Item Inspection
 
 ##### `inspectItem(owner, assetid, d, callback)`
+
 Inspects an item from another player's inventory.
 
 **Parameters:**
+
 - `owner` (string|number) - SteamID64 of the item owner
 - `assetid` (string|number) - Asset ID of the item
 - `d` (string|number) - D parameter (usually class ID)
 - `callback` (function, optional) - Callback function `(item) => {}`
 
 **Returns:**
+
 - If callback provided: `undefined`
 - If no callback: `Promise<Object>` - Resolves with item data
 
 **Item Object Structure:**
+
 ```javascript
 {
     itemid: number,
@@ -124,6 +139,7 @@ Inspects an item from another player's inventory.
 ```
 
 **Events Emitted:**
+
 - `inspectItemInfo` - When item data is received
 - `inspectItemInfo#<assetid>` - Specific item event
 - `inspectItemTimedOut` - When inspection times out
@@ -134,17 +150,21 @@ Inspects an item from another player's inventory.
 #### Casket Operations
 
 ##### `getCasketContents(casketId, callback)`
+
 Gets the contents of a casket (container item).
 
 **Parameters:**
+
 - `casketId` (number) - ID of the casket item
 - `callback` (function, optional) - Callback function `(err, items) => {}`
 
 **Returns:**
+
 - If callback provided: `undefined`
 - If no callback: `Promise<Array>` - Resolves with array of items
 
 **Events Emitted:**
+
 - `itemCustomizationNotification` - When casket contents are loaded
 
 ---
@@ -152,13 +172,16 @@ Gets the contents of a casket (container item).
 #### Volatile Items
 
 ##### `loadVolatileItemContents(volatileItemId, callback)`
+
 Loads the contents of a volatile item (rental/temporary item).
 
 **Parameters:**
+
 - `volatileItemId` (number) - ID of the volatile item
 - `callback` (function, optional) - Callback function `(err, items) => {}`
 
 **Returns:**
+
 - If callback provided: `undefined`
 - If no callback: `Promise<Array>` - Resolves with array of items
 
@@ -167,13 +190,16 @@ Loads the contents of a volatile item (rental/temporary item).
 ---
 
 ##### `claimVolatileItemReward(defindex, callback)`
+
 Claims a reward from a volatile item.
 
 **Parameters:**
+
 - `defindex` (number) - Definition index of the volatile item
 - `callback` (function, optional) - Callback function `(err, itemIds) => {}`
 
 **Returns:**
+
 - If callback provided: `undefined`
 - If no callback: `Promise<Array>` - Resolves with array of item IDs
 
@@ -182,9 +208,11 @@ Claims a reward from a volatile item.
 ---
 
 ##### `acknowledgeRentalExpiration(crateItemId)`
+
 Acknowledges rental expiration for a crate/item.
 
 **Parameters:**
+
 - `crateItemId` (number) - ID of the crate/item
 
 **Returns:** `undefined`
@@ -194,16 +222,20 @@ Acknowledges rental expiration for a crate/item.
 #### Recurring Missions
 
 ##### `requestRecurringMissionSchedule(callback)`
+
 Requests the recurring mission schedule.
 
 **Parameters:**
+
 - `callback` (function, optional) - Callback function `(err, schema) => {}`
 
 **Returns:**
+
 - If callback provided: `undefined`
 - If no callback: `Promise<Object>` - Resolves with mission schema
 
 **Schema Structure:**
+
 ```javascript
 {
     missions: [
@@ -216,6 +248,7 @@ Requests the recurring mission schedule.
 ```
 
 **Events Emitted:**
+
 - `recurringMissionSchema` - When schema is received
 
 **Timeout:** Configurable via `_missionTimeout` (default: 10000ms)
@@ -225,6 +258,7 @@ Requests the recurring mission schedule.
 #### XP Shop & Rewards
 
 ##### `acknowledgeXPShopTracks()`
+
 Acknowledges XP shop tracks.
 
 **Parameters:** None
@@ -234,15 +268,18 @@ Acknowledges XP shop tracks.
 ---
 
 ##### `redeemFreeReward(generationTime, redeemableBalance, items, callback)`
+
 Redeems a free reward.
 
 **Parameters:**
+
 - `generationTime` (number) - Generation time of the reward
 - `redeemableBalance` (number) - Redeemable balance
 - `items` (Array<number>) - Array of item IDs
 - `callback` (function, optional) - Callback function `(err, itemIds) => {}`
 
 **Returns:**
+
 - If callback provided: `undefined`
 - If no callback: `Promise<Array>` - Resolves with array of item IDs
 
@@ -251,9 +288,11 @@ Redeems a free reward.
 ---
 
 ##### `redeemMissionReward(campaignId, redeemId, redeemableBalance, expectedCost, bidControl, callback)`
+
 Redeems a mission reward.
 
 **Parameters:**
+
 - `campaignId` (number) - Campaign ID
 - `redeemId` (number) - Redeem ID
 - `redeemableBalance` (number) - Redeemable balance
@@ -262,6 +301,7 @@ Redeems a mission reward.
 - `callback` (function, optional) - Callback function `(err, itemIds) => {}`
 
 **Returns:**
+
 - If callback provided: `undefined`
 - If no callback: `Promise<Array>` - Resolves with array of item IDs
 
@@ -272,14 +312,17 @@ Redeems a mission reward.
 #### Premier Season & Leaderboards
 
 ##### `setLeaderboardSafeName(leaderboardSafeName)`
+
 Sets the player's leaderboard safe name.
 
 **Parameters:**
+
 - `leaderboardSafeName` (string) - The safe name for leaderboards
 
 **Returns:** `undefined`
 
 **Throws:**
+
 - `Error` if `leaderboardSafeName` is not a non-empty string
 
 ---
@@ -287,9 +330,11 @@ Sets the player's leaderboard safe name.
 #### Crate Opening
 
 ##### `openCrate(toolItemId, subjectItemId, forRental, pointsRemaining, callback)`
+
 Opens a crate using a key.
 
 **Parameters:**
+
 - `toolItemId` (number) - The ID of the tool (key) item
 - `subjectItemId` (number) - The ID of the crate item
 - `forRental` (boolean, optional) - Whether this is for a rental
@@ -297,6 +342,7 @@ Opens a crate using a key.
 - `callback` (function, optional) - Callback function `(err, itemIds) => {}`
 
 **Returns:**
+
 - If callback provided: `undefined`
 - If no callback: `Promise<Array>` - Resolves with array of item IDs
 
@@ -307,14 +353,17 @@ Opens a crate using a key.
 #### Sticker Operations
 
 ##### `extractSticker(itemId, stickerSlot, callback)`
+
 Extracts a sticker from an item.
 
 **Parameters:**
+
 - `itemId` (number) - The ID of the item with the sticker
 - `stickerSlot` (number) - The slot number of the sticker to extract
 - `callback` (function, optional) - Callback function `(err, itemIds) => {}`
 
 **Returns:**
+
 - If callback provided: `undefined`
 - If no callback: `Promise<Array>` - Resolves with array of item IDs
 
@@ -323,13 +372,16 @@ Extracts a sticker from an item.
 ---
 
 ##### `encapsulateSticker(stickerId, callback)`
+
 Encapsulates a sticker.
 
 **Parameters:**
+
 - `stickerId` (number) - The ID of the sticker to encapsulate
 - `callback` (function, optional) - Callback function `(err, itemIds) => {}`
 
 **Returns:**
+
 - If callback provided: `undefined`
 - If no callback: `Promise<Array>` - Resolves with array of item IDs
 
@@ -340,15 +392,18 @@ Encapsulates a sticker.
 #### Patch Operations
 
 ##### `applyPatch(itemId, patchId, patchSlot, callback)`
+
 Applies a patch to an item.
 
 **Parameters:**
+
 - `itemId` (number) - The ID of the item to apply patch to
 - `patchId` (number) - The ID of the patch item
 - `patchSlot` (number, optional) - The slot number for the patch
 - `callback` (function, optional) - Callback function `(err, itemIds) => {}`
 
 **Returns:**
+
 - If callback provided: `undefined`
 - If no callback: `Promise<Array>` - Resolves with array of item IDs
 
@@ -357,14 +412,17 @@ Applies a patch to an item.
 ---
 
 ##### `removePatch(itemId, patchSlot, callback)`
+
 Removes a patch from an item.
 
 **Parameters:**
+
 - `itemId` (number) - The ID of the item with the patch
 - `patchSlot` (number) - The slot number of the patch to remove
 - `callback` (function, optional) - Callback function `(err, itemIds) => {}`
 
 **Returns:**
+
 - If callback provided: `undefined`
 - If no callback: `Promise<Array>` - Resolves with array of item IDs
 
@@ -375,15 +433,18 @@ Removes a patch from an item.
 #### Keychain Operations
 
 ##### `applyKeychain(itemId, keychainId, keychainSlot, callback)`
+
 Applies a keychain to an item.
 
 **Parameters:**
+
 - `itemId` (number) - The ID of the item to apply keychain to
 - `keychainId` (number) - The ID of the keychain item
 - `keychainSlot` (number, optional) - The slot number for the keychain
 - `callback` (function, optional) - Callback function `(err, itemIds) => {}`
 
 **Returns:**
+
 - If callback provided: `undefined`
 - If no callback: `Promise<Array>` - Resolves with array of item IDs
 
@@ -392,9 +453,11 @@ Applies a keychain to an item.
 ---
 
 ##### `removeKeychain(itemId)`
+
 Removes a keychain from an item. This is a fire-and-forget operation — it sends the removal request to the Game Coordinator without waiting for a response.
 
 **Parameters:**
+
 - `itemId` (string) - The ID of the item with the keychain
 
 **Returns:** `undefined`
@@ -404,19 +467,23 @@ Removes a keychain from an item. This is a fire-and-forget operation — it send
 #### Profile Methods
 
 ##### `requestPlayersProfile(steamid, callback)`
+
 Requests a player's profile data.
 
 **Parameters:**
+
 - `steamid` (string|SteamID) - SteamID of the player
 - `callback` (function, optional) - Callback function `(err, profile) => {}`
 
 **Returns:**
+
 - If callback provided: `undefined`
 - If no callback: `Promise<Object>` - Resolves with profile data
 
 **Timeout:** Configurable via `_profileTimeout` (default: 10000ms)
 
 **Events Emitted:**
+
 - `playersProfile` - When profile is received
 - `playersProfile#<steamid64>` - Specific profile event
 
@@ -425,10 +492,12 @@ Requests a player's profile data.
 ### Instance Properties
 
 #### Connection Status
+
 - `haveGCSession` (boolean) - Whether GC session is active
 - `_isInCSGO` (boolean) - Whether CS2/CS:GO is launched
 
 #### Timeouts (Configurable)
+
 - `_inspectTimeout` (number) - Inspection timeout in ms (default: 10000)
 - `_casketTimeout` (number) - Casket loading timeout in ms (default: 30000)
 - `_profileTimeout` (number) - Profile request timeout in ms (default: 10000)
@@ -445,6 +514,7 @@ Requests a player's profile data.
 ### Connection Events
 
 #### `connectedToGC`
+
 Emitted when connected to the Game Coordinator.
 
 **No parameters**
@@ -452,6 +522,7 @@ Emitted when connected to the Game Coordinator.
 ---
 
 #### `disconnectedFromGC`
+
 Emitted when disconnected from the Game Coordinator.
 
 **No parameters**
@@ -459,9 +530,11 @@ Emitted when disconnected from the Game Coordinator.
 ---
 
 #### `gcConnectionStatus`
+
 Emitted when GC connection status changes.
 
 **Parameters:**
+
 - `status` (number) - Connection status code
   - `0` = HAVE_SESSION
   - `1` = GC_GOING_DOWN
@@ -474,33 +547,41 @@ Emitted when GC connection status changes.
 ### Item Events
 
 #### `inspectItemInfo`
+
 Emitted when item inspection data is received.
 
 **Parameters:**
+
 - `item` (Object) - Item data object
 
 ---
 
 #### `inspectItemInfo#<assetid>`
+
 Emitted for a specific item inspection.
 
 **Parameters:**
+
 - `item` (Object) - Item data object
 
 ---
 
 #### `inspectItemTimedOut`
+
 Emitted when an item inspection times out.
 
 **Parameters:**
+
 - `assetid` (number) - Asset ID that timed out
 
 ---
 
 #### `itemCustomizationNotification`
+
 Emitted when an item customization notification is received.
 
 **Parameters:**
+
 - `itemIds` (Array<number>) - Array of affected item IDs
 - `notificationType` (number) - Notification type (see ItemCustomizationNotification enum)
 
@@ -509,17 +590,21 @@ Emitted when an item customization notification is received.
 ### Profile Events
 
 #### `playersProfile`
+
 Emitted when player profile data is received.
 
 **Parameters:**
+
 - `profile` (Object) - Profile data object
 
 ---
 
 #### `playersProfile#<steamid64>`
+
 Emitted for a specific player profile.
 
 **Parameters:**
+
 - `profile` (Object) - Profile data object
 
 ---
@@ -527,9 +612,11 @@ Emitted for a specific player profile.
 ### New Feature Events
 
 #### `xpShopNotification`
+
 Emitted when XP shop notification is received.
 
 **Parameters:**
+
 - `data` (Object) - XP shop data
   - `prematch` (Object) - Prematch XP shop data
   - `postmatch` (Object) - Postmatch XP shop data
@@ -539,25 +626,31 @@ Emitted when XP shop notification is received.
 ---
 
 #### `recurringMissionSchema`
+
 Emitted when recurring mission schema is received.
 
 **Parameters:**
+
 - `schema` (Object) - Mission schema object
 
 ---
 
 #### `premierSeasonSummary`
+
 Emitted when premier season summary is received.
 
 **Parameters:**
+
 - `summary` (Object) - Premier season summary data
 
 ---
 
 #### `matchmakingSearchStats`
+
 Emitted when matchmaking search statistics are received.
 
 **Parameters:**
+
 - `stats` (Object) - Search statistics object
 
 ---
@@ -565,17 +658,21 @@ Emitted when matchmaking search statistics are received.
 ### System Events
 
 #### `error`
+
 Emitted when an error occurs.
 
 **Parameters:**
+
 - `error` (Error) - Error object
 
 ---
 
 #### `debug`
+
 Emitted for debug messages.
 
 **Parameters:**
+
 - `message` (string) - Debug message
 
 ---
@@ -605,6 +702,7 @@ See `language.js` for complete list.
 ### Item Fields
 
 #### Basic Fields
+
 - `itemid` (number) - Item ID
 - `defindex` (number) - Definition index
 - `paintindex` (number) - Paint/skin index
@@ -614,6 +712,7 @@ See `language.js` for complete list.
 - `quality` (number) - Quality level
 
 #### Modern CS2 Fields
+
 - `musicindex` (number) - Music kit index
 - `entindex` (number) - Entity index
 - `petindex` (number) - Pet/companion index
@@ -696,8 +795,8 @@ When inspecting multiple items, add delays between requests:
 
 ```javascript
 for (const item of items) {
-    await cs2.inspectItem(item.owner, item.assetid, item.classid);
-    await new Promise(resolve => setTimeout(resolve, 1000)); // 1s delay
+	await cs2.inspectItem(item.owner, item.assetid, item.classid);
+	await new Promise((resolve) => setTimeout(resolve, 1000)); // 1s delay
 }
 ```
 
@@ -712,18 +811,22 @@ The library maintains minimal state. Inventory data is managed by `steam-user`.
 ### Common Issues
 
 #### "Item not found or timed out"
+
 - **Cause:** Item doesn't exist, owner is offline, or GC is slow
 - **Solution:** Verify item exists, check owner status, increase timeout
 
 #### "Failed to decode protobuf"
+
 - **Cause:** Malformed data received from GC
 - **Solution:** Retry operation, check network connection
 
 #### "Invalid SteamID"
+
 - **Cause:** Invalid SteamID format provided
 - **Solution:** Use valid SteamID64 or SteamID object
 
 #### "GC connection lost"
+
 - **Cause:** Network issues or GC restart
 - **Solution:** Reconnect to GC, check network
 
@@ -733,7 +836,7 @@ Enable debug logging:
 
 ```javascript
 cs2.on('debug', (message) => {
-    console.log('[CS2]', message);
+	console.log('[CS2]', message);
 });
 ```
 
@@ -742,4 +845,3 @@ This will log all GC messages and connection status changes.
 ---
 
 For usage examples, see [EXAMPLES.md](./EXAMPLES.md).
-
