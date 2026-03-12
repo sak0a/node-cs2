@@ -15,7 +15,7 @@ const handlers = NodeCS2.prototype._handlers;
  * @param {Object} stickerLike - The sticker/keychain/variation object from protobuf
  * @returns {Object} Normalized sticker-like object with all fields
  */
-NodeCS2.prototype._mapStickerLikeItem = function(stickerLike) {
+NodeCS2.prototype._mapStickerLikeItem = function (stickerLike) {
 	return {
 		slot: stickerLike.slot || 0,
 		sticker_id: stickerLike.sticker_id || 0,
@@ -33,7 +33,7 @@ NodeCS2.prototype._mapStickerLikeItem = function(stickerLike) {
 };
 
 // ClientWelcome and ClientConnectionStatus
-handlers[Language.ClientLogonFatalError] = function(body) {
+handlers[Language.ClientLogonFatalError] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_ClientLogonFatalError, body);
@@ -50,7 +50,7 @@ handlers[Language.ClientLogonFatalError] = function(body) {
 	this.emit('error', err);
 };
 
-handlers[Language.ClientWelcome] = function(body) {
+handlers[Language.ClientWelcome] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgClientWelcome, body);
@@ -64,16 +64,18 @@ handlers[Language.ClientWelcome] = function(body) {
 			switch (cache.type_id) {
 				case Constants.SO_TYPE_ECON_ITEM:
 					// Inventory
-					const items = cache.object_data.map((object) => {
-						try {
-							const item = decodeProto(Protos.CSOEconItem, object);
-							this._processSOEconItem(item);
-							return item;
-						} catch (err) {
-							this.emit('debug', `Failed to decode inventory item: ${err.message}`);
-							return null;
-						}
-					}).filter(item => item !== null);
+					const items = cache.object_data
+						.map((object) => {
+							try {
+								const item = decodeProto(Protos.CSOEconItem, object);
+								this._processSOEconItem(item);
+								return item;
+							} catch (err) {
+								this.emit('debug', `Failed to decode inventory item: ${err.message}`);
+								return null;
+							}
+						})
+						.filter((item) => item !== null);
 
 					this.inventory = items;
 					break;
@@ -86,7 +88,7 @@ handlers[Language.ClientWelcome] = function(body) {
 					let data = decodeProto(Protos.CSOSelectedItemPreset, cache.object_data[0]);
 					break;*/
 				default:
-					this.emit('debug', "Unknown SO type " + cache.type_id + " with " + cache.object_data.length + " items");
+					this.emit('debug', 'Unknown SO type ' + cache.type_id + ' with ' + cache.object_data.length + ' items');
 					break;
 			}
 		});
@@ -94,7 +96,7 @@ handlers[Language.ClientWelcome] = function(body) {
 
 	this.inventory = this.inventory || [];
 
-	this.emit('debug', "GC connection established");
+	this.emit('debug', 'GC connection established');
 	this.haveGCSession = true;
 	clearTimeout(this._helloTimer);
 	this._helloTimer = null;
@@ -102,7 +104,7 @@ handlers[Language.ClientWelcome] = function(body) {
 	this.emit('connectedToGC');
 };
 
-handlers[Language.MatchmakingGC2ClientHello] = function(body) {
+handlers[Language.MatchmakingGC2ClientHello] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_MatchmakingGC2ClientHello, body);
@@ -114,7 +116,7 @@ handlers[Language.MatchmakingGC2ClientHello] = function(body) {
 	this.accountData = proto;
 };
 
-handlers[Language.ClientConnectionStatus] = function(body) {
+handlers[Language.ClientConnectionStatus] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgConnectionStatus, body);
@@ -122,9 +124,9 @@ handlers[Language.ClientConnectionStatus] = function(body) {
 		this.emit('error', new Error(`Failed to decode ClientConnectionStatus: ${err.message}`));
 		return;
 	}
-	
+
 	if (!proto || typeof proto.status === 'undefined') {
-		this.emit('debug', "ClientConnectionStatus missing status field");
+		this.emit('debug', 'ClientConnectionStatus missing status field');
 		return;
 	}
 
@@ -137,7 +139,10 @@ handlers[Language.ClientConnectionStatus] = function(body) {
 		}
 	}
 
-	this.emit('debug', "Connection status: " + statusStr + " (" + proto.status + "); have session: " + (this.haveGCSession ? 'yes' : 'no'));
+	this.emit(
+		'debug',
+		'Connection status: ' + statusStr + ' (' + proto.status + '); have session: ' + (this.haveGCSession ? 'yes' : 'no')
+	);
 
 	if (proto.status != NodeCS2.GCConnectionStatus.HAVE_SESSION && this.haveGCSession) {
 		this.emit('disconnectedFromGC', proto.status);
@@ -147,7 +152,7 @@ handlers[Language.ClientConnectionStatus] = function(body) {
 };
 
 // MatchList
-handlers[Language.MatchList] = function(body) {
+handlers[Language.MatchList] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_MatchList, body);
@@ -159,7 +164,7 @@ handlers[Language.MatchList] = function(body) {
 };
 
 // PlayersProfile
-handlers[Language.PlayersProfile] = function(body) {
+handlers[Language.PlayersProfile] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_PlayersProfile, body);
@@ -169,14 +174,14 @@ handlers[Language.PlayersProfile] = function(body) {
 	}
 
 	if (!proto.account_profiles || !proto.account_profiles[0]) {
-		this.emit('debug', "PlayersProfile missing account_profiles");
+		this.emit('debug', 'PlayersProfile missing account_profiles');
 		return;
 	}
 
 	const profile = proto.account_profiles[0];
-	
+
 	if (!profile.account_id) {
-		this.emit('debug', "PlayersProfile missing account_id");
+		this.emit('debug', 'PlayersProfile missing account_id');
 		return;
 	}
 
@@ -187,7 +192,7 @@ handlers[Language.PlayersProfile] = function(body) {
 };
 
 // Inspecting items
-handlers[Language.Client2GCEconPreviewDataBlockResponse] = function(body) {
+handlers[Language.Client2GCEconPreviewDataBlockResponse] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockResponse, body);
@@ -197,15 +202,15 @@ handlers[Language.Client2GCEconPreviewDataBlockResponse] = function(body) {
 	}
 
 	if (!proto || !proto.iteminfo) {
-		this.emit('debug', "Client2GCEconPreviewDataBlockResponse missing iteminfo");
+		this.emit('debug', 'Client2GCEconPreviewDataBlockResponse missing iteminfo');
 		return;
 	}
 
 	const item = proto.iteminfo;
-	
+
 	// Validate critical fields
 	if (typeof item.itemid === 'undefined') {
-		this.emit('debug', "Item inspection missing itemid");
+		this.emit('debug', 'Item inspection missing itemid');
 		return;
 	}
 
@@ -215,28 +220,28 @@ handlers[Language.Client2GCEconPreviewDataBlockResponse] = function(body) {
 		buf.writeUInt32BE(item.paintwear, 0);
 		item.paintwear = buf.readFloatBE(0);
 	}
-	
+
 	// Process stickers array - using helper function for consistency
 	if (item.stickers && Array.isArray(item.stickers)) {
-		item.stickers = item.stickers.map(sticker => this._mapStickerLikeItem(sticker));
-	}
-	
-	// Process keychains array - using helper function for consistency
-	if (item.keychains && Array.isArray(item.keychains)) {
-		item.keychains = item.keychains.map(keychain => this._mapStickerLikeItem(keychain));
-	}
-	
-	// Process variations array - using helper function for consistency
-	if (item.variations && Array.isArray(item.variations)) {
-		item.variations = item.variations.map(variation => this._mapStickerLikeItem(variation));
+		item.stickers = item.stickers.map((sticker) => this._mapStickerLikeItem(sticker));
 	}
 
-	this.emit("inspectItemInfo", item);
-	this.emit("inspectItemInfo#" + item.itemid, item);
+	// Process keychains array - using helper function for consistency
+	if (item.keychains && Array.isArray(item.keychains)) {
+		item.keychains = item.keychains.map((keychain) => this._mapStickerLikeItem(keychain));
+	}
+
+	// Process variations array - using helper function for consistency
+	if (item.variations && Array.isArray(item.variations)) {
+		item.variations = item.variations.map((variation) => this._mapStickerLikeItem(variation));
+	}
+
+	this.emit('inspectItemInfo', item);
+	this.emit('inspectItemInfo#' + item.itemid, item);
 };
 
 // XP Shop & Rewards
-handlers[Language.GC2ClientNotifyXPShop] = function(body) {
+handlers[Language.GC2ClientNotifyXPShop] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_GC2ClientNotifyXPShop, body);
@@ -246,7 +251,7 @@ handlers[Language.GC2ClientNotifyXPShop] = function(body) {
 	}
 
 	if (!proto) {
-		this.emit('debug', "GC2ClientNotifyXPShop missing data");
+		this.emit('debug', 'GC2ClientNotifyXPShop missing data');
 		return;
 	}
 
@@ -254,7 +259,7 @@ handlers[Language.GC2ClientNotifyXPShop] = function(body) {
 };
 
 // Recurring Missions
-handlers[Language.RecurringMissionSchema] = function(body) {
+handlers[Language.RecurringMissionSchema] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgRecurringMissionSchema, body);
@@ -264,7 +269,7 @@ handlers[Language.RecurringMissionSchema] = function(body) {
 	}
 
 	if (!proto) {
-		this.emit('debug', "RecurringMissionSchema missing data");
+		this.emit('debug', 'RecurringMissionSchema missing data');
 		return;
 	}
 
@@ -272,7 +277,7 @@ handlers[Language.RecurringMissionSchema] = function(body) {
 };
 
 // Premier Season
-handlers[Language.PremierSeasonSummary] = function(body) {
+handlers[Language.PremierSeasonSummary] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_PremierSeasonSummary, body);
@@ -282,7 +287,7 @@ handlers[Language.PremierSeasonSummary] = function(body) {
 	}
 
 	if (!proto) {
-		this.emit('debug', "PremierSeasonSummary missing data");
+		this.emit('debug', 'PremierSeasonSummary missing data');
 		return;
 	}
 
@@ -290,7 +295,7 @@ handlers[Language.PremierSeasonSummary] = function(body) {
 };
 
 // Matchmaking Search Stats
-handlers[Language.MatchmakingGC2ClientSearchStats] = function(body) {
+handlers[Language.MatchmakingGC2ClientSearchStats] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCCStrike15_v2_MatchmakingGC2ClientSearchStats, body);
@@ -300,7 +305,7 @@ handlers[Language.MatchmakingGC2ClientSearchStats] = function(body) {
 	}
 
 	if (!proto) {
-		this.emit('debug', "MatchmakingGC2ClientSearchStats missing data");
+		this.emit('debug', 'MatchmakingGC2ClientSearchStats missing data');
 		return;
 	}
 
@@ -308,7 +313,7 @@ handlers[Language.MatchmakingGC2ClientSearchStats] = function(body) {
 };
 
 // Item manipulation
-handlers[Language.CraftResponse] = function(body) {
+handlers[Language.CraftResponse] = function (body) {
 	const blueprint = body.readInt16(); // recipe ID
 	const unknown = body.readUint32(); // always 0 in my experience
 
@@ -323,7 +328,7 @@ handlers[Language.CraftResponse] = function(body) {
 	this.emit('craftingComplete', blueprint, idList);
 };
 
-handlers[Language.ItemCustomizationNotification] = function(body) {
+handlers[Language.ItemCustomizationNotification] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgGCItemCustomizationNotification, body);
@@ -331,9 +336,9 @@ handlers[Language.ItemCustomizationNotification] = function(body) {
 		this.emit('error', new Error(`Failed to decode ItemCustomizationNotification: ${err.message}`));
 		return;
 	}
-	
+
 	if (!proto.item_id || proto.item_id.length == 0 || !proto.request) {
-		this.emit('debug', "ItemCustomizationNotification missing required fields");
+		this.emit('debug', 'ItemCustomizationNotification missing required fields');
 		return;
 	}
 
@@ -341,10 +346,10 @@ handlers[Language.ItemCustomizationNotification] = function(body) {
 };
 
 // SO
-NodeCS2.prototype._processSOEconItem = function(item) {
+NodeCS2.prototype._processSOEconItem = function (item) {
 	// Inventory position
 	const isNew = (item.inventory >>> 30) & 1;
-	item.position = (isNew ? 0 : item.inventory & 0xFFFF);
+	item.position = isNew ? 0 : item.inventory & 0xffff;
 
 	// Is this item contained in a casket?
 	const casketIdLow = getAttributeValueBytes(Constants.ATTRIB_CASKET_ID_LOW);
@@ -398,7 +403,7 @@ NodeCS2.prototype._processSOEconItem = function(item) {
 
 	const stickers = [];
 	for (let i = 0; i <= 5; i++) {
-		const stickerIdBytes = getAttributeValueBytes(Constants.ATTRIB_STICKER_ID_BASE + (i * 4));
+		const stickerIdBytes = getAttributeValueBytes(Constants.ATTRIB_STICKER_ID_BASE + i * 4);
 		if (stickerIdBytes) {
 			const sticker = {
 				slot: i,
@@ -419,14 +424,14 @@ NodeCS2.prototype._processSOEconItem = function(item) {
 			}
 
 			['wear', 'scale', 'rotation'].forEach((attrib, idx) => {
-				const bytes = getAttributeValueBytes(Constants.ATTRIB_STICKER_WEAR_BASE + (i * 4) + idx);
+				const bytes = getAttributeValueBytes(Constants.ATTRIB_STICKER_WEAR_BASE + i * 4 + idx);
 				if (bytes) {
 					sticker[attrib] = bytes.readFloatLE(0);
 				}
 			});
 
 			['offset_x', 'offset_y'].forEach((attrib, idx) => {
-				const bytes = getAttributeValueBytes(Constants.ATTRIB_STICKER_OFFSET_BASE + (i * 2) + idx);
+				const bytes = getAttributeValueBytes(Constants.ATTRIB_STICKER_OFFSET_BASE + i * 2 + idx);
 				if (bytes) {
 					sticker[attrib] = bytes.readFloatLE(0);
 				}
@@ -456,12 +461,12 @@ NodeCS2.prototype._processSOEconItem = function(item) {
 	 * @returns {null|Buffer}
 	 */
 	function getAttributeValueBytes(attribDefIndex) {
-		const attrib = (item.attribute || []).find(attrib => attrib.def_index == attribDefIndex);
+		const attrib = (item.attribute || []).find((attrib) => attrib.def_index == attribDefIndex);
 		return attrib ? attrib.value_bytes : null;
 	}
 };
 
-handlers[Language.SO_Create] = function(body) {
+handlers[Language.SO_Create] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgSOSingleObject, body);
@@ -472,7 +477,7 @@ handlers[Language.SO_Create] = function(body) {
 	this._handleSOCreate(proto);
 };
 
-NodeCS2.prototype._handleSOCreate = function(proto) {
+NodeCS2.prototype._handleSOCreate = function (proto) {
 	if (!proto || proto.type_id != Constants.SO_TYPE_ECON_ITEM) {
 		return; // Not an item
 	}
@@ -488,14 +493,14 @@ NodeCS2.prototype._handleSOCreate = function(proto) {
 		this.emit('error', new Error(`Failed to decode SO_Create item: ${err.message}`));
 		return;
 	}
-	
+
 	this._processSOEconItem(item);
 	this.inventory.push(item);
 
 	this.emit('itemAcquired', item);
 };
 
-handlers[Language.SO_Update] = function(body) {
+handlers[Language.SO_Update] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgSOSingleObject, body);
@@ -506,7 +511,7 @@ handlers[Language.SO_Update] = function(body) {
 	this._handleSOUpdate(proto);
 };
 
-NodeCS2.prototype._handleSOUpdate = function(so) {
+NodeCS2.prototype._handleSOUpdate = function (so) {
 	if (!so || so.type_id != Constants.SO_TYPE_ECON_ITEM) {
 		return; // Not an item, we don't care
 	}
@@ -522,9 +527,9 @@ NodeCS2.prototype._handleSOUpdate = function(so) {
 		this.emit('error', new Error(`Failed to decode SO_Update item: ${err.message}`));
 		return;
 	}
-	
+
 	if (!item || !item.id) {
-		this.emit('debug', "SO_Update item missing id");
+		this.emit('debug', 'SO_Update item missing id');
 		return;
 	}
 
@@ -541,7 +546,7 @@ NodeCS2.prototype._handleSOUpdate = function(so) {
 	}
 };
 
-handlers[Language.SO_Destroy] = function(body) {
+handlers[Language.SO_Destroy] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgSOSingleObject, body);
@@ -552,7 +557,7 @@ handlers[Language.SO_Destroy] = function(body) {
 	this._handleSODestroy(proto);
 };
 
-NodeCS2.prototype._handleSODestroy = function(proto) {
+NodeCS2.prototype._handleSODestroy = function (proto) {
 	if (!proto || proto.type_id != Constants.SO_TYPE_ECON_ITEM) {
 		return; // Not an item
 	}
@@ -568,9 +573,9 @@ NodeCS2.prototype._handleSODestroy = function(proto) {
 		this.emit('error', new Error(`Failed to decode SO_Destroy item: ${err.message}`));
 		return;
 	}
-	
+
 	if (!item || !item.id) {
-		this.emit('debug', "SO_Destroy item missing id");
+		this.emit('debug', 'SO_Destroy item missing id');
 		return;
 	}
 
@@ -587,8 +592,7 @@ NodeCS2.prototype._handleSODestroy = function(proto) {
 	this.emit('itemRemoved', itemData);
 };
 
-
-handlers[Language.SO_UpdateMultiple] = function(body) {
+handlers[Language.SO_UpdateMultiple] = function (body) {
 	let proto;
 	try {
 		proto = decodeProto(Protos.CMsgSOMultipleObjects, body);
@@ -597,9 +601,9 @@ handlers[Language.SO_UpdateMultiple] = function(body) {
 		return;
 	}
 
-	(proto.objects_added || []).forEach(item => this._handleSOCreate(item));
-	(proto.objects_modified || []).forEach(item => this._handleSOUpdate(item));
-	(proto.objects_removed || []).forEach(item => this._handleSODestroy(item));
+	(proto.objects_added || []).forEach((item) => this._handleSOCreate(item));
+	(proto.objects_modified || []).forEach((item) => this._handleSOUpdate(item));
+	(proto.objects_removed || []).forEach((item) => this._handleSODestroy(item));
 };
 
 function decodeProto(proto, encoded) {
@@ -608,8 +612,8 @@ function decodeProto(proto, encoded) {
 	}
 
 	const decoded = proto.decode(encoded);
-	const objNoDefaults = proto.toObject(decoded, {"longs": String});
-	const objWithDefaults = proto.toObject(decoded, {"defaults": true, "longs": String});
+	const objNoDefaults = proto.toObject(decoded, { longs: String });
+	const objWithDefaults = proto.toObject(decoded, { defaults: true, longs: String });
 	return replaceDefaults(objNoDefaults, objWithDefaults);
 
 	function replaceDefaults(noDefaults, withDefaults) {

@@ -25,8 +25,8 @@ module.exports = [
 		rules: {
 			'no-var': 'error',
 			'prefer-const': 'warn',
-			'quotes': ['error', 'single'],
-			'semi': ['error', 'always']
+			quotes: ['error', 'single'],
+			semi: ['error', 'always']
 		}
 	},
 	{

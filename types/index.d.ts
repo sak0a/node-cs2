@@ -223,7 +223,10 @@ declare class NodeCS2 extends EventEmitter {
 	getCasketContents(casketId: string): Promise<NodeCS2.EconItem[]>;
 
 	// ─── Volatile Items ─────────────────────────────────────────────────────────
-	loadVolatileItemContents(volatileItemId: string, callback: (error: Error | null, items?: NodeCS2.EconItem[]) => void): void;
+	loadVolatileItemContents(
+		volatileItemId: string,
+		callback: (error: Error | null, items?: NodeCS2.EconItem[]) => void
+	): void;
 	loadVolatileItemContents(volatileItemId: string): Promise<NodeCS2.EconItem[]>;
 	claimVolatileItemReward(defindex: number, callback: (error: Error | null, itemIds?: string[]) => void): void;
 	claimVolatileItemReward(defindex: number): Promise<string[]>;
@@ -235,34 +238,81 @@ declare class NodeCS2 extends EventEmitter {
 
 	// ─── XP Shop & Rewards ──────────────────────────────────────────────────────
 	acknowledgeXPShopTracks(): void;
-	redeemFreeReward(generationTime: number, redeemableBalance: number, items: number[], callback: (error: Error | null, itemIds?: string[]) => void): void;
+	redeemFreeReward(
+		generationTime: number,
+		redeemableBalance: number,
+		items: number[],
+		callback: (error: Error | null, itemIds?: string[]) => void
+	): void;
 	redeemFreeReward(generationTime: number, redeemableBalance: number, items: number[]): Promise<string[]>;
-	redeemMissionReward(campaignId: number, redeemId: number, redeemableBalance: number, expectedCost: number, bidControl?: number, callback?: (error: Error | null, itemIds?: string[]) => void): void;
-	redeemMissionReward(campaignId: number, redeemId: number, redeemableBalance: number, expectedCost: number, bidControl?: number): Promise<string[]>;
+	redeemMissionReward(
+		campaignId: number,
+		redeemId: number,
+		redeemableBalance: number,
+		expectedCost: number,
+		bidControl?: number,
+		callback?: (error: Error | null, itemIds?: string[]) => void
+	): void;
+	redeemMissionReward(
+		campaignId: number,
+		redeemId: number,
+		redeemableBalance: number,
+		expectedCost: number,
+		bidControl?: number
+	): Promise<string[]>;
 
 	// ─── Premier Season ─────────────────────────────────────────────────────────
 	setLeaderboardSafeName(leaderboardSafeName: string): void;
 
 	// ─── Crate Opening ──────────────────────────────────────────────────────────
-	openCrate(toolItemId: string, subjectItemId: string, forRental?: boolean, pointsRemaining?: number, callback?: (error: Error | null, itemIds?: string[]) => void): void;
-	openCrate(toolItemId: string, subjectItemId: string, callback: (error: Error | null, itemIds?: string[]) => void): void;
-	openCrate(toolItemId: string, subjectItemId: string, forRental?: boolean, pointsRemaining?: number): Promise<string[]>;
+	openCrate(
+		toolItemId: string,
+		subjectItemId: string,
+		forRental?: boolean,
+		pointsRemaining?: number,
+		callback?: (error: Error | null, itemIds?: string[]) => void
+	): void;
+	openCrate(
+		toolItemId: string,
+		subjectItemId: string,
+		callback: (error: Error | null, itemIds?: string[]) => void
+	): void;
+	openCrate(
+		toolItemId: string,
+		subjectItemId: string,
+		forRental?: boolean,
+		pointsRemaining?: number
+	): Promise<string[]>;
 
 	// ─── Sticker Operations ─────────────────────────────────────────────────────
-	extractSticker(itemId: string, stickerSlot: number, callback: (error: Error | null, itemIds?: string[]) => void): void;
+	extractSticker(
+		itemId: string,
+		stickerSlot: number,
+		callback: (error: Error | null, itemIds?: string[]) => void
+	): void;
 	extractSticker(itemId: string, stickerSlot: number): Promise<string[]>;
 	encapsulateSticker(stickerId: string, callback: (error: Error | null, itemIds?: string[]) => void): void;
 	encapsulateSticker(stickerId: string): Promise<string[]>;
 
 	// ─── Patch Operations ───────────────────────────────────────────────────────
-	applyPatch(itemId: string, patchId: string, patchSlot?: number, callback?: (error: Error | null, itemIds?: string[]) => void): void;
+	applyPatch(
+		itemId: string,
+		patchId: string,
+		patchSlot?: number,
+		callback?: (error: Error | null, itemIds?: string[]) => void
+	): void;
 	applyPatch(itemId: string, patchId: string, callback: (error: Error | null, itemIds?: string[]) => void): void;
 	applyPatch(itemId: string, patchId: string, patchSlot?: number): Promise<string[]>;
 	removePatch(itemId: string, patchSlot: number, callback: (error: Error | null, itemIds?: string[]) => void): void;
 	removePatch(itemId: string, patchSlot: number): Promise<string[]>;
 
 	// ─── Keychain Operations ────────────────────────────────────────────────────
-	applyKeychain(itemId: string, keychainId: string, keychainSlot?: number, callback?: (error: Error | null, itemIds?: string[]) => void): void;
+	applyKeychain(
+		itemId: string,
+		keychainId: string,
+		keychainSlot?: number,
+		callback?: (error: Error | null, itemIds?: string[]) => void
+	): void;
 	applyKeychain(itemId: string, keychainId: string, callback: (error: Error | null, itemIds?: string[]) => void): void;
 	applyKeychain(itemId: string, keychainId: string, keychainSlot?: number): Promise<string[]>;
 	removeKeychain(itemId: string): void;

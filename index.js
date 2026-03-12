@@ -1,6 +1,6 @@
 const ByteBuffer = require('bytebuffer');
 const EventEmitter = require('events').EventEmitter;
-const {ShareCode} = require('globaloffensive-sharecode');
+const { ShareCode } = require('globaloffensive-sharecode');
 const SteamID = require('steamid');
 const Util = require('util');
 
@@ -20,7 +20,9 @@ function NodeCS2(steam) {
 	} else {
 		const [major, minor] = steam.packageVersion.split('.');
 		if (major < 4 || (major == 4 && minor < 2)) {
-			throw new Error(`globaloffensive v2 only supports steam-user v4.2.0 or later. ${steam.constructor.name} v${steam.packageVersion} given.`);
+			throw new Error(
+				`globaloffensive v2 only supports steam-user v4.2.0 or later. ${steam.constructor.name} v${steam.packageVersion} given.`
+			);
 		}
 	}
 
@@ -48,7 +50,10 @@ function NodeCS2(steam) {
 			}
 		}
 
-		this.emit('debug', "Got " + (handler ? "handled" : "unhandled") + " GC message " + msgName + (isProtobuf ? " (protobuf)" : ""));
+		this.emit(
+			'debug',
+			'Got ' + (handler ? 'handled' : 'unhandled') + ' GC message ' + msgName + (isProtobuf ? ' (protobuf)' : '')
+		);
 		if (handler) {
 			handler.call(this, isProtobuf ? payload : ByteBuffer.wrap(payload, ByteBuffer.LITTLE_ENDIAN));
 		}
@@ -100,9 +105,9 @@ function NodeCS2(steam) {
 	});
 }
 
-NodeCS2.prototype._connect = function() {
+NodeCS2.prototype._connect = function () {
 	if (!this._isInCSGO || this._helloTimer) {
-		this.emit('debug', "Not trying to connect due to " + (!this._isInCSGO ? "not in CS:GO" : "has helloTimer"));
+		this.emit('debug', 'Not trying to connect due to ' + (!this._isInCSGO ? 'not in CS:GO' : 'has helloTimer'));
 		return; // We're not in CS:GO or we're already trying to connect
 	}
 
@@ -112,7 +117,7 @@ NodeCS2.prototype._connect = function() {
 			delete this._helloTimer;
 			return;
 		} else if (this.haveGCSession) {
-			this.emit('debug', "Not sending hello because we have a session");
+			this.emit('debug', 'Not sending hello because we have a session');
 			clearTimeout(this._helloTimer);
 			delete this._helloTimer;
 			return;
@@ -125,7 +130,10 @@ NodeCS2.prototype._connect = function() {
 			steam_launcher: 0
 		});
 
-		this._helloTimerMs = Math.min(Constants.HELLO_BACKOFF_MAX_MS, (this._helloTimerMs || Constants.HELLO_BACKOFF_START_MS) * 2); // exponential backoff, max 60 seconds
+		this._helloTimerMs = Math.min(
+			Constants.HELLO_BACKOFF_MAX_MS,
+			(this._helloTimerMs || Constants.HELLO_BACKOFF_START_MS) * 2
+		); // exponential backoff, max 60 seconds
 		this._helloTimer = setTimeout(sendHello, this._helloTimerMs);
 		this.emit('debug', `Sending hello, setting timer for next attempt to ${this._helloTimerMs} ms`);
 	};
@@ -133,7 +141,7 @@ NodeCS2.prototype._connect = function() {
 	this._helloTimer = setTimeout(sendHello, Constants.HELLO_INITIAL_DELAY_MS);
 };
 
-NodeCS2.prototype._send = function(type, protobuf, body) {
+NodeCS2.prototype._send = function (type, protobuf, body) {
 	if (!this._steam.steamID) {
 		return false;
 	}
@@ -146,7 +154,7 @@ NodeCS2.prototype._send = function(type, protobuf, body) {
 		}
 	}
 
-	this.emit('debug', "Sending GC message " + msgName);
+	this.emit('debug', 'Sending GC message ' + msgName);
 
 	if (protobuf) {
 		this._steam.sendToGC(STEAM_APPID, type, {}, protobuf.encode(body).finish());
@@ -158,9 +166,9 @@ NodeCS2.prototype._send = function(type, protobuf, body) {
 	return true;
 };
 
-NodeCS2.prototype.requestGame = function(shareCodeOrDetails) {
+NodeCS2.prototype.requestGame = function (shareCodeOrDetails) {
 	if (typeof shareCodeOrDetails == 'string') {
-		shareCodeOrDetails = (new ShareCode(shareCodeOrDetails)).decode();
+		shareCodeOrDetails = new ShareCode(shareCodeOrDetails).decode();
 	}
 
 	if (typeof shareCodeOrDetails != 'object' || !shareCodeOrDetails) {
@@ -182,16 +190,21 @@ NodeCS2.prototype.requestGame = function(shareCodeOrDetails) {
 	});
 };
 
-NodeCS2.prototype.requestLiveGames = function() {
+NodeCS2.prototype.requestLiveGames = function () {
 	this._send(Language.MatchListRequestCurrentLiveGames, Protos.CMsgGCCStrike15_v2_MatchListRequestCurrentLiveGames, {});
 };
 
-NodeCS2.prototype.requestRecentGames = function(steamid) {
+NodeCS2.prototype.requestRecentGames = function (steamid) {
 	if (typeof steamid === 'string') {
 		steamid = new SteamID(steamid);
 	}
 
-	if (!steamid.isValid() || steamid.universe != SteamID.Universe.PUBLIC || steamid.type != SteamID.Type.INDIVIDUAL || steamid.instance != SteamID.Instance.DESKTOP) {
+	if (
+		!steamid.isValid() ||
+		steamid.universe != SteamID.Universe.PUBLIC ||
+		steamid.type != SteamID.Type.INDIVIDUAL ||
+		steamid.instance != SteamID.Instance.DESKTOP
+	) {
 		return false;
 	}
 
@@ -200,12 +213,17 @@ NodeCS2.prototype.requestRecentGames = function(steamid) {
 	});
 };
 
-NodeCS2.prototype.requestLiveGameForUser = function(steamid) {
+NodeCS2.prototype.requestLiveGameForUser = function (steamid) {
 	if (typeof steamid === 'string') {
 		steamid = new SteamID(steamid);
 	}
 
-	if (!steamid.isValid() || steamid.universe != SteamID.Universe.PUBLIC || steamid.type != SteamID.Type.INDIVIDUAL || steamid.instance != SteamID.Instance.DESKTOP) {
+	if (
+		!steamid.isValid() ||
+		steamid.universe != SteamID.Universe.PUBLIC ||
+		steamid.type != SteamID.Type.INDIVIDUAL ||
+		steamid.instance != SteamID.Instance.DESKTOP
+	) {
 		return false;
 	}
 
@@ -214,7 +232,7 @@ NodeCS2.prototype.requestLiveGameForUser = function(steamid) {
 	});
 };
 
-NodeCS2.prototype.inspectItem = function(owner, assetid, d, callback) {
+NodeCS2.prototype.inspectItem = function (owner, assetid, d, callback) {
 	let match;
 	if (typeof owner === 'string' && (match = owner.match(/[SM](\d+)A(\d+)D(\d+)$/))) {
 		callback = assetid;
@@ -224,10 +242,10 @@ NodeCS2.prototype.inspectItem = function(owner, assetid, d, callback) {
 	}
 
 	const msg = {
-		"param_a": assetid,
-		"param_d": d,
-		"param_s": 0,
-		"param_m": 0
+		param_a: assetid,
+		param_d: d,
+		param_s: 0,
+		param_m: 0
 	};
 
 	if (typeof owner === 'object') {
@@ -236,7 +254,12 @@ NodeCS2.prototype.inspectItem = function(owner, assetid, d, callback) {
 
 	try {
 		const sid = new SteamID(owner);
-		if (!sid.isValid() || sid.universe != SteamID.Universe.PUBLIC || sid.type != SteamID.Type.INDIVIDUAL || sid.instance != SteamID.Instance.DESKTOP) {
+		if (
+			!sid.isValid() ||
+			sid.universe != SteamID.Universe.PUBLIC ||
+			sid.type != SteamID.Type.INDIVIDUAL ||
+			sid.instance != SteamID.Instance.DESKTOP
+		) {
 			throw 0;
 		}
 		// it's a valid steamid
@@ -245,8 +268,12 @@ NodeCS2.prototype.inspectItem = function(owner, assetid, d, callback) {
 		msg.param_m = owner;
 	}
 
-	this._send(Language.Client2GCEconPreviewDataBlockRequest, Protos.CMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockRequest, msg);
-	
+	this._send(
+		Language.Client2GCEconPreviewDataBlockRequest,
+		Protos.CMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockRequest,
+		msg
+	);
+
 	// Support both callback and Promise-based API
 	if (callback) {
 		let timeout;
@@ -274,25 +301,30 @@ NodeCS2.prototype.inspectItem = function(owner, assetid, d, callback) {
 				this.removeListener('inspectItemInfo#' + assetid, successListener);
 				reject(new Error(`Inspect item timed out for assetid: ${assetid}`));
 			};
-			
+
 			timeout = setTimeout(() => {
 				this.removeListener('inspectItemInfo#' + assetid, successListener);
 				this.emit('inspectItemTimedOut', assetid);
 				this.emit('inspectItemTimedOut#' + assetid, assetid);
 			}, this._inspectTimeout || Constants.INSPECT_ITEM_TIMEOUT_MS);
-			
+
 			this.once('inspectItemInfo#' + assetid, successListener);
 			this.once('inspectItemTimedOut#' + assetid, timeoutListener);
 		});
 	}
 };
 
-NodeCS2.prototype.requestPlayersProfile = function(steamid, callback) {
+NodeCS2.prototype.requestPlayersProfile = function (steamid, callback) {
 	if (typeof steamid == 'string') {
 		steamid = new SteamID(steamid);
 	}
 
-	if (!steamid.isValid() || steamid.universe != SteamID.Universe.PUBLIC || steamid.type != SteamID.Type.INDIVIDUAL || steamid.instance != SteamID.Instance.DESKTOP) {
+	if (
+		!steamid.isValid() ||
+		steamid.universe != SteamID.Universe.PUBLIC ||
+		steamid.type != SteamID.Type.INDIVIDUAL ||
+		steamid.instance != SteamID.Instance.DESKTOP
+	) {
 		if (callback) {
 			callback(new Error('Invalid SteamID'));
 			return false;
@@ -314,7 +346,7 @@ NodeCS2.prototype.requestPlayersProfile = function(steamid, callback) {
 				this.removeListener('playersProfile#' + steamid.getSteamID64(), resolve);
 				reject(new Error(`Request players profile timed out for SteamID: ${steamid.getSteamID64()}`));
 			}, this._profileTimeout || Constants.PROFILE_TIMEOUT_MS);
-			
+
 			this.once('playersProfile#' + steamid.getSteamID64(), (profile) => {
 				clearTimeout(timeout);
 				resolve(profile);
@@ -329,7 +361,7 @@ NodeCS2.prototype.requestPlayersProfile = function(steamid, callback) {
  * @param {int} itemId
  * @param {string} name
  */
-NodeCS2.prototype.nameItem = function(nameTagId, itemId, name) {
+NodeCS2.prototype.nameItem = function (nameTagId, itemId, name) {
 	const buffer = new ByteBuffer(18 + Buffer.byteLength(name), ByteBuffer.LITTLE_ENDIAN);
 	buffer.writeUint64(nameTagId);
 	buffer.writeUint64(itemId);
@@ -342,7 +374,7 @@ NodeCS2.prototype.nameItem = function(nameTagId, itemId, name) {
  * Permanently delete an item from your inventory.
  * @param {int} itemId
  */
-NodeCS2.prototype.deleteItem = function(itemId) {
+NodeCS2.prototype.deleteItem = function (itemId) {
 	const buffer = new ByteBuffer(8, ByteBuffer.LITTLE_ENDIAN);
 	buffer.writeUint64(itemId);
 	this._send(Language.Delete, null, buffer);
@@ -353,8 +385,8 @@ NodeCS2.prototype.deleteItem = function(itemId) {
  * @param {int[]} items - IDs of items to craft
  * @param {int} recipe - The ID of the recipe to use
  */
-NodeCS2.prototype.craft = function(items, recipe) {
-	const buffer = new ByteBuffer(2 + 2 + (8 * items.length), ByteBuffer.LITTLE_ENDIAN);
+NodeCS2.prototype.craft = function (items, recipe) {
+	const buffer = new ByteBuffer(2 + 2 + 8 * items.length, ByteBuffer.LITTLE_ENDIAN);
 	buffer.writeInt16(recipe);
 	buffer.writeInt16(items.length);
 	for (let i = 0; i < items.length; i++) {
@@ -370,7 +402,7 @@ NodeCS2.prototype.craft = function(items, recipe) {
  * @param {int} casketId
  * @param {int} itemId
  */
-NodeCS2.prototype.addToCasket = function(casketId, itemId) {
+NodeCS2.prototype.addToCasket = function (casketId, itemId) {
 	this._send(Language.CasketItemAdd, Protos.CMsgCasketItem, {
 		casket_item_id: casketId,
 		item_item_id: itemId
@@ -382,7 +414,7 @@ NodeCS2.prototype.addToCasket = function(casketId, itemId) {
  * @param {int} casketId
  * @param {int} itemId
  */
-NodeCS2.prototype.removeFromCasket = function(casketId, itemId) {
+NodeCS2.prototype.removeFromCasket = function (casketId, itemId) {
 	this._send(Language.CasketItemExtract, Protos.CMsgCasketItem, {
 		casket_item_id: casketId,
 		item_item_id: itemId
@@ -395,9 +427,9 @@ NodeCS2.prototype.removeFromCasket = function(casketId, itemId) {
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
-NodeCS2.prototype.getCasketContents = function(casketId, callback) {
+NodeCS2.prototype.getCasketContents = function (casketId, callback) {
 	// First see if we already have this casket's contents in our inventory
-	const casketItem = this.inventory.find(item => item.id == casketId);
+	const casketItem = this.inventory.find((item) => item.id == casketId);
 	if (!casketItem) {
 		const error = new Error(`No casket matching ID ${casketId} was found`);
 		if (callback) {
@@ -416,7 +448,7 @@ NodeCS2.prototype.getCasketContents = function(casketId, callback) {
 		return Promise.resolve([]);
 	}
 
-	const loadedItems = this.inventory.filter(item => item.casket_id == casketId);
+	const loadedItems = this.inventory.filter((item) => item.casket_id == casketId);
 	if (loadedItems.length == casketItem.casket_contained_item_count) {
 		if (callback) {
 			callback(null, loadedItems);
@@ -461,7 +493,10 @@ NodeCS2.prototype.getCasketContents = function(casketId, callback) {
 			clearTimeout(timeout);
 			timedOut = true;
 			this.off('itemCustomizationNotification', customizationNotification);
-			callback(null, this.inventory.filter(item => item.casket_id == casketId));
+			callback(
+				null,
+				this.inventory.filter((item) => item.casket_id == casketId)
+			);
 		};
 
 		this.on('itemCustomizationNotification', customizationNotification);
@@ -491,7 +526,7 @@ NodeCS2.prototype.getCasketContents = function(casketId, callback) {
 				clearTimeout(timeout);
 				timedOut = true;
 				this.off('itemCustomizationNotification', customizationNotification);
-				resolve(this.inventory.filter(item => item.casket_id == casketId));
+				resolve(this.inventory.filter((item) => item.casket_id == casketId));
 			};
 
 			this.on('itemCustomizationNotification', customizationNotification);
@@ -509,9 +544,9 @@ NodeCS2.prototype.getCasketContents = function(casketId, callback) {
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
-NodeCS2.prototype.loadVolatileItemContents = function(volatileItemId, callback) {
+NodeCS2.prototype.loadVolatileItemContents = function (volatileItemId, callback) {
 	// Similar to getCasketContents, but for volatile items
-	const volatileItem = this.inventory.find(item => item.id == volatileItemId);
+	const volatileItem = this.inventory.find((item) => item.id == volatileItemId);
 	if (!volatileItem) {
 		const error = new Error(`No volatile item matching ID ${volatileItemId} was found`);
 		if (callback) {
@@ -556,7 +591,10 @@ NodeCS2.prototype.loadVolatileItemContents = function(volatileItemId, callback) 
 			clearTimeout(timeout);
 			timedOut = true;
 			this.off('itemCustomizationNotification', customizationNotification);
-			callback(null, this.inventory.filter(item => item.volatile_item_id == volatileItemId || item.id == volatileItemId));
+			callback(
+				null,
+				this.inventory.filter((item) => item.volatile_item_id == volatileItemId || item.id == volatileItemId)
+			);
 		};
 
 		this.on('itemCustomizationNotification', customizationNotification);
@@ -584,7 +622,7 @@ NodeCS2.prototype.loadVolatileItemContents = function(volatileItemId, callback) 
 				clearTimeout(timeout);
 				timedOut = true;
 				this.off('itemCustomizationNotification', customizationNotification);
-				resolve(this.inventory.filter(item => item.volatile_item_id == volatileItemId || item.id == volatileItemId));
+				resolve(this.inventory.filter((item) => item.volatile_item_id == volatileItemId || item.id == volatileItemId));
 			};
 
 			this.on('itemCustomizationNotification', customizationNotification);
@@ -599,7 +637,7 @@ NodeCS2.prototype.loadVolatileItemContents = function(volatileItemId, callback) 
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
-NodeCS2.prototype.claimVolatileItemReward = function(defindex, callback) {
+NodeCS2.prototype.claimVolatileItemReward = function (defindex, callback) {
 	// VolatileItemClaimReward doesn't have a protobuf message definition
 	// Send as empty ByteBuffer - response comes via ItemCustomizationNotification
 	const buffer = new ByteBuffer(4, ByteBuffer.LITTLE_ENDIAN);
@@ -646,7 +684,7 @@ NodeCS2.prototype.claimVolatileItemReward = function(defindex, callback) {
  * Acknowledge rental expiration for a crate/item.
  * @param {int} crateItemId - The ID of the crate/item
  */
-NodeCS2.prototype.acknowledgeRentalExpiration = function(crateItemId) {
+NodeCS2.prototype.acknowledgeRentalExpiration = function (crateItemId) {
 	this._send(Language.AcknowledgeRentalExpiration, Protos.CMsgAcknowledgeRentalExpiration, {
 		crate_item_id: crateItemId
 	});
@@ -661,7 +699,7 @@ NodeCS2.prototype.acknowledgeRentalExpiration = function(crateItemId) {
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
-NodeCS2.prototype.requestRecurringMissionSchedule = function(callback) {
+NodeCS2.prototype.requestRecurringMissionSchedule = function (callback) {
 	this._send(Language.RequestRecurringMissionSchedule, Protos.CMsgRequestRecurringMissionSchedule, {});
 
 	if (callback) {
@@ -703,7 +741,7 @@ NodeCS2.prototype.requestRecurringMissionSchedule = function(callback) {
 /**
  * Acknowledge XP shop tracks.
  */
-NodeCS2.prototype.acknowledgeXPShopTracks = function() {
+NodeCS2.prototype.acknowledgeXPShopTracks = function () {
 	this._send(Language.Client2GcAckXPShopTracks, Protos.CMsgGCCStrike15_v2_Client2GcAckXPShopTracks, {});
 };
 
@@ -715,7 +753,7 @@ NodeCS2.prototype.acknowledgeXPShopTracks = function() {
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
-NodeCS2.prototype.redeemFreeReward = function(generationTime, redeemableBalance, items, callback) {
+NodeCS2.prototype.redeemFreeReward = function (generationTime, redeemableBalance, items, callback) {
 	this._send(Language.ClientRedeemFreeReward, Protos.CMsgGCCstrike15_v2_ClientRedeemFreeReward, {
 		generation_time: generationTime,
 		redeemable_balance: redeemableBalance,
@@ -768,7 +806,14 @@ NodeCS2.prototype.redeemFreeReward = function(generationTime, redeemableBalance,
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
-NodeCS2.prototype.redeemMissionReward = function(campaignId, redeemId, redeemableBalance, expectedCost, bidControl, callback) {
+NodeCS2.prototype.redeemMissionReward = function (
+	campaignId,
+	redeemId,
+	redeemableBalance,
+	expectedCost,
+	bidControl,
+	callback
+) {
 	// Handle optional bidControl parameter
 	if (typeof bidControl === 'function') {
 		callback = bidControl;
@@ -827,7 +872,7 @@ NodeCS2.prototype.redeemMissionReward = function(campaignId, redeemId, redeemabl
  * Set player leaderboard safe name.
  * @param {string} leaderboardSafeName - The safe name for leaderboards
  */
-NodeCS2.prototype.setLeaderboardSafeName = function(leaderboardSafeName) {
+NodeCS2.prototype.setLeaderboardSafeName = function (leaderboardSafeName) {
 	if (!leaderboardSafeName || typeof leaderboardSafeName !== 'string') {
 		throw new Error('leaderboardSafeName must be a non-empty string');
 	}
@@ -850,7 +895,7 @@ NodeCS2.prototype.setLeaderboardSafeName = function(leaderboardSafeName) {
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
-NodeCS2.prototype.openCrate = function(toolItemId, subjectItemId, forRental, pointsRemaining, callback) {
+NodeCS2.prototype.openCrate = function (toolItemId, subjectItemId, forRental, pointsRemaining, callback) {
 	// Handle optional parameters
 	if (typeof forRental === 'function') {
 		callback = forRental;
@@ -921,7 +966,7 @@ NodeCS2.prototype.openCrate = function(toolItemId, subjectItemId, forRental, poi
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
-NodeCS2.prototype.extractSticker = function(itemId, stickerSlot, callback) {
+NodeCS2.prototype.extractSticker = function (itemId, stickerSlot, callback) {
 	// Send request via ItemCustomizationNotification
 	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
 		item_id: [itemId],
@@ -974,7 +1019,7 @@ NodeCS2.prototype.extractSticker = function(itemId, stickerSlot, callback) {
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
-NodeCS2.prototype.encapsulateSticker = function(stickerId, callback) {
+NodeCS2.prototype.encapsulateSticker = function (stickerId, callback) {
 	// Send request via ItemCustomizationNotification
 	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
 		item_id: [stickerId],
@@ -1033,7 +1078,7 @@ NodeCS2.prototype.encapsulateSticker = function(stickerId, callback) {
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
-NodeCS2.prototype.applyPatch = function(itemId, patchId, patchSlot, callback) {
+NodeCS2.prototype.applyPatch = function (itemId, patchId, patchSlot, callback) {
 	if (typeof patchSlot === 'function') {
 		callback = patchSlot;
 		patchSlot = undefined;
@@ -1092,7 +1137,7 @@ NodeCS2.prototype.applyPatch = function(itemId, patchId, patchSlot, callback) {
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
-NodeCS2.prototype.removePatch = function(itemId, patchSlot, callback) {
+NodeCS2.prototype.removePatch = function (itemId, patchSlot, callback) {
 	// Send request via ItemCustomizationNotification
 	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
 		item_id: [itemId],
@@ -1151,7 +1196,7 @@ NodeCS2.prototype.removePatch = function(itemId, patchSlot, callback) {
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
-NodeCS2.prototype.applyKeychain = function(itemId, keychainId, keychainSlot, callback) {
+NodeCS2.prototype.applyKeychain = function (itemId, keychainId, keychainSlot, callback) {
 	if (typeof keychainSlot === 'function') {
 		callback = keychainSlot;
 		keychainSlot = undefined;
@@ -1207,10 +1252,10 @@ NodeCS2.prototype.applyKeychain = function(itemId, keychainId, keychainSlot, cal
  * Remove a keychain from an item.
  * @param {string} itemId - The ID of the item with the keychain
  */
-NodeCS2.prototype.removeKeychain = function(itemId) {
+NodeCS2.prototype.removeKeychain = function (itemId) {
 	this._send(Language.ApplySticker, Protos.CMsgApplySticker, {
 		sticker_item_id: Constants.REMOVE_KEYCHAIN_STICKER_ITEM_ID,
-		item_item_id: itemId,
+		item_item_id: itemId
 	});
 };
 

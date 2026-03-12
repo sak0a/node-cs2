@@ -293,5 +293,5 @@ module.exports = {
 	PremierSeasonSummary: 9224,
 	RequestRecurringMissionSchedule: 9225,
 	RecurringMissionSchema: 9226,
-	VolatileItemClaimReward: 9227,
+	VolatileItemClaimReward: 9227
 };
