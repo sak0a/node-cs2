@@ -21924,6 +21924,7 @@
          * @property {number|Long|null} [subject_item_id] CMsgOpenCrate subject_item_id
          * @property {boolean|null} [for_rental] CMsgOpenCrate for_rental
          * @property {number|null} [points_remaining] CMsgOpenCrate points_remaining
+         * @property {number|null} [volatile_limit] CMsgOpenCrate volatile_limit
          */
     
         /**
@@ -21974,6 +21975,14 @@
         CMsgOpenCrate.prototype.points_remaining = 0;
     
         /**
+         * CMsgOpenCrate volatile_limit.
+         * @member {number} volatile_limit
+         * @memberof CMsgOpenCrate
+         * @instance
+         */
+        CMsgOpenCrate.prototype.volatile_limit = 0;
+    
+        /**
          * Creates a new CMsgOpenCrate instance using the specified properties.
          * @function create
          * @memberof CMsgOpenCrate
@@ -22005,6 +22014,8 @@
                 writer.uint32(/* id 3, wireType 0 =*/24).bool(message.for_rental);
             if (message.points_remaining != null && Object.hasOwnProperty.call(message, "points_remaining"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.points_remaining);
+            if (message.volatile_limit != null && Object.hasOwnProperty.call(message, "volatile_limit"))
+                writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.volatile_limit);
             return writer;
         };
     
@@ -22057,6 +22068,10 @@
                         message.points_remaining = reader.uint32();
                         break;
                     }
+                case 5: {
+                        message.volatile_limit = reader.uint32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -22104,6 +22119,9 @@
             if (message.points_remaining != null && message.hasOwnProperty("points_remaining"))
                 if (!$util.isInteger(message.points_remaining))
                     return "points_remaining: integer expected";
+            if (message.volatile_limit != null && message.hasOwnProperty("volatile_limit"))
+                if (!$util.isInteger(message.volatile_limit))
+                    return "volatile_limit: integer expected";
             return null;
         };
     
@@ -22141,6 +22159,8 @@
                 message.for_rental = Boolean(object.for_rental);
             if (object.points_remaining != null)
                 message.points_remaining = object.points_remaining >>> 0;
+            if (object.volatile_limit != null)
+                message.volatile_limit = object.volatile_limit >>> 0;
             return message;
         };
     
@@ -22170,6 +22190,7 @@
                     object.subject_item_id = options.longs === String ? "0" : 0;
                 object.for_rental = false;
                 object.points_remaining = 0;
+                object.volatile_limit = 0;
             }
             if (message.tool_item_id != null && message.hasOwnProperty("tool_item_id"))
                 if (typeof message.tool_item_id === "number")
@@ -22185,6 +22206,8 @@
                 object.for_rental = message.for_rental;
             if (message.points_remaining != null && message.hasOwnProperty("points_remaining"))
                 object.points_remaining = message.points_remaining;
+            if (message.volatile_limit != null && message.hasOwnProperty("volatile_limit"))
+                object.volatile_limit = message.volatile_limit;
             return object;
         };
     

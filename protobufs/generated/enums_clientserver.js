@@ -94,6 +94,7 @@
      * @property {number} k_EMsgLicenseProcessingComplete=316 k_EMsgLicenseProcessingComplete value
      * @property {number} k_EMsgSetTestFlag=317 k_EMsgSetTestFlag value
      * @property {number} k_EMsgQueuedEmailsComplete=318 k_EMsgQueuedEmailsComplete value
+     * @property {number} k_EMsgGMReportPHPError=319 k_EMsgGMReportPHPError value
      * @property {number} k_EMsgGMDRMSync=320 k_EMsgGMDRMSync value
      * @property {number} k_EMsgPhysicalBoxInventory=321 k_EMsgPhysicalBoxInventory value
      * @property {number} k_EMsgUpdateConfigFile=322 k_EMsgUpdateConfigFile value
@@ -111,8 +112,6 @@
      * @property {number} k_EMsgExpectShellRestart=336 k_EMsgExpectShellRestart value
      * @property {number} k_EMsgHotFixProgress=337 k_EMsgHotFixProgress value
      * @property {number} k_EMsgGMStatsForwardToAdminConnections=338 k_EMsgGMStatsForwardToAdminConnections value
-     * @property {number} k_EMsgGMGetModifiedConVars=339 k_EMsgGMGetModifiedConVars value
-     * @property {number} k_EMsgGMGetModifiedConVarsResponse=340 k_EMsgGMGetModifiedConVarsResponse value
      * @property {number} k_EMsgBaseAIS=400 k_EMsgBaseAIS value
      * @property {number} k_EMsgAISRequestContentDescription=402 k_EMsgAISRequestContentDescription value
      * @property {number} k_EMsgAISUpdateAppInfo=403 k_EMsgAISUpdateAppInfo value
@@ -521,8 +520,11 @@
      * @property {number} k_EMsgClientDPSendSpecialSurveyResponse=1622 k_EMsgClientDPSendSpecialSurveyResponse value
      * @property {number} k_EMsgClientDPSendSpecialSurveyResponseReply=1623 k_EMsgClientDPSendSpecialSurveyResponseReply value
      * @property {number} k_EMsgDPStoreSaleStatistics=1624 k_EMsgDPStoreSaleStatistics value
+     * @property {number} k_EMsgClientDPUpdateAppJobReport=1625 k_EMsgClientDPUpdateAppJobReport value
+     * @property {number} k_EMsgClientDPUnsignedInstallScript=1627 k_EMsgClientDPUnsignedInstallScript value
      * @property {number} k_EMsgDPPartnerMicroTxns=1628 k_EMsgDPPartnerMicroTxns value
      * @property {number} k_EMsgDPPartnerMicroTxnsResponse=1629 k_EMsgDPPartnerMicroTxnsResponse value
+     * @property {number} k_EMsgClientDPContentStatsReport=1630 k_EMsgClientDPContentStatsReport value
      * @property {number} k_EMsgDPVRUniquePlayersStat=1631 k_EMsgDPVRUniquePlayersStat value
      * @property {number} k_EMsgBaseCM=1700 k_EMsgBaseCM value
      * @property {number} k_EMsgCMSetAllowState=1701 k_EMsgCMSetAllowState value
@@ -568,9 +570,6 @@
      * @property {number} k_EMsgGCHAppCheersReceived=2242 k_EMsgGCHAppCheersReceived value
      * @property {number} k_EMsgGCHAppCheersGetAllowedTypes=2243 k_EMsgGCHAppCheersGetAllowedTypes value
      * @property {number} k_EMsgGCHAppCheersGetAllowedTypesResponse=2244 k_EMsgGCHAppCheersGetAllowedTypesResponse value
-     * @property {number} k_EMsgGCHRoutingRulesFromGCHtoGM=2245 k_EMsgGCHRoutingRulesFromGCHtoGM value
-     * @property {number} k_EMsgGCHRoutingRulesToGCHfromGM=2246 k_EMsgGCHRoutingRulesToGCHfromGM value
-     * @property {number} k_EMsgUpdateCMMessageRateRules=2247 k_EMsgUpdateCMMessageRateRules value
      * @property {number} k_EMsgBaseP2P=2500 k_EMsgBaseP2P value
      * @property {number} k_EMsgP2PIntroducerMessage=2502 k_EMsgP2PIntroducerMessage value
      * @property {number} k_EMsgBaseSM=2900 k_EMsgBaseSM value
@@ -717,6 +716,8 @@
      * @property {number} k_EMsgAMSendQueuedEmails=4152 k_EMsgAMSendQueuedEmails value
      * @property {number} k_EMsgAMSetLicenseFlags=4153 k_EMsgAMSetLicenseFlags value
      * @property {number} k_EMsgCommunityDeleteUserNews=4155 k_EMsgCommunityDeleteUserNews value
+     * @property {number} k_EMsgAMAllowUserFilesRequest=4156 k_EMsgAMAllowUserFilesRequest value
+     * @property {number} k_EMsgAMAllowUserFilesResponse=4157 k_EMsgAMAllowUserFilesResponse value
      * @property {number} k_EMsgAMGetAccountStatus=4158 k_EMsgAMGetAccountStatus value
      * @property {number} k_EMsgAMGetAccountStatusResponse=4159 k_EMsgAMGetAccountStatusResponse value
      * @property {number} k_EMsgAMEditBanReason=4160 k_EMsgAMEditBanReason value
@@ -744,6 +745,7 @@
      * @property {number} k_EMsgAMSupportIsAccountEnabledResponse=4210 k_EMsgAMSupportIsAccountEnabledResponse value
      * @property {number} k_EMsgUGSGetUserStats=4211 k_EMsgUGSGetUserStats value
      * @property {number} k_EMsgAMGSSearch=4213 k_EMsgAMGSSearch value
+     * @property {number} k_EMsgMarketingMessageUpdate=4216 k_EMsgMarketingMessageUpdate value
      * @property {number} k_EMsgChatServerRouteFriendMsg=4219 k_EMsgChatServerRouteFriendMsg value
      * @property {number} k_EMsgAMTicketAuthRequestOrResponse=4220 k_EMsgAMTicketAuthRequestOrResponse value
      * @property {number} k_EMsgAMAddFreeLicense=4224 k_EMsgAMAddFreeLicense value
@@ -770,6 +772,7 @@
      * @property {number} k_EMsgAMCreateFinancialAdjustment=4265 k_EMsgAMCreateFinancialAdjustment value
      * @property {number} k_EMsgAMPlayerNicknameList=4266 k_EMsgAMPlayerNicknameList value
      * @property {number} k_EMsgAMPlayerNicknameListResponse=4267 k_EMsgAMPlayerNicknameListResponse value
+     * @property {number} k_EMsgAMSetDRMTestConfig=4268 k_EMsgAMSetDRMTestConfig value
      * @property {number} k_EMsgAMGetUserCurrentGameInfo=4269 k_EMsgAMGetUserCurrentGameInfo value
      * @property {number} k_EMsgAMGetUserCurrentGameInfoResponse=4270 k_EMsgAMGetUserCurrentGameInfoResponse value
      * @property {number} k_EMsgAMGetGSPlayerList=4271 k_EMsgAMGetGSPlayerList value
@@ -900,7 +903,6 @@
      * @property {number} k_EMsgAMPerfectWorldPaymentResponse=4422 k_EMsgAMPerfectWorldPaymentResponse value
      * @property {number} k_EMsgAMECommPayPayment=4423 k_EMsgAMECommPayPayment value
      * @property {number} k_EMsgAMECommPayPaymentResponse=4424 k_EMsgAMECommPayPaymentResponse value
-     * @property {number} k_EMsgAMSetRemoteClientID=4425 k_EMsgAMSetRemoteClientID value
      * @property {number} k_EMsgBasePSRange=5000 k_EMsgBasePSRange value
      * @property {number} k_EMsgPSCreateShoppingCart=5001 k_EMsgPSCreateShoppingCart value
      * @property {number} k_EMsgPSCreateShoppingCartResponse=5002 k_EMsgPSCreateShoppingCartResponse value
@@ -990,6 +992,7 @@
      * @property {number} k_EMsgClientP2PConnectionFailInfo=5435 k_EMsgClientP2PConnectionFailInfo value
      * @property {number} k_EMsgClientGetDepotDecryptionKey=5438 k_EMsgClientGetDepotDecryptionKey value
      * @property {number} k_EMsgClientGetDepotDecryptionKeyResponse=5439 k_EMsgClientGetDepotDecryptionKeyResponse value
+     * @property {number} k_EMsgGSPerformHardwareSurvey=5440 k_EMsgGSPerformHardwareSurvey value
      * @property {number} k_EMsgClientEnableTestLicense=5443 k_EMsgClientEnableTestLicense value
      * @property {number} k_EMsgClientEnableTestLicenseResponse=5444 k_EMsgClientEnableTestLicenseResponse value
      * @property {number} k_EMsgClientDisableTestLicense=5445 k_EMsgClientDisableTestLicense value
@@ -1029,10 +1032,8 @@
      * @property {number} k_EMsgClientOGSEndSession=5492 k_EMsgClientOGSEndSession value
      * @property {number} k_EMsgClientOGSEndSessionResponse=5493 k_EMsgClientOGSEndSessionResponse value
      * @property {number} k_EMsgClientOGSWriteRow=5494 k_EMsgClientOGSWriteRow value
-     * @property {number} k_EMsgClientGetPeerContentInfo=5495 k_EMsgClientGetPeerContentInfo value
-     * @property {number} k_EMsgClientGetPeerContentInfoResponse=5496 k_EMsgClientGetPeerContentInfoResponse value
-     * @property {number} k_EMsgClientStartPeerContentServer=5497 k_EMsgClientStartPeerContentServer value
-     * @property {number} k_EMsgClientStartPeerContentServerResponse=5498 k_EMsgClientStartPeerContentServerResponse value
+     * @property {number} k_EMsgClientDRMTest=5495 k_EMsgClientDRMTest value
+     * @property {number} k_EMsgClientDRMTestResult=5496 k_EMsgClientDRMTestResult value
      * @property {number} k_EMsgClientServerUnavailable=5500 k_EMsgClientServerUnavailable value
      * @property {number} k_EMsgClientServersAvailable=5501 k_EMsgClientServersAvailable value
      * @property {number} k_EMsgClientRegisterAuthTicketWithCM=5502 k_EMsgClientRegisterAuthTicketWithCM value
@@ -1042,6 +1043,7 @@
      * @property {number} k_EMsgClientMicroTxnAuthorizeResponse=5506 k_EMsgClientMicroTxnAuthorizeResponse value
      * @property {number} k_EMsgClientGetMicroTxnInfo=5508 k_EMsgClientGetMicroTxnInfo value
      * @property {number} k_EMsgClientGetMicroTxnInfoResponse=5509 k_EMsgClientGetMicroTxnInfoResponse value
+     * @property {number} k_EMsgClientMarketingMessageUpdate2=5510 k_EMsgClientMarketingMessageUpdate2 value
      * @property {number} k_EMsgClientDeregisterWithServer=5511 k_EMsgClientDeregisterWithServer value
      * @property {number} k_EMsgClientSubscribeToPersonaFeed=5512 k_EMsgClientSubscribeToPersonaFeed value
      * @property {number} k_EMsgClientLogon=5514 k_EMsgClientLogon value
@@ -1256,6 +1258,8 @@
      * @property {number} k_EMsgClientUCMUpdatePublishedFileResponse=7326 k_EMsgClientUCMUpdatePublishedFileResponse value
      * @property {number} k_EMsgUCMUpdatePublishedFile=7327 k_EMsgUCMUpdatePublishedFile value
      * @property {number} k_EMsgUCMUpdatePublishedFileResponse=7328 k_EMsgUCMUpdatePublishedFileResponse value
+     * @property {number} k_EMsgUCMDeletePublishedFile=7329 k_EMsgUCMDeletePublishedFile value
+     * @property {number} k_EMsgUCMDeletePublishedFileResponse=7330 k_EMsgUCMDeletePublishedFileResponse value
      * @property {number} k_EMsgUCMUpdatePublishedFileStat=7331 k_EMsgUCMUpdatePublishedFileStat value
      * @property {number} k_EMsgUCMReloadPublishedFile=7337 k_EMsgUCMReloadPublishedFile value
      * @property {number} k_EMsgUCMReloadUserFileListCaches=7338 k_EMsgUCMReloadUserFileListCaches value
@@ -1284,6 +1288,8 @@
      * @property {number} k_EMsgClientUCMEnumerateUserSubscribedFilesWithUpdatesResponse=7379 k_EMsgClientUCMEnumerateUserSubscribedFilesWithUpdatesResponse value
      * @property {number} k_EMsgUCMPublishedFileContentUpdated=7380 k_EMsgUCMPublishedFileContentUpdated value
      * @property {number} k_EMsgClientUCMPublishedFileUpdated=7381 k_EMsgClientUCMPublishedFileUpdated value
+     * @property {number} k_EMsgClientWorkshopItemChangesRequest=7382 k_EMsgClientWorkshopItemChangesRequest value
+     * @property {number} k_EMsgClientWorkshopItemChangesResponse=7383 k_EMsgClientWorkshopItemChangesResponse value
      * @property {number} k_EMsgFSBase=7500 k_EMsgFSBase value
      * @property {number} k_EMsgClientRichPresenceUpload=7501 k_EMsgClientRichPresenceUpload value
      * @property {number} k_EMsgClientRichPresenceRequest=7502 k_EMsgClientRichPresenceRequest value
@@ -1454,14 +1460,14 @@
      * @property {number} k_EMsgRemoteClientStartStreamResponse=9504 k_EMsgRemoteClientStartStreamResponse value
      * @property {number} k_EMsgRemoteClientPing=9505 k_EMsgRemoteClientPing value
      * @property {number} k_EMsgRemoteClientPingResponse=9506 k_EMsgRemoteClientPingResponse value
-     * @property {number} k_EMsgClientUnlockH264=9507 k_EMsgClientUnlockH264 value
-     * @property {number} k_EMsgClientUnlockH264Response=9508 k_EMsgClientUnlockH264Response value
+     * @property {number} k_EMsgClientUnlockStreaming=9507 k_EMsgClientUnlockStreaming value
+     * @property {number} k_EMsgClientUnlockStreamingResponse=9508 k_EMsgClientUnlockStreamingResponse value
      * @property {number} k_EMsgRemoteClientAcceptEULA=9509 k_EMsgRemoteClientAcceptEULA value
      * @property {number} k_EMsgRemoteClientGetControllerConfig=9510 k_EMsgRemoteClientGetControllerConfig value
      * @property {number} k_EMsgRemoteClientGetControllerConfigResponse=9511 k_EMsgRemoteClientGetControllerConfigResponse value
      * @property {number} k_EMsgRemoteClientStreamingEnabled=9512 k_EMsgRemoteClientStreamingEnabled value
-     * @property {number} k_EMsgClientUnlockHEVC_OBSOLETE=9513 k_EMsgClientUnlockHEVC_OBSOLETE value
-     * @property {number} k_EMsgClientUnlockHEVCResponse_OBSOLETE=9514 k_EMsgClientUnlockHEVCResponse_OBSOLETE value
+     * @property {number} k_EMsgClientUnlockHEVC=9513 k_EMsgClientUnlockHEVC value
+     * @property {number} k_EMsgClientUnlockHEVCResponse=9514 k_EMsgClientUnlockHEVCResponse value
      * @property {number} k_EMsgRemoteClientStatusRequest=9515 k_EMsgRemoteClientStatusRequest value
      * @property {number} k_EMsgRemoteClientStatusResponse=9516 k_EMsgRemoteClientStatusResponse value
      * @property {number} k_EMsgClientConcurrentSessionsBase=9600 k_EMsgClientConcurrentSessionsBase value
@@ -1471,6 +1477,7 @@
      * @property {number} k_EMsgClientBroadcastInit=9700 k_EMsgClientBroadcastInit value
      * @property {number} k_EMsgClientBroadcastFrames=9701 k_EMsgClientBroadcastFrames value
      * @property {number} k_EMsgClientBroadcastDisconnect=9702 k_EMsgClientBroadcastDisconnect value
+     * @property {number} k_EMsgClientBroadcastScreenshot=9703 k_EMsgClientBroadcastScreenshot value
      * @property {number} k_EMsgClientBroadcastUploadConfig=9704 k_EMsgClientBroadcastUploadConfig value
      * @property {number} k_EMsgBaseClient3=9800 k_EMsgBaseClient3 value
      * @property {number} k_EMsgClientVoiceCallPreAuthorize=9800 k_EMsgClientVoiceCallPreAuthorize value
@@ -1479,13 +1486,9 @@
      * @property {number} k_EMsgClientServerTimestampResponse=9803 k_EMsgClientServerTimestampResponse value
      * @property {number} k_EMsgServiceMethodCallFromClientNonAuthed=9804 k_EMsgServiceMethodCallFromClientNonAuthed value
      * @property {number} k_EMsgClientHello=9805 k_EMsgClientHello value
-     * @property {number} k_EMsgClientEnableOrDisableDownloads=9806 k_EMsgClientEnableOrDisableDownloads value
-     * @property {number} k_EMsgClientEnableOrDisableDownloadsResponse=9807 k_EMsgClientEnableOrDisableDownloadsResponse value
      * @property {number} k_EMsgClientLANP2PBase=9900 k_EMsgClientLANP2PBase value
      * @property {number} k_EMsgClientLANP2PRequestChunk=9900 k_EMsgClientLANP2PRequestChunk value
      * @property {number} k_EMsgClientLANP2PRequestChunkResponse=9901 k_EMsgClientLANP2PRequestChunkResponse value
-     * @property {number} k_EMsgClientPeerChunkRequest=9902 k_EMsgClientPeerChunkRequest value
-     * @property {number} k_EMsgClientPeerChunkResponse=9903 k_EMsgClientPeerChunkResponse value
      * @property {number} k_EMsgClientLANP2PMax=9999 k_EMsgClientLANP2PMax value
      * @property {number} k_EMsgBaseWatchdogServer=10000 k_EMsgBaseWatchdogServer value
      * @property {number} k_EMsgNotifyWatchdog=10000 k_EMsgNotifyWatchdog value
@@ -1502,12 +1505,6 @@
      * @property {number} k_EMsgChatServerGetPendingNotificationCountResponse=12001 k_EMsgChatServerGetPendingNotificationCountResponse value
      * @property {number} k_EMsgBaseSecretServer=12100 k_EMsgBaseSecretServer value
      * @property {number} k_EMsgServerSecretChanged=12100 k_EMsgServerSecretChanged value
-     * @property {number} k_EMsgBaseWG=12200 k_EMsgBaseWG value
-     * @property {number} k_EMsgWGConnectionProtocolError=12200 k_EMsgWGConnectionProtocolError value
-     * @property {number} k_EMsgWGConnectionValidateUserToken=12201 k_EMsgWGConnectionValidateUserToken value
-     * @property {number} k_EMsgWGConnectionValidateUserTokenResponse=12202 k_EMsgWGConnectionValidateUserTokenResponse value
-     * @property {number} k_EMsgWGConnectionLegacyWGRequest=12203 k_EMsgWGConnectionLegacyWGRequest value
-     * @property {number} k_EMsgWGConnectionLegacyWGResponse=12204 k_EMsgWGConnectionLegacyWGResponse value
      */
     $root.EMsg = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -1585,6 +1582,7 @@
         values[valuesById[316] = "k_EMsgLicenseProcessingComplete"] = 316;
         values[valuesById[317] = "k_EMsgSetTestFlag"] = 317;
         values[valuesById[318] = "k_EMsgQueuedEmailsComplete"] = 318;
+        values[valuesById[319] = "k_EMsgGMReportPHPError"] = 319;
         values[valuesById[320] = "k_EMsgGMDRMSync"] = 320;
         values[valuesById[321] = "k_EMsgPhysicalBoxInventory"] = 321;
         values[valuesById[322] = "k_EMsgUpdateConfigFile"] = 322;
@@ -1602,8 +1600,6 @@
         values[valuesById[336] = "k_EMsgExpectShellRestart"] = 336;
         values[valuesById[337] = "k_EMsgHotFixProgress"] = 337;
         values[valuesById[338] = "k_EMsgGMStatsForwardToAdminConnections"] = 338;
-        values[valuesById[339] = "k_EMsgGMGetModifiedConVars"] = 339;
-        values[valuesById[340] = "k_EMsgGMGetModifiedConVarsResponse"] = 340;
         values[valuesById[400] = "k_EMsgBaseAIS"] = 400;
         values[valuesById[402] = "k_EMsgAISRequestContentDescription"] = 402;
         values[valuesById[403] = "k_EMsgAISUpdateAppInfo"] = 403;
@@ -2012,8 +2008,11 @@
         values[valuesById[1622] = "k_EMsgClientDPSendSpecialSurveyResponse"] = 1622;
         values[valuesById[1623] = "k_EMsgClientDPSendSpecialSurveyResponseReply"] = 1623;
         values[valuesById[1624] = "k_EMsgDPStoreSaleStatistics"] = 1624;
+        values[valuesById[1625] = "k_EMsgClientDPUpdateAppJobReport"] = 1625;
+        values[valuesById[1627] = "k_EMsgClientDPUnsignedInstallScript"] = 1627;
         values[valuesById[1628] = "k_EMsgDPPartnerMicroTxns"] = 1628;
         values[valuesById[1629] = "k_EMsgDPPartnerMicroTxnsResponse"] = 1629;
+        values[valuesById[1630] = "k_EMsgClientDPContentStatsReport"] = 1630;
         values[valuesById[1631] = "k_EMsgDPVRUniquePlayersStat"] = 1631;
         values[valuesById[1700] = "k_EMsgBaseCM"] = 1700;
         values[valuesById[1701] = "k_EMsgCMSetAllowState"] = 1701;
@@ -2059,9 +2058,6 @@
         values[valuesById[2242] = "k_EMsgGCHAppCheersReceived"] = 2242;
         values[valuesById[2243] = "k_EMsgGCHAppCheersGetAllowedTypes"] = 2243;
         values[valuesById[2244] = "k_EMsgGCHAppCheersGetAllowedTypesResponse"] = 2244;
-        values[valuesById[2245] = "k_EMsgGCHRoutingRulesFromGCHtoGM"] = 2245;
-        values[valuesById[2246] = "k_EMsgGCHRoutingRulesToGCHfromGM"] = 2246;
-        values[valuesById[2247] = "k_EMsgUpdateCMMessageRateRules"] = 2247;
         values[valuesById[2500] = "k_EMsgBaseP2P"] = 2500;
         values[valuesById[2502] = "k_EMsgP2PIntroducerMessage"] = 2502;
         values[valuesById[2900] = "k_EMsgBaseSM"] = 2900;
@@ -2208,6 +2204,8 @@
         values[valuesById[4152] = "k_EMsgAMSendQueuedEmails"] = 4152;
         values[valuesById[4153] = "k_EMsgAMSetLicenseFlags"] = 4153;
         values[valuesById[4155] = "k_EMsgCommunityDeleteUserNews"] = 4155;
+        values[valuesById[4156] = "k_EMsgAMAllowUserFilesRequest"] = 4156;
+        values[valuesById[4157] = "k_EMsgAMAllowUserFilesResponse"] = 4157;
         values[valuesById[4158] = "k_EMsgAMGetAccountStatus"] = 4158;
         values[valuesById[4159] = "k_EMsgAMGetAccountStatusResponse"] = 4159;
         values[valuesById[4160] = "k_EMsgAMEditBanReason"] = 4160;
@@ -2235,6 +2233,7 @@
         values[valuesById[4210] = "k_EMsgAMSupportIsAccountEnabledResponse"] = 4210;
         values[valuesById[4211] = "k_EMsgUGSGetUserStats"] = 4211;
         values[valuesById[4213] = "k_EMsgAMGSSearch"] = 4213;
+        values[valuesById[4216] = "k_EMsgMarketingMessageUpdate"] = 4216;
         values[valuesById[4219] = "k_EMsgChatServerRouteFriendMsg"] = 4219;
         values[valuesById[4220] = "k_EMsgAMTicketAuthRequestOrResponse"] = 4220;
         values[valuesById[4224] = "k_EMsgAMAddFreeLicense"] = 4224;
@@ -2261,6 +2260,7 @@
         values[valuesById[4265] = "k_EMsgAMCreateFinancialAdjustment"] = 4265;
         values[valuesById[4266] = "k_EMsgAMPlayerNicknameList"] = 4266;
         values[valuesById[4267] = "k_EMsgAMPlayerNicknameListResponse"] = 4267;
+        values[valuesById[4268] = "k_EMsgAMSetDRMTestConfig"] = 4268;
         values[valuesById[4269] = "k_EMsgAMGetUserCurrentGameInfo"] = 4269;
         values[valuesById[4270] = "k_EMsgAMGetUserCurrentGameInfoResponse"] = 4270;
         values[valuesById[4271] = "k_EMsgAMGetGSPlayerList"] = 4271;
@@ -2391,7 +2391,6 @@
         values[valuesById[4422] = "k_EMsgAMPerfectWorldPaymentResponse"] = 4422;
         values[valuesById[4423] = "k_EMsgAMECommPayPayment"] = 4423;
         values[valuesById[4424] = "k_EMsgAMECommPayPaymentResponse"] = 4424;
-        values[valuesById[4425] = "k_EMsgAMSetRemoteClientID"] = 4425;
         values[valuesById[5000] = "k_EMsgBasePSRange"] = 5000;
         values[valuesById[5001] = "k_EMsgPSCreateShoppingCart"] = 5001;
         values[valuesById[5002] = "k_EMsgPSCreateShoppingCartResponse"] = 5002;
@@ -2481,6 +2480,7 @@
         values[valuesById[5435] = "k_EMsgClientP2PConnectionFailInfo"] = 5435;
         values[valuesById[5438] = "k_EMsgClientGetDepotDecryptionKey"] = 5438;
         values[valuesById[5439] = "k_EMsgClientGetDepotDecryptionKeyResponse"] = 5439;
+        values[valuesById[5440] = "k_EMsgGSPerformHardwareSurvey"] = 5440;
         values[valuesById[5443] = "k_EMsgClientEnableTestLicense"] = 5443;
         values[valuesById[5444] = "k_EMsgClientEnableTestLicenseResponse"] = 5444;
         values[valuesById[5445] = "k_EMsgClientDisableTestLicense"] = 5445;
@@ -2520,10 +2520,8 @@
         values[valuesById[5492] = "k_EMsgClientOGSEndSession"] = 5492;
         values[valuesById[5493] = "k_EMsgClientOGSEndSessionResponse"] = 5493;
         values[valuesById[5494] = "k_EMsgClientOGSWriteRow"] = 5494;
-        values[valuesById[5495] = "k_EMsgClientGetPeerContentInfo"] = 5495;
-        values[valuesById[5496] = "k_EMsgClientGetPeerContentInfoResponse"] = 5496;
-        values[valuesById[5497] = "k_EMsgClientStartPeerContentServer"] = 5497;
-        values[valuesById[5498] = "k_EMsgClientStartPeerContentServerResponse"] = 5498;
+        values[valuesById[5495] = "k_EMsgClientDRMTest"] = 5495;
+        values[valuesById[5496] = "k_EMsgClientDRMTestResult"] = 5496;
         values[valuesById[5500] = "k_EMsgClientServerUnavailable"] = 5500;
         values[valuesById[5501] = "k_EMsgClientServersAvailable"] = 5501;
         values[valuesById[5502] = "k_EMsgClientRegisterAuthTicketWithCM"] = 5502;
@@ -2533,6 +2531,7 @@
         values[valuesById[5506] = "k_EMsgClientMicroTxnAuthorizeResponse"] = 5506;
         values[valuesById[5508] = "k_EMsgClientGetMicroTxnInfo"] = 5508;
         values[valuesById[5509] = "k_EMsgClientGetMicroTxnInfoResponse"] = 5509;
+        values[valuesById[5510] = "k_EMsgClientMarketingMessageUpdate2"] = 5510;
         values[valuesById[5511] = "k_EMsgClientDeregisterWithServer"] = 5511;
         values[valuesById[5512] = "k_EMsgClientSubscribeToPersonaFeed"] = 5512;
         values[valuesById[5514] = "k_EMsgClientLogon"] = 5514;
@@ -2747,6 +2746,8 @@
         values[valuesById[7326] = "k_EMsgClientUCMUpdatePublishedFileResponse"] = 7326;
         values[valuesById[7327] = "k_EMsgUCMUpdatePublishedFile"] = 7327;
         values[valuesById[7328] = "k_EMsgUCMUpdatePublishedFileResponse"] = 7328;
+        values[valuesById[7329] = "k_EMsgUCMDeletePublishedFile"] = 7329;
+        values[valuesById[7330] = "k_EMsgUCMDeletePublishedFileResponse"] = 7330;
         values[valuesById[7331] = "k_EMsgUCMUpdatePublishedFileStat"] = 7331;
         values[valuesById[7337] = "k_EMsgUCMReloadPublishedFile"] = 7337;
         values[valuesById[7338] = "k_EMsgUCMReloadUserFileListCaches"] = 7338;
@@ -2775,6 +2776,8 @@
         values[valuesById[7379] = "k_EMsgClientUCMEnumerateUserSubscribedFilesWithUpdatesResponse"] = 7379;
         values[valuesById[7380] = "k_EMsgUCMPublishedFileContentUpdated"] = 7380;
         values[valuesById[7381] = "k_EMsgClientUCMPublishedFileUpdated"] = 7381;
+        values[valuesById[7382] = "k_EMsgClientWorkshopItemChangesRequest"] = 7382;
+        values[valuesById[7383] = "k_EMsgClientWorkshopItemChangesResponse"] = 7383;
         values[valuesById[7500] = "k_EMsgFSBase"] = 7500;
         values[valuesById[7501] = "k_EMsgClientRichPresenceUpload"] = 7501;
         values[valuesById[7502] = "k_EMsgClientRichPresenceRequest"] = 7502;
@@ -2945,14 +2948,14 @@
         values[valuesById[9504] = "k_EMsgRemoteClientStartStreamResponse"] = 9504;
         values[valuesById[9505] = "k_EMsgRemoteClientPing"] = 9505;
         values[valuesById[9506] = "k_EMsgRemoteClientPingResponse"] = 9506;
-        values[valuesById[9507] = "k_EMsgClientUnlockH264"] = 9507;
-        values[valuesById[9508] = "k_EMsgClientUnlockH264Response"] = 9508;
+        values[valuesById[9507] = "k_EMsgClientUnlockStreaming"] = 9507;
+        values[valuesById[9508] = "k_EMsgClientUnlockStreamingResponse"] = 9508;
         values[valuesById[9509] = "k_EMsgRemoteClientAcceptEULA"] = 9509;
         values[valuesById[9510] = "k_EMsgRemoteClientGetControllerConfig"] = 9510;
         values[valuesById[9511] = "k_EMsgRemoteClientGetControllerConfigResponse"] = 9511;
         values[valuesById[9512] = "k_EMsgRemoteClientStreamingEnabled"] = 9512;
-        values[valuesById[9513] = "k_EMsgClientUnlockHEVC_OBSOLETE"] = 9513;
-        values[valuesById[9514] = "k_EMsgClientUnlockHEVCResponse_OBSOLETE"] = 9514;
+        values[valuesById[9513] = "k_EMsgClientUnlockHEVC"] = 9513;
+        values[valuesById[9514] = "k_EMsgClientUnlockHEVCResponse"] = 9514;
         values[valuesById[9515] = "k_EMsgRemoteClientStatusRequest"] = 9515;
         values[valuesById[9516] = "k_EMsgRemoteClientStatusResponse"] = 9516;
         values[valuesById[9600] = "k_EMsgClientConcurrentSessionsBase"] = 9600;
@@ -2962,6 +2965,7 @@
         values["k_EMsgClientBroadcastInit"] = 9700;
         values[valuesById[9701] = "k_EMsgClientBroadcastFrames"] = 9701;
         values[valuesById[9702] = "k_EMsgClientBroadcastDisconnect"] = 9702;
+        values[valuesById[9703] = "k_EMsgClientBroadcastScreenshot"] = 9703;
         values[valuesById[9704] = "k_EMsgClientBroadcastUploadConfig"] = 9704;
         values[valuesById[9800] = "k_EMsgBaseClient3"] = 9800;
         values["k_EMsgClientVoiceCallPreAuthorize"] = 9800;
@@ -2970,13 +2974,9 @@
         values[valuesById[9803] = "k_EMsgClientServerTimestampResponse"] = 9803;
         values[valuesById[9804] = "k_EMsgServiceMethodCallFromClientNonAuthed"] = 9804;
         values[valuesById[9805] = "k_EMsgClientHello"] = 9805;
-        values[valuesById[9806] = "k_EMsgClientEnableOrDisableDownloads"] = 9806;
-        values[valuesById[9807] = "k_EMsgClientEnableOrDisableDownloadsResponse"] = 9807;
         values[valuesById[9900] = "k_EMsgClientLANP2PBase"] = 9900;
         values["k_EMsgClientLANP2PRequestChunk"] = 9900;
         values[valuesById[9901] = "k_EMsgClientLANP2PRequestChunkResponse"] = 9901;
-        values[valuesById[9902] = "k_EMsgClientPeerChunkRequest"] = 9902;
-        values[valuesById[9903] = "k_EMsgClientPeerChunkResponse"] = 9903;
         values[valuesById[9999] = "k_EMsgClientLANP2PMax"] = 9999;
         values[valuesById[10000] = "k_EMsgBaseWatchdogServer"] = 10000;
         values["k_EMsgNotifyWatchdog"] = 10000;
@@ -2993,12 +2993,6 @@
         values[valuesById[12001] = "k_EMsgChatServerGetPendingNotificationCountResponse"] = 12001;
         values[valuesById[12100] = "k_EMsgBaseSecretServer"] = 12100;
         values["k_EMsgServerSecretChanged"] = 12100;
-        values[valuesById[12200] = "k_EMsgBaseWG"] = 12200;
-        values["k_EMsgWGConnectionProtocolError"] = 12200;
-        values[valuesById[12201] = "k_EMsgWGConnectionValidateUserToken"] = 12201;
-        values[valuesById[12202] = "k_EMsgWGConnectionValidateUserTokenResponse"] = 12202;
-        values[valuesById[12203] = "k_EMsgWGConnectionLegacyWGRequest"] = 12203;
-        values[valuesById[12204] = "k_EMsgWGConnectionLegacyWGResponse"] = 12204;
         return values;
     })();
     
@@ -3087,44 +3081,6 @@
         values[valuesById[2] = "k_ESteamReviewScore_VeryNegative"] = 2;
         values[valuesById[1] = "k_ESteamReviewScore_OverwhelminglyNegative"] = 1;
         values[valuesById[0] = "k_ESteamReviewScore_None"] = 0;
-        return values;
-    })();
-    
-    /**
-     * ECodecUsagePlatform enum.
-     * @exports ECodecUsagePlatform
-     * @enum {number}
-     * @property {number} k_ECodecUsagePlatformUnknown=0 k_ECodecUsagePlatformUnknown value
-     * @property {number} k_ECodecUsagePlatformWindows=1 k_ECodecUsagePlatformWindows value
-     * @property {number} k_ECodecUsagePlatformMacOS=2 k_ECodecUsagePlatformMacOS value
-     * @property {number} k_ECodecUsagePlatformLinux=3 k_ECodecUsagePlatformLinux value
-     * @property {number} k_ECodecUsagePlatformSteamDeck=4 k_ECodecUsagePlatformSteamDeck value
-     */
-    $root.ECodecUsagePlatform = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
-        values[valuesById[0] = "k_ECodecUsagePlatformUnknown"] = 0;
-        values[valuesById[1] = "k_ECodecUsagePlatformWindows"] = 1;
-        values[valuesById[2] = "k_ECodecUsagePlatformMacOS"] = 2;
-        values[valuesById[3] = "k_ECodecUsagePlatformLinux"] = 3;
-        values[valuesById[4] = "k_ECodecUsagePlatformSteamDeck"] = 4;
-        return values;
-    })();
-    
-    /**
-     * ECodecUsageReason enum.
-     * @exports ECodecUsageReason
-     * @enum {number}
-     * @property {number} k_ECodecUsageReasonUnknown=0 k_ECodecUsageReasonUnknown value
-     * @property {number} k_ECodecUsageReasonRemotePlay=1 k_ECodecUsageReasonRemotePlay value
-     * @property {number} k_ECodecUsageReasonBroadcasting=2 k_ECodecUsageReasonBroadcasting value
-     * @property {number} k_ECodecUsageReasonGameVideo=3 k_ECodecUsageReasonGameVideo value
-     */
-    $root.ECodecUsageReason = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
-        values[valuesById[0] = "k_ECodecUsageReasonUnknown"] = 0;
-        values[valuesById[1] = "k_ECodecUsageReasonRemotePlay"] = 1;
-        values[valuesById[2] = "k_ECodecUsageReasonBroadcasting"] = 2;
-        values[valuesById[3] = "k_ECodecUsageReasonGameVideo"] = 3;
         return values;
     })();
 

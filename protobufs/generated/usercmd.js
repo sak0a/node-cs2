@@ -668,6 +668,211 @@
         return CSubtickMoveStep;
     })();
     
+    $root.CBaseUserCmdExecutionNotes = (function() {
+    
+        /**
+         * Properties of a CBaseUserCmdExecutionNotes.
+         * @exports ICBaseUserCmdExecutionNotes
+         * @interface ICBaseUserCmdExecutionNotes
+         * @property {string|null} [ignored_reason] CBaseUserCmdExecutionNotes ignored_reason
+         */
+    
+        /**
+         * Constructs a new CBaseUserCmdExecutionNotes.
+         * @exports CBaseUserCmdExecutionNotes
+         * @classdesc Represents a CBaseUserCmdExecutionNotes.
+         * @implements ICBaseUserCmdExecutionNotes
+         * @constructor
+         * @param {ICBaseUserCmdExecutionNotes=} [properties] Properties to set
+         */
+        function CBaseUserCmdExecutionNotes(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CBaseUserCmdExecutionNotes ignored_reason.
+         * @member {string} ignored_reason
+         * @memberof CBaseUserCmdExecutionNotes
+         * @instance
+         */
+        CBaseUserCmdExecutionNotes.prototype.ignored_reason = "";
+    
+        /**
+         * Creates a new CBaseUserCmdExecutionNotes instance using the specified properties.
+         * @function create
+         * @memberof CBaseUserCmdExecutionNotes
+         * @static
+         * @param {ICBaseUserCmdExecutionNotes=} [properties] Properties to set
+         * @returns {CBaseUserCmdExecutionNotes} CBaseUserCmdExecutionNotes instance
+         */
+        CBaseUserCmdExecutionNotes.create = function create(properties) {
+            return new CBaseUserCmdExecutionNotes(properties);
+        };
+    
+        /**
+         * Encodes the specified CBaseUserCmdExecutionNotes message. Does not implicitly {@link CBaseUserCmdExecutionNotes.verify|verify} messages.
+         * @function encode
+         * @memberof CBaseUserCmdExecutionNotes
+         * @static
+         * @param {ICBaseUserCmdExecutionNotes} message CBaseUserCmdExecutionNotes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CBaseUserCmdExecutionNotes.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.ignored_reason != null && Object.hasOwnProperty.call(message, "ignored_reason"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.ignored_reason);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CBaseUserCmdExecutionNotes message, length delimited. Does not implicitly {@link CBaseUserCmdExecutionNotes.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CBaseUserCmdExecutionNotes
+         * @static
+         * @param {ICBaseUserCmdExecutionNotes} message CBaseUserCmdExecutionNotes message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CBaseUserCmdExecutionNotes.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CBaseUserCmdExecutionNotes message from the specified reader or buffer.
+         * @function decode
+         * @memberof CBaseUserCmdExecutionNotes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CBaseUserCmdExecutionNotes} CBaseUserCmdExecutionNotes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CBaseUserCmdExecutionNotes.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CBaseUserCmdExecutionNotes();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.ignored_reason = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CBaseUserCmdExecutionNotes message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CBaseUserCmdExecutionNotes
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CBaseUserCmdExecutionNotes} CBaseUserCmdExecutionNotes
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CBaseUserCmdExecutionNotes.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CBaseUserCmdExecutionNotes message.
+         * @function verify
+         * @memberof CBaseUserCmdExecutionNotes
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CBaseUserCmdExecutionNotes.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.ignored_reason != null && message.hasOwnProperty("ignored_reason"))
+                if (!$util.isString(message.ignored_reason))
+                    return "ignored_reason: string expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CBaseUserCmdExecutionNotes message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CBaseUserCmdExecutionNotes
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CBaseUserCmdExecutionNotes} CBaseUserCmdExecutionNotes
+         */
+        CBaseUserCmdExecutionNotes.fromObject = function fromObject(object) {
+            if (object instanceof $root.CBaseUserCmdExecutionNotes)
+                return object;
+            var message = new $root.CBaseUserCmdExecutionNotes();
+            if (object.ignored_reason != null)
+                message.ignored_reason = String(object.ignored_reason);
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CBaseUserCmdExecutionNotes message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CBaseUserCmdExecutionNotes
+         * @static
+         * @param {CBaseUserCmdExecutionNotes} message CBaseUserCmdExecutionNotes
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CBaseUserCmdExecutionNotes.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.ignored_reason = "";
+            if (message.ignored_reason != null && message.hasOwnProperty("ignored_reason"))
+                object.ignored_reason = message.ignored_reason;
+            return object;
+        };
+    
+        /**
+         * Converts this CBaseUserCmdExecutionNotes to JSON.
+         * @function toJSON
+         * @memberof CBaseUserCmdExecutionNotes
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CBaseUserCmdExecutionNotes.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CBaseUserCmdExecutionNotes
+         * @function getTypeUrl
+         * @memberof CBaseUserCmdExecutionNotes
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CBaseUserCmdExecutionNotes.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CBaseUserCmdExecutionNotes";
+        };
+    
+        return CBaseUserCmdExecutionNotes;
+    })();
+    
     $root.CBaseUserCmdPB = (function() {
     
         /**
@@ -692,6 +897,7 @@
          * @property {Uint8Array|null} [move_crc] CBaseUserCmdPB move_crc
          * @property {number|null} [consumed_server_angle_changes] CBaseUserCmdPB consumed_server_angle_changes
          * @property {number|null} [cmd_flags] CBaseUserCmdPB cmd_flags
+         * @property {ICBaseUserCmdExecutionNotes|null} [execution_notes] CBaseUserCmdPB execution_notes
          */
     
         /**
@@ -855,6 +1061,14 @@
         CBaseUserCmdPB.prototype.cmd_flags = 0;
     
         /**
+         * CBaseUserCmdPB execution_notes.
+         * @member {ICBaseUserCmdExecutionNotes|null|undefined} execution_notes
+         * @memberof CBaseUserCmdPB
+         * @instance
+         */
+        CBaseUserCmdPB.prototype.execution_notes = null;
+    
+        /**
          * Creates a new CBaseUserCmdPB instance using the specified properties.
          * @function create
          * @memberof CBaseUserCmdPB
@@ -915,6 +1129,8 @@
                 writer.uint32(/* id 20, wireType 0 =*/160).uint32(message.consumed_server_angle_changes);
             if (message.cmd_flags != null && Object.hasOwnProperty.call(message, "cmd_flags"))
                 writer.uint32(/* id 21, wireType 0 =*/168).int32(message.cmd_flags);
+            if (message.execution_notes != null && Object.hasOwnProperty.call(message, "execution_notes"))
+                $root.CBaseUserCmdExecutionNotes.encode(message.execution_notes, writer.uint32(/* id 22, wireType 2 =*/178).fork()).ldelim();
             return writer;
         };
     
@@ -1025,6 +1241,10 @@
                         message.cmd_flags = reader.int32();
                         break;
                     }
+                case 22: {
+                        message.execution_notes = $root.CBaseUserCmdExecutionNotes.decode(reader, reader.uint32());
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -1124,6 +1344,11 @@
             if (message.cmd_flags != null && message.hasOwnProperty("cmd_flags"))
                 if (!$util.isInteger(message.cmd_flags))
                     return "cmd_flags: integer expected";
+            if (message.execution_notes != null && message.hasOwnProperty("execution_notes")) {
+                var error = $root.CBaseUserCmdExecutionNotes.verify(message.execution_notes);
+                if (error)
+                    return "execution_notes." + error;
+            }
             return null;
         };
     
@@ -1192,6 +1417,11 @@
                 message.consumed_server_angle_changes = object.consumed_server_angle_changes >>> 0;
             if (object.cmd_flags != null)
                 message.cmd_flags = object.cmd_flags | 0;
+            if (object.execution_notes != null) {
+                if (typeof object.execution_notes !== "object")
+                    throw TypeError(".CBaseUserCmdPB.execution_notes: object expected");
+                message.execution_notes = $root.CBaseUserCmdExecutionNotes.fromObject(object.execution_notes);
+            }
             return message;
         };
     
@@ -1234,6 +1464,7 @@
                 }
                 object.consumed_server_angle_changes = 0;
                 object.cmd_flags = 0;
+                object.execution_notes = null;
             }
             if (message.legacy_command_number != null && message.hasOwnProperty("legacy_command_number"))
                 object.legacy_command_number = message.legacy_command_number;
@@ -1274,6 +1505,8 @@
                 object.consumed_server_angle_changes = message.consumed_server_angle_changes;
             if (message.cmd_flags != null && message.hasOwnProperty("cmd_flags"))
                 object.cmd_flags = message.cmd_flags;
+            if (message.execution_notes != null && message.hasOwnProperty("execution_notes"))
+                object.execution_notes = $root.CBaseUserCmdExecutionNotes.toObject(message.execution_notes, options);
             return object;
         };
     

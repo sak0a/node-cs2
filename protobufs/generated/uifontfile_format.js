@@ -260,7 +260,7 @@
          * Properties of a CUIFontFilePackagePB.
          * @exports ICUIFontFilePackagePB
          * @interface ICUIFontFilePackagePB
-         * @property {number} package_version CUIFontFilePackagePB package_version
+         * @property {number|null} [package_version] CUIFontFilePackagePB package_version
          * @property {Array.<CUIFontFilePackagePB.ICUIEncryptedFontFilePB>|null} [encrypted_font_files] CUIFontFilePackagePB encrypted_font_files
          */
     
@@ -320,7 +320,8 @@
         CUIFontFilePackagePB.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.package_version);
+            if (message.package_version != null && Object.hasOwnProperty.call(message, "package_version"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.package_version);
             if (message.encrypted_font_files != null && message.encrypted_font_files.length)
                 for (var i = 0; i < message.encrypted_font_files.length; ++i)
                     $root.CUIFontFilePackagePB.CUIEncryptedFontFilePB.encode(message.encrypted_font_files[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
@@ -375,8 +376,6 @@
                     break;
                 }
             }
-            if (!message.hasOwnProperty("package_version"))
-                throw $util.ProtocolError("missing required 'package_version'", { instance: message });
             return message;
         };
     
@@ -407,8 +406,9 @@
         CUIFontFilePackagePB.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (!$util.isInteger(message.package_version))
-                return "package_version: integer expected";
+            if (message.package_version != null && message.hasOwnProperty("package_version"))
+                if (!$util.isInteger(message.package_version))
+                    return "package_version: integer expected";
             if (message.encrypted_font_files != null && message.hasOwnProperty("encrypted_font_files")) {
                 if (!Array.isArray(message.encrypted_font_files))
                     return "encrypted_font_files: array expected";

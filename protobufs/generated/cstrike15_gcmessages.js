@@ -23321,6 +23321,7 @@
          * @property {number|null} [join_ipp] CMsgGCCStrike15_v2_ClientRequestJoinFriendData join_ipp
          * @property {ICMsgGCCStrike15_v2_MatchmakingGC2ClientReserve|null} [res] CMsgGCCStrike15_v2_ClientRequestJoinFriendData res
          * @property {string|null} [errormsg] CMsgGCCStrike15_v2_ClientRequestJoinFriendData errormsg
+         * @property {boolean|null} [is_local_server] CMsgGCCStrike15_v2_ClientRequestJoinFriendData is_local_server
          */
     
         /**
@@ -23387,6 +23388,14 @@
         CMsgGCCStrike15_v2_ClientRequestJoinFriendData.prototype.errormsg = "";
     
         /**
+         * CMsgGCCStrike15_v2_ClientRequestJoinFriendData is_local_server.
+         * @member {boolean} is_local_server
+         * @memberof CMsgGCCStrike15_v2_ClientRequestJoinFriendData
+         * @instance
+         */
+        CMsgGCCStrike15_v2_ClientRequestJoinFriendData.prototype.is_local_server = false;
+    
+        /**
          * Creates a new CMsgGCCStrike15_v2_ClientRequestJoinFriendData instance using the specified properties.
          * @function create
          * @memberof CMsgGCCStrike15_v2_ClientRequestJoinFriendData
@@ -23422,6 +23431,8 @@
                 $root.CMsgGCCStrike15_v2_MatchmakingGC2ClientReserve.encode(message.res, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
             if (message.errormsg != null && Object.hasOwnProperty.call(message, "errormsg"))
                 writer.uint32(/* id 6, wireType 2 =*/50).string(message.errormsg);
+            if (message.is_local_server != null && Object.hasOwnProperty.call(message, "is_local_server"))
+                writer.uint32(/* id 7, wireType 0 =*/56).bool(message.is_local_server);
             return writer;
         };
     
@@ -23482,6 +23493,10 @@
                         message.errormsg = reader.string();
                         break;
                     }
+                case 7: {
+                        message.is_local_server = reader.bool();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -23537,6 +23552,9 @@
             if (message.errormsg != null && message.hasOwnProperty("errormsg"))
                 if (!$util.isString(message.errormsg))
                     return "errormsg: string expected";
+            if (message.is_local_server != null && message.hasOwnProperty("is_local_server"))
+                if (typeof message.is_local_server !== "boolean")
+                    return "is_local_server: boolean expected";
             return null;
         };
     
@@ -23567,6 +23585,8 @@
             }
             if (object.errormsg != null)
                 message.errormsg = String(object.errormsg);
+            if (object.is_local_server != null)
+                message.is_local_server = Boolean(object.is_local_server);
             return message;
         };
     
@@ -23590,6 +23610,7 @@
                 object.join_ipp = 0;
                 object.res = null;
                 object.errormsg = "";
+                object.is_local_server = false;
             }
             if (message.version != null && message.hasOwnProperty("version"))
                 object.version = message.version;
@@ -23603,6 +23624,8 @@
                 object.res = $root.CMsgGCCStrike15_v2_MatchmakingGC2ClientReserve.toObject(message.res, options);
             if (message.errormsg != null && message.hasOwnProperty("errormsg"))
                 object.errormsg = message.errormsg;
+            if (message.is_local_server != null && message.hasOwnProperty("is_local_server"))
+                object.is_local_server = message.is_local_server;
             return object;
         };
     

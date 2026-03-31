@@ -643,249 +643,6 @@
         return CMsgIPAddressBucket;
     })();
     
-    $root.CMsgGCRoutingProtoBufHeader = (function() {
-    
-        /**
-         * Properties of a CMsgGCRoutingProtoBufHeader.
-         * @exports ICMsgGCRoutingProtoBufHeader
-         * @interface ICMsgGCRoutingProtoBufHeader
-         * @property {number|Long|null} [dst_gcid_queue] CMsgGCRoutingProtoBufHeader dst_gcid_queue
-         * @property {number|null} [dst_gc_dir_index] CMsgGCRoutingProtoBufHeader dst_gc_dir_index
-         */
-    
-        /**
-         * Constructs a new CMsgGCRoutingProtoBufHeader.
-         * @exports CMsgGCRoutingProtoBufHeader
-         * @classdesc Represents a CMsgGCRoutingProtoBufHeader.
-         * @implements ICMsgGCRoutingProtoBufHeader
-         * @constructor
-         * @param {ICMsgGCRoutingProtoBufHeader=} [properties] Properties to set
-         */
-        function CMsgGCRoutingProtoBufHeader(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CMsgGCRoutingProtoBufHeader dst_gcid_queue.
-         * @member {number|Long} dst_gcid_queue
-         * @memberof CMsgGCRoutingProtoBufHeader
-         * @instance
-         */
-        CMsgGCRoutingProtoBufHeader.prototype.dst_gcid_queue = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * CMsgGCRoutingProtoBufHeader dst_gc_dir_index.
-         * @member {number} dst_gc_dir_index
-         * @memberof CMsgGCRoutingProtoBufHeader
-         * @instance
-         */
-        CMsgGCRoutingProtoBufHeader.prototype.dst_gc_dir_index = 0;
-    
-        /**
-         * Creates a new CMsgGCRoutingProtoBufHeader instance using the specified properties.
-         * @function create
-         * @memberof CMsgGCRoutingProtoBufHeader
-         * @static
-         * @param {ICMsgGCRoutingProtoBufHeader=} [properties] Properties to set
-         * @returns {CMsgGCRoutingProtoBufHeader} CMsgGCRoutingProtoBufHeader instance
-         */
-        CMsgGCRoutingProtoBufHeader.create = function create(properties) {
-            return new CMsgGCRoutingProtoBufHeader(properties);
-        };
-    
-        /**
-         * Encodes the specified CMsgGCRoutingProtoBufHeader message. Does not implicitly {@link CMsgGCRoutingProtoBufHeader.verify|verify} messages.
-         * @function encode
-         * @memberof CMsgGCRoutingProtoBufHeader
-         * @static
-         * @param {ICMsgGCRoutingProtoBufHeader} message CMsgGCRoutingProtoBufHeader message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgGCRoutingProtoBufHeader.encode = function encode(message, writer) {
-            if (!writer)
-                writer = $Writer.create();
-            if (message.dst_gcid_queue != null && Object.hasOwnProperty.call(message, "dst_gcid_queue"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.dst_gcid_queue);
-            if (message.dst_gc_dir_index != null && Object.hasOwnProperty.call(message, "dst_gc_dir_index"))
-                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.dst_gc_dir_index);
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CMsgGCRoutingProtoBufHeader message, length delimited. Does not implicitly {@link CMsgGCRoutingProtoBufHeader.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CMsgGCRoutingProtoBufHeader
-         * @static
-         * @param {ICMsgGCRoutingProtoBufHeader} message CMsgGCRoutingProtoBufHeader message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgGCRoutingProtoBufHeader.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CMsgGCRoutingProtoBufHeader message from the specified reader or buffer.
-         * @function decode
-         * @memberof CMsgGCRoutingProtoBufHeader
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgGCRoutingProtoBufHeader} CMsgGCRoutingProtoBufHeader
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgGCRoutingProtoBufHeader.decode = function decode(reader, length, error) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgGCRoutingProtoBufHeader();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.dst_gcid_queue = reader.uint64();
-                        break;
-                    }
-                case 2: {
-                        message.dst_gc_dir_index = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-                }
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CMsgGCRoutingProtoBufHeader message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CMsgGCRoutingProtoBufHeader
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgGCRoutingProtoBufHeader} CMsgGCRoutingProtoBufHeader
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgGCRoutingProtoBufHeader.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CMsgGCRoutingProtoBufHeader message.
-         * @function verify
-         * @memberof CMsgGCRoutingProtoBufHeader
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CMsgGCRoutingProtoBufHeader.verify = function verify(message) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (message.dst_gcid_queue != null && message.hasOwnProperty("dst_gcid_queue"))
-                if (!$util.isInteger(message.dst_gcid_queue) && !(message.dst_gcid_queue && $util.isInteger(message.dst_gcid_queue.low) && $util.isInteger(message.dst_gcid_queue.high)))
-                    return "dst_gcid_queue: integer|Long expected";
-            if (message.dst_gc_dir_index != null && message.hasOwnProperty("dst_gc_dir_index"))
-                if (!$util.isInteger(message.dst_gc_dir_index))
-                    return "dst_gc_dir_index: integer expected";
-            return null;
-        };
-    
-        /**
-         * Creates a CMsgGCRoutingProtoBufHeader message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CMsgGCRoutingProtoBufHeader
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CMsgGCRoutingProtoBufHeader} CMsgGCRoutingProtoBufHeader
-         */
-        CMsgGCRoutingProtoBufHeader.fromObject = function fromObject(object) {
-            if (object instanceof $root.CMsgGCRoutingProtoBufHeader)
-                return object;
-            var message = new $root.CMsgGCRoutingProtoBufHeader();
-            if (object.dst_gcid_queue != null)
-                if ($util.Long)
-                    (message.dst_gcid_queue = $util.Long.fromValue(object.dst_gcid_queue)).unsigned = true;
-                else if (typeof object.dst_gcid_queue === "string")
-                    message.dst_gcid_queue = parseInt(object.dst_gcid_queue, 10);
-                else if (typeof object.dst_gcid_queue === "number")
-                    message.dst_gcid_queue = object.dst_gcid_queue;
-                else if (typeof object.dst_gcid_queue === "object")
-                    message.dst_gcid_queue = new $util.LongBits(object.dst_gcid_queue.low >>> 0, object.dst_gcid_queue.high >>> 0).toNumber(true);
-            if (object.dst_gc_dir_index != null)
-                message.dst_gc_dir_index = object.dst_gc_dir_index >>> 0;
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CMsgGCRoutingProtoBufHeader message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CMsgGCRoutingProtoBufHeader
-         * @static
-         * @param {CMsgGCRoutingProtoBufHeader} message CMsgGCRoutingProtoBufHeader
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CMsgGCRoutingProtoBufHeader.toObject = function toObject(message, options) {
-            if (!options)
-                options = {};
-            var object = {};
-            if (options.defaults) {
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.dst_gcid_queue = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                } else
-                    object.dst_gcid_queue = options.longs === String ? "0" : 0;
-                object.dst_gc_dir_index = 0;
-            }
-            if (message.dst_gcid_queue != null && message.hasOwnProperty("dst_gcid_queue"))
-                if (typeof message.dst_gcid_queue === "number")
-                    object.dst_gcid_queue = options.longs === String ? String(message.dst_gcid_queue) : message.dst_gcid_queue;
-                else
-                    object.dst_gcid_queue = options.longs === String ? $util.Long.prototype.toString.call(message.dst_gcid_queue) : options.longs === Number ? new $util.LongBits(message.dst_gcid_queue.low >>> 0, message.dst_gcid_queue.high >>> 0).toNumber(true) : message.dst_gcid_queue;
-            if (message.dst_gc_dir_index != null && message.hasOwnProperty("dst_gc_dir_index"))
-                object.dst_gc_dir_index = message.dst_gc_dir_index;
-            return object;
-        };
-    
-        /**
-         * Converts this CMsgGCRoutingProtoBufHeader to JSON.
-         * @function toJSON
-         * @memberof CMsgGCRoutingProtoBufHeader
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CMsgGCRoutingProtoBufHeader.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CMsgGCRoutingProtoBufHeader
-         * @function getTypeUrl
-         * @memberof CMsgGCRoutingProtoBufHeader
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CMsgGCRoutingProtoBufHeader.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgGCRoutingProtoBufHeader";
-        };
-    
-        return CMsgGCRoutingProtoBufHeader;
-    })();
-    
     $root.CMsgProtoBufHeader = (function() {
     
         /**
@@ -917,12 +674,6 @@
          * @property {number|null} [realm] CMsgProtoBufHeader realm
          * @property {number|null} [timeout_ms] CMsgProtoBufHeader timeout_ms
          * @property {string|null} [debug_source] CMsgProtoBufHeader debug_source
-         * @property {number|null} [debug_source_string_index] CMsgProtoBufHeader debug_source_string_index
-         * @property {number|Long|null} [token_id] CMsgProtoBufHeader token_id
-         * @property {ICMsgGCRoutingProtoBufHeader|null} [routing_gc] CMsgProtoBufHeader routing_gc
-         * @property {CMsgProtoBufHeader.ESessionDisposition|null} [session_disposition] CMsgProtoBufHeader session_disposition
-         * @property {string|null} [wg_token] CMsgProtoBufHeader wg_token
-         * @property {string|null} [webui_auth_key] CMsgProtoBufHeader webui_auth_key
          * @property {number|null} [ip] CMsgProtoBufHeader ip
          * @property {Uint8Array|null} [ip_v6] CMsgProtoBufHeader ip_v6
          */
@@ -1144,54 +895,6 @@
         CMsgProtoBufHeader.prototype.debug_source = "";
     
         /**
-         * CMsgProtoBufHeader debug_source_string_index.
-         * @member {number} debug_source_string_index
-         * @memberof CMsgProtoBufHeader
-         * @instance
-         */
-        CMsgProtoBufHeader.prototype.debug_source_string_index = 0;
-    
-        /**
-         * CMsgProtoBufHeader token_id.
-         * @member {number|Long} token_id
-         * @memberof CMsgProtoBufHeader
-         * @instance
-         */
-        CMsgProtoBufHeader.prototype.token_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * CMsgProtoBufHeader routing_gc.
-         * @member {ICMsgGCRoutingProtoBufHeader|null|undefined} routing_gc
-         * @memberof CMsgProtoBufHeader
-         * @instance
-         */
-        CMsgProtoBufHeader.prototype.routing_gc = null;
-    
-        /**
-         * CMsgProtoBufHeader session_disposition.
-         * @member {CMsgProtoBufHeader.ESessionDisposition} session_disposition
-         * @memberof CMsgProtoBufHeader
-         * @instance
-         */
-        CMsgProtoBufHeader.prototype.session_disposition = 0;
-    
-        /**
-         * CMsgProtoBufHeader wg_token.
-         * @member {string} wg_token
-         * @memberof CMsgProtoBufHeader
-         * @instance
-         */
-        CMsgProtoBufHeader.prototype.wg_token = "";
-    
-        /**
-         * CMsgProtoBufHeader webui_auth_key.
-         * @member {string} webui_auth_key
-         * @memberof CMsgProtoBufHeader
-         * @instance
-         */
-        CMsgProtoBufHeader.prototype.webui_auth_key = "";
-    
-        /**
          * CMsgProtoBufHeader ip.
          * @member {number|null|undefined} ip
          * @memberof CMsgProtoBufHeader
@@ -1300,18 +1003,6 @@
                 writer.uint32(/* id 33, wireType 0 =*/264).int32(message.timeout_ms);
             if (message.debug_source != null && Object.hasOwnProperty.call(message, "debug_source"))
                 writer.uint32(/* id 34, wireType 2 =*/274).string(message.debug_source);
-            if (message.debug_source_string_index != null && Object.hasOwnProperty.call(message, "debug_source_string_index"))
-                writer.uint32(/* id 35, wireType 0 =*/280).uint32(message.debug_source_string_index);
-            if (message.token_id != null && Object.hasOwnProperty.call(message, "token_id"))
-                writer.uint32(/* id 36, wireType 0 =*/288).uint64(message.token_id);
-            if (message.routing_gc != null && Object.hasOwnProperty.call(message, "routing_gc"))
-                $root.CMsgGCRoutingProtoBufHeader.encode(message.routing_gc, writer.uint32(/* id 37, wireType 2 =*/298).fork()).ldelim();
-            if (message.session_disposition != null && Object.hasOwnProperty.call(message, "session_disposition"))
-                writer.uint32(/* id 38, wireType 0 =*/304).int32(message.session_disposition);
-            if (message.wg_token != null && Object.hasOwnProperty.call(message, "wg_token"))
-                writer.uint32(/* id 39, wireType 2 =*/314).string(message.wg_token);
-            if (message.webui_auth_key != null && Object.hasOwnProperty.call(message, "webui_auth_key"))
-                writer.uint32(/* id 40, wireType 2 =*/322).string(message.webui_auth_key);
             return writer;
         };
     
@@ -1455,30 +1146,6 @@
                         message.debug_source = reader.string();
                         break;
                     }
-                case 35: {
-                        message.debug_source_string_index = reader.uint32();
-                        break;
-                    }
-                case 36: {
-                        message.token_id = reader.uint64();
-                        break;
-                    }
-                case 37: {
-                        message.routing_gc = $root.CMsgGCRoutingProtoBufHeader.decode(reader, reader.uint32());
-                        break;
-                    }
-                case 38: {
-                        message.session_disposition = reader.int32();
-                        break;
-                    }
-                case 39: {
-                        message.wg_token = reader.string();
-                        break;
-                    }
-                case 40: {
-                        message.webui_auth_key = reader.string();
-                        break;
-                    }
                 case 15: {
                         message.ip = reader.uint32();
                         break;
@@ -1602,31 +1269,6 @@
             if (message.debug_source != null && message.hasOwnProperty("debug_source"))
                 if (!$util.isString(message.debug_source))
                     return "debug_source: string expected";
-            if (message.debug_source_string_index != null && message.hasOwnProperty("debug_source_string_index"))
-                if (!$util.isInteger(message.debug_source_string_index))
-                    return "debug_source_string_index: integer expected";
-            if (message.token_id != null && message.hasOwnProperty("token_id"))
-                if (!$util.isInteger(message.token_id) && !(message.token_id && $util.isInteger(message.token_id.low) && $util.isInteger(message.token_id.high)))
-                    return "token_id: integer|Long expected";
-            if (message.routing_gc != null && message.hasOwnProperty("routing_gc")) {
-                var error = $root.CMsgGCRoutingProtoBufHeader.verify(message.routing_gc);
-                if (error)
-                    return "routing_gc." + error;
-            }
-            if (message.session_disposition != null && message.hasOwnProperty("session_disposition"))
-                switch (message.session_disposition) {
-                default:
-                    return "session_disposition: enum value expected";
-                case 0:
-                case 1:
-                    break;
-                }
-            if (message.wg_token != null && message.hasOwnProperty("wg_token"))
-                if (!$util.isString(message.wg_token))
-                    return "wg_token: string expected";
-            if (message.webui_auth_key != null && message.hasOwnProperty("webui_auth_key"))
-                if (!$util.isString(message.webui_auth_key))
-                    return "webui_auth_key: string expected";
             if (message.ip != null && message.hasOwnProperty("ip")) {
                 properties.ip_addr = 1;
                 if (!$util.isInteger(message.ip))
@@ -1744,42 +1386,6 @@
                 message.timeout_ms = object.timeout_ms | 0;
             if (object.debug_source != null)
                 message.debug_source = String(object.debug_source);
-            if (object.debug_source_string_index != null)
-                message.debug_source_string_index = object.debug_source_string_index >>> 0;
-            if (object.token_id != null)
-                if ($util.Long)
-                    (message.token_id = $util.Long.fromValue(object.token_id)).unsigned = true;
-                else if (typeof object.token_id === "string")
-                    message.token_id = parseInt(object.token_id, 10);
-                else if (typeof object.token_id === "number")
-                    message.token_id = object.token_id;
-                else if (typeof object.token_id === "object")
-                    message.token_id = new $util.LongBits(object.token_id.low >>> 0, object.token_id.high >>> 0).toNumber(true);
-            if (object.routing_gc != null) {
-                if (typeof object.routing_gc !== "object")
-                    throw TypeError(".CMsgProtoBufHeader.routing_gc: object expected");
-                message.routing_gc = $root.CMsgGCRoutingProtoBufHeader.fromObject(object.routing_gc);
-            }
-            switch (object.session_disposition) {
-            default:
-                if (typeof object.session_disposition === "number") {
-                    message.session_disposition = object.session_disposition;
-                    break;
-                }
-                break;
-            case "k_ESessionDispositionNormal":
-            case 0:
-                message.session_disposition = 0;
-                break;
-            case "k_ESessionDispositionDisconnect":
-            case 1:
-                message.session_disposition = 1;
-                break;
-            }
-            if (object.wg_token != null)
-                message.wg_token = String(object.wg_token);
-            if (object.webui_auth_key != null)
-                message.webui_auth_key = String(object.webui_auth_key);
             if (object.ip != null)
                 message.ip = object.ip >>> 0;
             if (object.ip_v6 != null)
@@ -1850,16 +1456,6 @@
                 object.realm = 0;
                 object.timeout_ms = -1;
                 object.debug_source = "";
-                object.debug_source_string_index = 0;
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.token_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                } else
-                    object.token_id = options.longs === String ? "0" : 0;
-                object.routing_gc = null;
-                object.session_disposition = options.enums === String ? "k_ESessionDispositionNormal" : 0;
-                object.wg_token = "";
-                object.webui_auth_key = "";
             }
             if (message.steamid != null && message.hasOwnProperty("steamid"))
                 if (typeof message.steamid === "number")
@@ -1939,21 +1535,6 @@
                 object.timeout_ms = message.timeout_ms;
             if (message.debug_source != null && message.hasOwnProperty("debug_source"))
                 object.debug_source = message.debug_source;
-            if (message.debug_source_string_index != null && message.hasOwnProperty("debug_source_string_index"))
-                object.debug_source_string_index = message.debug_source_string_index;
-            if (message.token_id != null && message.hasOwnProperty("token_id"))
-                if (typeof message.token_id === "number")
-                    object.token_id = options.longs === String ? String(message.token_id) : message.token_id;
-                else
-                    object.token_id = options.longs === String ? $util.Long.prototype.toString.call(message.token_id) : options.longs === Number ? new $util.LongBits(message.token_id.low >>> 0, message.token_id.high >>> 0).toNumber(true) : message.token_id;
-            if (message.routing_gc != null && message.hasOwnProperty("routing_gc"))
-                object.routing_gc = $root.CMsgGCRoutingProtoBufHeader.toObject(message.routing_gc, options);
-            if (message.session_disposition != null && message.hasOwnProperty("session_disposition"))
-                object.session_disposition = options.enums === String ? $root.CMsgProtoBufHeader.ESessionDisposition[message.session_disposition] === undefined ? message.session_disposition : $root.CMsgProtoBufHeader.ESessionDisposition[message.session_disposition] : message.session_disposition;
-            if (message.wg_token != null && message.hasOwnProperty("wg_token"))
-                object.wg_token = message.wg_token;
-            if (message.webui_auth_key != null && message.hasOwnProperty("webui_auth_key"))
-                object.webui_auth_key = message.webui_auth_key;
             return object;
         };
     
@@ -1982,20 +1563,6 @@
             }
             return typeUrlPrefix + "/CMsgProtoBufHeader";
         };
-    
-        /**
-         * ESessionDisposition enum.
-         * @name CMsgProtoBufHeader.ESessionDisposition
-         * @enum {number}
-         * @property {number} k_ESessionDispositionNormal=0 k_ESessionDispositionNormal value
-         * @property {number} k_ESessionDispositionDisconnect=1 k_ESessionDispositionDisconnect value
-         */
-        CMsgProtoBufHeader.ESessionDisposition = (function() {
-            var valuesById = {}, values = Object.create(valuesById);
-            values[valuesById[0] = "k_ESessionDispositionNormal"] = 0;
-            values[valuesById[1] = "k_ESessionDispositionDisconnect"] = 1;
-            return values;
-        })();
     
         return CMsgProtoBufHeader;
     })();
@@ -2465,8 +2032,6 @@
          * @property {number|null} [h_steam_pipe] CMsgAuthTicket h_steam_pipe
          * @property {number|null} [ticket_crc] CMsgAuthTicket ticket_crc
          * @property {Uint8Array|null} [ticket] CMsgAuthTicket ticket
-         * @property {Uint8Array|null} [server_secret] CMsgAuthTicket server_secret
-         * @property {number|null} [ticket_type] CMsgAuthTicket ticket_type
          */
     
         /**
@@ -2541,22 +2106,6 @@
         CMsgAuthTicket.prototype.ticket = $util.newBuffer([]);
     
         /**
-         * CMsgAuthTicket server_secret.
-         * @member {Uint8Array} server_secret
-         * @memberof CMsgAuthTicket
-         * @instance
-         */
-        CMsgAuthTicket.prototype.server_secret = $util.newBuffer([]);
-    
-        /**
-         * CMsgAuthTicket ticket_type.
-         * @member {number} ticket_type
-         * @memberof CMsgAuthTicket
-         * @instance
-         */
-        CMsgAuthTicket.prototype.ticket_type = 0;
-    
-        /**
          * Creates a new CMsgAuthTicket instance using the specified properties.
          * @function create
          * @memberof CMsgAuthTicket
@@ -2594,10 +2143,6 @@
                 writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.ticket_crc);
             if (message.ticket != null && Object.hasOwnProperty.call(message, "ticket"))
                 writer.uint32(/* id 7, wireType 2 =*/58).bytes(message.ticket);
-            if (message.server_secret != null && Object.hasOwnProperty.call(message, "server_secret"))
-                writer.uint32(/* id 8, wireType 2 =*/66).bytes(message.server_secret);
-            if (message.ticket_type != null && Object.hasOwnProperty.call(message, "ticket_type"))
-                writer.uint32(/* id 9, wireType 0 =*/72).uint32(message.ticket_type);
             return writer;
         };
     
@@ -2662,14 +2207,6 @@
                         message.ticket = reader.bytes();
                         break;
                     }
-                case 8: {
-                        message.server_secret = reader.bytes();
-                        break;
-                    }
-                case 9: {
-                        message.ticket_type = reader.uint32();
-                        break;
-                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -2726,12 +2263,6 @@
             if (message.ticket != null && message.hasOwnProperty("ticket"))
                 if (!(message.ticket && typeof message.ticket.length === "number" || $util.isString(message.ticket)))
                     return "ticket: buffer expected";
-            if (message.server_secret != null && message.hasOwnProperty("server_secret"))
-                if (!(message.server_secret && typeof message.server_secret.length === "number" || $util.isString(message.server_secret)))
-                    return "server_secret: buffer expected";
-            if (message.ticket_type != null && message.hasOwnProperty("ticket_type"))
-                if (!$util.isInteger(message.ticket_type))
-                    return "ticket_type: integer expected";
             return null;
         };
     
@@ -2778,13 +2309,6 @@
                     $util.base64.decode(object.ticket, message.ticket = $util.newBuffer($util.base64.length(object.ticket)), 0);
                 else if (object.ticket.length >= 0)
                     message.ticket = object.ticket;
-            if (object.server_secret != null)
-                if (typeof object.server_secret === "string")
-                    $util.base64.decode(object.server_secret, message.server_secret = $util.newBuffer($util.base64.length(object.server_secret)), 0);
-                else if (object.server_secret.length >= 0)
-                    message.server_secret = object.server_secret;
-            if (object.ticket_type != null)
-                message.ticket_type = object.ticket_type >>> 0;
             return message;
         };
     
@@ -2823,14 +2347,6 @@
                     if (options.bytes !== Array)
                         object.ticket = $util.newBuffer(object.ticket);
                 }
-                if (options.bytes === String)
-                    object.server_secret = "";
-                else {
-                    object.server_secret = [];
-                    if (options.bytes !== Array)
-                        object.server_secret = $util.newBuffer(object.server_secret);
-                }
-                object.ticket_type = 0;
             }
             if (message.estate != null && message.hasOwnProperty("estate"))
                 object.estate = message.estate;
@@ -2852,10 +2368,6 @@
                 object.ticket_crc = message.ticket_crc;
             if (message.ticket != null && message.hasOwnProperty("ticket"))
                 object.ticket = options.bytes === String ? $util.base64.encode(message.ticket, 0, message.ticket.length) : options.bytes === Array ? Array.prototype.slice.call(message.ticket) : message.ticket;
-            if (message.server_secret != null && message.hasOwnProperty("server_secret"))
-                object.server_secret = options.bytes === String ? $util.base64.encode(message.server_secret, 0, message.server_secret.length) : options.bytes === Array ? Array.prototype.slice.call(message.server_secret) : message.server_secret;
-            if (message.ticket_type != null && message.hasOwnProperty("ticket_type"))
-                object.ticket_type = message.ticket_type;
             return object;
         };
     
@@ -2906,9 +2418,6 @@
          * @property {boolean|null} [has_adult_content] CCDDBAppDetailCommon has_adult_content
          * @property {boolean|null} [is_visible_in_steam_china] CCDDBAppDetailCommon is_visible_in_steam_china
          * @property {number|null} [app_type] CCDDBAppDetailCommon app_type
-         * @property {boolean|null} [has_adult_content_sex] CCDDBAppDetailCommon has_adult_content_sex
-         * @property {boolean|null} [has_adult_content_violence] CCDDBAppDetailCommon has_adult_content_violence
-         * @property {Array.<number>|null} [content_descriptorids] CCDDBAppDetailCommon content_descriptorids
          */
     
         /**
@@ -2920,7 +2429,6 @@
          * @param {ICCDDBAppDetailCommon=} [properties] Properties to set
          */
         function CCDDBAppDetailCommon(properties) {
-            this.content_descriptorids = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -3024,30 +2532,6 @@
         CCDDBAppDetailCommon.prototype.app_type = 0;
     
         /**
-         * CCDDBAppDetailCommon has_adult_content_sex.
-         * @member {boolean} has_adult_content_sex
-         * @memberof CCDDBAppDetailCommon
-         * @instance
-         */
-        CCDDBAppDetailCommon.prototype.has_adult_content_sex = false;
-    
-        /**
-         * CCDDBAppDetailCommon has_adult_content_violence.
-         * @member {boolean} has_adult_content_violence
-         * @memberof CCDDBAppDetailCommon
-         * @instance
-         */
-        CCDDBAppDetailCommon.prototype.has_adult_content_violence = false;
-    
-        /**
-         * CCDDBAppDetailCommon content_descriptorids.
-         * @member {Array.<number>} content_descriptorids
-         * @memberof CCDDBAppDetailCommon
-         * @instance
-         */
-        CCDDBAppDetailCommon.prototype.content_descriptorids = $util.emptyArray;
-    
-        /**
          * Creates a new CCDDBAppDetailCommon instance using the specified properties.
          * @function create
          * @memberof CCDDBAppDetailCommon
@@ -3095,13 +2579,6 @@
                 writer.uint32(/* id 13, wireType 0 =*/104).bool(message.is_visible_in_steam_china);
             if (message.app_type != null && Object.hasOwnProperty.call(message, "app_type"))
                 writer.uint32(/* id 14, wireType 0 =*/112).uint32(message.app_type);
-            if (message.has_adult_content_sex != null && Object.hasOwnProperty.call(message, "has_adult_content_sex"))
-                writer.uint32(/* id 15, wireType 0 =*/120).bool(message.has_adult_content_sex);
-            if (message.has_adult_content_violence != null && Object.hasOwnProperty.call(message, "has_adult_content_violence"))
-                writer.uint32(/* id 16, wireType 0 =*/128).bool(message.has_adult_content_violence);
-            if (message.content_descriptorids != null && message.content_descriptorids.length)
-                for (var i = 0; i < message.content_descriptorids.length; ++i)
-                    writer.uint32(/* id 17, wireType 0 =*/136).uint32(message.content_descriptorids[i]);
             return writer;
         };
     
@@ -3186,25 +2663,6 @@
                         message.app_type = reader.uint32();
                         break;
                     }
-                case 15: {
-                        message.has_adult_content_sex = reader.bool();
-                        break;
-                    }
-                case 16: {
-                        message.has_adult_content_violence = reader.bool();
-                        break;
-                    }
-                case 17: {
-                        if (!(message.content_descriptorids && message.content_descriptorids.length))
-                            message.content_descriptorids = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            while (reader.pos < end2)
-                                message.content_descriptorids.push(reader.uint32());
-                        } else
-                            message.content_descriptorids.push(reader.uint32());
-                        break;
-                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -3276,19 +2734,6 @@
             if (message.app_type != null && message.hasOwnProperty("app_type"))
                 if (!$util.isInteger(message.app_type))
                     return "app_type: integer expected";
-            if (message.has_adult_content_sex != null && message.hasOwnProperty("has_adult_content_sex"))
-                if (typeof message.has_adult_content_sex !== "boolean")
-                    return "has_adult_content_sex: boolean expected";
-            if (message.has_adult_content_violence != null && message.hasOwnProperty("has_adult_content_violence"))
-                if (typeof message.has_adult_content_violence !== "boolean")
-                    return "has_adult_content_violence: boolean expected";
-            if (message.content_descriptorids != null && message.hasOwnProperty("content_descriptorids")) {
-                if (!Array.isArray(message.content_descriptorids))
-                    return "content_descriptorids: array expected";
-                for (var i = 0; i < message.content_descriptorids.length; ++i)
-                    if (!$util.isInteger(message.content_descriptorids[i]))
-                        return "content_descriptorids: integer[] expected";
-            }
             return null;
         };
     
@@ -3328,17 +2773,6 @@
                 message.is_visible_in_steam_china = Boolean(object.is_visible_in_steam_china);
             if (object.app_type != null)
                 message.app_type = object.app_type >>> 0;
-            if (object.has_adult_content_sex != null)
-                message.has_adult_content_sex = Boolean(object.has_adult_content_sex);
-            if (object.has_adult_content_violence != null)
-                message.has_adult_content_violence = Boolean(object.has_adult_content_violence);
-            if (object.content_descriptorids) {
-                if (!Array.isArray(object.content_descriptorids))
-                    throw TypeError(".CCDDBAppDetailCommon.content_descriptorids: array expected");
-                message.content_descriptorids = [];
-                for (var i = 0; i < object.content_descriptorids.length; ++i)
-                    message.content_descriptorids[i] = object.content_descriptorids[i] >>> 0;
-            }
             return message;
         };
     
@@ -3355,8 +2789,6 @@
             if (!options)
                 options = {};
             var object = {};
-            if (options.arrays || options.defaults)
-                object.content_descriptorids = [];
             if (options.defaults) {
                 object.appid = 0;
                 object.name = "";
@@ -3370,8 +2802,6 @@
                 object.has_adult_content = false;
                 object.is_visible_in_steam_china = false;
                 object.app_type = 0;
-                object.has_adult_content_sex = false;
-                object.has_adult_content_violence = false;
             }
             if (message.appid != null && message.hasOwnProperty("appid"))
                 object.appid = message.appid;
@@ -3397,15 +2827,6 @@
                 object.is_visible_in_steam_china = message.is_visible_in_steam_china;
             if (message.app_type != null && message.hasOwnProperty("app_type"))
                 object.app_type = message.app_type;
-            if (message.has_adult_content_sex != null && message.hasOwnProperty("has_adult_content_sex"))
-                object.has_adult_content_sex = message.has_adult_content_sex;
-            if (message.has_adult_content_violence != null && message.hasOwnProperty("has_adult_content_violence"))
-                object.has_adult_content_violence = message.has_adult_content_violence;
-            if (message.content_descriptorids && message.content_descriptorids.length) {
-                object.content_descriptorids = [];
-                for (var j = 0; j < message.content_descriptorids.length; ++j)
-                    object.content_descriptorids[j] = message.content_descriptorids[j];
-            }
             return object;
         };
     
@@ -5550,7 +4971,6 @@
          * @property {number|null} [voteupcount] CCommunity_ClanAnnouncementInfo voteupcount
          * @property {number|null} [votedowncount] CCommunity_ClanAnnouncementInfo votedowncount
          * @property {EBanContentCheckResult|null} [ban_check_result] CCommunity_ClanAnnouncementInfo ban_check_result
-         * @property {boolean|null} [banned] CCommunity_ClanAnnouncementInfo banned
          */
     
         /**
@@ -5698,14 +5118,6 @@
         CCommunity_ClanAnnouncementInfo.prototype.ban_check_result = 0;
     
         /**
-         * CCommunity_ClanAnnouncementInfo banned.
-         * @member {boolean} banned
-         * @memberof CCommunity_ClanAnnouncementInfo
-         * @instance
-         */
-        CCommunity_ClanAnnouncementInfo.prototype.banned = false;
-    
-        /**
          * Creates a new CCommunity_ClanAnnouncementInfo instance using the specified properties.
          * @function create
          * @memberof CCommunity_ClanAnnouncementInfo
@@ -5762,8 +5174,6 @@
                 writer.uint32(/* id 15, wireType 0 =*/120).int32(message.votedowncount);
             if (message.ban_check_result != null && Object.hasOwnProperty.call(message, "ban_check_result"))
                 writer.uint32(/* id 16, wireType 0 =*/128).int32(message.ban_check_result);
-            if (message.banned != null && Object.hasOwnProperty.call(message, "banned"))
-                writer.uint32(/* id 17, wireType 0 =*/136).bool(message.banned);
             return writer;
         };
     
@@ -5866,10 +5276,6 @@
                         message.ban_check_result = reader.int32();
                         break;
                     }
-                case 17: {
-                        message.banned = reader.bool();
-                        break;
-                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -5968,9 +5374,6 @@
                 case 100:
                     break;
                 }
-            if (message.banned != null && message.hasOwnProperty("banned"))
-                if (typeof message.banned !== "boolean")
-                    return "banned: boolean expected";
             return null;
         };
     
@@ -6096,8 +5499,6 @@
                 message.ban_check_result = 100;
                 break;
             }
-            if (object.banned != null)
-                message.banned = Boolean(object.banned);
             return message;
         };
     
@@ -6152,7 +5553,6 @@
                 object.voteupcount = 0;
                 object.votedowncount = 0;
                 object.ban_check_result = options.enums === String ? "k_EBanContentCheckResult_NotScanned" : 0;
-                object.banned = false;
             }
             if (message.gid != null && message.hasOwnProperty("gid"))
                 if (typeof message.gid === "number")
@@ -6204,8 +5604,6 @@
                 object.votedowncount = message.votedowncount;
             if (message.ban_check_result != null && message.hasOwnProperty("ban_check_result"))
                 object.ban_check_result = options.enums === String ? $root.EBanContentCheckResult[message.ban_check_result] === undefined ? message.ban_check_result : $root.EBanContentCheckResult[message.ban_check_result] : message.ban_check_result;
-            if (message.banned != null && message.hasOwnProperty("banned"))
-                object.banned = message.banned;
             return object;
         };
     
@@ -8639,461 +8037,6 @@
         };
     
         return CMsgKeyValueSet;
-    })();
-    
-    $root.UserContentDescriptorPreferences = (function() {
-    
-        /**
-         * Properties of a UserContentDescriptorPreferences.
-         * @exports IUserContentDescriptorPreferences
-         * @interface IUserContentDescriptorPreferences
-         * @property {Array.<UserContentDescriptorPreferences.IContentDescriptor>|null} [content_descriptors_to_exclude] UserContentDescriptorPreferences content_descriptors_to_exclude
-         */
-    
-        /**
-         * Constructs a new UserContentDescriptorPreferences.
-         * @exports UserContentDescriptorPreferences
-         * @classdesc Represents a UserContentDescriptorPreferences.
-         * @implements IUserContentDescriptorPreferences
-         * @constructor
-         * @param {IUserContentDescriptorPreferences=} [properties] Properties to set
-         */
-        function UserContentDescriptorPreferences(properties) {
-            this.content_descriptors_to_exclude = [];
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * UserContentDescriptorPreferences content_descriptors_to_exclude.
-         * @member {Array.<UserContentDescriptorPreferences.IContentDescriptor>} content_descriptors_to_exclude
-         * @memberof UserContentDescriptorPreferences
-         * @instance
-         */
-        UserContentDescriptorPreferences.prototype.content_descriptors_to_exclude = $util.emptyArray;
-    
-        /**
-         * Creates a new UserContentDescriptorPreferences instance using the specified properties.
-         * @function create
-         * @memberof UserContentDescriptorPreferences
-         * @static
-         * @param {IUserContentDescriptorPreferences=} [properties] Properties to set
-         * @returns {UserContentDescriptorPreferences} UserContentDescriptorPreferences instance
-         */
-        UserContentDescriptorPreferences.create = function create(properties) {
-            return new UserContentDescriptorPreferences(properties);
-        };
-    
-        /**
-         * Encodes the specified UserContentDescriptorPreferences message. Does not implicitly {@link UserContentDescriptorPreferences.verify|verify} messages.
-         * @function encode
-         * @memberof UserContentDescriptorPreferences
-         * @static
-         * @param {IUserContentDescriptorPreferences} message UserContentDescriptorPreferences message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        UserContentDescriptorPreferences.encode = function encode(message, writer) {
-            if (!writer)
-                writer = $Writer.create();
-            if (message.content_descriptors_to_exclude != null && message.content_descriptors_to_exclude.length)
-                for (var i = 0; i < message.content_descriptors_to_exclude.length; ++i)
-                    $root.UserContentDescriptorPreferences.ContentDescriptor.encode(message.content_descriptors_to_exclude[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified UserContentDescriptorPreferences message, length delimited. Does not implicitly {@link UserContentDescriptorPreferences.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof UserContentDescriptorPreferences
-         * @static
-         * @param {IUserContentDescriptorPreferences} message UserContentDescriptorPreferences message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        UserContentDescriptorPreferences.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
-        };
-    
-        /**
-         * Decodes a UserContentDescriptorPreferences message from the specified reader or buffer.
-         * @function decode
-         * @memberof UserContentDescriptorPreferences
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {UserContentDescriptorPreferences} UserContentDescriptorPreferences
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        UserContentDescriptorPreferences.decode = function decode(reader, length, error) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.UserContentDescriptorPreferences();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        if (!(message.content_descriptors_to_exclude && message.content_descriptors_to_exclude.length))
-                            message.content_descriptors_to_exclude = [];
-                        message.content_descriptors_to_exclude.push($root.UserContentDescriptorPreferences.ContentDescriptor.decode(reader, reader.uint32()));
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-                }
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a UserContentDescriptorPreferences message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof UserContentDescriptorPreferences
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {UserContentDescriptorPreferences} UserContentDescriptorPreferences
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        UserContentDescriptorPreferences.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a UserContentDescriptorPreferences message.
-         * @function verify
-         * @memberof UserContentDescriptorPreferences
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        UserContentDescriptorPreferences.verify = function verify(message) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (message.content_descriptors_to_exclude != null && message.hasOwnProperty("content_descriptors_to_exclude")) {
-                if (!Array.isArray(message.content_descriptors_to_exclude))
-                    return "content_descriptors_to_exclude: array expected";
-                for (var i = 0; i < message.content_descriptors_to_exclude.length; ++i) {
-                    var error = $root.UserContentDescriptorPreferences.ContentDescriptor.verify(message.content_descriptors_to_exclude[i]);
-                    if (error)
-                        return "content_descriptors_to_exclude." + error;
-                }
-            }
-            return null;
-        };
-    
-        /**
-         * Creates a UserContentDescriptorPreferences message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof UserContentDescriptorPreferences
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {UserContentDescriptorPreferences} UserContentDescriptorPreferences
-         */
-        UserContentDescriptorPreferences.fromObject = function fromObject(object) {
-            if (object instanceof $root.UserContentDescriptorPreferences)
-                return object;
-            var message = new $root.UserContentDescriptorPreferences();
-            if (object.content_descriptors_to_exclude) {
-                if (!Array.isArray(object.content_descriptors_to_exclude))
-                    throw TypeError(".UserContentDescriptorPreferences.content_descriptors_to_exclude: array expected");
-                message.content_descriptors_to_exclude = [];
-                for (var i = 0; i < object.content_descriptors_to_exclude.length; ++i) {
-                    if (typeof object.content_descriptors_to_exclude[i] !== "object")
-                        throw TypeError(".UserContentDescriptorPreferences.content_descriptors_to_exclude: object expected");
-                    message.content_descriptors_to_exclude[i] = $root.UserContentDescriptorPreferences.ContentDescriptor.fromObject(object.content_descriptors_to_exclude[i]);
-                }
-            }
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a UserContentDescriptorPreferences message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof UserContentDescriptorPreferences
-         * @static
-         * @param {UserContentDescriptorPreferences} message UserContentDescriptorPreferences
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        UserContentDescriptorPreferences.toObject = function toObject(message, options) {
-            if (!options)
-                options = {};
-            var object = {};
-            if (options.arrays || options.defaults)
-                object.content_descriptors_to_exclude = [];
-            if (message.content_descriptors_to_exclude && message.content_descriptors_to_exclude.length) {
-                object.content_descriptors_to_exclude = [];
-                for (var j = 0; j < message.content_descriptors_to_exclude.length; ++j)
-                    object.content_descriptors_to_exclude[j] = $root.UserContentDescriptorPreferences.ContentDescriptor.toObject(message.content_descriptors_to_exclude[j], options);
-            }
-            return object;
-        };
-    
-        /**
-         * Converts this UserContentDescriptorPreferences to JSON.
-         * @function toJSON
-         * @memberof UserContentDescriptorPreferences
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        UserContentDescriptorPreferences.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for UserContentDescriptorPreferences
-         * @function getTypeUrl
-         * @memberof UserContentDescriptorPreferences
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        UserContentDescriptorPreferences.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/UserContentDescriptorPreferences";
-        };
-    
-        UserContentDescriptorPreferences.ContentDescriptor = (function() {
-    
-            /**
-             * Properties of a ContentDescriptor.
-             * @memberof UserContentDescriptorPreferences
-             * @interface IContentDescriptor
-             * @property {number|null} [content_descriptorid] ContentDescriptor content_descriptorid
-             * @property {number|null} [timestamp_added] ContentDescriptor timestamp_added
-             */
-    
-            /**
-             * Constructs a new ContentDescriptor.
-             * @memberof UserContentDescriptorPreferences
-             * @classdesc Represents a ContentDescriptor.
-             * @implements IContentDescriptor
-             * @constructor
-             * @param {UserContentDescriptorPreferences.IContentDescriptor=} [properties] Properties to set
-             */
-            function ContentDescriptor(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * ContentDescriptor content_descriptorid.
-             * @member {number} content_descriptorid
-             * @memberof UserContentDescriptorPreferences.ContentDescriptor
-             * @instance
-             */
-            ContentDescriptor.prototype.content_descriptorid = 0;
-    
-            /**
-             * ContentDescriptor timestamp_added.
-             * @member {number} timestamp_added
-             * @memberof UserContentDescriptorPreferences.ContentDescriptor
-             * @instance
-             */
-            ContentDescriptor.prototype.timestamp_added = 0;
-    
-            /**
-             * Creates a new ContentDescriptor instance using the specified properties.
-             * @function create
-             * @memberof UserContentDescriptorPreferences.ContentDescriptor
-             * @static
-             * @param {UserContentDescriptorPreferences.IContentDescriptor=} [properties] Properties to set
-             * @returns {UserContentDescriptorPreferences.ContentDescriptor} ContentDescriptor instance
-             */
-            ContentDescriptor.create = function create(properties) {
-                return new ContentDescriptor(properties);
-            };
-    
-            /**
-             * Encodes the specified ContentDescriptor message. Does not implicitly {@link UserContentDescriptorPreferences.ContentDescriptor.verify|verify} messages.
-             * @function encode
-             * @memberof UserContentDescriptorPreferences.ContentDescriptor
-             * @static
-             * @param {UserContentDescriptorPreferences.IContentDescriptor} message ContentDescriptor message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ContentDescriptor.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.content_descriptorid != null && Object.hasOwnProperty.call(message, "content_descriptorid"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.content_descriptorid);
-                if (message.timestamp_added != null && Object.hasOwnProperty.call(message, "timestamp_added"))
-                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.timestamp_added);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified ContentDescriptor message, length delimited. Does not implicitly {@link UserContentDescriptorPreferences.ContentDescriptor.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof UserContentDescriptorPreferences.ContentDescriptor
-             * @static
-             * @param {UserContentDescriptorPreferences.IContentDescriptor} message ContentDescriptor message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            ContentDescriptor.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a ContentDescriptor message from the specified reader or buffer.
-             * @function decode
-             * @memberof UserContentDescriptorPreferences.ContentDescriptor
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {UserContentDescriptorPreferences.ContentDescriptor} ContentDescriptor
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ContentDescriptor.decode = function decode(reader, length, error) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.UserContentDescriptorPreferences.ContentDescriptor();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 1: {
-                            message.content_descriptorid = reader.uint32();
-                            break;
-                        }
-                    case 2: {
-                            message.timestamp_added = reader.uint32();
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a ContentDescriptor message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof UserContentDescriptorPreferences.ContentDescriptor
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {UserContentDescriptorPreferences.ContentDescriptor} ContentDescriptor
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            ContentDescriptor.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a ContentDescriptor message.
-             * @function verify
-             * @memberof UserContentDescriptorPreferences.ContentDescriptor
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            ContentDescriptor.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.content_descriptorid != null && message.hasOwnProperty("content_descriptorid"))
-                    if (!$util.isInteger(message.content_descriptorid))
-                        return "content_descriptorid: integer expected";
-                if (message.timestamp_added != null && message.hasOwnProperty("timestamp_added"))
-                    if (!$util.isInteger(message.timestamp_added))
-                        return "timestamp_added: integer expected";
-                return null;
-            };
-    
-            /**
-             * Creates a ContentDescriptor message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof UserContentDescriptorPreferences.ContentDescriptor
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {UserContentDescriptorPreferences.ContentDescriptor} ContentDescriptor
-             */
-            ContentDescriptor.fromObject = function fromObject(object) {
-                if (object instanceof $root.UserContentDescriptorPreferences.ContentDescriptor)
-                    return object;
-                var message = new $root.UserContentDescriptorPreferences.ContentDescriptor();
-                if (object.content_descriptorid != null)
-                    message.content_descriptorid = object.content_descriptorid >>> 0;
-                if (object.timestamp_added != null)
-                    message.timestamp_added = object.timestamp_added >>> 0;
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a ContentDescriptor message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof UserContentDescriptorPreferences.ContentDescriptor
-             * @static
-             * @param {UserContentDescriptorPreferences.ContentDescriptor} message ContentDescriptor
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            ContentDescriptor.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.content_descriptorid = 0;
-                    object.timestamp_added = 0;
-                }
-                if (message.content_descriptorid != null && message.hasOwnProperty("content_descriptorid"))
-                    object.content_descriptorid = message.content_descriptorid;
-                if (message.timestamp_added != null && message.hasOwnProperty("timestamp_added"))
-                    object.timestamp_added = message.timestamp_added;
-                return object;
-            };
-    
-            /**
-             * Converts this ContentDescriptor to JSON.
-             * @function toJSON
-             * @memberof UserContentDescriptorPreferences.ContentDescriptor
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            ContentDescriptor.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            /**
-             * Gets the default type url for ContentDescriptor
-             * @function getTypeUrl
-             * @memberof UserContentDescriptorPreferences.ContentDescriptor
-             * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
-             */
-            ContentDescriptor.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/UserContentDescriptorPreferences.ContentDescriptor";
-            };
-    
-            return ContentDescriptor;
-        })();
-    
-        return UserContentDescriptorPreferences;
     })();
     
     $root.google = (function() {

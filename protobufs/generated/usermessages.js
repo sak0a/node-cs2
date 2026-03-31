@@ -9717,8 +9717,8 @@
          * Properties of a CUserMsg_ParticleManager.
          * @exports ICUserMsg_ParticleManager
          * @interface ICUserMsg_ParticleManager
-         * @property {PARTICLE_MESSAGE} type CUserMsg_ParticleManager type
-         * @property {number} index CUserMsg_ParticleManager index
+         * @property {PARTICLE_MESSAGE|null} [type] CUserMsg_ParticleManager type
+         * @property {number|null} [index] CUserMsg_ParticleManager index
          * @property {CUserMsg_ParticleManager.IReleaseParticleIndex|null} [release_particle_index] CUserMsg_ParticleManager release_particle_index
          * @property {CUserMsg_ParticleManager.ICreateParticle|null} [create_particle] CUserMsg_ParticleManager create_particle
          * @property {CUserMsg_ParticleManager.IDestroyParticle|null} [destroy_particle] CUserMsg_ParticleManager destroy_particle
@@ -10127,8 +10127,10 @@
         CUserMsg_ParticleManager.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type);
-            writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.index);
+            if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type);
+            if (message.index != null && Object.hasOwnProperty.call(message, "index"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.index);
             if (message.release_particle_index != null && Object.hasOwnProperty.call(message, "release_particle_index"))
                 $root.CUserMsg_ParticleManager.ReleaseParticleIndex.encode(message.release_particle_index, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
             if (message.create_particle != null && Object.hasOwnProperty.call(message, "create_particle"))
@@ -10412,10 +10414,6 @@
                     break;
                 }
             }
-            if (!message.hasOwnProperty("type"))
-                throw $util.ProtocolError("missing required 'type'", { instance: message });
-            if (!message.hasOwnProperty("index"))
-                throw $util.ProtocolError("missing required 'index'", { instance: message });
             return message;
         };
     
@@ -10446,53 +10444,55 @@
         CUserMsg_ParticleManager.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            switch (message.type) {
-            default:
-                return "type: enum value expected";
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-            case 20:
-            case 21:
-            case 22:
-            case 23:
-            case 24:
-            case 25:
-            case 26:
-            case 27:
-            case 28:
-            case 29:
-            case 30:
-            case 31:
-            case 32:
-            case 33:
-            case 34:
-            case 35:
-            case 36:
-            case 37:
-            case 38:
-            case 39:
-                break;
-            }
-            if (!$util.isInteger(message.index))
-                return "index: integer expected";
+            if (message.type != null && message.hasOwnProperty("type"))
+                switch (message.type) {
+                default:
+                    return "type: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
+                case 32:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                case 39:
+                    break;
+                }
+            if (message.index != null && message.hasOwnProperty("index"))
+                if (!$util.isInteger(message.index))
+                    return "index: integer expected";
             if (message.release_particle_index != null && message.hasOwnProperty("release_particle_index")) {
                 var error = $root.CUserMsg_ParticleManager.ReleaseParticleIndex.verify(message.release_particle_index);
                 if (error)

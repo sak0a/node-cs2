@@ -1,6 +1,6 @@
 {
 	"name": "node-cs2",
-	"version": "2.2.3",
+	"version": "2.2.4",
 	"description": "Modern CS2/CS:GO Game Coordinator integration with latest GameTracking-CS2 protobuf definitions. Includes support for highlight_reel, wrapped_sticker, variations, Promise-based API, crate opening, sticker/patch/keychain operations, and all modern CS2 fields.",
 	"keywords": [
 		"cs2",
@@ -34,23 +34,25 @@
 	"dependencies": {
 		"bytebuffer": "^5.0.1",
 		"globaloffensive-sharecode": "^1.1.1",
-		"long": "^5.2.3",
-		"protobufjs": "^7.2.5",
-		"steamid": "^2.0.0"
+		"long": "^5.3.2",
+		"protobufjs": "^7.5.4",
+		"steamid": "^2.1.0"
 	},
 	"peerDependencies": {
 		"steam-user": ">=4.2.0"
 	},
 	"devDependencies": {
-		"eslint": "^10.0.3",
+		"eslint": "^10.1.0",
 		"eslint-config-prettier": "^10.1.8",
 		"prettier": "^3.8.1",
-		"protobufjs-cli": "^1.1.2",
-		"steam-user": "^4.26.1",
-		"vitest": "^4.0.18"
+		"protobufjs-cli": "^1.2.0",
+		"steam-user": "^4.29.3",
+		"vitest": "^4.1.2"
 	},
 	"scripts": {
+		"download-protos": "node scripts/download-protos.js",
 		"generate-protos": "node scripts/generate-protos.js",
+		"update-protos": "npm run download-protos && npm run generate-protos",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"format": "prettier --write .",
