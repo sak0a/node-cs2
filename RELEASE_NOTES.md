@@ -1,5 +1,54 @@
 # Release Notes
 
+## v2.2.4 - Proto Update Script & Latest Protobuf Definitions
+
+**Release Date:** March 2026
+
+### Summary
+
+This release adds an automated protobuf download script and updates all protobuf definitions to the latest upstream GameTracking-CS2 versions.
+
+### New Features
+
+#### Proto Update Script
+
+- Added `scripts/download-protos.js` to automatically fetch latest `.proto` files from SteamDatabase/GameTracking-CS2
+- Added npm scripts: `download-protos`, `generate-protos`, and `update-protos` (runs both)
+- Enables one-command protobuf updates via `npm run update-protos`
+
+#### New Protobuf Definitions
+
+- Added `source2_steam_stats.proto` with Steam stats message definitions
+- Added `cs_usercmd.proto` / `usercmd.proto` with user command definitions
+
+### Changes
+
+#### Updated Protobuf Definitions
+
+- Updated `netmessages.proto` with new network message fields
+- Updated `enums_clientserver.proto` with new enum values
+- Updated `uifontfile_format.proto`, `usermessages.proto`, `demo.proto` with latest upstream changes
+- Updated `base_gcmessages.proto` and `cstrike15_gcmessages.proto` with new fields
+- Removed outdated `steammessages_base.proto` (no longer in upstream)
+
+#### Regenerated JS Files
+
+- All `protobufs/generated/*.js` files regenerated from updated `.proto` sources
+
+#### Housekeeping
+
+- Removed outdated internal documentation files
+- Updated dev dependencies (`eslint`, `prettier`, `vitest`, `protobufjs-cli`)
+- Added `bun.lock`
+
+### Technical Details
+
+- All changes are non-breaking for existing consumers
+- 100% backward compatible
+- Proto files now match latest GameTracking-CS2 upstream
+
+---
+
 ## v2.2.3 - Code Quality, TypeScript Definitions & Developer Tooling
 
 **Release Date:** March 2026

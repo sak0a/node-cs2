@@ -135,7 +135,6 @@ cs2.removeKeychain(itemId);
 
 - **[EXAMPLES.md](./EXAMPLES.md)** - Comprehensive usage examples
 - **[DETAILED_DOCUMENTATION.md](./DETAILED_DOCUMENTATION.md)** - Complete API reference and technical details
-- **[MEDIUM_PRIORITY_FEATURES.md](./MEDIUM_PRIORITY_FEATURES.md)** - Feature implementation status
 
 ## Migration from `globaloffensive`
 
@@ -175,6 +174,21 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - **Fork Maintainer:** [sak0a](https://github.com/sak0a)
 
 ## Changelog
+
+### v2.2.4 (March 2026)
+
+**New Features:**
+
+- Added `scripts/download-protos.js` to automatically fetch latest `.proto` files from GameTracking-CS2
+- Added `npm run update-protos` for one-command protobuf updates
+- Added new protobuf definitions: `source2_steam_stats.proto`, `cs_usercmd.proto`, `usercmd.proto`
+
+**Improvements:**
+
+- Updated all protobuf definitions to latest upstream GameTracking-CS2
+- Regenerated all `protobufs/generated/*.js` files
+- Removed outdated internal documentation files
+- Updated dev dependencies
 
 ### v2.2.3 (March 2026)
 
