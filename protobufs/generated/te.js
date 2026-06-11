@@ -5753,6 +5753,7 @@
          * @property {boolean|null} [affect_ragdolls] CMsgTEExplosion affect_ragdolls
          * @property {string|null} [sound_name] CMsgTEExplosion sound_name
          * @property {number|null} [explosion_type] CMsgTEExplosion explosion_type
+         * @property {number|null} [explosion_type_name] CMsgTEExplosion explosion_type_name
          * @property {boolean|null} [create_debris] CMsgTEExplosion create_debris
          * @property {ICMsgVector|null} [debris_origin] CMsgTEExplosion debris_origin
          * @property {number|null} [debris_surfaceprop] CMsgTEExplosion debris_surfaceprop
@@ -5838,6 +5839,14 @@
         CMsgTEExplosion.prototype.explosion_type = 0;
     
         /**
+         * CMsgTEExplosion explosion_type_name.
+         * @member {number} explosion_type_name
+         * @memberof CMsgTEExplosion
+         * @instance
+         */
+        CMsgTEExplosion.prototype.explosion_type_name = 0;
+    
+        /**
          * CMsgTEExplosion create_debris.
          * @member {boolean} create_debris
          * @memberof CMsgTEExplosion
@@ -5907,6 +5916,8 @@
                 $root.CMsgVector.encode(message.debris_origin, writer.uint32(/* id 13, wireType 2 =*/106).fork()).ldelim();
             if (message.debris_surfaceprop != null && Object.hasOwnProperty.call(message, "debris_surfaceprop"))
                 writer.uint32(/* id 14, wireType 5 =*/117).fixed32(message.debris_surfaceprop);
+            if (message.explosion_type_name != null && Object.hasOwnProperty.call(message, "explosion_type_name"))
+                writer.uint32(/* id 15, wireType 0 =*/120).uint32(message.explosion_type_name);
             return writer;
         };
     
@@ -5973,6 +5984,10 @@
                     }
                 case 11: {
                         message.explosion_type = reader.uint32();
+                        break;
+                    }
+                case 15: {
+                        message.explosion_type_name = reader.uint32();
                         break;
                     }
                 case 12: {
@@ -6050,6 +6065,9 @@
             if (message.explosion_type != null && message.hasOwnProperty("explosion_type"))
                 if (!$util.isInteger(message.explosion_type))
                     return "explosion_type: integer expected";
+            if (message.explosion_type_name != null && message.hasOwnProperty("explosion_type_name"))
+                if (!$util.isInteger(message.explosion_type_name))
+                    return "explosion_type_name: integer expected";
             if (message.create_debris != null && message.hasOwnProperty("create_debris"))
                 if (typeof message.create_debris !== "boolean")
                     return "create_debris: boolean expected";
@@ -6098,6 +6116,8 @@
                 message.sound_name = String(object.sound_name);
             if (object.explosion_type != null)
                 message.explosion_type = object.explosion_type >>> 0;
+            if (object.explosion_type_name != null)
+                message.explosion_type_name = object.explosion_type_name >>> 0;
             if (object.create_debris != null)
                 message.create_debris = Boolean(object.create_debris);
             if (object.debris_origin != null) {
@@ -6135,6 +6155,7 @@
                 object.create_debris = false;
                 object.debris_origin = null;
                 object.debris_surfaceprop = 0;
+                object.explosion_type_name = 0;
             }
             if (message.origin != null && message.hasOwnProperty("origin"))
                 object.origin = $root.CMsgVector.toObject(message.origin, options);
@@ -6158,6 +6179,8 @@
                 object.debris_origin = $root.CMsgVector.toObject(message.debris_origin, options);
             if (message.debris_surfaceprop != null && message.hasOwnProperty("debris_surfaceprop"))
                 object.debris_surfaceprop = message.debris_surfaceprop;
+            if (message.explosion_type_name != null && message.hasOwnProperty("explosion_type_name"))
+                object.explosion_type_name = message.explosion_type_name;
             return object;
         };
     

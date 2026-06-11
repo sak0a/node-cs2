@@ -37,6 +37,7 @@
      * @property {number} Source2PlayStats_UTCDateTime=14 Source2PlayStats_UTCDateTime value
      * @property {number} Source2PlayStats_SteamIDTrustBucket=15 Source2PlayStats_SteamIDTrustBucket value
      * @property {number} Source2PlayStats_SteamIDTrustBucketMin=16 Source2PlayStats_SteamIDTrustBucketMin value
+     * @property {number} Source2PlayStats_SteamID=17 Source2PlayStats_SteamID value
      */
     $root.ESource2PlayStatsFieldType = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -57,6 +58,7 @@
         values[valuesById[14] = "Source2PlayStats_UTCDateTime"] = 14;
         values[valuesById[15] = "Source2PlayStats_SteamIDTrustBucket"] = 15;
         values[valuesById[16] = "Source2PlayStats_SteamIDTrustBucketMin"] = 16;
+        values[valuesById[17] = "Source2PlayStats_SteamID"] = 17;
         return values;
     })();
     
@@ -4046,6 +4048,7 @@
          * @property {Array.<number>|null} [utcdatetime_vals] CMsgSource2PlayStatsPackedRecordList utcdatetime_vals
          * @property {Array.<number|Long>|null} [steamidtrustbucket_vals] CMsgSource2PlayStatsPackedRecordList steamidtrustbucket_vals
          * @property {Array.<CMsgSource2PlayStatsPackedRecordList.ISteamIDList>|null} [trustbucket_vals] CMsgSource2PlayStatsPackedRecordList trustbucket_vals
+         * @property {Array.<number|Long>|null} [steamid_vals] CMsgSource2PlayStatsPackedRecordList steamid_vals
          */
     
         /**
@@ -4074,6 +4077,7 @@
             this.utcdatetime_vals = [];
             this.steamidtrustbucket_vals = [];
             this.trustbucket_vals = [];
+            this.steamid_vals = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -4233,6 +4237,14 @@
         CMsgSource2PlayStatsPackedRecordList.prototype.trustbucket_vals = $util.emptyArray;
     
         /**
+         * CMsgSource2PlayStatsPackedRecordList steamid_vals.
+         * @member {Array.<number|Long>} steamid_vals
+         * @memberof CMsgSource2PlayStatsPackedRecordList
+         * @instance
+         */
+        CMsgSource2PlayStatsPackedRecordList.prototype.steamid_vals = $util.emptyArray;
+    
+        /**
          * Creates a new CMsgSource2PlayStatsPackedRecordList instance using the specified properties.
          * @function create
          * @memberof CMsgSource2PlayStatsPackedRecordList
@@ -4350,6 +4362,12 @@
             if (message.trustbucket_vals != null && message.trustbucket_vals.length)
                 for (var i = 0; i < message.trustbucket_vals.length; ++i)
                     $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList.encode(message.trustbucket_vals[i], writer.uint32(/* id 19, wireType 2 =*/154).fork()).ldelim();
+            if (message.steamid_vals != null && message.steamid_vals.length) {
+                writer.uint32(/* id 20, wireType 2 =*/162).fork();
+                for (var i = 0; i < message.steamid_vals.length; ++i)
+                    writer.uint64(message.steamid_vals[i]);
+                writer.ldelim();
+            }
             return writer;
         };
     
@@ -4561,6 +4579,17 @@
                         message.trustbucket_vals.push($root.CMsgSource2PlayStatsPackedRecordList.SteamIDList.decode(reader, reader.uint32()));
                         break;
                     }
+                case 20: {
+                        if (!(message.steamid_vals && message.steamid_vals.length))
+                            message.steamid_vals = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.steamid_vals.push(reader.uint64());
+                        } else
+                            message.steamid_vals.push(reader.uint64());
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -4724,6 +4753,13 @@
                     if (error)
                         return "trustbucket_vals." + error;
                 }
+            }
+            if (message.steamid_vals != null && message.hasOwnProperty("steamid_vals")) {
+                if (!Array.isArray(message.steamid_vals))
+                    return "steamid_vals: array expected";
+                for (var i = 0; i < message.steamid_vals.length; ++i)
+                    if (!$util.isInteger(message.steamid_vals[i]) && !(message.steamid_vals[i] && $util.isInteger(message.steamid_vals[i].low) && $util.isInteger(message.steamid_vals[i].high)))
+                        return "steamid_vals: integer|Long[] expected";
             }
             return null;
         };
@@ -4890,6 +4926,20 @@
                     message.trustbucket_vals[i] = $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList.fromObject(object.trustbucket_vals[i]);
                 }
             }
+            if (object.steamid_vals) {
+                if (!Array.isArray(object.steamid_vals))
+                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.steamid_vals: array expected");
+                message.steamid_vals = [];
+                for (var i = 0; i < object.steamid_vals.length; ++i)
+                    if ($util.Long)
+                        (message.steamid_vals[i] = $util.Long.fromValue(object.steamid_vals[i])).unsigned = true;
+                    else if (typeof object.steamid_vals[i] === "string")
+                        message.steamid_vals[i] = parseInt(object.steamid_vals[i], 10);
+                    else if (typeof object.steamid_vals[i] === "number")
+                        message.steamid_vals[i] = object.steamid_vals[i];
+                    else if (typeof object.steamid_vals[i] === "object")
+                        message.steamid_vals[i] = new $util.LongBits(object.steamid_vals[i].low >>> 0, object.steamid_vals[i].high >>> 0).toNumber(true);
+            }
             return message;
         };
     
@@ -4924,6 +4974,7 @@
                 object.utcdatetime_vals = [];
                 object.steamidtrustbucket_vals = [];
                 object.trustbucket_vals = [];
+                object.steamid_vals = [];
             }
             if (options.defaults) {
                 object.record_name = "";
@@ -5026,6 +5077,14 @@
                 object.trustbucket_vals = [];
                 for (var j = 0; j < message.trustbucket_vals.length; ++j)
                     object.trustbucket_vals[j] = $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList.toObject(message.trustbucket_vals[j], options);
+            }
+            if (message.steamid_vals && message.steamid_vals.length) {
+                object.steamid_vals = [];
+                for (var j = 0; j < message.steamid_vals.length; ++j)
+                    if (typeof message.steamid_vals[j] === "number")
+                        object.steamid_vals[j] = options.longs === String ? String(message.steamid_vals[j]) : message.steamid_vals[j];
+                    else
+                        object.steamid_vals[j] = options.longs === String ? $util.Long.prototype.toString.call(message.steamid_vals[j]) : options.longs === Number ? new $util.LongBits(message.steamid_vals[j].low >>> 0, message.steamid_vals[j].high >>> 0).toNumber(true) : message.steamid_vals[j];
             }
             return object;
         };
@@ -5228,6 +5287,7 @@
                     case 14:
                     case 15:
                     case 16:
+                    case 17:
                         break;
                     }
                 return null;
@@ -5321,6 +5381,10 @@
                 case "Source2PlayStats_SteamIDTrustBucketMin":
                 case 16:
                     message.field_type = 16;
+                    break;
+                case "Source2PlayStats_SteamID":
+                case 17:
+                    message.field_type = 17;
                     break;
                 }
                 return message;
@@ -6668,6 +6732,332 @@
         })();
     
         return CSource2Metrics_FetchMapData_Response;
+    })();
+    
+    $root.CUserMessage_UserSentBugBug = (function() {
+    
+        /**
+         * Properties of a CUserMessage_UserSentBugBug.
+         * @exports ICUserMessage_UserSentBugBug
+         * @interface ICUserMessage_UserSentBugBug
+         * @property {string|null} [command_line] CUserMessage_UserSentBugBug command_line
+         * @property {string|null} [autoexec_cfg] CUserMessage_UserSentBugBug autoexec_cfg
+         * @property {ICMsgSource2SystemSpecs|null} [system_specs] CUserMessage_UserSentBugBug system_specs
+         * @property {number|null} [build_id] CUserMessage_UserSentBugBug build_id
+         * @property {number|null} [osversion] CUserMessage_UserSentBugBug osversion
+         * @property {string|null} [command_logs] CUserMessage_UserSentBugBug command_logs
+         */
+    
+        /**
+         * Constructs a new CUserMessage_UserSentBugBug.
+         * @exports CUserMessage_UserSentBugBug
+         * @classdesc Represents a CUserMessage_UserSentBugBug.
+         * @implements ICUserMessage_UserSentBugBug
+         * @constructor
+         * @param {ICUserMessage_UserSentBugBug=} [properties] Properties to set
+         */
+        function CUserMessage_UserSentBugBug(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CUserMessage_UserSentBugBug command_line.
+         * @member {string} command_line
+         * @memberof CUserMessage_UserSentBugBug
+         * @instance
+         */
+        CUserMessage_UserSentBugBug.prototype.command_line = "";
+    
+        /**
+         * CUserMessage_UserSentBugBug autoexec_cfg.
+         * @member {string} autoexec_cfg
+         * @memberof CUserMessage_UserSentBugBug
+         * @instance
+         */
+        CUserMessage_UserSentBugBug.prototype.autoexec_cfg = "";
+    
+        /**
+         * CUserMessage_UserSentBugBug system_specs.
+         * @member {ICMsgSource2SystemSpecs|null|undefined} system_specs
+         * @memberof CUserMessage_UserSentBugBug
+         * @instance
+         */
+        CUserMessage_UserSentBugBug.prototype.system_specs = null;
+    
+        /**
+         * CUserMessage_UserSentBugBug build_id.
+         * @member {number} build_id
+         * @memberof CUserMessage_UserSentBugBug
+         * @instance
+         */
+        CUserMessage_UserSentBugBug.prototype.build_id = 0;
+    
+        /**
+         * CUserMessage_UserSentBugBug osversion.
+         * @member {number} osversion
+         * @memberof CUserMessage_UserSentBugBug
+         * @instance
+         */
+        CUserMessage_UserSentBugBug.prototype.osversion = 0;
+    
+        /**
+         * CUserMessage_UserSentBugBug command_logs.
+         * @member {string} command_logs
+         * @memberof CUserMessage_UserSentBugBug
+         * @instance
+         */
+        CUserMessage_UserSentBugBug.prototype.command_logs = "";
+    
+        /**
+         * Creates a new CUserMessage_UserSentBugBug instance using the specified properties.
+         * @function create
+         * @memberof CUserMessage_UserSentBugBug
+         * @static
+         * @param {ICUserMessage_UserSentBugBug=} [properties] Properties to set
+         * @returns {CUserMessage_UserSentBugBug} CUserMessage_UserSentBugBug instance
+         */
+        CUserMessage_UserSentBugBug.create = function create(properties) {
+            return new CUserMessage_UserSentBugBug(properties);
+        };
+    
+        /**
+         * Encodes the specified CUserMessage_UserSentBugBug message. Does not implicitly {@link CUserMessage_UserSentBugBug.verify|verify} messages.
+         * @function encode
+         * @memberof CUserMessage_UserSentBugBug
+         * @static
+         * @param {ICUserMessage_UserSentBugBug} message CUserMessage_UserSentBugBug message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CUserMessage_UserSentBugBug.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.command_line != null && Object.hasOwnProperty.call(message, "command_line"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.command_line);
+            if (message.autoexec_cfg != null && Object.hasOwnProperty.call(message, "autoexec_cfg"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.autoexec_cfg);
+            if (message.system_specs != null && Object.hasOwnProperty.call(message, "system_specs"))
+                $root.CMsgSource2SystemSpecs.encode(message.system_specs, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            if (message.build_id != null && Object.hasOwnProperty.call(message, "build_id"))
+                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.build_id);
+            if (message.osversion != null && Object.hasOwnProperty.call(message, "osversion"))
+                writer.uint32(/* id 5, wireType 0 =*/40).int32(message.osversion);
+            if (message.command_logs != null && Object.hasOwnProperty.call(message, "command_logs"))
+                writer.uint32(/* id 6, wireType 2 =*/50).string(message.command_logs);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CUserMessage_UserSentBugBug message, length delimited. Does not implicitly {@link CUserMessage_UserSentBugBug.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CUserMessage_UserSentBugBug
+         * @static
+         * @param {ICUserMessage_UserSentBugBug} message CUserMessage_UserSentBugBug message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CUserMessage_UserSentBugBug.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CUserMessage_UserSentBugBug message from the specified reader or buffer.
+         * @function decode
+         * @memberof CUserMessage_UserSentBugBug
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CUserMessage_UserSentBugBug} CUserMessage_UserSentBugBug
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CUserMessage_UserSentBugBug.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CUserMessage_UserSentBugBug();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.command_line = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.autoexec_cfg = reader.string();
+                        break;
+                    }
+                case 3: {
+                        message.system_specs = $root.CMsgSource2SystemSpecs.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 4: {
+                        message.build_id = reader.uint32();
+                        break;
+                    }
+                case 5: {
+                        message.osversion = reader.int32();
+                        break;
+                    }
+                case 6: {
+                        message.command_logs = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CUserMessage_UserSentBugBug message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CUserMessage_UserSentBugBug
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CUserMessage_UserSentBugBug} CUserMessage_UserSentBugBug
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CUserMessage_UserSentBugBug.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CUserMessage_UserSentBugBug message.
+         * @function verify
+         * @memberof CUserMessage_UserSentBugBug
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CUserMessage_UserSentBugBug.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.command_line != null && message.hasOwnProperty("command_line"))
+                if (!$util.isString(message.command_line))
+                    return "command_line: string expected";
+            if (message.autoexec_cfg != null && message.hasOwnProperty("autoexec_cfg"))
+                if (!$util.isString(message.autoexec_cfg))
+                    return "autoexec_cfg: string expected";
+            if (message.system_specs != null && message.hasOwnProperty("system_specs")) {
+                var error = $root.CMsgSource2SystemSpecs.verify(message.system_specs);
+                if (error)
+                    return "system_specs." + error;
+            }
+            if (message.build_id != null && message.hasOwnProperty("build_id"))
+                if (!$util.isInteger(message.build_id))
+                    return "build_id: integer expected";
+            if (message.osversion != null && message.hasOwnProperty("osversion"))
+                if (!$util.isInteger(message.osversion))
+                    return "osversion: integer expected";
+            if (message.command_logs != null && message.hasOwnProperty("command_logs"))
+                if (!$util.isString(message.command_logs))
+                    return "command_logs: string expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CUserMessage_UserSentBugBug message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CUserMessage_UserSentBugBug
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CUserMessage_UserSentBugBug} CUserMessage_UserSentBugBug
+         */
+        CUserMessage_UserSentBugBug.fromObject = function fromObject(object) {
+            if (object instanceof $root.CUserMessage_UserSentBugBug)
+                return object;
+            var message = new $root.CUserMessage_UserSentBugBug();
+            if (object.command_line != null)
+                message.command_line = String(object.command_line);
+            if (object.autoexec_cfg != null)
+                message.autoexec_cfg = String(object.autoexec_cfg);
+            if (object.system_specs != null) {
+                if (typeof object.system_specs !== "object")
+                    throw TypeError(".CUserMessage_UserSentBugBug.system_specs: object expected");
+                message.system_specs = $root.CMsgSource2SystemSpecs.fromObject(object.system_specs);
+            }
+            if (object.build_id != null)
+                message.build_id = object.build_id >>> 0;
+            if (object.osversion != null)
+                message.osversion = object.osversion | 0;
+            if (object.command_logs != null)
+                message.command_logs = String(object.command_logs);
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CUserMessage_UserSentBugBug message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CUserMessage_UserSentBugBug
+         * @static
+         * @param {CUserMessage_UserSentBugBug} message CUserMessage_UserSentBugBug
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CUserMessage_UserSentBugBug.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.command_line = "";
+                object.autoexec_cfg = "";
+                object.system_specs = null;
+                object.build_id = 0;
+                object.osversion = 0;
+                object.command_logs = "";
+            }
+            if (message.command_line != null && message.hasOwnProperty("command_line"))
+                object.command_line = message.command_line;
+            if (message.autoexec_cfg != null && message.hasOwnProperty("autoexec_cfg"))
+                object.autoexec_cfg = message.autoexec_cfg;
+            if (message.system_specs != null && message.hasOwnProperty("system_specs"))
+                object.system_specs = $root.CMsgSource2SystemSpecs.toObject(message.system_specs, options);
+            if (message.build_id != null && message.hasOwnProperty("build_id"))
+                object.build_id = message.build_id;
+            if (message.osversion != null && message.hasOwnProperty("osversion"))
+                object.osversion = message.osversion;
+            if (message.command_logs != null && message.hasOwnProperty("command_logs"))
+                object.command_logs = message.command_logs;
+            return object;
+        };
+    
+        /**
+         * Converts this CUserMessage_UserSentBugBug to JSON.
+         * @function toJSON
+         * @memberof CUserMessage_UserSentBugBug
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CUserMessage_UserSentBugBug.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CUserMessage_UserSentBugBug
+         * @function getTypeUrl
+         * @memberof CUserMessage_UserSentBugBug
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CUserMessage_UserSentBugBug.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CUserMessage_UserSentBugBug";
+        };
+    
+        return CUserMessage_UserSentBugBug;
     })();
 
     return $root;

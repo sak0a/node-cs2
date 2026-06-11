@@ -107,7 +107,6 @@
      * @property {number} k_EMsgGCCStrike15_v2_ClientPerfReport=9202 k_EMsgGCCStrike15_v2_ClientPerfReport value
      * @property {number} k_EMsgGCCStrike15_v2_GetEventFavorites_Response=9203 k_EMsgGCCStrike15_v2_GetEventFavorites_Response value
      * @property {number} k_EMsgGCCStrike15_v2_ClientRequestSouvenir=9204 k_EMsgGCCStrike15_v2_ClientRequestSouvenir value
-     * @property {number} k_EMsgGCCStrike15_v2_ClientReportValidation=9205 k_EMsgGCCStrike15_v2_ClientReportValidation value
      * @property {number} k_EMsgGCCStrike15_v2_GC2ClientRefuseSecureMode=9206 k_EMsgGCCStrike15_v2_GC2ClientRefuseSecureMode value
      * @property {number} k_EMsgGCCStrike15_v2_GC2ClientRequestValidation=9207 k_EMsgGCCStrike15_v2_GC2ClientRequestValidation value
      * @property {number} k_EMsgGCCStrike15_v2_ClientRedeemMissionReward=9209 k_EMsgGCCStrike15_v2_ClientRedeemMissionReward value
@@ -128,6 +127,7 @@
      * @property {number} k_EMsgGCCStrike15_v2_RequestRecurringMissionSchedule=9225 k_EMsgGCCStrike15_v2_RequestRecurringMissionSchedule value
      * @property {number} k_EMsgGCCStrike15_v2_RecurringMissionSchema=9226 k_EMsgGCCStrike15_v2_RecurringMissionSchema value
      * @property {number} k_EMsgGCCStrike15_v2_VolatileItemClaimReward=9227 k_EMsgGCCStrike15_v2_VolatileItemClaimReward value
+     * @property {number} k_EMsgGCCStrike15_v2_VolatileShopSubscribe=9228 k_EMsgGCCStrike15_v2_VolatileShopSubscribe value
      */
     $root.ECsgoGCMsg = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -218,7 +218,6 @@
         values[valuesById[9202] = "k_EMsgGCCStrike15_v2_ClientPerfReport"] = 9202;
         values[valuesById[9203] = "k_EMsgGCCStrike15_v2_GetEventFavorites_Response"] = 9203;
         values[valuesById[9204] = "k_EMsgGCCStrike15_v2_ClientRequestSouvenir"] = 9204;
-        values[valuesById[9205] = "k_EMsgGCCStrike15_v2_ClientReportValidation"] = 9205;
         values[valuesById[9206] = "k_EMsgGCCStrike15_v2_GC2ClientRefuseSecureMode"] = 9206;
         values[valuesById[9207] = "k_EMsgGCCStrike15_v2_GC2ClientRequestValidation"] = 9207;
         values[valuesById[9209] = "k_EMsgGCCStrike15_v2_ClientRedeemMissionReward"] = 9209;
@@ -239,6 +238,7 @@
         values[valuesById[9225] = "k_EMsgGCCStrike15_v2_RequestRecurringMissionSchedule"] = 9225;
         values[valuesById[9226] = "k_EMsgGCCStrike15_v2_RecurringMissionSchema"] = 9226;
         values[valuesById[9227] = "k_EMsgGCCStrike15_v2_VolatileItemClaimReward"] = 9227;
+        values[valuesById[9228] = "k_EMsgGCCStrike15_v2_VolatileShopSubscribe"] = 9228;
         return values;
     })();
     
@@ -24032,6 +24032,8 @@
          * @property {number|null} [redeemable_balance] CMsgGCCstrike15_v2_ClientRedeemMissionReward redeemable_balance
          * @property {number|null} [expected_cost] CMsgGCCstrike15_v2_ClientRedeemMissionReward expected_cost
          * @property {number|null} [bid_control] CMsgGCCstrike15_v2_ClientRedeemMissionReward bid_control
+         * @property {Array.<number|Long>|null} [volatile_shop] CMsgGCCstrike15_v2_ClientRedeemMissionReward volatile_shop
+         * @property {number|Long|null} [souvenir_matchid] CMsgGCCstrike15_v2_ClientRedeemMissionReward souvenir_matchid
          */
     
         /**
@@ -24043,6 +24045,7 @@
          * @param {ICMsgGCCstrike15_v2_ClientRedeemMissionReward=} [properties] Properties to set
          */
         function CMsgGCCstrike15_v2_ClientRedeemMissionReward(properties) {
+            this.volatile_shop = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
@@ -24090,6 +24093,22 @@
         CMsgGCCstrike15_v2_ClientRedeemMissionReward.prototype.bid_control = 0;
     
         /**
+         * CMsgGCCstrike15_v2_ClientRedeemMissionReward volatile_shop.
+         * @member {Array.<number|Long>} volatile_shop
+         * @memberof CMsgGCCstrike15_v2_ClientRedeemMissionReward
+         * @instance
+         */
+        CMsgGCCstrike15_v2_ClientRedeemMissionReward.prototype.volatile_shop = $util.emptyArray;
+    
+        /**
+         * CMsgGCCstrike15_v2_ClientRedeemMissionReward souvenir_matchid.
+         * @member {number|Long} souvenir_matchid
+         * @memberof CMsgGCCstrike15_v2_ClientRedeemMissionReward
+         * @instance
+         */
+        CMsgGCCstrike15_v2_ClientRedeemMissionReward.prototype.souvenir_matchid = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+        /**
          * Creates a new CMsgGCCstrike15_v2_ClientRedeemMissionReward instance using the specified properties.
          * @function create
          * @memberof CMsgGCCstrike15_v2_ClientRedeemMissionReward
@@ -24123,6 +24142,11 @@
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.expected_cost);
             if (message.bid_control != null && Object.hasOwnProperty.call(message, "bid_control"))
                 writer.uint32(/* id 5, wireType 0 =*/40).int32(message.bid_control);
+            if (message.volatile_shop != null && message.volatile_shop.length)
+                for (var i = 0; i < message.volatile_shop.length; ++i)
+                    writer.uint32(/* id 6, wireType 0 =*/48).uint64(message.volatile_shop[i]);
+            if (message.souvenir_matchid != null && Object.hasOwnProperty.call(message, "souvenir_matchid"))
+                writer.uint32(/* id 7, wireType 0 =*/56).uint64(message.souvenir_matchid);
             return writer;
         };
     
@@ -24179,6 +24203,21 @@
                         message.bid_control = reader.int32();
                         break;
                     }
+                case 6: {
+                        if (!(message.volatile_shop && message.volatile_shop.length))
+                            message.volatile_shop = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.volatile_shop.push(reader.uint64());
+                        } else
+                            message.volatile_shop.push(reader.uint64());
+                        break;
+                    }
+                case 7: {
+                        message.souvenir_matchid = reader.uint64();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -24229,6 +24268,16 @@
             if (message.bid_control != null && message.hasOwnProperty("bid_control"))
                 if (!$util.isInteger(message.bid_control))
                     return "bid_control: integer expected";
+            if (message.volatile_shop != null && message.hasOwnProperty("volatile_shop")) {
+                if (!Array.isArray(message.volatile_shop))
+                    return "volatile_shop: array expected";
+                for (var i = 0; i < message.volatile_shop.length; ++i)
+                    if (!$util.isInteger(message.volatile_shop[i]) && !(message.volatile_shop[i] && $util.isInteger(message.volatile_shop[i].low) && $util.isInteger(message.volatile_shop[i].high)))
+                        return "volatile_shop: integer|Long[] expected";
+            }
+            if (message.souvenir_matchid != null && message.hasOwnProperty("souvenir_matchid"))
+                if (!$util.isInteger(message.souvenir_matchid) && !(message.souvenir_matchid && $util.isInteger(message.souvenir_matchid.low) && $util.isInteger(message.souvenir_matchid.high)))
+                    return "souvenir_matchid: integer|Long expected";
             return null;
         };
     
@@ -24254,6 +24303,29 @@
                 message.expected_cost = object.expected_cost >>> 0;
             if (object.bid_control != null)
                 message.bid_control = object.bid_control | 0;
+            if (object.volatile_shop) {
+                if (!Array.isArray(object.volatile_shop))
+                    throw TypeError(".CMsgGCCstrike15_v2_ClientRedeemMissionReward.volatile_shop: array expected");
+                message.volatile_shop = [];
+                for (var i = 0; i < object.volatile_shop.length; ++i)
+                    if ($util.Long)
+                        (message.volatile_shop[i] = $util.Long.fromValue(object.volatile_shop[i])).unsigned = true;
+                    else if (typeof object.volatile_shop[i] === "string")
+                        message.volatile_shop[i] = parseInt(object.volatile_shop[i], 10);
+                    else if (typeof object.volatile_shop[i] === "number")
+                        message.volatile_shop[i] = object.volatile_shop[i];
+                    else if (typeof object.volatile_shop[i] === "object")
+                        message.volatile_shop[i] = new $util.LongBits(object.volatile_shop[i].low >>> 0, object.volatile_shop[i].high >>> 0).toNumber(true);
+            }
+            if (object.souvenir_matchid != null)
+                if ($util.Long)
+                    (message.souvenir_matchid = $util.Long.fromValue(object.souvenir_matchid)).unsigned = true;
+                else if (typeof object.souvenir_matchid === "string")
+                    message.souvenir_matchid = parseInt(object.souvenir_matchid, 10);
+                else if (typeof object.souvenir_matchid === "number")
+                    message.souvenir_matchid = object.souvenir_matchid;
+                else if (typeof object.souvenir_matchid === "object")
+                    message.souvenir_matchid = new $util.LongBits(object.souvenir_matchid.low >>> 0, object.souvenir_matchid.high >>> 0).toNumber(true);
             return message;
         };
     
@@ -24270,12 +24342,19 @@
             if (!options)
                 options = {};
             var object = {};
+            if (options.arrays || options.defaults)
+                object.volatile_shop = [];
             if (options.defaults) {
                 object.campaign_id = 0;
                 object.redeem_id = 0;
                 object.redeemable_balance = 0;
                 object.expected_cost = 0;
                 object.bid_control = 0;
+                if ($util.Long) {
+                    var long = new $util.Long(0, 0, true);
+                    object.souvenir_matchid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.souvenir_matchid = options.longs === String ? "0" : 0;
             }
             if (message.campaign_id != null && message.hasOwnProperty("campaign_id"))
                 object.campaign_id = message.campaign_id;
@@ -24287,6 +24366,19 @@
                 object.expected_cost = message.expected_cost;
             if (message.bid_control != null && message.hasOwnProperty("bid_control"))
                 object.bid_control = message.bid_control;
+            if (message.volatile_shop && message.volatile_shop.length) {
+                object.volatile_shop = [];
+                for (var j = 0; j < message.volatile_shop.length; ++j)
+                    if (typeof message.volatile_shop[j] === "number")
+                        object.volatile_shop[j] = options.longs === String ? String(message.volatile_shop[j]) : message.volatile_shop[j];
+                    else
+                        object.volatile_shop[j] = options.longs === String ? $util.Long.prototype.toString.call(message.volatile_shop[j]) : options.longs === Number ? new $util.LongBits(message.volatile_shop[j].low >>> 0, message.volatile_shop[j].high >>> 0).toNumber(true) : message.volatile_shop[j];
+            }
+            if (message.souvenir_matchid != null && message.hasOwnProperty("souvenir_matchid"))
+                if (typeof message.souvenir_matchid === "number")
+                    object.souvenir_matchid = options.longs === String ? String(message.souvenir_matchid) : message.souvenir_matchid;
+                else
+                    object.souvenir_matchid = options.longs === String ? $util.Long.prototype.toString.call(message.souvenir_matchid) : options.longs === Number ? new $util.LongBits(message.souvenir_matchid.low >>> 0, message.souvenir_matchid.high >>> 0).toNumber(true) : message.souvenir_matchid;
             return object;
         };
     
@@ -42296,6 +42388,327 @@
         return CSOVolatileItemClaimedRewards;
     })();
     
+    $root.CMsgGCCStrike15_v2_VolatileShopSubscribe = (function() {
+    
+        /**
+         * Properties of a CMsgGCCStrike15_v2_VolatileShopSubscribe.
+         * @exports ICMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @interface ICMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @property {number|null} [defidx] CMsgGCCStrike15_v2_VolatileShopSubscribe defidx
+         * @property {number|Long|null} [psid] CMsgGCCStrike15_v2_VolatileShopSubscribe psid
+         * @property {number|null} [upnext] CMsgGCCStrike15_v2_VolatileShopSubscribe upnext
+         * @property {number|null} [gctime] CMsgGCCStrike15_v2_VolatileShopSubscribe gctime
+         * @property {Uint8Array|null} [payload] CMsgGCCStrike15_v2_VolatileShopSubscribe payload
+         */
+    
+        /**
+         * Constructs a new CMsgGCCStrike15_v2_VolatileShopSubscribe.
+         * @exports CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @classdesc Represents a CMsgGCCStrike15_v2_VolatileShopSubscribe.
+         * @implements ICMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @constructor
+         * @param {ICMsgGCCStrike15_v2_VolatileShopSubscribe=} [properties] Properties to set
+         */
+        function CMsgGCCStrike15_v2_VolatileShopSubscribe(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CMsgGCCStrike15_v2_VolatileShopSubscribe defidx.
+         * @member {number} defidx
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @instance
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.prototype.defidx = 0;
+    
+        /**
+         * CMsgGCCStrike15_v2_VolatileShopSubscribe psid.
+         * @member {number|Long} psid
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @instance
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.prototype.psid = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+        /**
+         * CMsgGCCStrike15_v2_VolatileShopSubscribe upnext.
+         * @member {number} upnext
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @instance
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.prototype.upnext = 0;
+    
+        /**
+         * CMsgGCCStrike15_v2_VolatileShopSubscribe gctime.
+         * @member {number} gctime
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @instance
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.prototype.gctime = 0;
+    
+        /**
+         * CMsgGCCStrike15_v2_VolatileShopSubscribe payload.
+         * @member {Uint8Array} payload
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @instance
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.prototype.payload = $util.newBuffer([]);
+    
+        /**
+         * Creates a new CMsgGCCStrike15_v2_VolatileShopSubscribe instance using the specified properties.
+         * @function create
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @static
+         * @param {ICMsgGCCStrike15_v2_VolatileShopSubscribe=} [properties] Properties to set
+         * @returns {CMsgGCCStrike15_v2_VolatileShopSubscribe} CMsgGCCStrike15_v2_VolatileShopSubscribe instance
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.create = function create(properties) {
+            return new CMsgGCCStrike15_v2_VolatileShopSubscribe(properties);
+        };
+    
+        /**
+         * Encodes the specified CMsgGCCStrike15_v2_VolatileShopSubscribe message. Does not implicitly {@link CMsgGCCStrike15_v2_VolatileShopSubscribe.verify|verify} messages.
+         * @function encode
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @static
+         * @param {ICMsgGCCStrike15_v2_VolatileShopSubscribe} message CMsgGCCStrike15_v2_VolatileShopSubscribe message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.defidx != null && Object.hasOwnProperty.call(message, "defidx"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.defidx);
+            if (message.psid != null && Object.hasOwnProperty.call(message, "psid"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.psid);
+            if (message.upnext != null && Object.hasOwnProperty.call(message, "upnext"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.upnext);
+            if (message.gctime != null && Object.hasOwnProperty.call(message, "gctime"))
+                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.gctime);
+            if (message.payload != null && Object.hasOwnProperty.call(message, "payload"))
+                writer.uint32(/* id 5, wireType 2 =*/42).bytes(message.payload);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CMsgGCCStrike15_v2_VolatileShopSubscribe message, length delimited. Does not implicitly {@link CMsgGCCStrike15_v2_VolatileShopSubscribe.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @static
+         * @param {ICMsgGCCStrike15_v2_VolatileShopSubscribe} message CMsgGCCStrike15_v2_VolatileShopSubscribe message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CMsgGCCStrike15_v2_VolatileShopSubscribe message from the specified reader or buffer.
+         * @function decode
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CMsgGCCStrike15_v2_VolatileShopSubscribe} CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgGCCStrike15_v2_VolatileShopSubscribe();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.defidx = reader.uint32();
+                        break;
+                    }
+                case 2: {
+                        message.psid = reader.uint64();
+                        break;
+                    }
+                case 3: {
+                        message.upnext = reader.uint32();
+                        break;
+                    }
+                case 4: {
+                        message.gctime = reader.uint32();
+                        break;
+                    }
+                case 5: {
+                        message.payload = reader.bytes();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CMsgGCCStrike15_v2_VolatileShopSubscribe message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CMsgGCCStrike15_v2_VolatileShopSubscribe} CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CMsgGCCStrike15_v2_VolatileShopSubscribe message.
+         * @function verify
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.defidx != null && message.hasOwnProperty("defidx"))
+                if (!$util.isInteger(message.defidx))
+                    return "defidx: integer expected";
+            if (message.psid != null && message.hasOwnProperty("psid"))
+                if (!$util.isInteger(message.psid) && !(message.psid && $util.isInteger(message.psid.low) && $util.isInteger(message.psid.high)))
+                    return "psid: integer|Long expected";
+            if (message.upnext != null && message.hasOwnProperty("upnext"))
+                if (!$util.isInteger(message.upnext))
+                    return "upnext: integer expected";
+            if (message.gctime != null && message.hasOwnProperty("gctime"))
+                if (!$util.isInteger(message.gctime))
+                    return "gctime: integer expected";
+            if (message.payload != null && message.hasOwnProperty("payload"))
+                if (!(message.payload && typeof message.payload.length === "number" || $util.isString(message.payload)))
+                    return "payload: buffer expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CMsgGCCStrike15_v2_VolatileShopSubscribe message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CMsgGCCStrike15_v2_VolatileShopSubscribe} CMsgGCCStrike15_v2_VolatileShopSubscribe
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.fromObject = function fromObject(object) {
+            if (object instanceof $root.CMsgGCCStrike15_v2_VolatileShopSubscribe)
+                return object;
+            var message = new $root.CMsgGCCStrike15_v2_VolatileShopSubscribe();
+            if (object.defidx != null)
+                message.defidx = object.defidx >>> 0;
+            if (object.psid != null)
+                if ($util.Long)
+                    (message.psid = $util.Long.fromValue(object.psid)).unsigned = true;
+                else if (typeof object.psid === "string")
+                    message.psid = parseInt(object.psid, 10);
+                else if (typeof object.psid === "number")
+                    message.psid = object.psid;
+                else if (typeof object.psid === "object")
+                    message.psid = new $util.LongBits(object.psid.low >>> 0, object.psid.high >>> 0).toNumber(true);
+            if (object.upnext != null)
+                message.upnext = object.upnext >>> 0;
+            if (object.gctime != null)
+                message.gctime = object.gctime >>> 0;
+            if (object.payload != null)
+                if (typeof object.payload === "string")
+                    $util.base64.decode(object.payload, message.payload = $util.newBuffer($util.base64.length(object.payload)), 0);
+                else if (object.payload.length >= 0)
+                    message.payload = object.payload;
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CMsgGCCStrike15_v2_VolatileShopSubscribe message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @static
+         * @param {CMsgGCCStrike15_v2_VolatileShopSubscribe} message CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.defidx = 0;
+                if ($util.Long) {
+                    var long = new $util.Long(0, 0, true);
+                    object.psid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.psid = options.longs === String ? "0" : 0;
+                object.upnext = 0;
+                object.gctime = 0;
+                if (options.bytes === String)
+                    object.payload = "";
+                else {
+                    object.payload = [];
+                    if (options.bytes !== Array)
+                        object.payload = $util.newBuffer(object.payload);
+                }
+            }
+            if (message.defidx != null && message.hasOwnProperty("defidx"))
+                object.defidx = message.defidx;
+            if (message.psid != null && message.hasOwnProperty("psid"))
+                if (typeof message.psid === "number")
+                    object.psid = options.longs === String ? String(message.psid) : message.psid;
+                else
+                    object.psid = options.longs === String ? $util.Long.prototype.toString.call(message.psid) : options.longs === Number ? new $util.LongBits(message.psid.low >>> 0, message.psid.high >>> 0).toNumber(true) : message.psid;
+            if (message.upnext != null && message.hasOwnProperty("upnext"))
+                object.upnext = message.upnext;
+            if (message.gctime != null && message.hasOwnProperty("gctime"))
+                object.gctime = message.gctime;
+            if (message.payload != null && message.hasOwnProperty("payload"))
+                object.payload = options.bytes === String ? $util.base64.encode(message.payload, 0, message.payload.length) : options.bytes === Array ? Array.prototype.slice.call(message.payload) : message.payload;
+            return object;
+        };
+    
+        /**
+         * Converts this CMsgGCCStrike15_v2_VolatileShopSubscribe to JSON.
+         * @function toJSON
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @function getTypeUrl
+         * @memberof CMsgGCCStrike15_v2_VolatileShopSubscribe
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CMsgGCCStrike15_v2_VolatileShopSubscribe.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CMsgGCCStrike15_v2_VolatileShopSubscribe";
+        };
+    
+        return CMsgGCCStrike15_v2_VolatileShopSubscribe;
+    })();
+    
     $root.CSOAccountKeychainRemoveToolCharges = (function() {
     
         /**
@@ -54555,741 +54968,6 @@
         };
     
         return CVDiagnostic;
-    })();
-    
-    $root.CMsgGCCStrike15_v2_ClientReportValidation = (function() {
-    
-        /**
-         * Properties of a CMsgGCCStrike15_v2_ClientReportValidation.
-         * @exports ICMsgGCCStrike15_v2_ClientReportValidation
-         * @interface ICMsgGCCStrike15_v2_ClientReportValidation
-         * @property {string|null} [file_report] CMsgGCCStrike15_v2_ClientReportValidation file_report
-         * @property {string|null} [command_line] CMsgGCCStrike15_v2_ClientReportValidation command_line
-         * @property {number|null} [total_files] CMsgGCCStrike15_v2_ClientReportValidation total_files
-         * @property {number|null} [internal_error] CMsgGCCStrike15_v2_ClientReportValidation internal_error
-         * @property {number|null} [trust_time] CMsgGCCStrike15_v2_ClientReportValidation trust_time
-         * @property {number|null} [count_pending] CMsgGCCStrike15_v2_ClientReportValidation count_pending
-         * @property {number|null} [count_completed] CMsgGCCStrike15_v2_ClientReportValidation count_completed
-         * @property {number|null} [process_id] CMsgGCCStrike15_v2_ClientReportValidation process_id
-         * @property {number|null} [osversion] CMsgGCCStrike15_v2_ClientReportValidation osversion
-         * @property {number|null} [clientreportversion] CMsgGCCStrike15_v2_ClientReportValidation clientreportversion
-         * @property {number|null} [status_id] CMsgGCCStrike15_v2_ClientReportValidation status_id
-         * @property {number|null} [diagnostic1] CMsgGCCStrike15_v2_ClientReportValidation diagnostic1
-         * @property {number|Long|null} [diagnostic2] CMsgGCCStrike15_v2_ClientReportValidation diagnostic2
-         * @property {number|Long|null} [diagnostic3] CMsgGCCStrike15_v2_ClientReportValidation diagnostic3
-         * @property {string|null} [last_launch_data] CMsgGCCStrike15_v2_ClientReportValidation last_launch_data
-         * @property {number|null} [report_count] CMsgGCCStrike15_v2_ClientReportValidation report_count
-         * @property {number|Long|null} [client_time] CMsgGCCStrike15_v2_ClientReportValidation client_time
-         * @property {number|Long|null} [diagnostic4] CMsgGCCStrike15_v2_ClientReportValidation diagnostic4
-         * @property {number|Long|null} [diagnostic5] CMsgGCCStrike15_v2_ClientReportValidation diagnostic5
-         * @property {Array.<ICVDiagnostic>|null} [diagnostics] CMsgGCCStrike15_v2_ClientReportValidation diagnostics
-         */
-    
-        /**
-         * Constructs a new CMsgGCCStrike15_v2_ClientReportValidation.
-         * @exports CMsgGCCStrike15_v2_ClientReportValidation
-         * @classdesc Represents a CMsgGCCStrike15_v2_ClientReportValidation.
-         * @implements ICMsgGCCStrike15_v2_ClientReportValidation
-         * @constructor
-         * @param {ICMsgGCCStrike15_v2_ClientReportValidation=} [properties] Properties to set
-         */
-        function CMsgGCCStrike15_v2_ClientReportValidation(properties) {
-            this.diagnostics = [];
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation file_report.
-         * @member {string} file_report
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.file_report = "";
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation command_line.
-         * @member {string} command_line
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.command_line = "";
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation total_files.
-         * @member {number} total_files
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.total_files = 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation internal_error.
-         * @member {number} internal_error
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.internal_error = 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation trust_time.
-         * @member {number} trust_time
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.trust_time = 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation count_pending.
-         * @member {number} count_pending
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.count_pending = 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation count_completed.
-         * @member {number} count_completed
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.count_completed = 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation process_id.
-         * @member {number} process_id
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.process_id = 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation osversion.
-         * @member {number} osversion
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.osversion = 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation clientreportversion.
-         * @member {number} clientreportversion
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.clientreportversion = 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation status_id.
-         * @member {number} status_id
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.status_id = 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation diagnostic1.
-         * @member {number} diagnostic1
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.diagnostic1 = 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation diagnostic2.
-         * @member {number|Long} diagnostic2
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.diagnostic2 = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation diagnostic3.
-         * @member {number|Long} diagnostic3
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.diagnostic3 = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation last_launch_data.
-         * @member {string} last_launch_data
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.last_launch_data = "";
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation report_count.
-         * @member {number} report_count
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.report_count = 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation client_time.
-         * @member {number|Long} client_time
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.client_time = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation diagnostic4.
-         * @member {number|Long} diagnostic4
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.diagnostic4 = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation diagnostic5.
-         * @member {number|Long} diagnostic5
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.diagnostic5 = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * CMsgGCCStrike15_v2_ClientReportValidation diagnostics.
-         * @member {Array.<ICVDiagnostic>} diagnostics
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.diagnostics = $util.emptyArray;
-    
-        /**
-         * Creates a new CMsgGCCStrike15_v2_ClientReportValidation instance using the specified properties.
-         * @function create
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @static
-         * @param {ICMsgGCCStrike15_v2_ClientReportValidation=} [properties] Properties to set
-         * @returns {CMsgGCCStrike15_v2_ClientReportValidation} CMsgGCCStrike15_v2_ClientReportValidation instance
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.create = function create(properties) {
-            return new CMsgGCCStrike15_v2_ClientReportValidation(properties);
-        };
-    
-        /**
-         * Encodes the specified CMsgGCCStrike15_v2_ClientReportValidation message. Does not implicitly {@link CMsgGCCStrike15_v2_ClientReportValidation.verify|verify} messages.
-         * @function encode
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @static
-         * @param {ICMsgGCCStrike15_v2_ClientReportValidation} message CMsgGCCStrike15_v2_ClientReportValidation message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.encode = function encode(message, writer) {
-            if (!writer)
-                writer = $Writer.create();
-            if (message.file_report != null && Object.hasOwnProperty.call(message, "file_report"))
-                writer.uint32(/* id 1, wireType 2 =*/10).string(message.file_report);
-            if (message.command_line != null && Object.hasOwnProperty.call(message, "command_line"))
-                writer.uint32(/* id 2, wireType 2 =*/18).string(message.command_line);
-            if (message.total_files != null && Object.hasOwnProperty.call(message, "total_files"))
-                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.total_files);
-            if (message.internal_error != null && Object.hasOwnProperty.call(message, "internal_error"))
-                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.internal_error);
-            if (message.trust_time != null && Object.hasOwnProperty.call(message, "trust_time"))
-                writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.trust_time);
-            if (message.count_pending != null && Object.hasOwnProperty.call(message, "count_pending"))
-                writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.count_pending);
-            if (message.count_completed != null && Object.hasOwnProperty.call(message, "count_completed"))
-                writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.count_completed);
-            if (message.process_id != null && Object.hasOwnProperty.call(message, "process_id"))
-                writer.uint32(/* id 8, wireType 0 =*/64).uint32(message.process_id);
-            if (message.osversion != null && Object.hasOwnProperty.call(message, "osversion"))
-                writer.uint32(/* id 9, wireType 0 =*/72).int32(message.osversion);
-            if (message.clientreportversion != null && Object.hasOwnProperty.call(message, "clientreportversion"))
-                writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.clientreportversion);
-            if (message.status_id != null && Object.hasOwnProperty.call(message, "status_id"))
-                writer.uint32(/* id 11, wireType 0 =*/88).uint32(message.status_id);
-            if (message.diagnostic1 != null && Object.hasOwnProperty.call(message, "diagnostic1"))
-                writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.diagnostic1);
-            if (message.diagnostic2 != null && Object.hasOwnProperty.call(message, "diagnostic2"))
-                writer.uint32(/* id 13, wireType 0 =*/104).uint64(message.diagnostic2);
-            if (message.diagnostic3 != null && Object.hasOwnProperty.call(message, "diagnostic3"))
-                writer.uint32(/* id 14, wireType 0 =*/112).uint64(message.diagnostic3);
-            if (message.last_launch_data != null && Object.hasOwnProperty.call(message, "last_launch_data"))
-                writer.uint32(/* id 15, wireType 2 =*/122).string(message.last_launch_data);
-            if (message.report_count != null && Object.hasOwnProperty.call(message, "report_count"))
-                writer.uint32(/* id 16, wireType 0 =*/128).uint32(message.report_count);
-            if (message.client_time != null && Object.hasOwnProperty.call(message, "client_time"))
-                writer.uint32(/* id 17, wireType 0 =*/136).uint64(message.client_time);
-            if (message.diagnostic4 != null && Object.hasOwnProperty.call(message, "diagnostic4"))
-                writer.uint32(/* id 18, wireType 0 =*/144).uint64(message.diagnostic4);
-            if (message.diagnostic5 != null && Object.hasOwnProperty.call(message, "diagnostic5"))
-                writer.uint32(/* id 19, wireType 0 =*/152).uint64(message.diagnostic5);
-            if (message.diagnostics != null && message.diagnostics.length)
-                for (var i = 0; i < message.diagnostics.length; ++i)
-                    $root.CVDiagnostic.encode(message.diagnostics[i], writer.uint32(/* id 20, wireType 2 =*/162).fork()).ldelim();
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CMsgGCCStrike15_v2_ClientReportValidation message, length delimited. Does not implicitly {@link CMsgGCCStrike15_v2_ClientReportValidation.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @static
-         * @param {ICMsgGCCStrike15_v2_ClientReportValidation} message CMsgGCCStrike15_v2_ClientReportValidation message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CMsgGCCStrike15_v2_ClientReportValidation message from the specified reader or buffer.
-         * @function decode
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgGCCStrike15_v2_ClientReportValidation} CMsgGCCStrike15_v2_ClientReportValidation
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.decode = function decode(reader, length, error) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgGCCStrike15_v2_ClientReportValidation();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.file_report = reader.string();
-                        break;
-                    }
-                case 2: {
-                        message.command_line = reader.string();
-                        break;
-                    }
-                case 3: {
-                        message.total_files = reader.uint32();
-                        break;
-                    }
-                case 4: {
-                        message.internal_error = reader.uint32();
-                        break;
-                    }
-                case 5: {
-                        message.trust_time = reader.uint32();
-                        break;
-                    }
-                case 6: {
-                        message.count_pending = reader.uint32();
-                        break;
-                    }
-                case 7: {
-                        message.count_completed = reader.uint32();
-                        break;
-                    }
-                case 8: {
-                        message.process_id = reader.uint32();
-                        break;
-                    }
-                case 9: {
-                        message.osversion = reader.int32();
-                        break;
-                    }
-                case 10: {
-                        message.clientreportversion = reader.uint32();
-                        break;
-                    }
-                case 11: {
-                        message.status_id = reader.uint32();
-                        break;
-                    }
-                case 12: {
-                        message.diagnostic1 = reader.uint32();
-                        break;
-                    }
-                case 13: {
-                        message.diagnostic2 = reader.uint64();
-                        break;
-                    }
-                case 14: {
-                        message.diagnostic3 = reader.uint64();
-                        break;
-                    }
-                case 15: {
-                        message.last_launch_data = reader.string();
-                        break;
-                    }
-                case 16: {
-                        message.report_count = reader.uint32();
-                        break;
-                    }
-                case 17: {
-                        message.client_time = reader.uint64();
-                        break;
-                    }
-                case 18: {
-                        message.diagnostic4 = reader.uint64();
-                        break;
-                    }
-                case 19: {
-                        message.diagnostic5 = reader.uint64();
-                        break;
-                    }
-                case 20: {
-                        if (!(message.diagnostics && message.diagnostics.length))
-                            message.diagnostics = [];
-                        message.diagnostics.push($root.CVDiagnostic.decode(reader, reader.uint32()));
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-                }
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CMsgGCCStrike15_v2_ClientReportValidation message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgGCCStrike15_v2_ClientReportValidation} CMsgGCCStrike15_v2_ClientReportValidation
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CMsgGCCStrike15_v2_ClientReportValidation message.
-         * @function verify
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.verify = function verify(message) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (message.file_report != null && message.hasOwnProperty("file_report"))
-                if (!$util.isString(message.file_report))
-                    return "file_report: string expected";
-            if (message.command_line != null && message.hasOwnProperty("command_line"))
-                if (!$util.isString(message.command_line))
-                    return "command_line: string expected";
-            if (message.total_files != null && message.hasOwnProperty("total_files"))
-                if (!$util.isInteger(message.total_files))
-                    return "total_files: integer expected";
-            if (message.internal_error != null && message.hasOwnProperty("internal_error"))
-                if (!$util.isInteger(message.internal_error))
-                    return "internal_error: integer expected";
-            if (message.trust_time != null && message.hasOwnProperty("trust_time"))
-                if (!$util.isInteger(message.trust_time))
-                    return "trust_time: integer expected";
-            if (message.count_pending != null && message.hasOwnProperty("count_pending"))
-                if (!$util.isInteger(message.count_pending))
-                    return "count_pending: integer expected";
-            if (message.count_completed != null && message.hasOwnProperty("count_completed"))
-                if (!$util.isInteger(message.count_completed))
-                    return "count_completed: integer expected";
-            if (message.process_id != null && message.hasOwnProperty("process_id"))
-                if (!$util.isInteger(message.process_id))
-                    return "process_id: integer expected";
-            if (message.osversion != null && message.hasOwnProperty("osversion"))
-                if (!$util.isInteger(message.osversion))
-                    return "osversion: integer expected";
-            if (message.clientreportversion != null && message.hasOwnProperty("clientreportversion"))
-                if (!$util.isInteger(message.clientreportversion))
-                    return "clientreportversion: integer expected";
-            if (message.status_id != null && message.hasOwnProperty("status_id"))
-                if (!$util.isInteger(message.status_id))
-                    return "status_id: integer expected";
-            if (message.diagnostic1 != null && message.hasOwnProperty("diagnostic1"))
-                if (!$util.isInteger(message.diagnostic1))
-                    return "diagnostic1: integer expected";
-            if (message.diagnostic2 != null && message.hasOwnProperty("diagnostic2"))
-                if (!$util.isInteger(message.diagnostic2) && !(message.diagnostic2 && $util.isInteger(message.diagnostic2.low) && $util.isInteger(message.diagnostic2.high)))
-                    return "diagnostic2: integer|Long expected";
-            if (message.diagnostic3 != null && message.hasOwnProperty("diagnostic3"))
-                if (!$util.isInteger(message.diagnostic3) && !(message.diagnostic3 && $util.isInteger(message.diagnostic3.low) && $util.isInteger(message.diagnostic3.high)))
-                    return "diagnostic3: integer|Long expected";
-            if (message.last_launch_data != null && message.hasOwnProperty("last_launch_data"))
-                if (!$util.isString(message.last_launch_data))
-                    return "last_launch_data: string expected";
-            if (message.report_count != null && message.hasOwnProperty("report_count"))
-                if (!$util.isInteger(message.report_count))
-                    return "report_count: integer expected";
-            if (message.client_time != null && message.hasOwnProperty("client_time"))
-                if (!$util.isInteger(message.client_time) && !(message.client_time && $util.isInteger(message.client_time.low) && $util.isInteger(message.client_time.high)))
-                    return "client_time: integer|Long expected";
-            if (message.diagnostic4 != null && message.hasOwnProperty("diagnostic4"))
-                if (!$util.isInteger(message.diagnostic4) && !(message.diagnostic4 && $util.isInteger(message.diagnostic4.low) && $util.isInteger(message.diagnostic4.high)))
-                    return "diagnostic4: integer|Long expected";
-            if (message.diagnostic5 != null && message.hasOwnProperty("diagnostic5"))
-                if (!$util.isInteger(message.diagnostic5) && !(message.diagnostic5 && $util.isInteger(message.diagnostic5.low) && $util.isInteger(message.diagnostic5.high)))
-                    return "diagnostic5: integer|Long expected";
-            if (message.diagnostics != null && message.hasOwnProperty("diagnostics")) {
-                if (!Array.isArray(message.diagnostics))
-                    return "diagnostics: array expected";
-                for (var i = 0; i < message.diagnostics.length; ++i) {
-                    var error = $root.CVDiagnostic.verify(message.diagnostics[i]);
-                    if (error)
-                        return "diagnostics." + error;
-                }
-            }
-            return null;
-        };
-    
-        /**
-         * Creates a CMsgGCCStrike15_v2_ClientReportValidation message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CMsgGCCStrike15_v2_ClientReportValidation} CMsgGCCStrike15_v2_ClientReportValidation
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.fromObject = function fromObject(object) {
-            if (object instanceof $root.CMsgGCCStrike15_v2_ClientReportValidation)
-                return object;
-            var message = new $root.CMsgGCCStrike15_v2_ClientReportValidation();
-            if (object.file_report != null)
-                message.file_report = String(object.file_report);
-            if (object.command_line != null)
-                message.command_line = String(object.command_line);
-            if (object.total_files != null)
-                message.total_files = object.total_files >>> 0;
-            if (object.internal_error != null)
-                message.internal_error = object.internal_error >>> 0;
-            if (object.trust_time != null)
-                message.trust_time = object.trust_time >>> 0;
-            if (object.count_pending != null)
-                message.count_pending = object.count_pending >>> 0;
-            if (object.count_completed != null)
-                message.count_completed = object.count_completed >>> 0;
-            if (object.process_id != null)
-                message.process_id = object.process_id >>> 0;
-            if (object.osversion != null)
-                message.osversion = object.osversion | 0;
-            if (object.clientreportversion != null)
-                message.clientreportversion = object.clientreportversion >>> 0;
-            if (object.status_id != null)
-                message.status_id = object.status_id >>> 0;
-            if (object.diagnostic1 != null)
-                message.diagnostic1 = object.diagnostic1 >>> 0;
-            if (object.diagnostic2 != null)
-                if ($util.Long)
-                    (message.diagnostic2 = $util.Long.fromValue(object.diagnostic2)).unsigned = true;
-                else if (typeof object.diagnostic2 === "string")
-                    message.diagnostic2 = parseInt(object.diagnostic2, 10);
-                else if (typeof object.diagnostic2 === "number")
-                    message.diagnostic2 = object.diagnostic2;
-                else if (typeof object.diagnostic2 === "object")
-                    message.diagnostic2 = new $util.LongBits(object.diagnostic2.low >>> 0, object.diagnostic2.high >>> 0).toNumber(true);
-            if (object.diagnostic3 != null)
-                if ($util.Long)
-                    (message.diagnostic3 = $util.Long.fromValue(object.diagnostic3)).unsigned = true;
-                else if (typeof object.diagnostic3 === "string")
-                    message.diagnostic3 = parseInt(object.diagnostic3, 10);
-                else if (typeof object.diagnostic3 === "number")
-                    message.diagnostic3 = object.diagnostic3;
-                else if (typeof object.diagnostic3 === "object")
-                    message.diagnostic3 = new $util.LongBits(object.diagnostic3.low >>> 0, object.diagnostic3.high >>> 0).toNumber(true);
-            if (object.last_launch_data != null)
-                message.last_launch_data = String(object.last_launch_data);
-            if (object.report_count != null)
-                message.report_count = object.report_count >>> 0;
-            if (object.client_time != null)
-                if ($util.Long)
-                    (message.client_time = $util.Long.fromValue(object.client_time)).unsigned = true;
-                else if (typeof object.client_time === "string")
-                    message.client_time = parseInt(object.client_time, 10);
-                else if (typeof object.client_time === "number")
-                    message.client_time = object.client_time;
-                else if (typeof object.client_time === "object")
-                    message.client_time = new $util.LongBits(object.client_time.low >>> 0, object.client_time.high >>> 0).toNumber(true);
-            if (object.diagnostic4 != null)
-                if ($util.Long)
-                    (message.diagnostic4 = $util.Long.fromValue(object.diagnostic4)).unsigned = true;
-                else if (typeof object.diagnostic4 === "string")
-                    message.diagnostic4 = parseInt(object.diagnostic4, 10);
-                else if (typeof object.diagnostic4 === "number")
-                    message.diagnostic4 = object.diagnostic4;
-                else if (typeof object.diagnostic4 === "object")
-                    message.diagnostic4 = new $util.LongBits(object.diagnostic4.low >>> 0, object.diagnostic4.high >>> 0).toNumber(true);
-            if (object.diagnostic5 != null)
-                if ($util.Long)
-                    (message.diagnostic5 = $util.Long.fromValue(object.diagnostic5)).unsigned = true;
-                else if (typeof object.diagnostic5 === "string")
-                    message.diagnostic5 = parseInt(object.diagnostic5, 10);
-                else if (typeof object.diagnostic5 === "number")
-                    message.diagnostic5 = object.diagnostic5;
-                else if (typeof object.diagnostic5 === "object")
-                    message.diagnostic5 = new $util.LongBits(object.diagnostic5.low >>> 0, object.diagnostic5.high >>> 0).toNumber(true);
-            if (object.diagnostics) {
-                if (!Array.isArray(object.diagnostics))
-                    throw TypeError(".CMsgGCCStrike15_v2_ClientReportValidation.diagnostics: array expected");
-                message.diagnostics = [];
-                for (var i = 0; i < object.diagnostics.length; ++i) {
-                    if (typeof object.diagnostics[i] !== "object")
-                        throw TypeError(".CMsgGCCStrike15_v2_ClientReportValidation.diagnostics: object expected");
-                    message.diagnostics[i] = $root.CVDiagnostic.fromObject(object.diagnostics[i]);
-                }
-            }
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CMsgGCCStrike15_v2_ClientReportValidation message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @static
-         * @param {CMsgGCCStrike15_v2_ClientReportValidation} message CMsgGCCStrike15_v2_ClientReportValidation
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.toObject = function toObject(message, options) {
-            if (!options)
-                options = {};
-            var object = {};
-            if (options.arrays || options.defaults)
-                object.diagnostics = [];
-            if (options.defaults) {
-                object.file_report = "";
-                object.command_line = "";
-                object.total_files = 0;
-                object.internal_error = 0;
-                object.trust_time = 0;
-                object.count_pending = 0;
-                object.count_completed = 0;
-                object.process_id = 0;
-                object.osversion = 0;
-                object.clientreportversion = 0;
-                object.status_id = 0;
-                object.diagnostic1 = 0;
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.diagnostic2 = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                } else
-                    object.diagnostic2 = options.longs === String ? "0" : 0;
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.diagnostic3 = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                } else
-                    object.diagnostic3 = options.longs === String ? "0" : 0;
-                object.last_launch_data = "";
-                object.report_count = 0;
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.client_time = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                } else
-                    object.client_time = options.longs === String ? "0" : 0;
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.diagnostic4 = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                } else
-                    object.diagnostic4 = options.longs === String ? "0" : 0;
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.diagnostic5 = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                } else
-                    object.diagnostic5 = options.longs === String ? "0" : 0;
-            }
-            if (message.file_report != null && message.hasOwnProperty("file_report"))
-                object.file_report = message.file_report;
-            if (message.command_line != null && message.hasOwnProperty("command_line"))
-                object.command_line = message.command_line;
-            if (message.total_files != null && message.hasOwnProperty("total_files"))
-                object.total_files = message.total_files;
-            if (message.internal_error != null && message.hasOwnProperty("internal_error"))
-                object.internal_error = message.internal_error;
-            if (message.trust_time != null && message.hasOwnProperty("trust_time"))
-                object.trust_time = message.trust_time;
-            if (message.count_pending != null && message.hasOwnProperty("count_pending"))
-                object.count_pending = message.count_pending;
-            if (message.count_completed != null && message.hasOwnProperty("count_completed"))
-                object.count_completed = message.count_completed;
-            if (message.process_id != null && message.hasOwnProperty("process_id"))
-                object.process_id = message.process_id;
-            if (message.osversion != null && message.hasOwnProperty("osversion"))
-                object.osversion = message.osversion;
-            if (message.clientreportversion != null && message.hasOwnProperty("clientreportversion"))
-                object.clientreportversion = message.clientreportversion;
-            if (message.status_id != null && message.hasOwnProperty("status_id"))
-                object.status_id = message.status_id;
-            if (message.diagnostic1 != null && message.hasOwnProperty("diagnostic1"))
-                object.diagnostic1 = message.diagnostic1;
-            if (message.diagnostic2 != null && message.hasOwnProperty("diagnostic2"))
-                if (typeof message.diagnostic2 === "number")
-                    object.diagnostic2 = options.longs === String ? String(message.diagnostic2) : message.diagnostic2;
-                else
-                    object.diagnostic2 = options.longs === String ? $util.Long.prototype.toString.call(message.diagnostic2) : options.longs === Number ? new $util.LongBits(message.diagnostic2.low >>> 0, message.diagnostic2.high >>> 0).toNumber(true) : message.diagnostic2;
-            if (message.diagnostic3 != null && message.hasOwnProperty("diagnostic3"))
-                if (typeof message.diagnostic3 === "number")
-                    object.diagnostic3 = options.longs === String ? String(message.diagnostic3) : message.diagnostic3;
-                else
-                    object.diagnostic3 = options.longs === String ? $util.Long.prototype.toString.call(message.diagnostic3) : options.longs === Number ? new $util.LongBits(message.diagnostic3.low >>> 0, message.diagnostic3.high >>> 0).toNumber(true) : message.diagnostic3;
-            if (message.last_launch_data != null && message.hasOwnProperty("last_launch_data"))
-                object.last_launch_data = message.last_launch_data;
-            if (message.report_count != null && message.hasOwnProperty("report_count"))
-                object.report_count = message.report_count;
-            if (message.client_time != null && message.hasOwnProperty("client_time"))
-                if (typeof message.client_time === "number")
-                    object.client_time = options.longs === String ? String(message.client_time) : message.client_time;
-                else
-                    object.client_time = options.longs === String ? $util.Long.prototype.toString.call(message.client_time) : options.longs === Number ? new $util.LongBits(message.client_time.low >>> 0, message.client_time.high >>> 0).toNumber(true) : message.client_time;
-            if (message.diagnostic4 != null && message.hasOwnProperty("diagnostic4"))
-                if (typeof message.diagnostic4 === "number")
-                    object.diagnostic4 = options.longs === String ? String(message.diagnostic4) : message.diagnostic4;
-                else
-                    object.diagnostic4 = options.longs === String ? $util.Long.prototype.toString.call(message.diagnostic4) : options.longs === Number ? new $util.LongBits(message.diagnostic4.low >>> 0, message.diagnostic4.high >>> 0).toNumber(true) : message.diagnostic4;
-            if (message.diagnostic5 != null && message.hasOwnProperty("diagnostic5"))
-                if (typeof message.diagnostic5 === "number")
-                    object.diagnostic5 = options.longs === String ? String(message.diagnostic5) : message.diagnostic5;
-                else
-                    object.diagnostic5 = options.longs === String ? $util.Long.prototype.toString.call(message.diagnostic5) : options.longs === Number ? new $util.LongBits(message.diagnostic5.low >>> 0, message.diagnostic5.high >>> 0).toNumber(true) : message.diagnostic5;
-            if (message.diagnostics && message.diagnostics.length) {
-                object.diagnostics = [];
-                for (var j = 0; j < message.diagnostics.length; ++j)
-                    object.diagnostics[j] = $root.CVDiagnostic.toObject(message.diagnostics[j], options);
-            }
-            return object;
-        };
-    
-        /**
-         * Converts this CMsgGCCStrike15_v2_ClientReportValidation to JSON.
-         * @function toJSON
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CMsgGCCStrike15_v2_ClientReportValidation
-         * @function getTypeUrl
-         * @memberof CMsgGCCStrike15_v2_ClientReportValidation
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CMsgGCCStrike15_v2_ClientReportValidation.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgGCCStrike15_v2_ClientReportValidation";
-        };
-    
-        return CMsgGCCStrike15_v2_ClientReportValidation;
     })();
     
     $root.CMsgGCCStrike15_v2_GC2ClientRefuseSecureMode = (function() {

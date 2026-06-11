@@ -1516,6 +1516,7 @@
          * @property {number|null} [damage] CMsgPlayerBulletHit damage
          * @property {number|null} [penetration_count] CMsgPlayerBulletHit penetration_count
          * @property {boolean|null} [is_kill] CMsgPlayerBulletHit is_kill
+         * @property {boolean|null} [through_smoke] CMsgPlayerBulletHit through_smoke
          */
     
         /**
@@ -1590,6 +1591,14 @@
         CMsgPlayerBulletHit.prototype.is_kill = false;
     
         /**
+         * CMsgPlayerBulletHit through_smoke.
+         * @member {boolean} through_smoke
+         * @memberof CMsgPlayerBulletHit
+         * @instance
+         */
+        CMsgPlayerBulletHit.prototype.through_smoke = false;
+    
+        /**
          * Creates a new CMsgPlayerBulletHit instance using the specified properties.
          * @function create
          * @memberof CMsgPlayerBulletHit
@@ -1627,6 +1636,8 @@
                 writer.uint32(/* id 6, wireType 0 =*/48).int32(message.penetration_count);
             if (message.is_kill != null && Object.hasOwnProperty.call(message, "is_kill"))
                 writer.uint32(/* id 7, wireType 0 =*/56).bool(message.is_kill);
+            if (message.through_smoke != null && Object.hasOwnProperty.call(message, "through_smoke"))
+                writer.uint32(/* id 8, wireType 0 =*/64).bool(message.through_smoke);
             return writer;
         };
     
@@ -1691,6 +1702,10 @@
                         message.is_kill = reader.bool();
                         break;
                     }
+                case 8: {
+                        message.through_smoke = reader.bool();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -1749,6 +1764,9 @@
             if (message.is_kill != null && message.hasOwnProperty("is_kill"))
                 if (typeof message.is_kill !== "boolean")
                     return "is_kill: boolean expected";
+            if (message.through_smoke != null && message.hasOwnProperty("through_smoke"))
+                if (typeof message.through_smoke !== "boolean")
+                    return "through_smoke: boolean expected";
             return null;
         };
     
@@ -1781,6 +1799,8 @@
                 message.penetration_count = object.penetration_count | 0;
             if (object.is_kill != null)
                 message.is_kill = Boolean(object.is_kill);
+            if (object.through_smoke != null)
+                message.through_smoke = Boolean(object.through_smoke);
             return message;
         };
     
@@ -1805,6 +1825,7 @@
                 object.damage = 0;
                 object.penetration_count = 0;
                 object.is_kill = false;
+                object.through_smoke = false;
             }
             if (message.attacker_slot != null && message.hasOwnProperty("attacker_slot"))
                 object.attacker_slot = message.attacker_slot;
@@ -1820,6 +1841,8 @@
                 object.penetration_count = message.penetration_count;
             if (message.is_kill != null && message.hasOwnProperty("is_kill"))
                 object.is_kill = message.is_kill;
+            if (message.through_smoke != null && message.hasOwnProperty("through_smoke"))
+                object.through_smoke = message.through_smoke;
             return object;
         };
     

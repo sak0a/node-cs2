@@ -1,5 +1,33 @@
 # Release Notes
 
+## v2.3.0 - Latest Protobufs, Commendations & Crate Field Support
+
+**Release Date:** June 2026
+
+### Summary
+
+This release updates protobuf definitions to the latest upstream GameTracking-CS2 versions and adds public API coverage for newly supported CS2 message fields.
+
+### New Features
+
+- Added `commendPlayer(accountId, commendation, matchId, tokens)` for `CMsgGCCStrike15_v2_ClientCommendPlayer`
+- Added optional `volatileLimit` support to `openCrate()`
+- Added `steammessages_gc.proto` and generated `protobufs/generated/steammessages_gc.js`
+
+### Changes
+
+- Updated and regenerated protobuf definitions from GameTracking-CS2
+- Made `scripts/generate-protos.js` deterministic by sorting proto files and removing timestamp-only loader changes
+- Added focused tests for `openCrate()` and `commendPlayer()` payload generation
+- Cleaned up lint warnings in `inspectItem()`
+
+### Technical Details
+
+- All changes are backward compatible for existing consumers
+- Package version bumped from `2.2.4` to `2.3.0` for npm publishing
+
+---
+
 ## v2.2.4 - Proto Update Script & Latest Protobuf Definitions
 
 **Release Date:** March 2026

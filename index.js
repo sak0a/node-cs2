@@ -276,12 +276,11 @@ NodeCS2.prototype.inspectItem = function (owner, assetid, d, callback) {
 
 	// Support both callback and Promise-based API
 	if (callback) {
-		let timeout;
 		const listener = (item) => {
 			clearTimeout(timeout);
 			callback(item);
 		};
-		timeout = setTimeout(() => {
+		const timeout = setTimeout(() => {
 			this.removeListener('inspectItemInfo#' + assetid, listener);
 			this.emit('inspectItemTimedOut', assetid);
 			this.emit('inspectItemTimedOut#' + assetid, assetid);
@@ -291,7 +290,6 @@ NodeCS2.prototype.inspectItem = function (owner, assetid, d, callback) {
 	} else {
 		// Return Promise when no callback provided
 		return new Promise((resolve, reject) => {
-			let timeout;
 			const successListener = (item) => {
 				clearTimeout(timeout);
 				this.removeListener('inspectItemTimedOut#' + assetid, timeoutListener);
@@ -302,7 +300,7 @@ NodeCS2.prototype.inspectItem = function (owner, assetid, d, callback) {
 				reject(new Error(`Inspect item timed out for assetid: ${assetid}`));
 			};
 
-			timeout = setTimeout(() => {
+			const timeout = setTimeout(() => {
 				this.removeListener('inspectItemInfo#' + assetid, successListener);
 				this.emit('inspectItemTimedOut', assetid);
 				this.emit('inspectItemTimedOut#' + assetid, assetid);
@@ -892,25 +890,32 @@ NodeCS2.prototype.setLeaderboardSafeName = function (leaderboardSafeName) {
  * @param {int} subjectItemId - The ID of the crate item
  * @param {boolean} forRental - Whether this is for a rental (optional)
  * @param {int} pointsRemaining - Points remaining (optional)
+ * @param {int} volatileLimit - Volatile limit (optional)
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
-NodeCS2.prototype.openCrate = function (toolItemId, subjectItemId, forRental, pointsRemaining, callback) {
+NodeCS2.prototype.openCrate = function (toolItemId, subjectItemId, forRental, pointsRemaining, volatileLimit, callback) {
 	// Handle optional parameters
 	if (typeof forRental === 'function') {
 		callback = forRental;
 		forRental = undefined;
 		pointsRemaining = undefined;
+		volatileLimit = undefined;
 	} else if (typeof pointsRemaining === 'function') {
 		callback = pointsRemaining;
 		pointsRemaining = undefined;
+		volatileLimit = undefined;
+	} else if (typeof volatileLimit === 'function') {
+		callback = volatileLimit;
+		volatileLimit = undefined;
 	}
 
 	this._send(Language.OpenCrate, Protos.CMsgOpenCrate, {
 		tool_item_id: toolItemId,
 		subject_item_id: subjectItemId,
 		for_rental: forRental,
-		points_remaining: pointsRemaining
+		points_remaining: pointsRemaining,
+		volatile_limit: volatileLimit
 	});
 
 	if (callback) {
@@ -1257,6 +1262,43 @@ NodeCS2.prototype.removeKeychain = function (itemId) {
 		sticker_item_id: Constants.REMOVE_KEYCHAIN_STICKER_ITEM_ID,
 		item_item_id: itemId
 	});
+};
+
+/**
+ * Commend a player. Requires a valid account ID and commendation flags.
+ * The match_id and tokens fields are optional — it's unclear what Valve enforces server-side.
+ * @param {int} accountId - The target player's account ID
+ * @param {object} commendation - Commendation flags: { cmd_friendly, cmd_teaching, cmd_leader }
+ * @param {int} [matchId] - Optional match ID
+ * @param {int} [tokens] - Optional commendation tokens
+ */
+NodeCS2.prototype.commendPlayer = function (accountId, commendation, matchId, tokens) {
+	if (!accountId) {
+		throw new Error('accountId is required');
+	}
+
+	if (!commendation || (!commendation.cmd_friendly && !commendation.cmd_teaching && !commendation.cmd_leader)) {
+		throw new Error('At least one commendation flag (cmd_friendly, cmd_teaching, cmd_leader) must be set');
+	}
+
+	const body = {
+		account_id: accountId,
+		commendation: {
+			cmd_friendly: commendation.cmd_friendly ? 1 : 0,
+			cmd_teaching: commendation.cmd_teaching ? 1 : 0,
+			cmd_leader: commendation.cmd_leader ? 1 : 0
+		}
+	};
+
+	if (matchId !== undefined && matchId !== null) {
+		body.match_id = matchId;
+	}
+
+	if (tokens !== undefined && tokens !== null) {
+		body.tokens = tokens;
+	}
+
+	this._send(Language.ClientCommendPlayer, Protos.CMsgGCCStrike15_v2_ClientCommendPlayer, body);
 };
 
 NodeCS2.prototype._handlers = {};

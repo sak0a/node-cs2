@@ -117,6 +117,7 @@ cs2.on('premierSeasonSummary', (summary) => {
 ```javascript
 // Open a crate
 await cs2.openCrate(toolItemId, subjectItemId);
+await cs2.openCrate(toolItemId, subjectItemId, false, 100, 1);
 
 // Extract/encapsulate stickers
 await cs2.extractSticker(itemId, stickerSlot);
@@ -129,6 +130,9 @@ await cs2.removePatch(itemId, patchSlot);
 // Apply/remove keychains
 await cs2.applyKeychain(itemId, keychainId, keychainSlot);
 cs2.removeKeychain(itemId);
+
+// Commend a player
+cs2.commendPlayer(accountId, { cmd_friendly: true, cmd_teaching: true, cmd_leader: true });
 ```
 
 ## Documentation
@@ -174,6 +178,20 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - **Fork Maintainer:** [sak0a](https://github.com/sak0a)
 
 ## Changelog
+
+### v2.3.0 (June 2026)
+
+**New Features:**
+
+- Added `commendPlayer()` for sending player commendations through `CMsgGCCStrike15_v2_ClientCommendPlayer`
+- Added `volatileLimit` support to `openCrate()`
+- Added latest upstream `steammessages_gc.proto` definitions
+
+**Improvements:**
+
+- Updated protobuf definitions from GameTracking-CS2 and regenerated static protobuf modules
+- Made generated protobuf loader output deterministic between runs
+- Added focused unit coverage for protobuf-backed message helpers
 
 ### v2.2.4 (March 2026)
 

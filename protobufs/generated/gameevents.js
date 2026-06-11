@@ -300,6 +300,7 @@
          * @property {number|null} [entityhandle] CMsgPlaceDecalEvent entityhandle
          * @property {number|Long|null} [material_id] CMsgPlaceDecalEvent material_id
          * @property {number|null} [sequence_name] CMsgPlaceDecalEvent sequence_name
+         * @property {ICMsgVector|null} [position_objectspace] CMsgPlaceDecalEvent position_objectspace
          */
     
         /**
@@ -422,6 +423,14 @@
         CMsgPlaceDecalEvent.prototype.sequence_name = 0;
     
         /**
+         * CMsgPlaceDecalEvent position_objectspace.
+         * @member {ICMsgVector|null|undefined} position_objectspace
+         * @memberof CMsgPlaceDecalEvent
+         * @instance
+         */
+        CMsgPlaceDecalEvent.prototype.position_objectspace = null;
+    
+        /**
          * Creates a new CMsgPlaceDecalEvent instance using the specified properties.
          * @function create
          * @memberof CMsgPlaceDecalEvent
@@ -471,6 +480,8 @@
                 writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.sequence_name);
             if (message.triangleindex != null && Object.hasOwnProperty.call(message, "triangleindex"))
                 writer.uint32(/* id 13, wireType 0 =*/104).int32(message.triangleindex);
+            if (message.position_objectspace != null && Object.hasOwnProperty.call(message, "position_objectspace"))
+                $root.CMsgVector.encode(message.position_objectspace, writer.uint32(/* id 14, wireType 2 =*/114).fork()).ldelim();
             return writer;
         };
     
@@ -559,6 +570,10 @@
                         message.sequence_name = reader.uint32();
                         break;
                     }
+                case 14: {
+                        message.position_objectspace = $root.CMsgVector.decode(reader, reader.uint32());
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -639,6 +654,11 @@
             if (message.sequence_name != null && message.hasOwnProperty("sequence_name"))
                 if (!$util.isInteger(message.sequence_name))
                     return "sequence_name: integer expected";
+            if (message.position_objectspace != null && message.hasOwnProperty("position_objectspace")) {
+                var error = $root.CMsgVector.verify(message.position_objectspace);
+                if (error)
+                    return "position_objectspace." + error;
+            }
             return null;
         };
     
@@ -696,6 +716,11 @@
                     message.material_id = new $util.LongBits(object.material_id.low >>> 0, object.material_id.high >>> 0).toNumber(true);
             if (object.sequence_name != null)
                 message.sequence_name = object.sequence_name >>> 0;
+            if (object.position_objectspace != null) {
+                if (typeof object.position_objectspace !== "object")
+                    throw TypeError(".CMsgPlaceDecalEvent.position_objectspace: object expected");
+                message.position_objectspace = $root.CMsgVector.fromObject(object.position_objectspace);
+            }
             return message;
         };
     
@@ -730,6 +755,7 @@
                     object.material_id = options.longs === String ? "0" : 0;
                 object.sequence_name = 0;
                 object.triangleindex = 0;
+                object.position_objectspace = null;
             }
             if (message.position != null && message.hasOwnProperty("position"))
                 object.position = $root.CMsgVector.toObject(message.position, options);
@@ -760,6 +786,8 @@
                 object.sequence_name = message.sequence_name;
             if (message.triangleindex != null && message.hasOwnProperty("triangleindex"))
                 object.triangleindex = message.triangleindex;
+            if (message.position_objectspace != null && message.hasOwnProperty("position_objectspace"))
+                object.position_objectspace = $root.CMsgVector.toObject(message.position_objectspace, options);
             return object;
         };
     

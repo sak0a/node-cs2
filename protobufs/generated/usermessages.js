@@ -70,6 +70,7 @@
      * @property {number} UM_ExtraUserData=164 UM_ExtraUserData value
      * @property {number} UM_NotifyResponseFound=165 UM_NotifyResponseFound value
      * @property {number} UM_PlayResponseConditional=166 UM_PlayResponseConditional value
+     * @property {number} UM_UserSentBugBug=167 UM_UserSentBugBug value
      * @property {number} UM_MAX_BASE=200 UM_MAX_BASE value
      */
     $root.EBaseUserMessages = (function() {
@@ -124,6 +125,7 @@
         values[valuesById[164] = "UM_ExtraUserData"] = 164;
         values[valuesById[165] = "UM_NotifyResponseFound"] = 165;
         values[valuesById[166] = "UM_PlayResponseConditional"] = 166;
+        values[valuesById[167] = "UM_UserSentBugBug"] = 167;
         values[valuesById[200] = "UM_MAX_BASE"] = 200;
         return values;
     })();
@@ -214,6 +216,8 @@
      * @property {number} GAME_PARTICLE_MANAGER_EVENT_UPDATE_FAN=37 GAME_PARTICLE_MANAGER_EVENT_UPDATE_FAN value
      * @property {number} GAME_PARTICLE_MANAGER_EVENT_SET_CLUSTER_GROWTH=38 GAME_PARTICLE_MANAGER_EVENT_SET_CLUSTER_GROWTH value
      * @property {number} GAME_PARTICLE_MANAGER_EVENT_REMOVE_FAN=39 GAME_PARTICLE_MANAGER_EVENT_REMOVE_FAN value
+     * @property {number} GAME_PARTICLE_MANAGER_EVENT_CREATE_SMOKE_GRID=40 GAME_PARTICLE_MANAGER_EVENT_CREATE_SMOKE_GRID value
+     * @property {number} GAME_PARTICLE_MANAGER_EVENT_SET_OVERRIDE_TEXTURE=41 GAME_PARTICLE_MANAGER_EVENT_SET_OVERRIDE_TEXTURE value
      */
     $root.PARTICLE_MESSAGE = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -257,6 +261,8 @@
         values[valuesById[37] = "GAME_PARTICLE_MANAGER_EVENT_UPDATE_FAN"] = 37;
         values[valuesById[38] = "GAME_PARTICLE_MANAGER_EVENT_SET_CLUSTER_GROWTH"] = 38;
         values[valuesById[39] = "GAME_PARTICLE_MANAGER_EVENT_REMOVE_FAN"] = 39;
+        values[valuesById[40] = "GAME_PARTICLE_MANAGER_EVENT_CREATE_SMOKE_GRID"] = 40;
+        values[valuesById[41] = "GAME_PARTICLE_MANAGER_EVENT_SET_OVERRIDE_TEXTURE"] = 41;
         return values;
     })();
     
@@ -9758,6 +9764,8 @@
          * @property {CUserMsg_ParticleManager.IUpdateFan|null} [update_fan] CUserMsg_ParticleManager update_fan
          * @property {CUserMsg_ParticleManager.ISetParticleClusterGrowth|null} [set_particle_cluster_growth] CUserMsg_ParticleManager set_particle_cluster_growth
          * @property {CUserMsg_ParticleManager.IRemoveFan|null} [remove_fan] CUserMsg_ParticleManager remove_fan
+         * @property {CUserMsg_ParticleManager.ICreateSmokeGrid|null} [create_smoke_grid] CUserMsg_ParticleManager create_smoke_grid
+         * @property {CUserMsg_ParticleManager.ISetOverrideTexture|null} [set_override_texture] CUserMsg_ParticleManager set_override_texture
          */
     
         /**
@@ -10104,6 +10112,22 @@
         CUserMsg_ParticleManager.prototype.remove_fan = null;
     
         /**
+         * CUserMsg_ParticleManager create_smoke_grid.
+         * @member {CUserMsg_ParticleManager.ICreateSmokeGrid|null|undefined} create_smoke_grid
+         * @memberof CUserMsg_ParticleManager
+         * @instance
+         */
+        CUserMsg_ParticleManager.prototype.create_smoke_grid = null;
+    
+        /**
+         * CUserMsg_ParticleManager set_override_texture.
+         * @member {CUserMsg_ParticleManager.ISetOverrideTexture|null|undefined} set_override_texture
+         * @memberof CUserMsg_ParticleManager
+         * @instance
+         */
+        CUserMsg_ParticleManager.prototype.set_override_texture = null;
+    
+        /**
          * Creates a new CUserMsg_ParticleManager instance using the specified properties.
          * @function create
          * @memberof CUserMsg_ParticleManager
@@ -10209,6 +10233,10 @@
                 $root.CUserMsg_ParticleManager.SetParticleClusterGrowth.encode(message.set_particle_cluster_growth, writer.uint32(/* id 41, wireType 2 =*/330).fork()).ldelim();
             if (message.remove_fan != null && Object.hasOwnProperty.call(message, "remove_fan"))
                 $root.CUserMsg_ParticleManager.RemoveFan.encode(message.remove_fan, writer.uint32(/* id 42, wireType 2 =*/338).fork()).ldelim();
+            if (message.create_smoke_grid != null && Object.hasOwnProperty.call(message, "create_smoke_grid"))
+                $root.CUserMsg_ParticleManager.CreateSmokeGrid.encode(message.create_smoke_grid, writer.uint32(/* id 43, wireType 2 =*/346).fork()).ldelim();
+            if (message.set_override_texture != null && Object.hasOwnProperty.call(message, "set_override_texture"))
+                $root.CUserMsg_ParticleManager.SetOverrideTexture.encode(message.set_override_texture, writer.uint32(/* id 44, wireType 2 =*/354).fork()).ldelim();
             return writer;
         };
     
@@ -10409,6 +10437,14 @@
                         message.remove_fan = $root.CUserMsg_ParticleManager.RemoveFan.decode(reader, reader.uint32());
                         break;
                     }
+                case 43: {
+                        message.create_smoke_grid = $root.CUserMsg_ParticleManager.CreateSmokeGrid.decode(reader, reader.uint32());
+                        break;
+                    }
+                case 44: {
+                        message.set_override_texture = $root.CUserMsg_ParticleManager.SetOverrideTexture.decode(reader, reader.uint32());
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -10488,6 +10524,8 @@
                 case 37:
                 case 38:
                 case 39:
+                case 40:
+                case 41:
                     break;
                 }
             if (message.index != null && message.hasOwnProperty("index"))
@@ -10688,6 +10726,16 @@
                 if (error)
                     return "remove_fan." + error;
             }
+            if (message.create_smoke_grid != null && message.hasOwnProperty("create_smoke_grid")) {
+                var error = $root.CUserMsg_ParticleManager.CreateSmokeGrid.verify(message.create_smoke_grid);
+                if (error)
+                    return "create_smoke_grid." + error;
+            }
+            if (message.set_override_texture != null && message.hasOwnProperty("set_override_texture")) {
+                var error = $root.CUserMsg_ParticleManager.SetOverrideTexture.verify(message.set_override_texture);
+                if (error)
+                    return "set_override_texture." + error;
+            }
             return null;
         };
     
@@ -10869,6 +10917,14 @@
             case "GAME_PARTICLE_MANAGER_EVENT_REMOVE_FAN":
             case 39:
                 message.type = 39;
+                break;
+            case "GAME_PARTICLE_MANAGER_EVENT_CREATE_SMOKE_GRID":
+            case 40:
+                message.type = 40;
+                break;
+            case "GAME_PARTICLE_MANAGER_EVENT_SET_OVERRIDE_TEXTURE":
+            case 41:
+                message.type = 41;
                 break;
             }
             if (object.index != null)
@@ -11068,6 +11124,16 @@
                     throw TypeError(".CUserMsg_ParticleManager.remove_fan: object expected");
                 message.remove_fan = $root.CUserMsg_ParticleManager.RemoveFan.fromObject(object.remove_fan);
             }
+            if (object.create_smoke_grid != null) {
+                if (typeof object.create_smoke_grid !== "object")
+                    throw TypeError(".CUserMsg_ParticleManager.create_smoke_grid: object expected");
+                message.create_smoke_grid = $root.CUserMsg_ParticleManager.CreateSmokeGrid.fromObject(object.create_smoke_grid);
+            }
+            if (object.set_override_texture != null) {
+                if (typeof object.set_override_texture !== "object")
+                    throw TypeError(".CUserMsg_ParticleManager.set_override_texture: object expected");
+                message.set_override_texture = $root.CUserMsg_ParticleManager.SetOverrideTexture.fromObject(object.set_override_texture);
+            }
             return message;
         };
     
@@ -11126,6 +11192,8 @@
                 object.update_fan = null;
                 object.set_particle_cluster_growth = null;
                 object.remove_fan = null;
+                object.create_smoke_grid = null;
+                object.set_override_texture = null;
             }
             if (message.type != null && message.hasOwnProperty("type"))
                 object.type = options.enums === String ? $root.PARTICLE_MESSAGE[message.type] === undefined ? message.type : $root.PARTICLE_MESSAGE[message.type] : message.type;
@@ -11209,6 +11277,10 @@
                 object.set_particle_cluster_growth = $root.CUserMsg_ParticleManager.SetParticleClusterGrowth.toObject(message.set_particle_cluster_growth, options);
             if (message.remove_fan != null && message.hasOwnProperty("remove_fan"))
                 object.remove_fan = $root.CUserMsg_ParticleManager.RemoveFan.toObject(message.remove_fan, options);
+            if (message.create_smoke_grid != null && message.hasOwnProperty("create_smoke_grid"))
+                object.create_smoke_grid = $root.CUserMsg_ParticleManager.CreateSmokeGrid.toObject(message.create_smoke_grid, options);
+            if (message.set_override_texture != null && message.hasOwnProperty("set_override_texture"))
+                object.set_override_texture = $root.CUserMsg_ParticleManager.SetOverrideTexture.toObject(message.set_override_texture, options);
             return object;
         };
     
@@ -16361,6 +16433,7 @@
              * @memberof CUserMsg_ParticleManager
              * @interface ISetParticleText
              * @property {string|null} [text] SetParticleText text
+             * @property {boolean|null} [localize] SetParticleText localize
              */
     
             /**
@@ -16385,6 +16458,14 @@
              * @instance
              */
             SetParticleText.prototype.text = "";
+    
+            /**
+             * SetParticleText localize.
+             * @member {boolean} localize
+             * @memberof CUserMsg_ParticleManager.SetParticleText
+             * @instance
+             */
+            SetParticleText.prototype.localize = false;
     
             /**
              * Creates a new SetParticleText instance using the specified properties.
@@ -16412,6 +16493,8 @@
                     writer = $Writer.create();
                 if (message.text != null && Object.hasOwnProperty.call(message, "text"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.text);
+                if (message.localize != null && Object.hasOwnProperty.call(message, "localize"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).bool(message.localize);
                 return writer;
             };
     
@@ -16452,6 +16535,10 @@
                             message.text = reader.string();
                             break;
                         }
+                    case 2: {
+                            message.localize = reader.bool();
+                            break;
+                        }
                     default:
                         reader.skipType(tag & 7);
                         break;
@@ -16490,6 +16577,9 @@
                 if (message.text != null && message.hasOwnProperty("text"))
                     if (!$util.isString(message.text))
                         return "text: string expected";
+                if (message.localize != null && message.hasOwnProperty("localize"))
+                    if (typeof message.localize !== "boolean")
+                        return "localize: boolean expected";
                 return null;
             };
     
@@ -16507,6 +16597,8 @@
                 var message = new $root.CUserMsg_ParticleManager.SetParticleText();
                 if (object.text != null)
                     message.text = String(object.text);
+                if (object.localize != null)
+                    message.localize = Boolean(object.localize);
                 return message;
             };
     
@@ -16523,10 +16615,14 @@
                 if (!options)
                     options = {};
                 var object = {};
-                if (options.defaults)
+                if (options.defaults) {
                     object.text = "";
+                    object.localize = false;
+                }
                 if (message.text != null && message.hasOwnProperty("text"))
                     object.text = message.text;
+                if (message.localize != null && message.hasOwnProperty("localize"))
+                    object.localize = message.localize;
                 return object;
             };
     
@@ -16786,6 +16882,211 @@
             };
     
             return SetTextureAttribute;
+        })();
+    
+        CUserMsg_ParticleManager.SetOverrideTexture = (function() {
+    
+            /**
+             * Properties of a SetOverrideTexture.
+             * @memberof CUserMsg_ParticleManager
+             * @interface ISetOverrideTexture
+             * @property {string|null} [texture_name] SetOverrideTexture texture_name
+             */
+    
+            /**
+             * Constructs a new SetOverrideTexture.
+             * @memberof CUserMsg_ParticleManager
+             * @classdesc Represents a SetOverrideTexture.
+             * @implements ISetOverrideTexture
+             * @constructor
+             * @param {CUserMsg_ParticleManager.ISetOverrideTexture=} [properties] Properties to set
+             */
+            function SetOverrideTexture(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SetOverrideTexture texture_name.
+             * @member {string} texture_name
+             * @memberof CUserMsg_ParticleManager.SetOverrideTexture
+             * @instance
+             */
+            SetOverrideTexture.prototype.texture_name = "";
+    
+            /**
+             * Creates a new SetOverrideTexture instance using the specified properties.
+             * @function create
+             * @memberof CUserMsg_ParticleManager.SetOverrideTexture
+             * @static
+             * @param {CUserMsg_ParticleManager.ISetOverrideTexture=} [properties] Properties to set
+             * @returns {CUserMsg_ParticleManager.SetOverrideTexture} SetOverrideTexture instance
+             */
+            SetOverrideTexture.create = function create(properties) {
+                return new SetOverrideTexture(properties);
+            };
+    
+            /**
+             * Encodes the specified SetOverrideTexture message. Does not implicitly {@link CUserMsg_ParticleManager.SetOverrideTexture.verify|verify} messages.
+             * @function encode
+             * @memberof CUserMsg_ParticleManager.SetOverrideTexture
+             * @static
+             * @param {CUserMsg_ParticleManager.ISetOverrideTexture} message SetOverrideTexture message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SetOverrideTexture.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.texture_name != null && Object.hasOwnProperty.call(message, "texture_name"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.texture_name);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SetOverrideTexture message, length delimited. Does not implicitly {@link CUserMsg_ParticleManager.SetOverrideTexture.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof CUserMsg_ParticleManager.SetOverrideTexture
+             * @static
+             * @param {CUserMsg_ParticleManager.ISetOverrideTexture} message SetOverrideTexture message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SetOverrideTexture.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SetOverrideTexture message from the specified reader or buffer.
+             * @function decode
+             * @memberof CUserMsg_ParticleManager.SetOverrideTexture
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {CUserMsg_ParticleManager.SetOverrideTexture} SetOverrideTexture
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SetOverrideTexture.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CUserMsg_ParticleManager.SetOverrideTexture();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.texture_name = reader.string();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SetOverrideTexture message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof CUserMsg_ParticleManager.SetOverrideTexture
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {CUserMsg_ParticleManager.SetOverrideTexture} SetOverrideTexture
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SetOverrideTexture.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SetOverrideTexture message.
+             * @function verify
+             * @memberof CUserMsg_ParticleManager.SetOverrideTexture
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SetOverrideTexture.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.texture_name != null && message.hasOwnProperty("texture_name"))
+                    if (!$util.isString(message.texture_name))
+                        return "texture_name: string expected";
+                return null;
+            };
+    
+            /**
+             * Creates a SetOverrideTexture message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof CUserMsg_ParticleManager.SetOverrideTexture
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {CUserMsg_ParticleManager.SetOverrideTexture} SetOverrideTexture
+             */
+            SetOverrideTexture.fromObject = function fromObject(object) {
+                if (object instanceof $root.CUserMsg_ParticleManager.SetOverrideTexture)
+                    return object;
+                var message = new $root.CUserMsg_ParticleManager.SetOverrideTexture();
+                if (object.texture_name != null)
+                    message.texture_name = String(object.texture_name);
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SetOverrideTexture message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof CUserMsg_ParticleManager.SetOverrideTexture
+             * @static
+             * @param {CUserMsg_ParticleManager.SetOverrideTexture} message SetOverrideTexture
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SetOverrideTexture.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults)
+                    object.texture_name = "";
+                if (message.texture_name != null && message.hasOwnProperty("texture_name"))
+                    object.texture_name = message.texture_name;
+                return object;
+            };
+    
+            /**
+             * Converts this SetOverrideTexture to JSON.
+             * @function toJSON
+             * @memberof CUserMsg_ParticleManager.SetOverrideTexture
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SetOverrideTexture.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            /**
+             * Gets the default type url for SetOverrideTexture
+             * @function getTypeUrl
+             * @memberof CUserMsg_ParticleManager.SetOverrideTexture
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            SetOverrideTexture.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/CUserMsg_ParticleManager.SetOverrideTexture";
+            };
+    
+            return SetOverrideTexture;
         })();
     
         CUserMsg_ParticleManager.SetSceneObjectGenericFlag = (function() {
@@ -20286,6 +20587,211 @@
             };
     
             return DestroyPhysicsSim;
+        })();
+    
+        CUserMsg_ParticleManager.CreateSmokeGrid = (function() {
+    
+            /**
+             * Properties of a CreateSmokeGrid.
+             * @memberof CUserMsg_ParticleManager
+             * @interface ICreateSmokeGrid
+             * @property {string|null} [vdata_name] CreateSmokeGrid vdata_name
+             */
+    
+            /**
+             * Constructs a new CreateSmokeGrid.
+             * @memberof CUserMsg_ParticleManager
+             * @classdesc Represents a CreateSmokeGrid.
+             * @implements ICreateSmokeGrid
+             * @constructor
+             * @param {CUserMsg_ParticleManager.ICreateSmokeGrid=} [properties] Properties to set
+             */
+            function CreateSmokeGrid(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * CreateSmokeGrid vdata_name.
+             * @member {string} vdata_name
+             * @memberof CUserMsg_ParticleManager.CreateSmokeGrid
+             * @instance
+             */
+            CreateSmokeGrid.prototype.vdata_name = "";
+    
+            /**
+             * Creates a new CreateSmokeGrid instance using the specified properties.
+             * @function create
+             * @memberof CUserMsg_ParticleManager.CreateSmokeGrid
+             * @static
+             * @param {CUserMsg_ParticleManager.ICreateSmokeGrid=} [properties] Properties to set
+             * @returns {CUserMsg_ParticleManager.CreateSmokeGrid} CreateSmokeGrid instance
+             */
+            CreateSmokeGrid.create = function create(properties) {
+                return new CreateSmokeGrid(properties);
+            };
+    
+            /**
+             * Encodes the specified CreateSmokeGrid message. Does not implicitly {@link CUserMsg_ParticleManager.CreateSmokeGrid.verify|verify} messages.
+             * @function encode
+             * @memberof CUserMsg_ParticleManager.CreateSmokeGrid
+             * @static
+             * @param {CUserMsg_ParticleManager.ICreateSmokeGrid} message CreateSmokeGrid message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CreateSmokeGrid.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.vdata_name != null && Object.hasOwnProperty.call(message, "vdata_name"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.vdata_name);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified CreateSmokeGrid message, length delimited. Does not implicitly {@link CUserMsg_ParticleManager.CreateSmokeGrid.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof CUserMsg_ParticleManager.CreateSmokeGrid
+             * @static
+             * @param {CUserMsg_ParticleManager.ICreateSmokeGrid} message CreateSmokeGrid message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CreateSmokeGrid.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a CreateSmokeGrid message from the specified reader or buffer.
+             * @function decode
+             * @memberof CUserMsg_ParticleManager.CreateSmokeGrid
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {CUserMsg_ParticleManager.CreateSmokeGrid} CreateSmokeGrid
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CreateSmokeGrid.decode = function decode(reader, length, error) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CUserMsg_ParticleManager.CreateSmokeGrid();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.vdata_name = reader.string();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a CreateSmokeGrid message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof CUserMsg_ParticleManager.CreateSmokeGrid
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {CUserMsg_ParticleManager.CreateSmokeGrid} CreateSmokeGrid
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CreateSmokeGrid.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a CreateSmokeGrid message.
+             * @function verify
+             * @memberof CUserMsg_ParticleManager.CreateSmokeGrid
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            CreateSmokeGrid.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.vdata_name != null && message.hasOwnProperty("vdata_name"))
+                    if (!$util.isString(message.vdata_name))
+                        return "vdata_name: string expected";
+                return null;
+            };
+    
+            /**
+             * Creates a CreateSmokeGrid message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof CUserMsg_ParticleManager.CreateSmokeGrid
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {CUserMsg_ParticleManager.CreateSmokeGrid} CreateSmokeGrid
+             */
+            CreateSmokeGrid.fromObject = function fromObject(object) {
+                if (object instanceof $root.CUserMsg_ParticleManager.CreateSmokeGrid)
+                    return object;
+                var message = new $root.CUserMsg_ParticleManager.CreateSmokeGrid();
+                if (object.vdata_name != null)
+                    message.vdata_name = String(object.vdata_name);
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a CreateSmokeGrid message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof CUserMsg_ParticleManager.CreateSmokeGrid
+             * @static
+             * @param {CUserMsg_ParticleManager.CreateSmokeGrid} message CreateSmokeGrid
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            CreateSmokeGrid.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults)
+                    object.vdata_name = "";
+                if (message.vdata_name != null && message.hasOwnProperty("vdata_name"))
+                    object.vdata_name = message.vdata_name;
+                return object;
+            };
+    
+            /**
+             * Converts this CreateSmokeGrid to JSON.
+             * @function toJSON
+             * @memberof CUserMsg_ParticleManager.CreateSmokeGrid
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            CreateSmokeGrid.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            /**
+             * Gets the default type url for CreateSmokeGrid
+             * @function getTypeUrl
+             * @memberof CUserMsg_ParticleManager.CreateSmokeGrid
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            CreateSmokeGrid.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/CUserMsg_ParticleManager.CreateSmokeGrid";
+            };
+    
+            return CreateSmokeGrid;
         })();
     
         CUserMsg_ParticleManager.SetVData = (function() {

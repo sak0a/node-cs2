@@ -270,6 +270,7 @@ declare class NodeCS2 extends EventEmitter {
 		subjectItemId: string,
 		forRental?: boolean,
 		pointsRemaining?: number,
+		volatileLimit?: number,
 		callback?: (error: Error | null, itemIds?: string[]) => void
 	): void;
 	openCrate(
@@ -281,7 +282,8 @@ declare class NodeCS2 extends EventEmitter {
 		toolItemId: string,
 		subjectItemId: string,
 		forRental?: boolean,
-		pointsRemaining?: number
+		pointsRemaining?: number,
+		volatileLimit?: number
 	): Promise<string[]>;
 
 	// ─── Sticker Operations ─────────────────────────────────────────────────────
@@ -316,6 +318,14 @@ declare class NodeCS2 extends EventEmitter {
 	applyKeychain(itemId: string, keychainId: string, callback: (error: Error | null, itemIds?: string[]) => void): void;
 	applyKeychain(itemId: string, keychainId: string, keychainSlot?: number): Promise<string[]>;
 	removeKeychain(itemId: string): void;
+
+	// ─── Commendations ─────────────────────────────────────────────────────────
+	commendPlayer(
+		accountId: number,
+		commendation: { cmd_friendly?: boolean; cmd_teaching?: boolean; cmd_leader?: boolean },
+		matchId?: number | string,
+		tokens?: number
+	): void;
 
 	// ─── Typed Event Emitter ────────────────────────────────────────────────────
 	on<K extends keyof NodeCS2.Events>(event: K, listener: NodeCS2.Events[K]): this;

@@ -537,6 +537,7 @@ await cs2.openCrate(toolItemId, subjectItemId);
 
 // With optional parameters
 await cs2.openCrate(toolItemId, subjectItemId, false, 100); // forRental, pointsRemaining
+await cs2.openCrate(toolItemId, subjectItemId, false, 100, 1); // includes volatileLimit
 
 // With callback
 cs2.openCrate(toolItemId, subjectItemId, (err, itemIds) => {
@@ -669,6 +670,25 @@ cs2.applyKeychain(itemId, keychainId, keychainSlot, (err, itemIds) => {
 const itemId = '1234567890';
 
 cs2.removeKeychain(itemId);
+```
+
+---
+
+## Commendations
+
+### Commend a Player
+
+```javascript
+const accountId = 123456789; // 32-bit Steam account ID
+
+cs2.commendPlayer(accountId, {
+	cmd_friendly: true,
+	cmd_teaching: true,
+	cmd_leader: true
+});
+
+// Optional match ID and token count
+cs2.commendPlayer(accountId, { cmd_friendly: true }, '9876543210', 1);
 ```
 
 ---

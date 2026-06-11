@@ -329,7 +329,7 @@ Sets the player's leaderboard safe name.
 
 #### Crate Opening
 
-##### `openCrate(toolItemId, subjectItemId, forRental, pointsRemaining, callback)`
+##### `openCrate(toolItemId, subjectItemId, forRental, pointsRemaining, volatileLimit, callback)`
 
 Opens a crate using a key.
 
@@ -339,6 +339,7 @@ Opens a crate using a key.
 - `subjectItemId` (number) - The ID of the crate item
 - `forRental` (boolean, optional) - Whether this is for a rental
 - `pointsRemaining` (number, optional) - Points remaining
+- `volatileLimit` (number, optional) - Volatile limit
 - `callback` (function, optional) - Callback function `(err, itemIds) => {}`
 
 **Returns:**
@@ -461,6 +462,28 @@ Removes a keychain from an item. This is a fire-and-forget operation — it send
 - `itemId` (string) - The ID of the item with the keychain
 
 **Returns:** `undefined`
+
+---
+
+#### Commendations
+
+##### `commendPlayer(accountId, commendation, matchId, tokens)`
+
+Sends a player commendation request to the Game Coordinator.
+
+**Parameters:**
+
+- `accountId` (number) - The target player's 32-bit account ID
+- `commendation` (object) - Commendation flags: `cmd_friendly`, `cmd_teaching`, `cmd_leader`
+- `matchId` (number|string, optional) - Match ID associated with the commendation
+- `tokens` (number, optional) - Commendation token count
+
+**Returns:** `undefined`
+
+**Throws:**
+
+- `Error` if `accountId` is missing
+- `Error` if no commendation flag is set
 
 ---
 
