@@ -471,12 +471,23 @@ Removes a keychain from an item. This is a fire-and-forget operation — it send
 
 Sends a player commendation request to the Game Coordinator.
 
+This method is a low-level protobuf send for `CMsgGCCStrike15_v2_ClientCommendPlayer`. The library can encode and send the message, but Valve can still reject or silently ignore it server-side.
+
 **Parameters:**
 
 - `accountId` (number) - The target player's 32-bit account ID
 - `commendation` (object) - Commendation flags: `cmd_friendly`, `cmd_teaching`, `cmd_leader`
 - `matchId` (number|string, optional) - Match ID associated with the commendation
 - `tokens` (number, optional) - Commendation token count
+
+**Behavioral Notes:**
+
+- `accountId` must be the 32-bit account ID, not the SteamID64.
+- `matchId` is optional in the protobuf schema, but may be required by the GC in practice.
+- The target likely needs to be from a valid recent or live match involving the sender.
+- `tokens` may depend on hidden GC eligibility state and should not be treated as an arbitrary counter.
+- Profile commendation totals may not update immediately, even after a request is accepted.
+- Watch `debug` output for unhandled `ClientReportResponse`, `ClientCommendPlayerQuery`, or `ClientCommendPlayerQueryResponse` messages when testing.
 
 **Returns:** `undefined`
 

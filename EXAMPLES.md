@@ -679,17 +679,17 @@ cs2.removeKeychain(itemId);
 ### Commend a Player
 
 ```javascript
-const accountId = 123456789; // 32-bit Steam account ID
+const accountId = 123456789; // Target player's 32-bit Steam account ID
+const matchId = '9876543210'; // Real recent/live match ID involving both accounts
 
 cs2.commendPlayer(accountId, {
 	cmd_friendly: true,
 	cmd_teaching: true,
 	cmd_leader: true
-});
-
-// Optional match ID and token count
-cs2.commendPlayer(accountId, { cmd_friendly: true }, '9876543210', 1);
+}, matchId, 1);
 ```
+
+`commendPlayer()` sends `CMsgGCCStrike15_v2_ClientCommendPlayer`, but a successful send does not guarantee the commendation will count. In practice, Valve may require a real match context, an eligible target, and valid GC-side token state. If you are testing this, enable the `debug` event and watch for unhandled `ClientReportResponse`, `ClientCommendPlayerQuery`, or `ClientCommendPlayerQueryResponse` messages after sending.
 
 ---
 

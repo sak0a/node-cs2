@@ -135,6 +135,8 @@ cs2.removeKeychain(itemId);
 cs2.commendPlayer(accountId, { cmd_friendly: true, cmd_teaching: true, cmd_leader: true });
 ```
 
+> **Commendation note:** `commendPlayer()` is a low-level GC request. The protobuf payload is supported, but Valve may reject or silently ignore it unless the target is eligible. Use the target's 32-bit account ID, and expect a real recent/live match ID involving the sender and target to be required in practice. The `tokens` value may also depend on GC-side eligibility state, so it should not be treated as an arbitrary counter. Profile commendation totals may not update immediately.
+
 ## Documentation
 
 - **[EXAMPLES.md](./EXAMPLES.md)** - Comprehensive usage examples
