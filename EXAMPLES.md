@@ -5,6 +5,7 @@ Comprehensive examples for using the `node-cs2` library.
 ## Table of Contents
 
 - [Basic Setup](#basic-setup)
+- [Match Data](#match-data)
 - [Item Inspection](#item-inspection)
 - [Inventory Management](#inventory-management)
 - [Volatile Items](#volatile-items)
@@ -82,6 +83,34 @@ user.on('loggedOn', () => {
 	}
 	user.gamesPlayed([730]);
 });
+```
+
+---
+
+## Match Data
+
+### Request a Match from a Share Code
+
+```javascript
+cs2.on('matchList', (matches, data) => {
+	console.log('Matches:', matches);
+	console.log('Raw match list:', data);
+});
+
+cs2.requestGame('CSGO-xxxxx-xxxxx-xxxxx-xxxxx-xxxxx');
+```
+
+### Request Live and Recent Games
+
+```javascript
+// Current live games
+cs2.requestLiveGames();
+
+// Recent games for a player
+cs2.requestRecentGames('76561198057249394');
+
+// Live game for a specific player
+cs2.requestLiveGameForUser('76561198057249394');
 ```
 
 ---
@@ -188,6 +217,29 @@ cs2
 ---
 
 ## Inventory Management
+
+### Basic Item Operations
+
+```javascript
+// Rename an item with a name tag
+cs2.nameItem(nameTagId, itemId, 'New Name');
+
+// Permanently delete an item
+cs2.deleteItem(itemId);
+
+// Craft items with a recipe
+cs2.craft([itemId1, itemId2], recipeId);
+```
+
+### Storage Unit Operations
+
+```javascript
+// Move an item into a storage unit
+cs2.addToCasket(casketId, itemId);
+
+// Move an item out of a storage unit
+cs2.removeFromCasket(casketId, itemId);
+```
 
 ### Get Casket Contents
 
@@ -435,8 +487,9 @@ cs2.on('disconnectedFromGC', () => {
 	console.log('Disconnected from Game Coordinator');
 });
 
-cs2.on('gcConnectionStatus', (status) => {
+cs2.on('connectionStatus', (status, data) => {
 	console.log('GC Status:', status);
+	console.log('Raw status data:', data);
 	// 0 = HAVE_SESSION
 	// 1 = GC_GOING_DOWN
 	// 2 = NO_SESSION

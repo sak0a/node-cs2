@@ -208,7 +208,7 @@ declare class NodeCS2 extends EventEmitter {
 	inspectItem(inspectLink: string): Promise<NodeCS2.ItemInfo>;
 
 	// ─── Player Profile ─────────────────────────────────────────────────────────
-	requestPlayersProfile(steamid: string | SteamID, callback: (profile: NodeCS2.PlayerProfile) => void): void;
+	requestPlayersProfile(steamid: string | SteamID, callback: (profile: NodeCS2.PlayerProfile | Error) => void): void;
 	requestPlayersProfile(steamid: string | SteamID): Promise<NodeCS2.PlayerProfile>;
 
 	// ─── Item Operations ────────────────────────────────────────────────────────
@@ -258,6 +258,13 @@ declare class NodeCS2 extends EventEmitter {
 		redeemId: number,
 		redeemableBalance: number,
 		expectedCost: number,
+		callback: (error: Error | null, itemIds?: string[]) => void
+	): void;
+	redeemMissionReward(
+		campaignId: number,
+		redeemId: number,
+		redeemableBalance: number,
+		expectedCost: number,
 		bidControl?: number
 	): Promise<string[]>;
 
@@ -272,6 +279,19 @@ declare class NodeCS2 extends EventEmitter {
 		pointsRemaining?: number,
 		volatileLimit?: number,
 		callback?: (error: Error | null, itemIds?: string[]) => void
+	): void;
+	openCrate(
+		toolItemId: string,
+		subjectItemId: string,
+		forRental: boolean,
+		callback: (error: Error | null, itemIds?: string[]) => void
+	): void;
+	openCrate(
+		toolItemId: string,
+		subjectItemId: string,
+		forRental: boolean,
+		pointsRemaining: number,
+		callback: (error: Error | null, itemIds?: string[]) => void
 	): void;
 	openCrate(
 		toolItemId: string,

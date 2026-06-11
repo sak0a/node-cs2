@@ -70,6 +70,8 @@
 		"protobufs/generated/",
 		"types/",
 		"README.md",
+		"EXAMPLES.md",
+		"DETAILED_DOCUMENTATION.md",
 		"CHANGELOG.md",
 		"LICENSE"
 	]

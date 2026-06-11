@@ -141,6 +141,10 @@ NodeCS2.prototype._connect = function () {
 	this._helloTimer = setTimeout(sendHello, Constants.HELLO_INITIAL_DELAY_MS);
 };
 
+NodeCS2.prototype.helloGC = function () {
+	this._connect();
+};
+
 NodeCS2.prototype._send = function (type, protobuf, body) {
 	if (!this._steam.steamID) {
 		return false;

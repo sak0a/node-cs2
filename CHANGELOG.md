@@ -8,6 +8,7 @@ Legacy git tags from the upstream `globaloffensive` package are intentionally om
 
 ### Added
 
+- Added public `helloGC()` wrapper for the documented manual GC hello/retry flow
 - Added `commendPlayer(accountId, commendation, matchId, tokens)` for `CMsgGCCStrike15_v2_ClientCommendPlayer`
 - Added optional `volatileLimit` support to `openCrate()`
 - Added latest upstream `steammessages_gc.proto`
@@ -19,11 +20,14 @@ Legacy git tags from the upstream `globaloffensive` package are intentionally om
 - Updated protobuf definitions from GameTracking-CS2
 - Regenerated static protobuf modules
 - Made `scripts/generate-protos.js` deterministic by sorting proto files and removing timestamp-only loader changes
+- Updated README, examples, and detailed API reference to match the current public API
+- Tightened TypeScript declarations for documented callback overloads
 - Documented `commendPlayer()` GC eligibility caveats and testing notes
 
 ### Fixed
 
 - Cleaned up lint warnings in `inspectItem()`
+- Fixed stale documentation for `helloGC()`, match requests, item operations, casket operations, and `connectionStatus`
 
 ## [2.2.4] - 2026-03-31
 

@@ -13,6 +13,15 @@ function makeInstance() {
 }
 
 describe('NodeCS2 message helpers', () => {
+	it('helloGC delegates to the connection loop', () => {
+		const instance = makeInstance();
+		instance._connect = vi.fn();
+
+		instance.helloGC();
+
+		expect(instance._connect).toHaveBeenCalledOnce();
+	});
+
 	it('openCrate sends volatile_limit and preserves zero-valued optional fields', () => {
 		const instance = makeInstance();
 		const callback = vi.fn();

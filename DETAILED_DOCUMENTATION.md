@@ -88,13 +88,85 @@ new NodeCS2(steamUser);
 
 ##### `helloGC()`
 
-Sends a hello message to the Game Coordinator to establish connection.
+Starts or retries the Game Coordinator hello loop. The library also starts this automatically after `steam-user` emits `appLaunched` for app 730.
 
 ```javascript
 cs2.helloGC();
 ```
 
 **Returns:** `undefined`
+
+---
+
+#### Match Data
+
+##### `requestGame(shareCodeOrDetails)`
+
+Requests full match information from a CS share code or decoded share-code details.
+
+**Parameters:**
+
+- `shareCodeOrDetails` (string|object) - A share code string, or an object with `matchId`, `outcomeId`, and `token`
+
+**Returns:** `undefined`
+
+**Throws:**
+
+- `Error` if the argument is not a valid share code or complete details object
+
+**Events Emitted:**
+
+- `matchList` - When the GC returns match data
+
+---
+
+##### `requestLiveGames()`
+
+Requests the current live games list.
+
+**Returns:** `undefined`
+
+**Events Emitted:**
+
+- `matchList` - When the GC returns match data
+
+---
+
+##### `requestRecentGames(steamid)`
+
+Requests recent games for a player.
+
+**Parameters:**
+
+- `steamid` (string|SteamID) - Public individual SteamID
+
+**Returns:**
+
+- `false` if the SteamID is invalid
+- `undefined` after sending a valid request
+
+**Events Emitted:**
+
+- `matchList` - When the GC returns match data
+
+---
+
+##### `requestLiveGameForUser(steamid)`
+
+Requests live game information for a player.
+
+**Parameters:**
+
+- `steamid` (string|SteamID) - Public individual SteamID
+
+**Returns:**
+
+- `false` if the SteamID is invalid
+- `undefined` after sending a valid request
+
+**Events Emitted:**
+
+- `matchList` - When the GC returns match data
 
 ---
 
@@ -147,7 +219,74 @@ Inspects an item from another player's inventory.
 
 ---
 
+#### Item Operations
+
+##### `nameItem(nameTagId, itemId, name)`
+
+Renames an item using a name tag.
+
+**Parameters:**
+
+- `nameTagId` (number|string) - Name tag item ID
+- `itemId` (number|string) - Target item ID
+- `name` (string) - New item name
+
+**Returns:** `undefined`
+
+---
+
+##### `deleteItem(itemId)`
+
+Permanently deletes an item from inventory.
+
+**Parameters:**
+
+- `itemId` (number|string) - Item ID to delete
+
+**Returns:** `undefined`
+
+---
+
+##### `craft(items, recipe)`
+
+Crafts items using a recipe.
+
+**Parameters:**
+
+- `items` (Array<number|string>) - Item IDs to craft
+- `recipe` (number) - Recipe ID
+
+**Returns:** `undefined`
+
+---
+
 #### Casket Operations
+
+##### `addToCasket(casketId, itemId)`
+
+Moves an inventory item into a storage unit.
+
+**Parameters:**
+
+- `casketId` (number|string) - Storage unit item ID
+- `itemId` (number|string) - Item ID to add
+
+**Returns:** `undefined`
+
+---
+
+##### `removeFromCasket(casketId, itemId)`
+
+Moves an item out of a storage unit and back into inventory.
+
+**Parameters:**
+
+- `casketId` (number|string) - Storage unit item ID
+- `itemId` (number|string) - Item ID to extract
+
+**Returns:** `undefined`
+
+---
 
 ##### `getCasketContents(casketId, callback)`
 
@@ -507,7 +646,7 @@ Requests a player's profile data.
 **Parameters:**
 
 - `steamid` (string|SteamID) - SteamID of the player
-- `callback` (function, optional) - Callback function `(err, profile) => {}`
+- `callback` (function, optional) - Callback function. Receives the profile on success; invalid SteamIDs call it with an `Error`.
 
 **Returns:**
 
@@ -559,11 +698,13 @@ Emitted when connected to the Game Coordinator.
 
 Emitted when disconnected from the Game Coordinator.
 
-**No parameters**
+**Parameters:**
+
+- `reason` (number) - GC connection status code
 
 ---
 
-#### `gcConnectionStatus`
+#### `connectionStatus`
 
 Emitted when GC connection status changes.
 
@@ -575,6 +716,7 @@ Emitted when GC connection status changes.
   - `2` = NO_SESSION
   - `3` = NO_SESSION_IN_LOGON_QUEUE
   - `4` = NO_STEAM
+- `data` (Object) - Raw decoded connection status message
 
 ---
 
@@ -718,9 +860,9 @@ Emitted for debug messages.
 All message IDs are defined in `language.js`. Common message IDs:
 
 - `ClientHello: 4006`
-- `Client2GCEconPreviewDataBlockRequest: 2001`
-- `Client2GCEconPreviewDataBlockResponse: 2002`
-- `CasketItemLoadContents: 2003`
+- `Client2GCEconPreviewDataBlockRequest: 9156`
+- `Client2GCEconPreviewDataBlockResponse: 9157`
+- `CasketItemLoadContents: 1094`
 - `VolatileItemLoadContents: 2536`
 - `GC2ClientNotifyXPShop: 9221`
 - `RequestRecurringMissionSchedule: 9225`
@@ -836,7 +978,7 @@ for (const item of items) {
 
 ### Memory Management
 
-The library maintains minimal state. Inventory data is managed by `steam-user`.
+The library keeps a current inventory snapshot on `cs2.inventory` from GC shared-object updates. Long-running processes should avoid retaining old item snapshots indefinitely.
 
 ---
 

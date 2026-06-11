@@ -13,12 +13,14 @@ This release updates protobuf definitions to the latest upstream GameTracking-CS
 - Added `commendPlayer(accountId, commendation, matchId, tokens)` for `CMsgGCCStrike15_v2_ClientCommendPlayer`
 - Added optional `volatileLimit` support to `openCrate()`
 - Added `steammessages_gc.proto` and generated `protobufs/generated/steammessages_gc.js`
+- Added public `helloGC()` wrapper for the documented manual GC hello/retry flow
 
 ### Changes
 
 - Updated and regenerated protobuf definitions from GameTracking-CS2
 - Made `scripts/generate-protos.js` deterministic by sorting proto files and removing timestamp-only loader changes
 - Added focused tests for `openCrate()` and `commendPlayer()` payload generation
+- Updated README, examples, detailed documentation, release notes, and TypeScript declarations to match the current public API
 - Cleaned up lint warnings in `inspectItem()`
 
 ### Technical Details
