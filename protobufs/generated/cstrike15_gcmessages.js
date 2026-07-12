@@ -128,6 +128,7 @@
      * @property {number} k_EMsgGCCStrike15_v2_RecurringMissionSchema=9226 k_EMsgGCCStrike15_v2_RecurringMissionSchema value
      * @property {number} k_EMsgGCCStrike15_v2_VolatileItemClaimReward=9227 k_EMsgGCCStrike15_v2_VolatileItemClaimReward value
      * @property {number} k_EMsgGCCStrike15_v2_VolatileShopSubscribe=9228 k_EMsgGCCStrike15_v2_VolatileShopSubscribe value
+     * @property {number} k_EMsgGCCStrike15_v2_SetClanId=9229 k_EMsgGCCStrike15_v2_SetClanId value
      */
     $root.ECsgoGCMsg = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -239,6 +240,7 @@
         values[valuesById[9226] = "k_EMsgGCCStrike15_v2_RecurringMissionSchema"] = 9226;
         values[valuesById[9227] = "k_EMsgGCCStrike15_v2_VolatileItemClaimReward"] = 9227;
         values[valuesById[9228] = "k_EMsgGCCStrike15_v2_VolatileShopSubscribe"] = 9228;
+        values[valuesById[9229] = "k_EMsgGCCStrike15_v2_SetClanId"] = 9229;
         return values;
     })();
     
@@ -20722,6 +20724,7 @@
          * @property {number|null} [reason] CMsgGCCStrike15_v2_ServerNotificationForUserPenalty reason
          * @property {number|null} [seconds] CMsgGCCStrike15_v2_ServerNotificationForUserPenalty seconds
          * @property {boolean|null} [communication_cooldown] CMsgGCCStrike15_v2_ServerNotificationForUserPenalty communication_cooldown
+         * @property {number|null} [cheating_penalty_level] CMsgGCCStrike15_v2_ServerNotificationForUserPenalty cheating_penalty_level
          */
     
         /**
@@ -20772,6 +20775,14 @@
         CMsgGCCStrike15_v2_ServerNotificationForUserPenalty.prototype.communication_cooldown = false;
     
         /**
+         * CMsgGCCStrike15_v2_ServerNotificationForUserPenalty cheating_penalty_level.
+         * @member {number} cheating_penalty_level
+         * @memberof CMsgGCCStrike15_v2_ServerNotificationForUserPenalty
+         * @instance
+         */
+        CMsgGCCStrike15_v2_ServerNotificationForUserPenalty.prototype.cheating_penalty_level = 0;
+    
+        /**
          * Creates a new CMsgGCCStrike15_v2_ServerNotificationForUserPenalty instance using the specified properties.
          * @function create
          * @memberof CMsgGCCStrike15_v2_ServerNotificationForUserPenalty
@@ -20803,6 +20814,8 @@
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.seconds);
             if (message.communication_cooldown != null && Object.hasOwnProperty.call(message, "communication_cooldown"))
                 writer.uint32(/* id 4, wireType 0 =*/32).bool(message.communication_cooldown);
+            if (message.cheating_penalty_level != null && Object.hasOwnProperty.call(message, "cheating_penalty_level"))
+                writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.cheating_penalty_level);
             return writer;
         };
     
@@ -20855,6 +20868,10 @@
                         message.communication_cooldown = reader.bool();
                         break;
                     }
+                case 5: {
+                        message.cheating_penalty_level = reader.uint32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -20902,6 +20919,9 @@
             if (message.communication_cooldown != null && message.hasOwnProperty("communication_cooldown"))
                 if (typeof message.communication_cooldown !== "boolean")
                     return "communication_cooldown: boolean expected";
+            if (message.cheating_penalty_level != null && message.hasOwnProperty("cheating_penalty_level"))
+                if (!$util.isInteger(message.cheating_penalty_level))
+                    return "cheating_penalty_level: integer expected";
             return null;
         };
     
@@ -20925,6 +20945,8 @@
                 message.seconds = object.seconds >>> 0;
             if (object.communication_cooldown != null)
                 message.communication_cooldown = Boolean(object.communication_cooldown);
+            if (object.cheating_penalty_level != null)
+                message.cheating_penalty_level = object.cheating_penalty_level >>> 0;
             return message;
         };
     
@@ -20946,6 +20968,7 @@
                 object.reason = 0;
                 object.seconds = 0;
                 object.communication_cooldown = false;
+                object.cheating_penalty_level = 0;
             }
             if (message.account_id != null && message.hasOwnProperty("account_id"))
                 object.account_id = message.account_id;
@@ -20955,6 +20978,8 @@
                 object.seconds = message.seconds;
             if (message.communication_cooldown != null && message.hasOwnProperty("communication_cooldown"))
                 object.communication_cooldown = message.communication_cooldown;
+            if (message.cheating_penalty_level != null && message.hasOwnProperty("cheating_penalty_level"))
+                object.cheating_penalty_level = message.cheating_penalty_level;
             return object;
         };
     
@@ -44002,6 +44027,7 @@
          * @property {boolean|null} [elevated_state] CSOPersonaDataPublic elevated_state
          * @property {number|null} [xp_trail_timestamp_refresh] CSOPersonaDataPublic xp_trail_timestamp_refresh
          * @property {number|null} [xp_trail_level] CSOPersonaDataPublic xp_trail_level
+         * @property {number|null} [clan_id] CSOPersonaDataPublic clan_id
          */
     
         /**
@@ -44060,6 +44086,14 @@
         CSOPersonaDataPublic.prototype.xp_trail_level = 0;
     
         /**
+         * CSOPersonaDataPublic clan_id.
+         * @member {number} clan_id
+         * @memberof CSOPersonaDataPublic
+         * @instance
+         */
+        CSOPersonaDataPublic.prototype.clan_id = 0;
+    
+        /**
          * Creates a new CSOPersonaDataPublic instance using the specified properties.
          * @function create
          * @memberof CSOPersonaDataPublic
@@ -44093,6 +44127,8 @@
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.xp_trail_timestamp_refresh);
             if (message.xp_trail_level != null && Object.hasOwnProperty.call(message, "xp_trail_level"))
                 writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.xp_trail_level);
+            if (message.clan_id != null && Object.hasOwnProperty.call(message, "clan_id"))
+                writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.clan_id);
             return writer;
         };
     
@@ -44149,6 +44185,10 @@
                         message.xp_trail_level = reader.uint32();
                         break;
                     }
+                case 6: {
+                        message.clan_id = reader.uint32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -44201,6 +44241,9 @@
             if (message.xp_trail_level != null && message.hasOwnProperty("xp_trail_level"))
                 if (!$util.isInteger(message.xp_trail_level))
                     return "xp_trail_level: integer expected";
+            if (message.clan_id != null && message.hasOwnProperty("clan_id"))
+                if (!$util.isInteger(message.clan_id))
+                    return "clan_id: integer expected";
             return null;
         };
     
@@ -44229,6 +44272,8 @@
                 message.xp_trail_timestamp_refresh = object.xp_trail_timestamp_refresh >>> 0;
             if (object.xp_trail_level != null)
                 message.xp_trail_level = object.xp_trail_level >>> 0;
+            if (object.clan_id != null)
+                message.clan_id = object.clan_id >>> 0;
             return message;
         };
     
@@ -44251,6 +44296,7 @@
                 object.elevated_state = false;
                 object.xp_trail_timestamp_refresh = 0;
                 object.xp_trail_level = 0;
+                object.clan_id = 0;
             }
             if (message.player_level != null && message.hasOwnProperty("player_level"))
                 object.player_level = message.player_level;
@@ -44262,6 +44308,8 @@
                 object.xp_trail_timestamp_refresh = message.xp_trail_timestamp_refresh;
             if (message.xp_trail_level != null && message.hasOwnProperty("xp_trail_level"))
                 object.xp_trail_level = message.xp_trail_level;
+            if (message.clan_id != null && message.hasOwnProperty("clan_id"))
+                object.clan_id = message.clan_id;
             return object;
         };
     
@@ -52716,6 +52764,211 @@
         };
     
         return CMsgGCCStrike15_v2_ClientAccountBalance;
+    })();
+    
+    $root.CMsgGCCStrike15_v2_SetClanId = (function() {
+    
+        /**
+         * Properties of a CMsgGCCStrike15_v2_SetClanId.
+         * @exports ICMsgGCCStrike15_v2_SetClanId
+         * @interface ICMsgGCCStrike15_v2_SetClanId
+         * @property {number|null} [clan_id] CMsgGCCStrike15_v2_SetClanId clan_id
+         */
+    
+        /**
+         * Constructs a new CMsgGCCStrike15_v2_SetClanId.
+         * @exports CMsgGCCStrike15_v2_SetClanId
+         * @classdesc Represents a CMsgGCCStrike15_v2_SetClanId.
+         * @implements ICMsgGCCStrike15_v2_SetClanId
+         * @constructor
+         * @param {ICMsgGCCStrike15_v2_SetClanId=} [properties] Properties to set
+         */
+        function CMsgGCCStrike15_v2_SetClanId(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CMsgGCCStrike15_v2_SetClanId clan_id.
+         * @member {number} clan_id
+         * @memberof CMsgGCCStrike15_v2_SetClanId
+         * @instance
+         */
+        CMsgGCCStrike15_v2_SetClanId.prototype.clan_id = 0;
+    
+        /**
+         * Creates a new CMsgGCCStrike15_v2_SetClanId instance using the specified properties.
+         * @function create
+         * @memberof CMsgGCCStrike15_v2_SetClanId
+         * @static
+         * @param {ICMsgGCCStrike15_v2_SetClanId=} [properties] Properties to set
+         * @returns {CMsgGCCStrike15_v2_SetClanId} CMsgGCCStrike15_v2_SetClanId instance
+         */
+        CMsgGCCStrike15_v2_SetClanId.create = function create(properties) {
+            return new CMsgGCCStrike15_v2_SetClanId(properties);
+        };
+    
+        /**
+         * Encodes the specified CMsgGCCStrike15_v2_SetClanId message. Does not implicitly {@link CMsgGCCStrike15_v2_SetClanId.verify|verify} messages.
+         * @function encode
+         * @memberof CMsgGCCStrike15_v2_SetClanId
+         * @static
+         * @param {ICMsgGCCStrike15_v2_SetClanId} message CMsgGCCStrike15_v2_SetClanId message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgGCCStrike15_v2_SetClanId.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.clan_id != null && Object.hasOwnProperty.call(message, "clan_id"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.clan_id);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CMsgGCCStrike15_v2_SetClanId message, length delimited. Does not implicitly {@link CMsgGCCStrike15_v2_SetClanId.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CMsgGCCStrike15_v2_SetClanId
+         * @static
+         * @param {ICMsgGCCStrike15_v2_SetClanId} message CMsgGCCStrike15_v2_SetClanId message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgGCCStrike15_v2_SetClanId.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CMsgGCCStrike15_v2_SetClanId message from the specified reader or buffer.
+         * @function decode
+         * @memberof CMsgGCCStrike15_v2_SetClanId
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CMsgGCCStrike15_v2_SetClanId} CMsgGCCStrike15_v2_SetClanId
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgGCCStrike15_v2_SetClanId.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgGCCStrike15_v2_SetClanId();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.clan_id = reader.uint32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CMsgGCCStrike15_v2_SetClanId message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CMsgGCCStrike15_v2_SetClanId
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CMsgGCCStrike15_v2_SetClanId} CMsgGCCStrike15_v2_SetClanId
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgGCCStrike15_v2_SetClanId.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CMsgGCCStrike15_v2_SetClanId message.
+         * @function verify
+         * @memberof CMsgGCCStrike15_v2_SetClanId
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CMsgGCCStrike15_v2_SetClanId.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.clan_id != null && message.hasOwnProperty("clan_id"))
+                if (!$util.isInteger(message.clan_id))
+                    return "clan_id: integer expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CMsgGCCStrike15_v2_SetClanId message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CMsgGCCStrike15_v2_SetClanId
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CMsgGCCStrike15_v2_SetClanId} CMsgGCCStrike15_v2_SetClanId
+         */
+        CMsgGCCStrike15_v2_SetClanId.fromObject = function fromObject(object) {
+            if (object instanceof $root.CMsgGCCStrike15_v2_SetClanId)
+                return object;
+            var message = new $root.CMsgGCCStrike15_v2_SetClanId();
+            if (object.clan_id != null)
+                message.clan_id = object.clan_id >>> 0;
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CMsgGCCStrike15_v2_SetClanId message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CMsgGCCStrike15_v2_SetClanId
+         * @static
+         * @param {CMsgGCCStrike15_v2_SetClanId} message CMsgGCCStrike15_v2_SetClanId
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CMsgGCCStrike15_v2_SetClanId.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.clan_id = 0;
+            if (message.clan_id != null && message.hasOwnProperty("clan_id"))
+                object.clan_id = message.clan_id;
+            return object;
+        };
+    
+        /**
+         * Converts this CMsgGCCStrike15_v2_SetClanId to JSON.
+         * @function toJSON
+         * @memberof CMsgGCCStrike15_v2_SetClanId
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CMsgGCCStrike15_v2_SetClanId.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CMsgGCCStrike15_v2_SetClanId
+         * @function getTypeUrl
+         * @memberof CMsgGCCStrike15_v2_SetClanId
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CMsgGCCStrike15_v2_SetClanId.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CMsgGCCStrike15_v2_SetClanId";
+        };
+    
+        return CMsgGCCStrike15_v2_SetClanId;
     })();
     
     $root.CMsgGCCStrike15_v2_ClientPartyJoinRelay = (function() {

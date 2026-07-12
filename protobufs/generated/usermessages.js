@@ -21,8 +21,6 @@
      * @exports EBaseUserMessages
      * @enum {number}
      * @property {number} UM_AchievementEvent=101 UM_AchievementEvent value
-     * @property {number} UM_CloseCaption=102 UM_CloseCaption value
-     * @property {number} UM_CloseCaptionDirect=103 UM_CloseCaptionDirect value
      * @property {number} UM_CurrentTimescale=104 UM_CurrentTimescale value
      * @property {number} UM_DesiredTimescale=105 UM_DesiredTimescale value
      * @property {number} UM_Fade=106 UM_Fade value
@@ -71,13 +69,12 @@
      * @property {number} UM_NotifyResponseFound=165 UM_NotifyResponseFound value
      * @property {number} UM_PlayResponseConditional=166 UM_PlayResponseConditional value
      * @property {number} UM_UserSentBugBug=167 UM_UserSentBugBug value
+     * @property {number} UM_UsageReport=168 UM_UsageReport value
      * @property {number} UM_MAX_BASE=200 UM_MAX_BASE value
      */
     $root.EBaseUserMessages = (function() {
         var valuesById = {}, values = Object.create(valuesById);
         values[valuesById[101] = "UM_AchievementEvent"] = 101;
-        values[valuesById[102] = "UM_CloseCaption"] = 102;
-        values[valuesById[103] = "UM_CloseCaptionDirect"] = 103;
         values[valuesById[104] = "UM_CurrentTimescale"] = 104;
         values[valuesById[105] = "UM_DesiredTimescale"] = 105;
         values[valuesById[106] = "UM_Fade"] = 106;
@@ -126,6 +123,7 @@
         values[valuesById[165] = "UM_NotifyResponseFound"] = 165;
         values[valuesById[166] = "UM_PlayResponseConditional"] = 166;
         values[valuesById[167] = "UM_UserSentBugBug"] = 167;
+        values[valuesById[168] = "UM_UsageReport"] = 168;
         values[valuesById[200] = "UM_MAX_BASE"] = 200;
         return values;
     })();
@@ -136,7 +134,6 @@
      * @enum {number}
      * @property {number} EM_PlayJingle=136 EM_PlayJingle value
      * @property {number} EM_ScreenOverlay=137 EM_ScreenOverlay value
-     * @property {number} EM_RemoveAllDecals=138 EM_RemoveAllDecals value
      * @property {number} EM_PropagateForce=139 EM_PropagateForce value
      * @property {number} EM_DoSpark=140 EM_DoSpark value
      * @property {number} EM_FixAngle=141 EM_FixAngle value
@@ -145,7 +142,6 @@
         var valuesById = {}, values = Object.create(valuesById);
         values[valuesById[136] = "EM_PlayJingle"] = 136;
         values[valuesById[137] = "EM_ScreenOverlay"] = 137;
-        values[valuesById[138] = "EM_RemoveAllDecals"] = 138;
         values[valuesById[139] = "EM_PropagateForce"] = 139;
         values[valuesById[140] = "EM_DoSpark"] = 140;
         values[valuesById[141] = "EM_FixAngle"] = 141;
@@ -485,556 +481,6 @@
         };
     
         return CUserMessageAchievementEvent;
-    })();
-    
-    $root.CUserMessageCloseCaption = (function() {
-    
-        /**
-         * Properties of a CUserMessageCloseCaption.
-         * @exports ICUserMessageCloseCaption
-         * @interface ICUserMessageCloseCaption
-         * @property {number|null} [hash] CUserMessageCloseCaption hash
-         * @property {number|null} [duration] CUserMessageCloseCaption duration
-         * @property {boolean|null} [from_player] CUserMessageCloseCaption from_player
-         * @property {number|null} [ent_index] CUserMessageCloseCaption ent_index
-         */
-    
-        /**
-         * Constructs a new CUserMessageCloseCaption.
-         * @exports CUserMessageCloseCaption
-         * @classdesc Represents a CUserMessageCloseCaption.
-         * @implements ICUserMessageCloseCaption
-         * @constructor
-         * @param {ICUserMessageCloseCaption=} [properties] Properties to set
-         */
-        function CUserMessageCloseCaption(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CUserMessageCloseCaption hash.
-         * @member {number} hash
-         * @memberof CUserMessageCloseCaption
-         * @instance
-         */
-        CUserMessageCloseCaption.prototype.hash = 0;
-    
-        /**
-         * CUserMessageCloseCaption duration.
-         * @member {number} duration
-         * @memberof CUserMessageCloseCaption
-         * @instance
-         */
-        CUserMessageCloseCaption.prototype.duration = 0;
-    
-        /**
-         * CUserMessageCloseCaption from_player.
-         * @member {boolean} from_player
-         * @memberof CUserMessageCloseCaption
-         * @instance
-         */
-        CUserMessageCloseCaption.prototype.from_player = false;
-    
-        /**
-         * CUserMessageCloseCaption ent_index.
-         * @member {number} ent_index
-         * @memberof CUserMessageCloseCaption
-         * @instance
-         */
-        CUserMessageCloseCaption.prototype.ent_index = -1;
-    
-        /**
-         * Creates a new CUserMessageCloseCaption instance using the specified properties.
-         * @function create
-         * @memberof CUserMessageCloseCaption
-         * @static
-         * @param {ICUserMessageCloseCaption=} [properties] Properties to set
-         * @returns {CUserMessageCloseCaption} CUserMessageCloseCaption instance
-         */
-        CUserMessageCloseCaption.create = function create(properties) {
-            return new CUserMessageCloseCaption(properties);
-        };
-    
-        /**
-         * Encodes the specified CUserMessageCloseCaption message. Does not implicitly {@link CUserMessageCloseCaption.verify|verify} messages.
-         * @function encode
-         * @memberof CUserMessageCloseCaption
-         * @static
-         * @param {ICUserMessageCloseCaption} message CUserMessageCloseCaption message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CUserMessageCloseCaption.encode = function encode(message, writer) {
-            if (!writer)
-                writer = $Writer.create();
-            if (message.hash != null && Object.hasOwnProperty.call(message, "hash"))
-                writer.uint32(/* id 1, wireType 5 =*/13).fixed32(message.hash);
-            if (message.duration != null && Object.hasOwnProperty.call(message, "duration"))
-                writer.uint32(/* id 2, wireType 5 =*/21).float(message.duration);
-            if (message.from_player != null && Object.hasOwnProperty.call(message, "from_player"))
-                writer.uint32(/* id 3, wireType 0 =*/24).bool(message.from_player);
-            if (message.ent_index != null && Object.hasOwnProperty.call(message, "ent_index"))
-                writer.uint32(/* id 4, wireType 0 =*/32).int32(message.ent_index);
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CUserMessageCloseCaption message, length delimited. Does not implicitly {@link CUserMessageCloseCaption.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CUserMessageCloseCaption
-         * @static
-         * @param {ICUserMessageCloseCaption} message CUserMessageCloseCaption message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CUserMessageCloseCaption.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CUserMessageCloseCaption message from the specified reader or buffer.
-         * @function decode
-         * @memberof CUserMessageCloseCaption
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CUserMessageCloseCaption} CUserMessageCloseCaption
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CUserMessageCloseCaption.decode = function decode(reader, length, error) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CUserMessageCloseCaption();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.hash = reader.fixed32();
-                        break;
-                    }
-                case 2: {
-                        message.duration = reader.float();
-                        break;
-                    }
-                case 3: {
-                        message.from_player = reader.bool();
-                        break;
-                    }
-                case 4: {
-                        message.ent_index = reader.int32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-                }
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CUserMessageCloseCaption message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CUserMessageCloseCaption
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CUserMessageCloseCaption} CUserMessageCloseCaption
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CUserMessageCloseCaption.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CUserMessageCloseCaption message.
-         * @function verify
-         * @memberof CUserMessageCloseCaption
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CUserMessageCloseCaption.verify = function verify(message) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (message.hash != null && message.hasOwnProperty("hash"))
-                if (!$util.isInteger(message.hash))
-                    return "hash: integer expected";
-            if (message.duration != null && message.hasOwnProperty("duration"))
-                if (typeof message.duration !== "number")
-                    return "duration: number expected";
-            if (message.from_player != null && message.hasOwnProperty("from_player"))
-                if (typeof message.from_player !== "boolean")
-                    return "from_player: boolean expected";
-            if (message.ent_index != null && message.hasOwnProperty("ent_index"))
-                if (!$util.isInteger(message.ent_index))
-                    return "ent_index: integer expected";
-            return null;
-        };
-    
-        /**
-         * Creates a CUserMessageCloseCaption message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CUserMessageCloseCaption
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CUserMessageCloseCaption} CUserMessageCloseCaption
-         */
-        CUserMessageCloseCaption.fromObject = function fromObject(object) {
-            if (object instanceof $root.CUserMessageCloseCaption)
-                return object;
-            var message = new $root.CUserMessageCloseCaption();
-            if (object.hash != null)
-                message.hash = object.hash >>> 0;
-            if (object.duration != null)
-                message.duration = Number(object.duration);
-            if (object.from_player != null)
-                message.from_player = Boolean(object.from_player);
-            if (object.ent_index != null)
-                message.ent_index = object.ent_index | 0;
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CUserMessageCloseCaption message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CUserMessageCloseCaption
-         * @static
-         * @param {CUserMessageCloseCaption} message CUserMessageCloseCaption
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CUserMessageCloseCaption.toObject = function toObject(message, options) {
-            if (!options)
-                options = {};
-            var object = {};
-            if (options.defaults) {
-                object.hash = 0;
-                object.duration = 0;
-                object.from_player = false;
-                object.ent_index = -1;
-            }
-            if (message.hash != null && message.hasOwnProperty("hash"))
-                object.hash = message.hash;
-            if (message.duration != null && message.hasOwnProperty("duration"))
-                object.duration = options.json && !isFinite(message.duration) ? String(message.duration) : message.duration;
-            if (message.from_player != null && message.hasOwnProperty("from_player"))
-                object.from_player = message.from_player;
-            if (message.ent_index != null && message.hasOwnProperty("ent_index"))
-                object.ent_index = message.ent_index;
-            return object;
-        };
-    
-        /**
-         * Converts this CUserMessageCloseCaption to JSON.
-         * @function toJSON
-         * @memberof CUserMessageCloseCaption
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CUserMessageCloseCaption.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CUserMessageCloseCaption
-         * @function getTypeUrl
-         * @memberof CUserMessageCloseCaption
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CUserMessageCloseCaption.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CUserMessageCloseCaption";
-        };
-    
-        return CUserMessageCloseCaption;
-    })();
-    
-    $root.CUserMessageCloseCaptionDirect = (function() {
-    
-        /**
-         * Properties of a CUserMessageCloseCaptionDirect.
-         * @exports ICUserMessageCloseCaptionDirect
-         * @interface ICUserMessageCloseCaptionDirect
-         * @property {number|null} [hash] CUserMessageCloseCaptionDirect hash
-         * @property {number|null} [duration] CUserMessageCloseCaptionDirect duration
-         * @property {boolean|null} [from_player] CUserMessageCloseCaptionDirect from_player
-         * @property {number|null} [ent_index] CUserMessageCloseCaptionDirect ent_index
-         */
-    
-        /**
-         * Constructs a new CUserMessageCloseCaptionDirect.
-         * @exports CUserMessageCloseCaptionDirect
-         * @classdesc Represents a CUserMessageCloseCaptionDirect.
-         * @implements ICUserMessageCloseCaptionDirect
-         * @constructor
-         * @param {ICUserMessageCloseCaptionDirect=} [properties] Properties to set
-         */
-        function CUserMessageCloseCaptionDirect(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CUserMessageCloseCaptionDirect hash.
-         * @member {number} hash
-         * @memberof CUserMessageCloseCaptionDirect
-         * @instance
-         */
-        CUserMessageCloseCaptionDirect.prototype.hash = 0;
-    
-        /**
-         * CUserMessageCloseCaptionDirect duration.
-         * @member {number} duration
-         * @memberof CUserMessageCloseCaptionDirect
-         * @instance
-         */
-        CUserMessageCloseCaptionDirect.prototype.duration = 0;
-    
-        /**
-         * CUserMessageCloseCaptionDirect from_player.
-         * @member {boolean} from_player
-         * @memberof CUserMessageCloseCaptionDirect
-         * @instance
-         */
-        CUserMessageCloseCaptionDirect.prototype.from_player = false;
-    
-        /**
-         * CUserMessageCloseCaptionDirect ent_index.
-         * @member {number} ent_index
-         * @memberof CUserMessageCloseCaptionDirect
-         * @instance
-         */
-        CUserMessageCloseCaptionDirect.prototype.ent_index = -1;
-    
-        /**
-         * Creates a new CUserMessageCloseCaptionDirect instance using the specified properties.
-         * @function create
-         * @memberof CUserMessageCloseCaptionDirect
-         * @static
-         * @param {ICUserMessageCloseCaptionDirect=} [properties] Properties to set
-         * @returns {CUserMessageCloseCaptionDirect} CUserMessageCloseCaptionDirect instance
-         */
-        CUserMessageCloseCaptionDirect.create = function create(properties) {
-            return new CUserMessageCloseCaptionDirect(properties);
-        };
-    
-        /**
-         * Encodes the specified CUserMessageCloseCaptionDirect message. Does not implicitly {@link CUserMessageCloseCaptionDirect.verify|verify} messages.
-         * @function encode
-         * @memberof CUserMessageCloseCaptionDirect
-         * @static
-         * @param {ICUserMessageCloseCaptionDirect} message CUserMessageCloseCaptionDirect message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CUserMessageCloseCaptionDirect.encode = function encode(message, writer) {
-            if (!writer)
-                writer = $Writer.create();
-            if (message.hash != null && Object.hasOwnProperty.call(message, "hash"))
-                writer.uint32(/* id 1, wireType 5 =*/13).fixed32(message.hash);
-            if (message.duration != null && Object.hasOwnProperty.call(message, "duration"))
-                writer.uint32(/* id 2, wireType 5 =*/21).float(message.duration);
-            if (message.from_player != null && Object.hasOwnProperty.call(message, "from_player"))
-                writer.uint32(/* id 3, wireType 0 =*/24).bool(message.from_player);
-            if (message.ent_index != null && Object.hasOwnProperty.call(message, "ent_index"))
-                writer.uint32(/* id 4, wireType 0 =*/32).int32(message.ent_index);
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CUserMessageCloseCaptionDirect message, length delimited. Does not implicitly {@link CUserMessageCloseCaptionDirect.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CUserMessageCloseCaptionDirect
-         * @static
-         * @param {ICUserMessageCloseCaptionDirect} message CUserMessageCloseCaptionDirect message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CUserMessageCloseCaptionDirect.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CUserMessageCloseCaptionDirect message from the specified reader or buffer.
-         * @function decode
-         * @memberof CUserMessageCloseCaptionDirect
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CUserMessageCloseCaptionDirect} CUserMessageCloseCaptionDirect
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CUserMessageCloseCaptionDirect.decode = function decode(reader, length, error) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CUserMessageCloseCaptionDirect();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.hash = reader.fixed32();
-                        break;
-                    }
-                case 2: {
-                        message.duration = reader.float();
-                        break;
-                    }
-                case 3: {
-                        message.from_player = reader.bool();
-                        break;
-                    }
-                case 4: {
-                        message.ent_index = reader.int32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-                }
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CUserMessageCloseCaptionDirect message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CUserMessageCloseCaptionDirect
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CUserMessageCloseCaptionDirect} CUserMessageCloseCaptionDirect
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CUserMessageCloseCaptionDirect.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CUserMessageCloseCaptionDirect message.
-         * @function verify
-         * @memberof CUserMessageCloseCaptionDirect
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CUserMessageCloseCaptionDirect.verify = function verify(message) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (message.hash != null && message.hasOwnProperty("hash"))
-                if (!$util.isInteger(message.hash))
-                    return "hash: integer expected";
-            if (message.duration != null && message.hasOwnProperty("duration"))
-                if (typeof message.duration !== "number")
-                    return "duration: number expected";
-            if (message.from_player != null && message.hasOwnProperty("from_player"))
-                if (typeof message.from_player !== "boolean")
-                    return "from_player: boolean expected";
-            if (message.ent_index != null && message.hasOwnProperty("ent_index"))
-                if (!$util.isInteger(message.ent_index))
-                    return "ent_index: integer expected";
-            return null;
-        };
-    
-        /**
-         * Creates a CUserMessageCloseCaptionDirect message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CUserMessageCloseCaptionDirect
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CUserMessageCloseCaptionDirect} CUserMessageCloseCaptionDirect
-         */
-        CUserMessageCloseCaptionDirect.fromObject = function fromObject(object) {
-            if (object instanceof $root.CUserMessageCloseCaptionDirect)
-                return object;
-            var message = new $root.CUserMessageCloseCaptionDirect();
-            if (object.hash != null)
-                message.hash = object.hash >>> 0;
-            if (object.duration != null)
-                message.duration = Number(object.duration);
-            if (object.from_player != null)
-                message.from_player = Boolean(object.from_player);
-            if (object.ent_index != null)
-                message.ent_index = object.ent_index | 0;
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CUserMessageCloseCaptionDirect message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CUserMessageCloseCaptionDirect
-         * @static
-         * @param {CUserMessageCloseCaptionDirect} message CUserMessageCloseCaptionDirect
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CUserMessageCloseCaptionDirect.toObject = function toObject(message, options) {
-            if (!options)
-                options = {};
-            var object = {};
-            if (options.defaults) {
-                object.hash = 0;
-                object.duration = 0;
-                object.from_player = false;
-                object.ent_index = -1;
-            }
-            if (message.hash != null && message.hasOwnProperty("hash"))
-                object.hash = message.hash;
-            if (message.duration != null && message.hasOwnProperty("duration"))
-                object.duration = options.json && !isFinite(message.duration) ? String(message.duration) : message.duration;
-            if (message.from_player != null && message.hasOwnProperty("from_player"))
-                object.from_player = message.from_player;
-            if (message.ent_index != null && message.hasOwnProperty("ent_index"))
-                object.ent_index = message.ent_index;
-            return object;
-        };
-    
-        /**
-         * Converts this CUserMessageCloseCaptionDirect to JSON.
-         * @function toJSON
-         * @memberof CUserMessageCloseCaptionDirect
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CUserMessageCloseCaptionDirect.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CUserMessageCloseCaptionDirect
-         * @function getTypeUrl
-         * @memberof CUserMessageCloseCaptionDirect
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CUserMessageCloseCaptionDirect.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CUserMessageCloseCaptionDirect";
-        };
-    
-        return CUserMessageCloseCaptionDirect;
     })();
     
     $root.CUserMessageCloseCaptionPlaceholder = (function() {
@@ -8094,240 +7540,6 @@
         };
     
         return CEntityMessageScreenOverlay;
-    })();
-    
-    $root.CEntityMessageRemoveAllDecals = (function() {
-    
-        /**
-         * Properties of a CEntityMessageRemoveAllDecals.
-         * @exports ICEntityMessageRemoveAllDecals
-         * @interface ICEntityMessageRemoveAllDecals
-         * @property {boolean|null} [remove_decals] CEntityMessageRemoveAllDecals remove_decals
-         * @property {ICEntityMsg|null} [entity_msg] CEntityMessageRemoveAllDecals entity_msg
-         */
-    
-        /**
-         * Constructs a new CEntityMessageRemoveAllDecals.
-         * @exports CEntityMessageRemoveAllDecals
-         * @classdesc Represents a CEntityMessageRemoveAllDecals.
-         * @implements ICEntityMessageRemoveAllDecals
-         * @constructor
-         * @param {ICEntityMessageRemoveAllDecals=} [properties] Properties to set
-         */
-        function CEntityMessageRemoveAllDecals(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CEntityMessageRemoveAllDecals remove_decals.
-         * @member {boolean} remove_decals
-         * @memberof CEntityMessageRemoveAllDecals
-         * @instance
-         */
-        CEntityMessageRemoveAllDecals.prototype.remove_decals = false;
-    
-        /**
-         * CEntityMessageRemoveAllDecals entity_msg.
-         * @member {ICEntityMsg|null|undefined} entity_msg
-         * @memberof CEntityMessageRemoveAllDecals
-         * @instance
-         */
-        CEntityMessageRemoveAllDecals.prototype.entity_msg = null;
-    
-        /**
-         * Creates a new CEntityMessageRemoveAllDecals instance using the specified properties.
-         * @function create
-         * @memberof CEntityMessageRemoveAllDecals
-         * @static
-         * @param {ICEntityMessageRemoveAllDecals=} [properties] Properties to set
-         * @returns {CEntityMessageRemoveAllDecals} CEntityMessageRemoveAllDecals instance
-         */
-        CEntityMessageRemoveAllDecals.create = function create(properties) {
-            return new CEntityMessageRemoveAllDecals(properties);
-        };
-    
-        /**
-         * Encodes the specified CEntityMessageRemoveAllDecals message. Does not implicitly {@link CEntityMessageRemoveAllDecals.verify|verify} messages.
-         * @function encode
-         * @memberof CEntityMessageRemoveAllDecals
-         * @static
-         * @param {ICEntityMessageRemoveAllDecals} message CEntityMessageRemoveAllDecals message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CEntityMessageRemoveAllDecals.encode = function encode(message, writer) {
-            if (!writer)
-                writer = $Writer.create();
-            if (message.remove_decals != null && Object.hasOwnProperty.call(message, "remove_decals"))
-                writer.uint32(/* id 1, wireType 0 =*/8).bool(message.remove_decals);
-            if (message.entity_msg != null && Object.hasOwnProperty.call(message, "entity_msg"))
-                $root.CEntityMsg.encode(message.entity_msg, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CEntityMessageRemoveAllDecals message, length delimited. Does not implicitly {@link CEntityMessageRemoveAllDecals.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CEntityMessageRemoveAllDecals
-         * @static
-         * @param {ICEntityMessageRemoveAllDecals} message CEntityMessageRemoveAllDecals message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CEntityMessageRemoveAllDecals.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CEntityMessageRemoveAllDecals message from the specified reader or buffer.
-         * @function decode
-         * @memberof CEntityMessageRemoveAllDecals
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CEntityMessageRemoveAllDecals} CEntityMessageRemoveAllDecals
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CEntityMessageRemoveAllDecals.decode = function decode(reader, length, error) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CEntityMessageRemoveAllDecals();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.remove_decals = reader.bool();
-                        break;
-                    }
-                case 2: {
-                        message.entity_msg = $root.CEntityMsg.decode(reader, reader.uint32());
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-                }
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CEntityMessageRemoveAllDecals message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CEntityMessageRemoveAllDecals
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CEntityMessageRemoveAllDecals} CEntityMessageRemoveAllDecals
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CEntityMessageRemoveAllDecals.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CEntityMessageRemoveAllDecals message.
-         * @function verify
-         * @memberof CEntityMessageRemoveAllDecals
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CEntityMessageRemoveAllDecals.verify = function verify(message) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (message.remove_decals != null && message.hasOwnProperty("remove_decals"))
-                if (typeof message.remove_decals !== "boolean")
-                    return "remove_decals: boolean expected";
-            if (message.entity_msg != null && message.hasOwnProperty("entity_msg")) {
-                var error = $root.CEntityMsg.verify(message.entity_msg);
-                if (error)
-                    return "entity_msg." + error;
-            }
-            return null;
-        };
-    
-        /**
-         * Creates a CEntityMessageRemoveAllDecals message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CEntityMessageRemoveAllDecals
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CEntityMessageRemoveAllDecals} CEntityMessageRemoveAllDecals
-         */
-        CEntityMessageRemoveAllDecals.fromObject = function fromObject(object) {
-            if (object instanceof $root.CEntityMessageRemoveAllDecals)
-                return object;
-            var message = new $root.CEntityMessageRemoveAllDecals();
-            if (object.remove_decals != null)
-                message.remove_decals = Boolean(object.remove_decals);
-            if (object.entity_msg != null) {
-                if (typeof object.entity_msg !== "object")
-                    throw TypeError(".CEntityMessageRemoveAllDecals.entity_msg: object expected");
-                message.entity_msg = $root.CEntityMsg.fromObject(object.entity_msg);
-            }
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CEntityMessageRemoveAllDecals message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CEntityMessageRemoveAllDecals
-         * @static
-         * @param {CEntityMessageRemoveAllDecals} message CEntityMessageRemoveAllDecals
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CEntityMessageRemoveAllDecals.toObject = function toObject(message, options) {
-            if (!options)
-                options = {};
-            var object = {};
-            if (options.defaults) {
-                object.remove_decals = false;
-                object.entity_msg = null;
-            }
-            if (message.remove_decals != null && message.hasOwnProperty("remove_decals"))
-                object.remove_decals = message.remove_decals;
-            if (message.entity_msg != null && message.hasOwnProperty("entity_msg"))
-                object.entity_msg = $root.CEntityMsg.toObject(message.entity_msg, options);
-            return object;
-        };
-    
-        /**
-         * Converts this CEntityMessageRemoveAllDecals to JSON.
-         * @function toJSON
-         * @memberof CEntityMessageRemoveAllDecals
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CEntityMessageRemoveAllDecals.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CEntityMessageRemoveAllDecals
-         * @function getTypeUrl
-         * @memberof CEntityMessageRemoveAllDecals
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CEntityMessageRemoveAllDecals.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CEntityMessageRemoveAllDecals";
-        };
-    
-        return CEntityMessageRemoveAllDecals;
     })();
     
     $root.CEntityMessagePropagateForce = (function() {
@@ -31454,6 +30666,211 @@
         return CUserMessage_PlayResponseConditional;
     })();
     
+    $root.CUserMessage_UsageReport = (function() {
+    
+        /**
+         * Properties of a CUserMessage_UsageReport.
+         * @exports ICUserMessage_UsageReport
+         * @interface ICUserMessage_UsageReport
+         * @property {string|null} [usage] CUserMessage_UsageReport usage
+         */
+    
+        /**
+         * Constructs a new CUserMessage_UsageReport.
+         * @exports CUserMessage_UsageReport
+         * @classdesc Represents a CUserMessage_UsageReport.
+         * @implements ICUserMessage_UsageReport
+         * @constructor
+         * @param {ICUserMessage_UsageReport=} [properties] Properties to set
+         */
+        function CUserMessage_UsageReport(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CUserMessage_UsageReport usage.
+         * @member {string} usage
+         * @memberof CUserMessage_UsageReport
+         * @instance
+         */
+        CUserMessage_UsageReport.prototype.usage = "";
+    
+        /**
+         * Creates a new CUserMessage_UsageReport instance using the specified properties.
+         * @function create
+         * @memberof CUserMessage_UsageReport
+         * @static
+         * @param {ICUserMessage_UsageReport=} [properties] Properties to set
+         * @returns {CUserMessage_UsageReport} CUserMessage_UsageReport instance
+         */
+        CUserMessage_UsageReport.create = function create(properties) {
+            return new CUserMessage_UsageReport(properties);
+        };
+    
+        /**
+         * Encodes the specified CUserMessage_UsageReport message. Does not implicitly {@link CUserMessage_UsageReport.verify|verify} messages.
+         * @function encode
+         * @memberof CUserMessage_UsageReport
+         * @static
+         * @param {ICUserMessage_UsageReport} message CUserMessage_UsageReport message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CUserMessage_UsageReport.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.usage != null && Object.hasOwnProperty.call(message, "usage"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.usage);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CUserMessage_UsageReport message, length delimited. Does not implicitly {@link CUserMessage_UsageReport.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CUserMessage_UsageReport
+         * @static
+         * @param {ICUserMessage_UsageReport} message CUserMessage_UsageReport message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CUserMessage_UsageReport.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CUserMessage_UsageReport message from the specified reader or buffer.
+         * @function decode
+         * @memberof CUserMessage_UsageReport
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CUserMessage_UsageReport} CUserMessage_UsageReport
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CUserMessage_UsageReport.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CUserMessage_UsageReport();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.usage = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CUserMessage_UsageReport message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CUserMessage_UsageReport
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CUserMessage_UsageReport} CUserMessage_UsageReport
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CUserMessage_UsageReport.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CUserMessage_UsageReport message.
+         * @function verify
+         * @memberof CUserMessage_UsageReport
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CUserMessage_UsageReport.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.usage != null && message.hasOwnProperty("usage"))
+                if (!$util.isString(message.usage))
+                    return "usage: string expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CUserMessage_UsageReport message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CUserMessage_UsageReport
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CUserMessage_UsageReport} CUserMessage_UsageReport
+         */
+        CUserMessage_UsageReport.fromObject = function fromObject(object) {
+            if (object instanceof $root.CUserMessage_UsageReport)
+                return object;
+            var message = new $root.CUserMessage_UsageReport();
+            if (object.usage != null)
+                message.usage = String(object.usage);
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CUserMessage_UsageReport message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CUserMessage_UsageReport
+         * @static
+         * @param {CUserMessage_UsageReport} message CUserMessage_UsageReport
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CUserMessage_UsageReport.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.usage = "";
+            if (message.usage != null && message.hasOwnProperty("usage"))
+                object.usage = message.usage;
+            return object;
+        };
+    
+        /**
+         * Converts this CUserMessage_UsageReport to JSON.
+         * @function toJSON
+         * @memberof CUserMessage_UsageReport
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CUserMessage_UsageReport.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CUserMessage_UsageReport
+         * @function getTypeUrl
+         * @memberof CUserMessage_UsageReport
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CUserMessage_UsageReport.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CUserMessage_UsageReport";
+        };
+    
+        return CUserMessage_UsageReport;
+    })();
+    
     /**
      * SignonState_t enum.
      * @exports SignonState_t
@@ -39636,6 +39053,26 @@
         return CNETMsg_DebugOverlay;
     })();
     
+    /**
+     * EProtoDebugVisiblity enum.
+     * @exports EProtoDebugVisiblity
+     * @enum {number}
+     * @property {number} k_EProtoDebugVisibility_Always=0 k_EProtoDebugVisibility_Always value
+     * @property {number} k_EProtoDebugVisibility_Server=70 k_EProtoDebugVisibility_Server value
+     * @property {number} k_EProtoDebugVisibility_ValveServer=80 k_EProtoDebugVisibility_ValveServer value
+     * @property {number} k_EProtoDebugVisibility_GC=90 k_EProtoDebugVisibility_GC value
+     * @property {number} k_EProtoDebugVisibility_Never=100 k_EProtoDebugVisibility_Never value
+     */
+    $root.EProtoDebugVisiblity = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "k_EProtoDebugVisibility_Always"] = 0;
+        values[valuesById[70] = "k_EProtoDebugVisibility_Server"] = 70;
+        values[valuesById[80] = "k_EProtoDebugVisibility_ValveServer"] = 80;
+        values[valuesById[90] = "k_EProtoDebugVisibility_GC"] = 90;
+        values[valuesById[100] = "k_EProtoDebugVisibility_Never"] = 100;
+        return values;
+    })();
+    
     $root.google = (function() {
     
         /**
@@ -43181,6 +42618,7 @@
                  * @property {boolean|null} [no_standard_descriptor_accessor] MessageOptions no_standard_descriptor_accessor
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] MessageOptions uninterpreted_option
                  * @property {number|null} [".maximum_size_bytes"] MessageOptions .maximum_size_bytes
+                 * @property {boolean|null} [".codegen_delta_encoder"] MessageOptions .codegen_delta_encoder
                  */
     
                 /**
@@ -43232,6 +42670,14 @@
                 MessageOptions.prototype[".maximum_size_bytes"] = 0;
     
                 /**
+                 * MessageOptions .codegen_delta_encoder.
+                 * @member {boolean} .codegen_delta_encoder
+                 * @memberof google.protobuf.MessageOptions
+                 * @instance
+                 */
+                MessageOptions.prototype[".codegen_delta_encoder"] = false;
+    
+                /**
                  * Creates a new MessageOptions instance using the specified properties.
                  * @function create
                  * @memberof google.protobuf.MessageOptions
@@ -43264,6 +42710,8 @@
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
                     if (message[".maximum_size_bytes"] != null && Object.hasOwnProperty.call(message, ".maximum_size_bytes"))
                         writer.uint32(/* id 50000, wireType 0 =*/400000).int32(message[".maximum_size_bytes"]);
+                    if (message[".codegen_delta_encoder"] != null && Object.hasOwnProperty.call(message, ".codegen_delta_encoder"))
+                        writer.uint32(/* id 61000, wireType 0 =*/488000).bool(message[".codegen_delta_encoder"]);
                     return writer;
                 };
     
@@ -43316,6 +42764,10 @@
                             }
                         case 50000: {
                                 message[".maximum_size_bytes"] = reader.int32();
+                                break;
+                            }
+                        case 61000: {
+                                message[".codegen_delta_encoder"] = reader.bool();
                                 break;
                             }
                         default:
@@ -43371,6 +42823,9 @@
                     if (message[".maximum_size_bytes"] != null && message.hasOwnProperty(".maximum_size_bytes"))
                         if (!$util.isInteger(message[".maximum_size_bytes"]))
                             return ".maximum_size_bytes: integer expected";
+                    if (message[".codegen_delta_encoder"] != null && message.hasOwnProperty(".codegen_delta_encoder"))
+                        if (typeof message[".codegen_delta_encoder"] !== "boolean")
+                            return ".codegen_delta_encoder: boolean expected";
                     return null;
                 };
     
@@ -43402,6 +42857,8 @@
                     }
                     if (object[".maximum_size_bytes"] != null)
                         message[".maximum_size_bytes"] = object[".maximum_size_bytes"] | 0;
+                    if (object[".codegen_delta_encoder"] != null)
+                        message[".codegen_delta_encoder"] = Boolean(object[".codegen_delta_encoder"]);
                     return message;
                 };
     
@@ -43424,6 +42881,7 @@
                         object.message_set_wire_format = false;
                         object.no_standard_descriptor_accessor = false;
                         object[".maximum_size_bytes"] = 0;
+                        object[".codegen_delta_encoder"] = false;
                     }
                     if (message.message_set_wire_format != null && message.hasOwnProperty("message_set_wire_format"))
                         object.message_set_wire_format = message.message_set_wire_format;
@@ -43436,6 +42894,8 @@
                     }
                     if (message[".maximum_size_bytes"] != null && message.hasOwnProperty(".maximum_size_bytes"))
                         object[".maximum_size_bytes"] = message[".maximum_size_bytes"];
+                    if (message[".codegen_delta_encoder"] != null && message.hasOwnProperty(".codegen_delta_encoder"))
+                        object[".codegen_delta_encoder"] = message[".codegen_delta_encoder"];
                     return object;
                 };
     
@@ -43479,6 +42939,15 @@
                  * @property {boolean|null} [deprecated] FieldOptions deprecated
                  * @property {string|null} [experimental_map_key] FieldOptions experimental_map_key
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] FieldOptions uninterpreted_option
+                 * @property {boolean|null} [".valve_map_field"] FieldOptions .valve_map_field
+                 * @property {boolean|null} [".valve_map_key"] FieldOptions .valve_map_key
+                 * @property {number|null} [".diff_encode_field"] FieldOptions .diff_encode_field
+                 * @property {boolean|null} [".delta_ignore"] FieldOptions .delta_ignore
+                 * @property {number|null} [".untrusted_delta_max"] FieldOptions .untrusted_delta_max
+                 * @property {number|null} [".steamml_max_entries"] FieldOptions .steamml_max_entries
+                 * @property {boolean|null} [".steamml_is_timestamp"] FieldOptions .steamml_is_timestamp
+                 * @property {number|null} [".steamlearn_count"] FieldOptions .steamlearn_count
+                 * @property {EProtoDebugVisiblity|null} [".debugprint_visibility"] FieldOptions .debugprint_visibility
                  */
     
                 /**
@@ -43538,6 +43007,78 @@
                 FieldOptions.prototype.uninterpreted_option = $util.emptyArray;
     
                 /**
+                 * FieldOptions .valve_map_field.
+                 * @member {boolean} .valve_map_field
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".valve_map_field"] = false;
+    
+                /**
+                 * FieldOptions .valve_map_key.
+                 * @member {boolean} .valve_map_key
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".valve_map_key"] = false;
+    
+                /**
+                 * FieldOptions .diff_encode_field.
+                 * @member {number} .diff_encode_field
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".diff_encode_field"] = 0;
+    
+                /**
+                 * FieldOptions .delta_ignore.
+                 * @member {boolean} .delta_ignore
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".delta_ignore"] = false;
+    
+                /**
+                 * FieldOptions .untrusted_delta_max.
+                 * @member {number} .untrusted_delta_max
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".untrusted_delta_max"] = 256;
+    
+                /**
+                 * FieldOptions .steamml_max_entries.
+                 * @member {number} .steamml_max_entries
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".steamml_max_entries"] = 0;
+    
+                /**
+                 * FieldOptions .steamml_is_timestamp.
+                 * @member {boolean} .steamml_is_timestamp
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".steamml_is_timestamp"] = false;
+    
+                /**
+                 * FieldOptions .steamlearn_count.
+                 * @member {number} .steamlearn_count
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".steamlearn_count"] = 0;
+    
+                /**
+                 * FieldOptions .debugprint_visibility.
+                 * @member {EProtoDebugVisiblity} .debugprint_visibility
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".debugprint_visibility"] = 0;
+    
+                /**
                  * Creates a new FieldOptions instance using the specified properties.
                  * @function create
                  * @memberof google.protobuf.FieldOptions
@@ -43572,6 +43113,24 @@
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
+                    if (message[".valve_map_field"] != null && Object.hasOwnProperty.call(message, ".valve_map_field"))
+                        writer.uint32(/* id 61000, wireType 0 =*/488000).bool(message[".valve_map_field"]);
+                    if (message[".valve_map_key"] != null && Object.hasOwnProperty.call(message, ".valve_map_key"))
+                        writer.uint32(/* id 61001, wireType 0 =*/488008).bool(message[".valve_map_key"]);
+                    if (message[".diff_encode_field"] != null && Object.hasOwnProperty.call(message, ".diff_encode_field"))
+                        writer.uint32(/* id 61002, wireType 0 =*/488016).int32(message[".diff_encode_field"]);
+                    if (message[".delta_ignore"] != null && Object.hasOwnProperty.call(message, ".delta_ignore"))
+                        writer.uint32(/* id 61003, wireType 0 =*/488024).bool(message[".delta_ignore"]);
+                    if (message[".steamml_max_entries"] != null && Object.hasOwnProperty.call(message, ".steamml_max_entries"))
+                        writer.uint32(/* id 61004, wireType 0 =*/488032).uint32(message[".steamml_max_entries"]);
+                    if (message[".steamml_is_timestamp"] != null && Object.hasOwnProperty.call(message, ".steamml_is_timestamp"))
+                        writer.uint32(/* id 61005, wireType 0 =*/488040).bool(message[".steamml_is_timestamp"]);
+                    if (message[".steamlearn_count"] != null && Object.hasOwnProperty.call(message, ".steamlearn_count"))
+                        writer.uint32(/* id 61006, wireType 0 =*/488048).uint32(message[".steamlearn_count"]);
+                    if (message[".debugprint_visibility"] != null && Object.hasOwnProperty.call(message, ".debugprint_visibility"))
+                        writer.uint32(/* id 61007, wireType 0 =*/488056).int32(message[".debugprint_visibility"]);
+                    if (message[".untrusted_delta_max"] != null && Object.hasOwnProperty.call(message, ".untrusted_delta_max"))
+                        writer.uint32(/* id 61008, wireType 0 =*/488064).int32(message[".untrusted_delta_max"]);
                     return writer;
                 };
     
@@ -43628,6 +43187,42 @@
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
                                 message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
+                                break;
+                            }
+                        case 61000: {
+                                message[".valve_map_field"] = reader.bool();
+                                break;
+                            }
+                        case 61001: {
+                                message[".valve_map_key"] = reader.bool();
+                                break;
+                            }
+                        case 61002: {
+                                message[".diff_encode_field"] = reader.int32();
+                                break;
+                            }
+                        case 61003: {
+                                message[".delta_ignore"] = reader.bool();
+                                break;
+                            }
+                        case 61008: {
+                                message[".untrusted_delta_max"] = reader.int32();
+                                break;
+                            }
+                        case 61004: {
+                                message[".steamml_max_entries"] = reader.uint32();
+                                break;
+                            }
+                        case 61005: {
+                                message[".steamml_is_timestamp"] = reader.bool();
+                                break;
+                            }
+                        case 61006: {
+                                message[".steamlearn_count"] = reader.uint32();
+                                break;
+                            }
+                        case 61007: {
+                                message[".debugprint_visibility"] = reader.int32();
                                 break;
                             }
                         default:
@@ -43692,6 +43287,41 @@
                                 return "uninterpreted_option." + error;
                         }
                     }
+                    if (message[".valve_map_field"] != null && message.hasOwnProperty(".valve_map_field"))
+                        if (typeof message[".valve_map_field"] !== "boolean")
+                            return ".valve_map_field: boolean expected";
+                    if (message[".valve_map_key"] != null && message.hasOwnProperty(".valve_map_key"))
+                        if (typeof message[".valve_map_key"] !== "boolean")
+                            return ".valve_map_key: boolean expected";
+                    if (message[".diff_encode_field"] != null && message.hasOwnProperty(".diff_encode_field"))
+                        if (!$util.isInteger(message[".diff_encode_field"]))
+                            return ".diff_encode_field: integer expected";
+                    if (message[".delta_ignore"] != null && message.hasOwnProperty(".delta_ignore"))
+                        if (typeof message[".delta_ignore"] !== "boolean")
+                            return ".delta_ignore: boolean expected";
+                    if (message[".untrusted_delta_max"] != null && message.hasOwnProperty(".untrusted_delta_max"))
+                        if (!$util.isInteger(message[".untrusted_delta_max"]))
+                            return ".untrusted_delta_max: integer expected";
+                    if (message[".steamml_max_entries"] != null && message.hasOwnProperty(".steamml_max_entries"))
+                        if (!$util.isInteger(message[".steamml_max_entries"]))
+                            return ".steamml_max_entries: integer expected";
+                    if (message[".steamml_is_timestamp"] != null && message.hasOwnProperty(".steamml_is_timestamp"))
+                        if (typeof message[".steamml_is_timestamp"] !== "boolean")
+                            return ".steamml_is_timestamp: boolean expected";
+                    if (message[".steamlearn_count"] != null && message.hasOwnProperty(".steamlearn_count"))
+                        if (!$util.isInteger(message[".steamlearn_count"]))
+                            return ".steamlearn_count: integer expected";
+                    if (message[".debugprint_visibility"] != null && message.hasOwnProperty(".debugprint_visibility"))
+                        switch (message[".debugprint_visibility"]) {
+                        default:
+                            return ".debugprint_visibility: enum value expected";
+                        case 0:
+                        case 70:
+                        case 80:
+                        case 90:
+                        case 100:
+                            break;
+                        }
                     return null;
                 };
     
@@ -43743,6 +43373,50 @@
                             message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i]);
                         }
                     }
+                    if (object[".valve_map_field"] != null)
+                        message[".valve_map_field"] = Boolean(object[".valve_map_field"]);
+                    if (object[".valve_map_key"] != null)
+                        message[".valve_map_key"] = Boolean(object[".valve_map_key"]);
+                    if (object[".diff_encode_field"] != null)
+                        message[".diff_encode_field"] = object[".diff_encode_field"] | 0;
+                    if (object[".delta_ignore"] != null)
+                        message[".delta_ignore"] = Boolean(object[".delta_ignore"]);
+                    if (object[".untrusted_delta_max"] != null)
+                        message[".untrusted_delta_max"] = object[".untrusted_delta_max"] | 0;
+                    if (object[".steamml_max_entries"] != null)
+                        message[".steamml_max_entries"] = object[".steamml_max_entries"] >>> 0;
+                    if (object[".steamml_is_timestamp"] != null)
+                        message[".steamml_is_timestamp"] = Boolean(object[".steamml_is_timestamp"]);
+                    if (object[".steamlearn_count"] != null)
+                        message[".steamlearn_count"] = object[".steamlearn_count"] >>> 0;
+                    switch (object[".debugprint_visibility"]) {
+                    default:
+                        if (typeof object[".debugprint_visibility"] === "number") {
+                            message[".debugprint_visibility"] = object[".debugprint_visibility"];
+                            break;
+                        }
+                        break;
+                    case "k_EProtoDebugVisibility_Always":
+                    case 0:
+                        message[".debugprint_visibility"] = 0;
+                        break;
+                    case "k_EProtoDebugVisibility_Server":
+                    case 70:
+                        message[".debugprint_visibility"] = 70;
+                        break;
+                    case "k_EProtoDebugVisibility_ValveServer":
+                    case 80:
+                        message[".debugprint_visibility"] = 80;
+                        break;
+                    case "k_EProtoDebugVisibility_GC":
+                    case 90:
+                        message[".debugprint_visibility"] = 90;
+                        break;
+                    case "k_EProtoDebugVisibility_Never":
+                    case 100:
+                        message[".debugprint_visibility"] = 100;
+                        break;
+                    }
                     return message;
                 };
     
@@ -43766,6 +43440,15 @@
                         object.packed = false;
                         object.deprecated = false;
                         object.experimental_map_key = "";
+                        object[".valve_map_field"] = false;
+                        object[".valve_map_key"] = false;
+                        object[".diff_encode_field"] = 0;
+                        object[".delta_ignore"] = false;
+                        object[".steamml_max_entries"] = 0;
+                        object[".steamml_is_timestamp"] = false;
+                        object[".steamlearn_count"] = 0;
+                        object[".debugprint_visibility"] = options.enums === String ? "k_EProtoDebugVisibility_Always" : 0;
+                        object[".untrusted_delta_max"] = 256;
                     }
                     if (message.ctype != null && message.hasOwnProperty("ctype"))
                         object.ctype = options.enums === String ? $root.google.protobuf.FieldOptions.CType[message.ctype] === undefined ? message.ctype : $root.google.protobuf.FieldOptions.CType[message.ctype] : message.ctype;
@@ -43780,6 +43463,24 @@
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
                             object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options);
                     }
+                    if (message[".valve_map_field"] != null && message.hasOwnProperty(".valve_map_field"))
+                        object[".valve_map_field"] = message[".valve_map_field"];
+                    if (message[".valve_map_key"] != null && message.hasOwnProperty(".valve_map_key"))
+                        object[".valve_map_key"] = message[".valve_map_key"];
+                    if (message[".diff_encode_field"] != null && message.hasOwnProperty(".diff_encode_field"))
+                        object[".diff_encode_field"] = message[".diff_encode_field"];
+                    if (message[".delta_ignore"] != null && message.hasOwnProperty(".delta_ignore"))
+                        object[".delta_ignore"] = message[".delta_ignore"];
+                    if (message[".steamml_max_entries"] != null && message.hasOwnProperty(".steamml_max_entries"))
+                        object[".steamml_max_entries"] = message[".steamml_max_entries"];
+                    if (message[".steamml_is_timestamp"] != null && message.hasOwnProperty(".steamml_is_timestamp"))
+                        object[".steamml_is_timestamp"] = message[".steamml_is_timestamp"];
+                    if (message[".steamlearn_count"] != null && message.hasOwnProperty(".steamlearn_count"))
+                        object[".steamlearn_count"] = message[".steamlearn_count"];
+                    if (message[".debugprint_visibility"] != null && message.hasOwnProperty(".debugprint_visibility"))
+                        object[".debugprint_visibility"] = options.enums === String ? $root.EProtoDebugVisiblity[message[".debugprint_visibility"]] === undefined ? message[".debugprint_visibility"] : $root.EProtoDebugVisiblity[message[".debugprint_visibility"]] : message[".debugprint_visibility"];
+                    if (message[".untrusted_delta_max"] != null && message.hasOwnProperty(".untrusted_delta_max"))
+                        object[".untrusted_delta_max"] = message[".untrusted_delta_max"];
                     return object;
                 };
     
@@ -44061,6 +43762,9 @@
                  * @memberof google.protobuf
                  * @interface IEnumValueOptions
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] EnumValueOptions uninterpreted_option
+                 * @property {string|null} [".schema_friendly_name"] EnumValueOptions .schema_friendly_name
+                 * @property {string|null} [".schema_description"] EnumValueOptions .schema_description
+                 * @property {boolean|null} [".schema_suppress_enumerator"] EnumValueOptions .schema_suppress_enumerator
                  * @property {string|null} [".network_connection_token"] EnumValueOptions .network_connection_token
                  * @property {string|null} [".network_connection_detail_token"] EnumValueOptions .network_connection_detail_token
                  * @property {boolean|null} [".allowed_from_client"] EnumValueOptions .allowed_from_client
@@ -44089,6 +43793,30 @@
                  * @instance
                  */
                 EnumValueOptions.prototype.uninterpreted_option = $util.emptyArray;
+    
+                /**
+                 * EnumValueOptions .schema_friendly_name.
+                 * @member {string} .schema_friendly_name
+                 * @memberof google.protobuf.EnumValueOptions
+                 * @instance
+                 */
+                EnumValueOptions.prototype[".schema_friendly_name"] = "";
+    
+                /**
+                 * EnumValueOptions .schema_description.
+                 * @member {string} .schema_description
+                 * @memberof google.protobuf.EnumValueOptions
+                 * @instance
+                 */
+                EnumValueOptions.prototype[".schema_description"] = "";
+    
+                /**
+                 * EnumValueOptions .schema_suppress_enumerator.
+                 * @member {boolean} .schema_suppress_enumerator
+                 * @memberof google.protobuf.EnumValueOptions
+                 * @instance
+                 */
+                EnumValueOptions.prototype[".schema_suppress_enumerator"] = false;
     
                 /**
                  * EnumValueOptions .network_connection_token.
@@ -44141,6 +43869,12 @@
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
+                    if (message[".schema_friendly_name"] != null && Object.hasOwnProperty.call(message, ".schema_friendly_name"))
+                        writer.uint32(/* id 1000, wireType 2 =*/8002).string(message[".schema_friendly_name"]);
+                    if (message[".schema_description"] != null && Object.hasOwnProperty.call(message, ".schema_description"))
+                        writer.uint32(/* id 1001, wireType 2 =*/8010).string(message[".schema_description"]);
+                    if (message[".schema_suppress_enumerator"] != null && Object.hasOwnProperty.call(message, ".schema_suppress_enumerator"))
+                        writer.uint32(/* id 1002, wireType 0 =*/8016).bool(message[".schema_suppress_enumerator"]);
                     if (message[".network_connection_token"] != null && Object.hasOwnProperty.call(message, ".network_connection_token"))
                         writer.uint32(/* id 50500, wireType 2 =*/404002).string(message[".network_connection_token"]);
                     if (message[".network_connection_detail_token"] != null && Object.hasOwnProperty.call(message, ".network_connection_detail_token"))
@@ -44187,6 +43921,18 @@
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
                                 message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
+                                break;
+                            }
+                        case 1000: {
+                                message[".schema_friendly_name"] = reader.string();
+                                break;
+                            }
+                        case 1001: {
+                                message[".schema_description"] = reader.string();
+                                break;
+                            }
+                        case 1002: {
+                                message[".schema_suppress_enumerator"] = reader.bool();
                                 break;
                             }
                         case 50500: {
@@ -44245,6 +43991,15 @@
                                 return "uninterpreted_option." + error;
                         }
                     }
+                    if (message[".schema_friendly_name"] != null && message.hasOwnProperty(".schema_friendly_name"))
+                        if (!$util.isString(message[".schema_friendly_name"]))
+                            return ".schema_friendly_name: string expected";
+                    if (message[".schema_description"] != null && message.hasOwnProperty(".schema_description"))
+                        if (!$util.isString(message[".schema_description"]))
+                            return ".schema_description: string expected";
+                    if (message[".schema_suppress_enumerator"] != null && message.hasOwnProperty(".schema_suppress_enumerator"))
+                        if (typeof message[".schema_suppress_enumerator"] !== "boolean")
+                            return ".schema_suppress_enumerator: boolean expected";
                     if (message[".network_connection_token"] != null && message.hasOwnProperty(".network_connection_token"))
                         if (!$util.isString(message[".network_connection_token"]))
                             return ".network_connection_token: string expected";
@@ -44279,6 +44034,12 @@
                             message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i]);
                         }
                     }
+                    if (object[".schema_friendly_name"] != null)
+                        message[".schema_friendly_name"] = String(object[".schema_friendly_name"]);
+                    if (object[".schema_description"] != null)
+                        message[".schema_description"] = String(object[".schema_description"]);
+                    if (object[".schema_suppress_enumerator"] != null)
+                        message[".schema_suppress_enumerator"] = Boolean(object[".schema_suppress_enumerator"]);
                     if (object[".network_connection_token"] != null)
                         message[".network_connection_token"] = String(object[".network_connection_token"]);
                     if (object[".network_connection_detail_token"] != null)
@@ -44304,6 +44065,9 @@
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
                     if (options.defaults) {
+                        object[".schema_friendly_name"] = "";
+                        object[".schema_description"] = "";
+                        object[".schema_suppress_enumerator"] = false;
                         object[".network_connection_token"] = "";
                         object[".network_connection_detail_token"] = "";
                         object[".allowed_from_client"] = true;
@@ -44313,6 +44077,12 @@
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
                             object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options);
                     }
+                    if (message[".schema_friendly_name"] != null && message.hasOwnProperty(".schema_friendly_name"))
+                        object[".schema_friendly_name"] = message[".schema_friendly_name"];
+                    if (message[".schema_description"] != null && message.hasOwnProperty(".schema_description"))
+                        object[".schema_description"] = message[".schema_description"];
+                    if (message[".schema_suppress_enumerator"] != null && message.hasOwnProperty(".schema_suppress_enumerator"))
+                        object[".schema_suppress_enumerator"] = message[".schema_suppress_enumerator"];
                     if (message[".network_connection_token"] != null && message.hasOwnProperty(".network_connection_token"))
                         object[".network_connection_token"] = message[".network_connection_token"];
                     if (message[".network_connection_detail_token"] != null && message.hasOwnProperty(".network_connection_detail_token"))

@@ -1,5 +1,27 @@
 # Release Notes
 
+## v2.3.1 - Latest Protobuf Sync
+
+**Release Date:** July 2026
+
+### Summary
+
+This release syncs protobuf definitions with the latest upstream GameTracking-CS2 versions and keeps GC message ID mappings current.
+
+### Changes
+
+- Updated 13 upstream `.proto` files from GameTracking-CS2
+- Regenerated all `protobufs/generated/*.js` modules
+- Added `SetClanId` (9229) and `VolatileShopSubscribe` (9228) to `language.js`
+- New upstream fields include `cheating_penalty_level`, `clan_id` on `CSOPersonaDataPublic`, and `CMsgGCCStrike15_v2_SetClanId`
+
+### Technical Details
+
+- All changes are backward compatible for existing consumers
+- Package version bumped from `2.3.0` to `2.3.1` for npm publishing
+
+---
+
 ## v2.3.0 - Latest Protobufs, Commendations & Crate Field Support
 
 **Release Date:** June 2026

@@ -33,6 +33,8 @@
      * @property {number} GE_SosSetSoundEventParams=210 GE_SosSetSoundEventParams value
      * @property {number} GE_SosSetLibraryStackFields=211 GE_SosSetLibraryStackFields value
      * @property {number} GE_SosStopSoundEventHash=212 GE_SosStopSoundEventHash value
+     * @property {number} GE_ClothStiffenAnimEvent=213 GE_ClothStiffenAnimEvent value
+     * @property {number} GE_ClothEffectAnimEvent=214 GE_ClothEffectAnimEvent value
      */
     $root.EBaseGameEvents = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -49,6 +51,8 @@
         values[valuesById[210] = "GE_SosSetSoundEventParams"] = 210;
         values[valuesById[211] = "GE_SosSetLibraryStackFields"] = 211;
         values[valuesById[212] = "GE_SosStopSoundEventHash"] = 212;
+        values[valuesById[213] = "GE_ClothStiffenAnimEvent"] = 213;
+        values[valuesById[214] = "GE_ClothEffectAnimEvent"] = 214;
         return values;
     })();
     
@@ -301,6 +305,7 @@
          * @property {number|Long|null} [material_id] CMsgPlaceDecalEvent material_id
          * @property {number|null} [sequence_name] CMsgPlaceDecalEvent sequence_name
          * @property {ICMsgVector|null} [position_objectspace] CMsgPlaceDecalEvent position_objectspace
+         * @property {ICMsgVector|null} [normal_objectspace] CMsgPlaceDecalEvent normal_objectspace
          */
     
         /**
@@ -431,6 +436,14 @@
         CMsgPlaceDecalEvent.prototype.position_objectspace = null;
     
         /**
+         * CMsgPlaceDecalEvent normal_objectspace.
+         * @member {ICMsgVector|null|undefined} normal_objectspace
+         * @memberof CMsgPlaceDecalEvent
+         * @instance
+         */
+        CMsgPlaceDecalEvent.prototype.normal_objectspace = null;
+    
+        /**
          * Creates a new CMsgPlaceDecalEvent instance using the specified properties.
          * @function create
          * @memberof CMsgPlaceDecalEvent
@@ -482,6 +495,8 @@
                 writer.uint32(/* id 13, wireType 0 =*/104).int32(message.triangleindex);
             if (message.position_objectspace != null && Object.hasOwnProperty.call(message, "position_objectspace"))
                 $root.CMsgVector.encode(message.position_objectspace, writer.uint32(/* id 14, wireType 2 =*/114).fork()).ldelim();
+            if (message.normal_objectspace != null && Object.hasOwnProperty.call(message, "normal_objectspace"))
+                $root.CMsgVector.encode(message.normal_objectspace, writer.uint32(/* id 15, wireType 2 =*/122).fork()).ldelim();
             return writer;
         };
     
@@ -574,6 +589,10 @@
                         message.position_objectspace = $root.CMsgVector.decode(reader, reader.uint32());
                         break;
                     }
+                case 15: {
+                        message.normal_objectspace = $root.CMsgVector.decode(reader, reader.uint32());
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -659,6 +678,11 @@
                 if (error)
                     return "position_objectspace." + error;
             }
+            if (message.normal_objectspace != null && message.hasOwnProperty("normal_objectspace")) {
+                var error = $root.CMsgVector.verify(message.normal_objectspace);
+                if (error)
+                    return "normal_objectspace." + error;
+            }
             return null;
         };
     
@@ -721,6 +745,11 @@
                     throw TypeError(".CMsgPlaceDecalEvent.position_objectspace: object expected");
                 message.position_objectspace = $root.CMsgVector.fromObject(object.position_objectspace);
             }
+            if (object.normal_objectspace != null) {
+                if (typeof object.normal_objectspace !== "object")
+                    throw TypeError(".CMsgPlaceDecalEvent.normal_objectspace: object expected");
+                message.normal_objectspace = $root.CMsgVector.fromObject(object.normal_objectspace);
+            }
             return message;
         };
     
@@ -756,6 +785,7 @@
                 object.sequence_name = 0;
                 object.triangleindex = 0;
                 object.position_objectspace = null;
+                object.normal_objectspace = null;
             }
             if (message.position != null && message.hasOwnProperty("position"))
                 object.position = $root.CMsgVector.toObject(message.position, options);
@@ -788,6 +818,8 @@
                 object.triangleindex = message.triangleindex;
             if (message.position_objectspace != null && message.hasOwnProperty("position_objectspace"))
                 object.position_objectspace = $root.CMsgVector.toObject(message.position_objectspace, options);
+            if (message.normal_objectspace != null && message.hasOwnProperty("normal_objectspace"))
+                object.normal_objectspace = $root.CMsgVector.toObject(message.normal_objectspace, options);
             return object;
         };
     
@@ -4377,6 +4409,653 @@
         };
     
         return CMsgSosSetLibraryStackFields;
+    })();
+    
+    $root.CMsgClothStiffenAnimEvent = (function() {
+    
+        /**
+         * Properties of a CMsgClothStiffenAnimEvent.
+         * @exports ICMsgClothStiffenAnimEvent
+         * @interface ICMsgClothStiffenAnimEvent
+         * @property {number|null} [source_entity_index] CMsgClothStiffenAnimEvent source_entity_index
+         * @property {number|null} [vertex_set_hash] CMsgClothStiffenAnimEvent vertex_set_hash
+         * @property {number|null} [intensity] CMsgClothStiffenAnimEvent intensity
+         * @property {number|null} [length] CMsgClothStiffenAnimEvent length
+         * @property {number|null} [speed_in] CMsgClothStiffenAnimEvent speed_in
+         * @property {number|null} [speed_out] CMsgClothStiffenAnimEvent speed_out
+         */
+    
+        /**
+         * Constructs a new CMsgClothStiffenAnimEvent.
+         * @exports CMsgClothStiffenAnimEvent
+         * @classdesc Represents a CMsgClothStiffenAnimEvent.
+         * @implements ICMsgClothStiffenAnimEvent
+         * @constructor
+         * @param {ICMsgClothStiffenAnimEvent=} [properties] Properties to set
+         */
+        function CMsgClothStiffenAnimEvent(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CMsgClothStiffenAnimEvent source_entity_index.
+         * @member {number} source_entity_index
+         * @memberof CMsgClothStiffenAnimEvent
+         * @instance
+         */
+        CMsgClothStiffenAnimEvent.prototype.source_entity_index = -1;
+    
+        /**
+         * CMsgClothStiffenAnimEvent vertex_set_hash.
+         * @member {number} vertex_set_hash
+         * @memberof CMsgClothStiffenAnimEvent
+         * @instance
+         */
+        CMsgClothStiffenAnimEvent.prototype.vertex_set_hash = 0;
+    
+        /**
+         * CMsgClothStiffenAnimEvent intensity.
+         * @member {number} intensity
+         * @memberof CMsgClothStiffenAnimEvent
+         * @instance
+         */
+        CMsgClothStiffenAnimEvent.prototype.intensity = 0;
+    
+        /**
+         * CMsgClothStiffenAnimEvent length.
+         * @member {number} length
+         * @memberof CMsgClothStiffenAnimEvent
+         * @instance
+         */
+        CMsgClothStiffenAnimEvent.prototype.length = 0;
+    
+        /**
+         * CMsgClothStiffenAnimEvent speed_in.
+         * @member {number} speed_in
+         * @memberof CMsgClothStiffenAnimEvent
+         * @instance
+         */
+        CMsgClothStiffenAnimEvent.prototype.speed_in = 0;
+    
+        /**
+         * CMsgClothStiffenAnimEvent speed_out.
+         * @member {number} speed_out
+         * @memberof CMsgClothStiffenAnimEvent
+         * @instance
+         */
+        CMsgClothStiffenAnimEvent.prototype.speed_out = 0;
+    
+        /**
+         * Creates a new CMsgClothStiffenAnimEvent instance using the specified properties.
+         * @function create
+         * @memberof CMsgClothStiffenAnimEvent
+         * @static
+         * @param {ICMsgClothStiffenAnimEvent=} [properties] Properties to set
+         * @returns {CMsgClothStiffenAnimEvent} CMsgClothStiffenAnimEvent instance
+         */
+        CMsgClothStiffenAnimEvent.create = function create(properties) {
+            return new CMsgClothStiffenAnimEvent(properties);
+        };
+    
+        /**
+         * Encodes the specified CMsgClothStiffenAnimEvent message. Does not implicitly {@link CMsgClothStiffenAnimEvent.verify|verify} messages.
+         * @function encode
+         * @memberof CMsgClothStiffenAnimEvent
+         * @static
+         * @param {ICMsgClothStiffenAnimEvent} message CMsgClothStiffenAnimEvent message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgClothStiffenAnimEvent.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.source_entity_index != null && Object.hasOwnProperty.call(message, "source_entity_index"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.source_entity_index);
+            if (message.vertex_set_hash != null && Object.hasOwnProperty.call(message, "vertex_set_hash"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.vertex_set_hash);
+            if (message.intensity != null && Object.hasOwnProperty.call(message, "intensity"))
+                writer.uint32(/* id 3, wireType 5 =*/29).float(message.intensity);
+            if (message.length != null && Object.hasOwnProperty.call(message, "length"))
+                writer.uint32(/* id 4, wireType 5 =*/37).float(message.length);
+            if (message.speed_in != null && Object.hasOwnProperty.call(message, "speed_in"))
+                writer.uint32(/* id 5, wireType 5 =*/45).float(message.speed_in);
+            if (message.speed_out != null && Object.hasOwnProperty.call(message, "speed_out"))
+                writer.uint32(/* id 6, wireType 5 =*/53).float(message.speed_out);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CMsgClothStiffenAnimEvent message, length delimited. Does not implicitly {@link CMsgClothStiffenAnimEvent.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CMsgClothStiffenAnimEvent
+         * @static
+         * @param {ICMsgClothStiffenAnimEvent} message CMsgClothStiffenAnimEvent message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgClothStiffenAnimEvent.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CMsgClothStiffenAnimEvent message from the specified reader or buffer.
+         * @function decode
+         * @memberof CMsgClothStiffenAnimEvent
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CMsgClothStiffenAnimEvent} CMsgClothStiffenAnimEvent
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgClothStiffenAnimEvent.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgClothStiffenAnimEvent();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.source_entity_index = reader.int32();
+                        break;
+                    }
+                case 2: {
+                        message.vertex_set_hash = reader.int32();
+                        break;
+                    }
+                case 3: {
+                        message.intensity = reader.float();
+                        break;
+                    }
+                case 4: {
+                        message.length = reader.float();
+                        break;
+                    }
+                case 5: {
+                        message.speed_in = reader.float();
+                        break;
+                    }
+                case 6: {
+                        message.speed_out = reader.float();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CMsgClothStiffenAnimEvent message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CMsgClothStiffenAnimEvent
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CMsgClothStiffenAnimEvent} CMsgClothStiffenAnimEvent
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgClothStiffenAnimEvent.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CMsgClothStiffenAnimEvent message.
+         * @function verify
+         * @memberof CMsgClothStiffenAnimEvent
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CMsgClothStiffenAnimEvent.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.source_entity_index != null && message.hasOwnProperty("source_entity_index"))
+                if (!$util.isInteger(message.source_entity_index))
+                    return "source_entity_index: integer expected";
+            if (message.vertex_set_hash != null && message.hasOwnProperty("vertex_set_hash"))
+                if (!$util.isInteger(message.vertex_set_hash))
+                    return "vertex_set_hash: integer expected";
+            if (message.intensity != null && message.hasOwnProperty("intensity"))
+                if (typeof message.intensity !== "number")
+                    return "intensity: number expected";
+            if (message.length != null && message.hasOwnProperty("length"))
+                if (typeof message.length !== "number")
+                    return "length: number expected";
+            if (message.speed_in != null && message.hasOwnProperty("speed_in"))
+                if (typeof message.speed_in !== "number")
+                    return "speed_in: number expected";
+            if (message.speed_out != null && message.hasOwnProperty("speed_out"))
+                if (typeof message.speed_out !== "number")
+                    return "speed_out: number expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CMsgClothStiffenAnimEvent message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CMsgClothStiffenAnimEvent
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CMsgClothStiffenAnimEvent} CMsgClothStiffenAnimEvent
+         */
+        CMsgClothStiffenAnimEvent.fromObject = function fromObject(object) {
+            if (object instanceof $root.CMsgClothStiffenAnimEvent)
+                return object;
+            var message = new $root.CMsgClothStiffenAnimEvent();
+            if (object.source_entity_index != null)
+                message.source_entity_index = object.source_entity_index | 0;
+            if (object.vertex_set_hash != null)
+                message.vertex_set_hash = object.vertex_set_hash | 0;
+            if (object.intensity != null)
+                message.intensity = Number(object.intensity);
+            if (object.length != null)
+                message.length = Number(object.length);
+            if (object.speed_in != null)
+                message.speed_in = Number(object.speed_in);
+            if (object.speed_out != null)
+                message.speed_out = Number(object.speed_out);
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CMsgClothStiffenAnimEvent message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CMsgClothStiffenAnimEvent
+         * @static
+         * @param {CMsgClothStiffenAnimEvent} message CMsgClothStiffenAnimEvent
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CMsgClothStiffenAnimEvent.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.source_entity_index = -1;
+                object.vertex_set_hash = 0;
+                object.intensity = 0;
+                object.length = 0;
+                object.speed_in = 0;
+                object.speed_out = 0;
+            }
+            if (message.source_entity_index != null && message.hasOwnProperty("source_entity_index"))
+                object.source_entity_index = message.source_entity_index;
+            if (message.vertex_set_hash != null && message.hasOwnProperty("vertex_set_hash"))
+                object.vertex_set_hash = message.vertex_set_hash;
+            if (message.intensity != null && message.hasOwnProperty("intensity"))
+                object.intensity = options.json && !isFinite(message.intensity) ? String(message.intensity) : message.intensity;
+            if (message.length != null && message.hasOwnProperty("length"))
+                object.length = options.json && !isFinite(message.length) ? String(message.length) : message.length;
+            if (message.speed_in != null && message.hasOwnProperty("speed_in"))
+                object.speed_in = options.json && !isFinite(message.speed_in) ? String(message.speed_in) : message.speed_in;
+            if (message.speed_out != null && message.hasOwnProperty("speed_out"))
+                object.speed_out = options.json && !isFinite(message.speed_out) ? String(message.speed_out) : message.speed_out;
+            return object;
+        };
+    
+        /**
+         * Converts this CMsgClothStiffenAnimEvent to JSON.
+         * @function toJSON
+         * @memberof CMsgClothStiffenAnimEvent
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CMsgClothStiffenAnimEvent.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CMsgClothStiffenAnimEvent
+         * @function getTypeUrl
+         * @memberof CMsgClothStiffenAnimEvent
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CMsgClothStiffenAnimEvent.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CMsgClothStiffenAnimEvent";
+        };
+    
+        return CMsgClothStiffenAnimEvent;
+    })();
+    
+    $root.CMsgClothEffectAnimEvent = (function() {
+    
+        /**
+         * Properties of a CMsgClothEffectAnimEvent.
+         * @exports ICMsgClothEffectAnimEvent
+         * @interface ICMsgClothEffectAnimEvent
+         * @property {number|null} [source_entity_index] CMsgClothEffectAnimEvent source_entity_index
+         * @property {number|null} [effect_name_hash] CMsgClothEffectAnimEvent effect_name_hash
+         * @property {number|null} [operation] CMsgClothEffectAnimEvent operation
+         * @property {number|null} [flags] CMsgClothEffectAnimEvent flags
+         * @property {string|null} [tags] CMsgClothEffectAnimEvent tags
+         * @property {ICMsgVector|null} [pte] CMsgClothEffectAnimEvent pte
+         */
+    
+        /**
+         * Constructs a new CMsgClothEffectAnimEvent.
+         * @exports CMsgClothEffectAnimEvent
+         * @classdesc Represents a CMsgClothEffectAnimEvent.
+         * @implements ICMsgClothEffectAnimEvent
+         * @constructor
+         * @param {ICMsgClothEffectAnimEvent=} [properties] Properties to set
+         */
+        function CMsgClothEffectAnimEvent(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CMsgClothEffectAnimEvent source_entity_index.
+         * @member {number} source_entity_index
+         * @memberof CMsgClothEffectAnimEvent
+         * @instance
+         */
+        CMsgClothEffectAnimEvent.prototype.source_entity_index = -1;
+    
+        /**
+         * CMsgClothEffectAnimEvent effect_name_hash.
+         * @member {number} effect_name_hash
+         * @memberof CMsgClothEffectAnimEvent
+         * @instance
+         */
+        CMsgClothEffectAnimEvent.prototype.effect_name_hash = 0;
+    
+        /**
+         * CMsgClothEffectAnimEvent operation.
+         * @member {number} operation
+         * @memberof CMsgClothEffectAnimEvent
+         * @instance
+         */
+        CMsgClothEffectAnimEvent.prototype.operation = 0;
+    
+        /**
+         * CMsgClothEffectAnimEvent flags.
+         * @member {number} flags
+         * @memberof CMsgClothEffectAnimEvent
+         * @instance
+         */
+        CMsgClothEffectAnimEvent.prototype.flags = 0;
+    
+        /**
+         * CMsgClothEffectAnimEvent tags.
+         * @member {string} tags
+         * @memberof CMsgClothEffectAnimEvent
+         * @instance
+         */
+        CMsgClothEffectAnimEvent.prototype.tags = "";
+    
+        /**
+         * CMsgClothEffectAnimEvent pte.
+         * @member {ICMsgVector|null|undefined} pte
+         * @memberof CMsgClothEffectAnimEvent
+         * @instance
+         */
+        CMsgClothEffectAnimEvent.prototype.pte = null;
+    
+        /**
+         * Creates a new CMsgClothEffectAnimEvent instance using the specified properties.
+         * @function create
+         * @memberof CMsgClothEffectAnimEvent
+         * @static
+         * @param {ICMsgClothEffectAnimEvent=} [properties] Properties to set
+         * @returns {CMsgClothEffectAnimEvent} CMsgClothEffectAnimEvent instance
+         */
+        CMsgClothEffectAnimEvent.create = function create(properties) {
+            return new CMsgClothEffectAnimEvent(properties);
+        };
+    
+        /**
+         * Encodes the specified CMsgClothEffectAnimEvent message. Does not implicitly {@link CMsgClothEffectAnimEvent.verify|verify} messages.
+         * @function encode
+         * @memberof CMsgClothEffectAnimEvent
+         * @static
+         * @param {ICMsgClothEffectAnimEvent} message CMsgClothEffectAnimEvent message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgClothEffectAnimEvent.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.source_entity_index != null && Object.hasOwnProperty.call(message, "source_entity_index"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.source_entity_index);
+            if (message.effect_name_hash != null && Object.hasOwnProperty.call(message, "effect_name_hash"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.effect_name_hash);
+            if (message.operation != null && Object.hasOwnProperty.call(message, "operation"))
+                writer.uint32(/* id 3, wireType 0 =*/24).int32(message.operation);
+            if (message.flags != null && Object.hasOwnProperty.call(message, "flags"))
+                writer.uint32(/* id 4, wireType 0 =*/32).int32(message.flags);
+            if (message.tags != null && Object.hasOwnProperty.call(message, "tags"))
+                writer.uint32(/* id 5, wireType 2 =*/42).string(message.tags);
+            if (message.pte != null && Object.hasOwnProperty.call(message, "pte"))
+                $root.CMsgVector.encode(message.pte, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CMsgClothEffectAnimEvent message, length delimited. Does not implicitly {@link CMsgClothEffectAnimEvent.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CMsgClothEffectAnimEvent
+         * @static
+         * @param {ICMsgClothEffectAnimEvent} message CMsgClothEffectAnimEvent message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgClothEffectAnimEvent.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CMsgClothEffectAnimEvent message from the specified reader or buffer.
+         * @function decode
+         * @memberof CMsgClothEffectAnimEvent
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CMsgClothEffectAnimEvent} CMsgClothEffectAnimEvent
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgClothEffectAnimEvent.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgClothEffectAnimEvent();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.source_entity_index = reader.int32();
+                        break;
+                    }
+                case 2: {
+                        message.effect_name_hash = reader.int32();
+                        break;
+                    }
+                case 3: {
+                        message.operation = reader.int32();
+                        break;
+                    }
+                case 4: {
+                        message.flags = reader.int32();
+                        break;
+                    }
+                case 5: {
+                        message.tags = reader.string();
+                        break;
+                    }
+                case 6: {
+                        message.pte = $root.CMsgVector.decode(reader, reader.uint32());
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CMsgClothEffectAnimEvent message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CMsgClothEffectAnimEvent
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CMsgClothEffectAnimEvent} CMsgClothEffectAnimEvent
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgClothEffectAnimEvent.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CMsgClothEffectAnimEvent message.
+         * @function verify
+         * @memberof CMsgClothEffectAnimEvent
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CMsgClothEffectAnimEvent.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.source_entity_index != null && message.hasOwnProperty("source_entity_index"))
+                if (!$util.isInteger(message.source_entity_index))
+                    return "source_entity_index: integer expected";
+            if (message.effect_name_hash != null && message.hasOwnProperty("effect_name_hash"))
+                if (!$util.isInteger(message.effect_name_hash))
+                    return "effect_name_hash: integer expected";
+            if (message.operation != null && message.hasOwnProperty("operation"))
+                if (!$util.isInteger(message.operation))
+                    return "operation: integer expected";
+            if (message.flags != null && message.hasOwnProperty("flags"))
+                if (!$util.isInteger(message.flags))
+                    return "flags: integer expected";
+            if (message.tags != null && message.hasOwnProperty("tags"))
+                if (!$util.isString(message.tags))
+                    return "tags: string expected";
+            if (message.pte != null && message.hasOwnProperty("pte")) {
+                var error = $root.CMsgVector.verify(message.pte);
+                if (error)
+                    return "pte." + error;
+            }
+            return null;
+        };
+    
+        /**
+         * Creates a CMsgClothEffectAnimEvent message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CMsgClothEffectAnimEvent
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CMsgClothEffectAnimEvent} CMsgClothEffectAnimEvent
+         */
+        CMsgClothEffectAnimEvent.fromObject = function fromObject(object) {
+            if (object instanceof $root.CMsgClothEffectAnimEvent)
+                return object;
+            var message = new $root.CMsgClothEffectAnimEvent();
+            if (object.source_entity_index != null)
+                message.source_entity_index = object.source_entity_index | 0;
+            if (object.effect_name_hash != null)
+                message.effect_name_hash = object.effect_name_hash | 0;
+            if (object.operation != null)
+                message.operation = object.operation | 0;
+            if (object.flags != null)
+                message.flags = object.flags | 0;
+            if (object.tags != null)
+                message.tags = String(object.tags);
+            if (object.pte != null) {
+                if (typeof object.pte !== "object")
+                    throw TypeError(".CMsgClothEffectAnimEvent.pte: object expected");
+                message.pte = $root.CMsgVector.fromObject(object.pte);
+            }
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CMsgClothEffectAnimEvent message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CMsgClothEffectAnimEvent
+         * @static
+         * @param {CMsgClothEffectAnimEvent} message CMsgClothEffectAnimEvent
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CMsgClothEffectAnimEvent.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.source_entity_index = -1;
+                object.effect_name_hash = 0;
+                object.operation = 0;
+                object.flags = 0;
+                object.tags = "";
+                object.pte = null;
+            }
+            if (message.source_entity_index != null && message.hasOwnProperty("source_entity_index"))
+                object.source_entity_index = message.source_entity_index;
+            if (message.effect_name_hash != null && message.hasOwnProperty("effect_name_hash"))
+                object.effect_name_hash = message.effect_name_hash;
+            if (message.operation != null && message.hasOwnProperty("operation"))
+                object.operation = message.operation;
+            if (message.flags != null && message.hasOwnProperty("flags"))
+                object.flags = message.flags;
+            if (message.tags != null && message.hasOwnProperty("tags"))
+                object.tags = message.tags;
+            if (message.pte != null && message.hasOwnProperty("pte"))
+                object.pte = $root.CMsgVector.toObject(message.pte, options);
+            return object;
+        };
+    
+        /**
+         * Converts this CMsgClothEffectAnimEvent to JSON.
+         * @function toJSON
+         * @memberof CMsgClothEffectAnimEvent
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CMsgClothEffectAnimEvent.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CMsgClothEffectAnimEvent
+         * @function getTypeUrl
+         * @memberof CMsgClothEffectAnimEvent
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CMsgClothEffectAnimEvent.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CMsgClothEffectAnimEvent";
+        };
+    
+        return CMsgClothEffectAnimEvent;
     })();
     
     /**
@@ -12561,6 +13240,26 @@
         return CNETMsg_DebugOverlay;
     })();
     
+    /**
+     * EProtoDebugVisiblity enum.
+     * @exports EProtoDebugVisiblity
+     * @enum {number}
+     * @property {number} k_EProtoDebugVisibility_Always=0 k_EProtoDebugVisibility_Always value
+     * @property {number} k_EProtoDebugVisibility_Server=70 k_EProtoDebugVisibility_Server value
+     * @property {number} k_EProtoDebugVisibility_ValveServer=80 k_EProtoDebugVisibility_ValveServer value
+     * @property {number} k_EProtoDebugVisibility_GC=90 k_EProtoDebugVisibility_GC value
+     * @property {number} k_EProtoDebugVisibility_Never=100 k_EProtoDebugVisibility_Never value
+     */
+    $root.EProtoDebugVisiblity = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "k_EProtoDebugVisibility_Always"] = 0;
+        values[valuesById[70] = "k_EProtoDebugVisibility_Server"] = 70;
+        values[valuesById[80] = "k_EProtoDebugVisibility_ValveServer"] = 80;
+        values[valuesById[90] = "k_EProtoDebugVisibility_GC"] = 90;
+        values[valuesById[100] = "k_EProtoDebugVisibility_Never"] = 100;
+        return values;
+    })();
+    
     $root.google = (function() {
     
         /**
@@ -16106,6 +16805,7 @@
                  * @property {boolean|null} [no_standard_descriptor_accessor] MessageOptions no_standard_descriptor_accessor
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] MessageOptions uninterpreted_option
                  * @property {number|null} [".maximum_size_bytes"] MessageOptions .maximum_size_bytes
+                 * @property {boolean|null} [".codegen_delta_encoder"] MessageOptions .codegen_delta_encoder
                  */
     
                 /**
@@ -16157,6 +16857,14 @@
                 MessageOptions.prototype[".maximum_size_bytes"] = 0;
     
                 /**
+                 * MessageOptions .codegen_delta_encoder.
+                 * @member {boolean} .codegen_delta_encoder
+                 * @memberof google.protobuf.MessageOptions
+                 * @instance
+                 */
+                MessageOptions.prototype[".codegen_delta_encoder"] = false;
+    
+                /**
                  * Creates a new MessageOptions instance using the specified properties.
                  * @function create
                  * @memberof google.protobuf.MessageOptions
@@ -16189,6 +16897,8 @@
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
                     if (message[".maximum_size_bytes"] != null && Object.hasOwnProperty.call(message, ".maximum_size_bytes"))
                         writer.uint32(/* id 50000, wireType 0 =*/400000).int32(message[".maximum_size_bytes"]);
+                    if (message[".codegen_delta_encoder"] != null && Object.hasOwnProperty.call(message, ".codegen_delta_encoder"))
+                        writer.uint32(/* id 61000, wireType 0 =*/488000).bool(message[".codegen_delta_encoder"]);
                     return writer;
                 };
     
@@ -16241,6 +16951,10 @@
                             }
                         case 50000: {
                                 message[".maximum_size_bytes"] = reader.int32();
+                                break;
+                            }
+                        case 61000: {
+                                message[".codegen_delta_encoder"] = reader.bool();
                                 break;
                             }
                         default:
@@ -16296,6 +17010,9 @@
                     if (message[".maximum_size_bytes"] != null && message.hasOwnProperty(".maximum_size_bytes"))
                         if (!$util.isInteger(message[".maximum_size_bytes"]))
                             return ".maximum_size_bytes: integer expected";
+                    if (message[".codegen_delta_encoder"] != null && message.hasOwnProperty(".codegen_delta_encoder"))
+                        if (typeof message[".codegen_delta_encoder"] !== "boolean")
+                            return ".codegen_delta_encoder: boolean expected";
                     return null;
                 };
     
@@ -16327,6 +17044,8 @@
                     }
                     if (object[".maximum_size_bytes"] != null)
                         message[".maximum_size_bytes"] = object[".maximum_size_bytes"] | 0;
+                    if (object[".codegen_delta_encoder"] != null)
+                        message[".codegen_delta_encoder"] = Boolean(object[".codegen_delta_encoder"]);
                     return message;
                 };
     
@@ -16349,6 +17068,7 @@
                         object.message_set_wire_format = false;
                         object.no_standard_descriptor_accessor = false;
                         object[".maximum_size_bytes"] = 0;
+                        object[".codegen_delta_encoder"] = false;
                     }
                     if (message.message_set_wire_format != null && message.hasOwnProperty("message_set_wire_format"))
                         object.message_set_wire_format = message.message_set_wire_format;
@@ -16361,6 +17081,8 @@
                     }
                     if (message[".maximum_size_bytes"] != null && message.hasOwnProperty(".maximum_size_bytes"))
                         object[".maximum_size_bytes"] = message[".maximum_size_bytes"];
+                    if (message[".codegen_delta_encoder"] != null && message.hasOwnProperty(".codegen_delta_encoder"))
+                        object[".codegen_delta_encoder"] = message[".codegen_delta_encoder"];
                     return object;
                 };
     
@@ -16404,6 +17126,15 @@
                  * @property {boolean|null} [deprecated] FieldOptions deprecated
                  * @property {string|null} [experimental_map_key] FieldOptions experimental_map_key
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] FieldOptions uninterpreted_option
+                 * @property {boolean|null} [".valve_map_field"] FieldOptions .valve_map_field
+                 * @property {boolean|null} [".valve_map_key"] FieldOptions .valve_map_key
+                 * @property {number|null} [".diff_encode_field"] FieldOptions .diff_encode_field
+                 * @property {boolean|null} [".delta_ignore"] FieldOptions .delta_ignore
+                 * @property {number|null} [".untrusted_delta_max"] FieldOptions .untrusted_delta_max
+                 * @property {number|null} [".steamml_max_entries"] FieldOptions .steamml_max_entries
+                 * @property {boolean|null} [".steamml_is_timestamp"] FieldOptions .steamml_is_timestamp
+                 * @property {number|null} [".steamlearn_count"] FieldOptions .steamlearn_count
+                 * @property {EProtoDebugVisiblity|null} [".debugprint_visibility"] FieldOptions .debugprint_visibility
                  */
     
                 /**
@@ -16463,6 +17194,78 @@
                 FieldOptions.prototype.uninterpreted_option = $util.emptyArray;
     
                 /**
+                 * FieldOptions .valve_map_field.
+                 * @member {boolean} .valve_map_field
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".valve_map_field"] = false;
+    
+                /**
+                 * FieldOptions .valve_map_key.
+                 * @member {boolean} .valve_map_key
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".valve_map_key"] = false;
+    
+                /**
+                 * FieldOptions .diff_encode_field.
+                 * @member {number} .diff_encode_field
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".diff_encode_field"] = 0;
+    
+                /**
+                 * FieldOptions .delta_ignore.
+                 * @member {boolean} .delta_ignore
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".delta_ignore"] = false;
+    
+                /**
+                 * FieldOptions .untrusted_delta_max.
+                 * @member {number} .untrusted_delta_max
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".untrusted_delta_max"] = 256;
+    
+                /**
+                 * FieldOptions .steamml_max_entries.
+                 * @member {number} .steamml_max_entries
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".steamml_max_entries"] = 0;
+    
+                /**
+                 * FieldOptions .steamml_is_timestamp.
+                 * @member {boolean} .steamml_is_timestamp
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".steamml_is_timestamp"] = false;
+    
+                /**
+                 * FieldOptions .steamlearn_count.
+                 * @member {number} .steamlearn_count
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".steamlearn_count"] = 0;
+    
+                /**
+                 * FieldOptions .debugprint_visibility.
+                 * @member {EProtoDebugVisiblity} .debugprint_visibility
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".debugprint_visibility"] = 0;
+    
+                /**
                  * Creates a new FieldOptions instance using the specified properties.
                  * @function create
                  * @memberof google.protobuf.FieldOptions
@@ -16497,6 +17300,24 @@
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
+                    if (message[".valve_map_field"] != null && Object.hasOwnProperty.call(message, ".valve_map_field"))
+                        writer.uint32(/* id 61000, wireType 0 =*/488000).bool(message[".valve_map_field"]);
+                    if (message[".valve_map_key"] != null && Object.hasOwnProperty.call(message, ".valve_map_key"))
+                        writer.uint32(/* id 61001, wireType 0 =*/488008).bool(message[".valve_map_key"]);
+                    if (message[".diff_encode_field"] != null && Object.hasOwnProperty.call(message, ".diff_encode_field"))
+                        writer.uint32(/* id 61002, wireType 0 =*/488016).int32(message[".diff_encode_field"]);
+                    if (message[".delta_ignore"] != null && Object.hasOwnProperty.call(message, ".delta_ignore"))
+                        writer.uint32(/* id 61003, wireType 0 =*/488024).bool(message[".delta_ignore"]);
+                    if (message[".steamml_max_entries"] != null && Object.hasOwnProperty.call(message, ".steamml_max_entries"))
+                        writer.uint32(/* id 61004, wireType 0 =*/488032).uint32(message[".steamml_max_entries"]);
+                    if (message[".steamml_is_timestamp"] != null && Object.hasOwnProperty.call(message, ".steamml_is_timestamp"))
+                        writer.uint32(/* id 61005, wireType 0 =*/488040).bool(message[".steamml_is_timestamp"]);
+                    if (message[".steamlearn_count"] != null && Object.hasOwnProperty.call(message, ".steamlearn_count"))
+                        writer.uint32(/* id 61006, wireType 0 =*/488048).uint32(message[".steamlearn_count"]);
+                    if (message[".debugprint_visibility"] != null && Object.hasOwnProperty.call(message, ".debugprint_visibility"))
+                        writer.uint32(/* id 61007, wireType 0 =*/488056).int32(message[".debugprint_visibility"]);
+                    if (message[".untrusted_delta_max"] != null && Object.hasOwnProperty.call(message, ".untrusted_delta_max"))
+                        writer.uint32(/* id 61008, wireType 0 =*/488064).int32(message[".untrusted_delta_max"]);
                     return writer;
                 };
     
@@ -16553,6 +17374,42 @@
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
                                 message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
+                                break;
+                            }
+                        case 61000: {
+                                message[".valve_map_field"] = reader.bool();
+                                break;
+                            }
+                        case 61001: {
+                                message[".valve_map_key"] = reader.bool();
+                                break;
+                            }
+                        case 61002: {
+                                message[".diff_encode_field"] = reader.int32();
+                                break;
+                            }
+                        case 61003: {
+                                message[".delta_ignore"] = reader.bool();
+                                break;
+                            }
+                        case 61008: {
+                                message[".untrusted_delta_max"] = reader.int32();
+                                break;
+                            }
+                        case 61004: {
+                                message[".steamml_max_entries"] = reader.uint32();
+                                break;
+                            }
+                        case 61005: {
+                                message[".steamml_is_timestamp"] = reader.bool();
+                                break;
+                            }
+                        case 61006: {
+                                message[".steamlearn_count"] = reader.uint32();
+                                break;
+                            }
+                        case 61007: {
+                                message[".debugprint_visibility"] = reader.int32();
                                 break;
                             }
                         default:
@@ -16617,6 +17474,41 @@
                                 return "uninterpreted_option." + error;
                         }
                     }
+                    if (message[".valve_map_field"] != null && message.hasOwnProperty(".valve_map_field"))
+                        if (typeof message[".valve_map_field"] !== "boolean")
+                            return ".valve_map_field: boolean expected";
+                    if (message[".valve_map_key"] != null && message.hasOwnProperty(".valve_map_key"))
+                        if (typeof message[".valve_map_key"] !== "boolean")
+                            return ".valve_map_key: boolean expected";
+                    if (message[".diff_encode_field"] != null && message.hasOwnProperty(".diff_encode_field"))
+                        if (!$util.isInteger(message[".diff_encode_field"]))
+                            return ".diff_encode_field: integer expected";
+                    if (message[".delta_ignore"] != null && message.hasOwnProperty(".delta_ignore"))
+                        if (typeof message[".delta_ignore"] !== "boolean")
+                            return ".delta_ignore: boolean expected";
+                    if (message[".untrusted_delta_max"] != null && message.hasOwnProperty(".untrusted_delta_max"))
+                        if (!$util.isInteger(message[".untrusted_delta_max"]))
+                            return ".untrusted_delta_max: integer expected";
+                    if (message[".steamml_max_entries"] != null && message.hasOwnProperty(".steamml_max_entries"))
+                        if (!$util.isInteger(message[".steamml_max_entries"]))
+                            return ".steamml_max_entries: integer expected";
+                    if (message[".steamml_is_timestamp"] != null && message.hasOwnProperty(".steamml_is_timestamp"))
+                        if (typeof message[".steamml_is_timestamp"] !== "boolean")
+                            return ".steamml_is_timestamp: boolean expected";
+                    if (message[".steamlearn_count"] != null && message.hasOwnProperty(".steamlearn_count"))
+                        if (!$util.isInteger(message[".steamlearn_count"]))
+                            return ".steamlearn_count: integer expected";
+                    if (message[".debugprint_visibility"] != null && message.hasOwnProperty(".debugprint_visibility"))
+                        switch (message[".debugprint_visibility"]) {
+                        default:
+                            return ".debugprint_visibility: enum value expected";
+                        case 0:
+                        case 70:
+                        case 80:
+                        case 90:
+                        case 100:
+                            break;
+                        }
                     return null;
                 };
     
@@ -16668,6 +17560,50 @@
                             message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i]);
                         }
                     }
+                    if (object[".valve_map_field"] != null)
+                        message[".valve_map_field"] = Boolean(object[".valve_map_field"]);
+                    if (object[".valve_map_key"] != null)
+                        message[".valve_map_key"] = Boolean(object[".valve_map_key"]);
+                    if (object[".diff_encode_field"] != null)
+                        message[".diff_encode_field"] = object[".diff_encode_field"] | 0;
+                    if (object[".delta_ignore"] != null)
+                        message[".delta_ignore"] = Boolean(object[".delta_ignore"]);
+                    if (object[".untrusted_delta_max"] != null)
+                        message[".untrusted_delta_max"] = object[".untrusted_delta_max"] | 0;
+                    if (object[".steamml_max_entries"] != null)
+                        message[".steamml_max_entries"] = object[".steamml_max_entries"] >>> 0;
+                    if (object[".steamml_is_timestamp"] != null)
+                        message[".steamml_is_timestamp"] = Boolean(object[".steamml_is_timestamp"]);
+                    if (object[".steamlearn_count"] != null)
+                        message[".steamlearn_count"] = object[".steamlearn_count"] >>> 0;
+                    switch (object[".debugprint_visibility"]) {
+                    default:
+                        if (typeof object[".debugprint_visibility"] === "number") {
+                            message[".debugprint_visibility"] = object[".debugprint_visibility"];
+                            break;
+                        }
+                        break;
+                    case "k_EProtoDebugVisibility_Always":
+                    case 0:
+                        message[".debugprint_visibility"] = 0;
+                        break;
+                    case "k_EProtoDebugVisibility_Server":
+                    case 70:
+                        message[".debugprint_visibility"] = 70;
+                        break;
+                    case "k_EProtoDebugVisibility_ValveServer":
+                    case 80:
+                        message[".debugprint_visibility"] = 80;
+                        break;
+                    case "k_EProtoDebugVisibility_GC":
+                    case 90:
+                        message[".debugprint_visibility"] = 90;
+                        break;
+                    case "k_EProtoDebugVisibility_Never":
+                    case 100:
+                        message[".debugprint_visibility"] = 100;
+                        break;
+                    }
                     return message;
                 };
     
@@ -16691,6 +17627,15 @@
                         object.packed = false;
                         object.deprecated = false;
                         object.experimental_map_key = "";
+                        object[".valve_map_field"] = false;
+                        object[".valve_map_key"] = false;
+                        object[".diff_encode_field"] = 0;
+                        object[".delta_ignore"] = false;
+                        object[".steamml_max_entries"] = 0;
+                        object[".steamml_is_timestamp"] = false;
+                        object[".steamlearn_count"] = 0;
+                        object[".debugprint_visibility"] = options.enums === String ? "k_EProtoDebugVisibility_Always" : 0;
+                        object[".untrusted_delta_max"] = 256;
                     }
                     if (message.ctype != null && message.hasOwnProperty("ctype"))
                         object.ctype = options.enums === String ? $root.google.protobuf.FieldOptions.CType[message.ctype] === undefined ? message.ctype : $root.google.protobuf.FieldOptions.CType[message.ctype] : message.ctype;
@@ -16705,6 +17650,24 @@
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
                             object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options);
                     }
+                    if (message[".valve_map_field"] != null && message.hasOwnProperty(".valve_map_field"))
+                        object[".valve_map_field"] = message[".valve_map_field"];
+                    if (message[".valve_map_key"] != null && message.hasOwnProperty(".valve_map_key"))
+                        object[".valve_map_key"] = message[".valve_map_key"];
+                    if (message[".diff_encode_field"] != null && message.hasOwnProperty(".diff_encode_field"))
+                        object[".diff_encode_field"] = message[".diff_encode_field"];
+                    if (message[".delta_ignore"] != null && message.hasOwnProperty(".delta_ignore"))
+                        object[".delta_ignore"] = message[".delta_ignore"];
+                    if (message[".steamml_max_entries"] != null && message.hasOwnProperty(".steamml_max_entries"))
+                        object[".steamml_max_entries"] = message[".steamml_max_entries"];
+                    if (message[".steamml_is_timestamp"] != null && message.hasOwnProperty(".steamml_is_timestamp"))
+                        object[".steamml_is_timestamp"] = message[".steamml_is_timestamp"];
+                    if (message[".steamlearn_count"] != null && message.hasOwnProperty(".steamlearn_count"))
+                        object[".steamlearn_count"] = message[".steamlearn_count"];
+                    if (message[".debugprint_visibility"] != null && message.hasOwnProperty(".debugprint_visibility"))
+                        object[".debugprint_visibility"] = options.enums === String ? $root.EProtoDebugVisiblity[message[".debugprint_visibility"]] === undefined ? message[".debugprint_visibility"] : $root.EProtoDebugVisiblity[message[".debugprint_visibility"]] : message[".debugprint_visibility"];
+                    if (message[".untrusted_delta_max"] != null && message.hasOwnProperty(".untrusted_delta_max"))
+                        object[".untrusted_delta_max"] = message[".untrusted_delta_max"];
                     return object;
                 };
     
@@ -16986,6 +17949,9 @@
                  * @memberof google.protobuf
                  * @interface IEnumValueOptions
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] EnumValueOptions uninterpreted_option
+                 * @property {string|null} [".schema_friendly_name"] EnumValueOptions .schema_friendly_name
+                 * @property {string|null} [".schema_description"] EnumValueOptions .schema_description
+                 * @property {boolean|null} [".schema_suppress_enumerator"] EnumValueOptions .schema_suppress_enumerator
                  * @property {string|null} [".network_connection_token"] EnumValueOptions .network_connection_token
                  * @property {string|null} [".network_connection_detail_token"] EnumValueOptions .network_connection_detail_token
                  * @property {boolean|null} [".allowed_from_client"] EnumValueOptions .allowed_from_client
@@ -17014,6 +17980,30 @@
                  * @instance
                  */
                 EnumValueOptions.prototype.uninterpreted_option = $util.emptyArray;
+    
+                /**
+                 * EnumValueOptions .schema_friendly_name.
+                 * @member {string} .schema_friendly_name
+                 * @memberof google.protobuf.EnumValueOptions
+                 * @instance
+                 */
+                EnumValueOptions.prototype[".schema_friendly_name"] = "";
+    
+                /**
+                 * EnumValueOptions .schema_description.
+                 * @member {string} .schema_description
+                 * @memberof google.protobuf.EnumValueOptions
+                 * @instance
+                 */
+                EnumValueOptions.prototype[".schema_description"] = "";
+    
+                /**
+                 * EnumValueOptions .schema_suppress_enumerator.
+                 * @member {boolean} .schema_suppress_enumerator
+                 * @memberof google.protobuf.EnumValueOptions
+                 * @instance
+                 */
+                EnumValueOptions.prototype[".schema_suppress_enumerator"] = false;
     
                 /**
                  * EnumValueOptions .network_connection_token.
@@ -17066,6 +18056,12 @@
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
+                    if (message[".schema_friendly_name"] != null && Object.hasOwnProperty.call(message, ".schema_friendly_name"))
+                        writer.uint32(/* id 1000, wireType 2 =*/8002).string(message[".schema_friendly_name"]);
+                    if (message[".schema_description"] != null && Object.hasOwnProperty.call(message, ".schema_description"))
+                        writer.uint32(/* id 1001, wireType 2 =*/8010).string(message[".schema_description"]);
+                    if (message[".schema_suppress_enumerator"] != null && Object.hasOwnProperty.call(message, ".schema_suppress_enumerator"))
+                        writer.uint32(/* id 1002, wireType 0 =*/8016).bool(message[".schema_suppress_enumerator"]);
                     if (message[".network_connection_token"] != null && Object.hasOwnProperty.call(message, ".network_connection_token"))
                         writer.uint32(/* id 50500, wireType 2 =*/404002).string(message[".network_connection_token"]);
                     if (message[".network_connection_detail_token"] != null && Object.hasOwnProperty.call(message, ".network_connection_detail_token"))
@@ -17112,6 +18108,18 @@
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
                                 message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
+                                break;
+                            }
+                        case 1000: {
+                                message[".schema_friendly_name"] = reader.string();
+                                break;
+                            }
+                        case 1001: {
+                                message[".schema_description"] = reader.string();
+                                break;
+                            }
+                        case 1002: {
+                                message[".schema_suppress_enumerator"] = reader.bool();
                                 break;
                             }
                         case 50500: {
@@ -17170,6 +18178,15 @@
                                 return "uninterpreted_option." + error;
                         }
                     }
+                    if (message[".schema_friendly_name"] != null && message.hasOwnProperty(".schema_friendly_name"))
+                        if (!$util.isString(message[".schema_friendly_name"]))
+                            return ".schema_friendly_name: string expected";
+                    if (message[".schema_description"] != null && message.hasOwnProperty(".schema_description"))
+                        if (!$util.isString(message[".schema_description"]))
+                            return ".schema_description: string expected";
+                    if (message[".schema_suppress_enumerator"] != null && message.hasOwnProperty(".schema_suppress_enumerator"))
+                        if (typeof message[".schema_suppress_enumerator"] !== "boolean")
+                            return ".schema_suppress_enumerator: boolean expected";
                     if (message[".network_connection_token"] != null && message.hasOwnProperty(".network_connection_token"))
                         if (!$util.isString(message[".network_connection_token"]))
                             return ".network_connection_token: string expected";
@@ -17204,6 +18221,12 @@
                             message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i]);
                         }
                     }
+                    if (object[".schema_friendly_name"] != null)
+                        message[".schema_friendly_name"] = String(object[".schema_friendly_name"]);
+                    if (object[".schema_description"] != null)
+                        message[".schema_description"] = String(object[".schema_description"]);
+                    if (object[".schema_suppress_enumerator"] != null)
+                        message[".schema_suppress_enumerator"] = Boolean(object[".schema_suppress_enumerator"]);
                     if (object[".network_connection_token"] != null)
                         message[".network_connection_token"] = String(object[".network_connection_token"]);
                     if (object[".network_connection_detail_token"] != null)
@@ -17229,6 +18252,9 @@
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
                     if (options.defaults) {
+                        object[".schema_friendly_name"] = "";
+                        object[".schema_description"] = "";
+                        object[".schema_suppress_enumerator"] = false;
                         object[".network_connection_token"] = "";
                         object[".network_connection_detail_token"] = "";
                         object[".allowed_from_client"] = true;
@@ -17238,6 +18264,12 @@
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
                             object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options);
                     }
+                    if (message[".schema_friendly_name"] != null && message.hasOwnProperty(".schema_friendly_name"))
+                        object[".schema_friendly_name"] = message[".schema_friendly_name"];
+                    if (message[".schema_description"] != null && message.hasOwnProperty(".schema_description"))
+                        object[".schema_description"] = message[".schema_description"];
+                    if (message[".schema_suppress_enumerator"] != null && message.hasOwnProperty(".schema_suppress_enumerator"))
+                        object[".schema_suppress_enumerator"] = message[".schema_suppress_enumerator"];
                     if (message[".network_connection_token"] != null && message.hasOwnProperty(".network_connection_token"))
                         object[".network_connection_token"] = message[".network_connection_token"];
                     if (message[".network_connection_detail_token"] != null && message.hasOwnProperty(".network_connection_detail_token"))

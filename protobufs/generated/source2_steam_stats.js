@@ -6746,6 +6746,7 @@
          * @property {number|null} [build_id] CUserMessage_UserSentBugBug build_id
          * @property {number|null} [osversion] CUserMessage_UserSentBugBug osversion
          * @property {string|null} [command_logs] CUserMessage_UserSentBugBug command_logs
+         * @property {number|null} [bugbug_no] CUserMessage_UserSentBugBug bugbug_no
          */
     
         /**
@@ -6812,6 +6813,14 @@
         CUserMessage_UserSentBugBug.prototype.command_logs = "";
     
         /**
+         * CUserMessage_UserSentBugBug bugbug_no.
+         * @member {number} bugbug_no
+         * @memberof CUserMessage_UserSentBugBug
+         * @instance
+         */
+        CUserMessage_UserSentBugBug.prototype.bugbug_no = 0;
+    
+        /**
          * Creates a new CUserMessage_UserSentBugBug instance using the specified properties.
          * @function create
          * @memberof CUserMessage_UserSentBugBug
@@ -6847,6 +6856,8 @@
                 writer.uint32(/* id 5, wireType 0 =*/40).int32(message.osversion);
             if (message.command_logs != null && Object.hasOwnProperty.call(message, "command_logs"))
                 writer.uint32(/* id 6, wireType 2 =*/50).string(message.command_logs);
+            if (message.bugbug_no != null && Object.hasOwnProperty.call(message, "bugbug_no"))
+                writer.uint32(/* id 7, wireType 0 =*/56).int32(message.bugbug_no);
             return writer;
         };
     
@@ -6907,6 +6918,10 @@
                         message.command_logs = reader.string();
                         break;
                     }
+                case 7: {
+                        message.bugbug_no = reader.int32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -6962,6 +6977,9 @@
             if (message.command_logs != null && message.hasOwnProperty("command_logs"))
                 if (!$util.isString(message.command_logs))
                     return "command_logs: string expected";
+            if (message.bugbug_no != null && message.hasOwnProperty("bugbug_no"))
+                if (!$util.isInteger(message.bugbug_no))
+                    return "bugbug_no: integer expected";
             return null;
         };
     
@@ -6992,6 +7010,8 @@
                 message.osversion = object.osversion | 0;
             if (object.command_logs != null)
                 message.command_logs = String(object.command_logs);
+            if (object.bugbug_no != null)
+                message.bugbug_no = object.bugbug_no | 0;
             return message;
         };
     
@@ -7015,6 +7035,7 @@
                 object.build_id = 0;
                 object.osversion = 0;
                 object.command_logs = "";
+                object.bugbug_no = 0;
             }
             if (message.command_line != null && message.hasOwnProperty("command_line"))
                 object.command_line = message.command_line;
@@ -7028,6 +7049,8 @@
                 object.osversion = message.osversion;
             if (message.command_logs != null && message.hasOwnProperty("command_logs"))
                 object.command_logs = message.command_logs;
+            if (message.bugbug_no != null && message.hasOwnProperty("bugbug_no"))
+                object.bugbug_no = message.bugbug_no;
             return object;
         };
     

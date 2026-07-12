@@ -4,6 +4,14 @@ This changelog tracks `node-cs2` releases. Dates through `2.2.4` use npm publish
 
 Legacy git tags from the upstream `globaloffensive` package are intentionally omitted when they were not published as `node-cs2`.
 
+## [2.3.1] - 2026-07-12
+
+### Changed
+
+- Updated protobuf definitions from GameTracking-CS2 (13 upstream proto files)
+- Regenerated static protobuf modules
+- Added `SetClanId` (9229) and `VolatileShopSubscribe` (9228) GC message IDs to `language.js`
+
 ## [2.3.0] - 2026-06-11
 
 ### Added

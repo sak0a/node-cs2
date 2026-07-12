@@ -14609,12 +14609,13 @@
          * @exports ICSVCMsg_VoiceData
          * @interface ICSVCMsg_VoiceData
          * @property {ICMsgVoiceAudio|null} [audio] CSVCMsg_VoiceData audio
-         * @property {number|null} [client] CSVCMsg_VoiceData client
+         * @property {number|null} [client_deprecated] CSVCMsg_VoiceData client_deprecated
          * @property {boolean|null} [proximity] CSVCMsg_VoiceData proximity
          * @property {number|Long|null} [xuid] CSVCMsg_VoiceData xuid
          * @property {number|null} [audible_mask] CSVCMsg_VoiceData audible_mask
          * @property {number|null} [tick] CSVCMsg_VoiceData tick
          * @property {number|null} [passthrough] CSVCMsg_VoiceData passthrough
+         * @property {number|null} [entity] CSVCMsg_VoiceData entity
          */
     
         /**
@@ -14641,12 +14642,12 @@
         CSVCMsg_VoiceData.prototype.audio = null;
     
         /**
-         * CSVCMsg_VoiceData client.
-         * @member {number} client
+         * CSVCMsg_VoiceData client_deprecated.
+         * @member {number} client_deprecated
          * @memberof CSVCMsg_VoiceData
          * @instance
          */
-        CSVCMsg_VoiceData.prototype.client = -1;
+        CSVCMsg_VoiceData.prototype.client_deprecated = -1;
     
         /**
          * CSVCMsg_VoiceData proximity.
@@ -14689,6 +14690,14 @@
         CSVCMsg_VoiceData.prototype.passthrough = 0;
     
         /**
+         * CSVCMsg_VoiceData entity.
+         * @member {number} entity
+         * @memberof CSVCMsg_VoiceData
+         * @instance
+         */
+        CSVCMsg_VoiceData.prototype.entity = -1;
+    
+        /**
          * Creates a new CSVCMsg_VoiceData instance using the specified properties.
          * @function create
          * @memberof CSVCMsg_VoiceData
@@ -14714,8 +14723,8 @@
                 writer = $Writer.create();
             if (message.audio != null && Object.hasOwnProperty.call(message, "audio"))
                 $root.CMsgVoiceAudio.encode(message.audio, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-            if (message.client != null && Object.hasOwnProperty.call(message, "client"))
-                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.client);
+            if (message.client_deprecated != null && Object.hasOwnProperty.call(message, "client_deprecated"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.client_deprecated);
             if (message.proximity != null && Object.hasOwnProperty.call(message, "proximity"))
                 writer.uint32(/* id 3, wireType 0 =*/24).bool(message.proximity);
             if (message.xuid != null && Object.hasOwnProperty.call(message, "xuid"))
@@ -14726,6 +14735,8 @@
                 writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.tick);
             if (message.passthrough != null && Object.hasOwnProperty.call(message, "passthrough"))
                 writer.uint32(/* id 7, wireType 0 =*/56).int32(message.passthrough);
+            if (message.entity != null && Object.hasOwnProperty.call(message, "entity"))
+                writer.uint32(/* id 8, wireType 0 =*/64).int32(message.entity);
             return writer;
         };
     
@@ -14767,7 +14778,7 @@
                         break;
                     }
                 case 2: {
-                        message.client = reader.int32();
+                        message.client_deprecated = reader.int32();
                         break;
                     }
                 case 3: {
@@ -14788,6 +14799,10 @@
                     }
                 case 7: {
                         message.passthrough = reader.int32();
+                        break;
+                    }
+                case 8: {
+                        message.entity = reader.int32();
                         break;
                     }
                 default:
@@ -14830,9 +14845,9 @@
                 if (error)
                     return "audio." + error;
             }
-            if (message.client != null && message.hasOwnProperty("client"))
-                if (!$util.isInteger(message.client))
-                    return "client: integer expected";
+            if (message.client_deprecated != null && message.hasOwnProperty("client_deprecated"))
+                if (!$util.isInteger(message.client_deprecated))
+                    return "client_deprecated: integer expected";
             if (message.proximity != null && message.hasOwnProperty("proximity"))
                 if (typeof message.proximity !== "boolean")
                     return "proximity: boolean expected";
@@ -14848,6 +14863,9 @@
             if (message.passthrough != null && message.hasOwnProperty("passthrough"))
                 if (!$util.isInteger(message.passthrough))
                     return "passthrough: integer expected";
+            if (message.entity != null && message.hasOwnProperty("entity"))
+                if (!$util.isInteger(message.entity))
+                    return "entity: integer expected";
             return null;
         };
     
@@ -14868,8 +14886,8 @@
                     throw TypeError(".CSVCMsg_VoiceData.audio: object expected");
                 message.audio = $root.CMsgVoiceAudio.fromObject(object.audio);
             }
-            if (object.client != null)
-                message.client = object.client | 0;
+            if (object.client_deprecated != null)
+                message.client_deprecated = object.client_deprecated | 0;
             if (object.proximity != null)
                 message.proximity = Boolean(object.proximity);
             if (object.xuid != null)
@@ -14887,6 +14905,8 @@
                 message.tick = object.tick >>> 0;
             if (object.passthrough != null)
                 message.passthrough = object.passthrough | 0;
+            if (object.entity != null)
+                message.entity = object.entity | 0;
             return message;
         };
     
@@ -14905,7 +14925,7 @@
             var object = {};
             if (options.defaults) {
                 object.audio = null;
-                object.client = -1;
+                object.client_deprecated = -1;
                 object.proximity = false;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, false);
@@ -14915,11 +14935,12 @@
                 object.audible_mask = 0;
                 object.tick = 0;
                 object.passthrough = 0;
+                object.entity = -1;
             }
             if (message.audio != null && message.hasOwnProperty("audio"))
                 object.audio = $root.CMsgVoiceAudio.toObject(message.audio, options);
-            if (message.client != null && message.hasOwnProperty("client"))
-                object.client = message.client;
+            if (message.client_deprecated != null && message.hasOwnProperty("client_deprecated"))
+                object.client_deprecated = message.client_deprecated;
             if (message.proximity != null && message.hasOwnProperty("proximity"))
                 object.proximity = message.proximity;
             if (message.xuid != null && message.hasOwnProperty("xuid"))
@@ -14933,6 +14954,8 @@
                 object.tick = message.tick;
             if (message.passthrough != null && message.hasOwnProperty("passthrough"))
                 object.passthrough = message.passthrough;
+            if (message.entity != null && message.hasOwnProperty("entity"))
+                object.entity = message.entity;
             return object;
         };
     
@@ -22745,6 +22768,7 @@
          * @property {number|null} [player_slot] CMsgServerUserCmd player_slot
          * @property {number|null} [server_tick_executed] CMsgServerUserCmd server_tick_executed
          * @property {number|null} [client_tick] CMsgServerUserCmd client_tick
+         * @property {Uint8Array|null} [delta_data] CMsgServerUserCmd delta_data
          */
     
         /**
@@ -22803,6 +22827,14 @@
         CMsgServerUserCmd.prototype.client_tick = 0;
     
         /**
+         * CMsgServerUserCmd delta_data.
+         * @member {Uint8Array} delta_data
+         * @memberof CMsgServerUserCmd
+         * @instance
+         */
+        CMsgServerUserCmd.prototype.delta_data = $util.newBuffer([]);
+    
+        /**
          * Creates a new CMsgServerUserCmd instance using the specified properties.
          * @function create
          * @memberof CMsgServerUserCmd
@@ -22836,6 +22868,8 @@
                 writer.uint32(/* id 4, wireType 0 =*/32).int32(message.server_tick_executed);
             if (message.client_tick != null && Object.hasOwnProperty.call(message, "client_tick"))
                 writer.uint32(/* id 5, wireType 0 =*/40).int32(message.client_tick);
+            if (message.delta_data != null && Object.hasOwnProperty.call(message, "delta_data"))
+                writer.uint32(/* id 6, wireType 2 =*/50).bytes(message.delta_data);
             return writer;
         };
     
@@ -22892,6 +22926,10 @@
                         message.client_tick = reader.int32();
                         break;
                     }
+                case 6: {
+                        message.delta_data = reader.bytes();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -22942,6 +22980,9 @@
             if (message.client_tick != null && message.hasOwnProperty("client_tick"))
                 if (!$util.isInteger(message.client_tick))
                     return "client_tick: integer expected";
+            if (message.delta_data != null && message.hasOwnProperty("delta_data"))
+                if (!(message.delta_data && typeof message.delta_data.length === "number" || $util.isString(message.delta_data)))
+                    return "delta_data: buffer expected";
             return null;
         };
     
@@ -22970,6 +23011,11 @@
                 message.server_tick_executed = object.server_tick_executed | 0;
             if (object.client_tick != null)
                 message.client_tick = object.client_tick | 0;
+            if (object.delta_data != null)
+                if (typeof object.delta_data === "string")
+                    $util.base64.decode(object.delta_data, message.delta_data = $util.newBuffer($util.base64.length(object.delta_data)), 0);
+                else if (object.delta_data.length >= 0)
+                    message.delta_data = object.delta_data;
             return message;
         };
     
@@ -22998,6 +23044,13 @@
                 object.player_slot = -1;
                 object.server_tick_executed = 0;
                 object.client_tick = 0;
+                if (options.bytes === String)
+                    object.delta_data = "";
+                else {
+                    object.delta_data = [];
+                    if (options.bytes !== Array)
+                        object.delta_data = $util.newBuffer(object.delta_data);
+                }
             }
             if (message.data != null && message.hasOwnProperty("data"))
                 object.data = options.bytes === String ? $util.base64.encode(message.data, 0, message.data.length) : options.bytes === Array ? Array.prototype.slice.call(message.data) : message.data;
@@ -23009,6 +23062,8 @@
                 object.server_tick_executed = message.server_tick_executed;
             if (message.client_tick != null && message.hasOwnProperty("client_tick"))
                 object.client_tick = message.client_tick;
+            if (message.delta_data != null && message.hasOwnProperty("delta_data"))
+                object.delta_data = options.bytes === String ? $util.base64.encode(message.delta_data, 0, message.delta_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.delta_data) : message.delta_data;
             return object;
         };
     
@@ -31678,6 +31733,26 @@
         return CNETMsg_DebugOverlay;
     })();
     
+    /**
+     * EProtoDebugVisiblity enum.
+     * @exports EProtoDebugVisiblity
+     * @enum {number}
+     * @property {number} k_EProtoDebugVisibility_Always=0 k_EProtoDebugVisibility_Always value
+     * @property {number} k_EProtoDebugVisibility_Server=70 k_EProtoDebugVisibility_Server value
+     * @property {number} k_EProtoDebugVisibility_ValveServer=80 k_EProtoDebugVisibility_ValveServer value
+     * @property {number} k_EProtoDebugVisibility_GC=90 k_EProtoDebugVisibility_GC value
+     * @property {number} k_EProtoDebugVisibility_Never=100 k_EProtoDebugVisibility_Never value
+     */
+    $root.EProtoDebugVisiblity = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "k_EProtoDebugVisibility_Always"] = 0;
+        values[valuesById[70] = "k_EProtoDebugVisibility_Server"] = 70;
+        values[valuesById[80] = "k_EProtoDebugVisibility_ValveServer"] = 80;
+        values[valuesById[90] = "k_EProtoDebugVisibility_GC"] = 90;
+        values[valuesById[100] = "k_EProtoDebugVisibility_Never"] = 100;
+        return values;
+    })();
+    
     $root.google = (function() {
     
         /**
@@ -35223,6 +35298,7 @@
                  * @property {boolean|null} [no_standard_descriptor_accessor] MessageOptions no_standard_descriptor_accessor
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] MessageOptions uninterpreted_option
                  * @property {number|null} [".maximum_size_bytes"] MessageOptions .maximum_size_bytes
+                 * @property {boolean|null} [".codegen_delta_encoder"] MessageOptions .codegen_delta_encoder
                  */
     
                 /**
@@ -35274,6 +35350,14 @@
                 MessageOptions.prototype[".maximum_size_bytes"] = 0;
     
                 /**
+                 * MessageOptions .codegen_delta_encoder.
+                 * @member {boolean} .codegen_delta_encoder
+                 * @memberof google.protobuf.MessageOptions
+                 * @instance
+                 */
+                MessageOptions.prototype[".codegen_delta_encoder"] = false;
+    
+                /**
                  * Creates a new MessageOptions instance using the specified properties.
                  * @function create
                  * @memberof google.protobuf.MessageOptions
@@ -35306,6 +35390,8 @@
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
                     if (message[".maximum_size_bytes"] != null && Object.hasOwnProperty.call(message, ".maximum_size_bytes"))
                         writer.uint32(/* id 50000, wireType 0 =*/400000).int32(message[".maximum_size_bytes"]);
+                    if (message[".codegen_delta_encoder"] != null && Object.hasOwnProperty.call(message, ".codegen_delta_encoder"))
+                        writer.uint32(/* id 61000, wireType 0 =*/488000).bool(message[".codegen_delta_encoder"]);
                     return writer;
                 };
     
@@ -35358,6 +35444,10 @@
                             }
                         case 50000: {
                                 message[".maximum_size_bytes"] = reader.int32();
+                                break;
+                            }
+                        case 61000: {
+                                message[".codegen_delta_encoder"] = reader.bool();
                                 break;
                             }
                         default:
@@ -35413,6 +35503,9 @@
                     if (message[".maximum_size_bytes"] != null && message.hasOwnProperty(".maximum_size_bytes"))
                         if (!$util.isInteger(message[".maximum_size_bytes"]))
                             return ".maximum_size_bytes: integer expected";
+                    if (message[".codegen_delta_encoder"] != null && message.hasOwnProperty(".codegen_delta_encoder"))
+                        if (typeof message[".codegen_delta_encoder"] !== "boolean")
+                            return ".codegen_delta_encoder: boolean expected";
                     return null;
                 };
     
@@ -35444,6 +35537,8 @@
                     }
                     if (object[".maximum_size_bytes"] != null)
                         message[".maximum_size_bytes"] = object[".maximum_size_bytes"] | 0;
+                    if (object[".codegen_delta_encoder"] != null)
+                        message[".codegen_delta_encoder"] = Boolean(object[".codegen_delta_encoder"]);
                     return message;
                 };
     
@@ -35466,6 +35561,7 @@
                         object.message_set_wire_format = false;
                         object.no_standard_descriptor_accessor = false;
                         object[".maximum_size_bytes"] = 0;
+                        object[".codegen_delta_encoder"] = false;
                     }
                     if (message.message_set_wire_format != null && message.hasOwnProperty("message_set_wire_format"))
                         object.message_set_wire_format = message.message_set_wire_format;
@@ -35478,6 +35574,8 @@
                     }
                     if (message[".maximum_size_bytes"] != null && message.hasOwnProperty(".maximum_size_bytes"))
                         object[".maximum_size_bytes"] = message[".maximum_size_bytes"];
+                    if (message[".codegen_delta_encoder"] != null && message.hasOwnProperty(".codegen_delta_encoder"))
+                        object[".codegen_delta_encoder"] = message[".codegen_delta_encoder"];
                     return object;
                 };
     
@@ -35521,6 +35619,15 @@
                  * @property {boolean|null} [deprecated] FieldOptions deprecated
                  * @property {string|null} [experimental_map_key] FieldOptions experimental_map_key
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] FieldOptions uninterpreted_option
+                 * @property {boolean|null} [".valve_map_field"] FieldOptions .valve_map_field
+                 * @property {boolean|null} [".valve_map_key"] FieldOptions .valve_map_key
+                 * @property {number|null} [".diff_encode_field"] FieldOptions .diff_encode_field
+                 * @property {boolean|null} [".delta_ignore"] FieldOptions .delta_ignore
+                 * @property {number|null} [".untrusted_delta_max"] FieldOptions .untrusted_delta_max
+                 * @property {number|null} [".steamml_max_entries"] FieldOptions .steamml_max_entries
+                 * @property {boolean|null} [".steamml_is_timestamp"] FieldOptions .steamml_is_timestamp
+                 * @property {number|null} [".steamlearn_count"] FieldOptions .steamlearn_count
+                 * @property {EProtoDebugVisiblity|null} [".debugprint_visibility"] FieldOptions .debugprint_visibility
                  */
     
                 /**
@@ -35580,6 +35687,78 @@
                 FieldOptions.prototype.uninterpreted_option = $util.emptyArray;
     
                 /**
+                 * FieldOptions .valve_map_field.
+                 * @member {boolean} .valve_map_field
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".valve_map_field"] = false;
+    
+                /**
+                 * FieldOptions .valve_map_key.
+                 * @member {boolean} .valve_map_key
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".valve_map_key"] = false;
+    
+                /**
+                 * FieldOptions .diff_encode_field.
+                 * @member {number} .diff_encode_field
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".diff_encode_field"] = 0;
+    
+                /**
+                 * FieldOptions .delta_ignore.
+                 * @member {boolean} .delta_ignore
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".delta_ignore"] = false;
+    
+                /**
+                 * FieldOptions .untrusted_delta_max.
+                 * @member {number} .untrusted_delta_max
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".untrusted_delta_max"] = 256;
+    
+                /**
+                 * FieldOptions .steamml_max_entries.
+                 * @member {number} .steamml_max_entries
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".steamml_max_entries"] = 0;
+    
+                /**
+                 * FieldOptions .steamml_is_timestamp.
+                 * @member {boolean} .steamml_is_timestamp
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".steamml_is_timestamp"] = false;
+    
+                /**
+                 * FieldOptions .steamlearn_count.
+                 * @member {number} .steamlearn_count
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".steamlearn_count"] = 0;
+    
+                /**
+                 * FieldOptions .debugprint_visibility.
+                 * @member {EProtoDebugVisiblity} .debugprint_visibility
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype[".debugprint_visibility"] = 0;
+    
+                /**
                  * Creates a new FieldOptions instance using the specified properties.
                  * @function create
                  * @memberof google.protobuf.FieldOptions
@@ -35614,6 +35793,24 @@
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
+                    if (message[".valve_map_field"] != null && Object.hasOwnProperty.call(message, ".valve_map_field"))
+                        writer.uint32(/* id 61000, wireType 0 =*/488000).bool(message[".valve_map_field"]);
+                    if (message[".valve_map_key"] != null && Object.hasOwnProperty.call(message, ".valve_map_key"))
+                        writer.uint32(/* id 61001, wireType 0 =*/488008).bool(message[".valve_map_key"]);
+                    if (message[".diff_encode_field"] != null && Object.hasOwnProperty.call(message, ".diff_encode_field"))
+                        writer.uint32(/* id 61002, wireType 0 =*/488016).int32(message[".diff_encode_field"]);
+                    if (message[".delta_ignore"] != null && Object.hasOwnProperty.call(message, ".delta_ignore"))
+                        writer.uint32(/* id 61003, wireType 0 =*/488024).bool(message[".delta_ignore"]);
+                    if (message[".steamml_max_entries"] != null && Object.hasOwnProperty.call(message, ".steamml_max_entries"))
+                        writer.uint32(/* id 61004, wireType 0 =*/488032).uint32(message[".steamml_max_entries"]);
+                    if (message[".steamml_is_timestamp"] != null && Object.hasOwnProperty.call(message, ".steamml_is_timestamp"))
+                        writer.uint32(/* id 61005, wireType 0 =*/488040).bool(message[".steamml_is_timestamp"]);
+                    if (message[".steamlearn_count"] != null && Object.hasOwnProperty.call(message, ".steamlearn_count"))
+                        writer.uint32(/* id 61006, wireType 0 =*/488048).uint32(message[".steamlearn_count"]);
+                    if (message[".debugprint_visibility"] != null && Object.hasOwnProperty.call(message, ".debugprint_visibility"))
+                        writer.uint32(/* id 61007, wireType 0 =*/488056).int32(message[".debugprint_visibility"]);
+                    if (message[".untrusted_delta_max"] != null && Object.hasOwnProperty.call(message, ".untrusted_delta_max"))
+                        writer.uint32(/* id 61008, wireType 0 =*/488064).int32(message[".untrusted_delta_max"]);
                     return writer;
                 };
     
@@ -35670,6 +35867,42 @@
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
                                 message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
+                                break;
+                            }
+                        case 61000: {
+                                message[".valve_map_field"] = reader.bool();
+                                break;
+                            }
+                        case 61001: {
+                                message[".valve_map_key"] = reader.bool();
+                                break;
+                            }
+                        case 61002: {
+                                message[".diff_encode_field"] = reader.int32();
+                                break;
+                            }
+                        case 61003: {
+                                message[".delta_ignore"] = reader.bool();
+                                break;
+                            }
+                        case 61008: {
+                                message[".untrusted_delta_max"] = reader.int32();
+                                break;
+                            }
+                        case 61004: {
+                                message[".steamml_max_entries"] = reader.uint32();
+                                break;
+                            }
+                        case 61005: {
+                                message[".steamml_is_timestamp"] = reader.bool();
+                                break;
+                            }
+                        case 61006: {
+                                message[".steamlearn_count"] = reader.uint32();
+                                break;
+                            }
+                        case 61007: {
+                                message[".debugprint_visibility"] = reader.int32();
                                 break;
                             }
                         default:
@@ -35734,6 +35967,41 @@
                                 return "uninterpreted_option." + error;
                         }
                     }
+                    if (message[".valve_map_field"] != null && message.hasOwnProperty(".valve_map_field"))
+                        if (typeof message[".valve_map_field"] !== "boolean")
+                            return ".valve_map_field: boolean expected";
+                    if (message[".valve_map_key"] != null && message.hasOwnProperty(".valve_map_key"))
+                        if (typeof message[".valve_map_key"] !== "boolean")
+                            return ".valve_map_key: boolean expected";
+                    if (message[".diff_encode_field"] != null && message.hasOwnProperty(".diff_encode_field"))
+                        if (!$util.isInteger(message[".diff_encode_field"]))
+                            return ".diff_encode_field: integer expected";
+                    if (message[".delta_ignore"] != null && message.hasOwnProperty(".delta_ignore"))
+                        if (typeof message[".delta_ignore"] !== "boolean")
+                            return ".delta_ignore: boolean expected";
+                    if (message[".untrusted_delta_max"] != null && message.hasOwnProperty(".untrusted_delta_max"))
+                        if (!$util.isInteger(message[".untrusted_delta_max"]))
+                            return ".untrusted_delta_max: integer expected";
+                    if (message[".steamml_max_entries"] != null && message.hasOwnProperty(".steamml_max_entries"))
+                        if (!$util.isInteger(message[".steamml_max_entries"]))
+                            return ".steamml_max_entries: integer expected";
+                    if (message[".steamml_is_timestamp"] != null && message.hasOwnProperty(".steamml_is_timestamp"))
+                        if (typeof message[".steamml_is_timestamp"] !== "boolean")
+                            return ".steamml_is_timestamp: boolean expected";
+                    if (message[".steamlearn_count"] != null && message.hasOwnProperty(".steamlearn_count"))
+                        if (!$util.isInteger(message[".steamlearn_count"]))
+                            return ".steamlearn_count: integer expected";
+                    if (message[".debugprint_visibility"] != null && message.hasOwnProperty(".debugprint_visibility"))
+                        switch (message[".debugprint_visibility"]) {
+                        default:
+                            return ".debugprint_visibility: enum value expected";
+                        case 0:
+                        case 70:
+                        case 80:
+                        case 90:
+                        case 100:
+                            break;
+                        }
                     return null;
                 };
     
@@ -35785,6 +36053,50 @@
                             message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i]);
                         }
                     }
+                    if (object[".valve_map_field"] != null)
+                        message[".valve_map_field"] = Boolean(object[".valve_map_field"]);
+                    if (object[".valve_map_key"] != null)
+                        message[".valve_map_key"] = Boolean(object[".valve_map_key"]);
+                    if (object[".diff_encode_field"] != null)
+                        message[".diff_encode_field"] = object[".diff_encode_field"] | 0;
+                    if (object[".delta_ignore"] != null)
+                        message[".delta_ignore"] = Boolean(object[".delta_ignore"]);
+                    if (object[".untrusted_delta_max"] != null)
+                        message[".untrusted_delta_max"] = object[".untrusted_delta_max"] | 0;
+                    if (object[".steamml_max_entries"] != null)
+                        message[".steamml_max_entries"] = object[".steamml_max_entries"] >>> 0;
+                    if (object[".steamml_is_timestamp"] != null)
+                        message[".steamml_is_timestamp"] = Boolean(object[".steamml_is_timestamp"]);
+                    if (object[".steamlearn_count"] != null)
+                        message[".steamlearn_count"] = object[".steamlearn_count"] >>> 0;
+                    switch (object[".debugprint_visibility"]) {
+                    default:
+                        if (typeof object[".debugprint_visibility"] === "number") {
+                            message[".debugprint_visibility"] = object[".debugprint_visibility"];
+                            break;
+                        }
+                        break;
+                    case "k_EProtoDebugVisibility_Always":
+                    case 0:
+                        message[".debugprint_visibility"] = 0;
+                        break;
+                    case "k_EProtoDebugVisibility_Server":
+                    case 70:
+                        message[".debugprint_visibility"] = 70;
+                        break;
+                    case "k_EProtoDebugVisibility_ValveServer":
+                    case 80:
+                        message[".debugprint_visibility"] = 80;
+                        break;
+                    case "k_EProtoDebugVisibility_GC":
+                    case 90:
+                        message[".debugprint_visibility"] = 90;
+                        break;
+                    case "k_EProtoDebugVisibility_Never":
+                    case 100:
+                        message[".debugprint_visibility"] = 100;
+                        break;
+                    }
                     return message;
                 };
     
@@ -35808,6 +36120,15 @@
                         object.packed = false;
                         object.deprecated = false;
                         object.experimental_map_key = "";
+                        object[".valve_map_field"] = false;
+                        object[".valve_map_key"] = false;
+                        object[".diff_encode_field"] = 0;
+                        object[".delta_ignore"] = false;
+                        object[".steamml_max_entries"] = 0;
+                        object[".steamml_is_timestamp"] = false;
+                        object[".steamlearn_count"] = 0;
+                        object[".debugprint_visibility"] = options.enums === String ? "k_EProtoDebugVisibility_Always" : 0;
+                        object[".untrusted_delta_max"] = 256;
                     }
                     if (message.ctype != null && message.hasOwnProperty("ctype"))
                         object.ctype = options.enums === String ? $root.google.protobuf.FieldOptions.CType[message.ctype] === undefined ? message.ctype : $root.google.protobuf.FieldOptions.CType[message.ctype] : message.ctype;
@@ -35822,6 +36143,24 @@
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
                             object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options);
                     }
+                    if (message[".valve_map_field"] != null && message.hasOwnProperty(".valve_map_field"))
+                        object[".valve_map_field"] = message[".valve_map_field"];
+                    if (message[".valve_map_key"] != null && message.hasOwnProperty(".valve_map_key"))
+                        object[".valve_map_key"] = message[".valve_map_key"];
+                    if (message[".diff_encode_field"] != null && message.hasOwnProperty(".diff_encode_field"))
+                        object[".diff_encode_field"] = message[".diff_encode_field"];
+                    if (message[".delta_ignore"] != null && message.hasOwnProperty(".delta_ignore"))
+                        object[".delta_ignore"] = message[".delta_ignore"];
+                    if (message[".steamml_max_entries"] != null && message.hasOwnProperty(".steamml_max_entries"))
+                        object[".steamml_max_entries"] = message[".steamml_max_entries"];
+                    if (message[".steamml_is_timestamp"] != null && message.hasOwnProperty(".steamml_is_timestamp"))
+                        object[".steamml_is_timestamp"] = message[".steamml_is_timestamp"];
+                    if (message[".steamlearn_count"] != null && message.hasOwnProperty(".steamlearn_count"))
+                        object[".steamlearn_count"] = message[".steamlearn_count"];
+                    if (message[".debugprint_visibility"] != null && message.hasOwnProperty(".debugprint_visibility"))
+                        object[".debugprint_visibility"] = options.enums === String ? $root.EProtoDebugVisiblity[message[".debugprint_visibility"]] === undefined ? message[".debugprint_visibility"] : $root.EProtoDebugVisiblity[message[".debugprint_visibility"]] : message[".debugprint_visibility"];
+                    if (message[".untrusted_delta_max"] != null && message.hasOwnProperty(".untrusted_delta_max"))
+                        object[".untrusted_delta_max"] = message[".untrusted_delta_max"];
                     return object;
                 };
     
@@ -36103,6 +36442,9 @@
                  * @memberof google.protobuf
                  * @interface IEnumValueOptions
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] EnumValueOptions uninterpreted_option
+                 * @property {string|null} [".schema_friendly_name"] EnumValueOptions .schema_friendly_name
+                 * @property {string|null} [".schema_description"] EnumValueOptions .schema_description
+                 * @property {boolean|null} [".schema_suppress_enumerator"] EnumValueOptions .schema_suppress_enumerator
                  * @property {string|null} [".network_connection_token"] EnumValueOptions .network_connection_token
                  * @property {string|null} [".network_connection_detail_token"] EnumValueOptions .network_connection_detail_token
                  * @property {boolean|null} [".allowed_from_client"] EnumValueOptions .allowed_from_client
@@ -36131,6 +36473,30 @@
                  * @instance
                  */
                 EnumValueOptions.prototype.uninterpreted_option = $util.emptyArray;
+    
+                /**
+                 * EnumValueOptions .schema_friendly_name.
+                 * @member {string} .schema_friendly_name
+                 * @memberof google.protobuf.EnumValueOptions
+                 * @instance
+                 */
+                EnumValueOptions.prototype[".schema_friendly_name"] = "";
+    
+                /**
+                 * EnumValueOptions .schema_description.
+                 * @member {string} .schema_description
+                 * @memberof google.protobuf.EnumValueOptions
+                 * @instance
+                 */
+                EnumValueOptions.prototype[".schema_description"] = "";
+    
+                /**
+                 * EnumValueOptions .schema_suppress_enumerator.
+                 * @member {boolean} .schema_suppress_enumerator
+                 * @memberof google.protobuf.EnumValueOptions
+                 * @instance
+                 */
+                EnumValueOptions.prototype[".schema_suppress_enumerator"] = false;
     
                 /**
                  * EnumValueOptions .network_connection_token.
@@ -36183,6 +36549,12 @@
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
+                    if (message[".schema_friendly_name"] != null && Object.hasOwnProperty.call(message, ".schema_friendly_name"))
+                        writer.uint32(/* id 1000, wireType 2 =*/8002).string(message[".schema_friendly_name"]);
+                    if (message[".schema_description"] != null && Object.hasOwnProperty.call(message, ".schema_description"))
+                        writer.uint32(/* id 1001, wireType 2 =*/8010).string(message[".schema_description"]);
+                    if (message[".schema_suppress_enumerator"] != null && Object.hasOwnProperty.call(message, ".schema_suppress_enumerator"))
+                        writer.uint32(/* id 1002, wireType 0 =*/8016).bool(message[".schema_suppress_enumerator"]);
                     if (message[".network_connection_token"] != null && Object.hasOwnProperty.call(message, ".network_connection_token"))
                         writer.uint32(/* id 50500, wireType 2 =*/404002).string(message[".network_connection_token"]);
                     if (message[".network_connection_detail_token"] != null && Object.hasOwnProperty.call(message, ".network_connection_detail_token"))
@@ -36229,6 +36601,18 @@
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
                                 message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
+                                break;
+                            }
+                        case 1000: {
+                                message[".schema_friendly_name"] = reader.string();
+                                break;
+                            }
+                        case 1001: {
+                                message[".schema_description"] = reader.string();
+                                break;
+                            }
+                        case 1002: {
+                                message[".schema_suppress_enumerator"] = reader.bool();
                                 break;
                             }
                         case 50500: {
@@ -36287,6 +36671,15 @@
                                 return "uninterpreted_option." + error;
                         }
                     }
+                    if (message[".schema_friendly_name"] != null && message.hasOwnProperty(".schema_friendly_name"))
+                        if (!$util.isString(message[".schema_friendly_name"]))
+                            return ".schema_friendly_name: string expected";
+                    if (message[".schema_description"] != null && message.hasOwnProperty(".schema_description"))
+                        if (!$util.isString(message[".schema_description"]))
+                            return ".schema_description: string expected";
+                    if (message[".schema_suppress_enumerator"] != null && message.hasOwnProperty(".schema_suppress_enumerator"))
+                        if (typeof message[".schema_suppress_enumerator"] !== "boolean")
+                            return ".schema_suppress_enumerator: boolean expected";
                     if (message[".network_connection_token"] != null && message.hasOwnProperty(".network_connection_token"))
                         if (!$util.isString(message[".network_connection_token"]))
                             return ".network_connection_token: string expected";
@@ -36321,6 +36714,12 @@
                             message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i]);
                         }
                     }
+                    if (object[".schema_friendly_name"] != null)
+                        message[".schema_friendly_name"] = String(object[".schema_friendly_name"]);
+                    if (object[".schema_description"] != null)
+                        message[".schema_description"] = String(object[".schema_description"]);
+                    if (object[".schema_suppress_enumerator"] != null)
+                        message[".schema_suppress_enumerator"] = Boolean(object[".schema_suppress_enumerator"]);
                     if (object[".network_connection_token"] != null)
                         message[".network_connection_token"] = String(object[".network_connection_token"]);
                     if (object[".network_connection_detail_token"] != null)
@@ -36346,6 +36745,9 @@
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
                     if (options.defaults) {
+                        object[".schema_friendly_name"] = "";
+                        object[".schema_description"] = "";
+                        object[".schema_suppress_enumerator"] = false;
                         object[".network_connection_token"] = "";
                         object[".network_connection_detail_token"] = "";
                         object[".allowed_from_client"] = true;
@@ -36355,6 +36757,12 @@
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
                             object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options);
                     }
+                    if (message[".schema_friendly_name"] != null && message.hasOwnProperty(".schema_friendly_name"))
+                        object[".schema_friendly_name"] = message[".schema_friendly_name"];
+                    if (message[".schema_description"] != null && message.hasOwnProperty(".schema_description"))
+                        object[".schema_description"] = message[".schema_description"];
+                    if (message[".schema_suppress_enumerator"] != null && message.hasOwnProperty(".schema_suppress_enumerator"))
+                        object[".schema_suppress_enumerator"] = message[".schema_suppress_enumerator"];
                     if (message[".network_connection_token"] != null && message.hasOwnProperty(".network_connection_token"))
                         object[".network_connection_token"] = message[".network_connection_token"];
                     if (message[".network_connection_detail_token"] != null && message.hasOwnProperty(".network_connection_detail_token"))
@@ -44968,6 +45376,7 @@
          * @property {number|null} [build_id] CUserMessage_UserSentBugBug build_id
          * @property {number|null} [osversion] CUserMessage_UserSentBugBug osversion
          * @property {string|null} [command_logs] CUserMessage_UserSentBugBug command_logs
+         * @property {number|null} [bugbug_no] CUserMessage_UserSentBugBug bugbug_no
          */
     
         /**
@@ -45034,6 +45443,14 @@
         CUserMessage_UserSentBugBug.prototype.command_logs = "";
     
         /**
+         * CUserMessage_UserSentBugBug bugbug_no.
+         * @member {number} bugbug_no
+         * @memberof CUserMessage_UserSentBugBug
+         * @instance
+         */
+        CUserMessage_UserSentBugBug.prototype.bugbug_no = 0;
+    
+        /**
          * Creates a new CUserMessage_UserSentBugBug instance using the specified properties.
          * @function create
          * @memberof CUserMessage_UserSentBugBug
@@ -45069,6 +45486,8 @@
                 writer.uint32(/* id 5, wireType 0 =*/40).int32(message.osversion);
             if (message.command_logs != null && Object.hasOwnProperty.call(message, "command_logs"))
                 writer.uint32(/* id 6, wireType 2 =*/50).string(message.command_logs);
+            if (message.bugbug_no != null && Object.hasOwnProperty.call(message, "bugbug_no"))
+                writer.uint32(/* id 7, wireType 0 =*/56).int32(message.bugbug_no);
             return writer;
         };
     
@@ -45129,6 +45548,10 @@
                         message.command_logs = reader.string();
                         break;
                     }
+                case 7: {
+                        message.bugbug_no = reader.int32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -45184,6 +45607,9 @@
             if (message.command_logs != null && message.hasOwnProperty("command_logs"))
                 if (!$util.isString(message.command_logs))
                     return "command_logs: string expected";
+            if (message.bugbug_no != null && message.hasOwnProperty("bugbug_no"))
+                if (!$util.isInteger(message.bugbug_no))
+                    return "bugbug_no: integer expected";
             return null;
         };
     
@@ -45214,6 +45640,8 @@
                 message.osversion = object.osversion | 0;
             if (object.command_logs != null)
                 message.command_logs = String(object.command_logs);
+            if (object.bugbug_no != null)
+                message.bugbug_no = object.bugbug_no | 0;
             return message;
         };
     
@@ -45237,6 +45665,7 @@
                 object.build_id = 0;
                 object.osversion = 0;
                 object.command_logs = "";
+                object.bugbug_no = 0;
             }
             if (message.command_line != null && message.hasOwnProperty("command_line"))
                 object.command_line = message.command_line;
@@ -45250,6 +45679,8 @@
                 object.osversion = message.osversion;
             if (message.command_logs != null && message.hasOwnProperty("command_logs"))
                 object.command_logs = message.command_logs;
+            if (message.bugbug_no != null && message.hasOwnProperty("bugbug_no"))
+                object.bugbug_no = message.bugbug_no;
             return object;
         };
     
