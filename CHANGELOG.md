@@ -4,6 +4,25 @@ This changelog tracks `node-cs2` releases. Dates through `2.2.4` use npm publish
 
 Legacy git tags from the upstream `globaloffensive` package are intentionally omitted when they were not published as `node-cs2`.
 
+## [2.4.1] - 2026-09-09
+
+### Changed
+
+- Raised the protobuf runtime minimum to `^7.6.6` and the generator to `^1.3.3` for security fixes; regenerated all 43 static schema modules
+- Updated ESLint to `^10.10.0`, Prettier to `^3.9.6`, Vitest to `^4.1.11`, and the development Steam client to `^5.3.0`
+- Refreshed the Bun lockfile, including patched transitive tooling dependencies
+- Preserved Node.js 14+ runtime support and the existing `steam-user >=4.2.0` peer requirement
+- Normalized the npm repository URL
+
+### Tests
+
+- Added offline integration tests using the real SteamUser constructor, outgoing GC payloads, and incoming inspection event dispatch
+
+### Known limitations
+
+- The Steam peer dependency still brings audit findings through `adm-zip` and `steam-appticket`'s protobufjs 6 dependency. This release does not force major-version overrides of those upstream dependencies.
+- Live Steam authentication and GC operations were not tested.
+
 ## [2.4.0] - 2026-09-08
 
 ### Added

@@ -1,5 +1,28 @@
 # Release Notes
 
+## v2.4.1 - Dependency Security Refresh
+
+Validation: 171 tests and ESLint pass; all 44 generated files (43 schema modules plus loader) reproduce exactly. The packed package passes offline consumer smoke tests on Node.js 14.21.3 and 24.18.1 with SteamUser 4.29.3 and 5.3.0.
+
+### Changed
+
+- Raised the protobuf runtime minimum to `^7.6.6` and the generator to `^1.3.3` for security fixes; regenerated all 43 static schema modules
+- Updated ESLint to `^10.10.0`, Prettier to `^3.9.6`, Vitest to `^4.1.11`, and the development Steam client to `^5.3.0`
+- Refreshed the Bun lockfile, including patched transitive tooling dependencies
+- Preserved Node.js 14+ runtime support and the existing `steam-user >=4.2.0` peer requirement
+- Normalized the npm repository URL
+
+### Tests
+
+- Added offline integration tests using the real SteamUser constructor, outgoing GC payloads, and incoming inspection event dispatch
+
+### Known limitations
+
+- The Steam peer dependency still brings audit findings through `adm-zip` and `steam-appticket`'s protobufjs 6 dependency. This release does not force major-version overrides of those upstream dependencies.
+- Live Steam authentication and GC operations were not tested.
+
+---
+
 ## v2.4.0 - CS2 Protocol Refresh and Masked Inspect Links
 
 **Release Date:** September 8, 2026
