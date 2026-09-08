@@ -174,7 +174,7 @@ Requests live game information for a player.
 
 ##### `inspectItem(owner, assetid, d, callback)`
 
-Inspects an item from another player's inventory.
+Inspects an item from another player's inventory. The `inspectItem(inspectLink[, callback])` overload also accepts CS2 embedded/masked links and decodes them locally without a GC connection. Both callbacks and Promises receive the same normalized item data as GC inspection, including float wear and string item IDs. Success emits `inspectItemInfo` and `inspectItemInfo#<itemid>` asynchronously. Invalid embedded token lengths, checksums, encoding, or protobuf payloads throw synchronously; legacy S/M links continue to use the GC.
 
 **Parameters:**
 

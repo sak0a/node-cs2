@@ -1,4 +1,4 @@
-const ByteBuffer = require('bytebuffer');
+const decodeProto = require('./lib/proto-decode.js');
 const Long = require('long');
 const SteamID = require('steamid');
 
@@ -214,27 +214,7 @@ handlers[Language.Client2GCEconPreviewDataBlockResponse] = function (body) {
 		return;
 	}
 
-	// decode the wear
-	if (typeof item.paintwear !== 'undefined') {
-		const buf = Buffer.alloc(4);
-		buf.writeUInt32BE(item.paintwear, 0);
-		item.paintwear = buf.readFloatBE(0);
-	}
-
-	// Process stickers array - using helper function for consistency
-	if (item.stickers && Array.isArray(item.stickers)) {
-		item.stickers = item.stickers.map((sticker) => this._mapStickerLikeItem(sticker));
-	}
-
-	// Process keychains array - using helper function for consistency
-	if (item.keychains && Array.isArray(item.keychains)) {
-		item.keychains = item.keychains.map((keychain) => this._mapStickerLikeItem(keychain));
-	}
-
-	// Process variations array - using helper function for consistency
-	if (item.variations && Array.isArray(item.variations)) {
-		item.variations = item.variations.map((variation) => this._mapStickerLikeItem(variation));
-	}
+	this._normalizeInspectItem(item);
 
 	this.emit('inspectItemInfo', item);
 	this.emit('inspectItemInfo#' + item.itemid, item);
@@ -606,55 +586,28 @@ handlers[Language.SO_UpdateMultiple] = function (body) {
 	(proto.objects_removed || []).forEach((item) => this._handleSODestroy(item));
 };
 
-function decodeProto(proto, encoded) {
-	if (ByteBuffer.isByteBuffer(encoded)) {
-		encoded = encoded.toBuffer();
+NodeCS2.prototype._normalizeInspectItem = function (item) {
+	// decode the wear
+	if (typeof item.paintwear !== 'undefined') {
+		const buf = Buffer.alloc(4);
+		buf.writeUInt32BE(item.paintwear, 0);
+		item.paintwear = buf.readFloatBE(0);
 	}
 
-	const decoded = proto.decode(encoded);
-	const objNoDefaults = proto.toObject(decoded, { longs: String });
-	const objWithDefaults = proto.toObject(decoded, { defaults: true, longs: String });
-	return replaceDefaults(objNoDefaults, objWithDefaults);
-
-	function replaceDefaults(noDefaults, withDefaults) {
-		if (Array.isArray(withDefaults)) {
-			return withDefaults.map((val, idx) => replaceDefaults(noDefaults[idx], val));
-		}
-
-		for (const i in withDefaults) {
-			if (!withDefaults.hasOwnProperty(i)) {
-				continue;
-			}
-
-			if (withDefaults[i] && typeof withDefaults[i] === 'object' && !Buffer.isBuffer(withDefaults[i])) {
-				// Covers both object and array cases, both of which will work
-				// Won't replace empty arrays, but that's desired behavior
-				withDefaults[i] = replaceDefaults(noDefaults[i], withDefaults[i]);
-			} else if (typeof noDefaults[i] === 'undefined' && isReplaceableDefaultValue(withDefaults[i])) {
-				withDefaults[i] = null;
-			}
-		}
-
-		return withDefaults;
+	// Process stickers array - using helper function for consistency
+	if (item.stickers && Array.isArray(item.stickers)) {
+		item.stickers = item.stickers.map((sticker) => this._mapStickerLikeItem(sticker));
 	}
 
-	function isReplaceableDefaultValue(val) {
-		if (Buffer.isBuffer(val) && val.length == 0) {
-			// empty buffer is replaceable
-			return true;
-		}
-
-		if (Array.isArray(val)) {
-			// empty array is not replaceable (empty repeated fields)
-			return false;
-		}
-
-		if (val === '0') {
-			// Zero as a string is replaceable (64-bit integer)
-			return true;
-		}
-
-		// Anything falsy is true
-		return !val;
+	// Process keychains array - using helper function for consistency
+	if (item.keychains && Array.isArray(item.keychains)) {
+		item.keychains = item.keychains.map((keychain) => this._mapStickerLikeItem(keychain));
 	}
-}
+
+	// Process variations array - using helper function for consistency
+	if (item.variations && Array.isArray(item.variations)) {
+		item.variations = item.variations.map((variation) => this._mapStickerLikeItem(variation));
+	}
+
+	return item;
+};

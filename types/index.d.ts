@@ -204,6 +204,7 @@ declare class NodeCS2 extends EventEmitter {
 	// ─── Item Inspection ────────────────────────────────────────────────────────
 	inspectItem(owner: string | SteamID, assetid: string, d: string, callback: (item: NodeCS2.ItemInfo) => void): void;
 	inspectItem(owner: string | SteamID, assetid: string, d: string): Promise<NodeCS2.ItemInfo>;
+	/** Accepts legacy GC links or embedded/masked links (decoded locally). */
 	inspectItem(inspectLink: string, callback: (item: NodeCS2.ItemInfo) => void): void;
 	inspectItem(inspectLink: string): Promise<NodeCS2.ItemInfo>;
 

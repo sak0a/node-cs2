@@ -65,6 +65,9 @@ cs2.on('connectedToGC', async () => {
 // Promise style
 const item = await cs2.inspectItem(owner, assetid, classid);
 
+// Embedded/masked CS2 inspect links are decoded locally, without a GC connection.
+const embeddedItem = await cs2.inspectItem(inspectLink);
+
 // Callback style
 cs2.inspectItem(owner, assetid, classid, (item) => {
 	console.log(item);

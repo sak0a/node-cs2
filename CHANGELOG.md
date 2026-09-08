@@ -4,6 +4,20 @@ This changelog tracks `node-cs2` releases. Dates through `2.2.4` use npm publish
 
 Legacy git tags from the upstream `globaloffensive` package are intentionally omitted when they were not published as `node-cs2`.
 
+## [2.4.0] - 2026-09-08
+
+### Added
+
+- Support for embedded/masked CS2 inspect links in `inspectItem()`, with local decoding, checksum validation, asynchronous callbacks, Promises, and existing inspection events
+- Regression coverage for masked and unmasked tokens, 64-bit item IDs, float wear, invalid inputs, legacy inspection, and new protocol messages
+
+### Changed
+
+- Synced all 43 upstream protobuf files against GameTracking-CS2 through commit `fd04856b8668f11cb31ed2b22574607dd9c365e0` (August 24, 2026); two source files changed
+- Regenerated modules for custom HUD clicks, VAC reviewer information, and removal of obsolete trading enum entries; legacy `language.js` trading constants remain for compatibility
+- Shared inspection normalization and protobuf decoding between local and GC paths
+- Synchronized the Bun lockfile with the existing dependency ranges in `package.json`
+
 ## [2.3.1] - 2026-07-12
 
 ### Changed
