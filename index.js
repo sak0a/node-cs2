@@ -7,6 +7,7 @@ const Util = require('util');
 const Language = require('./language.js');
 const Protos = require('./protobufs/generated/_load.js');
 const Constants = require('./constants.js');
+const decodeInspectLink = require('./lib/inspect-link.js');
 
 const STEAM_APPID = Constants.STEAM_APPID;
 
@@ -237,6 +238,25 @@ NodeCS2.prototype.requestLiveGameForUser = function (steamid) {
 };
 
 NodeCS2.prototype.inspectItem = function (owner, assetid, d, callback) {
+	if (typeof owner === 'string') {
+		const decoded = decodeInspectLink(owner);
+		if (decoded) {
+			const item = this._normalizeInspectItem(decoded);
+			const cb = [assetid, d, callback].find((value) => typeof value === 'function');
+			const deliver = (resolve) =>
+				setImmediate(() => {
+					resolve(item);
+					this.emit('inspectItemInfo', item);
+					this.emit('inspectItemInfo#' + item.itemid, item);
+				});
+			if (cb) {
+				deliver(cb);
+				return;
+			}
+			return new Promise(deliver);
+		}
+	}
+
 	let match;
 	if (typeof owner === 'string' && (match = owner.match(/[SM](\d+)A(\d+)D(\d+)$/))) {
 		callback = assetid;

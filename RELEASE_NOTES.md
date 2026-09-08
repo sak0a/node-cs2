@@ -1,5 +1,19 @@
 # Release Notes
 
+## v2.4.0 - CS2 Protocol Refresh and Masked Inspect Links
+
+**Release Date:** September 8, 2026
+
+CS2 embedded/masked inspect links now work with `inspectItem()` without contacting the Game Coordinator. The Promise and callback APIs preserve string item IDs, normalize wear and sticker data, and emit the existing inspection events. Legacy S/M links continue to use the GC. Malformed embedded tokens throw synchronously.
+
+Updated `cstrike15_usermessages.proto` and `econ_gcmessages.proto` and regenerated their JavaScript modules. The schemas now include custom HUD clicks and VAC reviewer messages and remove obsolete trading enum entries. Legacy trading constants in `language.js` remain for compatibility.
+
+Upstream protobuf snapshot: [GameTracking-CS2 fd04856](https://github.com/SteamTracking/GameTracking-CS2/commit/fd04856b8668f11cb31ed2b22574607dd9c365e0), August 24, 2026. Masked inspect wire format is based on [DoctorMcKay/node-globaloffensive's decoder](https://github.com/DoctorMcKay/node-globaloffensive/commit/97e098f30321133c95bd114335a23bca469fe815).
+
+The Bun lockfile now matches the dependency ranges already declared in the package manifest. Validation: 169 tests pass, ESLint passes, all 43 upstream schema hashes match the pinned snapshot, and the packed npm artifact passes a consumer smoke test. No live Steam account or GC operations were used for validation.
+
+---
+
 ## v2.3.1 - Latest Protobuf Sync
 
 **Release Date:** July 2026

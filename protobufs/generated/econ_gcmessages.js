@@ -105,20 +105,6 @@
      * @property {number} k_EMsgGCCasketItemAdd=1092 k_EMsgGCCasketItemAdd value
      * @property {number} k_EMsgGCCasketItemExtract=1093 k_EMsgGCCasketItemExtract value
      * @property {number} k_EMsgGCCasketItemLoadContents=1094 k_EMsgGCCasketItemLoadContents value
-     * @property {number} k_EMsgGCTradingBase=1500 k_EMsgGCTradingBase value
-     * @property {number} k_EMsgGCTrading_InitiateTradeRequest=1501 k_EMsgGCTrading_InitiateTradeRequest value
-     * @property {number} k_EMsgGCTrading_InitiateTradeResponse=1502 k_EMsgGCTrading_InitiateTradeResponse value
-     * @property {number} k_EMsgGCTrading_StartSession=1503 k_EMsgGCTrading_StartSession value
-     * @property {number} k_EMsgGCTrading_SetItem=1504 k_EMsgGCTrading_SetItem value
-     * @property {number} k_EMsgGCTrading_RemoveItem=1505 k_EMsgGCTrading_RemoveItem value
-     * @property {number} k_EMsgGCTrading_UpdateTradeInfo=1506 k_EMsgGCTrading_UpdateTradeInfo value
-     * @property {number} k_EMsgGCTrading_SetReadiness=1507 k_EMsgGCTrading_SetReadiness value
-     * @property {number} k_EMsgGCTrading_ReadinessResponse=1508 k_EMsgGCTrading_ReadinessResponse value
-     * @property {number} k_EMsgGCTrading_SessionClosed=1509 k_EMsgGCTrading_SessionClosed value
-     * @property {number} k_EMsgGCTrading_CancelSession=1510 k_EMsgGCTrading_CancelSession value
-     * @property {number} k_EMsgGCTrading_TradeChatMsg=1511 k_EMsgGCTrading_TradeChatMsg value
-     * @property {number} k_EMsgGCTrading_ConfirmOffer=1512 k_EMsgGCTrading_ConfirmOffer value
-     * @property {number} k_EMsgGCTrading_TradeTypingChatMsg=1513 k_EMsgGCTrading_TradeTypingChatMsg value
      * @property {number} k_EMsgGCServerBrowser_FavoriteServer=1601 k_EMsgGCServerBrowser_FavoriteServer value
      * @property {number} k_EMsgGCServerBrowser_BlacklistServer=1602 k_EMsgGCServerBrowser_BlacklistServer value
      * @property {number} k_EMsgGCServerRentalsBase=1700 k_EMsgGCServerRentalsBase value
@@ -255,20 +241,6 @@
         values[valuesById[1092] = "k_EMsgGCCasketItemAdd"] = 1092;
         values[valuesById[1093] = "k_EMsgGCCasketItemExtract"] = 1093;
         values[valuesById[1094] = "k_EMsgGCCasketItemLoadContents"] = 1094;
-        values[valuesById[1500] = "k_EMsgGCTradingBase"] = 1500;
-        values[valuesById[1501] = "k_EMsgGCTrading_InitiateTradeRequest"] = 1501;
-        values[valuesById[1502] = "k_EMsgGCTrading_InitiateTradeResponse"] = 1502;
-        values[valuesById[1503] = "k_EMsgGCTrading_StartSession"] = 1503;
-        values[valuesById[1504] = "k_EMsgGCTrading_SetItem"] = 1504;
-        values[valuesById[1505] = "k_EMsgGCTrading_RemoveItem"] = 1505;
-        values[valuesById[1506] = "k_EMsgGCTrading_UpdateTradeInfo"] = 1506;
-        values[valuesById[1507] = "k_EMsgGCTrading_SetReadiness"] = 1507;
-        values[valuesById[1508] = "k_EMsgGCTrading_ReadinessResponse"] = 1508;
-        values[valuesById[1509] = "k_EMsgGCTrading_SessionClosed"] = 1509;
-        values[valuesById[1510] = "k_EMsgGCTrading_CancelSession"] = 1510;
-        values[valuesById[1511] = "k_EMsgGCTrading_TradeChatMsg"] = 1511;
-        values[valuesById[1512] = "k_EMsgGCTrading_ConfirmOffer"] = 1512;
-        values[valuesById[1513] = "k_EMsgGCTrading_TradeTypingChatMsg"] = 1513;
         values[valuesById[1601] = "k_EMsgGCServerBrowser_FavoriteServer"] = 1601;
         values[valuesById[1602] = "k_EMsgGCServerBrowser_BlacklistServer"] = 1602;
         values[valuesById[1700] = "k_EMsgGCServerRentalsBase"] = 1700;

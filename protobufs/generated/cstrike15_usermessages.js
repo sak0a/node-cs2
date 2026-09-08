@@ -98,6 +98,7 @@
      * @property {number} CS_UM_RecurringMissionSchema=387 CS_UM_RecurringMissionSchema value
      * @property {number} CS_UM_SendPlayerLoadout=388 CS_UM_SendPlayerLoadout value
      * @property {number} CS_UM_WeaponMagDrop=389 CS_UM_WeaponMagDrop value
+     * @property {number} CS_UM_CustomHudClicked=390 CS_UM_CustomHudClicked value
      */
     $root.ECstrike15UserMessages = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -179,6 +180,7 @@
         values[valuesById[387] = "CS_UM_RecurringMissionSchema"] = 387;
         values[valuesById[388] = "CS_UM_SendPlayerLoadout"] = 388;
         values[valuesById[389] = "CS_UM_WeaponMagDrop"] = 389;
+        values[valuesById[390] = "CS_UM_CustomHudClicked"] = 390;
         return values;
     })();
     
@@ -23466,6 +23468,871 @@
         })();
     
         return CCSUsrMsg_SendPlayerLoadout;
+    })();
+    
+    $root.CCSUsrMsg_CustomHudClicked = (function() {
+    
+        /**
+         * Properties of a CCSUsrMsg_CustomHudClicked.
+         * @exports ICCSUsrMsg_CustomHudClicked
+         * @interface ICCSUsrMsg_CustomHudClicked
+         * @property {number|null} [custom_hud_layout] CCSUsrMsg_CustomHudClicked custom_hud_layout
+         * @property {string|null} [button_id] CCSUsrMsg_CustomHudClicked button_id
+         */
+    
+        /**
+         * Constructs a new CCSUsrMsg_CustomHudClicked.
+         * @exports CCSUsrMsg_CustomHudClicked
+         * @classdesc Represents a CCSUsrMsg_CustomHudClicked.
+         * @implements ICCSUsrMsg_CustomHudClicked
+         * @constructor
+         * @param {ICCSUsrMsg_CustomHudClicked=} [properties] Properties to set
+         */
+        function CCSUsrMsg_CustomHudClicked(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CCSUsrMsg_CustomHudClicked custom_hud_layout.
+         * @member {number} custom_hud_layout
+         * @memberof CCSUsrMsg_CustomHudClicked
+         * @instance
+         */
+        CCSUsrMsg_CustomHudClicked.prototype.custom_hud_layout = 16777215;
+    
+        /**
+         * CCSUsrMsg_CustomHudClicked button_id.
+         * @member {string} button_id
+         * @memberof CCSUsrMsg_CustomHudClicked
+         * @instance
+         */
+        CCSUsrMsg_CustomHudClicked.prototype.button_id = "";
+    
+        /**
+         * Creates a new CCSUsrMsg_CustomHudClicked instance using the specified properties.
+         * @function create
+         * @memberof CCSUsrMsg_CustomHudClicked
+         * @static
+         * @param {ICCSUsrMsg_CustomHudClicked=} [properties] Properties to set
+         * @returns {CCSUsrMsg_CustomHudClicked} CCSUsrMsg_CustomHudClicked instance
+         */
+        CCSUsrMsg_CustomHudClicked.create = function create(properties) {
+            return new CCSUsrMsg_CustomHudClicked(properties);
+        };
+    
+        /**
+         * Encodes the specified CCSUsrMsg_CustomHudClicked message. Does not implicitly {@link CCSUsrMsg_CustomHudClicked.verify|verify} messages.
+         * @function encode
+         * @memberof CCSUsrMsg_CustomHudClicked
+         * @static
+         * @param {ICCSUsrMsg_CustomHudClicked} message CCSUsrMsg_CustomHudClicked message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CCSUsrMsg_CustomHudClicked.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.custom_hud_layout != null && Object.hasOwnProperty.call(message, "custom_hud_layout"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.custom_hud_layout);
+            if (message.button_id != null && Object.hasOwnProperty.call(message, "button_id"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.button_id);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CCSUsrMsg_CustomHudClicked message, length delimited. Does not implicitly {@link CCSUsrMsg_CustomHudClicked.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CCSUsrMsg_CustomHudClicked
+         * @static
+         * @param {ICCSUsrMsg_CustomHudClicked} message CCSUsrMsg_CustomHudClicked message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CCSUsrMsg_CustomHudClicked.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CCSUsrMsg_CustomHudClicked message from the specified reader or buffer.
+         * @function decode
+         * @memberof CCSUsrMsg_CustomHudClicked
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CCSUsrMsg_CustomHudClicked} CCSUsrMsg_CustomHudClicked
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CCSUsrMsg_CustomHudClicked.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CCSUsrMsg_CustomHudClicked();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.custom_hud_layout = reader.uint32();
+                        break;
+                    }
+                case 2: {
+                        message.button_id = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CCSUsrMsg_CustomHudClicked message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CCSUsrMsg_CustomHudClicked
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CCSUsrMsg_CustomHudClicked} CCSUsrMsg_CustomHudClicked
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CCSUsrMsg_CustomHudClicked.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CCSUsrMsg_CustomHudClicked message.
+         * @function verify
+         * @memberof CCSUsrMsg_CustomHudClicked
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CCSUsrMsg_CustomHudClicked.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.custom_hud_layout != null && message.hasOwnProperty("custom_hud_layout"))
+                if (!$util.isInteger(message.custom_hud_layout))
+                    return "custom_hud_layout: integer expected";
+            if (message.button_id != null && message.hasOwnProperty("button_id"))
+                if (!$util.isString(message.button_id))
+                    return "button_id: string expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CCSUsrMsg_CustomHudClicked message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CCSUsrMsg_CustomHudClicked
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CCSUsrMsg_CustomHudClicked} CCSUsrMsg_CustomHudClicked
+         */
+        CCSUsrMsg_CustomHudClicked.fromObject = function fromObject(object) {
+            if (object instanceof $root.CCSUsrMsg_CustomHudClicked)
+                return object;
+            var message = new $root.CCSUsrMsg_CustomHudClicked();
+            if (object.custom_hud_layout != null)
+                message.custom_hud_layout = object.custom_hud_layout >>> 0;
+            if (object.button_id != null)
+                message.button_id = String(object.button_id);
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CCSUsrMsg_CustomHudClicked message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CCSUsrMsg_CustomHudClicked
+         * @static
+         * @param {CCSUsrMsg_CustomHudClicked} message CCSUsrMsg_CustomHudClicked
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CCSUsrMsg_CustomHudClicked.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.custom_hud_layout = 16777215;
+                object.button_id = "";
+            }
+            if (message.custom_hud_layout != null && message.hasOwnProperty("custom_hud_layout"))
+                object.custom_hud_layout = message.custom_hud_layout;
+            if (message.button_id != null && message.hasOwnProperty("button_id"))
+                object.button_id = message.button_id;
+            return object;
+        };
+    
+        /**
+         * Converts this CCSUsrMsg_CustomHudClicked to JSON.
+         * @function toJSON
+         * @memberof CCSUsrMsg_CustomHudClicked
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CCSUsrMsg_CustomHudClicked.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CCSUsrMsg_CustomHudClicked
+         * @function getTypeUrl
+         * @memberof CCSUsrMsg_CustomHudClicked
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CCSUsrMsg_CustomHudClicked.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CCSUsrMsg_CustomHudClicked";
+        };
+    
+        return CCSUsrMsg_CustomHudClicked;
+    })();
+    
+    $root.CVacNet_GetReviewerInfo_Request = (function() {
+    
+        /**
+         * Properties of a CVacNet_GetReviewerInfo_Request.
+         * @exports ICVacNet_GetReviewerInfo_Request
+         * @interface ICVacNet_GetReviewerInfo_Request
+         * @property {number|null} [appid] CVacNet_GetReviewerInfo_Request appid
+         */
+    
+        /**
+         * Constructs a new CVacNet_GetReviewerInfo_Request.
+         * @exports CVacNet_GetReviewerInfo_Request
+         * @classdesc Represents a CVacNet_GetReviewerInfo_Request.
+         * @implements ICVacNet_GetReviewerInfo_Request
+         * @constructor
+         * @param {ICVacNet_GetReviewerInfo_Request=} [properties] Properties to set
+         */
+        function CVacNet_GetReviewerInfo_Request(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CVacNet_GetReviewerInfo_Request appid.
+         * @member {number} appid
+         * @memberof CVacNet_GetReviewerInfo_Request
+         * @instance
+         */
+        CVacNet_GetReviewerInfo_Request.prototype.appid = 0;
+    
+        /**
+         * Creates a new CVacNet_GetReviewerInfo_Request instance using the specified properties.
+         * @function create
+         * @memberof CVacNet_GetReviewerInfo_Request
+         * @static
+         * @param {ICVacNet_GetReviewerInfo_Request=} [properties] Properties to set
+         * @returns {CVacNet_GetReviewerInfo_Request} CVacNet_GetReviewerInfo_Request instance
+         */
+        CVacNet_GetReviewerInfo_Request.create = function create(properties) {
+            return new CVacNet_GetReviewerInfo_Request(properties);
+        };
+    
+        /**
+         * Encodes the specified CVacNet_GetReviewerInfo_Request message. Does not implicitly {@link CVacNet_GetReviewerInfo_Request.verify|verify} messages.
+         * @function encode
+         * @memberof CVacNet_GetReviewerInfo_Request
+         * @static
+         * @param {ICVacNet_GetReviewerInfo_Request} message CVacNet_GetReviewerInfo_Request message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CVacNet_GetReviewerInfo_Request.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.appid);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CVacNet_GetReviewerInfo_Request message, length delimited. Does not implicitly {@link CVacNet_GetReviewerInfo_Request.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CVacNet_GetReviewerInfo_Request
+         * @static
+         * @param {ICVacNet_GetReviewerInfo_Request} message CVacNet_GetReviewerInfo_Request message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CVacNet_GetReviewerInfo_Request.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CVacNet_GetReviewerInfo_Request message from the specified reader or buffer.
+         * @function decode
+         * @memberof CVacNet_GetReviewerInfo_Request
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CVacNet_GetReviewerInfo_Request} CVacNet_GetReviewerInfo_Request
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CVacNet_GetReviewerInfo_Request.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CVacNet_GetReviewerInfo_Request();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.appid = reader.uint32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CVacNet_GetReviewerInfo_Request message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CVacNet_GetReviewerInfo_Request
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CVacNet_GetReviewerInfo_Request} CVacNet_GetReviewerInfo_Request
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CVacNet_GetReviewerInfo_Request.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CVacNet_GetReviewerInfo_Request message.
+         * @function verify
+         * @memberof CVacNet_GetReviewerInfo_Request
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CVacNet_GetReviewerInfo_Request.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.appid != null && message.hasOwnProperty("appid"))
+                if (!$util.isInteger(message.appid))
+                    return "appid: integer expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CVacNet_GetReviewerInfo_Request message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CVacNet_GetReviewerInfo_Request
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CVacNet_GetReviewerInfo_Request} CVacNet_GetReviewerInfo_Request
+         */
+        CVacNet_GetReviewerInfo_Request.fromObject = function fromObject(object) {
+            if (object instanceof $root.CVacNet_GetReviewerInfo_Request)
+                return object;
+            var message = new $root.CVacNet_GetReviewerInfo_Request();
+            if (object.appid != null)
+                message.appid = object.appid >>> 0;
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CVacNet_GetReviewerInfo_Request message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CVacNet_GetReviewerInfo_Request
+         * @static
+         * @param {CVacNet_GetReviewerInfo_Request} message CVacNet_GetReviewerInfo_Request
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CVacNet_GetReviewerInfo_Request.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.appid = 0;
+            if (message.appid != null && message.hasOwnProperty("appid"))
+                object.appid = message.appid;
+            return object;
+        };
+    
+        /**
+         * Converts this CVacNet_GetReviewerInfo_Request to JSON.
+         * @function toJSON
+         * @memberof CVacNet_GetReviewerInfo_Request
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CVacNet_GetReviewerInfo_Request.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CVacNet_GetReviewerInfo_Request
+         * @function getTypeUrl
+         * @memberof CVacNet_GetReviewerInfo_Request
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CVacNet_GetReviewerInfo_Request.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CVacNet_GetReviewerInfo_Request";
+        };
+    
+        return CVacNet_GetReviewerInfo_Request;
+    })();
+    
+    $root.CVacnetReviewerInfo = (function() {
+    
+        /**
+         * Properties of a CVacnetReviewerInfo.
+         * @exports ICVacnetReviewerInfo
+         * @interface ICVacnetReviewerInfo
+         * @property {Array.<string>|null} [permissions] CVacnetReviewerInfo permissions
+         */
+    
+        /**
+         * Constructs a new CVacnetReviewerInfo.
+         * @exports CVacnetReviewerInfo
+         * @classdesc Represents a CVacnetReviewerInfo.
+         * @implements ICVacnetReviewerInfo
+         * @constructor
+         * @param {ICVacnetReviewerInfo=} [properties] Properties to set
+         */
+        function CVacnetReviewerInfo(properties) {
+            this.permissions = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CVacnetReviewerInfo permissions.
+         * @member {Array.<string>} permissions
+         * @memberof CVacnetReviewerInfo
+         * @instance
+         */
+        CVacnetReviewerInfo.prototype.permissions = $util.emptyArray;
+    
+        /**
+         * Creates a new CVacnetReviewerInfo instance using the specified properties.
+         * @function create
+         * @memberof CVacnetReviewerInfo
+         * @static
+         * @param {ICVacnetReviewerInfo=} [properties] Properties to set
+         * @returns {CVacnetReviewerInfo} CVacnetReviewerInfo instance
+         */
+        CVacnetReviewerInfo.create = function create(properties) {
+            return new CVacnetReviewerInfo(properties);
+        };
+    
+        /**
+         * Encodes the specified CVacnetReviewerInfo message. Does not implicitly {@link CVacnetReviewerInfo.verify|verify} messages.
+         * @function encode
+         * @memberof CVacnetReviewerInfo
+         * @static
+         * @param {ICVacnetReviewerInfo} message CVacnetReviewerInfo message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CVacnetReviewerInfo.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.permissions != null && message.permissions.length)
+                for (var i = 0; i < message.permissions.length; ++i)
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.permissions[i]);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CVacnetReviewerInfo message, length delimited. Does not implicitly {@link CVacnetReviewerInfo.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CVacnetReviewerInfo
+         * @static
+         * @param {ICVacnetReviewerInfo} message CVacnetReviewerInfo message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CVacnetReviewerInfo.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CVacnetReviewerInfo message from the specified reader or buffer.
+         * @function decode
+         * @memberof CVacnetReviewerInfo
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CVacnetReviewerInfo} CVacnetReviewerInfo
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CVacnetReviewerInfo.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CVacnetReviewerInfo();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        if (!(message.permissions && message.permissions.length))
+                            message.permissions = [];
+                        message.permissions.push(reader.string());
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CVacnetReviewerInfo message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CVacnetReviewerInfo
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CVacnetReviewerInfo} CVacnetReviewerInfo
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CVacnetReviewerInfo.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CVacnetReviewerInfo message.
+         * @function verify
+         * @memberof CVacnetReviewerInfo
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CVacnetReviewerInfo.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.permissions != null && message.hasOwnProperty("permissions")) {
+                if (!Array.isArray(message.permissions))
+                    return "permissions: array expected";
+                for (var i = 0; i < message.permissions.length; ++i)
+                    if (!$util.isString(message.permissions[i]))
+                        return "permissions: string[] expected";
+            }
+            return null;
+        };
+    
+        /**
+         * Creates a CVacnetReviewerInfo message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CVacnetReviewerInfo
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CVacnetReviewerInfo} CVacnetReviewerInfo
+         */
+        CVacnetReviewerInfo.fromObject = function fromObject(object) {
+            if (object instanceof $root.CVacnetReviewerInfo)
+                return object;
+            var message = new $root.CVacnetReviewerInfo();
+            if (object.permissions) {
+                if (!Array.isArray(object.permissions))
+                    throw TypeError(".CVacnetReviewerInfo.permissions: array expected");
+                message.permissions = [];
+                for (var i = 0; i < object.permissions.length; ++i)
+                    message.permissions[i] = String(object.permissions[i]);
+            }
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CVacnetReviewerInfo message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CVacnetReviewerInfo
+         * @static
+         * @param {CVacnetReviewerInfo} message CVacnetReviewerInfo
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CVacnetReviewerInfo.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.arrays || options.defaults)
+                object.permissions = [];
+            if (message.permissions && message.permissions.length) {
+                object.permissions = [];
+                for (var j = 0; j < message.permissions.length; ++j)
+                    object.permissions[j] = message.permissions[j];
+            }
+            return object;
+        };
+    
+        /**
+         * Converts this CVacnetReviewerInfo to JSON.
+         * @function toJSON
+         * @memberof CVacnetReviewerInfo
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CVacnetReviewerInfo.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CVacnetReviewerInfo
+         * @function getTypeUrl
+         * @memberof CVacnetReviewerInfo
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CVacnetReviewerInfo.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CVacnetReviewerInfo";
+        };
+    
+        return CVacnetReviewerInfo;
+    })();
+    
+    $root.CVacNet_GetReviewerInfo_Response = (function() {
+    
+        /**
+         * Properties of a CVacNet_GetReviewerInfo_Response.
+         * @exports ICVacNet_GetReviewerInfo_Response
+         * @interface ICVacNet_GetReviewerInfo_Response
+         * @property {ICVacnetReviewerInfo|null} [reviewer_info] CVacNet_GetReviewerInfo_Response reviewer_info
+         */
+    
+        /**
+         * Constructs a new CVacNet_GetReviewerInfo_Response.
+         * @exports CVacNet_GetReviewerInfo_Response
+         * @classdesc Represents a CVacNet_GetReviewerInfo_Response.
+         * @implements ICVacNet_GetReviewerInfo_Response
+         * @constructor
+         * @param {ICVacNet_GetReviewerInfo_Response=} [properties] Properties to set
+         */
+        function CVacNet_GetReviewerInfo_Response(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CVacNet_GetReviewerInfo_Response reviewer_info.
+         * @member {ICVacnetReviewerInfo|null|undefined} reviewer_info
+         * @memberof CVacNet_GetReviewerInfo_Response
+         * @instance
+         */
+        CVacNet_GetReviewerInfo_Response.prototype.reviewer_info = null;
+    
+        /**
+         * Creates a new CVacNet_GetReviewerInfo_Response instance using the specified properties.
+         * @function create
+         * @memberof CVacNet_GetReviewerInfo_Response
+         * @static
+         * @param {ICVacNet_GetReviewerInfo_Response=} [properties] Properties to set
+         * @returns {CVacNet_GetReviewerInfo_Response} CVacNet_GetReviewerInfo_Response instance
+         */
+        CVacNet_GetReviewerInfo_Response.create = function create(properties) {
+            return new CVacNet_GetReviewerInfo_Response(properties);
+        };
+    
+        /**
+         * Encodes the specified CVacNet_GetReviewerInfo_Response message. Does not implicitly {@link CVacNet_GetReviewerInfo_Response.verify|verify} messages.
+         * @function encode
+         * @memberof CVacNet_GetReviewerInfo_Response
+         * @static
+         * @param {ICVacNet_GetReviewerInfo_Response} message CVacNet_GetReviewerInfo_Response message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CVacNet_GetReviewerInfo_Response.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.reviewer_info != null && Object.hasOwnProperty.call(message, "reviewer_info"))
+                $root.CVacnetReviewerInfo.encode(message.reviewer_info, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CVacNet_GetReviewerInfo_Response message, length delimited. Does not implicitly {@link CVacNet_GetReviewerInfo_Response.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CVacNet_GetReviewerInfo_Response
+         * @static
+         * @param {ICVacNet_GetReviewerInfo_Response} message CVacNet_GetReviewerInfo_Response message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CVacNet_GetReviewerInfo_Response.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CVacNet_GetReviewerInfo_Response message from the specified reader or buffer.
+         * @function decode
+         * @memberof CVacNet_GetReviewerInfo_Response
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CVacNet_GetReviewerInfo_Response} CVacNet_GetReviewerInfo_Response
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CVacNet_GetReviewerInfo_Response.decode = function decode(reader, length, error) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CVacNet_GetReviewerInfo_Response();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.reviewer_info = $root.CVacnetReviewerInfo.decode(reader, reader.uint32());
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CVacNet_GetReviewerInfo_Response message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CVacNet_GetReviewerInfo_Response
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CVacNet_GetReviewerInfo_Response} CVacNet_GetReviewerInfo_Response
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CVacNet_GetReviewerInfo_Response.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CVacNet_GetReviewerInfo_Response message.
+         * @function verify
+         * @memberof CVacNet_GetReviewerInfo_Response
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CVacNet_GetReviewerInfo_Response.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.reviewer_info != null && message.hasOwnProperty("reviewer_info")) {
+                var error = $root.CVacnetReviewerInfo.verify(message.reviewer_info);
+                if (error)
+                    return "reviewer_info." + error;
+            }
+            return null;
+        };
+    
+        /**
+         * Creates a CVacNet_GetReviewerInfo_Response message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CVacNet_GetReviewerInfo_Response
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CVacNet_GetReviewerInfo_Response} CVacNet_GetReviewerInfo_Response
+         */
+        CVacNet_GetReviewerInfo_Response.fromObject = function fromObject(object) {
+            if (object instanceof $root.CVacNet_GetReviewerInfo_Response)
+                return object;
+            var message = new $root.CVacNet_GetReviewerInfo_Response();
+            if (object.reviewer_info != null) {
+                if (typeof object.reviewer_info !== "object")
+                    throw TypeError(".CVacNet_GetReviewerInfo_Response.reviewer_info: object expected");
+                message.reviewer_info = $root.CVacnetReviewerInfo.fromObject(object.reviewer_info);
+            }
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CVacNet_GetReviewerInfo_Response message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CVacNet_GetReviewerInfo_Response
+         * @static
+         * @param {CVacNet_GetReviewerInfo_Response} message CVacNet_GetReviewerInfo_Response
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CVacNet_GetReviewerInfo_Response.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults)
+                object.reviewer_info = null;
+            if (message.reviewer_info != null && message.hasOwnProperty("reviewer_info"))
+                object.reviewer_info = $root.CVacnetReviewerInfo.toObject(message.reviewer_info, options);
+            return object;
+        };
+    
+        /**
+         * Converts this CVacNet_GetReviewerInfo_Response to JSON.
+         * @function toJSON
+         * @memberof CVacNet_GetReviewerInfo_Response
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CVacNet_GetReviewerInfo_Response.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CVacNet_GetReviewerInfo_Response
+         * @function getTypeUrl
+         * @memberof CVacNet_GetReviewerInfo_Response
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CVacNet_GetReviewerInfo_Response.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CVacNet_GetReviewerInfo_Response";
+        };
+    
+        return CVacNet_GetReviewerInfo_Response;
     })();
     
     /**

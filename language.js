@@ -101,6 +101,7 @@ module.exports = {
 	CasketItemAdd: 1092,
 	CasketItemExtract: 1093,
 	CasketItemLoadContents: 1094,
+	// Legacy trading IDs removed upstream in July 2026; retained for compatibility.
 	TradingBase: 1500,
 	Trading_InitiateTradeRequest: 1501,
 	Trading_InitiateTradeResponse: 1502,
