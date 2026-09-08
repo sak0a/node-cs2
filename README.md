@@ -188,3 +188,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - **Issues:** [GitHub Issues](https://github.com/sak0a/node-cs2/issues)
 - **Examples:** See [EXAMPLES.md](./EXAMPLES.md)
 - **Documentation:** See [DETAILED_DOCUMENTATION.md](./DETAILED_DOCUMENTATION.md)
+
+### Development environment
+
+Use Node.js 24+ for the current lint and test tooling. The published library retains Node.js 14+ runtime support. The development dependency uses `steam-user` 5; consumers may continue using the supported `steam-user` 4 API.

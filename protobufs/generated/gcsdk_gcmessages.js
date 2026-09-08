@@ -75,7 +75,7 @@
         function CMsgSOIDOwner(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -116,9 +116,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSOIDOwner.encode = function encode(message, writer) {
+        CMsgSOIDOwner.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.type);
             if (message.id != null && Object.hasOwnProperty.call(message, "id"))
@@ -136,7 +140,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSOIDOwner.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -150,10 +154,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSOIDOwner.decode = function decode(reader, length, error) {
+        CMsgSOIDOwner.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSOIDOwner();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSOIDOwner();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -168,9 +186,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -199,13 +222,17 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSOIDOwner.verify = function verify(message) {
+        CMsgSOIDOwner.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.type != null && message.hasOwnProperty("type"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                 if (!$util.isInteger(message.type))
                     return "type: integer expected";
-            if (message.id != null && message.hasOwnProperty("id"))
+            if (message.id != null && Object.hasOwnProperty.call(message, "id"))
                 if (!$util.isInteger(message.id) && !(message.id && $util.isInteger(message.id.low) && $util.isInteger(message.id.high)))
                     return "id: integer|Long expected";
             return null;
@@ -219,15 +246,21 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSOIDOwner} CMsgSOIDOwner
          */
-        CMsgSOIDOwner.fromObject = function fromObject(object) {
+        CMsgSOIDOwner.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSOIDOwner)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSOIDOwner: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSOIDOwner();
             if (object.type != null)
                 message.type = object.type >>> 0;
             if (object.id != null)
                 if ($util.Long)
-                    (message.id = $util.Long.fromValue(object.id)).unsigned = true;
+                    message.id = $util.Long.fromValue(object.id, true);
                 else if (typeof object.id === "string")
                     message.id = parseInt(object.id, 10);
                 else if (typeof object.id === "number")
@@ -246,22 +279,28 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSOIDOwner.toObject = function toObject(message, options) {
+        CMsgSOIDOwner.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.type = 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    object.id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.id = options.longs === String ? "0" : 0;
+                    object.id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
             }
-            if (message.type != null && message.hasOwnProperty("type"))
+            if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                 object.type = message.type;
-            if (message.id != null && message.hasOwnProperty("id"))
-                if (typeof message.id === "number")
+            if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.id = typeof message.id === "number" ? BigInt(message.id) : $util.Long.fromBits(message.id.low >>> 0, message.id.high >>> 0, true).toBigInt();
+                else if (typeof message.id === "number")
                     object.id = options.longs === String ? String(message.id) : message.id;
                 else
                     object.id = options.longs === String ? $util.Long.prototype.toString.call(message.id) : options.longs === Number ? new $util.LongBits(message.id.low >>> 0, message.id.high >>> 0).toNumber(true) : message.id;
@@ -320,7 +359,7 @@
         function CMsgSOSingleObject(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -346,7 +385,7 @@
          * @memberof CMsgSOSingleObject
          * @instance
          */
-        CMsgSOSingleObject.prototype.version = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSOSingleObject.prototype.version = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CMsgSOSingleObject owner_soid.
@@ -377,9 +416,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSOSingleObject.encode = function encode(message, writer) {
+        CMsgSOSingleObject.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.type_id != null && Object.hasOwnProperty.call(message, "type_id"))
                 writer.uint32(/* id 2, wireType 0 =*/16).int32(message.type_id);
             if (message.object_data != null && Object.hasOwnProperty.call(message, "object_data"))
@@ -387,7 +430,7 @@
             if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 writer.uint32(/* id 4, wireType 1 =*/33).fixed64(message.version);
             if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid"))
-                $root.CMsgSOIDOwner.encode(message.owner_soid, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                $root.CMsgSOIDOwner.encode(message.owner_soid, writer.uint32(/* id 5, wireType 2 =*/42).fork(), q + 1).ldelim();
             return writer;
         };
     
@@ -401,7 +444,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSOSingleObject.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -415,10 +458,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSOSingleObject.decode = function decode(reader, length, error) {
+        CMsgSOSingleObject.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSOSingleObject();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSOSingleObject();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -437,13 +494,18 @@
                         break;
                     }
                 case 5: {
-                        message.owner_soid = $root.CMsgSOIDOwner.decode(reader, reader.uint32());
+                        message.owner_soid = $root.CMsgSOIDOwner.decode(reader, reader.uint32(), undefined, long + 1);
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -472,20 +534,24 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSOSingleObject.verify = function verify(message) {
+        CMsgSOSingleObject.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.type_id != null && message.hasOwnProperty("type_id"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.type_id != null && Object.hasOwnProperty.call(message, "type_id"))
                 if (!$util.isInteger(message.type_id))
                     return "type_id: integer expected";
-            if (message.object_data != null && message.hasOwnProperty("object_data"))
+            if (message.object_data != null && Object.hasOwnProperty.call(message, "object_data"))
                 if (!(message.object_data && typeof message.object_data.length === "number" || $util.isString(message.object_data)))
                     return "object_data: buffer expected";
-            if (message.version != null && message.hasOwnProperty("version"))
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 if (!$util.isInteger(message.version) && !(message.version && $util.isInteger(message.version.low) && $util.isInteger(message.version.high)))
                     return "version: integer|Long expected";
-            if (message.owner_soid != null && message.hasOwnProperty("owner_soid")) {
-                var error = $root.CMsgSOIDOwner.verify(message.owner_soid);
+            if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid")) {
+                var error = $root.CMsgSOIDOwner.verify(message.owner_soid, long + 1);
                 if (error)
                     return "owner_soid." + error;
             }
@@ -500,9 +566,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSOSingleObject} CMsgSOSingleObject
          */
-        CMsgSOSingleObject.fromObject = function fromObject(object) {
+        CMsgSOSingleObject.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSOSingleObject)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSOSingleObject: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSOSingleObject();
             if (object.type_id != null)
                 message.type_id = object.type_id | 0;
@@ -513,17 +585,17 @@
                     message.object_data = object.object_data;
             if (object.version != null)
                 if ($util.Long)
-                    (message.version = $util.Long.fromValue(object.version)).unsigned = false;
+                    message.version = $util.Long.fromValue(object.version, true);
                 else if (typeof object.version === "string")
                     message.version = parseInt(object.version, 10);
                 else if (typeof object.version === "number")
                     message.version = object.version;
                 else if (typeof object.version === "object")
-                    message.version = new $util.LongBits(object.version.low >>> 0, object.version.high >>> 0).toNumber();
+                    message.version = new $util.LongBits(object.version.low >>> 0, object.version.high >>> 0).toNumber(true);
             if (object.owner_soid != null) {
-                if (typeof object.owner_soid !== "object")
+                if (!$util.isObject(object.owner_soid))
                     throw TypeError(".CMsgSOSingleObject.owner_soid: object expected");
-                message.owner_soid = $root.CMsgSOIDOwner.fromObject(object.owner_soid);
+                message.owner_soid = $root.CMsgSOIDOwner.fromObject(object.owner_soid, long + 1);
             }
             return message;
         };
@@ -537,9 +609,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSOSingleObject.toObject = function toObject(message, options) {
+        CMsgSOSingleObject.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.type_id = 0;
@@ -551,23 +627,25 @@
                         object.object_data = $util.newBuffer(object.object_data);
                 }
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.version = options.longs === String ? "0" : 0;
+                    object.version = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.owner_soid = null;
             }
-            if (message.type_id != null && message.hasOwnProperty("type_id"))
+            if (message.type_id != null && Object.hasOwnProperty.call(message, "type_id"))
                 object.type_id = message.type_id;
-            if (message.object_data != null && message.hasOwnProperty("object_data"))
+            if (message.object_data != null && Object.hasOwnProperty.call(message, "object_data"))
                 object.object_data = options.bytes === String ? $util.base64.encode(message.object_data, 0, message.object_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.object_data) : message.object_data;
-            if (message.version != null && message.hasOwnProperty("version"))
-                if (typeof message.version === "number")
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.version = typeof message.version === "number" ? BigInt(message.version) : $util.Long.fromBits(message.version.low >>> 0, message.version.high >>> 0, true).toBigInt();
+                else if (typeof message.version === "number")
                     object.version = options.longs === String ? String(message.version) : message.version;
                 else
-                    object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber() : message.version;
-            if (message.owner_soid != null && message.hasOwnProperty("owner_soid"))
-                object.owner_soid = $root.CMsgSOIDOwner.toObject(message.owner_soid, options);
+                    object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber(true) : message.version;
+            if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid"))
+                object.owner_soid = $root.CMsgSOIDOwner.toObject(message.owner_soid, options, q + 1);
             return object;
         };
     
@@ -623,7 +701,7 @@
             this.objects_modified = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -641,7 +719,7 @@
          * @memberof CMsgSOMultipleObjects
          * @instance
          */
-        CMsgSOMultipleObjects.prototype.version = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSOMultipleObjects.prototype.version = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CMsgSOMultipleObjects owner_soid.
@@ -672,16 +750,20 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSOMultipleObjects.encode = function encode(message, writer) {
+        CMsgSOMultipleObjects.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.objects_modified != null && message.objects_modified.length)
                 for (var i = 0; i < message.objects_modified.length; ++i)
-                    $root.CMsgSOMultipleObjects.SingleObject.encode(message.objects_modified[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    $root.CMsgSOMultipleObjects.SingleObject.encode(message.objects_modified[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
             if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 writer.uint32(/* id 3, wireType 1 =*/25).fixed64(message.version);
             if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid"))
-                $root.CMsgSOIDOwner.encode(message.owner_soid, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+                $root.CMsgSOIDOwner.encode(message.owner_soid, writer.uint32(/* id 6, wireType 2 =*/50).fork(), q + 1).ldelim();
             return writer;
         };
     
@@ -695,7 +777,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSOMultipleObjects.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -709,10 +791,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSOMultipleObjects.decode = function decode(reader, length, error) {
+        CMsgSOMultipleObjects.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSOMultipleObjects();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSOMultipleObjects();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -721,7 +817,7 @@
                 case 2: {
                         if (!(message.objects_modified && message.objects_modified.length))
                             message.objects_modified = [];
-                        message.objects_modified.push($root.CMsgSOMultipleObjects.SingleObject.decode(reader, reader.uint32()));
+                        message.objects_modified.push($root.CMsgSOMultipleObjects.SingleObject.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 case 3: {
@@ -729,13 +825,18 @@
                         break;
                     }
                 case 6: {
-                        message.owner_soid = $root.CMsgSOIDOwner.decode(reader, reader.uint32());
+                        message.owner_soid = $root.CMsgSOIDOwner.decode(reader, reader.uint32(), undefined, long + 1);
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -764,23 +865,27 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSOMultipleObjects.verify = function verify(message) {
+        CMsgSOMultipleObjects.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.objects_modified != null && message.hasOwnProperty("objects_modified")) {
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.objects_modified != null && Object.hasOwnProperty.call(message, "objects_modified")) {
                 if (!Array.isArray(message.objects_modified))
                     return "objects_modified: array expected";
                 for (var i = 0; i < message.objects_modified.length; ++i) {
-                    var error = $root.CMsgSOMultipleObjects.SingleObject.verify(message.objects_modified[i]);
+                    var error = $root.CMsgSOMultipleObjects.SingleObject.verify(message.objects_modified[i], long + 1);
                     if (error)
                         return "objects_modified." + error;
                 }
             }
-            if (message.version != null && message.hasOwnProperty("version"))
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 if (!$util.isInteger(message.version) && !(message.version && $util.isInteger(message.version.low) && $util.isInteger(message.version.high)))
                     return "version: integer|Long expected";
-            if (message.owner_soid != null && message.hasOwnProperty("owner_soid")) {
-                var error = $root.CMsgSOIDOwner.verify(message.owner_soid);
+            if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid")) {
+                var error = $root.CMsgSOIDOwner.verify(message.owner_soid, long + 1);
                 if (error)
                     return "owner_soid." + error;
             }
@@ -795,33 +900,39 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSOMultipleObjects} CMsgSOMultipleObjects
          */
-        CMsgSOMultipleObjects.fromObject = function fromObject(object) {
+        CMsgSOMultipleObjects.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSOMultipleObjects)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSOMultipleObjects: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSOMultipleObjects();
             if (object.objects_modified) {
                 if (!Array.isArray(object.objects_modified))
                     throw TypeError(".CMsgSOMultipleObjects.objects_modified: array expected");
                 message.objects_modified = [];
                 for (var i = 0; i < object.objects_modified.length; ++i) {
-                    if (typeof object.objects_modified[i] !== "object")
+                    if (!$util.isObject(object.objects_modified[i]))
                         throw TypeError(".CMsgSOMultipleObjects.objects_modified: object expected");
-                    message.objects_modified[i] = $root.CMsgSOMultipleObjects.SingleObject.fromObject(object.objects_modified[i]);
+                    message.objects_modified[i] = $root.CMsgSOMultipleObjects.SingleObject.fromObject(object.objects_modified[i], long + 1);
                 }
             }
             if (object.version != null)
                 if ($util.Long)
-                    (message.version = $util.Long.fromValue(object.version)).unsigned = false;
+                    message.version = $util.Long.fromValue(object.version, true);
                 else if (typeof object.version === "string")
                     message.version = parseInt(object.version, 10);
                 else if (typeof object.version === "number")
                     message.version = object.version;
                 else if (typeof object.version === "object")
-                    message.version = new $util.LongBits(object.version.low >>> 0, object.version.high >>> 0).toNumber();
+                    message.version = new $util.LongBits(object.version.low >>> 0, object.version.high >>> 0).toNumber(true);
             if (object.owner_soid != null) {
-                if (typeof object.owner_soid !== "object")
+                if (!$util.isObject(object.owner_soid))
                     throw TypeError(".CMsgSOMultipleObjects.owner_soid: object expected");
-                message.owner_soid = $root.CMsgSOIDOwner.fromObject(object.owner_soid);
+                message.owner_soid = $root.CMsgSOIDOwner.fromObject(object.owner_soid, long + 1);
             }
             return message;
         };
@@ -835,32 +946,38 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSOMultipleObjects.toObject = function toObject(message, options) {
+        CMsgSOMultipleObjects.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.objects_modified = [];
             if (options.defaults) {
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.version = options.longs === String ? "0" : 0;
+                    object.version = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.owner_soid = null;
             }
             if (message.objects_modified && message.objects_modified.length) {
                 object.objects_modified = [];
                 for (var j = 0; j < message.objects_modified.length; ++j)
-                    object.objects_modified[j] = $root.CMsgSOMultipleObjects.SingleObject.toObject(message.objects_modified[j], options);
+                    object.objects_modified[j] = $root.CMsgSOMultipleObjects.SingleObject.toObject(message.objects_modified[j], options, q + 1);
             }
-            if (message.version != null && message.hasOwnProperty("version"))
-                if (typeof message.version === "number")
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.version = typeof message.version === "number" ? BigInt(message.version) : $util.Long.fromBits(message.version.low >>> 0, message.version.high >>> 0, true).toBigInt();
+                else if (typeof message.version === "number")
                     object.version = options.longs === String ? String(message.version) : message.version;
                 else
-                    object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber() : message.version;
-            if (message.owner_soid != null && message.hasOwnProperty("owner_soid"))
-                object.owner_soid = $root.CMsgSOIDOwner.toObject(message.owner_soid, options);
+                    object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber(true) : message.version;
+            if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid"))
+                object.owner_soid = $root.CMsgSOIDOwner.toObject(message.owner_soid, options, q + 1);
             return object;
         };
     
@@ -911,7 +1028,7 @@
             function SingleObject(properties) {
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -952,9 +1069,13 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            SingleObject.encode = function encode(message, writer) {
+            SingleObject.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.type_id != null && Object.hasOwnProperty.call(message, "type_id"))
                     writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type_id);
                 if (message.object_data != null && Object.hasOwnProperty.call(message, "object_data"))
@@ -972,7 +1093,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             SingleObject.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -986,10 +1107,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            SingleObject.decode = function decode(reader, length, error) {
+            SingleObject.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSOMultipleObjects.SingleObject();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CMsgSOMultipleObjects.SingleObject();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -1004,9 +1139,14 @@
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -1035,13 +1175,17 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            SingleObject.verify = function verify(message) {
+            SingleObject.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.type_id != null && message.hasOwnProperty("type_id"))
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.type_id != null && Object.hasOwnProperty.call(message, "type_id"))
                     if (!$util.isInteger(message.type_id))
                         return "type_id: integer expected";
-                if (message.object_data != null && message.hasOwnProperty("object_data"))
+                if (message.object_data != null && Object.hasOwnProperty.call(message, "object_data"))
                     if (!(message.object_data && typeof message.object_data.length === "number" || $util.isString(message.object_data)))
                         return "object_data: buffer expected";
                 return null;
@@ -1055,9 +1199,15 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgSOMultipleObjects.SingleObject} SingleObject
              */
-            SingleObject.fromObject = function fromObject(object) {
+            SingleObject.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CMsgSOMultipleObjects.SingleObject)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CMsgSOMultipleObjects.SingleObject: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CMsgSOMultipleObjects.SingleObject();
                 if (object.type_id != null)
                     message.type_id = object.type_id | 0;
@@ -1078,9 +1228,13 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            SingleObject.toObject = function toObject(message, options) {
+            SingleObject.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.type_id = 0;
@@ -1092,9 +1246,9 @@
                             object.object_data = $util.newBuffer(object.object_data);
                     }
                 }
-                if (message.type_id != null && message.hasOwnProperty("type_id"))
+                if (message.type_id != null && Object.hasOwnProperty.call(message, "type_id"))
                     object.type_id = message.type_id;
-                if (message.object_data != null && message.hasOwnProperty("object_data"))
+                if (message.object_data != null && Object.hasOwnProperty.call(message, "object_data"))
                     object.object_data = options.bytes === String ? $util.base64.encode(message.object_data, 0, message.object_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.object_data) : message.object_data;
                 return object;
             };
@@ -1154,7 +1308,7 @@
             this.objects = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -1172,7 +1326,7 @@
          * @memberof CMsgSOCacheSubscribed
          * @instance
          */
-        CMsgSOCacheSubscribed.prototype.version = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSOCacheSubscribed.prototype.version = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CMsgSOCacheSubscribed owner_soid.
@@ -1203,16 +1357,20 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSOCacheSubscribed.encode = function encode(message, writer) {
+        CMsgSOCacheSubscribed.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.objects != null && message.objects.length)
                 for (var i = 0; i < message.objects.length; ++i)
-                    $root.CMsgSOCacheSubscribed.SubscribedType.encode(message.objects[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    $root.CMsgSOCacheSubscribed.SubscribedType.encode(message.objects[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
             if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 writer.uint32(/* id 3, wireType 1 =*/25).fixed64(message.version);
             if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid"))
-                $root.CMsgSOIDOwner.encode(message.owner_soid, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                $root.CMsgSOIDOwner.encode(message.owner_soid, writer.uint32(/* id 4, wireType 2 =*/34).fork(), q + 1).ldelim();
             return writer;
         };
     
@@ -1226,7 +1384,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSOCacheSubscribed.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -1240,10 +1398,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSOCacheSubscribed.decode = function decode(reader, length, error) {
+        CMsgSOCacheSubscribed.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSOCacheSubscribed();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSOCacheSubscribed();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -1252,7 +1424,7 @@
                 case 2: {
                         if (!(message.objects && message.objects.length))
                             message.objects = [];
-                        message.objects.push($root.CMsgSOCacheSubscribed.SubscribedType.decode(reader, reader.uint32()));
+                        message.objects.push($root.CMsgSOCacheSubscribed.SubscribedType.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 case 3: {
@@ -1260,13 +1432,18 @@
                         break;
                     }
                 case 4: {
-                        message.owner_soid = $root.CMsgSOIDOwner.decode(reader, reader.uint32());
+                        message.owner_soid = $root.CMsgSOIDOwner.decode(reader, reader.uint32(), undefined, long + 1);
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -1295,23 +1472,27 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSOCacheSubscribed.verify = function verify(message) {
+        CMsgSOCacheSubscribed.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.objects != null && message.hasOwnProperty("objects")) {
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.objects != null && Object.hasOwnProperty.call(message, "objects")) {
                 if (!Array.isArray(message.objects))
                     return "objects: array expected";
                 for (var i = 0; i < message.objects.length; ++i) {
-                    var error = $root.CMsgSOCacheSubscribed.SubscribedType.verify(message.objects[i]);
+                    var error = $root.CMsgSOCacheSubscribed.SubscribedType.verify(message.objects[i], long + 1);
                     if (error)
                         return "objects." + error;
                 }
             }
-            if (message.version != null && message.hasOwnProperty("version"))
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 if (!$util.isInteger(message.version) && !(message.version && $util.isInteger(message.version.low) && $util.isInteger(message.version.high)))
                     return "version: integer|Long expected";
-            if (message.owner_soid != null && message.hasOwnProperty("owner_soid")) {
-                var error = $root.CMsgSOIDOwner.verify(message.owner_soid);
+            if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid")) {
+                var error = $root.CMsgSOIDOwner.verify(message.owner_soid, long + 1);
                 if (error)
                     return "owner_soid." + error;
             }
@@ -1326,33 +1507,39 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSOCacheSubscribed} CMsgSOCacheSubscribed
          */
-        CMsgSOCacheSubscribed.fromObject = function fromObject(object) {
+        CMsgSOCacheSubscribed.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSOCacheSubscribed)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSOCacheSubscribed: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSOCacheSubscribed();
             if (object.objects) {
                 if (!Array.isArray(object.objects))
                     throw TypeError(".CMsgSOCacheSubscribed.objects: array expected");
                 message.objects = [];
                 for (var i = 0; i < object.objects.length; ++i) {
-                    if (typeof object.objects[i] !== "object")
+                    if (!$util.isObject(object.objects[i]))
                         throw TypeError(".CMsgSOCacheSubscribed.objects: object expected");
-                    message.objects[i] = $root.CMsgSOCacheSubscribed.SubscribedType.fromObject(object.objects[i]);
+                    message.objects[i] = $root.CMsgSOCacheSubscribed.SubscribedType.fromObject(object.objects[i], long + 1);
                 }
             }
             if (object.version != null)
                 if ($util.Long)
-                    (message.version = $util.Long.fromValue(object.version)).unsigned = false;
+                    message.version = $util.Long.fromValue(object.version, true);
                 else if (typeof object.version === "string")
                     message.version = parseInt(object.version, 10);
                 else if (typeof object.version === "number")
                     message.version = object.version;
                 else if (typeof object.version === "object")
-                    message.version = new $util.LongBits(object.version.low >>> 0, object.version.high >>> 0).toNumber();
+                    message.version = new $util.LongBits(object.version.low >>> 0, object.version.high >>> 0).toNumber(true);
             if (object.owner_soid != null) {
-                if (typeof object.owner_soid !== "object")
+                if (!$util.isObject(object.owner_soid))
                     throw TypeError(".CMsgSOCacheSubscribed.owner_soid: object expected");
-                message.owner_soid = $root.CMsgSOIDOwner.fromObject(object.owner_soid);
+                message.owner_soid = $root.CMsgSOIDOwner.fromObject(object.owner_soid, long + 1);
             }
             return message;
         };
@@ -1366,32 +1553,38 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSOCacheSubscribed.toObject = function toObject(message, options) {
+        CMsgSOCacheSubscribed.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.objects = [];
             if (options.defaults) {
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.version = options.longs === String ? "0" : 0;
+                    object.version = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.owner_soid = null;
             }
             if (message.objects && message.objects.length) {
                 object.objects = [];
                 for (var j = 0; j < message.objects.length; ++j)
-                    object.objects[j] = $root.CMsgSOCacheSubscribed.SubscribedType.toObject(message.objects[j], options);
+                    object.objects[j] = $root.CMsgSOCacheSubscribed.SubscribedType.toObject(message.objects[j], options, q + 1);
             }
-            if (message.version != null && message.hasOwnProperty("version"))
-                if (typeof message.version === "number")
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.version = typeof message.version === "number" ? BigInt(message.version) : $util.Long.fromBits(message.version.low >>> 0, message.version.high >>> 0, true).toBigInt();
+                else if (typeof message.version === "number")
                     object.version = options.longs === String ? String(message.version) : message.version;
                 else
-                    object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber() : message.version;
-            if (message.owner_soid != null && message.hasOwnProperty("owner_soid"))
-                object.owner_soid = $root.CMsgSOIDOwner.toObject(message.owner_soid, options);
+                    object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber(true) : message.version;
+            if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid"))
+                object.owner_soid = $root.CMsgSOIDOwner.toObject(message.owner_soid, options, q + 1);
             return object;
         };
     
@@ -1443,7 +1636,7 @@
                 this.object_data = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -1484,9 +1677,13 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            SubscribedType.encode = function encode(message, writer) {
+            SubscribedType.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.type_id != null && Object.hasOwnProperty.call(message, "type_id"))
                     writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type_id);
                 if (message.object_data != null && message.object_data.length)
@@ -1505,7 +1702,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             SubscribedType.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -1519,10 +1716,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            SubscribedType.decode = function decode(reader, length, error) {
+            SubscribedType.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSOCacheSubscribed.SubscribedType();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CMsgSOCacheSubscribed.SubscribedType();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -1539,9 +1750,14 @@
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -1570,13 +1786,17 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            SubscribedType.verify = function verify(message) {
+            SubscribedType.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.type_id != null && message.hasOwnProperty("type_id"))
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.type_id != null && Object.hasOwnProperty.call(message, "type_id"))
                     if (!$util.isInteger(message.type_id))
                         return "type_id: integer expected";
-                if (message.object_data != null && message.hasOwnProperty("object_data")) {
+                if (message.object_data != null && Object.hasOwnProperty.call(message, "object_data")) {
                     if (!Array.isArray(message.object_data))
                         return "object_data: array expected";
                     for (var i = 0; i < message.object_data.length; ++i)
@@ -1594,9 +1814,15 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgSOCacheSubscribed.SubscribedType} SubscribedType
              */
-            SubscribedType.fromObject = function fromObject(object) {
+            SubscribedType.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CMsgSOCacheSubscribed.SubscribedType)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CMsgSOCacheSubscribed.SubscribedType: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CMsgSOCacheSubscribed.SubscribedType();
                 if (object.type_id != null)
                     message.type_id = object.type_id | 0;
@@ -1622,15 +1848,19 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            SubscribedType.toObject = function toObject(message, options) {
+            SubscribedType.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.arrays || options.defaults)
                     object.object_data = [];
                 if (options.defaults)
                     object.type_id = 0;
-                if (message.type_id != null && message.hasOwnProperty("type_id"))
+                if (message.type_id != null && Object.hasOwnProperty.call(message, "type_id"))
                     object.type_id = message.type_id;
                 if (message.object_data && message.object_data.length) {
                     object.object_data = [];
@@ -1692,7 +1922,7 @@
         function CMsgSOCacheUnsubscribed(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -1725,11 +1955,15 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSOCacheUnsubscribed.encode = function encode(message, writer) {
+        CMsgSOCacheUnsubscribed.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid"))
-                $root.CMsgSOIDOwner.encode(message.owner_soid, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                $root.CMsgSOIDOwner.encode(message.owner_soid, writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
             return writer;
         };
     
@@ -1743,7 +1977,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSOCacheUnsubscribed.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -1757,23 +1991,42 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSOCacheUnsubscribed.decode = function decode(reader, length, error) {
+        CMsgSOCacheUnsubscribed.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSOCacheUnsubscribed();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSOCacheUnsubscribed();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
                     break;
                 switch (tag >>> 3) {
                 case 2: {
-                        message.owner_soid = $root.CMsgSOIDOwner.decode(reader, reader.uint32());
+                        message.owner_soid = $root.CMsgSOIDOwner.decode(reader, reader.uint32(), undefined, long + 1);
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -1802,11 +2055,15 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSOCacheUnsubscribed.verify = function verify(message) {
+        CMsgSOCacheUnsubscribed.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.owner_soid != null && message.hasOwnProperty("owner_soid")) {
-                var error = $root.CMsgSOIDOwner.verify(message.owner_soid);
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid")) {
+                var error = $root.CMsgSOIDOwner.verify(message.owner_soid, long + 1);
                 if (error)
                     return "owner_soid." + error;
             }
@@ -1821,14 +2078,20 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSOCacheUnsubscribed} CMsgSOCacheUnsubscribed
          */
-        CMsgSOCacheUnsubscribed.fromObject = function fromObject(object) {
+        CMsgSOCacheUnsubscribed.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSOCacheUnsubscribed)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSOCacheUnsubscribed: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSOCacheUnsubscribed();
             if (object.owner_soid != null) {
-                if (typeof object.owner_soid !== "object")
+                if (!$util.isObject(object.owner_soid))
                     throw TypeError(".CMsgSOCacheUnsubscribed.owner_soid: object expected");
-                message.owner_soid = $root.CMsgSOIDOwner.fromObject(object.owner_soid);
+                message.owner_soid = $root.CMsgSOIDOwner.fromObject(object.owner_soid, long + 1);
             }
             return message;
         };
@@ -1842,14 +2105,18 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSOCacheUnsubscribed.toObject = function toObject(message, options) {
+        CMsgSOCacheUnsubscribed.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.owner_soid = null;
-            if (message.owner_soid != null && message.hasOwnProperty("owner_soid"))
-                object.owner_soid = $root.CMsgSOIDOwner.toObject(message.owner_soid, options);
+            if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid"))
+                object.owner_soid = $root.CMsgSOIDOwner.toObject(message.owner_soid, options, q + 1);
             return object;
         };
     
@@ -1903,7 +2170,7 @@
         function CMsgSOCacheSubscriptionCheck(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -1913,7 +2180,7 @@
          * @memberof CMsgSOCacheSubscriptionCheck
          * @instance
          */
-        CMsgSOCacheSubscriptionCheck.prototype.version = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSOCacheSubscriptionCheck.prototype.version = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CMsgSOCacheSubscriptionCheck owner_soid.
@@ -1944,13 +2211,17 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSOCacheSubscriptionCheck.encode = function encode(message, writer) {
+        CMsgSOCacheSubscriptionCheck.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 writer.uint32(/* id 2, wireType 1 =*/17).fixed64(message.version);
             if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid"))
-                $root.CMsgSOIDOwner.encode(message.owner_soid, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                $root.CMsgSOIDOwner.encode(message.owner_soid, writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
             return writer;
         };
     
@@ -1964,7 +2235,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSOCacheSubscriptionCheck.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -1978,10 +2249,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSOCacheSubscriptionCheck.decode = function decode(reader, length, error) {
+        CMsgSOCacheSubscriptionCheck.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSOCacheSubscriptionCheck();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSOCacheSubscriptionCheck();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -1992,13 +2277,18 @@
                         break;
                     }
                 case 3: {
-                        message.owner_soid = $root.CMsgSOIDOwner.decode(reader, reader.uint32());
+                        message.owner_soid = $root.CMsgSOIDOwner.decode(reader, reader.uint32(), undefined, long + 1);
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -2027,14 +2317,18 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSOCacheSubscriptionCheck.verify = function verify(message) {
+        CMsgSOCacheSubscriptionCheck.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.version != null && message.hasOwnProperty("version"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 if (!$util.isInteger(message.version) && !(message.version && $util.isInteger(message.version.low) && $util.isInteger(message.version.high)))
                     return "version: integer|Long expected";
-            if (message.owner_soid != null && message.hasOwnProperty("owner_soid")) {
-                var error = $root.CMsgSOIDOwner.verify(message.owner_soid);
+            if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid")) {
+                var error = $root.CMsgSOIDOwner.verify(message.owner_soid, long + 1);
                 if (error)
                     return "owner_soid." + error;
             }
@@ -2049,23 +2343,29 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSOCacheSubscriptionCheck} CMsgSOCacheSubscriptionCheck
          */
-        CMsgSOCacheSubscriptionCheck.fromObject = function fromObject(object) {
+        CMsgSOCacheSubscriptionCheck.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSOCacheSubscriptionCheck)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSOCacheSubscriptionCheck: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSOCacheSubscriptionCheck();
             if (object.version != null)
                 if ($util.Long)
-                    (message.version = $util.Long.fromValue(object.version)).unsigned = false;
+                    message.version = $util.Long.fromValue(object.version, true);
                 else if (typeof object.version === "string")
                     message.version = parseInt(object.version, 10);
                 else if (typeof object.version === "number")
                     message.version = object.version;
                 else if (typeof object.version === "object")
-                    message.version = new $util.LongBits(object.version.low >>> 0, object.version.high >>> 0).toNumber();
+                    message.version = new $util.LongBits(object.version.low >>> 0, object.version.high >>> 0).toNumber(true);
             if (object.owner_soid != null) {
-                if (typeof object.owner_soid !== "object")
+                if (!$util.isObject(object.owner_soid))
                     throw TypeError(".CMsgSOCacheSubscriptionCheck.owner_soid: object expected");
-                message.owner_soid = $root.CMsgSOIDOwner.fromObject(object.owner_soid);
+                message.owner_soid = $root.CMsgSOIDOwner.fromObject(object.owner_soid, long + 1);
             }
             return message;
         };
@@ -2079,25 +2379,31 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSOCacheSubscriptionCheck.toObject = function toObject(message, options) {
+        CMsgSOCacheSubscriptionCheck.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.version = options.longs === String ? "0" : 0;
+                    object.version = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.owner_soid = null;
             }
-            if (message.version != null && message.hasOwnProperty("version"))
-                if (typeof message.version === "number")
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.version = typeof message.version === "number" ? BigInt(message.version) : $util.Long.fromBits(message.version.low >>> 0, message.version.high >>> 0, true).toBigInt();
+                else if (typeof message.version === "number")
                     object.version = options.longs === String ? String(message.version) : message.version;
                 else
-                    object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber() : message.version;
-            if (message.owner_soid != null && message.hasOwnProperty("owner_soid"))
-                object.owner_soid = $root.CMsgSOIDOwner.toObject(message.owner_soid, options);
+                    object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber(true) : message.version;
+            if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid"))
+                object.owner_soid = $root.CMsgSOIDOwner.toObject(message.owner_soid, options, q + 1);
             return object;
         };
     
@@ -2150,7 +2456,7 @@
         function CMsgSOCacheSubscriptionRefresh(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -2183,11 +2489,15 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSOCacheSubscriptionRefresh.encode = function encode(message, writer) {
+        CMsgSOCacheSubscriptionRefresh.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid"))
-                $root.CMsgSOIDOwner.encode(message.owner_soid, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                $root.CMsgSOIDOwner.encode(message.owner_soid, writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
             return writer;
         };
     
@@ -2201,7 +2511,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSOCacheSubscriptionRefresh.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -2215,23 +2525,42 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSOCacheSubscriptionRefresh.decode = function decode(reader, length, error) {
+        CMsgSOCacheSubscriptionRefresh.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSOCacheSubscriptionRefresh();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSOCacheSubscriptionRefresh();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
                     break;
                 switch (tag >>> 3) {
                 case 2: {
-                        message.owner_soid = $root.CMsgSOIDOwner.decode(reader, reader.uint32());
+                        message.owner_soid = $root.CMsgSOIDOwner.decode(reader, reader.uint32(), undefined, long + 1);
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -2260,11 +2589,15 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSOCacheSubscriptionRefresh.verify = function verify(message) {
+        CMsgSOCacheSubscriptionRefresh.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.owner_soid != null && message.hasOwnProperty("owner_soid")) {
-                var error = $root.CMsgSOIDOwner.verify(message.owner_soid);
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid")) {
+                var error = $root.CMsgSOIDOwner.verify(message.owner_soid, long + 1);
                 if (error)
                     return "owner_soid." + error;
             }
@@ -2279,14 +2612,20 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSOCacheSubscriptionRefresh} CMsgSOCacheSubscriptionRefresh
          */
-        CMsgSOCacheSubscriptionRefresh.fromObject = function fromObject(object) {
+        CMsgSOCacheSubscriptionRefresh.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSOCacheSubscriptionRefresh)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSOCacheSubscriptionRefresh: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSOCacheSubscriptionRefresh();
             if (object.owner_soid != null) {
-                if (typeof object.owner_soid !== "object")
+                if (!$util.isObject(object.owner_soid))
                     throw TypeError(".CMsgSOCacheSubscriptionRefresh.owner_soid: object expected");
-                message.owner_soid = $root.CMsgSOIDOwner.fromObject(object.owner_soid);
+                message.owner_soid = $root.CMsgSOIDOwner.fromObject(object.owner_soid, long + 1);
             }
             return message;
         };
@@ -2300,14 +2639,18 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSOCacheSubscriptionRefresh.toObject = function toObject(message, options) {
+        CMsgSOCacheSubscriptionRefresh.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.owner_soid = null;
-            if (message.owner_soid != null && message.hasOwnProperty("owner_soid"))
-                object.owner_soid = $root.CMsgSOIDOwner.toObject(message.owner_soid, options);
+            if (message.owner_soid != null && Object.hasOwnProperty.call(message, "owner_soid"))
+                object.owner_soid = $root.CMsgSOIDOwner.toObject(message.owner_soid, options, q + 1);
             return object;
         };
     
@@ -2360,7 +2703,7 @@
         function CMsgSOCacheVersion(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -2370,7 +2713,7 @@
          * @memberof CMsgSOCacheVersion
          * @instance
          */
-        CMsgSOCacheVersion.prototype.version = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSOCacheVersion.prototype.version = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * Creates a new CMsgSOCacheVersion instance using the specified properties.
@@ -2393,9 +2736,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSOCacheVersion.encode = function encode(message, writer) {
+        CMsgSOCacheVersion.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 writer.uint32(/* id 1, wireType 1 =*/9).fixed64(message.version);
             return writer;
@@ -2411,7 +2758,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSOCacheVersion.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -2425,10 +2772,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSOCacheVersion.decode = function decode(reader, length, error) {
+        CMsgSOCacheVersion.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSOCacheVersion();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSOCacheVersion();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -2439,9 +2800,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -2470,10 +2836,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSOCacheVersion.verify = function verify(message) {
+        CMsgSOCacheVersion.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.version != null && message.hasOwnProperty("version"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 if (!$util.isInteger(message.version) && !(message.version && $util.isInteger(message.version.low) && $util.isInteger(message.version.high)))
                     return "version: integer|Long expected";
             return null;
@@ -2487,19 +2857,25 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSOCacheVersion} CMsgSOCacheVersion
          */
-        CMsgSOCacheVersion.fromObject = function fromObject(object) {
+        CMsgSOCacheVersion.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSOCacheVersion)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSOCacheVersion: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSOCacheVersion();
             if (object.version != null)
                 if ($util.Long)
-                    (message.version = $util.Long.fromValue(object.version)).unsigned = false;
+                    message.version = $util.Long.fromValue(object.version, true);
                 else if (typeof object.version === "string")
                     message.version = parseInt(object.version, 10);
                 else if (typeof object.version === "number")
                     message.version = object.version;
                 else if (typeof object.version === "object")
-                    message.version = new $util.LongBits(object.version.low >>> 0, object.version.high >>> 0).toNumber();
+                    message.version = new $util.LongBits(object.version.low >>> 0, object.version.high >>> 0).toNumber(true);
             return message;
         };
     
@@ -2512,21 +2888,27 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSOCacheVersion.toObject = function toObject(message, options) {
+        CMsgSOCacheVersion.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.version = options.longs === String ? "0" : 0;
-            if (message.version != null && message.hasOwnProperty("version"))
-                if (typeof message.version === "number")
+                    object.version = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.version = typeof message.version === "number" ? BigInt(message.version) : $util.Long.fromBits(message.version.low >>> 0, message.version.high >>> 0, true).toBigInt();
+                else if (typeof message.version === "number")
                     object.version = options.longs === String ? String(message.version) : message.version;
                 else
-                    object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber() : message.version;
+                    object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber(true) : message.version;
             return object;
         };
     
@@ -2596,7 +2978,7 @@
         function CMsgAccountDetails(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -2765,9 +3147,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgAccountDetails.encode = function encode(message, writer) {
+        CMsgAccountDetails.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.valid != null && Object.hasOwnProperty.call(message, "valid"))
                 writer.uint32(/* id 1, wireType 0 =*/8).bool(message.valid);
             if (message.account_name != null && Object.hasOwnProperty.call(message, "account_name"))
@@ -2817,7 +3203,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgAccountDetails.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -2831,10 +3217,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgAccountDetails.decode = function decode(reader, length, error) {
+        CMsgAccountDetails.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgAccountDetails();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgAccountDetails();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -2913,9 +3313,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -2944,61 +3349,65 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgAccountDetails.verify = function verify(message) {
+        CMsgAccountDetails.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.valid != null && message.hasOwnProperty("valid"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.valid != null && Object.hasOwnProperty.call(message, "valid"))
                 if (typeof message.valid !== "boolean")
                     return "valid: boolean expected";
-            if (message.account_name != null && message.hasOwnProperty("account_name"))
+            if (message.account_name != null && Object.hasOwnProperty.call(message, "account_name"))
                 if (!$util.isString(message.account_name))
                     return "account_name: string expected";
-            if (message.public_profile != null && message.hasOwnProperty("public_profile"))
+            if (message.public_profile != null && Object.hasOwnProperty.call(message, "public_profile"))
                 if (typeof message.public_profile !== "boolean")
                     return "public_profile: boolean expected";
-            if (message.public_inventory != null && message.hasOwnProperty("public_inventory"))
+            if (message.public_inventory != null && Object.hasOwnProperty.call(message, "public_inventory"))
                 if (typeof message.public_inventory !== "boolean")
                     return "public_inventory: boolean expected";
-            if (message.vac_banned != null && message.hasOwnProperty("vac_banned"))
+            if (message.vac_banned != null && Object.hasOwnProperty.call(message, "vac_banned"))
                 if (typeof message.vac_banned !== "boolean")
                     return "vac_banned: boolean expected";
-            if (message.cyber_cafe != null && message.hasOwnProperty("cyber_cafe"))
+            if (message.cyber_cafe != null && Object.hasOwnProperty.call(message, "cyber_cafe"))
                 if (typeof message.cyber_cafe !== "boolean")
                     return "cyber_cafe: boolean expected";
-            if (message.school_account != null && message.hasOwnProperty("school_account"))
+            if (message.school_account != null && Object.hasOwnProperty.call(message, "school_account"))
                 if (typeof message.school_account !== "boolean")
                     return "school_account: boolean expected";
-            if (message.free_trial_account != null && message.hasOwnProperty("free_trial_account"))
+            if (message.free_trial_account != null && Object.hasOwnProperty.call(message, "free_trial_account"))
                 if (typeof message.free_trial_account !== "boolean")
                     return "free_trial_account: boolean expected";
-            if (message.subscribed != null && message.hasOwnProperty("subscribed"))
+            if (message.subscribed != null && Object.hasOwnProperty.call(message, "subscribed"))
                 if (typeof message.subscribed !== "boolean")
                     return "subscribed: boolean expected";
-            if (message.low_violence != null && message.hasOwnProperty("low_violence"))
+            if (message.low_violence != null && Object.hasOwnProperty.call(message, "low_violence"))
                 if (typeof message.low_violence !== "boolean")
                     return "low_violence: boolean expected";
-            if (message.limited != null && message.hasOwnProperty("limited"))
+            if (message.limited != null && Object.hasOwnProperty.call(message, "limited"))
                 if (typeof message.limited !== "boolean")
                     return "limited: boolean expected";
-            if (message.trusted != null && message.hasOwnProperty("trusted"))
+            if (message.trusted != null && Object.hasOwnProperty.call(message, "trusted"))
                 if (typeof message.trusted !== "boolean")
                     return "trusted: boolean expected";
-            if (message["package"] != null && message.hasOwnProperty("package"))
+            if (message["package"] != null && Object.hasOwnProperty.call(message, "package"))
                 if (!$util.isInteger(message["package"]))
                     return "package: integer expected";
-            if (message.time_cached != null && message.hasOwnProperty("time_cached"))
+            if (message.time_cached != null && Object.hasOwnProperty.call(message, "time_cached"))
                 if (!$util.isInteger(message.time_cached))
                     return "time_cached: integer expected";
-            if (message.account_locked != null && message.hasOwnProperty("account_locked"))
+            if (message.account_locked != null && Object.hasOwnProperty.call(message, "account_locked"))
                 if (typeof message.account_locked !== "boolean")
                     return "account_locked: boolean expected";
-            if (message.community_banned != null && message.hasOwnProperty("community_banned"))
+            if (message.community_banned != null && Object.hasOwnProperty.call(message, "community_banned"))
                 if (typeof message.community_banned !== "boolean")
                     return "community_banned: boolean expected";
-            if (message.trade_banned != null && message.hasOwnProperty("trade_banned"))
+            if (message.trade_banned != null && Object.hasOwnProperty.call(message, "trade_banned"))
                 if (typeof message.trade_banned !== "boolean")
                     return "trade_banned: boolean expected";
-            if (message.eligible_for_community_market != null && message.hasOwnProperty("eligible_for_community_market"))
+            if (message.eligible_for_community_market != null && Object.hasOwnProperty.call(message, "eligible_for_community_market"))
                 if (typeof message.eligible_for_community_market !== "boolean")
                     return "eligible_for_community_market: boolean expected";
             return null;
@@ -3012,9 +3421,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgAccountDetails} CMsgAccountDetails
          */
-        CMsgAccountDetails.fromObject = function fromObject(object) {
+        CMsgAccountDetails.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgAccountDetails)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgAccountDetails: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgAccountDetails();
             if (object.valid != null)
                 message.valid = Boolean(object.valid);
@@ -3064,9 +3479,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgAccountDetails.toObject = function toObject(message, options) {
+        CMsgAccountDetails.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.valid = false;
@@ -3088,41 +3507,41 @@
                 object.trade_banned = false;
                 object.eligible_for_community_market = false;
             }
-            if (message.valid != null && message.hasOwnProperty("valid"))
+            if (message.valid != null && Object.hasOwnProperty.call(message, "valid"))
                 object.valid = message.valid;
-            if (message.account_name != null && message.hasOwnProperty("account_name"))
+            if (message.account_name != null && Object.hasOwnProperty.call(message, "account_name"))
                 object.account_name = message.account_name;
-            if (message.public_profile != null && message.hasOwnProperty("public_profile"))
+            if (message.public_profile != null && Object.hasOwnProperty.call(message, "public_profile"))
                 object.public_profile = message.public_profile;
-            if (message.public_inventory != null && message.hasOwnProperty("public_inventory"))
+            if (message.public_inventory != null && Object.hasOwnProperty.call(message, "public_inventory"))
                 object.public_inventory = message.public_inventory;
-            if (message.vac_banned != null && message.hasOwnProperty("vac_banned"))
+            if (message.vac_banned != null && Object.hasOwnProperty.call(message, "vac_banned"))
                 object.vac_banned = message.vac_banned;
-            if (message.cyber_cafe != null && message.hasOwnProperty("cyber_cafe"))
+            if (message.cyber_cafe != null && Object.hasOwnProperty.call(message, "cyber_cafe"))
                 object.cyber_cafe = message.cyber_cafe;
-            if (message.school_account != null && message.hasOwnProperty("school_account"))
+            if (message.school_account != null && Object.hasOwnProperty.call(message, "school_account"))
                 object.school_account = message.school_account;
-            if (message.free_trial_account != null && message.hasOwnProperty("free_trial_account"))
+            if (message.free_trial_account != null && Object.hasOwnProperty.call(message, "free_trial_account"))
                 object.free_trial_account = message.free_trial_account;
-            if (message.subscribed != null && message.hasOwnProperty("subscribed"))
+            if (message.subscribed != null && Object.hasOwnProperty.call(message, "subscribed"))
                 object.subscribed = message.subscribed;
-            if (message.low_violence != null && message.hasOwnProperty("low_violence"))
+            if (message.low_violence != null && Object.hasOwnProperty.call(message, "low_violence"))
                 object.low_violence = message.low_violence;
-            if (message.limited != null && message.hasOwnProperty("limited"))
+            if (message.limited != null && Object.hasOwnProperty.call(message, "limited"))
                 object.limited = message.limited;
-            if (message.trusted != null && message.hasOwnProperty("trusted"))
+            if (message.trusted != null && Object.hasOwnProperty.call(message, "trusted"))
                 object.trusted = message.trusted;
-            if (message["package"] != null && message.hasOwnProperty("package"))
+            if (message["package"] != null && Object.hasOwnProperty.call(message, "package"))
                 object["package"] = message["package"];
-            if (message.time_cached != null && message.hasOwnProperty("time_cached"))
+            if (message.time_cached != null && Object.hasOwnProperty.call(message, "time_cached"))
                 object.time_cached = message.time_cached;
-            if (message.account_locked != null && message.hasOwnProperty("account_locked"))
+            if (message.account_locked != null && Object.hasOwnProperty.call(message, "account_locked"))
                 object.account_locked = message.account_locked;
-            if (message.community_banned != null && message.hasOwnProperty("community_banned"))
+            if (message.community_banned != null && Object.hasOwnProperty.call(message, "community_banned"))
                 object.community_banned = message.community_banned;
-            if (message.trade_banned != null && message.hasOwnProperty("trade_banned"))
+            if (message.trade_banned != null && Object.hasOwnProperty.call(message, "trade_banned"))
                 object.trade_banned = message.trade_banned;
-            if (message.eligible_for_community_market != null && message.hasOwnProperty("eligible_for_community_market"))
+            if (message.eligible_for_community_market != null && Object.hasOwnProperty.call(message, "eligible_for_community_market"))
                 object.eligible_for_community_market = message.eligible_for_community_market;
             return object;
         };
@@ -3180,7 +3599,7 @@
             this.steamids = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -3237,9 +3656,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgGCMultiplexMessage.encode = function encode(message, writer) {
+        CMsgGCMultiplexMessage.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.msgtype != null && Object.hasOwnProperty.call(message, "msgtype"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.msgtype);
             if (message.payload != null && Object.hasOwnProperty.call(message, "payload"))
@@ -3262,7 +3685,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgGCMultiplexMessage.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -3276,10 +3699,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgGCMultiplexMessage.decode = function decode(reader, length, error) {
+        CMsgGCMultiplexMessage.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgGCMultiplexMessage();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgGCMultiplexMessage();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -3298,8 +3735,14 @@
                             message.steamids = [];
                         if ((tag & 7) === 2) {
                             var end2 = reader.uint32() + reader.pos;
+                            if (end2 > reader.len)
+                                throw RangeError("index out of range");
+                            reader.len = end2;
                             while (reader.pos < end2)
                                 message.steamids.push(reader.fixed64());
+                            if (reader.pos !== end2)
+                                throw RangeError("index out of range");
+                            reader.len = end;
                         } else
                             message.steamids.push(reader.fixed64());
                         break;
@@ -3309,9 +3752,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -3340,23 +3788,27 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgGCMultiplexMessage.verify = function verify(message) {
+        CMsgGCMultiplexMessage.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.msgtype != null && message.hasOwnProperty("msgtype"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.msgtype != null && Object.hasOwnProperty.call(message, "msgtype"))
                 if (!$util.isInteger(message.msgtype))
                     return "msgtype: integer expected";
-            if (message.payload != null && message.hasOwnProperty("payload"))
+            if (message.payload != null && Object.hasOwnProperty.call(message, "payload"))
                 if (!(message.payload && typeof message.payload.length === "number" || $util.isString(message.payload)))
                     return "payload: buffer expected";
-            if (message.steamids != null && message.hasOwnProperty("steamids")) {
+            if (message.steamids != null && Object.hasOwnProperty.call(message, "steamids")) {
                 if (!Array.isArray(message.steamids))
                     return "steamids: array expected";
                 for (var i = 0; i < message.steamids.length; ++i)
                     if (!$util.isInteger(message.steamids[i]) && !(message.steamids[i] && $util.isInteger(message.steamids[i].low) && $util.isInteger(message.steamids[i].high)))
                         return "steamids: integer|Long[] expected";
             }
-            if (message.replytogc != null && message.hasOwnProperty("replytogc"))
+            if (message.replytogc != null && Object.hasOwnProperty.call(message, "replytogc"))
                 if (typeof message.replytogc !== "boolean")
                     return "replytogc: boolean expected";
             return null;
@@ -3370,9 +3822,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgGCMultiplexMessage} CMsgGCMultiplexMessage
          */
-        CMsgGCMultiplexMessage.fromObject = function fromObject(object) {
+        CMsgGCMultiplexMessage.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgGCMultiplexMessage)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgGCMultiplexMessage: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgGCMultiplexMessage();
             if (object.msgtype != null)
                 message.msgtype = object.msgtype >>> 0;
@@ -3387,13 +3845,13 @@
                 message.steamids = [];
                 for (var i = 0; i < object.steamids.length; ++i)
                     if ($util.Long)
-                        (message.steamids[i] = $util.Long.fromValue(object.steamids[i])).unsigned = false;
+                        message.steamids[i] = $util.Long.fromValue(object.steamids[i], true);
                     else if (typeof object.steamids[i] === "string")
                         message.steamids[i] = parseInt(object.steamids[i], 10);
                     else if (typeof object.steamids[i] === "number")
                         message.steamids[i] = object.steamids[i];
                     else if (typeof object.steamids[i] === "object")
-                        message.steamids[i] = new $util.LongBits(object.steamids[i].low >>> 0, object.steamids[i].high >>> 0).toNumber();
+                        message.steamids[i] = new $util.LongBits(object.steamids[i].low >>> 0, object.steamids[i].high >>> 0).toNumber(true);
             }
             if (object.replytogc != null)
                 message.replytogc = Boolean(object.replytogc);
@@ -3409,9 +3867,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgGCMultiplexMessage.toObject = function toObject(message, options) {
+        CMsgGCMultiplexMessage.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.steamids = [];
@@ -3426,19 +3888,21 @@
                 }
                 object.replytogc = false;
             }
-            if (message.msgtype != null && message.hasOwnProperty("msgtype"))
+            if (message.msgtype != null && Object.hasOwnProperty.call(message, "msgtype"))
                 object.msgtype = message.msgtype;
-            if (message.payload != null && message.hasOwnProperty("payload"))
+            if (message.payload != null && Object.hasOwnProperty.call(message, "payload"))
                 object.payload = options.bytes === String ? $util.base64.encode(message.payload, 0, message.payload.length) : options.bytes === Array ? Array.prototype.slice.call(message.payload) : message.payload;
             if (message.steamids && message.steamids.length) {
                 object.steamids = [];
                 for (var j = 0; j < message.steamids.length; ++j)
-                    if (typeof message.steamids[j] === "number")
+                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                        object.steamids[j] = typeof message.steamids[j] === "number" ? BigInt(message.steamids[j]) : $util.Long.fromBits(message.steamids[j].low >>> 0, message.steamids[j].high >>> 0, true).toBigInt();
+                    else if (typeof message.steamids[j] === "number")
                         object.steamids[j] = options.longs === String ? String(message.steamids[j]) : message.steamids[j];
                     else
-                        object.steamids[j] = options.longs === String ? $util.Long.prototype.toString.call(message.steamids[j]) : options.longs === Number ? new $util.LongBits(message.steamids[j].low >>> 0, message.steamids[j].high >>> 0).toNumber() : message.steamids[j];
+                        object.steamids[j] = options.longs === String ? $util.Long.prototype.toString.call(message.steamids[j]) : options.longs === Number ? new $util.LongBits(message.steamids[j].low >>> 0, message.steamids[j].high >>> 0).toNumber(true) : message.steamids[j];
             }
-            if (message.replytogc != null && message.hasOwnProperty("replytogc"))
+            if (message.replytogc != null && Object.hasOwnProperty.call(message, "replytogc"))
                 object.replytogc = message.replytogc;
             return object;
         };
@@ -3492,7 +3956,7 @@
         function CMsgGCMultiplexMessage_Response(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -3525,9 +3989,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgGCMultiplexMessage_Response.encode = function encode(message, writer) {
+        CMsgGCMultiplexMessage_Response.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.msgtype != null && Object.hasOwnProperty.call(message, "msgtype"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.msgtype);
             return writer;
@@ -3543,7 +4011,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgGCMultiplexMessage_Response.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -3557,10 +4025,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgGCMultiplexMessage_Response.decode = function decode(reader, length, error) {
+        CMsgGCMultiplexMessage_Response.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgGCMultiplexMessage_Response();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgGCMultiplexMessage_Response();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -3571,9 +4053,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -3602,10 +4089,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgGCMultiplexMessage_Response.verify = function verify(message) {
+        CMsgGCMultiplexMessage_Response.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.msgtype != null && message.hasOwnProperty("msgtype"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.msgtype != null && Object.hasOwnProperty.call(message, "msgtype"))
                 if (!$util.isInteger(message.msgtype))
                     return "msgtype: integer expected";
             return null;
@@ -3619,9 +4110,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgGCMultiplexMessage_Response} CMsgGCMultiplexMessage_Response
          */
-        CMsgGCMultiplexMessage_Response.fromObject = function fromObject(object) {
+        CMsgGCMultiplexMessage_Response.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgGCMultiplexMessage_Response)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgGCMultiplexMessage_Response: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgGCMultiplexMessage_Response();
             if (object.msgtype != null)
                 message.msgtype = object.msgtype >>> 0;
@@ -3637,13 +4134,17 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgGCMultiplexMessage_Response.toObject = function toObject(message, options) {
+        CMsgGCMultiplexMessage_Response.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.msgtype = 0;
-            if (message.msgtype != null && message.hasOwnProperty("msgtype"))
+            if (message.msgtype != null && Object.hasOwnProperty.call(message, "msgtype"))
                 object.msgtype = message.msgtype;
             return object;
         };
@@ -3698,7 +4199,7 @@
         function CGCToGCMsgMasterAck(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -3739,9 +4240,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CGCToGCMsgMasterAck.encode = function encode(message, writer) {
+        CGCToGCMsgMasterAck.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.dir_index != null && Object.hasOwnProperty.call(message, "dir_index"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.dir_index);
             if (message.gc_type != null && Object.hasOwnProperty.call(message, "gc_type"))
@@ -3759,7 +4264,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CGCToGCMsgMasterAck.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -3773,10 +4278,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CGCToGCMsgMasterAck.decode = function decode(reader, length, error) {
+        CGCToGCMsgMasterAck.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CGCToGCMsgMasterAck();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CGCToGCMsgMasterAck();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -3791,9 +4310,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -3822,13 +4346,17 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CGCToGCMsgMasterAck.verify = function verify(message) {
+        CGCToGCMsgMasterAck.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.dir_index != null && message.hasOwnProperty("dir_index"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.dir_index != null && Object.hasOwnProperty.call(message, "dir_index"))
                 if (!$util.isInteger(message.dir_index))
                     return "dir_index: integer expected";
-            if (message.gc_type != null && message.hasOwnProperty("gc_type"))
+            if (message.gc_type != null && Object.hasOwnProperty.call(message, "gc_type"))
                 if (!$util.isInteger(message.gc_type))
                     return "gc_type: integer expected";
             return null;
@@ -3842,9 +4370,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CGCToGCMsgMasterAck} CGCToGCMsgMasterAck
          */
-        CGCToGCMsgMasterAck.fromObject = function fromObject(object) {
+        CGCToGCMsgMasterAck.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CGCToGCMsgMasterAck)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CGCToGCMsgMasterAck: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CGCToGCMsgMasterAck();
             if (object.dir_index != null)
                 message.dir_index = object.dir_index >>> 0;
@@ -3862,17 +4396,21 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CGCToGCMsgMasterAck.toObject = function toObject(message, options) {
+        CGCToGCMsgMasterAck.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.dir_index = 0;
                 object.gc_type = 0;
             }
-            if (message.dir_index != null && message.hasOwnProperty("dir_index"))
+            if (message.dir_index != null && Object.hasOwnProperty.call(message, "dir_index"))
                 object.dir_index = message.dir_index;
-            if (message.gc_type != null && message.hasOwnProperty("gc_type"))
+            if (message.gc_type != null && Object.hasOwnProperty.call(message, "gc_type"))
                 object.gc_type = message.gc_type;
             return object;
         };
@@ -3926,7 +4464,7 @@
         function CGCToGCMsgMasterAck_Response(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -3959,9 +4497,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CGCToGCMsgMasterAck_Response.encode = function encode(message, writer) {
+        CGCToGCMsgMasterAck_Response.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.eresult != null && Object.hasOwnProperty.call(message, "eresult"))
                 writer.uint32(/* id 1, wireType 0 =*/8).int32(message.eresult);
             return writer;
@@ -3977,7 +4519,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CGCToGCMsgMasterAck_Response.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -3991,10 +4533,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CGCToGCMsgMasterAck_Response.decode = function decode(reader, length, error) {
+        CGCToGCMsgMasterAck_Response.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CGCToGCMsgMasterAck_Response();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CGCToGCMsgMasterAck_Response();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -4005,9 +4561,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -4036,10 +4597,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CGCToGCMsgMasterAck_Response.verify = function verify(message) {
+        CGCToGCMsgMasterAck_Response.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.eresult != null && message.hasOwnProperty("eresult"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.eresult != null && Object.hasOwnProperty.call(message, "eresult"))
                 if (!$util.isInteger(message.eresult))
                     return "eresult: integer expected";
             return null;
@@ -4053,9 +4618,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CGCToGCMsgMasterAck_Response} CGCToGCMsgMasterAck_Response
          */
-        CGCToGCMsgMasterAck_Response.fromObject = function fromObject(object) {
+        CGCToGCMsgMasterAck_Response.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CGCToGCMsgMasterAck_Response)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CGCToGCMsgMasterAck_Response: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CGCToGCMsgMasterAck_Response();
             if (object.eresult != null)
                 message.eresult = object.eresult | 0;
@@ -4071,13 +4642,17 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CGCToGCMsgMasterAck_Response.toObject = function toObject(message, options) {
+        CGCToGCMsgMasterAck_Response.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.eresult = 2;
-            if (message.eresult != null && message.hasOwnProperty("eresult"))
+            if (message.eresult != null && Object.hasOwnProperty.call(message, "eresult"))
                 object.eresult = message.eresult;
             return object;
         };
@@ -4130,7 +4705,7 @@
         function CGCToGCMsgMasterStartupComplete(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -4155,9 +4730,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CGCToGCMsgMasterStartupComplete.encode = function encode(message, writer) {
+        CGCToGCMsgMasterStartupComplete.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             return writer;
         };
     
@@ -4171,7 +4750,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CGCToGCMsgMasterStartupComplete.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -4185,19 +4764,38 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CGCToGCMsgMasterStartupComplete.decode = function decode(reader, length, error) {
+        CGCToGCMsgMasterStartupComplete.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CGCToGCMsgMasterStartupComplete();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CGCToGCMsgMasterStartupComplete();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
                     break;
                 switch (tag >>> 3) {
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -4226,9 +4824,13 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CGCToGCMsgMasterStartupComplete.verify = function verify(message) {
+        CGCToGCMsgMasterStartupComplete.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
             return null;
         };
     
@@ -4240,7 +4842,7 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CGCToGCMsgMasterStartupComplete} CGCToGCMsgMasterStartupComplete
          */
-        CGCToGCMsgMasterStartupComplete.fromObject = function fromObject(object) {
+        CGCToGCMsgMasterStartupComplete.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CGCToGCMsgMasterStartupComplete)
                 return object;
             return new $root.CGCToGCMsgMasterStartupComplete();
@@ -4311,7 +4913,7 @@
         function CGCToGCMsgRouted(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -4329,7 +4931,7 @@
          * @memberof CGCToGCMsgRouted
          * @instance
          */
-        CGCToGCMsgRouted.prototype.sender_id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CGCToGCMsgRouted.prototype.sender_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CGCToGCMsgRouted net_message.
@@ -4368,9 +4970,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CGCToGCMsgRouted.encode = function encode(message, writer) {
+        CGCToGCMsgRouted.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.msg_type != null && Object.hasOwnProperty.call(message, "msg_type"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.msg_type);
             if (message.sender_id != null && Object.hasOwnProperty.call(message, "sender_id"))
@@ -4392,7 +4998,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CGCToGCMsgRouted.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -4406,10 +5012,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CGCToGCMsgRouted.decode = function decode(reader, length, error) {
+        CGCToGCMsgRouted.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CGCToGCMsgRouted();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CGCToGCMsgRouted();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -4432,9 +5052,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -4463,19 +5088,23 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CGCToGCMsgRouted.verify = function verify(message) {
+        CGCToGCMsgRouted.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.msg_type != null && message.hasOwnProperty("msg_type"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.msg_type != null && Object.hasOwnProperty.call(message, "msg_type"))
                 if (!$util.isInteger(message.msg_type))
                     return "msg_type: integer expected";
-            if (message.sender_id != null && message.hasOwnProperty("sender_id"))
+            if (message.sender_id != null && Object.hasOwnProperty.call(message, "sender_id"))
                 if (!$util.isInteger(message.sender_id) && !(message.sender_id && $util.isInteger(message.sender_id.low) && $util.isInteger(message.sender_id.high)))
                     return "sender_id: integer|Long expected";
-            if (message.net_message != null && message.hasOwnProperty("net_message"))
+            if (message.net_message != null && Object.hasOwnProperty.call(message, "net_message"))
                 if (!(message.net_message && typeof message.net_message.length === "number" || $util.isString(message.net_message)))
                     return "net_message: buffer expected";
-            if (message.ip != null && message.hasOwnProperty("ip"))
+            if (message.ip != null && Object.hasOwnProperty.call(message, "ip"))
                 if (!$util.isInteger(message.ip))
                     return "ip: integer expected";
             return null;
@@ -4489,21 +5118,27 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CGCToGCMsgRouted} CGCToGCMsgRouted
          */
-        CGCToGCMsgRouted.fromObject = function fromObject(object) {
+        CGCToGCMsgRouted.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CGCToGCMsgRouted)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CGCToGCMsgRouted: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CGCToGCMsgRouted();
             if (object.msg_type != null)
                 message.msg_type = object.msg_type >>> 0;
             if (object.sender_id != null)
                 if ($util.Long)
-                    (message.sender_id = $util.Long.fromValue(object.sender_id)).unsigned = false;
+                    message.sender_id = $util.Long.fromValue(object.sender_id, true);
                 else if (typeof object.sender_id === "string")
                     message.sender_id = parseInt(object.sender_id, 10);
                 else if (typeof object.sender_id === "number")
                     message.sender_id = object.sender_id;
                 else if (typeof object.sender_id === "object")
-                    message.sender_id = new $util.LongBits(object.sender_id.low >>> 0, object.sender_id.high >>> 0).toNumber();
+                    message.sender_id = new $util.LongBits(object.sender_id.low >>> 0, object.sender_id.high >>> 0).toNumber(true);
             if (object.net_message != null)
                 if (typeof object.net_message === "string")
                     $util.base64.decode(object.net_message, message.net_message = $util.newBuffer($util.base64.length(object.net_message)), 0);
@@ -4523,17 +5158,21 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CGCToGCMsgRouted.toObject = function toObject(message, options) {
+        CGCToGCMsgRouted.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.msg_type = 0;
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.sender_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.sender_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.sender_id = options.longs === String ? "0" : 0;
+                    object.sender_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 if (options.bytes === String)
                     object.net_message = "";
                 else {
@@ -4543,16 +5182,18 @@
                 }
                 object.ip = 0;
             }
-            if (message.msg_type != null && message.hasOwnProperty("msg_type"))
+            if (message.msg_type != null && Object.hasOwnProperty.call(message, "msg_type"))
                 object.msg_type = message.msg_type;
-            if (message.sender_id != null && message.hasOwnProperty("sender_id"))
-                if (typeof message.sender_id === "number")
+            if (message.sender_id != null && Object.hasOwnProperty.call(message, "sender_id"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.sender_id = typeof message.sender_id === "number" ? BigInt(message.sender_id) : $util.Long.fromBits(message.sender_id.low >>> 0, message.sender_id.high >>> 0, true).toBigInt();
+                else if (typeof message.sender_id === "number")
                     object.sender_id = options.longs === String ? String(message.sender_id) : message.sender_id;
                 else
-                    object.sender_id = options.longs === String ? $util.Long.prototype.toString.call(message.sender_id) : options.longs === Number ? new $util.LongBits(message.sender_id.low >>> 0, message.sender_id.high >>> 0).toNumber() : message.sender_id;
-            if (message.net_message != null && message.hasOwnProperty("net_message"))
+                    object.sender_id = options.longs === String ? $util.Long.prototype.toString.call(message.sender_id) : options.longs === Number ? new $util.LongBits(message.sender_id.low >>> 0, message.sender_id.high >>> 0).toNumber(true) : message.sender_id;
+            if (message.net_message != null && Object.hasOwnProperty.call(message, "net_message"))
                 object.net_message = options.bytes === String ? $util.base64.encode(message.net_message, 0, message.net_message.length) : options.bytes === Array ? Array.prototype.slice.call(message.net_message) : message.net_message;
-            if (message.ip != null && message.hasOwnProperty("ip"))
+            if (message.ip != null && Object.hasOwnProperty.call(message, "ip"))
                 object.ip = message.ip;
             return object;
         };
@@ -4607,7 +5248,7 @@
         function CGCToGCMsgRoutedReply(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -4648,9 +5289,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CGCToGCMsgRoutedReply.encode = function encode(message, writer) {
+        CGCToGCMsgRoutedReply.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.msg_type != null && Object.hasOwnProperty.call(message, "msg_type"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.msg_type);
             if (message.net_message != null && Object.hasOwnProperty.call(message, "net_message"))
@@ -4668,7 +5313,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CGCToGCMsgRoutedReply.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -4682,10 +5327,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CGCToGCMsgRoutedReply.decode = function decode(reader, length, error) {
+        CGCToGCMsgRoutedReply.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CGCToGCMsgRoutedReply();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CGCToGCMsgRoutedReply();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -4700,9 +5359,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -4731,13 +5395,17 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CGCToGCMsgRoutedReply.verify = function verify(message) {
+        CGCToGCMsgRoutedReply.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.msg_type != null && message.hasOwnProperty("msg_type"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.msg_type != null && Object.hasOwnProperty.call(message, "msg_type"))
                 if (!$util.isInteger(message.msg_type))
                     return "msg_type: integer expected";
-            if (message.net_message != null && message.hasOwnProperty("net_message"))
+            if (message.net_message != null && Object.hasOwnProperty.call(message, "net_message"))
                 if (!(message.net_message && typeof message.net_message.length === "number" || $util.isString(message.net_message)))
                     return "net_message: buffer expected";
             return null;
@@ -4751,9 +5419,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CGCToGCMsgRoutedReply} CGCToGCMsgRoutedReply
          */
-        CGCToGCMsgRoutedReply.fromObject = function fromObject(object) {
+        CGCToGCMsgRoutedReply.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CGCToGCMsgRoutedReply)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CGCToGCMsgRoutedReply: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CGCToGCMsgRoutedReply();
             if (object.msg_type != null)
                 message.msg_type = object.msg_type >>> 0;
@@ -4774,9 +5448,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CGCToGCMsgRoutedReply.toObject = function toObject(message, options) {
+        CGCToGCMsgRoutedReply.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.msg_type = 0;
@@ -4788,9 +5466,9 @@
                         object.net_message = $util.newBuffer(object.net_message);
                 }
             }
-            if (message.msg_type != null && message.hasOwnProperty("msg_type"))
+            if (message.msg_type != null && Object.hasOwnProperty.call(message, "msg_type"))
                 object.msg_type = message.msg_type;
-            if (message.net_message != null && message.hasOwnProperty("net_message"))
+            if (message.net_message != null && Object.hasOwnProperty.call(message, "net_message"))
                 object.net_message = options.bytes === String ? $util.base64.encode(message.net_message, 0, message.net_message.length) : options.bytes === Array ? Array.prototype.slice.call(message.net_message) : message.net_message;
             return object;
         };
@@ -4845,7 +5523,7 @@
         function CMsgGCUpdateSessionIP(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -4855,7 +5533,7 @@
          * @memberof CMsgGCUpdateSessionIP
          * @instance
          */
-        CMsgGCUpdateSessionIP.prototype.steamid = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgGCUpdateSessionIP.prototype.steamid = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CMsgGCUpdateSessionIP ip.
@@ -4886,9 +5564,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgGCUpdateSessionIP.encode = function encode(message, writer) {
+        CMsgGCUpdateSessionIP.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
                 writer.uint32(/* id 1, wireType 1 =*/9).fixed64(message.steamid);
             if (message.ip != null && Object.hasOwnProperty.call(message, "ip"))
@@ -4906,7 +5588,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgGCUpdateSessionIP.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -4920,10 +5602,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgGCUpdateSessionIP.decode = function decode(reader, length, error) {
+        CMsgGCUpdateSessionIP.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgGCUpdateSessionIP();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgGCUpdateSessionIP();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -4938,9 +5634,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -4969,13 +5670,17 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgGCUpdateSessionIP.verify = function verify(message) {
+        CMsgGCUpdateSessionIP.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.steamid != null && message.hasOwnProperty("steamid"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
                 if (!$util.isInteger(message.steamid) && !(message.steamid && $util.isInteger(message.steamid.low) && $util.isInteger(message.steamid.high)))
                     return "steamid: integer|Long expected";
-            if (message.ip != null && message.hasOwnProperty("ip"))
+            if (message.ip != null && Object.hasOwnProperty.call(message, "ip"))
                 if (!$util.isInteger(message.ip))
                     return "ip: integer expected";
             return null;
@@ -4989,19 +5694,25 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgGCUpdateSessionIP} CMsgGCUpdateSessionIP
          */
-        CMsgGCUpdateSessionIP.fromObject = function fromObject(object) {
+        CMsgGCUpdateSessionIP.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgGCUpdateSessionIP)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgGCUpdateSessionIP: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgGCUpdateSessionIP();
             if (object.steamid != null)
                 if ($util.Long)
-                    (message.steamid = $util.Long.fromValue(object.steamid)).unsigned = false;
+                    message.steamid = $util.Long.fromValue(object.steamid, true);
                 else if (typeof object.steamid === "string")
                     message.steamid = parseInt(object.steamid, 10);
                 else if (typeof object.steamid === "number")
                     message.steamid = object.steamid;
                 else if (typeof object.steamid === "object")
-                    message.steamid = new $util.LongBits(object.steamid.low >>> 0, object.steamid.high >>> 0).toNumber();
+                    message.steamid = new $util.LongBits(object.steamid.low >>> 0, object.steamid.high >>> 0).toNumber(true);
             if (object.ip != null)
                 message.ip = object.ip >>> 0;
             return message;
@@ -5016,24 +5727,30 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgGCUpdateSessionIP.toObject = function toObject(message, options) {
+        CMsgGCUpdateSessionIP.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.steamid = options.longs === String ? "0" : 0;
+                    object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.ip = 0;
             }
-            if (message.steamid != null && message.hasOwnProperty("steamid"))
-                if (typeof message.steamid === "number")
+            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.steamid = typeof message.steamid === "number" ? BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
+                else if (typeof message.steamid === "number")
                     object.steamid = options.longs === String ? String(message.steamid) : message.steamid;
                 else
-                    object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber() : message.steamid;
-            if (message.ip != null && message.hasOwnProperty("ip"))
+                    object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
+            if (message.ip != null && Object.hasOwnProperty.call(message, "ip"))
                 object.ip = message.ip;
             return object;
         };
@@ -5087,7 +5804,7 @@
         function CMsgGCRequestSessionIP(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -5097,7 +5814,7 @@
          * @memberof CMsgGCRequestSessionIP
          * @instance
          */
-        CMsgGCRequestSessionIP.prototype.steamid = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgGCRequestSessionIP.prototype.steamid = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * Creates a new CMsgGCRequestSessionIP instance using the specified properties.
@@ -5120,9 +5837,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgGCRequestSessionIP.encode = function encode(message, writer) {
+        CMsgGCRequestSessionIP.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
                 writer.uint32(/* id 1, wireType 1 =*/9).fixed64(message.steamid);
             return writer;
@@ -5138,7 +5859,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgGCRequestSessionIP.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -5152,10 +5873,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgGCRequestSessionIP.decode = function decode(reader, length, error) {
+        CMsgGCRequestSessionIP.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgGCRequestSessionIP();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgGCRequestSessionIP();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -5166,9 +5901,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -5197,10 +5937,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgGCRequestSessionIP.verify = function verify(message) {
+        CMsgGCRequestSessionIP.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.steamid != null && message.hasOwnProperty("steamid"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
                 if (!$util.isInteger(message.steamid) && !(message.steamid && $util.isInteger(message.steamid.low) && $util.isInteger(message.steamid.high)))
                     return "steamid: integer|Long expected";
             return null;
@@ -5214,19 +5958,25 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgGCRequestSessionIP} CMsgGCRequestSessionIP
          */
-        CMsgGCRequestSessionIP.fromObject = function fromObject(object) {
+        CMsgGCRequestSessionIP.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgGCRequestSessionIP)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgGCRequestSessionIP: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgGCRequestSessionIP();
             if (object.steamid != null)
                 if ($util.Long)
-                    (message.steamid = $util.Long.fromValue(object.steamid)).unsigned = false;
+                    message.steamid = $util.Long.fromValue(object.steamid, true);
                 else if (typeof object.steamid === "string")
                     message.steamid = parseInt(object.steamid, 10);
                 else if (typeof object.steamid === "number")
                     message.steamid = object.steamid;
                 else if (typeof object.steamid === "object")
-                    message.steamid = new $util.LongBits(object.steamid.low >>> 0, object.steamid.high >>> 0).toNumber();
+                    message.steamid = new $util.LongBits(object.steamid.low >>> 0, object.steamid.high >>> 0).toNumber(true);
             return message;
         };
     
@@ -5239,21 +5989,27 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgGCRequestSessionIP.toObject = function toObject(message, options) {
+        CMsgGCRequestSessionIP.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.steamid = options.longs === String ? "0" : 0;
-            if (message.steamid != null && message.hasOwnProperty("steamid"))
-                if (typeof message.steamid === "number")
+                    object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.steamid = typeof message.steamid === "number" ? BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
+                else if (typeof message.steamid === "number")
                     object.steamid = options.longs === String ? String(message.steamid) : message.steamid;
                 else
-                    object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber() : message.steamid;
+                    object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
             return object;
         };
     
@@ -5306,7 +6062,7 @@
         function CMsgGCRequestSessionIPResponse(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -5339,9 +6095,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgGCRequestSessionIPResponse.encode = function encode(message, writer) {
+        CMsgGCRequestSessionIPResponse.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.ip != null && Object.hasOwnProperty.call(message, "ip"))
                 writer.uint32(/* id 1, wireType 5 =*/13).fixed32(message.ip);
             return writer;
@@ -5357,7 +6117,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgGCRequestSessionIPResponse.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -5371,10 +6131,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgGCRequestSessionIPResponse.decode = function decode(reader, length, error) {
+        CMsgGCRequestSessionIPResponse.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgGCRequestSessionIPResponse();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgGCRequestSessionIPResponse();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -5385,9 +6159,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -5416,10 +6195,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgGCRequestSessionIPResponse.verify = function verify(message) {
+        CMsgGCRequestSessionIPResponse.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.ip != null && message.hasOwnProperty("ip"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.ip != null && Object.hasOwnProperty.call(message, "ip"))
                 if (!$util.isInteger(message.ip))
                     return "ip: integer expected";
             return null;
@@ -5433,9 +6216,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgGCRequestSessionIPResponse} CMsgGCRequestSessionIPResponse
          */
-        CMsgGCRequestSessionIPResponse.fromObject = function fromObject(object) {
+        CMsgGCRequestSessionIPResponse.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgGCRequestSessionIPResponse)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgGCRequestSessionIPResponse: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgGCRequestSessionIPResponse();
             if (object.ip != null)
                 message.ip = object.ip >>> 0;
@@ -5451,13 +6240,17 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgGCRequestSessionIPResponse.toObject = function toObject(message, options) {
+        CMsgGCRequestSessionIPResponse.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.ip = 0;
-            if (message.ip != null && message.hasOwnProperty("ip"))
+            if (message.ip != null && Object.hasOwnProperty.call(message, "ip"))
                 object.ip = message.ip;
             return object;
         };
@@ -5512,7 +6305,7 @@
         function CMsgSOCacheHaveVersion(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -5530,7 +6323,7 @@
          * @memberof CMsgSOCacheHaveVersion
          * @instance
          */
-        CMsgSOCacheHaveVersion.prototype.version = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSOCacheHaveVersion.prototype.version = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * Creates a new CMsgSOCacheHaveVersion instance using the specified properties.
@@ -5553,11 +6346,15 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSOCacheHaveVersion.encode = function encode(message, writer) {
+        CMsgSOCacheHaveVersion.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.soid != null && Object.hasOwnProperty.call(message, "soid"))
-                $root.CMsgSOIDOwner.encode(message.soid, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                $root.CMsgSOIDOwner.encode(message.soid, writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
             if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 writer.uint32(/* id 2, wireType 1 =*/17).fixed64(message.version);
             return writer;
@@ -5573,7 +6370,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSOCacheHaveVersion.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -5587,17 +6384,31 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSOCacheHaveVersion.decode = function decode(reader, length, error) {
+        CMsgSOCacheHaveVersion.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSOCacheHaveVersion();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSOCacheHaveVersion();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
                     break;
                 switch (tag >>> 3) {
                 case 1: {
-                        message.soid = $root.CMsgSOIDOwner.decode(reader, reader.uint32());
+                        message.soid = $root.CMsgSOIDOwner.decode(reader, reader.uint32(), undefined, long + 1);
                         break;
                     }
                 case 2: {
@@ -5605,9 +6416,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -5636,15 +6452,19 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSOCacheHaveVersion.verify = function verify(message) {
+        CMsgSOCacheHaveVersion.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.soid != null && message.hasOwnProperty("soid")) {
-                var error = $root.CMsgSOIDOwner.verify(message.soid);
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.soid != null && Object.hasOwnProperty.call(message, "soid")) {
+                var error = $root.CMsgSOIDOwner.verify(message.soid, long + 1);
                 if (error)
                     return "soid." + error;
             }
-            if (message.version != null && message.hasOwnProperty("version"))
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 if (!$util.isInteger(message.version) && !(message.version && $util.isInteger(message.version.low) && $util.isInteger(message.version.high)))
                     return "version: integer|Long expected";
             return null;
@@ -5658,24 +6478,30 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSOCacheHaveVersion} CMsgSOCacheHaveVersion
          */
-        CMsgSOCacheHaveVersion.fromObject = function fromObject(object) {
+        CMsgSOCacheHaveVersion.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSOCacheHaveVersion)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSOCacheHaveVersion: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSOCacheHaveVersion();
             if (object.soid != null) {
-                if (typeof object.soid !== "object")
+                if (!$util.isObject(object.soid))
                     throw TypeError(".CMsgSOCacheHaveVersion.soid: object expected");
-                message.soid = $root.CMsgSOIDOwner.fromObject(object.soid);
+                message.soid = $root.CMsgSOIDOwner.fromObject(object.soid, long + 1);
             }
             if (object.version != null)
                 if ($util.Long)
-                    (message.version = $util.Long.fromValue(object.version)).unsigned = false;
+                    message.version = $util.Long.fromValue(object.version, true);
                 else if (typeof object.version === "string")
                     message.version = parseInt(object.version, 10);
                 else if (typeof object.version === "number")
                     message.version = object.version;
                 else if (typeof object.version === "object")
-                    message.version = new $util.LongBits(object.version.low >>> 0, object.version.high >>> 0).toNumber();
+                    message.version = new $util.LongBits(object.version.low >>> 0, object.version.high >>> 0).toNumber(true);
             return message;
         };
     
@@ -5688,25 +6514,31 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSOCacheHaveVersion.toObject = function toObject(message, options) {
+        CMsgSOCacheHaveVersion.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.soid = null;
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.version = options.longs === String ? "0" : 0;
+                    object.version = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
             }
-            if (message.soid != null && message.hasOwnProperty("soid"))
-                object.soid = $root.CMsgSOIDOwner.toObject(message.soid, options);
-            if (message.version != null && message.hasOwnProperty("version"))
-                if (typeof message.version === "number")
+            if (message.soid != null && Object.hasOwnProperty.call(message, "soid"))
+                object.soid = $root.CMsgSOIDOwner.toObject(message.soid, options, q + 1);
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.version = typeof message.version === "number" ? BigInt(message.version) : $util.Long.fromBits(message.version.low >>> 0, message.version.high >>> 0, true).toBigInt();
+                else if (typeof message.version === "number")
                     object.version = options.longs === String ? String(message.version) : message.version;
                 else
-                    object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber() : message.version;
+                    object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber(true) : message.version;
             return object;
         };
     
@@ -5768,7 +6600,7 @@
             this.socache_have_versions = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -5865,14 +6697,18 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgClientHello.encode = function encode(message, writer) {
+        CMsgClientHello.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.version);
             if (message.socache_have_versions != null && message.socache_have_versions.length)
                 for (var i = 0; i < message.socache_have_versions.length; ++i)
-                    $root.CMsgSOCacheHaveVersion.encode(message.socache_have_versions[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    $root.CMsgSOCacheHaveVersion.encode(message.socache_have_versions[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
             if (message.client_session_need != null && Object.hasOwnProperty.call(message, "client_session_need"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.client_session_need);
             if (message.client_launcher != null && Object.hasOwnProperty.call(message, "client_launcher"))
@@ -5900,7 +6736,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgClientHello.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -5914,10 +6750,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgClientHello.decode = function decode(reader, length, error) {
+        CMsgClientHello.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgClientHello();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgClientHello();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -5930,7 +6780,7 @@
                 case 2: {
                         if (!(message.socache_have_versions && message.socache_have_versions.length))
                             message.socache_have_versions = [];
-                        message.socache_have_versions.push($root.CMsgSOCacheHaveVersion.decode(reader, reader.uint32()));
+                        message.socache_have_versions.push($root.CMsgSOCacheHaveVersion.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 case 3: {
@@ -5962,9 +6812,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -5993,40 +6848,44 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgClientHello.verify = function verify(message) {
+        CMsgClientHello.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.version != null && message.hasOwnProperty("version"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 if (!$util.isInteger(message.version))
                     return "version: integer expected";
-            if (message.socache_have_versions != null && message.hasOwnProperty("socache_have_versions")) {
+            if (message.socache_have_versions != null && Object.hasOwnProperty.call(message, "socache_have_versions")) {
                 if (!Array.isArray(message.socache_have_versions))
                     return "socache_have_versions: array expected";
                 for (var i = 0; i < message.socache_have_versions.length; ++i) {
-                    var error = $root.CMsgSOCacheHaveVersion.verify(message.socache_have_versions[i]);
+                    var error = $root.CMsgSOCacheHaveVersion.verify(message.socache_have_versions[i], long + 1);
                     if (error)
                         return "socache_have_versions." + error;
                 }
             }
-            if (message.client_session_need != null && message.hasOwnProperty("client_session_need"))
+            if (message.client_session_need != null && Object.hasOwnProperty.call(message, "client_session_need"))
                 if (!$util.isInteger(message.client_session_need))
                     return "client_session_need: integer expected";
-            if (message.client_launcher != null && message.hasOwnProperty("client_launcher"))
+            if (message.client_launcher != null && Object.hasOwnProperty.call(message, "client_launcher"))
                 if (!$util.isInteger(message.client_launcher))
                     return "client_launcher: integer expected";
-            if (message.partner_srcid != null && message.hasOwnProperty("partner_srcid"))
+            if (message.partner_srcid != null && Object.hasOwnProperty.call(message, "partner_srcid"))
                 if (!$util.isInteger(message.partner_srcid))
                     return "partner_srcid: integer expected";
-            if (message.partner_accountid != null && message.hasOwnProperty("partner_accountid"))
+            if (message.partner_accountid != null && Object.hasOwnProperty.call(message, "partner_accountid"))
                 if (!$util.isInteger(message.partner_accountid))
                     return "partner_accountid: integer expected";
-            if (message.partner_accountflags != null && message.hasOwnProperty("partner_accountflags"))
+            if (message.partner_accountflags != null && Object.hasOwnProperty.call(message, "partner_accountflags"))
                 if (!$util.isInteger(message.partner_accountflags))
                     return "partner_accountflags: integer expected";
-            if (message.partner_accountbalance != null && message.hasOwnProperty("partner_accountbalance"))
+            if (message.partner_accountbalance != null && Object.hasOwnProperty.call(message, "partner_accountbalance"))
                 if (!$util.isInteger(message.partner_accountbalance))
                     return "partner_accountbalance: integer expected";
-            if (message.steam_launcher != null && message.hasOwnProperty("steam_launcher"))
+            if (message.steam_launcher != null && Object.hasOwnProperty.call(message, "steam_launcher"))
                 if (!$util.isInteger(message.steam_launcher))
                     return "steam_launcher: integer expected";
             return null;
@@ -6040,9 +6899,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgClientHello} CMsgClientHello
          */
-        CMsgClientHello.fromObject = function fromObject(object) {
+        CMsgClientHello.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgClientHello)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgClientHello: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgClientHello();
             if (object.version != null)
                 message.version = object.version >>> 0;
@@ -6051,9 +6916,9 @@
                     throw TypeError(".CMsgClientHello.socache_have_versions: array expected");
                 message.socache_have_versions = [];
                 for (var i = 0; i < object.socache_have_versions.length; ++i) {
-                    if (typeof object.socache_have_versions[i] !== "object")
+                    if (!$util.isObject(object.socache_have_versions[i]))
                         throw TypeError(".CMsgClientHello.socache_have_versions: object expected");
-                    message.socache_have_versions[i] = $root.CMsgSOCacheHaveVersion.fromObject(object.socache_have_versions[i]);
+                    message.socache_have_versions[i] = $root.CMsgSOCacheHaveVersion.fromObject(object.socache_have_versions[i], long + 1);
                 }
             }
             if (object.client_session_need != null)
@@ -6082,9 +6947,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgClientHello.toObject = function toObject(message, options) {
+        CMsgClientHello.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.socache_have_versions = [];
@@ -6098,26 +6967,26 @@
                 object.partner_accountbalance = 0;
                 object.steam_launcher = 0;
             }
-            if (message.version != null && message.hasOwnProperty("version"))
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 object.version = message.version;
             if (message.socache_have_versions && message.socache_have_versions.length) {
                 object.socache_have_versions = [];
                 for (var j = 0; j < message.socache_have_versions.length; ++j)
-                    object.socache_have_versions[j] = $root.CMsgSOCacheHaveVersion.toObject(message.socache_have_versions[j], options);
+                    object.socache_have_versions[j] = $root.CMsgSOCacheHaveVersion.toObject(message.socache_have_versions[j], options, q + 1);
             }
-            if (message.client_session_need != null && message.hasOwnProperty("client_session_need"))
+            if (message.client_session_need != null && Object.hasOwnProperty.call(message, "client_session_need"))
                 object.client_session_need = message.client_session_need;
-            if (message.client_launcher != null && message.hasOwnProperty("client_launcher"))
+            if (message.client_launcher != null && Object.hasOwnProperty.call(message, "client_launcher"))
                 object.client_launcher = message.client_launcher;
-            if (message.partner_srcid != null && message.hasOwnProperty("partner_srcid"))
+            if (message.partner_srcid != null && Object.hasOwnProperty.call(message, "partner_srcid"))
                 object.partner_srcid = message.partner_srcid;
-            if (message.partner_accountid != null && message.hasOwnProperty("partner_accountid"))
+            if (message.partner_accountid != null && Object.hasOwnProperty.call(message, "partner_accountid"))
                 object.partner_accountid = message.partner_accountid;
-            if (message.partner_accountflags != null && message.hasOwnProperty("partner_accountflags"))
+            if (message.partner_accountflags != null && Object.hasOwnProperty.call(message, "partner_accountflags"))
                 object.partner_accountflags = message.partner_accountflags;
-            if (message.partner_accountbalance != null && message.hasOwnProperty("partner_accountbalance"))
+            if (message.partner_accountbalance != null && Object.hasOwnProperty.call(message, "partner_accountbalance"))
                 object.partner_accountbalance = message.partner_accountbalance;
-            if (message.steam_launcher != null && message.hasOwnProperty("steam_launcher"))
+            if (message.steam_launcher != null && Object.hasOwnProperty.call(message, "steam_launcher"))
                 object.steam_launcher = message.steam_launcher;
             return object;
         };
@@ -6179,7 +7048,7 @@
             this.socache_have_versions = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -6268,14 +7137,18 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgServerHello.encode = function encode(message, writer) {
+        CMsgServerHello.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.version);
             if (message.socache_have_versions != null && message.socache_have_versions.length)
                 for (var i = 0; i < message.socache_have_versions.length; ++i)
-                    $root.CMsgSOCacheHaveVersion.encode(message.socache_have_versions[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    $root.CMsgSOCacheHaveVersion.encode(message.socache_have_versions[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
             if (message.legacy_client_session_need != null && Object.hasOwnProperty.call(message, "legacy_client_session_need"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.legacy_client_session_need);
             if (message.client_launcher != null && Object.hasOwnProperty.call(message, "client_launcher"))
@@ -6301,7 +7174,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgServerHello.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -6315,10 +7188,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgServerHello.decode = function decode(reader, length, error) {
+        CMsgServerHello.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgServerHello();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgServerHello();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -6331,7 +7218,7 @@
                 case 2: {
                         if (!(message.socache_have_versions && message.socache_have_versions.length))
                             message.socache_have_versions = [];
-                        message.socache_have_versions.push($root.CMsgSOCacheHaveVersion.decode(reader, reader.uint32()));
+                        message.socache_have_versions.push($root.CMsgSOCacheHaveVersion.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 case 3: {
@@ -6359,9 +7246,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -6390,37 +7282,41 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgServerHello.verify = function verify(message) {
+        CMsgServerHello.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.version != null && message.hasOwnProperty("version"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 if (!$util.isInteger(message.version))
                     return "version: integer expected";
-            if (message.socache_have_versions != null && message.hasOwnProperty("socache_have_versions")) {
+            if (message.socache_have_versions != null && Object.hasOwnProperty.call(message, "socache_have_versions")) {
                 if (!Array.isArray(message.socache_have_versions))
                     return "socache_have_versions: array expected";
                 for (var i = 0; i < message.socache_have_versions.length; ++i) {
-                    var error = $root.CMsgSOCacheHaveVersion.verify(message.socache_have_versions[i]);
+                    var error = $root.CMsgSOCacheHaveVersion.verify(message.socache_have_versions[i], long + 1);
                     if (error)
                         return "socache_have_versions." + error;
                 }
             }
-            if (message.legacy_client_session_need != null && message.hasOwnProperty("legacy_client_session_need"))
+            if (message.legacy_client_session_need != null && Object.hasOwnProperty.call(message, "legacy_client_session_need"))
                 if (!$util.isInteger(message.legacy_client_session_need))
                     return "legacy_client_session_need: integer expected";
-            if (message.client_launcher != null && message.hasOwnProperty("client_launcher"))
+            if (message.client_launcher != null && Object.hasOwnProperty.call(message, "client_launcher"))
                 if (!$util.isInteger(message.client_launcher))
                     return "client_launcher: integer expected";
-            if (message.legacy_steamdatagram_routing != null && message.hasOwnProperty("legacy_steamdatagram_routing"))
+            if (message.legacy_steamdatagram_routing != null && Object.hasOwnProperty.call(message, "legacy_steamdatagram_routing"))
                 if (!(message.legacy_steamdatagram_routing && typeof message.legacy_steamdatagram_routing.length === "number" || $util.isString(message.legacy_steamdatagram_routing)))
                     return "legacy_steamdatagram_routing: buffer expected";
-            if (message.required_internal_addr != null && message.hasOwnProperty("required_internal_addr"))
+            if (message.required_internal_addr != null && Object.hasOwnProperty.call(message, "required_internal_addr"))
                 if (!$util.isInteger(message.required_internal_addr))
                     return "required_internal_addr: integer expected";
-            if (message.steamdatagram_login != null && message.hasOwnProperty("steamdatagram_login"))
+            if (message.steamdatagram_login != null && Object.hasOwnProperty.call(message, "steamdatagram_login"))
                 if (!(message.steamdatagram_login && typeof message.steamdatagram_login.length === "number" || $util.isString(message.steamdatagram_login)))
                     return "steamdatagram_login: buffer expected";
-            if (message.socache_control != null && message.hasOwnProperty("socache_control"))
+            if (message.socache_control != null && Object.hasOwnProperty.call(message, "socache_control"))
                 if (!$util.isInteger(message.socache_control))
                     return "socache_control: integer expected";
             return null;
@@ -6434,9 +7330,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgServerHello} CMsgServerHello
          */
-        CMsgServerHello.fromObject = function fromObject(object) {
+        CMsgServerHello.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgServerHello)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgServerHello: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgServerHello();
             if (object.version != null)
                 message.version = object.version >>> 0;
@@ -6445,9 +7347,9 @@
                     throw TypeError(".CMsgServerHello.socache_have_versions: array expected");
                 message.socache_have_versions = [];
                 for (var i = 0; i < object.socache_have_versions.length; ++i) {
-                    if (typeof object.socache_have_versions[i] !== "object")
+                    if (!$util.isObject(object.socache_have_versions[i]))
                         throw TypeError(".CMsgServerHello.socache_have_versions: object expected");
-                    message.socache_have_versions[i] = $root.CMsgSOCacheHaveVersion.fromObject(object.socache_have_versions[i]);
+                    message.socache_have_versions[i] = $root.CMsgSOCacheHaveVersion.fromObject(object.socache_have_versions[i], long + 1);
                 }
             }
             if (object.legacy_client_session_need != null)
@@ -6480,9 +7382,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgServerHello.toObject = function toObject(message, options) {
+        CMsgServerHello.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.socache_have_versions = [];
@@ -6507,24 +7413,24 @@
                 }
                 object.socache_control = 0;
             }
-            if (message.version != null && message.hasOwnProperty("version"))
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 object.version = message.version;
             if (message.socache_have_versions && message.socache_have_versions.length) {
                 object.socache_have_versions = [];
                 for (var j = 0; j < message.socache_have_versions.length; ++j)
-                    object.socache_have_versions[j] = $root.CMsgSOCacheHaveVersion.toObject(message.socache_have_versions[j], options);
+                    object.socache_have_versions[j] = $root.CMsgSOCacheHaveVersion.toObject(message.socache_have_versions[j], options, q + 1);
             }
-            if (message.legacy_client_session_need != null && message.hasOwnProperty("legacy_client_session_need"))
+            if (message.legacy_client_session_need != null && Object.hasOwnProperty.call(message, "legacy_client_session_need"))
                 object.legacy_client_session_need = message.legacy_client_session_need;
-            if (message.client_launcher != null && message.hasOwnProperty("client_launcher"))
+            if (message.client_launcher != null && Object.hasOwnProperty.call(message, "client_launcher"))
                 object.client_launcher = message.client_launcher;
-            if (message.legacy_steamdatagram_routing != null && message.hasOwnProperty("legacy_steamdatagram_routing"))
+            if (message.legacy_steamdatagram_routing != null && Object.hasOwnProperty.call(message, "legacy_steamdatagram_routing"))
                 object.legacy_steamdatagram_routing = options.bytes === String ? $util.base64.encode(message.legacy_steamdatagram_routing, 0, message.legacy_steamdatagram_routing.length) : options.bytes === Array ? Array.prototype.slice.call(message.legacy_steamdatagram_routing) : message.legacy_steamdatagram_routing;
-            if (message.required_internal_addr != null && message.hasOwnProperty("required_internal_addr"))
+            if (message.required_internal_addr != null && Object.hasOwnProperty.call(message, "required_internal_addr"))
                 object.required_internal_addr = message.required_internal_addr;
-            if (message.steamdatagram_login != null && message.hasOwnProperty("steamdatagram_login"))
+            if (message.steamdatagram_login != null && Object.hasOwnProperty.call(message, "steamdatagram_login"))
                 object.steamdatagram_login = options.bytes === String ? $util.base64.encode(message.steamdatagram_login, 0, message.steamdatagram_login.length) : options.bytes === Array ? Array.prototype.slice.call(message.steamdatagram_login) : message.steamdatagram_login;
-            if (message.socache_control != null && message.hasOwnProperty("socache_control"))
+            if (message.socache_control != null && Object.hasOwnProperty.call(message, "socache_control"))
                 object.socache_control = message.socache_control;
             return object;
         };
@@ -6590,7 +7496,7 @@
             this.uptodate_subscribed_caches = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -6703,21 +7609,25 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgClientWelcome.encode = function encode(message, writer) {
+        CMsgClientWelcome.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.version);
             if (message.game_data != null && Object.hasOwnProperty.call(message, "game_data"))
                 writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.game_data);
             if (message.outofdate_subscribed_caches != null && message.outofdate_subscribed_caches.length)
                 for (var i = 0; i < message.outofdate_subscribed_caches.length; ++i)
-                    $root.CMsgSOCacheSubscribed.encode(message.outofdate_subscribed_caches[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    $root.CMsgSOCacheSubscribed.encode(message.outofdate_subscribed_caches[i], writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
             if (message.uptodate_subscribed_caches != null && message.uptodate_subscribed_caches.length)
                 for (var i = 0; i < message.uptodate_subscribed_caches.length; ++i)
-                    $root.CMsgSOCacheSubscriptionCheck.encode(message.uptodate_subscribed_caches[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                    $root.CMsgSOCacheSubscriptionCheck.encode(message.uptodate_subscribed_caches[i], writer.uint32(/* id 4, wireType 2 =*/34).fork(), q + 1).ldelim();
             if (message.location != null && Object.hasOwnProperty.call(message, "location"))
-                $root.CMsgClientWelcome.Location.encode(message.location, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                $root.CMsgClientWelcome.Location.encode(message.location, writer.uint32(/* id 5, wireType 2 =*/42).fork(), q + 1).ldelim();
             if (message.game_data2 != null && Object.hasOwnProperty.call(message, "game_data2"))
                 writer.uint32(/* id 6, wireType 2 =*/50).bytes(message.game_data2);
             if (message.rtime32_gc_welcome_timestamp != null && Object.hasOwnProperty.call(message, "rtime32_gc_welcome_timestamp"))
@@ -6743,7 +7653,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgClientWelcome.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -6757,10 +7667,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgClientWelcome.decode = function decode(reader, length, error) {
+        CMsgClientWelcome.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgClientWelcome();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgClientWelcome();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -6777,17 +7701,17 @@
                 case 3: {
                         if (!(message.outofdate_subscribed_caches && message.outofdate_subscribed_caches.length))
                             message.outofdate_subscribed_caches = [];
-                        message.outofdate_subscribed_caches.push($root.CMsgSOCacheSubscribed.decode(reader, reader.uint32()));
+                        message.outofdate_subscribed_caches.push($root.CMsgSOCacheSubscribed.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 case 4: {
                         if (!(message.uptodate_subscribed_caches && message.uptodate_subscribed_caches.length))
                             message.uptodate_subscribed_caches = [];
-                        message.uptodate_subscribed_caches.push($root.CMsgSOCacheSubscriptionCheck.decode(reader, reader.uint32()));
+                        message.uptodate_subscribed_caches.push($root.CMsgSOCacheSubscriptionCheck.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 case 5: {
-                        message.location = $root.CMsgClientWelcome.Location.decode(reader, reader.uint32());
+                        message.location = $root.CMsgClientWelcome.Location.decode(reader, reader.uint32(), undefined, long + 1);
                         break;
                     }
                 case 6: {
@@ -6815,9 +7739,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -6846,54 +7775,58 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgClientWelcome.verify = function verify(message) {
+        CMsgClientWelcome.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.version != null && message.hasOwnProperty("version"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 if (!$util.isInteger(message.version))
                     return "version: integer expected";
-            if (message.game_data != null && message.hasOwnProperty("game_data"))
+            if (message.game_data != null && Object.hasOwnProperty.call(message, "game_data"))
                 if (!(message.game_data && typeof message.game_data.length === "number" || $util.isString(message.game_data)))
                     return "game_data: buffer expected";
-            if (message.outofdate_subscribed_caches != null && message.hasOwnProperty("outofdate_subscribed_caches")) {
+            if (message.outofdate_subscribed_caches != null && Object.hasOwnProperty.call(message, "outofdate_subscribed_caches")) {
                 if (!Array.isArray(message.outofdate_subscribed_caches))
                     return "outofdate_subscribed_caches: array expected";
                 for (var i = 0; i < message.outofdate_subscribed_caches.length; ++i) {
-                    var error = $root.CMsgSOCacheSubscribed.verify(message.outofdate_subscribed_caches[i]);
+                    var error = $root.CMsgSOCacheSubscribed.verify(message.outofdate_subscribed_caches[i], long + 1);
                     if (error)
                         return "outofdate_subscribed_caches." + error;
                 }
             }
-            if (message.uptodate_subscribed_caches != null && message.hasOwnProperty("uptodate_subscribed_caches")) {
+            if (message.uptodate_subscribed_caches != null && Object.hasOwnProperty.call(message, "uptodate_subscribed_caches")) {
                 if (!Array.isArray(message.uptodate_subscribed_caches))
                     return "uptodate_subscribed_caches: array expected";
                 for (var i = 0; i < message.uptodate_subscribed_caches.length; ++i) {
-                    var error = $root.CMsgSOCacheSubscriptionCheck.verify(message.uptodate_subscribed_caches[i]);
+                    var error = $root.CMsgSOCacheSubscriptionCheck.verify(message.uptodate_subscribed_caches[i], long + 1);
                     if (error)
                         return "uptodate_subscribed_caches." + error;
                 }
             }
-            if (message.location != null && message.hasOwnProperty("location")) {
-                var error = $root.CMsgClientWelcome.Location.verify(message.location);
+            if (message.location != null && Object.hasOwnProperty.call(message, "location")) {
+                var error = $root.CMsgClientWelcome.Location.verify(message.location, long + 1);
                 if (error)
                     return "location." + error;
             }
-            if (message.game_data2 != null && message.hasOwnProperty("game_data2"))
+            if (message.game_data2 != null && Object.hasOwnProperty.call(message, "game_data2"))
                 if (!(message.game_data2 && typeof message.game_data2.length === "number" || $util.isString(message.game_data2)))
                     return "game_data2: buffer expected";
-            if (message.rtime32_gc_welcome_timestamp != null && message.hasOwnProperty("rtime32_gc_welcome_timestamp"))
+            if (message.rtime32_gc_welcome_timestamp != null && Object.hasOwnProperty.call(message, "rtime32_gc_welcome_timestamp"))
                 if (!$util.isInteger(message.rtime32_gc_welcome_timestamp))
                     return "rtime32_gc_welcome_timestamp: integer expected";
-            if (message.currency != null && message.hasOwnProperty("currency"))
+            if (message.currency != null && Object.hasOwnProperty.call(message, "currency"))
                 if (!$util.isInteger(message.currency))
                     return "currency: integer expected";
-            if (message.balance != null && message.hasOwnProperty("balance"))
+            if (message.balance != null && Object.hasOwnProperty.call(message, "balance"))
                 if (!$util.isInteger(message.balance))
                     return "balance: integer expected";
-            if (message.balance_url != null && message.hasOwnProperty("balance_url"))
+            if (message.balance_url != null && Object.hasOwnProperty.call(message, "balance_url"))
                 if (!$util.isString(message.balance_url))
                     return "balance_url: string expected";
-            if (message.txn_country_code != null && message.hasOwnProperty("txn_country_code"))
+            if (message.txn_country_code != null && Object.hasOwnProperty.call(message, "txn_country_code"))
                 if (!$util.isString(message.txn_country_code))
                     return "txn_country_code: string expected";
             return null;
@@ -6907,9 +7840,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgClientWelcome} CMsgClientWelcome
          */
-        CMsgClientWelcome.fromObject = function fromObject(object) {
+        CMsgClientWelcome.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgClientWelcome)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgClientWelcome: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgClientWelcome();
             if (object.version != null)
                 message.version = object.version >>> 0;
@@ -6923,9 +7862,9 @@
                     throw TypeError(".CMsgClientWelcome.outofdate_subscribed_caches: array expected");
                 message.outofdate_subscribed_caches = [];
                 for (var i = 0; i < object.outofdate_subscribed_caches.length; ++i) {
-                    if (typeof object.outofdate_subscribed_caches[i] !== "object")
+                    if (!$util.isObject(object.outofdate_subscribed_caches[i]))
                         throw TypeError(".CMsgClientWelcome.outofdate_subscribed_caches: object expected");
-                    message.outofdate_subscribed_caches[i] = $root.CMsgSOCacheSubscribed.fromObject(object.outofdate_subscribed_caches[i]);
+                    message.outofdate_subscribed_caches[i] = $root.CMsgSOCacheSubscribed.fromObject(object.outofdate_subscribed_caches[i], long + 1);
                 }
             }
             if (object.uptodate_subscribed_caches) {
@@ -6933,15 +7872,15 @@
                     throw TypeError(".CMsgClientWelcome.uptodate_subscribed_caches: array expected");
                 message.uptodate_subscribed_caches = [];
                 for (var i = 0; i < object.uptodate_subscribed_caches.length; ++i) {
-                    if (typeof object.uptodate_subscribed_caches[i] !== "object")
+                    if (!$util.isObject(object.uptodate_subscribed_caches[i]))
                         throw TypeError(".CMsgClientWelcome.uptodate_subscribed_caches: object expected");
-                    message.uptodate_subscribed_caches[i] = $root.CMsgSOCacheSubscriptionCheck.fromObject(object.uptodate_subscribed_caches[i]);
+                    message.uptodate_subscribed_caches[i] = $root.CMsgSOCacheSubscriptionCheck.fromObject(object.uptodate_subscribed_caches[i], long + 1);
                 }
             }
             if (object.location != null) {
-                if (typeof object.location !== "object")
+                if (!$util.isObject(object.location))
                     throw TypeError(".CMsgClientWelcome.location: object expected");
-                message.location = $root.CMsgClientWelcome.Location.fromObject(object.location);
+                message.location = $root.CMsgClientWelcome.Location.fromObject(object.location, long + 1);
             }
             if (object.game_data2 != null)
                 if (typeof object.game_data2 === "string")
@@ -6970,9 +7909,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgClientWelcome.toObject = function toObject(message, options) {
+        CMsgClientWelcome.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults) {
                 object.outofdate_subscribed_caches = [];
@@ -7001,33 +7944,33 @@
                 object.balance_url = "";
                 object.txn_country_code = "";
             }
-            if (message.version != null && message.hasOwnProperty("version"))
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 object.version = message.version;
-            if (message.game_data != null && message.hasOwnProperty("game_data"))
+            if (message.game_data != null && Object.hasOwnProperty.call(message, "game_data"))
                 object.game_data = options.bytes === String ? $util.base64.encode(message.game_data, 0, message.game_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.game_data) : message.game_data;
             if (message.outofdate_subscribed_caches && message.outofdate_subscribed_caches.length) {
                 object.outofdate_subscribed_caches = [];
                 for (var j = 0; j < message.outofdate_subscribed_caches.length; ++j)
-                    object.outofdate_subscribed_caches[j] = $root.CMsgSOCacheSubscribed.toObject(message.outofdate_subscribed_caches[j], options);
+                    object.outofdate_subscribed_caches[j] = $root.CMsgSOCacheSubscribed.toObject(message.outofdate_subscribed_caches[j], options, q + 1);
             }
             if (message.uptodate_subscribed_caches && message.uptodate_subscribed_caches.length) {
                 object.uptodate_subscribed_caches = [];
                 for (var j = 0; j < message.uptodate_subscribed_caches.length; ++j)
-                    object.uptodate_subscribed_caches[j] = $root.CMsgSOCacheSubscriptionCheck.toObject(message.uptodate_subscribed_caches[j], options);
+                    object.uptodate_subscribed_caches[j] = $root.CMsgSOCacheSubscriptionCheck.toObject(message.uptodate_subscribed_caches[j], options, q + 1);
             }
-            if (message.location != null && message.hasOwnProperty("location"))
-                object.location = $root.CMsgClientWelcome.Location.toObject(message.location, options);
-            if (message.game_data2 != null && message.hasOwnProperty("game_data2"))
+            if (message.location != null && Object.hasOwnProperty.call(message, "location"))
+                object.location = $root.CMsgClientWelcome.Location.toObject(message.location, options, q + 1);
+            if (message.game_data2 != null && Object.hasOwnProperty.call(message, "game_data2"))
                 object.game_data2 = options.bytes === String ? $util.base64.encode(message.game_data2, 0, message.game_data2.length) : options.bytes === Array ? Array.prototype.slice.call(message.game_data2) : message.game_data2;
-            if (message.rtime32_gc_welcome_timestamp != null && message.hasOwnProperty("rtime32_gc_welcome_timestamp"))
+            if (message.rtime32_gc_welcome_timestamp != null && Object.hasOwnProperty.call(message, "rtime32_gc_welcome_timestamp"))
                 object.rtime32_gc_welcome_timestamp = message.rtime32_gc_welcome_timestamp;
-            if (message.currency != null && message.hasOwnProperty("currency"))
+            if (message.currency != null && Object.hasOwnProperty.call(message, "currency"))
                 object.currency = message.currency;
-            if (message.balance != null && message.hasOwnProperty("balance"))
+            if (message.balance != null && Object.hasOwnProperty.call(message, "balance"))
                 object.balance = message.balance;
-            if (message.balance_url != null && message.hasOwnProperty("balance_url"))
+            if (message.balance_url != null && Object.hasOwnProperty.call(message, "balance_url"))
                 object.balance_url = message.balance_url;
-            if (message.txn_country_code != null && message.hasOwnProperty("txn_country_code"))
+            if (message.txn_country_code != null && Object.hasOwnProperty.call(message, "txn_country_code"))
                 object.txn_country_code = message.txn_country_code;
             return object;
         };
@@ -7080,7 +8023,7 @@
             function Location(properties) {
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -7129,9 +8072,13 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Location.encode = function encode(message, writer) {
+            Location.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.latitude != null && Object.hasOwnProperty.call(message, "latitude"))
                     writer.uint32(/* id 1, wireType 5 =*/13).float(message.latitude);
                 if (message.longitude != null && Object.hasOwnProperty.call(message, "longitude"))
@@ -7151,7 +8098,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             Location.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -7165,10 +8112,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Location.decode = function decode(reader, length, error) {
+            Location.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgClientWelcome.Location();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CMsgClientWelcome.Location();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -7187,9 +8148,14 @@
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -7218,16 +8184,20 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Location.verify = function verify(message) {
+            Location.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.latitude != null && message.hasOwnProperty("latitude"))
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.latitude != null && Object.hasOwnProperty.call(message, "latitude"))
                     if (typeof message.latitude !== "number")
                         return "latitude: number expected";
-                if (message.longitude != null && message.hasOwnProperty("longitude"))
+                if (message.longitude != null && Object.hasOwnProperty.call(message, "longitude"))
                     if (typeof message.longitude !== "number")
                         return "longitude: number expected";
-                if (message.country != null && message.hasOwnProperty("country"))
+                if (message.country != null && Object.hasOwnProperty.call(message, "country"))
                     if (!$util.isString(message.country))
                         return "country: string expected";
                 return null;
@@ -7241,9 +8211,15 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgClientWelcome.Location} Location
              */
-            Location.fromObject = function fromObject(object) {
+            Location.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CMsgClientWelcome.Location)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CMsgClientWelcome.Location: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CMsgClientWelcome.Location();
                 if (object.latitude != null)
                     message.latitude = Number(object.latitude);
@@ -7263,20 +8239,24 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Location.toObject = function toObject(message, options) {
+            Location.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.latitude = 0;
                     object.longitude = 0;
                     object.country = "";
                 }
-                if (message.latitude != null && message.hasOwnProperty("latitude"))
+                if (message.latitude != null && Object.hasOwnProperty.call(message, "latitude"))
                     object.latitude = options.json && !isFinite(message.latitude) ? String(message.latitude) : message.latitude;
-                if (message.longitude != null && message.hasOwnProperty("longitude"))
+                if (message.longitude != null && Object.hasOwnProperty.call(message, "longitude"))
                     object.longitude = options.json && !isFinite(message.longitude) ? String(message.longitude) : message.longitude;
-                if (message.country != null && message.hasOwnProperty("country"))
+                if (message.country != null && Object.hasOwnProperty.call(message, "country"))
                     object.country = message.country;
                 return object;
             };
@@ -7338,7 +8318,7 @@
         function CMsgConnectionStatus(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -7411,9 +8391,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgConnectionStatus.encode = function encode(message, writer) {
+        CMsgConnectionStatus.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.status != null && Object.hasOwnProperty.call(message, "status"))
                 writer.uint32(/* id 1, wireType 0 =*/8).int32(message.status);
             if (message.client_session_need != null && Object.hasOwnProperty.call(message, "client_session_need"))
@@ -7439,7 +8423,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgConnectionStatus.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -7453,10 +8437,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgConnectionStatus.decode = function decode(reader, length, error) {
+        CMsgConnectionStatus.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgConnectionStatus();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgConnectionStatus();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -7487,9 +8485,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -7518,10 +8521,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgConnectionStatus.verify = function verify(message) {
+        CMsgConnectionStatus.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.status != null && message.hasOwnProperty("status"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.status != null && Object.hasOwnProperty.call(message, "status"))
                 switch (message.status) {
                 default:
                     return "status: enum value expected";
@@ -7532,19 +8539,19 @@
                 case 4:
                     break;
                 }
-            if (message.client_session_need != null && message.hasOwnProperty("client_session_need"))
+            if (message.client_session_need != null && Object.hasOwnProperty.call(message, "client_session_need"))
                 if (!$util.isInteger(message.client_session_need))
                     return "client_session_need: integer expected";
-            if (message.queue_position != null && message.hasOwnProperty("queue_position"))
+            if (message.queue_position != null && Object.hasOwnProperty.call(message, "queue_position"))
                 if (!$util.isInteger(message.queue_position))
                     return "queue_position: integer expected";
-            if (message.queue_size != null && message.hasOwnProperty("queue_size"))
+            if (message.queue_size != null && Object.hasOwnProperty.call(message, "queue_size"))
                 if (!$util.isInteger(message.queue_size))
                     return "queue_size: integer expected";
-            if (message.wait_seconds != null && message.hasOwnProperty("wait_seconds"))
+            if (message.wait_seconds != null && Object.hasOwnProperty.call(message, "wait_seconds"))
                 if (!$util.isInteger(message.wait_seconds))
                     return "wait_seconds: integer expected";
-            if (message.estimated_wait_seconds_remaining != null && message.hasOwnProperty("estimated_wait_seconds_remaining"))
+            if (message.estimated_wait_seconds_remaining != null && Object.hasOwnProperty.call(message, "estimated_wait_seconds_remaining"))
                 if (!$util.isInteger(message.estimated_wait_seconds_remaining))
                     return "estimated_wait_seconds_remaining: integer expected";
             return null;
@@ -7558,9 +8565,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgConnectionStatus} CMsgConnectionStatus
          */
-        CMsgConnectionStatus.fromObject = function fromObject(object) {
+        CMsgConnectionStatus.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgConnectionStatus)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgConnectionStatus: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgConnectionStatus();
             switch (object.status) {
             default:
@@ -7612,9 +8625,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgConnectionStatus.toObject = function toObject(message, options) {
+        CMsgConnectionStatus.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.status = options.enums === String ? "GCConnectionStatus_HAVE_SESSION" : 0;
@@ -7624,17 +8641,17 @@
                 object.wait_seconds = 0;
                 object.estimated_wait_seconds_remaining = 0;
             }
-            if (message.status != null && message.hasOwnProperty("status"))
+            if (message.status != null && Object.hasOwnProperty.call(message, "status"))
                 object.status = options.enums === String ? $root.GCConnectionStatus[message.status] === undefined ? message.status : $root.GCConnectionStatus[message.status] : message.status;
-            if (message.client_session_need != null && message.hasOwnProperty("client_session_need"))
+            if (message.client_session_need != null && Object.hasOwnProperty.call(message, "client_session_need"))
                 object.client_session_need = message.client_session_need;
-            if (message.queue_position != null && message.hasOwnProperty("queue_position"))
+            if (message.queue_position != null && Object.hasOwnProperty.call(message, "queue_position"))
                 object.queue_position = message.queue_position;
-            if (message.queue_size != null && message.hasOwnProperty("queue_size"))
+            if (message.queue_size != null && Object.hasOwnProperty.call(message, "queue_size"))
                 object.queue_size = message.queue_size;
-            if (message.wait_seconds != null && message.hasOwnProperty("wait_seconds"))
+            if (message.wait_seconds != null && Object.hasOwnProperty.call(message, "wait_seconds"))
                 object.wait_seconds = message.wait_seconds;
-            if (message.estimated_wait_seconds_remaining != null && message.hasOwnProperty("estimated_wait_seconds_remaining"))
+            if (message.estimated_wait_seconds_remaining != null && Object.hasOwnProperty.call(message, "estimated_wait_seconds_remaining"))
                 object.estimated_wait_seconds_remaining = message.estimated_wait_seconds_remaining;
             return object;
         };
@@ -7690,7 +8707,7 @@
             this.languages = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -7731,14 +8748,18 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CWorkshop_PopulateItemDescriptions_Request.encode = function encode(message, writer) {
+        CWorkshop_PopulateItemDescriptions_Request.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.appid);
             if (message.languages != null && message.languages.length)
                 for (var i = 0; i < message.languages.length; ++i)
-                    $root.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock.encode(message.languages[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    $root.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock.encode(message.languages[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
             return writer;
         };
     
@@ -7752,7 +8773,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CWorkshop_PopulateItemDescriptions_Request.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -7766,10 +8787,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CWorkshop_PopulateItemDescriptions_Request.decode = function decode(reader, length, error) {
+        CWorkshop_PopulateItemDescriptions_Request.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CWorkshop_PopulateItemDescriptions_Request();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CWorkshop_PopulateItemDescriptions_Request();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -7782,13 +8817,18 @@
                 case 2: {
                         if (!(message.languages && message.languages.length))
                             message.languages = [];
-                        message.languages.push($root.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock.decode(reader, reader.uint32()));
+                        message.languages.push($root.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -7817,17 +8857,21 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CWorkshop_PopulateItemDescriptions_Request.verify = function verify(message) {
+        CWorkshop_PopulateItemDescriptions_Request.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.appid != null && message.hasOwnProperty("appid"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.languages != null && message.hasOwnProperty("languages")) {
+            if (message.languages != null && Object.hasOwnProperty.call(message, "languages")) {
                 if (!Array.isArray(message.languages))
                     return "languages: array expected";
                 for (var i = 0; i < message.languages.length; ++i) {
-                    var error = $root.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock.verify(message.languages[i]);
+                    var error = $root.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock.verify(message.languages[i], long + 1);
                     if (error)
                         return "languages." + error;
                 }
@@ -7843,9 +8887,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CWorkshop_PopulateItemDescriptions_Request} CWorkshop_PopulateItemDescriptions_Request
          */
-        CWorkshop_PopulateItemDescriptions_Request.fromObject = function fromObject(object) {
+        CWorkshop_PopulateItemDescriptions_Request.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CWorkshop_PopulateItemDescriptions_Request)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CWorkshop_PopulateItemDescriptions_Request: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CWorkshop_PopulateItemDescriptions_Request();
             if (object.appid != null)
                 message.appid = object.appid >>> 0;
@@ -7854,9 +8904,9 @@
                     throw TypeError(".CWorkshop_PopulateItemDescriptions_Request.languages: array expected");
                 message.languages = [];
                 for (var i = 0; i < object.languages.length; ++i) {
-                    if (typeof object.languages[i] !== "object")
+                    if (!$util.isObject(object.languages[i]))
                         throw TypeError(".CWorkshop_PopulateItemDescriptions_Request.languages: object expected");
-                    message.languages[i] = $root.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock.fromObject(object.languages[i]);
+                    message.languages[i] = $root.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock.fromObject(object.languages[i], long + 1);
                 }
             }
             return message;
@@ -7871,20 +8921,24 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CWorkshop_PopulateItemDescriptions_Request.toObject = function toObject(message, options) {
+        CWorkshop_PopulateItemDescriptions_Request.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.languages = [];
             if (options.defaults)
                 object.appid = 0;
-            if (message.appid != null && message.hasOwnProperty("appid"))
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
             if (message.languages && message.languages.length) {
                 object.languages = [];
                 for (var j = 0; j < message.languages.length; ++j)
-                    object.languages[j] = $root.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock.toObject(message.languages[j], options);
+                    object.languages[j] = $root.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock.toObject(message.languages[j], options, q + 1);
             }
             return object;
         };
@@ -7937,7 +8991,7 @@
             function SingleItemDescription(properties) {
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -7986,9 +9040,13 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            SingleItemDescription.encode = function encode(message, writer) {
+            SingleItemDescription.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.gameitemid != null && Object.hasOwnProperty.call(message, "gameitemid"))
                     writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.gameitemid);
                 if (message.item_description != null && Object.hasOwnProperty.call(message, "item_description"))
@@ -8008,7 +9066,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             SingleItemDescription.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -8022,10 +9080,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            SingleItemDescription.decode = function decode(reader, length, error) {
+            SingleItemDescription.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -8044,9 +9116,14 @@
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -8075,16 +9152,20 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            SingleItemDescription.verify = function verify(message) {
+            SingleItemDescription.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.gameitemid != null && message.hasOwnProperty("gameitemid"))
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.gameitemid != null && Object.hasOwnProperty.call(message, "gameitemid"))
                     if (!$util.isInteger(message.gameitemid))
                         return "gameitemid: integer expected";
-                if (message.item_description != null && message.hasOwnProperty("item_description"))
+                if (message.item_description != null && Object.hasOwnProperty.call(message, "item_description"))
                     if (!$util.isString(message.item_description))
                         return "item_description: string expected";
-                if (message.one_per_account != null && message.hasOwnProperty("one_per_account"))
+                if (message.one_per_account != null && Object.hasOwnProperty.call(message, "one_per_account"))
                     if (typeof message.one_per_account !== "boolean")
                         return "one_per_account: boolean expected";
                 return null;
@@ -8098,9 +9179,15 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription} SingleItemDescription
              */
-            SingleItemDescription.fromObject = function fromObject(object) {
+            SingleItemDescription.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription();
                 if (object.gameitemid != null)
                     message.gameitemid = object.gameitemid >>> 0;
@@ -8120,20 +9207,24 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            SingleItemDescription.toObject = function toObject(message, options) {
+            SingleItemDescription.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.gameitemid = 0;
                     object.item_description = "";
                     object.one_per_account = false;
                 }
-                if (message.gameitemid != null && message.hasOwnProperty("gameitemid"))
+                if (message.gameitemid != null && Object.hasOwnProperty.call(message, "gameitemid"))
                     object.gameitemid = message.gameitemid;
-                if (message.item_description != null && message.hasOwnProperty("item_description"))
+                if (message.item_description != null && Object.hasOwnProperty.call(message, "item_description"))
                     object.item_description = message.item_description;
-                if (message.one_per_account != null && message.hasOwnProperty("one_per_account"))
+                if (message.one_per_account != null && Object.hasOwnProperty.call(message, "one_per_account"))
                     object.one_per_account = message.one_per_account;
                 return object;
             };
@@ -8189,7 +9280,7 @@
                 this.descriptions = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -8230,14 +9321,18 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ItemDescriptionsLanguageBlock.encode = function encode(message, writer) {
+            ItemDescriptionsLanguageBlock.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.language != null && Object.hasOwnProperty.call(message, "language"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.language);
                 if (message.descriptions != null && message.descriptions.length)
                     for (var i = 0; i < message.descriptions.length; ++i)
-                        $root.CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription.encode(message.descriptions[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                        $root.CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription.encode(message.descriptions[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
                 return writer;
             };
     
@@ -8251,7 +9346,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             ItemDescriptionsLanguageBlock.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -8265,10 +9360,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ItemDescriptionsLanguageBlock.decode = function decode(reader, length, error) {
+            ItemDescriptionsLanguageBlock.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -8281,13 +9390,18 @@
                     case 2: {
                             if (!(message.descriptions && message.descriptions.length))
                                 message.descriptions = [];
-                            message.descriptions.push($root.CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription.decode(reader, reader.uint32()));
+                            message.descriptions.push($root.CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription.decode(reader, reader.uint32(), undefined, long + 1));
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -8316,17 +9430,21 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            ItemDescriptionsLanguageBlock.verify = function verify(message) {
+            ItemDescriptionsLanguageBlock.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.language != null && message.hasOwnProperty("language"))
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.language != null && Object.hasOwnProperty.call(message, "language"))
                     if (!$util.isString(message.language))
                         return "language: string expected";
-                if (message.descriptions != null && message.hasOwnProperty("descriptions")) {
+                if (message.descriptions != null && Object.hasOwnProperty.call(message, "descriptions")) {
                     if (!Array.isArray(message.descriptions))
                         return "descriptions: array expected";
                     for (var i = 0; i < message.descriptions.length; ++i) {
-                        var error = $root.CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription.verify(message.descriptions[i]);
+                        var error = $root.CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription.verify(message.descriptions[i], long + 1);
                         if (error)
                             return "descriptions." + error;
                     }
@@ -8342,9 +9460,15 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock} ItemDescriptionsLanguageBlock
              */
-            ItemDescriptionsLanguageBlock.fromObject = function fromObject(object) {
+            ItemDescriptionsLanguageBlock.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock();
                 if (object.language != null)
                     message.language = String(object.language);
@@ -8353,9 +9477,9 @@
                         throw TypeError(".CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock.descriptions: array expected");
                     message.descriptions = [];
                     for (var i = 0; i < object.descriptions.length; ++i) {
-                        if (typeof object.descriptions[i] !== "object")
+                        if (!$util.isObject(object.descriptions[i]))
                             throw TypeError(".CWorkshop_PopulateItemDescriptions_Request.ItemDescriptionsLanguageBlock.descriptions: object expected");
-                        message.descriptions[i] = $root.CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription.fromObject(object.descriptions[i]);
+                        message.descriptions[i] = $root.CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription.fromObject(object.descriptions[i], long + 1);
                     }
                 }
                 return message;
@@ -8370,20 +9494,24 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            ItemDescriptionsLanguageBlock.toObject = function toObject(message, options) {
+            ItemDescriptionsLanguageBlock.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.arrays || options.defaults)
                     object.descriptions = [];
                 if (options.defaults)
                     object.language = "";
-                if (message.language != null && message.hasOwnProperty("language"))
+                if (message.language != null && Object.hasOwnProperty.call(message, "language"))
                     object.language = message.language;
                 if (message.descriptions && message.descriptions.length) {
                     object.descriptions = [];
                     for (var j = 0; j < message.descriptions.length; ++j)
-                        object.descriptions[j] = $root.CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription.toObject(message.descriptions[j], options);
+                        object.descriptions[j] = $root.CWorkshop_PopulateItemDescriptions_Request.SingleItemDescription.toObject(message.descriptions[j], options, q + 1);
                 }
                 return object;
             };
@@ -8441,7 +9569,7 @@
         function CWorkshop_GetContributors_Request(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -8482,9 +9610,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CWorkshop_GetContributors_Request.encode = function encode(message, writer) {
+        CWorkshop_GetContributors_Request.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.appid);
             if (message.gameitemid != null && Object.hasOwnProperty.call(message, "gameitemid"))
@@ -8502,7 +9634,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CWorkshop_GetContributors_Request.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -8516,10 +9648,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CWorkshop_GetContributors_Request.decode = function decode(reader, length, error) {
+        CWorkshop_GetContributors_Request.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CWorkshop_GetContributors_Request();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CWorkshop_GetContributors_Request();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -8534,9 +9680,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -8565,13 +9716,17 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CWorkshop_GetContributors_Request.verify = function verify(message) {
+        CWorkshop_GetContributors_Request.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.appid != null && message.hasOwnProperty("appid"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.gameitemid != null && message.hasOwnProperty("gameitemid"))
+            if (message.gameitemid != null && Object.hasOwnProperty.call(message, "gameitemid"))
                 if (!$util.isInteger(message.gameitemid))
                     return "gameitemid: integer expected";
             return null;
@@ -8585,9 +9740,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CWorkshop_GetContributors_Request} CWorkshop_GetContributors_Request
          */
-        CWorkshop_GetContributors_Request.fromObject = function fromObject(object) {
+        CWorkshop_GetContributors_Request.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CWorkshop_GetContributors_Request)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CWorkshop_GetContributors_Request: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CWorkshop_GetContributors_Request();
             if (object.appid != null)
                 message.appid = object.appid >>> 0;
@@ -8605,17 +9766,21 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CWorkshop_GetContributors_Request.toObject = function toObject(message, options) {
+        CWorkshop_GetContributors_Request.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.appid = 0;
                 object.gameitemid = 0;
             }
-            if (message.appid != null && message.hasOwnProperty("appid"))
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
-            if (message.gameitemid != null && message.hasOwnProperty("gameitemid"))
+            if (message.gameitemid != null && Object.hasOwnProperty.call(message, "gameitemid"))
                 object.gameitemid = message.gameitemid;
             return object;
         };
@@ -8670,7 +9835,7 @@
             this.contributors = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -8703,9 +9868,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CWorkshop_GetContributors_Response.encode = function encode(message, writer) {
+        CWorkshop_GetContributors_Response.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.contributors != null && message.contributors.length)
                 for (var i = 0; i < message.contributors.length; ++i)
                     writer.uint32(/* id 1, wireType 1 =*/9).fixed64(message.contributors[i]);
@@ -8722,7 +9891,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CWorkshop_GetContributors_Response.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -8736,10 +9905,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CWorkshop_GetContributors_Response.decode = function decode(reader, length, error) {
+        CWorkshop_GetContributors_Response.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CWorkshop_GetContributors_Response();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CWorkshop_GetContributors_Response();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -8750,16 +9933,27 @@
                             message.contributors = [];
                         if ((tag & 7) === 2) {
                             var end2 = reader.uint32() + reader.pos;
+                            if (end2 > reader.len)
+                                throw RangeError("index out of range");
+                            reader.len = end2;
                             while (reader.pos < end2)
                                 message.contributors.push(reader.fixed64());
+                            if (reader.pos !== end2)
+                                throw RangeError("index out of range");
+                            reader.len = end;
                         } else
                             message.contributors.push(reader.fixed64());
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -8788,10 +9982,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CWorkshop_GetContributors_Response.verify = function verify(message) {
+        CWorkshop_GetContributors_Response.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.contributors != null && message.hasOwnProperty("contributors")) {
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.contributors != null && Object.hasOwnProperty.call(message, "contributors")) {
                 if (!Array.isArray(message.contributors))
                     return "contributors: array expected";
                 for (var i = 0; i < message.contributors.length; ++i)
@@ -8809,9 +10007,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CWorkshop_GetContributors_Response} CWorkshop_GetContributors_Response
          */
-        CWorkshop_GetContributors_Response.fromObject = function fromObject(object) {
+        CWorkshop_GetContributors_Response.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CWorkshop_GetContributors_Response)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CWorkshop_GetContributors_Response: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CWorkshop_GetContributors_Response();
             if (object.contributors) {
                 if (!Array.isArray(object.contributors))
@@ -8819,13 +10023,13 @@
                 message.contributors = [];
                 for (var i = 0; i < object.contributors.length; ++i)
                     if ($util.Long)
-                        (message.contributors[i] = $util.Long.fromValue(object.contributors[i])).unsigned = false;
+                        message.contributors[i] = $util.Long.fromValue(object.contributors[i], true);
                     else if (typeof object.contributors[i] === "string")
                         message.contributors[i] = parseInt(object.contributors[i], 10);
                     else if (typeof object.contributors[i] === "number")
                         message.contributors[i] = object.contributors[i];
                     else if (typeof object.contributors[i] === "object")
-                        message.contributors[i] = new $util.LongBits(object.contributors[i].low >>> 0, object.contributors[i].high >>> 0).toNumber();
+                        message.contributors[i] = new $util.LongBits(object.contributors[i].low >>> 0, object.contributors[i].high >>> 0).toNumber(true);
             }
             return message;
         };
@@ -8839,19 +10043,25 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CWorkshop_GetContributors_Response.toObject = function toObject(message, options) {
+        CWorkshop_GetContributors_Response.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.contributors = [];
             if (message.contributors && message.contributors.length) {
                 object.contributors = [];
                 for (var j = 0; j < message.contributors.length; ++j)
-                    if (typeof message.contributors[j] === "number")
+                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                        object.contributors[j] = typeof message.contributors[j] === "number" ? BigInt(message.contributors[j]) : $util.Long.fromBits(message.contributors[j].low >>> 0, message.contributors[j].high >>> 0, true).toBigInt();
+                    else if (typeof message.contributors[j] === "number")
                         object.contributors[j] = options.longs === String ? String(message.contributors[j]) : message.contributors[j];
                     else
-                        object.contributors[j] = options.longs === String ? $util.Long.prototype.toString.call(message.contributors[j]) : options.longs === Number ? new $util.LongBits(message.contributors[j].low >>> 0, message.contributors[j].high >>> 0).toNumber() : message.contributors[j];
+                        object.contributors[j] = options.longs === String ? $util.Long.prototype.toString.call(message.contributors[j]) : options.longs === Number ? new $util.LongBits(message.contributors[j].low >>> 0, message.contributors[j].high >>> 0).toNumber(true) : message.contributors[j];
             }
             return object;
         };
@@ -8913,7 +10123,7 @@
             this.partner_accounts = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -8994,25 +10204,29 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CWorkshop_SetItemPaymentRules_Request.encode = function encode(message, writer) {
+        CWorkshop_SetItemPaymentRules_Request.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.appid);
             if (message.gameitemid != null && Object.hasOwnProperty.call(message, "gameitemid"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.gameitemid);
             if (message.associated_workshop_files != null && message.associated_workshop_files.length)
                 for (var i = 0; i < message.associated_workshop_files.length; ++i)
-                    $root.CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule.encode(message.associated_workshop_files[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    $root.CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule.encode(message.associated_workshop_files[i], writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
             if (message.partner_accounts != null && message.partner_accounts.length)
                 for (var i = 0; i < message.partner_accounts.length; ++i)
-                    $root.CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule.encode(message.partner_accounts[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                    $root.CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule.encode(message.partner_accounts[i], writer.uint32(/* id 4, wireType 2 =*/34).fork(), q + 1).ldelim();
             if (message.validate_only != null && Object.hasOwnProperty.call(message, "validate_only"))
                 writer.uint32(/* id 5, wireType 0 =*/40).bool(message.validate_only);
             if (message.make_workshop_files_subscribable != null && Object.hasOwnProperty.call(message, "make_workshop_files_subscribable"))
                 writer.uint32(/* id 6, wireType 0 =*/48).bool(message.make_workshop_files_subscribable);
             if (message.associated_workshop_file_for_direct_payments != null && Object.hasOwnProperty.call(message, "associated_workshop_file_for_direct_payments"))
-                $root.CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule.encode(message.associated_workshop_file_for_direct_payments, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+                $root.CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule.encode(message.associated_workshop_file_for_direct_payments, writer.uint32(/* id 7, wireType 2 =*/58).fork(), q + 1).ldelim();
             return writer;
         };
     
@@ -9026,7 +10240,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CWorkshop_SetItemPaymentRules_Request.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -9040,10 +10254,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CWorkshop_SetItemPaymentRules_Request.decode = function decode(reader, length, error) {
+        CWorkshop_SetItemPaymentRules_Request.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CWorkshop_SetItemPaymentRules_Request();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CWorkshop_SetItemPaymentRules_Request();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -9060,13 +10288,13 @@
                 case 3: {
                         if (!(message.associated_workshop_files && message.associated_workshop_files.length))
                             message.associated_workshop_files = [];
-                        message.associated_workshop_files.push($root.CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule.decode(reader, reader.uint32()));
+                        message.associated_workshop_files.push($root.CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 case 4: {
                         if (!(message.partner_accounts && message.partner_accounts.length))
                             message.partner_accounts = [];
-                        message.partner_accounts.push($root.CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule.decode(reader, reader.uint32()));
+                        message.partner_accounts.push($root.CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 case 5: {
@@ -9078,13 +10306,18 @@
                         break;
                     }
                 case 7: {
-                        message.associated_workshop_file_for_direct_payments = $root.CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule.decode(reader, reader.uint32());
+                        message.associated_workshop_file_for_direct_payments = $root.CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule.decode(reader, reader.uint32(), undefined, long + 1);
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -9113,41 +10346,45 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CWorkshop_SetItemPaymentRules_Request.verify = function verify(message) {
+        CWorkshop_SetItemPaymentRules_Request.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.appid != null && message.hasOwnProperty("appid"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.gameitemid != null && message.hasOwnProperty("gameitemid"))
+            if (message.gameitemid != null && Object.hasOwnProperty.call(message, "gameitemid"))
                 if (!$util.isInteger(message.gameitemid))
                     return "gameitemid: integer expected";
-            if (message.associated_workshop_files != null && message.hasOwnProperty("associated_workshop_files")) {
+            if (message.associated_workshop_files != null && Object.hasOwnProperty.call(message, "associated_workshop_files")) {
                 if (!Array.isArray(message.associated_workshop_files))
                     return "associated_workshop_files: array expected";
                 for (var i = 0; i < message.associated_workshop_files.length; ++i) {
-                    var error = $root.CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule.verify(message.associated_workshop_files[i]);
+                    var error = $root.CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule.verify(message.associated_workshop_files[i], long + 1);
                     if (error)
                         return "associated_workshop_files." + error;
                 }
             }
-            if (message.partner_accounts != null && message.hasOwnProperty("partner_accounts")) {
+            if (message.partner_accounts != null && Object.hasOwnProperty.call(message, "partner_accounts")) {
                 if (!Array.isArray(message.partner_accounts))
                     return "partner_accounts: array expected";
                 for (var i = 0; i < message.partner_accounts.length; ++i) {
-                    var error = $root.CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule.verify(message.partner_accounts[i]);
+                    var error = $root.CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule.verify(message.partner_accounts[i], long + 1);
                     if (error)
                         return "partner_accounts." + error;
                 }
             }
-            if (message.validate_only != null && message.hasOwnProperty("validate_only"))
+            if (message.validate_only != null && Object.hasOwnProperty.call(message, "validate_only"))
                 if (typeof message.validate_only !== "boolean")
                     return "validate_only: boolean expected";
-            if (message.make_workshop_files_subscribable != null && message.hasOwnProperty("make_workshop_files_subscribable"))
+            if (message.make_workshop_files_subscribable != null && Object.hasOwnProperty.call(message, "make_workshop_files_subscribable"))
                 if (typeof message.make_workshop_files_subscribable !== "boolean")
                     return "make_workshop_files_subscribable: boolean expected";
-            if (message.associated_workshop_file_for_direct_payments != null && message.hasOwnProperty("associated_workshop_file_for_direct_payments")) {
-                var error = $root.CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule.verify(message.associated_workshop_file_for_direct_payments);
+            if (message.associated_workshop_file_for_direct_payments != null && Object.hasOwnProperty.call(message, "associated_workshop_file_for_direct_payments")) {
+                var error = $root.CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule.verify(message.associated_workshop_file_for_direct_payments, long + 1);
                 if (error)
                     return "associated_workshop_file_for_direct_payments." + error;
             }
@@ -9162,9 +10399,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CWorkshop_SetItemPaymentRules_Request} CWorkshop_SetItemPaymentRules_Request
          */
-        CWorkshop_SetItemPaymentRules_Request.fromObject = function fromObject(object) {
+        CWorkshop_SetItemPaymentRules_Request.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CWorkshop_SetItemPaymentRules_Request)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CWorkshop_SetItemPaymentRules_Request: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CWorkshop_SetItemPaymentRules_Request();
             if (object.appid != null)
                 message.appid = object.appid >>> 0;
@@ -9175,9 +10418,9 @@
                     throw TypeError(".CWorkshop_SetItemPaymentRules_Request.associated_workshop_files: array expected");
                 message.associated_workshop_files = [];
                 for (var i = 0; i < object.associated_workshop_files.length; ++i) {
-                    if (typeof object.associated_workshop_files[i] !== "object")
+                    if (!$util.isObject(object.associated_workshop_files[i]))
                         throw TypeError(".CWorkshop_SetItemPaymentRules_Request.associated_workshop_files: object expected");
-                    message.associated_workshop_files[i] = $root.CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule.fromObject(object.associated_workshop_files[i]);
+                    message.associated_workshop_files[i] = $root.CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule.fromObject(object.associated_workshop_files[i], long + 1);
                 }
             }
             if (object.partner_accounts) {
@@ -9185,9 +10428,9 @@
                     throw TypeError(".CWorkshop_SetItemPaymentRules_Request.partner_accounts: array expected");
                 message.partner_accounts = [];
                 for (var i = 0; i < object.partner_accounts.length; ++i) {
-                    if (typeof object.partner_accounts[i] !== "object")
+                    if (!$util.isObject(object.partner_accounts[i]))
                         throw TypeError(".CWorkshop_SetItemPaymentRules_Request.partner_accounts: object expected");
-                    message.partner_accounts[i] = $root.CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule.fromObject(object.partner_accounts[i]);
+                    message.partner_accounts[i] = $root.CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule.fromObject(object.partner_accounts[i], long + 1);
                 }
             }
             if (object.validate_only != null)
@@ -9195,9 +10438,9 @@
             if (object.make_workshop_files_subscribable != null)
                 message.make_workshop_files_subscribable = Boolean(object.make_workshop_files_subscribable);
             if (object.associated_workshop_file_for_direct_payments != null) {
-                if (typeof object.associated_workshop_file_for_direct_payments !== "object")
+                if (!$util.isObject(object.associated_workshop_file_for_direct_payments))
                     throw TypeError(".CWorkshop_SetItemPaymentRules_Request.associated_workshop_file_for_direct_payments: object expected");
-                message.associated_workshop_file_for_direct_payments = $root.CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule.fromObject(object.associated_workshop_file_for_direct_payments);
+                message.associated_workshop_file_for_direct_payments = $root.CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule.fromObject(object.associated_workshop_file_for_direct_payments, long + 1);
             }
             return message;
         };
@@ -9211,9 +10454,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CWorkshop_SetItemPaymentRules_Request.toObject = function toObject(message, options) {
+        CWorkshop_SetItemPaymentRules_Request.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults) {
                 object.associated_workshop_files = [];
@@ -9226,26 +10473,26 @@
                 object.make_workshop_files_subscribable = false;
                 object.associated_workshop_file_for_direct_payments = null;
             }
-            if (message.appid != null && message.hasOwnProperty("appid"))
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
-            if (message.gameitemid != null && message.hasOwnProperty("gameitemid"))
+            if (message.gameitemid != null && Object.hasOwnProperty.call(message, "gameitemid"))
                 object.gameitemid = message.gameitemid;
             if (message.associated_workshop_files && message.associated_workshop_files.length) {
                 object.associated_workshop_files = [];
                 for (var j = 0; j < message.associated_workshop_files.length; ++j)
-                    object.associated_workshop_files[j] = $root.CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule.toObject(message.associated_workshop_files[j], options);
+                    object.associated_workshop_files[j] = $root.CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule.toObject(message.associated_workshop_files[j], options, q + 1);
             }
             if (message.partner_accounts && message.partner_accounts.length) {
                 object.partner_accounts = [];
                 for (var j = 0; j < message.partner_accounts.length; ++j)
-                    object.partner_accounts[j] = $root.CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule.toObject(message.partner_accounts[j], options);
+                    object.partner_accounts[j] = $root.CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule.toObject(message.partner_accounts[j], options, q + 1);
             }
-            if (message.validate_only != null && message.hasOwnProperty("validate_only"))
+            if (message.validate_only != null && Object.hasOwnProperty.call(message, "validate_only"))
                 object.validate_only = message.validate_only;
-            if (message.make_workshop_files_subscribable != null && message.hasOwnProperty("make_workshop_files_subscribable"))
+            if (message.make_workshop_files_subscribable != null && Object.hasOwnProperty.call(message, "make_workshop_files_subscribable"))
                 object.make_workshop_files_subscribable = message.make_workshop_files_subscribable;
-            if (message.associated_workshop_file_for_direct_payments != null && message.hasOwnProperty("associated_workshop_file_for_direct_payments"))
-                object.associated_workshop_file_for_direct_payments = $root.CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule.toObject(message.associated_workshop_file_for_direct_payments, options);
+            if (message.associated_workshop_file_for_direct_payments != null && Object.hasOwnProperty.call(message, "associated_workshop_file_for_direct_payments"))
+                object.associated_workshop_file_for_direct_payments = $root.CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule.toObject(message.associated_workshop_file_for_direct_payments, options, q + 1);
             return object;
         };
     
@@ -9298,7 +10545,7 @@
             function WorkshopItemPaymentRule(properties) {
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -9355,9 +10602,13 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            WorkshopItemPaymentRule.encode = function encode(message, writer) {
+            WorkshopItemPaymentRule.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.workshop_file_id != null && Object.hasOwnProperty.call(message, "workshop_file_id"))
                     writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.workshop_file_id);
                 if (message.revenue_percentage != null && Object.hasOwnProperty.call(message, "revenue_percentage"))
@@ -9379,7 +10630,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             WorkshopItemPaymentRule.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -9393,10 +10644,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            WorkshopItemPaymentRule.decode = function decode(reader, length, error) {
+            WorkshopItemPaymentRule.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -9419,9 +10684,14 @@
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -9450,19 +10720,23 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            WorkshopItemPaymentRule.verify = function verify(message) {
+            WorkshopItemPaymentRule.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.workshop_file_id != null && message.hasOwnProperty("workshop_file_id"))
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.workshop_file_id != null && Object.hasOwnProperty.call(message, "workshop_file_id"))
                     if (!$util.isInteger(message.workshop_file_id) && !(message.workshop_file_id && $util.isInteger(message.workshop_file_id.low) && $util.isInteger(message.workshop_file_id.high)))
                         return "workshop_file_id: integer|Long expected";
-                if (message.revenue_percentage != null && message.hasOwnProperty("revenue_percentage"))
+                if (message.revenue_percentage != null && Object.hasOwnProperty.call(message, "revenue_percentage"))
                     if (typeof message.revenue_percentage !== "number")
                         return "revenue_percentage: number expected";
-                if (message.rule_description != null && message.hasOwnProperty("rule_description"))
+                if (message.rule_description != null && Object.hasOwnProperty.call(message, "rule_description"))
                     if (!$util.isString(message.rule_description))
                         return "rule_description: string expected";
-                if (message.rule_type != null && message.hasOwnProperty("rule_type"))
+                if (message.rule_type != null && Object.hasOwnProperty.call(message, "rule_type"))
                     if (!$util.isInteger(message.rule_type))
                         return "rule_type: integer expected";
                 return null;
@@ -9476,13 +10750,19 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule} WorkshopItemPaymentRule
              */
-            WorkshopItemPaymentRule.fromObject = function fromObject(object) {
+            WorkshopItemPaymentRule.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CWorkshop_SetItemPaymentRules_Request.WorkshopItemPaymentRule();
                 if (object.workshop_file_id != null)
                     if ($util.Long)
-                        (message.workshop_file_id = $util.Long.fromValue(object.workshop_file_id)).unsigned = true;
+                        message.workshop_file_id = $util.Long.fromValue(object.workshop_file_id, true);
                     else if (typeof object.workshop_file_id === "string")
                         message.workshop_file_id = parseInt(object.workshop_file_id, 10);
                     else if (typeof object.workshop_file_id === "number")
@@ -9507,30 +10787,36 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            WorkshopItemPaymentRule.toObject = function toObject(message, options) {
+            WorkshopItemPaymentRule.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, true);
-                        object.workshop_file_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                        object.workshop_file_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                     } else
-                        object.workshop_file_id = options.longs === String ? "0" : 0;
+                        object.workshop_file_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                     object.revenue_percentage = 0;
                     object.rule_description = "";
                     object.rule_type = 1;
                 }
-                if (message.workshop_file_id != null && message.hasOwnProperty("workshop_file_id"))
-                    if (typeof message.workshop_file_id === "number")
+                if (message.workshop_file_id != null && Object.hasOwnProperty.call(message, "workshop_file_id"))
+                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                        object.workshop_file_id = typeof message.workshop_file_id === "number" ? BigInt(message.workshop_file_id) : $util.Long.fromBits(message.workshop_file_id.low >>> 0, message.workshop_file_id.high >>> 0, true).toBigInt();
+                    else if (typeof message.workshop_file_id === "number")
                         object.workshop_file_id = options.longs === String ? String(message.workshop_file_id) : message.workshop_file_id;
                     else
                         object.workshop_file_id = options.longs === String ? $util.Long.prototype.toString.call(message.workshop_file_id) : options.longs === Number ? new $util.LongBits(message.workshop_file_id.low >>> 0, message.workshop_file_id.high >>> 0).toNumber(true) : message.workshop_file_id;
-                if (message.revenue_percentage != null && message.hasOwnProperty("revenue_percentage"))
+                if (message.revenue_percentage != null && Object.hasOwnProperty.call(message, "revenue_percentage"))
                     object.revenue_percentage = options.json && !isFinite(message.revenue_percentage) ? String(message.revenue_percentage) : message.revenue_percentage;
-                if (message.rule_description != null && message.hasOwnProperty("rule_description"))
+                if (message.rule_description != null && Object.hasOwnProperty.call(message, "rule_description"))
                     object.rule_description = message.rule_description;
-                if (message.rule_type != null && message.hasOwnProperty("rule_type"))
+                if (message.rule_type != null && Object.hasOwnProperty.call(message, "rule_type"))
                     object.rule_type = message.rule_type;
                 return object;
             };
@@ -9585,7 +10871,7 @@
             function WorkshopDirectPaymentRule(properties) {
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -9626,9 +10912,13 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            WorkshopDirectPaymentRule.encode = function encode(message, writer) {
+            WorkshopDirectPaymentRule.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.workshop_file_id != null && Object.hasOwnProperty.call(message, "workshop_file_id"))
                     writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.workshop_file_id);
                 if (message.rule_description != null && Object.hasOwnProperty.call(message, "rule_description"))
@@ -9646,7 +10936,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             WorkshopDirectPaymentRule.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -9660,10 +10950,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            WorkshopDirectPaymentRule.decode = function decode(reader, length, error) {
+            WorkshopDirectPaymentRule.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -9678,9 +10982,14 @@
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -9709,13 +11018,17 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            WorkshopDirectPaymentRule.verify = function verify(message) {
+            WorkshopDirectPaymentRule.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.workshop_file_id != null && message.hasOwnProperty("workshop_file_id"))
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.workshop_file_id != null && Object.hasOwnProperty.call(message, "workshop_file_id"))
                     if (!$util.isInteger(message.workshop_file_id) && !(message.workshop_file_id && $util.isInteger(message.workshop_file_id.low) && $util.isInteger(message.workshop_file_id.high)))
                         return "workshop_file_id: integer|Long expected";
-                if (message.rule_description != null && message.hasOwnProperty("rule_description"))
+                if (message.rule_description != null && Object.hasOwnProperty.call(message, "rule_description"))
                     if (!$util.isString(message.rule_description))
                         return "rule_description: string expected";
                 return null;
@@ -9729,13 +11042,19 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule} WorkshopDirectPaymentRule
              */
-            WorkshopDirectPaymentRule.fromObject = function fromObject(object) {
+            WorkshopDirectPaymentRule.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CWorkshop_SetItemPaymentRules_Request.WorkshopDirectPaymentRule();
                 if (object.workshop_file_id != null)
                     if ($util.Long)
-                        (message.workshop_file_id = $util.Long.fromValue(object.workshop_file_id)).unsigned = true;
+                        message.workshop_file_id = $util.Long.fromValue(object.workshop_file_id, true);
                     else if (typeof object.workshop_file_id === "string")
                         message.workshop_file_id = parseInt(object.workshop_file_id, 10);
                     else if (typeof object.workshop_file_id === "number")
@@ -9756,24 +11075,30 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            WorkshopDirectPaymentRule.toObject = function toObject(message, options) {
+            WorkshopDirectPaymentRule.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, true);
-                        object.workshop_file_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                        object.workshop_file_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                     } else
-                        object.workshop_file_id = options.longs === String ? "0" : 0;
+                        object.workshop_file_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                     object.rule_description = "";
                 }
-                if (message.workshop_file_id != null && message.hasOwnProperty("workshop_file_id"))
-                    if (typeof message.workshop_file_id === "number")
+                if (message.workshop_file_id != null && Object.hasOwnProperty.call(message, "workshop_file_id"))
+                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                        object.workshop_file_id = typeof message.workshop_file_id === "number" ? BigInt(message.workshop_file_id) : $util.Long.fromBits(message.workshop_file_id.low >>> 0, message.workshop_file_id.high >>> 0, true).toBigInt();
+                    else if (typeof message.workshop_file_id === "number")
                         object.workshop_file_id = options.longs === String ? String(message.workshop_file_id) : message.workshop_file_id;
                     else
                         object.workshop_file_id = options.longs === String ? $util.Long.prototype.toString.call(message.workshop_file_id) : options.longs === Number ? new $util.LongBits(message.workshop_file_id.low >>> 0, message.workshop_file_id.high >>> 0).toNumber(true) : message.workshop_file_id;
-                if (message.rule_description != null && message.hasOwnProperty("rule_description"))
+                if (message.rule_description != null && Object.hasOwnProperty.call(message, "rule_description"))
                     object.rule_description = message.rule_description;
                 return object;
             };
@@ -9829,7 +11154,7 @@
             function PartnerItemPaymentRule(properties) {
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -9878,9 +11203,13 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PartnerItemPaymentRule.encode = function encode(message, writer) {
+            PartnerItemPaymentRule.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.account_id != null && Object.hasOwnProperty.call(message, "account_id"))
                     writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.account_id);
                 if (message.revenue_percentage != null && Object.hasOwnProperty.call(message, "revenue_percentage"))
@@ -9900,7 +11229,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             PartnerItemPaymentRule.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -9914,10 +11243,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PartnerItemPaymentRule.decode = function decode(reader, length, error) {
+            PartnerItemPaymentRule.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -9936,9 +11279,14 @@
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -9967,16 +11315,20 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            PartnerItemPaymentRule.verify = function verify(message) {
+            PartnerItemPaymentRule.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.account_id != null && message.hasOwnProperty("account_id"))
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.account_id != null && Object.hasOwnProperty.call(message, "account_id"))
                     if (!$util.isInteger(message.account_id))
                         return "account_id: integer expected";
-                if (message.revenue_percentage != null && message.hasOwnProperty("revenue_percentage"))
+                if (message.revenue_percentage != null && Object.hasOwnProperty.call(message, "revenue_percentage"))
                     if (typeof message.revenue_percentage !== "number")
                         return "revenue_percentage: number expected";
-                if (message.rule_description != null && message.hasOwnProperty("rule_description"))
+                if (message.rule_description != null && Object.hasOwnProperty.call(message, "rule_description"))
                     if (!$util.isString(message.rule_description))
                         return "rule_description: string expected";
                 return null;
@@ -9990,9 +11342,15 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule} PartnerItemPaymentRule
              */
-            PartnerItemPaymentRule.fromObject = function fromObject(object) {
+            PartnerItemPaymentRule.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CWorkshop_SetItemPaymentRules_Request.PartnerItemPaymentRule();
                 if (object.account_id != null)
                     message.account_id = object.account_id >>> 0;
@@ -10012,20 +11370,24 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            PartnerItemPaymentRule.toObject = function toObject(message, options) {
+            PartnerItemPaymentRule.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.account_id = 0;
                     object.revenue_percentage = 0;
                     object.rule_description = "";
                 }
-                if (message.account_id != null && message.hasOwnProperty("account_id"))
+                if (message.account_id != null && Object.hasOwnProperty.call(message, "account_id"))
                     object.account_id = message.account_id;
-                if (message.revenue_percentage != null && message.hasOwnProperty("revenue_percentage"))
+                if (message.revenue_percentage != null && Object.hasOwnProperty.call(message, "revenue_percentage"))
                     object.revenue_percentage = options.json && !isFinite(message.revenue_percentage) ? String(message.revenue_percentage) : message.revenue_percentage;
-                if (message.rule_description != null && message.hasOwnProperty("rule_description"))
+                if (message.rule_description != null && Object.hasOwnProperty.call(message, "rule_description"))
                     object.rule_description = message.rule_description;
                 return object;
             };
@@ -10081,7 +11443,7 @@
         function CWorkshop_SetItemPaymentRules_Response(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -10106,9 +11468,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CWorkshop_SetItemPaymentRules_Response.encode = function encode(message, writer) {
+        CWorkshop_SetItemPaymentRules_Response.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             return writer;
         };
     
@@ -10122,7 +11488,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CWorkshop_SetItemPaymentRules_Response.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -10136,19 +11502,38 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CWorkshop_SetItemPaymentRules_Response.decode = function decode(reader, length, error) {
+        CWorkshop_SetItemPaymentRules_Response.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CWorkshop_SetItemPaymentRules_Response();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CWorkshop_SetItemPaymentRules_Response();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
                     break;
                 switch (tag >>> 3) {
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -10177,9 +11562,13 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CWorkshop_SetItemPaymentRules_Response.verify = function verify(message) {
+        CWorkshop_SetItemPaymentRules_Response.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
             return null;
         };
     
@@ -10191,7 +11580,7 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CWorkshop_SetItemPaymentRules_Response} CWorkshop_SetItemPaymentRules_Response
          */
-        CWorkshop_SetItemPaymentRules_Response.fromObject = function fromObject(object) {
+        CWorkshop_SetItemPaymentRules_Response.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CWorkshop_SetItemPaymentRules_Response)
                 return object;
             return new $root.CWorkshop_SetItemPaymentRules_Response();
@@ -10261,7 +11650,7 @@
             this.group_fields = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -10302,9 +11691,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CGameServers_AggregationQuery_Request.encode = function encode(message, writer) {
+        CGameServers_AggregationQuery_Request.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.filter != null && Object.hasOwnProperty.call(message, "filter"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.filter);
             if (message.group_fields != null && message.group_fields.length)
@@ -10323,7 +11716,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CGameServers_AggregationQuery_Request.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -10337,10 +11730,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CGameServers_AggregationQuery_Request.decode = function decode(reader, length, error) {
+        CGameServers_AggregationQuery_Request.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CGameServers_AggregationQuery_Request();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CGameServers_AggregationQuery_Request();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -10357,9 +11764,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -10388,13 +11800,17 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CGameServers_AggregationQuery_Request.verify = function verify(message) {
+        CGameServers_AggregationQuery_Request.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.filter != null && message.hasOwnProperty("filter"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.filter != null && Object.hasOwnProperty.call(message, "filter"))
                 if (!$util.isString(message.filter))
                     return "filter: string expected";
-            if (message.group_fields != null && message.hasOwnProperty("group_fields")) {
+            if (message.group_fields != null && Object.hasOwnProperty.call(message, "group_fields")) {
                 if (!Array.isArray(message.group_fields))
                     return "group_fields: array expected";
                 for (var i = 0; i < message.group_fields.length; ++i)
@@ -10412,9 +11828,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CGameServers_AggregationQuery_Request} CGameServers_AggregationQuery_Request
          */
-        CGameServers_AggregationQuery_Request.fromObject = function fromObject(object) {
+        CGameServers_AggregationQuery_Request.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CGameServers_AggregationQuery_Request)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CGameServers_AggregationQuery_Request: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CGameServers_AggregationQuery_Request();
             if (object.filter != null)
                 message.filter = String(object.filter);
@@ -10437,15 +11859,19 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CGameServers_AggregationQuery_Request.toObject = function toObject(message, options) {
+        CGameServers_AggregationQuery_Request.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.group_fields = [];
             if (options.defaults)
                 object.filter = "";
-            if (message.filter != null && message.hasOwnProperty("filter"))
+            if (message.filter != null && Object.hasOwnProperty.call(message, "filter"))
                 object.filter = message.filter;
             if (message.group_fields && message.group_fields.length) {
                 object.group_fields = [];
@@ -10505,7 +11931,7 @@
             this.groups = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -10538,12 +11964,16 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CGameServers_AggregationQuery_Response.encode = function encode(message, writer) {
+        CGameServers_AggregationQuery_Response.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.groups != null && message.groups.length)
                 for (var i = 0; i < message.groups.length; ++i)
-                    $root.CGameServers_AggregationQuery_Response.Group.encode(message.groups[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                    $root.CGameServers_AggregationQuery_Response.Group.encode(message.groups[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
             return writer;
         };
     
@@ -10557,7 +11987,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CGameServers_AggregationQuery_Response.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -10571,10 +12001,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CGameServers_AggregationQuery_Response.decode = function decode(reader, length, error) {
+        CGameServers_AggregationQuery_Response.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CGameServers_AggregationQuery_Response();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CGameServers_AggregationQuery_Response();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -10583,13 +12027,18 @@
                 case 1: {
                         if (!(message.groups && message.groups.length))
                             message.groups = [];
-                        message.groups.push($root.CGameServers_AggregationQuery_Response.Group.decode(reader, reader.uint32()));
+                        message.groups.push($root.CGameServers_AggregationQuery_Response.Group.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -10618,14 +12067,18 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CGameServers_AggregationQuery_Response.verify = function verify(message) {
+        CGameServers_AggregationQuery_Response.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.groups != null && message.hasOwnProperty("groups")) {
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.groups != null && Object.hasOwnProperty.call(message, "groups")) {
                 if (!Array.isArray(message.groups))
                     return "groups: array expected";
                 for (var i = 0; i < message.groups.length; ++i) {
-                    var error = $root.CGameServers_AggregationQuery_Response.Group.verify(message.groups[i]);
+                    var error = $root.CGameServers_AggregationQuery_Response.Group.verify(message.groups[i], long + 1);
                     if (error)
                         return "groups." + error;
                 }
@@ -10641,18 +12094,24 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CGameServers_AggregationQuery_Response} CGameServers_AggregationQuery_Response
          */
-        CGameServers_AggregationQuery_Response.fromObject = function fromObject(object) {
+        CGameServers_AggregationQuery_Response.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CGameServers_AggregationQuery_Response)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CGameServers_AggregationQuery_Response: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CGameServers_AggregationQuery_Response();
             if (object.groups) {
                 if (!Array.isArray(object.groups))
                     throw TypeError(".CGameServers_AggregationQuery_Response.groups: array expected");
                 message.groups = [];
                 for (var i = 0; i < object.groups.length; ++i) {
-                    if (typeof object.groups[i] !== "object")
+                    if (!$util.isObject(object.groups[i]))
                         throw TypeError(".CGameServers_AggregationQuery_Response.groups: object expected");
-                    message.groups[i] = $root.CGameServers_AggregationQuery_Response.Group.fromObject(object.groups[i]);
+                    message.groups[i] = $root.CGameServers_AggregationQuery_Response.Group.fromObject(object.groups[i], long + 1);
                 }
             }
             return message;
@@ -10667,16 +12126,20 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CGameServers_AggregationQuery_Response.toObject = function toObject(message, options) {
+        CGameServers_AggregationQuery_Response.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.groups = [];
             if (message.groups && message.groups.length) {
                 object.groups = [];
                 for (var j = 0; j < message.groups.length; ++j)
-                    object.groups[j] = $root.CGameServers_AggregationQuery_Response.Group.toObject(message.groups[j], options);
+                    object.groups[j] = $root.CGameServers_AggregationQuery_Response.Group.toObject(message.groups[j], options, q + 1);
             }
             return object;
         };
@@ -10734,7 +12197,7 @@
                 this.group_values = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -10815,9 +12278,13 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Group.encode = function encode(message, writer) {
+            Group.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.group_values != null && message.group_values.length)
                     for (var i = 0; i < message.group_values.length; ++i)
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.group_values[i]);
@@ -10846,7 +12313,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             Group.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -10860,10 +12327,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Group.decode = function decode(reader, length, error) {
+            Group.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CGameServers_AggregationQuery_Response.Group();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CGameServers_AggregationQuery_Response.Group();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -10900,9 +12381,14 @@
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -10931,32 +12417,36 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Group.verify = function verify(message) {
+            Group.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.group_values != null && message.hasOwnProperty("group_values")) {
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.group_values != null && Object.hasOwnProperty.call(message, "group_values")) {
                     if (!Array.isArray(message.group_values))
                         return "group_values: array expected";
                     for (var i = 0; i < message.group_values.length; ++i)
                         if (!$util.isString(message.group_values[i]))
                             return "group_values: string[] expected";
                 }
-                if (message.servers_empty != null && message.hasOwnProperty("servers_empty"))
+                if (message.servers_empty != null && Object.hasOwnProperty.call(message, "servers_empty"))
                     if (!$util.isInteger(message.servers_empty))
                         return "servers_empty: integer expected";
-                if (message.servers_full != null && message.hasOwnProperty("servers_full"))
+                if (message.servers_full != null && Object.hasOwnProperty.call(message, "servers_full"))
                     if (!$util.isInteger(message.servers_full))
                         return "servers_full: integer expected";
-                if (message.servers_total != null && message.hasOwnProperty("servers_total"))
+                if (message.servers_total != null && Object.hasOwnProperty.call(message, "servers_total"))
                     if (!$util.isInteger(message.servers_total))
                         return "servers_total: integer expected";
-                if (message.players_humans != null && message.hasOwnProperty("players_humans"))
+                if (message.players_humans != null && Object.hasOwnProperty.call(message, "players_humans"))
                     if (!$util.isInteger(message.players_humans))
                         return "players_humans: integer expected";
-                if (message.players_bots != null && message.hasOwnProperty("players_bots"))
+                if (message.players_bots != null && Object.hasOwnProperty.call(message, "players_bots"))
                     if (!$util.isInteger(message.players_bots))
                         return "players_bots: integer expected";
-                if (message.player_capacity != null && message.hasOwnProperty("player_capacity"))
+                if (message.player_capacity != null && Object.hasOwnProperty.call(message, "player_capacity"))
                     if (!$util.isInteger(message.player_capacity))
                         return "player_capacity: integer expected";
                 return null;
@@ -10970,9 +12460,15 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CGameServers_AggregationQuery_Response.Group} Group
              */
-            Group.fromObject = function fromObject(object) {
+            Group.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CGameServers_AggregationQuery_Response.Group)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CGameServers_AggregationQuery_Response.Group: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CGameServers_AggregationQuery_Response.Group();
                 if (object.group_values) {
                     if (!Array.isArray(object.group_values))
@@ -11005,9 +12501,13 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Group.toObject = function toObject(message, options) {
+            Group.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.arrays || options.defaults)
                     object.group_values = [];
@@ -11024,17 +12524,17 @@
                     for (var j = 0; j < message.group_values.length; ++j)
                         object.group_values[j] = message.group_values[j];
                 }
-                if (message.servers_empty != null && message.hasOwnProperty("servers_empty"))
+                if (message.servers_empty != null && Object.hasOwnProperty.call(message, "servers_empty"))
                     object.servers_empty = message.servers_empty;
-                if (message.servers_full != null && message.hasOwnProperty("servers_full"))
+                if (message.servers_full != null && Object.hasOwnProperty.call(message, "servers_full"))
                     object.servers_full = message.servers_full;
-                if (message.servers_total != null && message.hasOwnProperty("servers_total"))
+                if (message.servers_total != null && Object.hasOwnProperty.call(message, "servers_total"))
                     object.servers_total = message.servers_total;
-                if (message.players_humans != null && message.hasOwnProperty("players_humans"))
+                if (message.players_humans != null && Object.hasOwnProperty.call(message, "players_humans"))
                     object.players_humans = message.players_humans;
-                if (message.players_bots != null && message.hasOwnProperty("players_bots"))
+                if (message.players_bots != null && Object.hasOwnProperty.call(message, "players_bots"))
                     object.players_bots = message.players_bots;
-                if (message.player_capacity != null && message.hasOwnProperty("player_capacity"))
+                if (message.player_capacity != null && Object.hasOwnProperty.call(message, "player_capacity"))
                     object.player_capacity = message.player_capacity;
                 return object;
             };
@@ -11095,7 +12595,7 @@
         function CWorkshop_AddSpecialPayment_Request(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -11160,9 +12660,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CWorkshop_AddSpecialPayment_Request.encode = function encode(message, writer) {
+        CWorkshop_AddSpecialPayment_Request.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.appid);
             if (message.gameitemid != null && Object.hasOwnProperty.call(message, "gameitemid"))
@@ -11186,7 +12690,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CWorkshop_AddSpecialPayment_Request.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -11200,10 +12704,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CWorkshop_AddSpecialPayment_Request.decode = function decode(reader, length, error) {
+        CWorkshop_AddSpecialPayment_Request.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CWorkshop_AddSpecialPayment_Request();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CWorkshop_AddSpecialPayment_Request();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -11230,9 +12748,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -11261,22 +12784,26 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CWorkshop_AddSpecialPayment_Request.verify = function verify(message) {
+        CWorkshop_AddSpecialPayment_Request.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.appid != null && message.hasOwnProperty("appid"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.gameitemid != null && message.hasOwnProperty("gameitemid"))
+            if (message.gameitemid != null && Object.hasOwnProperty.call(message, "gameitemid"))
                 if (!$util.isInteger(message.gameitemid))
                     return "gameitemid: integer expected";
-            if (message.date != null && message.hasOwnProperty("date"))
+            if (message.date != null && Object.hasOwnProperty.call(message, "date"))
                 if (!$util.isString(message.date))
                     return "date: string expected";
-            if (message.payment_us_usd != null && message.hasOwnProperty("payment_us_usd"))
+            if (message.payment_us_usd != null && Object.hasOwnProperty.call(message, "payment_us_usd"))
                 if (!$util.isInteger(message.payment_us_usd) && !(message.payment_us_usd && $util.isInteger(message.payment_us_usd.low) && $util.isInteger(message.payment_us_usd.high)))
                     return "payment_us_usd: integer|Long expected";
-            if (message.payment_row_usd != null && message.hasOwnProperty("payment_row_usd"))
+            if (message.payment_row_usd != null && Object.hasOwnProperty.call(message, "payment_row_usd"))
                 if (!$util.isInteger(message.payment_row_usd) && !(message.payment_row_usd && $util.isInteger(message.payment_row_usd.low) && $util.isInteger(message.payment_row_usd.high)))
                     return "payment_row_usd: integer|Long expected";
             return null;
@@ -11290,9 +12817,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CWorkshop_AddSpecialPayment_Request} CWorkshop_AddSpecialPayment_Request
          */
-        CWorkshop_AddSpecialPayment_Request.fromObject = function fromObject(object) {
+        CWorkshop_AddSpecialPayment_Request.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CWorkshop_AddSpecialPayment_Request)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CWorkshop_AddSpecialPayment_Request: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CWorkshop_AddSpecialPayment_Request();
             if (object.appid != null)
                 message.appid = object.appid >>> 0;
@@ -11302,7 +12835,7 @@
                 message.date = String(object.date);
             if (object.payment_us_usd != null)
                 if ($util.Long)
-                    (message.payment_us_usd = $util.Long.fromValue(object.payment_us_usd)).unsigned = true;
+                    message.payment_us_usd = $util.Long.fromValue(object.payment_us_usd, true);
                 else if (typeof object.payment_us_usd === "string")
                     message.payment_us_usd = parseInt(object.payment_us_usd, 10);
                 else if (typeof object.payment_us_usd === "number")
@@ -11311,7 +12844,7 @@
                     message.payment_us_usd = new $util.LongBits(object.payment_us_usd.low >>> 0, object.payment_us_usd.high >>> 0).toNumber(true);
             if (object.payment_row_usd != null)
                 if ($util.Long)
-                    (message.payment_row_usd = $util.Long.fromValue(object.payment_row_usd)).unsigned = true;
+                    message.payment_row_usd = $util.Long.fromValue(object.payment_row_usd, true);
                 else if (typeof object.payment_row_usd === "string")
                     message.payment_row_usd = parseInt(object.payment_row_usd, 10);
                 else if (typeof object.payment_row_usd === "number")
@@ -11330,9 +12863,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CWorkshop_AddSpecialPayment_Request.toObject = function toObject(message, options) {
+        CWorkshop_AddSpecialPayment_Request.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.appid = 0;
@@ -11340,28 +12877,32 @@
                 object.date = "";
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.payment_us_usd = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    object.payment_us_usd = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.payment_us_usd = options.longs === String ? "0" : 0;
+                    object.payment_us_usd = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.payment_row_usd = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    object.payment_row_usd = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.payment_row_usd = options.longs === String ? "0" : 0;
+                    object.payment_row_usd = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
             }
-            if (message.appid != null && message.hasOwnProperty("appid"))
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
-            if (message.gameitemid != null && message.hasOwnProperty("gameitemid"))
+            if (message.gameitemid != null && Object.hasOwnProperty.call(message, "gameitemid"))
                 object.gameitemid = message.gameitemid;
-            if (message.date != null && message.hasOwnProperty("date"))
+            if (message.date != null && Object.hasOwnProperty.call(message, "date"))
                 object.date = message.date;
-            if (message.payment_us_usd != null && message.hasOwnProperty("payment_us_usd"))
-                if (typeof message.payment_us_usd === "number")
+            if (message.payment_us_usd != null && Object.hasOwnProperty.call(message, "payment_us_usd"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.payment_us_usd = typeof message.payment_us_usd === "number" ? BigInt(message.payment_us_usd) : $util.Long.fromBits(message.payment_us_usd.low >>> 0, message.payment_us_usd.high >>> 0, true).toBigInt();
+                else if (typeof message.payment_us_usd === "number")
                     object.payment_us_usd = options.longs === String ? String(message.payment_us_usd) : message.payment_us_usd;
                 else
                     object.payment_us_usd = options.longs === String ? $util.Long.prototype.toString.call(message.payment_us_usd) : options.longs === Number ? new $util.LongBits(message.payment_us_usd.low >>> 0, message.payment_us_usd.high >>> 0).toNumber(true) : message.payment_us_usd;
-            if (message.payment_row_usd != null && message.hasOwnProperty("payment_row_usd"))
-                if (typeof message.payment_row_usd === "number")
+            if (message.payment_row_usd != null && Object.hasOwnProperty.call(message, "payment_row_usd"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.payment_row_usd = typeof message.payment_row_usd === "number" ? BigInt(message.payment_row_usd) : $util.Long.fromBits(message.payment_row_usd.low >>> 0, message.payment_row_usd.high >>> 0, true).toBigInt();
+                else if (typeof message.payment_row_usd === "number")
                     object.payment_row_usd = options.longs === String ? String(message.payment_row_usd) : message.payment_row_usd;
                 else
                     object.payment_row_usd = options.longs === String ? $util.Long.prototype.toString.call(message.payment_row_usd) : options.longs === Number ? new $util.LongBits(message.payment_row_usd.low >>> 0, message.payment_row_usd.high >>> 0).toNumber(true) : message.payment_row_usd;
@@ -11416,7 +12957,7 @@
         function CWorkshop_AddSpecialPayment_Response(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -11441,9 +12982,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CWorkshop_AddSpecialPayment_Response.encode = function encode(message, writer) {
+        CWorkshop_AddSpecialPayment_Response.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             return writer;
         };
     
@@ -11457,7 +13002,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CWorkshop_AddSpecialPayment_Response.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -11471,19 +13016,38 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CWorkshop_AddSpecialPayment_Response.decode = function decode(reader, length, error) {
+        CWorkshop_AddSpecialPayment_Response.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CWorkshop_AddSpecialPayment_Response();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CWorkshop_AddSpecialPayment_Response();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
                     break;
                 switch (tag >>> 3) {
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -11512,9 +13076,13 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CWorkshop_AddSpecialPayment_Response.verify = function verify(message) {
+        CWorkshop_AddSpecialPayment_Response.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
             return null;
         };
     
@@ -11526,7 +13094,7 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CWorkshop_AddSpecialPayment_Response} CWorkshop_AddSpecialPayment_Response
          */
-        CWorkshop_AddSpecialPayment_Response.fromObject = function fromObject(object) {
+        CWorkshop_AddSpecialPayment_Response.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CWorkshop_AddSpecialPayment_Response)
                 return object;
             return new $root.CWorkshop_AddSpecialPayment_Response();
@@ -11597,7 +13165,7 @@
             this.languages = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -11646,14 +13214,18 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CProductInfo_SetRichPresenceLocalization_Request.encode = function encode(message, writer) {
+        CProductInfo_SetRichPresenceLocalization_Request.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.appid);
             if (message.languages != null && message.languages.length)
                 for (var i = 0; i < message.languages.length; ++i)
-                    $root.CProductInfo_SetRichPresenceLocalization_Request.LanguageSection.encode(message.languages[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    $root.CProductInfo_SetRichPresenceLocalization_Request.LanguageSection.encode(message.languages[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
             if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.steamid);
             return writer;
@@ -11669,7 +13241,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CProductInfo_SetRichPresenceLocalization_Request.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -11683,10 +13255,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CProductInfo_SetRichPresenceLocalization_Request.decode = function decode(reader, length, error) {
+        CProductInfo_SetRichPresenceLocalization_Request.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CProductInfo_SetRichPresenceLocalization_Request();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CProductInfo_SetRichPresenceLocalization_Request();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -11699,7 +13285,7 @@
                 case 2: {
                         if (!(message.languages && message.languages.length))
                             message.languages = [];
-                        message.languages.push($root.CProductInfo_SetRichPresenceLocalization_Request.LanguageSection.decode(reader, reader.uint32()));
+                        message.languages.push($root.CProductInfo_SetRichPresenceLocalization_Request.LanguageSection.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 case 3: {
@@ -11707,9 +13293,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -11738,22 +13329,26 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CProductInfo_SetRichPresenceLocalization_Request.verify = function verify(message) {
+        CProductInfo_SetRichPresenceLocalization_Request.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.appid != null && message.hasOwnProperty("appid"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.languages != null && message.hasOwnProperty("languages")) {
+            if (message.languages != null && Object.hasOwnProperty.call(message, "languages")) {
                 if (!Array.isArray(message.languages))
                     return "languages: array expected";
                 for (var i = 0; i < message.languages.length; ++i) {
-                    var error = $root.CProductInfo_SetRichPresenceLocalization_Request.LanguageSection.verify(message.languages[i]);
+                    var error = $root.CProductInfo_SetRichPresenceLocalization_Request.LanguageSection.verify(message.languages[i], long + 1);
                     if (error)
                         return "languages." + error;
                 }
             }
-            if (message.steamid != null && message.hasOwnProperty("steamid"))
+            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
                 if (!$util.isInteger(message.steamid) && !(message.steamid && $util.isInteger(message.steamid.low) && $util.isInteger(message.steamid.high)))
                     return "steamid: integer|Long expected";
             return null;
@@ -11767,9 +13362,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CProductInfo_SetRichPresenceLocalization_Request} CProductInfo_SetRichPresenceLocalization_Request
          */
-        CProductInfo_SetRichPresenceLocalization_Request.fromObject = function fromObject(object) {
+        CProductInfo_SetRichPresenceLocalization_Request.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CProductInfo_SetRichPresenceLocalization_Request)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CProductInfo_SetRichPresenceLocalization_Request: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CProductInfo_SetRichPresenceLocalization_Request();
             if (object.appid != null)
                 message.appid = object.appid >>> 0;
@@ -11778,14 +13379,14 @@
                     throw TypeError(".CProductInfo_SetRichPresenceLocalization_Request.languages: array expected");
                 message.languages = [];
                 for (var i = 0; i < object.languages.length; ++i) {
-                    if (typeof object.languages[i] !== "object")
+                    if (!$util.isObject(object.languages[i]))
                         throw TypeError(".CProductInfo_SetRichPresenceLocalization_Request.languages: object expected");
-                    message.languages[i] = $root.CProductInfo_SetRichPresenceLocalization_Request.LanguageSection.fromObject(object.languages[i]);
+                    message.languages[i] = $root.CProductInfo_SetRichPresenceLocalization_Request.LanguageSection.fromObject(object.languages[i], long + 1);
                 }
             }
             if (object.steamid != null)
                 if ($util.Long)
-                    (message.steamid = $util.Long.fromValue(object.steamid)).unsigned = true;
+                    message.steamid = $util.Long.fromValue(object.steamid, true);
                 else if (typeof object.steamid === "string")
                     message.steamid = parseInt(object.steamid, 10);
                 else if (typeof object.steamid === "number")
@@ -11804,9 +13405,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CProductInfo_SetRichPresenceLocalization_Request.toObject = function toObject(message, options) {
+        CProductInfo_SetRichPresenceLocalization_Request.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.languages = [];
@@ -11814,19 +13419,21 @@
                 object.appid = 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.steamid = options.longs === String ? "0" : 0;
+                    object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
             }
-            if (message.appid != null && message.hasOwnProperty("appid"))
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
             if (message.languages && message.languages.length) {
                 object.languages = [];
                 for (var j = 0; j < message.languages.length; ++j)
-                    object.languages[j] = $root.CProductInfo_SetRichPresenceLocalization_Request.LanguageSection.toObject(message.languages[j], options);
+                    object.languages[j] = $root.CProductInfo_SetRichPresenceLocalization_Request.LanguageSection.toObject(message.languages[j], options, q + 1);
             }
-            if (message.steamid != null && message.hasOwnProperty("steamid"))
-                if (typeof message.steamid === "number")
+            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.steamid = typeof message.steamid === "number" ? BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
+                else if (typeof message.steamid === "number")
                     object.steamid = options.longs === String ? String(message.steamid) : message.steamid;
                 else
                     object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
@@ -11880,7 +13487,7 @@
             function Token(properties) {
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -11921,9 +13528,13 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Token.encode = function encode(message, writer) {
+            Token.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.token != null && Object.hasOwnProperty.call(message, "token"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.token);
                 if (message.value != null && Object.hasOwnProperty.call(message, "value"))
@@ -11941,7 +13552,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             Token.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -11955,10 +13566,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Token.decode = function decode(reader, length, error) {
+            Token.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CProductInfo_SetRichPresenceLocalization_Request.Token();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CProductInfo_SetRichPresenceLocalization_Request.Token();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -11973,9 +13598,14 @@
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -12004,13 +13634,17 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Token.verify = function verify(message) {
+            Token.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.token != null && message.hasOwnProperty("token"))
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.token != null && Object.hasOwnProperty.call(message, "token"))
                     if (!$util.isString(message.token))
                         return "token: string expected";
-                if (message.value != null && message.hasOwnProperty("value"))
+                if (message.value != null && Object.hasOwnProperty.call(message, "value"))
                     if (!$util.isString(message.value))
                         return "value: string expected";
                 return null;
@@ -12024,9 +13658,15 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CProductInfo_SetRichPresenceLocalization_Request.Token} Token
              */
-            Token.fromObject = function fromObject(object) {
+            Token.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CProductInfo_SetRichPresenceLocalization_Request.Token)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CProductInfo_SetRichPresenceLocalization_Request.Token: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CProductInfo_SetRichPresenceLocalization_Request.Token();
                 if (object.token != null)
                     message.token = String(object.token);
@@ -12044,17 +13684,21 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Token.toObject = function toObject(message, options) {
+            Token.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.token = "";
                     object.value = "";
                 }
-                if (message.token != null && message.hasOwnProperty("token"))
+                if (message.token != null && Object.hasOwnProperty.call(message, "token"))
                     object.token = message.token;
-                if (message.value != null && message.hasOwnProperty("value"))
+                if (message.value != null && Object.hasOwnProperty.call(message, "value"))
                     object.value = message.value;
                 return object;
             };
@@ -12110,7 +13754,7 @@
                 this.tokens = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -12151,14 +13795,18 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            LanguageSection.encode = function encode(message, writer) {
+            LanguageSection.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.language != null && Object.hasOwnProperty.call(message, "language"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.language);
                 if (message.tokens != null && message.tokens.length)
                     for (var i = 0; i < message.tokens.length; ++i)
-                        $root.CProductInfo_SetRichPresenceLocalization_Request.Token.encode(message.tokens[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                        $root.CProductInfo_SetRichPresenceLocalization_Request.Token.encode(message.tokens[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
                 return writer;
             };
     
@@ -12172,7 +13820,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             LanguageSection.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -12186,10 +13834,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            LanguageSection.decode = function decode(reader, length, error) {
+            LanguageSection.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CProductInfo_SetRichPresenceLocalization_Request.LanguageSection();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CProductInfo_SetRichPresenceLocalization_Request.LanguageSection();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -12202,13 +13864,18 @@
                     case 2: {
                             if (!(message.tokens && message.tokens.length))
                                 message.tokens = [];
-                            message.tokens.push($root.CProductInfo_SetRichPresenceLocalization_Request.Token.decode(reader, reader.uint32()));
+                            message.tokens.push($root.CProductInfo_SetRichPresenceLocalization_Request.Token.decode(reader, reader.uint32(), undefined, long + 1));
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -12237,17 +13904,21 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            LanguageSection.verify = function verify(message) {
+            LanguageSection.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.language != null && message.hasOwnProperty("language"))
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.language != null && Object.hasOwnProperty.call(message, "language"))
                     if (!$util.isString(message.language))
                         return "language: string expected";
-                if (message.tokens != null && message.hasOwnProperty("tokens")) {
+                if (message.tokens != null && Object.hasOwnProperty.call(message, "tokens")) {
                     if (!Array.isArray(message.tokens))
                         return "tokens: array expected";
                     for (var i = 0; i < message.tokens.length; ++i) {
-                        var error = $root.CProductInfo_SetRichPresenceLocalization_Request.Token.verify(message.tokens[i]);
+                        var error = $root.CProductInfo_SetRichPresenceLocalization_Request.Token.verify(message.tokens[i], long + 1);
                         if (error)
                             return "tokens." + error;
                     }
@@ -12263,9 +13934,15 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CProductInfo_SetRichPresenceLocalization_Request.LanguageSection} LanguageSection
              */
-            LanguageSection.fromObject = function fromObject(object) {
+            LanguageSection.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CProductInfo_SetRichPresenceLocalization_Request.LanguageSection)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CProductInfo_SetRichPresenceLocalization_Request.LanguageSection: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CProductInfo_SetRichPresenceLocalization_Request.LanguageSection();
                 if (object.language != null)
                     message.language = String(object.language);
@@ -12274,9 +13951,9 @@
                         throw TypeError(".CProductInfo_SetRichPresenceLocalization_Request.LanguageSection.tokens: array expected");
                     message.tokens = [];
                     for (var i = 0; i < object.tokens.length; ++i) {
-                        if (typeof object.tokens[i] !== "object")
+                        if (!$util.isObject(object.tokens[i]))
                             throw TypeError(".CProductInfo_SetRichPresenceLocalization_Request.LanguageSection.tokens: object expected");
-                        message.tokens[i] = $root.CProductInfo_SetRichPresenceLocalization_Request.Token.fromObject(object.tokens[i]);
+                        message.tokens[i] = $root.CProductInfo_SetRichPresenceLocalization_Request.Token.fromObject(object.tokens[i], long + 1);
                     }
                 }
                 return message;
@@ -12291,20 +13968,24 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            LanguageSection.toObject = function toObject(message, options) {
+            LanguageSection.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.arrays || options.defaults)
                     object.tokens = [];
                 if (options.defaults)
                     object.language = "";
-                if (message.language != null && message.hasOwnProperty("language"))
+                if (message.language != null && Object.hasOwnProperty.call(message, "language"))
                     object.language = message.language;
                 if (message.tokens && message.tokens.length) {
                     object.tokens = [];
                     for (var j = 0; j < message.tokens.length; ++j)
-                        object.tokens[j] = $root.CProductInfo_SetRichPresenceLocalization_Request.Token.toObject(message.tokens[j], options);
+                        object.tokens[j] = $root.CProductInfo_SetRichPresenceLocalization_Request.Token.toObject(message.tokens[j], options, q + 1);
                 }
                 return object;
             };
@@ -12360,7 +14041,7 @@
         function CProductInfo_SetRichPresenceLocalization_Response(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -12385,9 +14066,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CProductInfo_SetRichPresenceLocalization_Response.encode = function encode(message, writer) {
+        CProductInfo_SetRichPresenceLocalization_Response.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             return writer;
         };
     
@@ -12401,7 +14086,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CProductInfo_SetRichPresenceLocalization_Response.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -12415,19 +14100,38 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CProductInfo_SetRichPresenceLocalization_Response.decode = function decode(reader, length, error) {
+        CProductInfo_SetRichPresenceLocalization_Response.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CProductInfo_SetRichPresenceLocalization_Response();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CProductInfo_SetRichPresenceLocalization_Response();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
                     break;
                 switch (tag >>> 3) {
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -12456,9 +14160,13 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CProductInfo_SetRichPresenceLocalization_Response.verify = function verify(message) {
+        CProductInfo_SetRichPresenceLocalization_Response.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
             return null;
         };
     
@@ -12470,7 +14178,7 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CProductInfo_SetRichPresenceLocalization_Response} CProductInfo_SetRichPresenceLocalization_Response
          */
-        CProductInfo_SetRichPresenceLocalization_Response.fromObject = function fromObject(object) {
+        CProductInfo_SetRichPresenceLocalization_Response.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CProductInfo_SetRichPresenceLocalization_Response)
                 return object;
             return new $root.CProductInfo_SetRichPresenceLocalization_Response();
@@ -12541,7 +14249,7 @@
             this.caches = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -12590,14 +14298,18 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSerializedSOCache.encode = function encode(message, writer) {
+        CMsgSerializedSOCache.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.file_version != null && Object.hasOwnProperty.call(message, "file_version"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.file_version);
             if (message.caches != null && message.caches.length)
                 for (var i = 0; i < message.caches.length; ++i)
-                    $root.CMsgSerializedSOCache.Cache.encode(message.caches[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    $root.CMsgSerializedSOCache.Cache.encode(message.caches[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
             if (message.gc_socache_file_version != null && Object.hasOwnProperty.call(message, "gc_socache_file_version"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.gc_socache_file_version);
             return writer;
@@ -12613,7 +14325,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSerializedSOCache.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -12627,10 +14339,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSerializedSOCache.decode = function decode(reader, length, error) {
+        CMsgSerializedSOCache.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSerializedSOCache();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSerializedSOCache();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -12643,7 +14369,7 @@
                 case 2: {
                         if (!(message.caches && message.caches.length))
                             message.caches = [];
-                        message.caches.push($root.CMsgSerializedSOCache.Cache.decode(reader, reader.uint32()));
+                        message.caches.push($root.CMsgSerializedSOCache.Cache.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 case 3: {
@@ -12651,9 +14377,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -12682,22 +14413,26 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSerializedSOCache.verify = function verify(message) {
+        CMsgSerializedSOCache.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.file_version != null && message.hasOwnProperty("file_version"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.file_version != null && Object.hasOwnProperty.call(message, "file_version"))
                 if (!$util.isInteger(message.file_version))
                     return "file_version: integer expected";
-            if (message.caches != null && message.hasOwnProperty("caches")) {
+            if (message.caches != null && Object.hasOwnProperty.call(message, "caches")) {
                 if (!Array.isArray(message.caches))
                     return "caches: array expected";
                 for (var i = 0; i < message.caches.length; ++i) {
-                    var error = $root.CMsgSerializedSOCache.Cache.verify(message.caches[i]);
+                    var error = $root.CMsgSerializedSOCache.Cache.verify(message.caches[i], long + 1);
                     if (error)
                         return "caches." + error;
                 }
             }
-            if (message.gc_socache_file_version != null && message.hasOwnProperty("gc_socache_file_version"))
+            if (message.gc_socache_file_version != null && Object.hasOwnProperty.call(message, "gc_socache_file_version"))
                 if (!$util.isInteger(message.gc_socache_file_version))
                     return "gc_socache_file_version: integer expected";
             return null;
@@ -12711,9 +14446,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSerializedSOCache} CMsgSerializedSOCache
          */
-        CMsgSerializedSOCache.fromObject = function fromObject(object) {
+        CMsgSerializedSOCache.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSerializedSOCache)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSerializedSOCache: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSerializedSOCache();
             if (object.file_version != null)
                 message.file_version = object.file_version >>> 0;
@@ -12722,9 +14463,9 @@
                     throw TypeError(".CMsgSerializedSOCache.caches: array expected");
                 message.caches = [];
                 for (var i = 0; i < object.caches.length; ++i) {
-                    if (typeof object.caches[i] !== "object")
+                    if (!$util.isObject(object.caches[i]))
                         throw TypeError(".CMsgSerializedSOCache.caches: object expected");
-                    message.caches[i] = $root.CMsgSerializedSOCache.Cache.fromObject(object.caches[i]);
+                    message.caches[i] = $root.CMsgSerializedSOCache.Cache.fromObject(object.caches[i], long + 1);
                 }
             }
             if (object.gc_socache_file_version != null)
@@ -12741,9 +14482,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSerializedSOCache.toObject = function toObject(message, options) {
+        CMsgSerializedSOCache.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.caches = [];
@@ -12751,14 +14496,14 @@
                 object.file_version = 0;
                 object.gc_socache_file_version = 0;
             }
-            if (message.file_version != null && message.hasOwnProperty("file_version"))
+            if (message.file_version != null && Object.hasOwnProperty.call(message, "file_version"))
                 object.file_version = message.file_version;
             if (message.caches && message.caches.length) {
                 object.caches = [];
                 for (var j = 0; j < message.caches.length; ++j)
-                    object.caches[j] = $root.CMsgSerializedSOCache.Cache.toObject(message.caches[j], options);
+                    object.caches[j] = $root.CMsgSerializedSOCache.Cache.toObject(message.caches[j], options, q + 1);
             }
-            if (message.gc_socache_file_version != null && message.hasOwnProperty("gc_socache_file_version"))
+            if (message.gc_socache_file_version != null && Object.hasOwnProperty.call(message, "gc_socache_file_version"))
                 object.gc_socache_file_version = message.gc_socache_file_version;
             return object;
         };
@@ -12812,7 +14557,7 @@
                 this.objects = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -12861,9 +14606,13 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            TypeCache.encode = function encode(message, writer) {
+            TypeCache.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                     writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.type);
                 if (message.objects != null && message.objects.length)
@@ -12884,7 +14633,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             TypeCache.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -12898,10 +14647,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            TypeCache.decode = function decode(reader, length, error) {
+            TypeCache.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSerializedSOCache.TypeCache();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CMsgSerializedSOCache.TypeCache();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -12922,9 +14685,14 @@
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -12953,20 +14721,24 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            TypeCache.verify = function verify(message) {
+            TypeCache.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.type != null && message.hasOwnProperty("type"))
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                     if (!$util.isInteger(message.type))
                         return "type: integer expected";
-                if (message.objects != null && message.hasOwnProperty("objects")) {
+                if (message.objects != null && Object.hasOwnProperty.call(message, "objects")) {
                     if (!Array.isArray(message.objects))
                         return "objects: array expected";
                     for (var i = 0; i < message.objects.length; ++i)
                         if (!(message.objects[i] && typeof message.objects[i].length === "number" || $util.isString(message.objects[i])))
                             return "objects: buffer[] expected";
                 }
-                if (message.service_id != null && message.hasOwnProperty("service_id"))
+                if (message.service_id != null && Object.hasOwnProperty.call(message, "service_id"))
                     if (!$util.isInteger(message.service_id))
                         return "service_id: integer expected";
                 return null;
@@ -12980,9 +14752,15 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgSerializedSOCache.TypeCache} TypeCache
              */
-            TypeCache.fromObject = function fromObject(object) {
+            TypeCache.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CMsgSerializedSOCache.TypeCache)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CMsgSerializedSOCache.TypeCache: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CMsgSerializedSOCache.TypeCache();
                 if (object.type != null)
                     message.type = object.type >>> 0;
@@ -13010,9 +14788,13 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            TypeCache.toObject = function toObject(message, options) {
+            TypeCache.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.arrays || options.defaults)
                     object.objects = [];
@@ -13020,14 +14802,14 @@
                     object.type = 0;
                     object.service_id = 0;
                 }
-                if (message.type != null && message.hasOwnProperty("type"))
+                if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                     object.type = message.type;
                 if (message.objects && message.objects.length) {
                     object.objects = [];
                     for (var j = 0; j < message.objects.length; ++j)
                         object.objects[j] = options.bytes === String ? $util.base64.encode(message.objects[j], 0, message.objects[j].length) : options.bytes === Array ? Array.prototype.slice.call(message.objects[j]) : message.objects[j];
                 }
-                if (message.service_id != null && message.hasOwnProperty("service_id"))
+                if (message.service_id != null && Object.hasOwnProperty.call(message, "service_id"))
                     object.service_id = message.service_id;
                 return object;
             };
@@ -13086,7 +14868,7 @@
                 this.type_caches = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -13143,19 +14925,23 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Cache.encode = function encode(message, writer) {
+            Cache.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                     writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.type);
                 if (message.id != null && Object.hasOwnProperty.call(message, "id"))
                     writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.id);
                 if (message.versions != null && message.versions.length)
                     for (var i = 0; i < message.versions.length; ++i)
-                        $root.CMsgSerializedSOCache.Cache.Version.encode(message.versions[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                        $root.CMsgSerializedSOCache.Cache.Version.encode(message.versions[i], writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
                 if (message.type_caches != null && message.type_caches.length)
                     for (var i = 0; i < message.type_caches.length; ++i)
-                        $root.CMsgSerializedSOCache.TypeCache.encode(message.type_caches[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                        $root.CMsgSerializedSOCache.TypeCache.encode(message.type_caches[i], writer.uint32(/* id 4, wireType 2 =*/34).fork(), q + 1).ldelim();
                 return writer;
             };
     
@@ -13169,7 +14955,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             Cache.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -13183,10 +14969,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Cache.decode = function decode(reader, length, error) {
+            Cache.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSerializedSOCache.Cache();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CMsgSerializedSOCache.Cache();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -13203,19 +15003,24 @@
                     case 3: {
                             if (!(message.versions && message.versions.length))
                                 message.versions = [];
-                            message.versions.push($root.CMsgSerializedSOCache.Cache.Version.decode(reader, reader.uint32()));
+                            message.versions.push($root.CMsgSerializedSOCache.Cache.Version.decode(reader, reader.uint32(), undefined, long + 1));
                             break;
                         }
                     case 4: {
                             if (!(message.type_caches && message.type_caches.length))
                                 message.type_caches = [];
-                            message.type_caches.push($root.CMsgSerializedSOCache.TypeCache.decode(reader, reader.uint32()));
+                            message.type_caches.push($root.CMsgSerializedSOCache.TypeCache.decode(reader, reader.uint32(), undefined, long + 1));
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -13244,29 +15049,33 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Cache.verify = function verify(message) {
+            Cache.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.type != null && message.hasOwnProperty("type"))
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                     if (!$util.isInteger(message.type))
                         return "type: integer expected";
-                if (message.id != null && message.hasOwnProperty("id"))
+                if (message.id != null && Object.hasOwnProperty.call(message, "id"))
                     if (!$util.isInteger(message.id) && !(message.id && $util.isInteger(message.id.low) && $util.isInteger(message.id.high)))
                         return "id: integer|Long expected";
-                if (message.versions != null && message.hasOwnProperty("versions")) {
+                if (message.versions != null && Object.hasOwnProperty.call(message, "versions")) {
                     if (!Array.isArray(message.versions))
                         return "versions: array expected";
                     for (var i = 0; i < message.versions.length; ++i) {
-                        var error = $root.CMsgSerializedSOCache.Cache.Version.verify(message.versions[i]);
+                        var error = $root.CMsgSerializedSOCache.Cache.Version.verify(message.versions[i], long + 1);
                         if (error)
                             return "versions." + error;
                     }
                 }
-                if (message.type_caches != null && message.hasOwnProperty("type_caches")) {
+                if (message.type_caches != null && Object.hasOwnProperty.call(message, "type_caches")) {
                     if (!Array.isArray(message.type_caches))
                         return "type_caches: array expected";
                     for (var i = 0; i < message.type_caches.length; ++i) {
-                        var error = $root.CMsgSerializedSOCache.TypeCache.verify(message.type_caches[i]);
+                        var error = $root.CMsgSerializedSOCache.TypeCache.verify(message.type_caches[i], long + 1);
                         if (error)
                             return "type_caches." + error;
                     }
@@ -13282,15 +15091,21 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgSerializedSOCache.Cache} Cache
              */
-            Cache.fromObject = function fromObject(object) {
+            Cache.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CMsgSerializedSOCache.Cache)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CMsgSerializedSOCache.Cache: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CMsgSerializedSOCache.Cache();
                 if (object.type != null)
                     message.type = object.type >>> 0;
                 if (object.id != null)
                     if ($util.Long)
-                        (message.id = $util.Long.fromValue(object.id)).unsigned = true;
+                        message.id = $util.Long.fromValue(object.id, true);
                     else if (typeof object.id === "string")
                         message.id = parseInt(object.id, 10);
                     else if (typeof object.id === "number")
@@ -13302,9 +15117,9 @@
                         throw TypeError(".CMsgSerializedSOCache.Cache.versions: array expected");
                     message.versions = [];
                     for (var i = 0; i < object.versions.length; ++i) {
-                        if (typeof object.versions[i] !== "object")
+                        if (!$util.isObject(object.versions[i]))
                             throw TypeError(".CMsgSerializedSOCache.Cache.versions: object expected");
-                        message.versions[i] = $root.CMsgSerializedSOCache.Cache.Version.fromObject(object.versions[i]);
+                        message.versions[i] = $root.CMsgSerializedSOCache.Cache.Version.fromObject(object.versions[i], long + 1);
                     }
                 }
                 if (object.type_caches) {
@@ -13312,9 +15127,9 @@
                         throw TypeError(".CMsgSerializedSOCache.Cache.type_caches: array expected");
                     message.type_caches = [];
                     for (var i = 0; i < object.type_caches.length; ++i) {
-                        if (typeof object.type_caches[i] !== "object")
+                        if (!$util.isObject(object.type_caches[i]))
                             throw TypeError(".CMsgSerializedSOCache.Cache.type_caches: object expected");
-                        message.type_caches[i] = $root.CMsgSerializedSOCache.TypeCache.fromObject(object.type_caches[i]);
+                        message.type_caches[i] = $root.CMsgSerializedSOCache.TypeCache.fromObject(object.type_caches[i], long + 1);
                     }
                 }
                 return message;
@@ -13329,9 +15144,13 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Cache.toObject = function toObject(message, options) {
+            Cache.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.arrays || options.defaults) {
                     object.versions = [];
@@ -13341,26 +15160,28 @@
                     object.type = 0;
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, true);
-                        object.id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                        object.id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                     } else
-                        object.id = options.longs === String ? "0" : 0;
+                        object.id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 }
-                if (message.type != null && message.hasOwnProperty("type"))
+                if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                     object.type = message.type;
-                if (message.id != null && message.hasOwnProperty("id"))
-                    if (typeof message.id === "number")
+                if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                        object.id = typeof message.id === "number" ? BigInt(message.id) : $util.Long.fromBits(message.id.low >>> 0, message.id.high >>> 0, true).toBigInt();
+                    else if (typeof message.id === "number")
                         object.id = options.longs === String ? String(message.id) : message.id;
                     else
                         object.id = options.longs === String ? $util.Long.prototype.toString.call(message.id) : options.longs === Number ? new $util.LongBits(message.id.low >>> 0, message.id.high >>> 0).toNumber(true) : message.id;
                 if (message.versions && message.versions.length) {
                     object.versions = [];
                     for (var j = 0; j < message.versions.length; ++j)
-                        object.versions[j] = $root.CMsgSerializedSOCache.Cache.Version.toObject(message.versions[j], options);
+                        object.versions[j] = $root.CMsgSerializedSOCache.Cache.Version.toObject(message.versions[j], options, q + 1);
                 }
                 if (message.type_caches && message.type_caches.length) {
                     object.type_caches = [];
                     for (var j = 0; j < message.type_caches.length; ++j)
-                        object.type_caches[j] = $root.CMsgSerializedSOCache.TypeCache.toObject(message.type_caches[j], options);
+                        object.type_caches[j] = $root.CMsgSerializedSOCache.TypeCache.toObject(message.type_caches[j], options, q + 1);
                 }
                 return object;
             };
@@ -13412,7 +15233,7 @@
                 function Version(properties) {
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -13453,9 +15274,13 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                Version.encode = function encode(message, writer) {
+                Version.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.service != null && Object.hasOwnProperty.call(message, "service"))
                         writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.service);
                     if (message.version != null && Object.hasOwnProperty.call(message, "version"))
@@ -13473,7 +15298,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 Version.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -13487,10 +15312,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                Version.decode = function decode(reader, length, error) {
+                Version.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSerializedSOCache.Cache.Version();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.CMsgSerializedSOCache.Cache.Version();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -13505,9 +15344,14 @@
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -13536,13 +15380,17 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                Version.verify = function verify(message) {
+                Version.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.service != null && message.hasOwnProperty("service"))
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.service != null && Object.hasOwnProperty.call(message, "service"))
                         if (!$util.isInteger(message.service))
                             return "service: integer expected";
-                    if (message.version != null && message.hasOwnProperty("version"))
+                    if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                         if (!$util.isInteger(message.version) && !(message.version && $util.isInteger(message.version.low) && $util.isInteger(message.version.high)))
                             return "version: integer|Long expected";
                     return null;
@@ -13556,15 +15404,21 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {CMsgSerializedSOCache.Cache.Version} Version
                  */
-                Version.fromObject = function fromObject(object) {
+                Version.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.CMsgSerializedSOCache.Cache.Version)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".CMsgSerializedSOCache.Cache.Version: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.CMsgSerializedSOCache.Cache.Version();
                     if (object.service != null)
                         message.service = object.service >>> 0;
                     if (object.version != null)
                         if ($util.Long)
-                            (message.version = $util.Long.fromValue(object.version)).unsigned = true;
+                            message.version = $util.Long.fromValue(object.version, true);
                         else if (typeof object.version === "string")
                             message.version = parseInt(object.version, 10);
                         else if (typeof object.version === "number")
@@ -13583,22 +15437,28 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                Version.toObject = function toObject(message, options) {
+                Version.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.defaults) {
                         object.service = 0;
                         if ($util.Long) {
                             var long = new $util.Long(0, 0, true);
-                            object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                            object.version = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                         } else
-                            object.version = options.longs === String ? "0" : 0;
+                            object.version = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                     }
-                    if (message.service != null && message.hasOwnProperty("service"))
+                    if (message.service != null && Object.hasOwnProperty.call(message, "service"))
                         object.service = message.service;
-                    if (message.version != null && message.hasOwnProperty("version"))
-                        if (typeof message.version === "number")
+                    if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+                        if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                            object.version = typeof message.version === "number" ? BigInt(message.version) : $util.Long.fromBits(message.version.low >>> 0, message.version.high >>> 0, true).toBigInt();
+                        else if (typeof message.version === "number")
                             object.version = options.longs === String ? String(message.version) : message.version;
                         else
                             object.version = options.longs === String ? $util.Long.prototype.toString.call(message.version) : options.longs === Number ? new $util.LongBits(message.version.low >>> 0, message.version.high >>> 0).toNumber(true) : message.version;
@@ -13690,7 +15550,7 @@
         function CMsgProtoBufHeader(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -13700,7 +15560,7 @@
          * @memberof CMsgProtoBufHeader
          * @instance
          */
-        CMsgProtoBufHeader.prototype.client_steam_id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgProtoBufHeader.prototype.client_steam_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CMsgProtoBufHeader client_session_id.
@@ -13724,7 +15584,7 @@
          * @memberof CMsgProtoBufHeader
          * @instance
          */
-        CMsgProtoBufHeader.prototype.job_id_source = $util.Long ? $util.Long.fromBits(-1,2147483647,false) : 9223372036854776000;
+        CMsgProtoBufHeader.prototype.job_id_source = $util.Long ? $util.Long.fromBits(-1,-1,true) : 18446744073709552000;
     
         /**
          * CMsgProtoBufHeader job_id_target.
@@ -13732,7 +15592,7 @@
          * @memberof CMsgProtoBufHeader
          * @instance
          */
-        CMsgProtoBufHeader.prototype.job_id_target = $util.Long ? $util.Long.fromBits(-1,2147483647,false) : 9223372036854776000;
+        CMsgProtoBufHeader.prototype.job_id_target = $util.Long ? $util.Long.fromBits(-1,-1,true) : 18446744073709552000;
     
         /**
          * CMsgProtoBufHeader target_job_name.
@@ -13803,9 +15663,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgProtoBufHeader.encode = function encode(message, writer) {
+        CMsgProtoBufHeader.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.client_steam_id != null && Object.hasOwnProperty.call(message, "client_steam_id"))
                 writer.uint32(/* id 1, wireType 1 =*/9).fixed64(message.client_steam_id);
             if (message.client_session_id != null && Object.hasOwnProperty.call(message, "client_session_id"))
@@ -13841,7 +15705,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgProtoBufHeader.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -13855,10 +15719,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgProtoBufHeader.decode = function decode(reader, length, error) {
+        CMsgProtoBufHeader.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgProtoBufHeader();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgProtoBufHeader();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -13909,9 +15787,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -13940,37 +15823,41 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgProtoBufHeader.verify = function verify(message) {
+        CMsgProtoBufHeader.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.client_steam_id != null && message.hasOwnProperty("client_steam_id"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.client_steam_id != null && Object.hasOwnProperty.call(message, "client_steam_id"))
                 if (!$util.isInteger(message.client_steam_id) && !(message.client_steam_id && $util.isInteger(message.client_steam_id.low) && $util.isInteger(message.client_steam_id.high)))
                     return "client_steam_id: integer|Long expected";
-            if (message.client_session_id != null && message.hasOwnProperty("client_session_id"))
+            if (message.client_session_id != null && Object.hasOwnProperty.call(message, "client_session_id"))
                 if (!$util.isInteger(message.client_session_id))
                     return "client_session_id: integer expected";
-            if (message.source_app_id != null && message.hasOwnProperty("source_app_id"))
+            if (message.source_app_id != null && Object.hasOwnProperty.call(message, "source_app_id"))
                 if (!$util.isInteger(message.source_app_id))
                     return "source_app_id: integer expected";
-            if (message.job_id_source != null && message.hasOwnProperty("job_id_source"))
+            if (message.job_id_source != null && Object.hasOwnProperty.call(message, "job_id_source"))
                 if (!$util.isInteger(message.job_id_source) && !(message.job_id_source && $util.isInteger(message.job_id_source.low) && $util.isInteger(message.job_id_source.high)))
                     return "job_id_source: integer|Long expected";
-            if (message.job_id_target != null && message.hasOwnProperty("job_id_target"))
+            if (message.job_id_target != null && Object.hasOwnProperty.call(message, "job_id_target"))
                 if (!$util.isInteger(message.job_id_target) && !(message.job_id_target && $util.isInteger(message.job_id_target.low) && $util.isInteger(message.job_id_target.high)))
                     return "job_id_target: integer|Long expected";
-            if (message.target_job_name != null && message.hasOwnProperty("target_job_name"))
+            if (message.target_job_name != null && Object.hasOwnProperty.call(message, "target_job_name"))
                 if (!$util.isString(message.target_job_name))
                     return "target_job_name: string expected";
-            if (message.eresult != null && message.hasOwnProperty("eresult"))
+            if (message.eresult != null && Object.hasOwnProperty.call(message, "eresult"))
                 if (!$util.isInteger(message.eresult))
                     return "eresult: integer expected";
-            if (message.error_message != null && message.hasOwnProperty("error_message"))
+            if (message.error_message != null && Object.hasOwnProperty.call(message, "error_message"))
                 if (!$util.isString(message.error_message))
                     return "error_message: string expected";
-            if (message.ip != null && message.hasOwnProperty("ip"))
+            if (message.ip != null && Object.hasOwnProperty.call(message, "ip"))
                 if (!$util.isInteger(message.ip))
                     return "ip: integer expected";
-            if (message.gc_msg_src != null && message.hasOwnProperty("gc_msg_src"))
+            if (message.gc_msg_src != null && Object.hasOwnProperty.call(message, "gc_msg_src"))
                 switch (message.gc_msg_src) {
                 default:
                     return "gc_msg_src: enum value expected";
@@ -13981,7 +15868,7 @@
                 case 4:
                     break;
                 }
-            if (message.gc_dir_index_source != null && message.hasOwnProperty("gc_dir_index_source"))
+            if (message.gc_dir_index_source != null && Object.hasOwnProperty.call(message, "gc_dir_index_source"))
                 if (!$util.isInteger(message.gc_dir_index_source))
                     return "gc_dir_index_source: integer expected";
             return null;
@@ -13995,41 +15882,47 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgProtoBufHeader} CMsgProtoBufHeader
          */
-        CMsgProtoBufHeader.fromObject = function fromObject(object) {
+        CMsgProtoBufHeader.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgProtoBufHeader)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgProtoBufHeader: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgProtoBufHeader();
             if (object.client_steam_id != null)
                 if ($util.Long)
-                    (message.client_steam_id = $util.Long.fromValue(object.client_steam_id)).unsigned = false;
+                    message.client_steam_id = $util.Long.fromValue(object.client_steam_id, true);
                 else if (typeof object.client_steam_id === "string")
                     message.client_steam_id = parseInt(object.client_steam_id, 10);
                 else if (typeof object.client_steam_id === "number")
                     message.client_steam_id = object.client_steam_id;
                 else if (typeof object.client_steam_id === "object")
-                    message.client_steam_id = new $util.LongBits(object.client_steam_id.low >>> 0, object.client_steam_id.high >>> 0).toNumber();
+                    message.client_steam_id = new $util.LongBits(object.client_steam_id.low >>> 0, object.client_steam_id.high >>> 0).toNumber(true);
             if (object.client_session_id != null)
                 message.client_session_id = object.client_session_id | 0;
             if (object.source_app_id != null)
                 message.source_app_id = object.source_app_id >>> 0;
             if (object.job_id_source != null)
                 if ($util.Long)
-                    (message.job_id_source = $util.Long.fromValue(object.job_id_source)).unsigned = false;
+                    message.job_id_source = $util.Long.fromValue(object.job_id_source, true);
                 else if (typeof object.job_id_source === "string")
                     message.job_id_source = parseInt(object.job_id_source, 10);
                 else if (typeof object.job_id_source === "number")
                     message.job_id_source = object.job_id_source;
                 else if (typeof object.job_id_source === "object")
-                    message.job_id_source = new $util.LongBits(object.job_id_source.low >>> 0, object.job_id_source.high >>> 0).toNumber();
+                    message.job_id_source = new $util.LongBits(object.job_id_source.low >>> 0, object.job_id_source.high >>> 0).toNumber(true);
             if (object.job_id_target != null)
                 if ($util.Long)
-                    (message.job_id_target = $util.Long.fromValue(object.job_id_target)).unsigned = false;
+                    message.job_id_target = $util.Long.fromValue(object.job_id_target, true);
                 else if (typeof object.job_id_target === "string")
                     message.job_id_target = parseInt(object.job_id_target, 10);
                 else if (typeof object.job_id_target === "number")
                     message.job_id_target = object.job_id_target;
                 else if (typeof object.job_id_target === "object")
-                    message.job_id_target = new $util.LongBits(object.job_id_target.low >>> 0, object.job_id_target.high >>> 0).toNumber();
+                    message.job_id_target = new $util.LongBits(object.job_id_target.low >>> 0, object.job_id_target.high >>> 0).toNumber(true);
             if (object.target_job_name != null)
                 message.target_job_name = String(object.target_job_name);
             if (object.eresult != null)
@@ -14080,28 +15973,32 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgProtoBufHeader.toObject = function toObject(message, options) {
+        CMsgProtoBufHeader.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.client_steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.client_steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.client_steam_id = options.longs === String ? "0" : 0;
+                    object.client_steam_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.client_session_id = 0;
                 object.source_app_id = 0;
                 if ($util.Long) {
-                    var long = new $util.Long(-1, 2147483647, false);
-                    object.job_id_source = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(-1, -1, true);
+                    object.job_id_source = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.job_id_source = options.longs === String ? "9223372036854775807" : 9223372036854776000;
+                    object.job_id_source = options.longs === String ? "18446744073709551615" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("18446744073709551615") : 18446744073709552000;
                 if ($util.Long) {
-                    var long = new $util.Long(-1, 2147483647, false);
-                    object.job_id_target = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(-1, -1, true);
+                    object.job_id_target = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.job_id_target = options.longs === String ? "9223372036854775807" : 9223372036854776000;
+                    object.job_id_target = options.longs === String ? "18446744073709551615" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("18446744073709551615") : 18446744073709552000;
                 object.target_job_name = "";
                 object.eresult = 2;
                 object.error_message = "";
@@ -14109,36 +16006,42 @@
                 object.gc_msg_src = options.enums === String ? "GCProtoBufMsgSrc_Unspecified" : 0;
                 object.gc_dir_index_source = 0;
             }
-            if (message.client_steam_id != null && message.hasOwnProperty("client_steam_id"))
-                if (typeof message.client_steam_id === "number")
+            if (message.client_steam_id != null && Object.hasOwnProperty.call(message, "client_steam_id"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.client_steam_id = typeof message.client_steam_id === "number" ? BigInt(message.client_steam_id) : $util.Long.fromBits(message.client_steam_id.low >>> 0, message.client_steam_id.high >>> 0, true).toBigInt();
+                else if (typeof message.client_steam_id === "number")
                     object.client_steam_id = options.longs === String ? String(message.client_steam_id) : message.client_steam_id;
                 else
-                    object.client_steam_id = options.longs === String ? $util.Long.prototype.toString.call(message.client_steam_id) : options.longs === Number ? new $util.LongBits(message.client_steam_id.low >>> 0, message.client_steam_id.high >>> 0).toNumber() : message.client_steam_id;
-            if (message.client_session_id != null && message.hasOwnProperty("client_session_id"))
+                    object.client_steam_id = options.longs === String ? $util.Long.prototype.toString.call(message.client_steam_id) : options.longs === Number ? new $util.LongBits(message.client_steam_id.low >>> 0, message.client_steam_id.high >>> 0).toNumber(true) : message.client_steam_id;
+            if (message.client_session_id != null && Object.hasOwnProperty.call(message, "client_session_id"))
                 object.client_session_id = message.client_session_id;
-            if (message.source_app_id != null && message.hasOwnProperty("source_app_id"))
+            if (message.source_app_id != null && Object.hasOwnProperty.call(message, "source_app_id"))
                 object.source_app_id = message.source_app_id;
-            if (message.job_id_source != null && message.hasOwnProperty("job_id_source"))
-                if (typeof message.job_id_source === "number")
+            if (message.job_id_source != null && Object.hasOwnProperty.call(message, "job_id_source"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.job_id_source = typeof message.job_id_source === "number" ? BigInt(message.job_id_source) : $util.Long.fromBits(message.job_id_source.low >>> 0, message.job_id_source.high >>> 0, true).toBigInt();
+                else if (typeof message.job_id_source === "number")
                     object.job_id_source = options.longs === String ? String(message.job_id_source) : message.job_id_source;
                 else
-                    object.job_id_source = options.longs === String ? $util.Long.prototype.toString.call(message.job_id_source) : options.longs === Number ? new $util.LongBits(message.job_id_source.low >>> 0, message.job_id_source.high >>> 0).toNumber() : message.job_id_source;
-            if (message.job_id_target != null && message.hasOwnProperty("job_id_target"))
-                if (typeof message.job_id_target === "number")
+                    object.job_id_source = options.longs === String ? $util.Long.prototype.toString.call(message.job_id_source) : options.longs === Number ? new $util.LongBits(message.job_id_source.low >>> 0, message.job_id_source.high >>> 0).toNumber(true) : message.job_id_source;
+            if (message.job_id_target != null && Object.hasOwnProperty.call(message, "job_id_target"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.job_id_target = typeof message.job_id_target === "number" ? BigInt(message.job_id_target) : $util.Long.fromBits(message.job_id_target.low >>> 0, message.job_id_target.high >>> 0, true).toBigInt();
+                else if (typeof message.job_id_target === "number")
                     object.job_id_target = options.longs === String ? String(message.job_id_target) : message.job_id_target;
                 else
-                    object.job_id_target = options.longs === String ? $util.Long.prototype.toString.call(message.job_id_target) : options.longs === Number ? new $util.LongBits(message.job_id_target.low >>> 0, message.job_id_target.high >>> 0).toNumber() : message.job_id_target;
-            if (message.target_job_name != null && message.hasOwnProperty("target_job_name"))
+                    object.job_id_target = options.longs === String ? $util.Long.prototype.toString.call(message.job_id_target) : options.longs === Number ? new $util.LongBits(message.job_id_target.low >>> 0, message.job_id_target.high >>> 0).toNumber(true) : message.job_id_target;
+            if (message.target_job_name != null && Object.hasOwnProperty.call(message, "target_job_name"))
                 object.target_job_name = message.target_job_name;
-            if (message.eresult != null && message.hasOwnProperty("eresult"))
+            if (message.eresult != null && Object.hasOwnProperty.call(message, "eresult"))
                 object.eresult = message.eresult;
-            if (message.error_message != null && message.hasOwnProperty("error_message"))
+            if (message.error_message != null && Object.hasOwnProperty.call(message, "error_message"))
                 object.error_message = message.error_message;
-            if (message.ip != null && message.hasOwnProperty("ip"))
+            if (message.ip != null && Object.hasOwnProperty.call(message, "ip"))
                 object.ip = message.ip;
-            if (message.gc_msg_src != null && message.hasOwnProperty("gc_msg_src"))
+            if (message.gc_msg_src != null && Object.hasOwnProperty.call(message, "gc_msg_src"))
                 object.gc_msg_src = options.enums === String ? $root.GCProtoBufMsgSrc[message.gc_msg_src] === undefined ? message.gc_msg_src : $root.GCProtoBufMsgSrc[message.gc_msg_src] : message.gc_msg_src;
-            if (message.gc_dir_index_source != null && message.hasOwnProperty("gc_dir_index_source"))
+            if (message.gc_dir_index_source != null && Object.hasOwnProperty.call(message, "gc_dir_index_source"))
                 object.gc_dir_index_source = message.gc_dir_index_source;
             return object;
         };
@@ -14194,7 +16097,7 @@
         function CChinaAgreementSessions_StartAgreementSessionInGame_Request(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -14212,7 +16115,7 @@
          * @memberof CChinaAgreementSessions_StartAgreementSessionInGame_Request
          * @instance
          */
-        CChinaAgreementSessions_StartAgreementSessionInGame_Request.prototype.steamid = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CChinaAgreementSessions_StartAgreementSessionInGame_Request.prototype.steamid = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CChinaAgreementSessions_StartAgreementSessionInGame_Request client_ipaddress.
@@ -14243,9 +16146,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CChinaAgreementSessions_StartAgreementSessionInGame_Request.encode = function encode(message, writer) {
+        CChinaAgreementSessions_StartAgreementSessionInGame_Request.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.appid);
             if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
@@ -14265,7 +16172,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CChinaAgreementSessions_StartAgreementSessionInGame_Request.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -14279,10 +16186,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CChinaAgreementSessions_StartAgreementSessionInGame_Request.decode = function decode(reader, length, error) {
+        CChinaAgreementSessions_StartAgreementSessionInGame_Request.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CChinaAgreementSessions_StartAgreementSessionInGame_Request();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CChinaAgreementSessions_StartAgreementSessionInGame_Request();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -14301,9 +16222,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -14332,16 +16258,20 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CChinaAgreementSessions_StartAgreementSessionInGame_Request.verify = function verify(message) {
+        CChinaAgreementSessions_StartAgreementSessionInGame_Request.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.appid != null && message.hasOwnProperty("appid"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.steamid != null && message.hasOwnProperty("steamid"))
+            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
                 if (!$util.isInteger(message.steamid) && !(message.steamid && $util.isInteger(message.steamid.low) && $util.isInteger(message.steamid.high)))
                     return "steamid: integer|Long expected";
-            if (message.client_ipaddress != null && message.hasOwnProperty("client_ipaddress"))
+            if (message.client_ipaddress != null && Object.hasOwnProperty.call(message, "client_ipaddress"))
                 if (!$util.isString(message.client_ipaddress))
                     return "client_ipaddress: string expected";
             return null;
@@ -14355,21 +16285,27 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CChinaAgreementSessions_StartAgreementSessionInGame_Request} CChinaAgreementSessions_StartAgreementSessionInGame_Request
          */
-        CChinaAgreementSessions_StartAgreementSessionInGame_Request.fromObject = function fromObject(object) {
+        CChinaAgreementSessions_StartAgreementSessionInGame_Request.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CChinaAgreementSessions_StartAgreementSessionInGame_Request)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CChinaAgreementSessions_StartAgreementSessionInGame_Request: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CChinaAgreementSessions_StartAgreementSessionInGame_Request();
             if (object.appid != null)
                 message.appid = object.appid >>> 0;
             if (object.steamid != null)
                 if ($util.Long)
-                    (message.steamid = $util.Long.fromValue(object.steamid)).unsigned = false;
+                    message.steamid = $util.Long.fromValue(object.steamid, true);
                 else if (typeof object.steamid === "string")
                     message.steamid = parseInt(object.steamid, 10);
                 else if (typeof object.steamid === "number")
                     message.steamid = object.steamid;
                 else if (typeof object.steamid === "object")
-                    message.steamid = new $util.LongBits(object.steamid.low >>> 0, object.steamid.high >>> 0).toNumber();
+                    message.steamid = new $util.LongBits(object.steamid.low >>> 0, object.steamid.high >>> 0).toNumber(true);
             if (object.client_ipaddress != null)
                 message.client_ipaddress = String(object.client_ipaddress);
             return message;
@@ -14384,27 +16320,33 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CChinaAgreementSessions_StartAgreementSessionInGame_Request.toObject = function toObject(message, options) {
+        CChinaAgreementSessions_StartAgreementSessionInGame_Request.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.appid = 0;
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.steamid = options.longs === String ? "0" : 0;
+                    object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.client_ipaddress = "";
             }
-            if (message.appid != null && message.hasOwnProperty("appid"))
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
-            if (message.steamid != null && message.hasOwnProperty("steamid"))
-                if (typeof message.steamid === "number")
+            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.steamid = typeof message.steamid === "number" ? BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
+                else if (typeof message.steamid === "number")
                     object.steamid = options.longs === String ? String(message.steamid) : message.steamid;
                 else
-                    object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber() : message.steamid;
-            if (message.client_ipaddress != null && message.hasOwnProperty("client_ipaddress"))
+                    object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
+            if (message.client_ipaddress != null && Object.hasOwnProperty.call(message, "client_ipaddress"))
                 object.client_ipaddress = message.client_ipaddress;
             return object;
         };
@@ -14458,7 +16400,7 @@
         function CChinaAgreementSessions_StartAgreementSessionInGame_Response(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -14491,9 +16433,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CChinaAgreementSessions_StartAgreementSessionInGame_Response.encode = function encode(message, writer) {
+        CChinaAgreementSessions_StartAgreementSessionInGame_Response.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.agreement_url != null && Object.hasOwnProperty.call(message, "agreement_url"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.agreement_url);
             return writer;
@@ -14509,7 +16455,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CChinaAgreementSessions_StartAgreementSessionInGame_Response.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -14523,10 +16469,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CChinaAgreementSessions_StartAgreementSessionInGame_Response.decode = function decode(reader, length, error) {
+        CChinaAgreementSessions_StartAgreementSessionInGame_Response.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CChinaAgreementSessions_StartAgreementSessionInGame_Response();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CChinaAgreementSessions_StartAgreementSessionInGame_Response();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -14537,9 +16497,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -14568,10 +16533,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CChinaAgreementSessions_StartAgreementSessionInGame_Response.verify = function verify(message) {
+        CChinaAgreementSessions_StartAgreementSessionInGame_Response.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.agreement_url != null && message.hasOwnProperty("agreement_url"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.agreement_url != null && Object.hasOwnProperty.call(message, "agreement_url"))
                 if (!$util.isString(message.agreement_url))
                     return "agreement_url: string expected";
             return null;
@@ -14585,9 +16554,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CChinaAgreementSessions_StartAgreementSessionInGame_Response} CChinaAgreementSessions_StartAgreementSessionInGame_Response
          */
-        CChinaAgreementSessions_StartAgreementSessionInGame_Response.fromObject = function fromObject(object) {
+        CChinaAgreementSessions_StartAgreementSessionInGame_Response.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CChinaAgreementSessions_StartAgreementSessionInGame_Response)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CChinaAgreementSessions_StartAgreementSessionInGame_Response: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CChinaAgreementSessions_StartAgreementSessionInGame_Response();
             if (object.agreement_url != null)
                 message.agreement_url = String(object.agreement_url);
@@ -14603,13 +16578,17 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CChinaAgreementSessions_StartAgreementSessionInGame_Response.toObject = function toObject(message, options) {
+        CChinaAgreementSessions_StartAgreementSessionInGame_Response.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.agreement_url = "";
-            if (message.agreement_url != null && message.hasOwnProperty("agreement_url"))
+            if (message.agreement_url != null && Object.hasOwnProperty.call(message, "agreement_url"))
                 object.agreement_url = message.agreement_url;
             return object;
         };
@@ -14682,7 +16661,7 @@
                     this.file = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -14715,12 +16694,16 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                FileDescriptorSet.encode = function encode(message, writer) {
+                FileDescriptorSet.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.file != null && message.file.length)
                         for (var i = 0; i < message.file.length; ++i)
-                            $root.google.protobuf.FileDescriptorProto.encode(message.file[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                            $root.google.protobuf.FileDescriptorProto.encode(message.file[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
                     return writer;
                 };
     
@@ -14734,7 +16717,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 FileDescriptorSet.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -14748,10 +16731,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FileDescriptorSet.decode = function decode(reader, length, error) {
+                FileDescriptorSet.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FileDescriptorSet();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.FileDescriptorSet();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -14760,13 +16757,18 @@
                         case 1: {
                                 if (!(message.file && message.file.length))
                                     message.file = [];
-                                message.file.push($root.google.protobuf.FileDescriptorProto.decode(reader, reader.uint32()));
+                                message.file.push($root.google.protobuf.FileDescriptorProto.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -14795,14 +16797,18 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                FileDescriptorSet.verify = function verify(message) {
+                FileDescriptorSet.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.file != null && message.hasOwnProperty("file")) {
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.file != null && Object.hasOwnProperty.call(message, "file")) {
                         if (!Array.isArray(message.file))
                             return "file: array expected";
                         for (var i = 0; i < message.file.length; ++i) {
-                            var error = $root.google.protobuf.FileDescriptorProto.verify(message.file[i]);
+                            var error = $root.google.protobuf.FileDescriptorProto.verify(message.file[i], long + 1);
                             if (error)
                                 return "file." + error;
                         }
@@ -14818,18 +16824,24 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.FileDescriptorSet} FileDescriptorSet
                  */
-                FileDescriptorSet.fromObject = function fromObject(object) {
+                FileDescriptorSet.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.FileDescriptorSet)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.FileDescriptorSet: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.FileDescriptorSet();
                     if (object.file) {
                         if (!Array.isArray(object.file))
                             throw TypeError(".google.protobuf.FileDescriptorSet.file: array expected");
                         message.file = [];
                         for (var i = 0; i < object.file.length; ++i) {
-                            if (typeof object.file[i] !== "object")
+                            if (!$util.isObject(object.file[i]))
                                 throw TypeError(".google.protobuf.FileDescriptorSet.file: object expected");
-                            message.file[i] = $root.google.protobuf.FileDescriptorProto.fromObject(object.file[i]);
+                            message.file[i] = $root.google.protobuf.FileDescriptorProto.fromObject(object.file[i], long + 1);
                         }
                     }
                     return message;
@@ -14844,16 +16856,20 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                FileDescriptorSet.toObject = function toObject(message, options) {
+                FileDescriptorSet.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.file = [];
                     if (message.file && message.file.length) {
                         object.file = [];
                         for (var j = 0; j < message.file.length; ++j)
-                            object.file[j] = $root.google.protobuf.FileDescriptorProto.toObject(message.file[j], options);
+                            object.file[j] = $root.google.protobuf.FileDescriptorProto.toObject(message.file[j], options, q + 1);
                     }
                     return object;
                 };
@@ -14920,7 +16936,7 @@
                     this.extension = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -15017,9 +17033,13 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                FileDescriptorProto.encode = function encode(message, writer) {
+                FileDescriptorProto.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
                     if (message["package"] != null && Object.hasOwnProperty.call(message, "package"))
@@ -15029,20 +17049,20 @@
                             writer.uint32(/* id 3, wireType 2 =*/26).string(message.dependency[i]);
                     if (message.message_type != null && message.message_type.length)
                         for (var i = 0; i < message.message_type.length; ++i)
-                            $root.google.protobuf.DescriptorProto.encode(message.message_type[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                            $root.google.protobuf.DescriptorProto.encode(message.message_type[i], writer.uint32(/* id 4, wireType 2 =*/34).fork(), q + 1).ldelim();
                     if (message.enum_type != null && message.enum_type.length)
                         for (var i = 0; i < message.enum_type.length; ++i)
-                            $root.google.protobuf.EnumDescriptorProto.encode(message.enum_type[i], writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                            $root.google.protobuf.EnumDescriptorProto.encode(message.enum_type[i], writer.uint32(/* id 5, wireType 2 =*/42).fork(), q + 1).ldelim();
                     if (message.service != null && message.service.length)
                         for (var i = 0; i < message.service.length; ++i)
-                            $root.google.protobuf.ServiceDescriptorProto.encode(message.service[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+                            $root.google.protobuf.ServiceDescriptorProto.encode(message.service[i], writer.uint32(/* id 6, wireType 2 =*/50).fork(), q + 1).ldelim();
                     if (message.extension != null && message.extension.length)
                         for (var i = 0; i < message.extension.length; ++i)
-                            $root.google.protobuf.FieldDescriptorProto.encode(message.extension[i], writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+                            $root.google.protobuf.FieldDescriptorProto.encode(message.extension[i], writer.uint32(/* id 7, wireType 2 =*/58).fork(), q + 1).ldelim();
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
-                        $root.google.protobuf.FileOptions.encode(message.options, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+                        $root.google.protobuf.FileOptions.encode(message.options, writer.uint32(/* id 8, wireType 2 =*/66).fork(), q + 1).ldelim();
                     if (message.source_code_info != null && Object.hasOwnProperty.call(message, "source_code_info"))
-                        $root.google.protobuf.SourceCodeInfo.encode(message.source_code_info, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
+                        $root.google.protobuf.SourceCodeInfo.encode(message.source_code_info, writer.uint32(/* id 9, wireType 2 =*/74).fork(), q + 1).ldelim();
                     return writer;
                 };
     
@@ -15056,7 +17076,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 FileDescriptorProto.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -15070,10 +17090,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FileDescriptorProto.decode = function decode(reader, length, error) {
+                FileDescriptorProto.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FileDescriptorProto();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.FileDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -15096,39 +17130,44 @@
                         case 4: {
                                 if (!(message.message_type && message.message_type.length))
                                     message.message_type = [];
-                                message.message_type.push($root.google.protobuf.DescriptorProto.decode(reader, reader.uint32()));
+                                message.message_type.push($root.google.protobuf.DescriptorProto.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         case 5: {
                                 if (!(message.enum_type && message.enum_type.length))
                                     message.enum_type = [];
-                                message.enum_type.push($root.google.protobuf.EnumDescriptorProto.decode(reader, reader.uint32()));
+                                message.enum_type.push($root.google.protobuf.EnumDescriptorProto.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         case 6: {
                                 if (!(message.service && message.service.length))
                                     message.service = [];
-                                message.service.push($root.google.protobuf.ServiceDescriptorProto.decode(reader, reader.uint32()));
+                                message.service.push($root.google.protobuf.ServiceDescriptorProto.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         case 7: {
                                 if (!(message.extension && message.extension.length))
                                     message.extension = [];
-                                message.extension.push($root.google.protobuf.FieldDescriptorProto.decode(reader, reader.uint32()));
+                                message.extension.push($root.google.protobuf.FieldDescriptorProto.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         case 8: {
-                                message.options = $root.google.protobuf.FileOptions.decode(reader, reader.uint32());
+                                message.options = $root.google.protobuf.FileOptions.decode(reader, reader.uint32(), undefined, long + 1);
                                 break;
                             }
                         case 9: {
-                                message.source_code_info = $root.google.protobuf.SourceCodeInfo.decode(reader, reader.uint32());
+                                message.source_code_info = $root.google.protobuf.SourceCodeInfo.decode(reader, reader.uint32(), undefined, long + 1);
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -15157,65 +17196,69 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                FileDescriptorProto.verify = function verify(message) {
+                FileDescriptorProto.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         if (!$util.isString(message.name))
                             return "name: string expected";
-                    if (message["package"] != null && message.hasOwnProperty("package"))
+                    if (message["package"] != null && Object.hasOwnProperty.call(message, "package"))
                         if (!$util.isString(message["package"]))
                             return "package: string expected";
-                    if (message.dependency != null && message.hasOwnProperty("dependency")) {
+                    if (message.dependency != null && Object.hasOwnProperty.call(message, "dependency")) {
                         if (!Array.isArray(message.dependency))
                             return "dependency: array expected";
                         for (var i = 0; i < message.dependency.length; ++i)
                             if (!$util.isString(message.dependency[i]))
                                 return "dependency: string[] expected";
                     }
-                    if (message.message_type != null && message.hasOwnProperty("message_type")) {
+                    if (message.message_type != null && Object.hasOwnProperty.call(message, "message_type")) {
                         if (!Array.isArray(message.message_type))
                             return "message_type: array expected";
                         for (var i = 0; i < message.message_type.length; ++i) {
-                            var error = $root.google.protobuf.DescriptorProto.verify(message.message_type[i]);
+                            var error = $root.google.protobuf.DescriptorProto.verify(message.message_type[i], long + 1);
                             if (error)
                                 return "message_type." + error;
                         }
                     }
-                    if (message.enum_type != null && message.hasOwnProperty("enum_type")) {
+                    if (message.enum_type != null && Object.hasOwnProperty.call(message, "enum_type")) {
                         if (!Array.isArray(message.enum_type))
                             return "enum_type: array expected";
                         for (var i = 0; i < message.enum_type.length; ++i) {
-                            var error = $root.google.protobuf.EnumDescriptorProto.verify(message.enum_type[i]);
+                            var error = $root.google.protobuf.EnumDescriptorProto.verify(message.enum_type[i], long + 1);
                             if (error)
                                 return "enum_type." + error;
                         }
                     }
-                    if (message.service != null && message.hasOwnProperty("service")) {
+                    if (message.service != null && Object.hasOwnProperty.call(message, "service")) {
                         if (!Array.isArray(message.service))
                             return "service: array expected";
                         for (var i = 0; i < message.service.length; ++i) {
-                            var error = $root.google.protobuf.ServiceDescriptorProto.verify(message.service[i]);
+                            var error = $root.google.protobuf.ServiceDescriptorProto.verify(message.service[i], long + 1);
                             if (error)
                                 return "service." + error;
                         }
                     }
-                    if (message.extension != null && message.hasOwnProperty("extension")) {
+                    if (message.extension != null && Object.hasOwnProperty.call(message, "extension")) {
                         if (!Array.isArray(message.extension))
                             return "extension: array expected";
                         for (var i = 0; i < message.extension.length; ++i) {
-                            var error = $root.google.protobuf.FieldDescriptorProto.verify(message.extension[i]);
+                            var error = $root.google.protobuf.FieldDescriptorProto.verify(message.extension[i], long + 1);
                             if (error)
                                 return "extension." + error;
                         }
                     }
-                    if (message.options != null && message.hasOwnProperty("options")) {
-                        var error = $root.google.protobuf.FileOptions.verify(message.options);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options")) {
+                        var error = $root.google.protobuf.FileOptions.verify(message.options, long + 1);
                         if (error)
                             return "options." + error;
                     }
-                    if (message.source_code_info != null && message.hasOwnProperty("source_code_info")) {
-                        var error = $root.google.protobuf.SourceCodeInfo.verify(message.source_code_info);
+                    if (message.source_code_info != null && Object.hasOwnProperty.call(message, "source_code_info")) {
+                        var error = $root.google.protobuf.SourceCodeInfo.verify(message.source_code_info, long + 1);
                         if (error)
                             return "source_code_info." + error;
                     }
@@ -15230,9 +17273,15 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.FileDescriptorProto} FileDescriptorProto
                  */
-                FileDescriptorProto.fromObject = function fromObject(object) {
+                FileDescriptorProto.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.FileDescriptorProto)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.FileDescriptorProto: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.FileDescriptorProto();
                     if (object.name != null)
                         message.name = String(object.name);
@@ -15250,9 +17299,9 @@
                             throw TypeError(".google.protobuf.FileDescriptorProto.message_type: array expected");
                         message.message_type = [];
                         for (var i = 0; i < object.message_type.length; ++i) {
-                            if (typeof object.message_type[i] !== "object")
+                            if (!$util.isObject(object.message_type[i]))
                                 throw TypeError(".google.protobuf.FileDescriptorProto.message_type: object expected");
-                            message.message_type[i] = $root.google.protobuf.DescriptorProto.fromObject(object.message_type[i]);
+                            message.message_type[i] = $root.google.protobuf.DescriptorProto.fromObject(object.message_type[i], long + 1);
                         }
                     }
                     if (object.enum_type) {
@@ -15260,9 +17309,9 @@
                             throw TypeError(".google.protobuf.FileDescriptorProto.enum_type: array expected");
                         message.enum_type = [];
                         for (var i = 0; i < object.enum_type.length; ++i) {
-                            if (typeof object.enum_type[i] !== "object")
+                            if (!$util.isObject(object.enum_type[i]))
                                 throw TypeError(".google.protobuf.FileDescriptorProto.enum_type: object expected");
-                            message.enum_type[i] = $root.google.protobuf.EnumDescriptorProto.fromObject(object.enum_type[i]);
+                            message.enum_type[i] = $root.google.protobuf.EnumDescriptorProto.fromObject(object.enum_type[i], long + 1);
                         }
                     }
                     if (object.service) {
@@ -15270,9 +17319,9 @@
                             throw TypeError(".google.protobuf.FileDescriptorProto.service: array expected");
                         message.service = [];
                         for (var i = 0; i < object.service.length; ++i) {
-                            if (typeof object.service[i] !== "object")
+                            if (!$util.isObject(object.service[i]))
                                 throw TypeError(".google.protobuf.FileDescriptorProto.service: object expected");
-                            message.service[i] = $root.google.protobuf.ServiceDescriptorProto.fromObject(object.service[i]);
+                            message.service[i] = $root.google.protobuf.ServiceDescriptorProto.fromObject(object.service[i], long + 1);
                         }
                     }
                     if (object.extension) {
@@ -15280,20 +17329,20 @@
                             throw TypeError(".google.protobuf.FileDescriptorProto.extension: array expected");
                         message.extension = [];
                         for (var i = 0; i < object.extension.length; ++i) {
-                            if (typeof object.extension[i] !== "object")
+                            if (!$util.isObject(object.extension[i]))
                                 throw TypeError(".google.protobuf.FileDescriptorProto.extension: object expected");
-                            message.extension[i] = $root.google.protobuf.FieldDescriptorProto.fromObject(object.extension[i]);
+                            message.extension[i] = $root.google.protobuf.FieldDescriptorProto.fromObject(object.extension[i], long + 1);
                         }
                     }
                     if (object.options != null) {
-                        if (typeof object.options !== "object")
+                        if (!$util.isObject(object.options))
                             throw TypeError(".google.protobuf.FileDescriptorProto.options: object expected");
-                        message.options = $root.google.protobuf.FileOptions.fromObject(object.options);
+                        message.options = $root.google.protobuf.FileOptions.fromObject(object.options, long + 1);
                     }
                     if (object.source_code_info != null) {
-                        if (typeof object.source_code_info !== "object")
+                        if (!$util.isObject(object.source_code_info))
                             throw TypeError(".google.protobuf.FileDescriptorProto.source_code_info: object expected");
-                        message.source_code_info = $root.google.protobuf.SourceCodeInfo.fromObject(object.source_code_info);
+                        message.source_code_info = $root.google.protobuf.SourceCodeInfo.fromObject(object.source_code_info, long + 1);
                     }
                     return message;
                 };
@@ -15307,9 +17356,13 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                FileDescriptorProto.toObject = function toObject(message, options) {
+                FileDescriptorProto.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.arrays || options.defaults) {
                         object.dependency = [];
@@ -15324,9 +17377,9 @@
                         object.options = null;
                         object.source_code_info = null;
                     }
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         object.name = message.name;
-                    if (message["package"] != null && message.hasOwnProperty("package"))
+                    if (message["package"] != null && Object.hasOwnProperty.call(message, "package"))
                         object["package"] = message["package"];
                     if (message.dependency && message.dependency.length) {
                         object.dependency = [];
@@ -15336,27 +17389,27 @@
                     if (message.message_type && message.message_type.length) {
                         object.message_type = [];
                         for (var j = 0; j < message.message_type.length; ++j)
-                            object.message_type[j] = $root.google.protobuf.DescriptorProto.toObject(message.message_type[j], options);
+                            object.message_type[j] = $root.google.protobuf.DescriptorProto.toObject(message.message_type[j], options, q + 1);
                     }
                     if (message.enum_type && message.enum_type.length) {
                         object.enum_type = [];
                         for (var j = 0; j < message.enum_type.length; ++j)
-                            object.enum_type[j] = $root.google.protobuf.EnumDescriptorProto.toObject(message.enum_type[j], options);
+                            object.enum_type[j] = $root.google.protobuf.EnumDescriptorProto.toObject(message.enum_type[j], options, q + 1);
                     }
                     if (message.service && message.service.length) {
                         object.service = [];
                         for (var j = 0; j < message.service.length; ++j)
-                            object.service[j] = $root.google.protobuf.ServiceDescriptorProto.toObject(message.service[j], options);
+                            object.service[j] = $root.google.protobuf.ServiceDescriptorProto.toObject(message.service[j], options, q + 1);
                     }
                     if (message.extension && message.extension.length) {
                         object.extension = [];
                         for (var j = 0; j < message.extension.length; ++j)
-                            object.extension[j] = $root.google.protobuf.FieldDescriptorProto.toObject(message.extension[j], options);
+                            object.extension[j] = $root.google.protobuf.FieldDescriptorProto.toObject(message.extension[j], options, q + 1);
                     }
-                    if (message.options != null && message.hasOwnProperty("options"))
-                        object.options = $root.google.protobuf.FileOptions.toObject(message.options, options);
-                    if (message.source_code_info != null && message.hasOwnProperty("source_code_info"))
-                        object.source_code_info = $root.google.protobuf.SourceCodeInfo.toObject(message.source_code_info, options);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
+                        object.options = $root.google.protobuf.FileOptions.toObject(message.options, options, q + 1);
+                    if (message.source_code_info != null && Object.hasOwnProperty.call(message, "source_code_info"))
+                        object.source_code_info = $root.google.protobuf.SourceCodeInfo.toObject(message.source_code_info, options, q + 1);
                     return object;
                 };
     
@@ -15420,7 +17473,7 @@
                     this.extension_range = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -15501,28 +17554,32 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                DescriptorProto.encode = function encode(message, writer) {
+                DescriptorProto.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
                     if (message.field != null && message.field.length)
                         for (var i = 0; i < message.field.length; ++i)
-                            $root.google.protobuf.FieldDescriptorProto.encode(message.field[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                            $root.google.protobuf.FieldDescriptorProto.encode(message.field[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
                     if (message.nested_type != null && message.nested_type.length)
                         for (var i = 0; i < message.nested_type.length; ++i)
-                            $root.google.protobuf.DescriptorProto.encode(message.nested_type[i], writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                            $root.google.protobuf.DescriptorProto.encode(message.nested_type[i], writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
                     if (message.enum_type != null && message.enum_type.length)
                         for (var i = 0; i < message.enum_type.length; ++i)
-                            $root.google.protobuf.EnumDescriptorProto.encode(message.enum_type[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                            $root.google.protobuf.EnumDescriptorProto.encode(message.enum_type[i], writer.uint32(/* id 4, wireType 2 =*/34).fork(), q + 1).ldelim();
                     if (message.extension_range != null && message.extension_range.length)
                         for (var i = 0; i < message.extension_range.length; ++i)
-                            $root.google.protobuf.DescriptorProto.ExtensionRange.encode(message.extension_range[i], writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                            $root.google.protobuf.DescriptorProto.ExtensionRange.encode(message.extension_range[i], writer.uint32(/* id 5, wireType 2 =*/42).fork(), q + 1).ldelim();
                     if (message.extension != null && message.extension.length)
                         for (var i = 0; i < message.extension.length; ++i)
-                            $root.google.protobuf.FieldDescriptorProto.encode(message.extension[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+                            $root.google.protobuf.FieldDescriptorProto.encode(message.extension[i], writer.uint32(/* id 6, wireType 2 =*/50).fork(), q + 1).ldelim();
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
-                        $root.google.protobuf.MessageOptions.encode(message.options, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+                        $root.google.protobuf.MessageOptions.encode(message.options, writer.uint32(/* id 7, wireType 2 =*/58).fork(), q + 1).ldelim();
                     return writer;
                 };
     
@@ -15536,7 +17593,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 DescriptorProto.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -15550,10 +17607,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                DescriptorProto.decode = function decode(reader, length, error) {
+                DescriptorProto.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.DescriptorProto();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.DescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -15566,41 +17637,46 @@
                         case 2: {
                                 if (!(message.field && message.field.length))
                                     message.field = [];
-                                message.field.push($root.google.protobuf.FieldDescriptorProto.decode(reader, reader.uint32()));
+                                message.field.push($root.google.protobuf.FieldDescriptorProto.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         case 6: {
                                 if (!(message.extension && message.extension.length))
                                     message.extension = [];
-                                message.extension.push($root.google.protobuf.FieldDescriptorProto.decode(reader, reader.uint32()));
+                                message.extension.push($root.google.protobuf.FieldDescriptorProto.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         case 3: {
                                 if (!(message.nested_type && message.nested_type.length))
                                     message.nested_type = [];
-                                message.nested_type.push($root.google.protobuf.DescriptorProto.decode(reader, reader.uint32()));
+                                message.nested_type.push($root.google.protobuf.DescriptorProto.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         case 4: {
                                 if (!(message.enum_type && message.enum_type.length))
                                     message.enum_type = [];
-                                message.enum_type.push($root.google.protobuf.EnumDescriptorProto.decode(reader, reader.uint32()));
+                                message.enum_type.push($root.google.protobuf.EnumDescriptorProto.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         case 5: {
                                 if (!(message.extension_range && message.extension_range.length))
                                     message.extension_range = [];
-                                message.extension_range.push($root.google.protobuf.DescriptorProto.ExtensionRange.decode(reader, reader.uint32()));
+                                message.extension_range.push($root.google.protobuf.DescriptorProto.ExtensionRange.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         case 7: {
-                                message.options = $root.google.protobuf.MessageOptions.decode(reader, reader.uint32());
+                                message.options = $root.google.protobuf.MessageOptions.decode(reader, reader.uint32(), undefined, long + 1);
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -15629,59 +17705,63 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                DescriptorProto.verify = function verify(message) {
+                DescriptorProto.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         if (!$util.isString(message.name))
                             return "name: string expected";
-                    if (message.field != null && message.hasOwnProperty("field")) {
+                    if (message.field != null && Object.hasOwnProperty.call(message, "field")) {
                         if (!Array.isArray(message.field))
                             return "field: array expected";
                         for (var i = 0; i < message.field.length; ++i) {
-                            var error = $root.google.protobuf.FieldDescriptorProto.verify(message.field[i]);
+                            var error = $root.google.protobuf.FieldDescriptorProto.verify(message.field[i], long + 1);
                             if (error)
                                 return "field." + error;
                         }
                     }
-                    if (message.extension != null && message.hasOwnProperty("extension")) {
+                    if (message.extension != null && Object.hasOwnProperty.call(message, "extension")) {
                         if (!Array.isArray(message.extension))
                             return "extension: array expected";
                         for (var i = 0; i < message.extension.length; ++i) {
-                            var error = $root.google.protobuf.FieldDescriptorProto.verify(message.extension[i]);
+                            var error = $root.google.protobuf.FieldDescriptorProto.verify(message.extension[i], long + 1);
                             if (error)
                                 return "extension." + error;
                         }
                     }
-                    if (message.nested_type != null && message.hasOwnProperty("nested_type")) {
+                    if (message.nested_type != null && Object.hasOwnProperty.call(message, "nested_type")) {
                         if (!Array.isArray(message.nested_type))
                             return "nested_type: array expected";
                         for (var i = 0; i < message.nested_type.length; ++i) {
-                            var error = $root.google.protobuf.DescriptorProto.verify(message.nested_type[i]);
+                            var error = $root.google.protobuf.DescriptorProto.verify(message.nested_type[i], long + 1);
                             if (error)
                                 return "nested_type." + error;
                         }
                     }
-                    if (message.enum_type != null && message.hasOwnProperty("enum_type")) {
+                    if (message.enum_type != null && Object.hasOwnProperty.call(message, "enum_type")) {
                         if (!Array.isArray(message.enum_type))
                             return "enum_type: array expected";
                         for (var i = 0; i < message.enum_type.length; ++i) {
-                            var error = $root.google.protobuf.EnumDescriptorProto.verify(message.enum_type[i]);
+                            var error = $root.google.protobuf.EnumDescriptorProto.verify(message.enum_type[i], long + 1);
                             if (error)
                                 return "enum_type." + error;
                         }
                     }
-                    if (message.extension_range != null && message.hasOwnProperty("extension_range")) {
+                    if (message.extension_range != null && Object.hasOwnProperty.call(message, "extension_range")) {
                         if (!Array.isArray(message.extension_range))
                             return "extension_range: array expected";
                         for (var i = 0; i < message.extension_range.length; ++i) {
-                            var error = $root.google.protobuf.DescriptorProto.ExtensionRange.verify(message.extension_range[i]);
+                            var error = $root.google.protobuf.DescriptorProto.ExtensionRange.verify(message.extension_range[i], long + 1);
                             if (error)
                                 return "extension_range." + error;
                         }
                     }
-                    if (message.options != null && message.hasOwnProperty("options")) {
-                        var error = $root.google.protobuf.MessageOptions.verify(message.options);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options")) {
+                        var error = $root.google.protobuf.MessageOptions.verify(message.options, long + 1);
                         if (error)
                             return "options." + error;
                     }
@@ -15696,9 +17776,15 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.DescriptorProto} DescriptorProto
                  */
-                DescriptorProto.fromObject = function fromObject(object) {
+                DescriptorProto.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.DescriptorProto)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.DescriptorProto: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.DescriptorProto();
                     if (object.name != null)
                         message.name = String(object.name);
@@ -15707,9 +17793,9 @@
                             throw TypeError(".google.protobuf.DescriptorProto.field: array expected");
                         message.field = [];
                         for (var i = 0; i < object.field.length; ++i) {
-                            if (typeof object.field[i] !== "object")
+                            if (!$util.isObject(object.field[i]))
                                 throw TypeError(".google.protobuf.DescriptorProto.field: object expected");
-                            message.field[i] = $root.google.protobuf.FieldDescriptorProto.fromObject(object.field[i]);
+                            message.field[i] = $root.google.protobuf.FieldDescriptorProto.fromObject(object.field[i], long + 1);
                         }
                     }
                     if (object.extension) {
@@ -15717,9 +17803,9 @@
                             throw TypeError(".google.protobuf.DescriptorProto.extension: array expected");
                         message.extension = [];
                         for (var i = 0; i < object.extension.length; ++i) {
-                            if (typeof object.extension[i] !== "object")
+                            if (!$util.isObject(object.extension[i]))
                                 throw TypeError(".google.protobuf.DescriptorProto.extension: object expected");
-                            message.extension[i] = $root.google.protobuf.FieldDescriptorProto.fromObject(object.extension[i]);
+                            message.extension[i] = $root.google.protobuf.FieldDescriptorProto.fromObject(object.extension[i], long + 1);
                         }
                     }
                     if (object.nested_type) {
@@ -15727,9 +17813,9 @@
                             throw TypeError(".google.protobuf.DescriptorProto.nested_type: array expected");
                         message.nested_type = [];
                         for (var i = 0; i < object.nested_type.length; ++i) {
-                            if (typeof object.nested_type[i] !== "object")
+                            if (!$util.isObject(object.nested_type[i]))
                                 throw TypeError(".google.protobuf.DescriptorProto.nested_type: object expected");
-                            message.nested_type[i] = $root.google.protobuf.DescriptorProto.fromObject(object.nested_type[i]);
+                            message.nested_type[i] = $root.google.protobuf.DescriptorProto.fromObject(object.nested_type[i], long + 1);
                         }
                     }
                     if (object.enum_type) {
@@ -15737,9 +17823,9 @@
                             throw TypeError(".google.protobuf.DescriptorProto.enum_type: array expected");
                         message.enum_type = [];
                         for (var i = 0; i < object.enum_type.length; ++i) {
-                            if (typeof object.enum_type[i] !== "object")
+                            if (!$util.isObject(object.enum_type[i]))
                                 throw TypeError(".google.protobuf.DescriptorProto.enum_type: object expected");
-                            message.enum_type[i] = $root.google.protobuf.EnumDescriptorProto.fromObject(object.enum_type[i]);
+                            message.enum_type[i] = $root.google.protobuf.EnumDescriptorProto.fromObject(object.enum_type[i], long + 1);
                         }
                     }
                     if (object.extension_range) {
@@ -15747,15 +17833,15 @@
                             throw TypeError(".google.protobuf.DescriptorProto.extension_range: array expected");
                         message.extension_range = [];
                         for (var i = 0; i < object.extension_range.length; ++i) {
-                            if (typeof object.extension_range[i] !== "object")
+                            if (!$util.isObject(object.extension_range[i]))
                                 throw TypeError(".google.protobuf.DescriptorProto.extension_range: object expected");
-                            message.extension_range[i] = $root.google.protobuf.DescriptorProto.ExtensionRange.fromObject(object.extension_range[i]);
+                            message.extension_range[i] = $root.google.protobuf.DescriptorProto.ExtensionRange.fromObject(object.extension_range[i], long + 1);
                         }
                     }
                     if (object.options != null) {
-                        if (typeof object.options !== "object")
+                        if (!$util.isObject(object.options))
                             throw TypeError(".google.protobuf.DescriptorProto.options: object expected");
-                        message.options = $root.google.protobuf.MessageOptions.fromObject(object.options);
+                        message.options = $root.google.protobuf.MessageOptions.fromObject(object.options, long + 1);
                     }
                     return message;
                 };
@@ -15769,9 +17855,13 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                DescriptorProto.toObject = function toObject(message, options) {
+                DescriptorProto.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.arrays || options.defaults) {
                         object.field = [];
@@ -15784,35 +17874,35 @@
                         object.name = "";
                         object.options = null;
                     }
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         object.name = message.name;
                     if (message.field && message.field.length) {
                         object.field = [];
                         for (var j = 0; j < message.field.length; ++j)
-                            object.field[j] = $root.google.protobuf.FieldDescriptorProto.toObject(message.field[j], options);
+                            object.field[j] = $root.google.protobuf.FieldDescriptorProto.toObject(message.field[j], options, q + 1);
                     }
                     if (message.nested_type && message.nested_type.length) {
                         object.nested_type = [];
                         for (var j = 0; j < message.nested_type.length; ++j)
-                            object.nested_type[j] = $root.google.protobuf.DescriptorProto.toObject(message.nested_type[j], options);
+                            object.nested_type[j] = $root.google.protobuf.DescriptorProto.toObject(message.nested_type[j], options, q + 1);
                     }
                     if (message.enum_type && message.enum_type.length) {
                         object.enum_type = [];
                         for (var j = 0; j < message.enum_type.length; ++j)
-                            object.enum_type[j] = $root.google.protobuf.EnumDescriptorProto.toObject(message.enum_type[j], options);
+                            object.enum_type[j] = $root.google.protobuf.EnumDescriptorProto.toObject(message.enum_type[j], options, q + 1);
                     }
                     if (message.extension_range && message.extension_range.length) {
                         object.extension_range = [];
                         for (var j = 0; j < message.extension_range.length; ++j)
-                            object.extension_range[j] = $root.google.protobuf.DescriptorProto.ExtensionRange.toObject(message.extension_range[j], options);
+                            object.extension_range[j] = $root.google.protobuf.DescriptorProto.ExtensionRange.toObject(message.extension_range[j], options, q + 1);
                     }
                     if (message.extension && message.extension.length) {
                         object.extension = [];
                         for (var j = 0; j < message.extension.length; ++j)
-                            object.extension[j] = $root.google.protobuf.FieldDescriptorProto.toObject(message.extension[j], options);
+                            object.extension[j] = $root.google.protobuf.FieldDescriptorProto.toObject(message.extension[j], options, q + 1);
                     }
-                    if (message.options != null && message.hasOwnProperty("options"))
-                        object.options = $root.google.protobuf.MessageOptions.toObject(message.options, options);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
+                        object.options = $root.google.protobuf.MessageOptions.toObject(message.options, options, q + 1);
                     return object;
                 };
     
@@ -15863,7 +17953,7 @@
                     function ExtensionRange(properties) {
                         if (properties)
                             for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                                if (properties[keys[i]] != null)
+                                if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                     this[keys[i]] = properties[keys[i]];
                     }
     
@@ -15904,9 +17994,13 @@
                      * @param {$protobuf.Writer} [writer] Writer to encode to
                      * @returns {$protobuf.Writer} Writer
                      */
-                    ExtensionRange.encode = function encode(message, writer) {
+                    ExtensionRange.encode = function encode(message, writer, q) {
                         if (!writer)
                             writer = $Writer.create();
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $util.recursionLimit)
+                            throw Error("max depth exceeded");
                         if (message.start != null && Object.hasOwnProperty.call(message, "start"))
                             writer.uint32(/* id 1, wireType 0 =*/8).int32(message.start);
                         if (message.end != null && Object.hasOwnProperty.call(message, "end"))
@@ -15924,7 +18018,7 @@
                      * @returns {$protobuf.Writer} Writer
                      */
                     ExtensionRange.encodeDelimited = function encodeDelimited(message, writer) {
-                        return this.encode(message, writer).ldelim();
+                        return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                     };
     
                     /**
@@ -15938,10 +18032,24 @@
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    ExtensionRange.decode = function decode(reader, length, error) {
+                    ExtensionRange.decode = function decode(reader, length, error, long) {
                         if (!(reader instanceof $Reader))
                             reader = $Reader.create(reader);
-                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.DescriptorProto.ExtensionRange();
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $Reader.recursionLimit)
+                            throw Error("maximum nesting depth exceeded");
+                        var end, message;
+                        if (length === undefined)
+                            end = reader.len;
+                        else {
+                            end = reader.pos + length;
+                            if (end > reader.len)
+                                throw RangeError("index out of range");
+                            length = reader.len;
+                            reader.len = end;
+                        }
+                        message = new $root.google.protobuf.DescriptorProto.ExtensionRange();
                         while (reader.pos < end) {
                             var tag = reader.uint32();
                             if (tag === error)
@@ -15956,9 +18064,14 @@
                                     break;
                                 }
                             default:
-                                reader.skipType(tag & 7);
+                                reader.skipType(tag & 7, long);
                                 break;
                             }
+                        }
+                        if (length !== undefined) {
+                            if (reader.pos !== end)
+                                throw RangeError("index out of range");
+                            reader.len = length;
                         }
                         return message;
                     };
@@ -15987,13 +18100,17 @@
                      * @param {Object.<string,*>} message Plain object to verify
                      * @returns {string|null} `null` if valid, otherwise the reason why it is not
                      */
-                    ExtensionRange.verify = function verify(message) {
+                    ExtensionRange.verify = function verify(message, long) {
                         if (typeof message !== "object" || message === null)
                             return "object expected";
-                        if (message.start != null && message.hasOwnProperty("start"))
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $util.recursionLimit)
+                            return "maximum nesting depth exceeded";
+                        if (message.start != null && Object.hasOwnProperty.call(message, "start"))
                             if (!$util.isInteger(message.start))
                                 return "start: integer expected";
-                        if (message.end != null && message.hasOwnProperty("end"))
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
                             if (!$util.isInteger(message.end))
                                 return "end: integer expected";
                         return null;
@@ -16007,9 +18124,15 @@
                      * @param {Object.<string,*>} object Plain object
                      * @returns {google.protobuf.DescriptorProto.ExtensionRange} ExtensionRange
                      */
-                    ExtensionRange.fromObject = function fromObject(object) {
+                    ExtensionRange.fromObject = function fromObject(object, long) {
                         if (object instanceof $root.google.protobuf.DescriptorProto.ExtensionRange)
                             return object;
+                        if (!$util.isObject(object))
+                            throw TypeError(".google.protobuf.DescriptorProto.ExtensionRange: object expected");
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $util.recursionLimit)
+                            throw Error("maximum nesting depth exceeded");
                         var message = new $root.google.protobuf.DescriptorProto.ExtensionRange();
                         if (object.start != null)
                             message.start = object.start | 0;
@@ -16027,17 +18150,21 @@
                      * @param {$protobuf.IConversionOptions} [options] Conversion options
                      * @returns {Object.<string,*>} Plain object
                      */
-                    ExtensionRange.toObject = function toObject(message, options) {
+                    ExtensionRange.toObject = function toObject(message, options, q) {
                         if (!options)
                             options = {};
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $util.recursionLimit)
+                            throw Error("max depth exceeded");
                         var object = {};
                         if (options.defaults) {
                             object.start = 0;
                             object.end = 0;
                         }
-                        if (message.start != null && message.hasOwnProperty("start"))
+                        if (message.start != null && Object.hasOwnProperty.call(message, "start"))
                             object.start = message.start;
-                        if (message.end != null && message.hasOwnProperty("end"))
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
                             object.end = message.end;
                         return object;
                     };
@@ -16101,7 +18228,7 @@
                 function FieldDescriptorProto(properties) {
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -16190,9 +18317,13 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                FieldDescriptorProto.encode = function encode(message, writer) {
+                FieldDescriptorProto.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
                     if (message.extendee != null && Object.hasOwnProperty.call(message, "extendee"))
@@ -16208,7 +18339,7 @@
                     if (message.default_value != null && Object.hasOwnProperty.call(message, "default_value"))
                         writer.uint32(/* id 7, wireType 2 =*/58).string(message.default_value);
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
-                        $root.google.protobuf.FieldOptions.encode(message.options, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+                        $root.google.protobuf.FieldOptions.encode(message.options, writer.uint32(/* id 8, wireType 2 =*/66).fork(), q + 1).ldelim();
                     return writer;
                 };
     
@@ -16222,7 +18353,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 FieldDescriptorProto.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -16236,10 +18367,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FieldDescriptorProto.decode = function decode(reader, length, error) {
+                FieldDescriptorProto.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FieldDescriptorProto();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.FieldDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -16274,13 +18419,18 @@
                                 break;
                             }
                         case 8: {
-                                message.options = $root.google.protobuf.FieldOptions.decode(reader, reader.uint32());
+                                message.options = $root.google.protobuf.FieldOptions.decode(reader, reader.uint32(), undefined, long + 1);
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -16309,16 +18459,20 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                FieldDescriptorProto.verify = function verify(message) {
+                FieldDescriptorProto.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         if (!$util.isString(message.name))
                             return "name: string expected";
-                    if (message.number != null && message.hasOwnProperty("number"))
+                    if (message.number != null && Object.hasOwnProperty.call(message, "number"))
                         if (!$util.isInteger(message.number))
                             return "number: integer expected";
-                    if (message.label != null && message.hasOwnProperty("label"))
+                    if (message.label != null && Object.hasOwnProperty.call(message, "label"))
                         switch (message.label) {
                         default:
                             return "label: enum value expected";
@@ -16327,7 +18481,7 @@
                         case 3:
                             break;
                         }
-                    if (message.type != null && message.hasOwnProperty("type"))
+                    if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                         switch (message.type) {
                         default:
                             return "type: enum value expected";
@@ -16351,17 +18505,17 @@
                         case 18:
                             break;
                         }
-                    if (message.type_name != null && message.hasOwnProperty("type_name"))
+                    if (message.type_name != null && Object.hasOwnProperty.call(message, "type_name"))
                         if (!$util.isString(message.type_name))
                             return "type_name: string expected";
-                    if (message.extendee != null && message.hasOwnProperty("extendee"))
+                    if (message.extendee != null && Object.hasOwnProperty.call(message, "extendee"))
                         if (!$util.isString(message.extendee))
                             return "extendee: string expected";
-                    if (message.default_value != null && message.hasOwnProperty("default_value"))
+                    if (message.default_value != null && Object.hasOwnProperty.call(message, "default_value"))
                         if (!$util.isString(message.default_value))
                             return "default_value: string expected";
-                    if (message.options != null && message.hasOwnProperty("options")) {
-                        var error = $root.google.protobuf.FieldOptions.verify(message.options);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options")) {
+                        var error = $root.google.protobuf.FieldOptions.verify(message.options, long + 1);
                         if (error)
                             return "options." + error;
                     }
@@ -16376,9 +18530,15 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.FieldDescriptorProto} FieldDescriptorProto
                  */
-                FieldDescriptorProto.fromObject = function fromObject(object) {
+                FieldDescriptorProto.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.FieldDescriptorProto)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.FieldDescriptorProto: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.FieldDescriptorProto();
                     if (object.name != null)
                         message.name = String(object.name);
@@ -16491,9 +18651,9 @@
                     if (object.default_value != null)
                         message.default_value = String(object.default_value);
                     if (object.options != null) {
-                        if (typeof object.options !== "object")
+                        if (!$util.isObject(object.options))
                             throw TypeError(".google.protobuf.FieldDescriptorProto.options: object expected");
-                        message.options = $root.google.protobuf.FieldOptions.fromObject(object.options);
+                        message.options = $root.google.protobuf.FieldOptions.fromObject(object.options, long + 1);
                     }
                     return message;
                 };
@@ -16507,9 +18667,13 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                FieldDescriptorProto.toObject = function toObject(message, options) {
+                FieldDescriptorProto.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.defaults) {
                         object.name = "";
@@ -16521,22 +18685,22 @@
                         object.default_value = "";
                         object.options = null;
                     }
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         object.name = message.name;
-                    if (message.extendee != null && message.hasOwnProperty("extendee"))
+                    if (message.extendee != null && Object.hasOwnProperty.call(message, "extendee"))
                         object.extendee = message.extendee;
-                    if (message.number != null && message.hasOwnProperty("number"))
+                    if (message.number != null && Object.hasOwnProperty.call(message, "number"))
                         object.number = message.number;
-                    if (message.label != null && message.hasOwnProperty("label"))
+                    if (message.label != null && Object.hasOwnProperty.call(message, "label"))
                         object.label = options.enums === String ? $root.google.protobuf.FieldDescriptorProto.Label[message.label] === undefined ? message.label : $root.google.protobuf.FieldDescriptorProto.Label[message.label] : message.label;
-                    if (message.type != null && message.hasOwnProperty("type"))
+                    if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                         object.type = options.enums === String ? $root.google.protobuf.FieldDescriptorProto.Type[message.type] === undefined ? message.type : $root.google.protobuf.FieldDescriptorProto.Type[message.type] : message.type;
-                    if (message.type_name != null && message.hasOwnProperty("type_name"))
+                    if (message.type_name != null && Object.hasOwnProperty.call(message, "type_name"))
                         object.type_name = message.type_name;
-                    if (message.default_value != null && message.hasOwnProperty("default_value"))
+                    if (message.default_value != null && Object.hasOwnProperty.call(message, "default_value"))
                         object.default_value = message.default_value;
-                    if (message.options != null && message.hasOwnProperty("options"))
-                        object.options = $root.google.protobuf.FieldOptions.toObject(message.options, options);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
+                        object.options = $root.google.protobuf.FieldOptions.toObject(message.options, options, q + 1);
                     return object;
                 };
     
@@ -16654,7 +18818,7 @@
                     this.value = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -16703,16 +18867,20 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                EnumDescriptorProto.encode = function encode(message, writer) {
+                EnumDescriptorProto.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
                     if (message.value != null && message.value.length)
                         for (var i = 0; i < message.value.length; ++i)
-                            $root.google.protobuf.EnumValueDescriptorProto.encode(message.value[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                            $root.google.protobuf.EnumValueDescriptorProto.encode(message.value[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
-                        $root.google.protobuf.EnumOptions.encode(message.options, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                        $root.google.protobuf.EnumOptions.encode(message.options, writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
                     return writer;
                 };
     
@@ -16726,7 +18894,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 EnumDescriptorProto.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -16740,10 +18908,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                EnumDescriptorProto.decode = function decode(reader, length, error) {
+                EnumDescriptorProto.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.EnumDescriptorProto();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.EnumDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -16756,17 +18938,22 @@
                         case 2: {
                                 if (!(message.value && message.value.length))
                                     message.value = [];
-                                message.value.push($root.google.protobuf.EnumValueDescriptorProto.decode(reader, reader.uint32()));
+                                message.value.push($root.google.protobuf.EnumValueDescriptorProto.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         case 3: {
-                                message.options = $root.google.protobuf.EnumOptions.decode(reader, reader.uint32());
+                                message.options = $root.google.protobuf.EnumOptions.decode(reader, reader.uint32(), undefined, long + 1);
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -16795,23 +18982,27 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                EnumDescriptorProto.verify = function verify(message) {
+                EnumDescriptorProto.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         if (!$util.isString(message.name))
                             return "name: string expected";
-                    if (message.value != null && message.hasOwnProperty("value")) {
+                    if (message.value != null && Object.hasOwnProperty.call(message, "value")) {
                         if (!Array.isArray(message.value))
                             return "value: array expected";
                         for (var i = 0; i < message.value.length; ++i) {
-                            var error = $root.google.protobuf.EnumValueDescriptorProto.verify(message.value[i]);
+                            var error = $root.google.protobuf.EnumValueDescriptorProto.verify(message.value[i], long + 1);
                             if (error)
                                 return "value." + error;
                         }
                     }
-                    if (message.options != null && message.hasOwnProperty("options")) {
-                        var error = $root.google.protobuf.EnumOptions.verify(message.options);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options")) {
+                        var error = $root.google.protobuf.EnumOptions.verify(message.options, long + 1);
                         if (error)
                             return "options." + error;
                     }
@@ -16826,9 +19017,15 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.EnumDescriptorProto} EnumDescriptorProto
                  */
-                EnumDescriptorProto.fromObject = function fromObject(object) {
+                EnumDescriptorProto.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.EnumDescriptorProto)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.EnumDescriptorProto: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.EnumDescriptorProto();
                     if (object.name != null)
                         message.name = String(object.name);
@@ -16837,15 +19034,15 @@
                             throw TypeError(".google.protobuf.EnumDescriptorProto.value: array expected");
                         message.value = [];
                         for (var i = 0; i < object.value.length; ++i) {
-                            if (typeof object.value[i] !== "object")
+                            if (!$util.isObject(object.value[i]))
                                 throw TypeError(".google.protobuf.EnumDescriptorProto.value: object expected");
-                            message.value[i] = $root.google.protobuf.EnumValueDescriptorProto.fromObject(object.value[i]);
+                            message.value[i] = $root.google.protobuf.EnumValueDescriptorProto.fromObject(object.value[i], long + 1);
                         }
                     }
                     if (object.options != null) {
-                        if (typeof object.options !== "object")
+                        if (!$util.isObject(object.options))
                             throw TypeError(".google.protobuf.EnumDescriptorProto.options: object expected");
-                        message.options = $root.google.protobuf.EnumOptions.fromObject(object.options);
+                        message.options = $root.google.protobuf.EnumOptions.fromObject(object.options, long + 1);
                     }
                     return message;
                 };
@@ -16859,9 +19056,13 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                EnumDescriptorProto.toObject = function toObject(message, options) {
+                EnumDescriptorProto.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.value = [];
@@ -16869,15 +19070,15 @@
                         object.name = "";
                         object.options = null;
                     }
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         object.name = message.name;
                     if (message.value && message.value.length) {
                         object.value = [];
                         for (var j = 0; j < message.value.length; ++j)
-                            object.value[j] = $root.google.protobuf.EnumValueDescriptorProto.toObject(message.value[j], options);
+                            object.value[j] = $root.google.protobuf.EnumValueDescriptorProto.toObject(message.value[j], options, q + 1);
                     }
-                    if (message.options != null && message.hasOwnProperty("options"))
-                        object.options = $root.google.protobuf.EnumOptions.toObject(message.options, options);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
+                        object.options = $root.google.protobuf.EnumOptions.toObject(message.options, options, q + 1);
                     return object;
                 };
     
@@ -16932,7 +19133,7 @@
                 function EnumValueDescriptorProto(properties) {
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -16981,15 +19182,19 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                EnumValueDescriptorProto.encode = function encode(message, writer) {
+                EnumValueDescriptorProto.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
                     if (message.number != null && Object.hasOwnProperty.call(message, "number"))
                         writer.uint32(/* id 2, wireType 0 =*/16).int32(message.number);
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
-                        $root.google.protobuf.EnumValueOptions.encode(message.options, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                        $root.google.protobuf.EnumValueOptions.encode(message.options, writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
                     return writer;
                 };
     
@@ -17003,7 +19208,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 EnumValueDescriptorProto.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -17017,10 +19222,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                EnumValueDescriptorProto.decode = function decode(reader, length, error) {
+                EnumValueDescriptorProto.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.EnumValueDescriptorProto();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.EnumValueDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -17035,13 +19254,18 @@
                                 break;
                             }
                         case 3: {
-                                message.options = $root.google.protobuf.EnumValueOptions.decode(reader, reader.uint32());
+                                message.options = $root.google.protobuf.EnumValueOptions.decode(reader, reader.uint32(), undefined, long + 1);
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -17070,17 +19294,21 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                EnumValueDescriptorProto.verify = function verify(message) {
+                EnumValueDescriptorProto.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         if (!$util.isString(message.name))
                             return "name: string expected";
-                    if (message.number != null && message.hasOwnProperty("number"))
+                    if (message.number != null && Object.hasOwnProperty.call(message, "number"))
                         if (!$util.isInteger(message.number))
                             return "number: integer expected";
-                    if (message.options != null && message.hasOwnProperty("options")) {
-                        var error = $root.google.protobuf.EnumValueOptions.verify(message.options);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options")) {
+                        var error = $root.google.protobuf.EnumValueOptions.verify(message.options, long + 1);
                         if (error)
                             return "options." + error;
                     }
@@ -17095,18 +19323,24 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.EnumValueDescriptorProto} EnumValueDescriptorProto
                  */
-                EnumValueDescriptorProto.fromObject = function fromObject(object) {
+                EnumValueDescriptorProto.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.EnumValueDescriptorProto)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.EnumValueDescriptorProto: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.EnumValueDescriptorProto();
                     if (object.name != null)
                         message.name = String(object.name);
                     if (object.number != null)
                         message.number = object.number | 0;
                     if (object.options != null) {
-                        if (typeof object.options !== "object")
+                        if (!$util.isObject(object.options))
                             throw TypeError(".google.protobuf.EnumValueDescriptorProto.options: object expected");
-                        message.options = $root.google.protobuf.EnumValueOptions.fromObject(object.options);
+                        message.options = $root.google.protobuf.EnumValueOptions.fromObject(object.options, long + 1);
                     }
                     return message;
                 };
@@ -17120,21 +19354,25 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                EnumValueDescriptorProto.toObject = function toObject(message, options) {
+                EnumValueDescriptorProto.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.defaults) {
                         object.name = "";
                         object.number = 0;
                         object.options = null;
                     }
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         object.name = message.name;
-                    if (message.number != null && message.hasOwnProperty("number"))
+                    if (message.number != null && Object.hasOwnProperty.call(message, "number"))
                         object.number = message.number;
-                    if (message.options != null && message.hasOwnProperty("options"))
-                        object.options = $root.google.protobuf.EnumValueOptions.toObject(message.options, options);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
+                        object.options = $root.google.protobuf.EnumValueOptions.toObject(message.options, options, q + 1);
                     return object;
                 };
     
@@ -17190,7 +19428,7 @@
                     this.method = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -17239,16 +19477,20 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                ServiceDescriptorProto.encode = function encode(message, writer) {
+                ServiceDescriptorProto.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
                     if (message.method != null && message.method.length)
                         for (var i = 0; i < message.method.length; ++i)
-                            $root.google.protobuf.MethodDescriptorProto.encode(message.method[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                            $root.google.protobuf.MethodDescriptorProto.encode(message.method[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
-                        $root.google.protobuf.ServiceOptions.encode(message.options, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                        $root.google.protobuf.ServiceOptions.encode(message.options, writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
                     return writer;
                 };
     
@@ -17262,7 +19504,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 ServiceDescriptorProto.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -17276,10 +19518,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                ServiceDescriptorProto.decode = function decode(reader, length, error) {
+                ServiceDescriptorProto.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.ServiceDescriptorProto();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.ServiceDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -17292,17 +19548,22 @@
                         case 2: {
                                 if (!(message.method && message.method.length))
                                     message.method = [];
-                                message.method.push($root.google.protobuf.MethodDescriptorProto.decode(reader, reader.uint32()));
+                                message.method.push($root.google.protobuf.MethodDescriptorProto.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         case 3: {
-                                message.options = $root.google.protobuf.ServiceOptions.decode(reader, reader.uint32());
+                                message.options = $root.google.protobuf.ServiceOptions.decode(reader, reader.uint32(), undefined, long + 1);
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -17331,23 +19592,27 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                ServiceDescriptorProto.verify = function verify(message) {
+                ServiceDescriptorProto.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         if (!$util.isString(message.name))
                             return "name: string expected";
-                    if (message.method != null && message.hasOwnProperty("method")) {
+                    if (message.method != null && Object.hasOwnProperty.call(message, "method")) {
                         if (!Array.isArray(message.method))
                             return "method: array expected";
                         for (var i = 0; i < message.method.length; ++i) {
-                            var error = $root.google.protobuf.MethodDescriptorProto.verify(message.method[i]);
+                            var error = $root.google.protobuf.MethodDescriptorProto.verify(message.method[i], long + 1);
                             if (error)
                                 return "method." + error;
                         }
                     }
-                    if (message.options != null && message.hasOwnProperty("options")) {
-                        var error = $root.google.protobuf.ServiceOptions.verify(message.options);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options")) {
+                        var error = $root.google.protobuf.ServiceOptions.verify(message.options, long + 1);
                         if (error)
                             return "options." + error;
                     }
@@ -17362,9 +19627,15 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.ServiceDescriptorProto} ServiceDescriptorProto
                  */
-                ServiceDescriptorProto.fromObject = function fromObject(object) {
+                ServiceDescriptorProto.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.ServiceDescriptorProto)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.ServiceDescriptorProto: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.ServiceDescriptorProto();
                     if (object.name != null)
                         message.name = String(object.name);
@@ -17373,15 +19644,15 @@
                             throw TypeError(".google.protobuf.ServiceDescriptorProto.method: array expected");
                         message.method = [];
                         for (var i = 0; i < object.method.length; ++i) {
-                            if (typeof object.method[i] !== "object")
+                            if (!$util.isObject(object.method[i]))
                                 throw TypeError(".google.protobuf.ServiceDescriptorProto.method: object expected");
-                            message.method[i] = $root.google.protobuf.MethodDescriptorProto.fromObject(object.method[i]);
+                            message.method[i] = $root.google.protobuf.MethodDescriptorProto.fromObject(object.method[i], long + 1);
                         }
                     }
                     if (object.options != null) {
-                        if (typeof object.options !== "object")
+                        if (!$util.isObject(object.options))
                             throw TypeError(".google.protobuf.ServiceDescriptorProto.options: object expected");
-                        message.options = $root.google.protobuf.ServiceOptions.fromObject(object.options);
+                        message.options = $root.google.protobuf.ServiceOptions.fromObject(object.options, long + 1);
                     }
                     return message;
                 };
@@ -17395,9 +19666,13 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                ServiceDescriptorProto.toObject = function toObject(message, options) {
+                ServiceDescriptorProto.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.method = [];
@@ -17405,15 +19680,15 @@
                         object.name = "";
                         object.options = null;
                     }
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         object.name = message.name;
                     if (message.method && message.method.length) {
                         object.method = [];
                         for (var j = 0; j < message.method.length; ++j)
-                            object.method[j] = $root.google.protobuf.MethodDescriptorProto.toObject(message.method[j], options);
+                            object.method[j] = $root.google.protobuf.MethodDescriptorProto.toObject(message.method[j], options, q + 1);
                     }
-                    if (message.options != null && message.hasOwnProperty("options"))
-                        object.options = $root.google.protobuf.ServiceOptions.toObject(message.options, options);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
+                        object.options = $root.google.protobuf.ServiceOptions.toObject(message.options, options, q + 1);
                     return object;
                 };
     
@@ -17469,7 +19744,7 @@
                 function MethodDescriptorProto(properties) {
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -17526,9 +19801,13 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                MethodDescriptorProto.encode = function encode(message, writer) {
+                MethodDescriptorProto.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
                     if (message.input_type != null && Object.hasOwnProperty.call(message, "input_type"))
@@ -17536,7 +19815,7 @@
                     if (message.output_type != null && Object.hasOwnProperty.call(message, "output_type"))
                         writer.uint32(/* id 3, wireType 2 =*/26).string(message.output_type);
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
-                        $root.google.protobuf.MethodOptions.encode(message.options, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                        $root.google.protobuf.MethodOptions.encode(message.options, writer.uint32(/* id 4, wireType 2 =*/34).fork(), q + 1).ldelim();
                     return writer;
                 };
     
@@ -17550,7 +19829,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 MethodDescriptorProto.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -17564,10 +19843,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                MethodDescriptorProto.decode = function decode(reader, length, error) {
+                MethodDescriptorProto.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.MethodDescriptorProto();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.MethodDescriptorProto();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -17586,13 +19879,18 @@
                                 break;
                             }
                         case 4: {
-                                message.options = $root.google.protobuf.MethodOptions.decode(reader, reader.uint32());
+                                message.options = $root.google.protobuf.MethodOptions.decode(reader, reader.uint32(), undefined, long + 1);
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -17621,20 +19919,24 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                MethodDescriptorProto.verify = function verify(message) {
+                MethodDescriptorProto.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         if (!$util.isString(message.name))
                             return "name: string expected";
-                    if (message.input_type != null && message.hasOwnProperty("input_type"))
+                    if (message.input_type != null && Object.hasOwnProperty.call(message, "input_type"))
                         if (!$util.isString(message.input_type))
                             return "input_type: string expected";
-                    if (message.output_type != null && message.hasOwnProperty("output_type"))
+                    if (message.output_type != null && Object.hasOwnProperty.call(message, "output_type"))
                         if (!$util.isString(message.output_type))
                             return "output_type: string expected";
-                    if (message.options != null && message.hasOwnProperty("options")) {
-                        var error = $root.google.protobuf.MethodOptions.verify(message.options);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options")) {
+                        var error = $root.google.protobuf.MethodOptions.verify(message.options, long + 1);
                         if (error)
                             return "options." + error;
                     }
@@ -17649,9 +19951,15 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.MethodDescriptorProto} MethodDescriptorProto
                  */
-                MethodDescriptorProto.fromObject = function fromObject(object) {
+                MethodDescriptorProto.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.MethodDescriptorProto)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.MethodDescriptorProto: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.MethodDescriptorProto();
                     if (object.name != null)
                         message.name = String(object.name);
@@ -17660,9 +19968,9 @@
                     if (object.output_type != null)
                         message.output_type = String(object.output_type);
                     if (object.options != null) {
-                        if (typeof object.options !== "object")
+                        if (!$util.isObject(object.options))
                             throw TypeError(".google.protobuf.MethodDescriptorProto.options: object expected");
-                        message.options = $root.google.protobuf.MethodOptions.fromObject(object.options);
+                        message.options = $root.google.protobuf.MethodOptions.fromObject(object.options, long + 1);
                     }
                     return message;
                 };
@@ -17676,9 +19984,13 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                MethodDescriptorProto.toObject = function toObject(message, options) {
+                MethodDescriptorProto.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.defaults) {
                         object.name = "";
@@ -17686,14 +19998,14 @@
                         object.output_type = "";
                         object.options = null;
                     }
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         object.name = message.name;
-                    if (message.input_type != null && message.hasOwnProperty("input_type"))
+                    if (message.input_type != null && Object.hasOwnProperty.call(message, "input_type"))
                         object.input_type = message.input_type;
-                    if (message.output_type != null && message.hasOwnProperty("output_type"))
+                    if (message.output_type != null && Object.hasOwnProperty.call(message, "output_type"))
                         object.output_type = message.output_type;
-                    if (message.options != null && message.hasOwnProperty("options"))
-                        object.options = $root.google.protobuf.MethodOptions.toObject(message.options, options);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
+                        object.options = $root.google.protobuf.MethodOptions.toObject(message.options, options, q + 1);
                     return object;
                 };
     
@@ -17755,7 +20067,7 @@
                     this.uninterpreted_option = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -17852,9 +20164,13 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                FileOptions.encode = function encode(message, writer) {
+                FileOptions.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.java_package != null && Object.hasOwnProperty.call(message, "java_package"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.java_package);
                     if (message.java_outer_classname != null && Object.hasOwnProperty.call(message, "java_outer_classname"))
@@ -17873,7 +20189,7 @@
                         writer.uint32(/* id 20, wireType 0 =*/160).bool(message.java_generate_equals_and_hash);
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
-                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
+                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
                     return writer;
                 };
     
@@ -17887,7 +20203,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 FileOptions.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -17901,10 +20217,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FileOptions.decode = function decode(reader, length, error) {
+                FileOptions.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FileOptions();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.FileOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -17945,13 +20275,18 @@
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
-                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
+                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -17980,22 +20315,26 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                FileOptions.verify = function verify(message) {
+                FileOptions.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.java_package != null && message.hasOwnProperty("java_package"))
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.java_package != null && Object.hasOwnProperty.call(message, "java_package"))
                         if (!$util.isString(message.java_package))
                             return "java_package: string expected";
-                    if (message.java_outer_classname != null && message.hasOwnProperty("java_outer_classname"))
+                    if (message.java_outer_classname != null && Object.hasOwnProperty.call(message, "java_outer_classname"))
                         if (!$util.isString(message.java_outer_classname))
                             return "java_outer_classname: string expected";
-                    if (message.java_multiple_files != null && message.hasOwnProperty("java_multiple_files"))
+                    if (message.java_multiple_files != null && Object.hasOwnProperty.call(message, "java_multiple_files"))
                         if (typeof message.java_multiple_files !== "boolean")
                             return "java_multiple_files: boolean expected";
-                    if (message.java_generate_equals_and_hash != null && message.hasOwnProperty("java_generate_equals_and_hash"))
+                    if (message.java_generate_equals_and_hash != null && Object.hasOwnProperty.call(message, "java_generate_equals_and_hash"))
                         if (typeof message.java_generate_equals_and_hash !== "boolean")
                             return "java_generate_equals_and_hash: boolean expected";
-                    if (message.optimize_for != null && message.hasOwnProperty("optimize_for"))
+                    if (message.optimize_for != null && Object.hasOwnProperty.call(message, "optimize_for"))
                         switch (message.optimize_for) {
                         default:
                             return "optimize_for: enum value expected";
@@ -18004,20 +20343,20 @@
                         case 3:
                             break;
                         }
-                    if (message.cc_generic_services != null && message.hasOwnProperty("cc_generic_services"))
+                    if (message.cc_generic_services != null && Object.hasOwnProperty.call(message, "cc_generic_services"))
                         if (typeof message.cc_generic_services !== "boolean")
                             return "cc_generic_services: boolean expected";
-                    if (message.java_generic_services != null && message.hasOwnProperty("java_generic_services"))
+                    if (message.java_generic_services != null && Object.hasOwnProperty.call(message, "java_generic_services"))
                         if (typeof message.java_generic_services !== "boolean")
                             return "java_generic_services: boolean expected";
-                    if (message.py_generic_services != null && message.hasOwnProperty("py_generic_services"))
+                    if (message.py_generic_services != null && Object.hasOwnProperty.call(message, "py_generic_services"))
                         if (typeof message.py_generic_services !== "boolean")
                             return "py_generic_services: boolean expected";
-                    if (message.uninterpreted_option != null && message.hasOwnProperty("uninterpreted_option")) {
+                    if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
                         if (!Array.isArray(message.uninterpreted_option))
                             return "uninterpreted_option: array expected";
                         for (var i = 0; i < message.uninterpreted_option.length; ++i) {
-                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i]);
+                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i], long + 1);
                             if (error)
                                 return "uninterpreted_option." + error;
                         }
@@ -18033,9 +20372,15 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.FileOptions} FileOptions
                  */
-                FileOptions.fromObject = function fromObject(object) {
+                FileOptions.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.FileOptions)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.FileOptions: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.FileOptions();
                     if (object.java_package != null)
                         message.java_package = String(object.java_package);
@@ -18076,9 +20421,9 @@
                             throw TypeError(".google.protobuf.FileOptions.uninterpreted_option: array expected");
                         message.uninterpreted_option = [];
                         for (var i = 0; i < object.uninterpreted_option.length; ++i) {
-                            if (typeof object.uninterpreted_option[i] !== "object")
+                            if (!$util.isObject(object.uninterpreted_option[i]))
                                 throw TypeError(".google.protobuf.FileOptions.uninterpreted_option: object expected");
-                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i]);
+                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i], long + 1);
                         }
                     }
                     return message;
@@ -18093,9 +20438,13 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                FileOptions.toObject = function toObject(message, options) {
+                FileOptions.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
@@ -18109,26 +20458,26 @@
                         object.py_generic_services = false;
                         object.java_generate_equals_and_hash = false;
                     }
-                    if (message.java_package != null && message.hasOwnProperty("java_package"))
+                    if (message.java_package != null && Object.hasOwnProperty.call(message, "java_package"))
                         object.java_package = message.java_package;
-                    if (message.java_outer_classname != null && message.hasOwnProperty("java_outer_classname"))
+                    if (message.java_outer_classname != null && Object.hasOwnProperty.call(message, "java_outer_classname"))
                         object.java_outer_classname = message.java_outer_classname;
-                    if (message.optimize_for != null && message.hasOwnProperty("optimize_for"))
+                    if (message.optimize_for != null && Object.hasOwnProperty.call(message, "optimize_for"))
                         object.optimize_for = options.enums === String ? $root.google.protobuf.FileOptions.OptimizeMode[message.optimize_for] === undefined ? message.optimize_for : $root.google.protobuf.FileOptions.OptimizeMode[message.optimize_for] : message.optimize_for;
-                    if (message.java_multiple_files != null && message.hasOwnProperty("java_multiple_files"))
+                    if (message.java_multiple_files != null && Object.hasOwnProperty.call(message, "java_multiple_files"))
                         object.java_multiple_files = message.java_multiple_files;
-                    if (message.cc_generic_services != null && message.hasOwnProperty("cc_generic_services"))
+                    if (message.cc_generic_services != null && Object.hasOwnProperty.call(message, "cc_generic_services"))
                         object.cc_generic_services = message.cc_generic_services;
-                    if (message.java_generic_services != null && message.hasOwnProperty("java_generic_services"))
+                    if (message.java_generic_services != null && Object.hasOwnProperty.call(message, "java_generic_services"))
                         object.java_generic_services = message.java_generic_services;
-                    if (message.py_generic_services != null && message.hasOwnProperty("py_generic_services"))
+                    if (message.py_generic_services != null && Object.hasOwnProperty.call(message, "py_generic_services"))
                         object.py_generic_services = message.py_generic_services;
-                    if (message.java_generate_equals_and_hash != null && message.hasOwnProperty("java_generate_equals_and_hash"))
+                    if (message.java_generate_equals_and_hash != null && Object.hasOwnProperty.call(message, "java_generate_equals_and_hash"))
                         object.java_generate_equals_and_hash = message.java_generate_equals_and_hash;
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
-                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options);
+                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options, q + 1);
                     }
                     return object;
                 };
@@ -18203,7 +20552,7 @@
                     this.uninterpreted_option = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -18268,16 +20617,20 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                MessageOptions.encode = function encode(message, writer) {
+                MessageOptions.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.message_set_wire_format != null && Object.hasOwnProperty.call(message, "message_set_wire_format"))
                         writer.uint32(/* id 1, wireType 0 =*/8).bool(message.message_set_wire_format);
                     if (message.no_standard_descriptor_accessor != null && Object.hasOwnProperty.call(message, "no_standard_descriptor_accessor"))
                         writer.uint32(/* id 2, wireType 0 =*/16).bool(message.no_standard_descriptor_accessor);
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
-                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
+                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
                     if (message[".msgpool_soft_limit"] != null && Object.hasOwnProperty.call(message, ".msgpool_soft_limit"))
                         writer.uint32(/* id 60000, wireType 0 =*/480000).int32(message[".msgpool_soft_limit"]);
                     if (message[".msgpool_hard_limit"] != null && Object.hasOwnProperty.call(message, ".msgpool_hard_limit"))
@@ -18295,7 +20648,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 MessageOptions.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -18309,10 +20662,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                MessageOptions.decode = function decode(reader, length, error) {
+                MessageOptions.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.MessageOptions();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.MessageOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -18329,7 +20696,7 @@
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
-                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
+                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         case 60000: {
@@ -18341,9 +20708,14 @@
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -18372,28 +20744,32 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                MessageOptions.verify = function verify(message) {
+                MessageOptions.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.message_set_wire_format != null && message.hasOwnProperty("message_set_wire_format"))
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.message_set_wire_format != null && Object.hasOwnProperty.call(message, "message_set_wire_format"))
                         if (typeof message.message_set_wire_format !== "boolean")
                             return "message_set_wire_format: boolean expected";
-                    if (message.no_standard_descriptor_accessor != null && message.hasOwnProperty("no_standard_descriptor_accessor"))
+                    if (message.no_standard_descriptor_accessor != null && Object.hasOwnProperty.call(message, "no_standard_descriptor_accessor"))
                         if (typeof message.no_standard_descriptor_accessor !== "boolean")
                             return "no_standard_descriptor_accessor: boolean expected";
-                    if (message.uninterpreted_option != null && message.hasOwnProperty("uninterpreted_option")) {
+                    if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
                         if (!Array.isArray(message.uninterpreted_option))
                             return "uninterpreted_option: array expected";
                         for (var i = 0; i < message.uninterpreted_option.length; ++i) {
-                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i]);
+                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i], long + 1);
                             if (error)
                                 return "uninterpreted_option." + error;
                         }
                     }
-                    if (message[".msgpool_soft_limit"] != null && message.hasOwnProperty(".msgpool_soft_limit"))
+                    if (message[".msgpool_soft_limit"] != null && Object.hasOwnProperty.call(message, ".msgpool_soft_limit"))
                         if (!$util.isInteger(message[".msgpool_soft_limit"]))
                             return ".msgpool_soft_limit: integer expected";
-                    if (message[".msgpool_hard_limit"] != null && message.hasOwnProperty(".msgpool_hard_limit"))
+                    if (message[".msgpool_hard_limit"] != null && Object.hasOwnProperty.call(message, ".msgpool_hard_limit"))
                         if (!$util.isInteger(message[".msgpool_hard_limit"]))
                             return ".msgpool_hard_limit: integer expected";
                     return null;
@@ -18407,9 +20783,15 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.MessageOptions} MessageOptions
                  */
-                MessageOptions.fromObject = function fromObject(object) {
+                MessageOptions.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.MessageOptions)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.MessageOptions: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.MessageOptions();
                     if (object.message_set_wire_format != null)
                         message.message_set_wire_format = Boolean(object.message_set_wire_format);
@@ -18420,9 +20802,9 @@
                             throw TypeError(".google.protobuf.MessageOptions.uninterpreted_option: array expected");
                         message.uninterpreted_option = [];
                         for (var i = 0; i < object.uninterpreted_option.length; ++i) {
-                            if (typeof object.uninterpreted_option[i] !== "object")
+                            if (!$util.isObject(object.uninterpreted_option[i]))
                                 throw TypeError(".google.protobuf.MessageOptions.uninterpreted_option: object expected");
-                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i]);
+                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i], long + 1);
                         }
                     }
                     if (object[".msgpool_soft_limit"] != null)
@@ -18441,9 +20823,13 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                MessageOptions.toObject = function toObject(message, options) {
+                MessageOptions.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
@@ -18453,18 +20839,18 @@
                         object[".msgpool_soft_limit"] = 32;
                         object[".msgpool_hard_limit"] = 384;
                     }
-                    if (message.message_set_wire_format != null && message.hasOwnProperty("message_set_wire_format"))
+                    if (message.message_set_wire_format != null && Object.hasOwnProperty.call(message, "message_set_wire_format"))
                         object.message_set_wire_format = message.message_set_wire_format;
-                    if (message.no_standard_descriptor_accessor != null && message.hasOwnProperty("no_standard_descriptor_accessor"))
+                    if (message.no_standard_descriptor_accessor != null && Object.hasOwnProperty.call(message, "no_standard_descriptor_accessor"))
                         object.no_standard_descriptor_accessor = message.no_standard_descriptor_accessor;
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
-                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options);
+                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options, q + 1);
                     }
-                    if (message[".msgpool_soft_limit"] != null && message.hasOwnProperty(".msgpool_soft_limit"))
+                    if (message[".msgpool_soft_limit"] != null && Object.hasOwnProperty.call(message, ".msgpool_soft_limit"))
                         object[".msgpool_soft_limit"] = message[".msgpool_soft_limit"];
-                    if (message[".msgpool_hard_limit"] != null && message.hasOwnProperty(".msgpool_hard_limit"))
+                    if (message[".msgpool_hard_limit"] != null && Object.hasOwnProperty.call(message, ".msgpool_hard_limit"))
                         object[".msgpool_hard_limit"] = message[".msgpool_hard_limit"];
                     return object;
                 };
@@ -18524,7 +20910,7 @@
                     this.uninterpreted_option = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -18597,9 +20983,13 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                FieldOptions.encode = function encode(message, writer) {
+                FieldOptions.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.ctype != null && Object.hasOwnProperty.call(message, "ctype"))
                         writer.uint32(/* id 1, wireType 0 =*/8).int32(message.ctype);
                     if (message.packed != null && Object.hasOwnProperty.call(message, "packed"))
@@ -18610,7 +21000,7 @@
                         writer.uint32(/* id 9, wireType 2 =*/74).string(message.experimental_map_key);
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
-                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
+                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
                     if (message[".key_field"] != null && Object.hasOwnProperty.call(message, ".key_field"))
                         writer.uint32(/* id 60000, wireType 0 =*/480000).bool(message[".key_field"]);
                     return writer;
@@ -18626,7 +21016,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 FieldOptions.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -18640,10 +21030,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                FieldOptions.decode = function decode(reader, length, error) {
+                FieldOptions.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.FieldOptions();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.FieldOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -18668,7 +21072,7 @@
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
-                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
+                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         case 60000: {
@@ -18676,9 +21080,14 @@
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -18707,10 +21116,14 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                FieldOptions.verify = function verify(message) {
+                FieldOptions.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.ctype != null && message.hasOwnProperty("ctype"))
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.ctype != null && Object.hasOwnProperty.call(message, "ctype"))
                         switch (message.ctype) {
                         default:
                             return "ctype: enum value expected";
@@ -18719,25 +21132,25 @@
                         case 2:
                             break;
                         }
-                    if (message.packed != null && message.hasOwnProperty("packed"))
+                    if (message.packed != null && Object.hasOwnProperty.call(message, "packed"))
                         if (typeof message.packed !== "boolean")
                             return "packed: boolean expected";
-                    if (message.deprecated != null && message.hasOwnProperty("deprecated"))
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
                         if (typeof message.deprecated !== "boolean")
                             return "deprecated: boolean expected";
-                    if (message.experimental_map_key != null && message.hasOwnProperty("experimental_map_key"))
+                    if (message.experimental_map_key != null && Object.hasOwnProperty.call(message, "experimental_map_key"))
                         if (!$util.isString(message.experimental_map_key))
                             return "experimental_map_key: string expected";
-                    if (message.uninterpreted_option != null && message.hasOwnProperty("uninterpreted_option")) {
+                    if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
                         if (!Array.isArray(message.uninterpreted_option))
                             return "uninterpreted_option: array expected";
                         for (var i = 0; i < message.uninterpreted_option.length; ++i) {
-                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i]);
+                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i], long + 1);
                             if (error)
                                 return "uninterpreted_option." + error;
                         }
                     }
-                    if (message[".key_field"] != null && message.hasOwnProperty(".key_field"))
+                    if (message[".key_field"] != null && Object.hasOwnProperty.call(message, ".key_field"))
                         if (typeof message[".key_field"] !== "boolean")
                             return ".key_field: boolean expected";
                     return null;
@@ -18751,9 +21164,15 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.FieldOptions} FieldOptions
                  */
-                FieldOptions.fromObject = function fromObject(object) {
+                FieldOptions.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.FieldOptions)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.FieldOptions: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.FieldOptions();
                     switch (object.ctype) {
                     default:
@@ -18786,9 +21205,9 @@
                             throw TypeError(".google.protobuf.FieldOptions.uninterpreted_option: array expected");
                         message.uninterpreted_option = [];
                         for (var i = 0; i < object.uninterpreted_option.length; ++i) {
-                            if (typeof object.uninterpreted_option[i] !== "object")
+                            if (!$util.isObject(object.uninterpreted_option[i]))
                                 throw TypeError(".google.protobuf.FieldOptions.uninterpreted_option: object expected");
-                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i]);
+                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i], long + 1);
                         }
                     }
                     if (object[".key_field"] != null)
@@ -18805,9 +21224,13 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                FieldOptions.toObject = function toObject(message, options) {
+                FieldOptions.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
@@ -18818,20 +21241,20 @@
                         object.experimental_map_key = "";
                         object[".key_field"] = false;
                     }
-                    if (message.ctype != null && message.hasOwnProperty("ctype"))
+                    if (message.ctype != null && Object.hasOwnProperty.call(message, "ctype"))
                         object.ctype = options.enums === String ? $root.google.protobuf.FieldOptions.CType[message.ctype] === undefined ? message.ctype : $root.google.protobuf.FieldOptions.CType[message.ctype] : message.ctype;
-                    if (message.packed != null && message.hasOwnProperty("packed"))
+                    if (message.packed != null && Object.hasOwnProperty.call(message, "packed"))
                         object.packed = message.packed;
-                    if (message.deprecated != null && message.hasOwnProperty("deprecated"))
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
                         object.deprecated = message.deprecated;
-                    if (message.experimental_map_key != null && message.hasOwnProperty("experimental_map_key"))
+                    if (message.experimental_map_key != null && Object.hasOwnProperty.call(message, "experimental_map_key"))
                         object.experimental_map_key = message.experimental_map_key;
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
-                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options);
+                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options, q + 1);
                     }
-                    if (message[".key_field"] != null && message.hasOwnProperty(".key_field"))
+                    if (message[".key_field"] != null && Object.hasOwnProperty.call(message, ".key_field"))
                         object[".key_field"] = message[".key_field"];
                     return object;
                 };
@@ -18902,7 +21325,7 @@
                     this.uninterpreted_option = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -18935,12 +21358,16 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                EnumOptions.encode = function encode(message, writer) {
+                EnumOptions.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
-                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
+                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
                     return writer;
                 };
     
@@ -18954,7 +21381,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 EnumOptions.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -18968,10 +21395,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                EnumOptions.decode = function decode(reader, length, error) {
+                EnumOptions.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.EnumOptions();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.EnumOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -18980,13 +21421,18 @@
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
-                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
+                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -19015,14 +21461,18 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                EnumOptions.verify = function verify(message) {
+                EnumOptions.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.uninterpreted_option != null && message.hasOwnProperty("uninterpreted_option")) {
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
                         if (!Array.isArray(message.uninterpreted_option))
                             return "uninterpreted_option: array expected";
                         for (var i = 0; i < message.uninterpreted_option.length; ++i) {
-                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i]);
+                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i], long + 1);
                             if (error)
                                 return "uninterpreted_option." + error;
                         }
@@ -19038,18 +21488,24 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.EnumOptions} EnumOptions
                  */
-                EnumOptions.fromObject = function fromObject(object) {
+                EnumOptions.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.EnumOptions)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.EnumOptions: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.EnumOptions();
                     if (object.uninterpreted_option) {
                         if (!Array.isArray(object.uninterpreted_option))
                             throw TypeError(".google.protobuf.EnumOptions.uninterpreted_option: array expected");
                         message.uninterpreted_option = [];
                         for (var i = 0; i < object.uninterpreted_option.length; ++i) {
-                            if (typeof object.uninterpreted_option[i] !== "object")
+                            if (!$util.isObject(object.uninterpreted_option[i]))
                                 throw TypeError(".google.protobuf.EnumOptions.uninterpreted_option: object expected");
-                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i]);
+                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i], long + 1);
                         }
                     }
                     return message;
@@ -19064,16 +21520,20 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                EnumOptions.toObject = function toObject(message, options) {
+                EnumOptions.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
-                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options);
+                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options, q + 1);
                     }
                     return object;
                 };
@@ -19128,7 +21588,7 @@
                     this.uninterpreted_option = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -19161,12 +21621,16 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                EnumValueOptions.encode = function encode(message, writer) {
+                EnumValueOptions.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
-                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
+                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
                     return writer;
                 };
     
@@ -19180,7 +21644,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 EnumValueOptions.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -19194,10 +21658,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                EnumValueOptions.decode = function decode(reader, length, error) {
+                EnumValueOptions.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.EnumValueOptions();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.EnumValueOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -19206,13 +21684,18 @@
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
-                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
+                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -19241,14 +21724,18 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                EnumValueOptions.verify = function verify(message) {
+                EnumValueOptions.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.uninterpreted_option != null && message.hasOwnProperty("uninterpreted_option")) {
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
                         if (!Array.isArray(message.uninterpreted_option))
                             return "uninterpreted_option: array expected";
                         for (var i = 0; i < message.uninterpreted_option.length; ++i) {
-                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i]);
+                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i], long + 1);
                             if (error)
                                 return "uninterpreted_option." + error;
                         }
@@ -19264,18 +21751,24 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.EnumValueOptions} EnumValueOptions
                  */
-                EnumValueOptions.fromObject = function fromObject(object) {
+                EnumValueOptions.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.EnumValueOptions)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.EnumValueOptions: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.EnumValueOptions();
                     if (object.uninterpreted_option) {
                         if (!Array.isArray(object.uninterpreted_option))
                             throw TypeError(".google.protobuf.EnumValueOptions.uninterpreted_option: array expected");
                         message.uninterpreted_option = [];
                         for (var i = 0; i < object.uninterpreted_option.length; ++i) {
-                            if (typeof object.uninterpreted_option[i] !== "object")
+                            if (!$util.isObject(object.uninterpreted_option[i]))
                                 throw TypeError(".google.protobuf.EnumValueOptions.uninterpreted_option: object expected");
-                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i]);
+                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i], long + 1);
                         }
                     }
                     return message;
@@ -19290,16 +21783,20 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                EnumValueOptions.toObject = function toObject(message, options) {
+                EnumValueOptions.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
-                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options);
+                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options, q + 1);
                     }
                     return object;
                 };
@@ -19354,7 +21851,7 @@
                     this.uninterpreted_option = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -19387,12 +21884,16 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                ServiceOptions.encode = function encode(message, writer) {
+                ServiceOptions.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
-                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
+                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
                     return writer;
                 };
     
@@ -19406,7 +21907,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 ServiceOptions.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -19420,10 +21921,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                ServiceOptions.decode = function decode(reader, length, error) {
+                ServiceOptions.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.ServiceOptions();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.ServiceOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -19432,13 +21947,18 @@
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
-                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
+                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -19467,14 +21987,18 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                ServiceOptions.verify = function verify(message) {
+                ServiceOptions.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.uninterpreted_option != null && message.hasOwnProperty("uninterpreted_option")) {
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
                         if (!Array.isArray(message.uninterpreted_option))
                             return "uninterpreted_option: array expected";
                         for (var i = 0; i < message.uninterpreted_option.length; ++i) {
-                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i]);
+                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i], long + 1);
                             if (error)
                                 return "uninterpreted_option." + error;
                         }
@@ -19490,18 +22014,24 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.ServiceOptions} ServiceOptions
                  */
-                ServiceOptions.fromObject = function fromObject(object) {
+                ServiceOptions.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.ServiceOptions)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.ServiceOptions: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.ServiceOptions();
                     if (object.uninterpreted_option) {
                         if (!Array.isArray(object.uninterpreted_option))
                             throw TypeError(".google.protobuf.ServiceOptions.uninterpreted_option: array expected");
                         message.uninterpreted_option = [];
                         for (var i = 0; i < object.uninterpreted_option.length; ++i) {
-                            if (typeof object.uninterpreted_option[i] !== "object")
+                            if (!$util.isObject(object.uninterpreted_option[i]))
                                 throw TypeError(".google.protobuf.ServiceOptions.uninterpreted_option: object expected");
-                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i]);
+                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i], long + 1);
                         }
                     }
                     return message;
@@ -19516,16 +22046,20 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                ServiceOptions.toObject = function toObject(message, options) {
+                ServiceOptions.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
-                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options);
+                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options, q + 1);
                     }
                     return object;
                 };
@@ -19580,7 +22114,7 @@
                     this.uninterpreted_option = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -19613,12 +22147,16 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                MethodOptions.encode = function encode(message, writer) {
+                MethodOptions.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
-                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
+                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
                     return writer;
                 };
     
@@ -19632,7 +22170,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 MethodOptions.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -19646,10 +22184,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                MethodOptions.decode = function decode(reader, length, error) {
+                MethodOptions.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.MethodOptions();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.MethodOptions();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -19658,13 +22210,18 @@
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
-                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32()));
+                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -19693,14 +22250,18 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                MethodOptions.verify = function verify(message) {
+                MethodOptions.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.uninterpreted_option != null && message.hasOwnProperty("uninterpreted_option")) {
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
                         if (!Array.isArray(message.uninterpreted_option))
                             return "uninterpreted_option: array expected";
                         for (var i = 0; i < message.uninterpreted_option.length; ++i) {
-                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i]);
+                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i], long + 1);
                             if (error)
                                 return "uninterpreted_option." + error;
                         }
@@ -19716,18 +22277,24 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.MethodOptions} MethodOptions
                  */
-                MethodOptions.fromObject = function fromObject(object) {
+                MethodOptions.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.MethodOptions)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.MethodOptions: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.MethodOptions();
                     if (object.uninterpreted_option) {
                         if (!Array.isArray(object.uninterpreted_option))
                             throw TypeError(".google.protobuf.MethodOptions.uninterpreted_option: array expected");
                         message.uninterpreted_option = [];
                         for (var i = 0; i < object.uninterpreted_option.length; ++i) {
-                            if (typeof object.uninterpreted_option[i] !== "object")
+                            if (!$util.isObject(object.uninterpreted_option[i]))
                                 throw TypeError(".google.protobuf.MethodOptions.uninterpreted_option: object expected");
-                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i]);
+                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i], long + 1);
                         }
                     }
                     return message;
@@ -19742,16 +22309,20 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                MethodOptions.toObject = function toObject(message, options) {
+                MethodOptions.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
-                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options);
+                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options, q + 1);
                     }
                     return object;
                 };
@@ -19812,7 +22383,7 @@
                     this.name = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -19893,12 +22464,16 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                UninterpretedOption.encode = function encode(message, writer) {
+                UninterpretedOption.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.name != null && message.name.length)
                         for (var i = 0; i < message.name.length; ++i)
-                            $root.google.protobuf.UninterpretedOption.NamePart.encode(message.name[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                            $root.google.protobuf.UninterpretedOption.NamePart.encode(message.name[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
                     if (message.identifier_value != null && Object.hasOwnProperty.call(message, "identifier_value"))
                         writer.uint32(/* id 3, wireType 2 =*/26).string(message.identifier_value);
                     if (message.positive_int_value != null && Object.hasOwnProperty.call(message, "positive_int_value"))
@@ -19924,7 +22499,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 UninterpretedOption.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -19938,10 +22513,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                UninterpretedOption.decode = function decode(reader, length, error) {
+                UninterpretedOption.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.UninterpretedOption();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.UninterpretedOption();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -19950,7 +22539,7 @@
                         case 2: {
                                 if (!(message.name && message.name.length))
                                     message.name = [];
-                                message.name.push($root.google.protobuf.UninterpretedOption.NamePart.decode(reader, reader.uint32()));
+                                message.name.push($root.google.protobuf.UninterpretedOption.NamePart.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         case 3: {
@@ -19978,9 +22567,14 @@
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -20009,34 +22603,38 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                UninterpretedOption.verify = function verify(message) {
+                UninterpretedOption.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.name != null && message.hasOwnProperty("name")) {
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name")) {
                         if (!Array.isArray(message.name))
                             return "name: array expected";
                         for (var i = 0; i < message.name.length; ++i) {
-                            var error = $root.google.protobuf.UninterpretedOption.NamePart.verify(message.name[i]);
+                            var error = $root.google.protobuf.UninterpretedOption.NamePart.verify(message.name[i], long + 1);
                             if (error)
                                 return "name." + error;
                         }
                     }
-                    if (message.identifier_value != null && message.hasOwnProperty("identifier_value"))
+                    if (message.identifier_value != null && Object.hasOwnProperty.call(message, "identifier_value"))
                         if (!$util.isString(message.identifier_value))
                             return "identifier_value: string expected";
-                    if (message.positive_int_value != null && message.hasOwnProperty("positive_int_value"))
+                    if (message.positive_int_value != null && Object.hasOwnProperty.call(message, "positive_int_value"))
                         if (!$util.isInteger(message.positive_int_value) && !(message.positive_int_value && $util.isInteger(message.positive_int_value.low) && $util.isInteger(message.positive_int_value.high)))
                             return "positive_int_value: integer|Long expected";
-                    if (message.negative_int_value != null && message.hasOwnProperty("negative_int_value"))
+                    if (message.negative_int_value != null && Object.hasOwnProperty.call(message, "negative_int_value"))
                         if (!$util.isInteger(message.negative_int_value) && !(message.negative_int_value && $util.isInteger(message.negative_int_value.low) && $util.isInteger(message.negative_int_value.high)))
                             return "negative_int_value: integer|Long expected";
-                    if (message.double_value != null && message.hasOwnProperty("double_value"))
+                    if (message.double_value != null && Object.hasOwnProperty.call(message, "double_value"))
                         if (typeof message.double_value !== "number")
                             return "double_value: number expected";
-                    if (message.string_value != null && message.hasOwnProperty("string_value"))
+                    if (message.string_value != null && Object.hasOwnProperty.call(message, "string_value"))
                         if (!(message.string_value && typeof message.string_value.length === "number" || $util.isString(message.string_value)))
                             return "string_value: buffer expected";
-                    if (message.aggregate_value != null && message.hasOwnProperty("aggregate_value"))
+                    if (message.aggregate_value != null && Object.hasOwnProperty.call(message, "aggregate_value"))
                         if (!$util.isString(message.aggregate_value))
                             return "aggregate_value: string expected";
                     return null;
@@ -20050,25 +22648,31 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.UninterpretedOption} UninterpretedOption
                  */
-                UninterpretedOption.fromObject = function fromObject(object) {
+                UninterpretedOption.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.UninterpretedOption)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.UninterpretedOption: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.UninterpretedOption();
                     if (object.name) {
                         if (!Array.isArray(object.name))
                             throw TypeError(".google.protobuf.UninterpretedOption.name: array expected");
                         message.name = [];
                         for (var i = 0; i < object.name.length; ++i) {
-                            if (typeof object.name[i] !== "object")
+                            if (!$util.isObject(object.name[i]))
                                 throw TypeError(".google.protobuf.UninterpretedOption.name: object expected");
-                            message.name[i] = $root.google.protobuf.UninterpretedOption.NamePart.fromObject(object.name[i]);
+                            message.name[i] = $root.google.protobuf.UninterpretedOption.NamePart.fromObject(object.name[i], long + 1);
                         }
                     }
                     if (object.identifier_value != null)
                         message.identifier_value = String(object.identifier_value);
                     if (object.positive_int_value != null)
                         if ($util.Long)
-                            (message.positive_int_value = $util.Long.fromValue(object.positive_int_value)).unsigned = true;
+                            message.positive_int_value = $util.Long.fromValue(object.positive_int_value, true);
                         else if (typeof object.positive_int_value === "string")
                             message.positive_int_value = parseInt(object.positive_int_value, 10);
                         else if (typeof object.positive_int_value === "number")
@@ -20077,7 +22681,7 @@
                             message.positive_int_value = new $util.LongBits(object.positive_int_value.low >>> 0, object.positive_int_value.high >>> 0).toNumber(true);
                     if (object.negative_int_value != null)
                         if ($util.Long)
-                            (message.negative_int_value = $util.Long.fromValue(object.negative_int_value)).unsigned = false;
+                            message.negative_int_value = $util.Long.fromValue(object.negative_int_value, false);
                         else if (typeof object.negative_int_value === "string")
                             message.negative_int_value = parseInt(object.negative_int_value, 10);
                         else if (typeof object.negative_int_value === "number")
@@ -20105,9 +22709,13 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                UninterpretedOption.toObject = function toObject(message, options) {
+                UninterpretedOption.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.name = [];
@@ -20115,14 +22723,14 @@
                         object.identifier_value = "";
                         if ($util.Long) {
                             var long = new $util.Long(0, 0, true);
-                            object.positive_int_value = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                            object.positive_int_value = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                         } else
-                            object.positive_int_value = options.longs === String ? "0" : 0;
+                            object.positive_int_value = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                         if ($util.Long) {
                             var long = new $util.Long(0, 0, false);
-                            object.negative_int_value = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                            object.negative_int_value = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                         } else
-                            object.negative_int_value = options.longs === String ? "0" : 0;
+                            object.negative_int_value = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                         object.double_value = 0;
                         if (options.bytes === String)
                             object.string_value = "";
@@ -20136,25 +22744,29 @@
                     if (message.name && message.name.length) {
                         object.name = [];
                         for (var j = 0; j < message.name.length; ++j)
-                            object.name[j] = $root.google.protobuf.UninterpretedOption.NamePart.toObject(message.name[j], options);
+                            object.name[j] = $root.google.protobuf.UninterpretedOption.NamePart.toObject(message.name[j], options, q + 1);
                     }
-                    if (message.identifier_value != null && message.hasOwnProperty("identifier_value"))
+                    if (message.identifier_value != null && Object.hasOwnProperty.call(message, "identifier_value"))
                         object.identifier_value = message.identifier_value;
-                    if (message.positive_int_value != null && message.hasOwnProperty("positive_int_value"))
-                        if (typeof message.positive_int_value === "number")
+                    if (message.positive_int_value != null && Object.hasOwnProperty.call(message, "positive_int_value"))
+                        if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                            object.positive_int_value = typeof message.positive_int_value === "number" ? BigInt(message.positive_int_value) : $util.Long.fromBits(message.positive_int_value.low >>> 0, message.positive_int_value.high >>> 0, true).toBigInt();
+                        else if (typeof message.positive_int_value === "number")
                             object.positive_int_value = options.longs === String ? String(message.positive_int_value) : message.positive_int_value;
                         else
                             object.positive_int_value = options.longs === String ? $util.Long.prototype.toString.call(message.positive_int_value) : options.longs === Number ? new $util.LongBits(message.positive_int_value.low >>> 0, message.positive_int_value.high >>> 0).toNumber(true) : message.positive_int_value;
-                    if (message.negative_int_value != null && message.hasOwnProperty("negative_int_value"))
-                        if (typeof message.negative_int_value === "number")
+                    if (message.negative_int_value != null && Object.hasOwnProperty.call(message, "negative_int_value"))
+                        if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                            object.negative_int_value = typeof message.negative_int_value === "number" ? BigInt(message.negative_int_value) : $util.Long.fromBits(message.negative_int_value.low >>> 0, message.negative_int_value.high >>> 0, false).toBigInt();
+                        else if (typeof message.negative_int_value === "number")
                             object.negative_int_value = options.longs === String ? String(message.negative_int_value) : message.negative_int_value;
                         else
                             object.negative_int_value = options.longs === String ? $util.Long.prototype.toString.call(message.negative_int_value) : options.longs === Number ? new $util.LongBits(message.negative_int_value.low >>> 0, message.negative_int_value.high >>> 0).toNumber() : message.negative_int_value;
-                    if (message.double_value != null && message.hasOwnProperty("double_value"))
+                    if (message.double_value != null && Object.hasOwnProperty.call(message, "double_value"))
                         object.double_value = options.json && !isFinite(message.double_value) ? String(message.double_value) : message.double_value;
-                    if (message.string_value != null && message.hasOwnProperty("string_value"))
+                    if (message.string_value != null && Object.hasOwnProperty.call(message, "string_value"))
                         object.string_value = options.bytes === String ? $util.base64.encode(message.string_value, 0, message.string_value.length) : options.bytes === Array ? Array.prototype.slice.call(message.string_value) : message.string_value;
-                    if (message.aggregate_value != null && message.hasOwnProperty("aggregate_value"))
+                    if (message.aggregate_value != null && Object.hasOwnProperty.call(message, "aggregate_value"))
                         object.aggregate_value = message.aggregate_value;
                     return object;
                 };
@@ -20206,7 +22818,7 @@
                     function NamePart(properties) {
                         if (properties)
                             for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                                if (properties[keys[i]] != null)
+                                if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                     this[keys[i]] = properties[keys[i]];
                     }
     
@@ -20247,9 +22859,13 @@
                      * @param {$protobuf.Writer} [writer] Writer to encode to
                      * @returns {$protobuf.Writer} Writer
                      */
-                    NamePart.encode = function encode(message, writer) {
+                    NamePart.encode = function encode(message, writer, q) {
                         if (!writer)
                             writer = $Writer.create();
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $util.recursionLimit)
+                            throw Error("max depth exceeded");
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name_part);
                         writer.uint32(/* id 2, wireType 0 =*/16).bool(message.is_extension);
                         return writer;
@@ -20265,7 +22881,7 @@
                      * @returns {$protobuf.Writer} Writer
                      */
                     NamePart.encodeDelimited = function encodeDelimited(message, writer) {
-                        return this.encode(message, writer).ldelim();
+                        return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                     };
     
                     /**
@@ -20279,10 +22895,24 @@
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    NamePart.decode = function decode(reader, length, error) {
+                    NamePart.decode = function decode(reader, length, error, long) {
                         if (!(reader instanceof $Reader))
                             reader = $Reader.create(reader);
-                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.UninterpretedOption.NamePart();
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $Reader.recursionLimit)
+                            throw Error("maximum nesting depth exceeded");
+                        var end, message;
+                        if (length === undefined)
+                            end = reader.len;
+                        else {
+                            end = reader.pos + length;
+                            if (end > reader.len)
+                                throw RangeError("index out of range");
+                            length = reader.len;
+                            reader.len = end;
+                        }
+                        message = new $root.google.protobuf.UninterpretedOption.NamePart();
                         while (reader.pos < end) {
                             var tag = reader.uint32();
                             if (tag === error)
@@ -20297,13 +22927,18 @@
                                     break;
                                 }
                             default:
-                                reader.skipType(tag & 7);
+                                reader.skipType(tag & 7, long);
                                 break;
                             }
                         }
-                        if (!message.hasOwnProperty("name_part"))
+                        if (length !== undefined) {
+                            if (reader.pos !== end)
+                                throw RangeError("index out of range");
+                            reader.len = length;
+                        }
+                        if (!Object.hasOwnProperty.call(message, "name_part"))
                             throw $util.ProtocolError("missing required 'name_part'", { instance: message });
-                        if (!message.hasOwnProperty("is_extension"))
+                        if (!Object.hasOwnProperty.call(message, "is_extension"))
                             throw $util.ProtocolError("missing required 'is_extension'", { instance: message });
                         return message;
                     };
@@ -20332,9 +22967,13 @@
                      * @param {Object.<string,*>} message Plain object to verify
                      * @returns {string|null} `null` if valid, otherwise the reason why it is not
                      */
-                    NamePart.verify = function verify(message) {
+                    NamePart.verify = function verify(message, long) {
                         if (typeof message !== "object" || message === null)
                             return "object expected";
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $util.recursionLimit)
+                            return "maximum nesting depth exceeded";
                         if (!$util.isString(message.name_part))
                             return "name_part: string expected";
                         if (typeof message.is_extension !== "boolean")
@@ -20350,9 +22989,15 @@
                      * @param {Object.<string,*>} object Plain object
                      * @returns {google.protobuf.UninterpretedOption.NamePart} NamePart
                      */
-                    NamePart.fromObject = function fromObject(object) {
+                    NamePart.fromObject = function fromObject(object, long) {
                         if (object instanceof $root.google.protobuf.UninterpretedOption.NamePart)
                             return object;
+                        if (!$util.isObject(object))
+                            throw TypeError(".google.protobuf.UninterpretedOption.NamePart: object expected");
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $util.recursionLimit)
+                            throw Error("maximum nesting depth exceeded");
                         var message = new $root.google.protobuf.UninterpretedOption.NamePart();
                         if (object.name_part != null)
                             message.name_part = String(object.name_part);
@@ -20370,17 +23015,21 @@
                      * @param {$protobuf.IConversionOptions} [options] Conversion options
                      * @returns {Object.<string,*>} Plain object
                      */
-                    NamePart.toObject = function toObject(message, options) {
+                    NamePart.toObject = function toObject(message, options, q) {
                         if (!options)
                             options = {};
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $util.recursionLimit)
+                            throw Error("max depth exceeded");
                         var object = {};
                         if (options.defaults) {
                             object.name_part = "";
                             object.is_extension = false;
                         }
-                        if (message.name_part != null && message.hasOwnProperty("name_part"))
+                        if (message.name_part != null && Object.hasOwnProperty.call(message, "name_part"))
                             object.name_part = message.name_part;
-                        if (message.is_extension != null && message.hasOwnProperty("is_extension"))
+                        if (message.is_extension != null && Object.hasOwnProperty.call(message, "is_extension"))
                             object.is_extension = message.is_extension;
                         return object;
                     };
@@ -20438,7 +23087,7 @@
                     this.location = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
     
@@ -20471,12 +23120,16 @@
                  * @param {$protobuf.Writer} [writer] Writer to encode to
                  * @returns {$protobuf.Writer} Writer
                  */
-                SourceCodeInfo.encode = function encode(message, writer) {
+                SourceCodeInfo.encode = function encode(message, writer, q) {
                     if (!writer)
                         writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     if (message.location != null && message.location.length)
                         for (var i = 0; i < message.location.length; ++i)
-                            $root.google.protobuf.SourceCodeInfo.Location.encode(message.location[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                            $root.google.protobuf.SourceCodeInfo.Location.encode(message.location[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
                     return writer;
                 };
     
@@ -20490,7 +23143,7 @@
                  * @returns {$protobuf.Writer} Writer
                  */
                 SourceCodeInfo.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                 };
     
                 /**
@@ -20504,10 +23157,24 @@
                  * @throws {Error} If the payload is not a reader or valid buffer
                  * @throws {$protobuf.util.ProtocolError} If required fields are missing
                  */
-                SourceCodeInfo.decode = function decode(reader, length, error) {
+                SourceCodeInfo.decode = function decode(reader, length, error, long) {
                     if (!(reader instanceof $Reader))
                         reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.SourceCodeInfo();
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.SourceCodeInfo();
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         if (tag === error)
@@ -20516,13 +23183,18 @@
                         case 1: {
                                 if (!(message.location && message.location.length))
                                     message.location = [];
-                                message.location.push($root.google.protobuf.SourceCodeInfo.Location.decode(reader, reader.uint32()));
+                                message.location.push($root.google.protobuf.SourceCodeInfo.Location.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
                         default:
-                            reader.skipType(tag & 7);
+                            reader.skipType(tag & 7, long);
                             break;
                         }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
                     }
                     return message;
                 };
@@ -20551,14 +23223,18 @@
                  * @param {Object.<string,*>} message Plain object to verify
                  * @returns {string|null} `null` if valid, otherwise the reason why it is not
                  */
-                SourceCodeInfo.verify = function verify(message) {
+                SourceCodeInfo.verify = function verify(message, long) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
-                    if (message.location != null && message.hasOwnProperty("location")) {
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.location != null && Object.hasOwnProperty.call(message, "location")) {
                         if (!Array.isArray(message.location))
                             return "location: array expected";
                         for (var i = 0; i < message.location.length; ++i) {
-                            var error = $root.google.protobuf.SourceCodeInfo.Location.verify(message.location[i]);
+                            var error = $root.google.protobuf.SourceCodeInfo.Location.verify(message.location[i], long + 1);
                             if (error)
                                 return "location." + error;
                         }
@@ -20574,18 +23250,24 @@
                  * @param {Object.<string,*>} object Plain object
                  * @returns {google.protobuf.SourceCodeInfo} SourceCodeInfo
                  */
-                SourceCodeInfo.fromObject = function fromObject(object) {
+                SourceCodeInfo.fromObject = function fromObject(object, long) {
                     if (object instanceof $root.google.protobuf.SourceCodeInfo)
                         return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.SourceCodeInfo: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.SourceCodeInfo();
                     if (object.location) {
                         if (!Array.isArray(object.location))
                             throw TypeError(".google.protobuf.SourceCodeInfo.location: array expected");
                         message.location = [];
                         for (var i = 0; i < object.location.length; ++i) {
-                            if (typeof object.location[i] !== "object")
+                            if (!$util.isObject(object.location[i]))
                                 throw TypeError(".google.protobuf.SourceCodeInfo.location: object expected");
-                            message.location[i] = $root.google.protobuf.SourceCodeInfo.Location.fromObject(object.location[i]);
+                            message.location[i] = $root.google.protobuf.SourceCodeInfo.Location.fromObject(object.location[i], long + 1);
                         }
                     }
                     return message;
@@ -20600,16 +23282,20 @@
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                SourceCodeInfo.toObject = function toObject(message, options) {
+                SourceCodeInfo.toObject = function toObject(message, options, q) {
                     if (!options)
                         options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.location = [];
                     if (message.location && message.location.length) {
                         object.location = [];
                         for (var j = 0; j < message.location.length; ++j)
-                            object.location[j] = $root.google.protobuf.SourceCodeInfo.Location.toObject(message.location[j], options);
+                            object.location[j] = $root.google.protobuf.SourceCodeInfo.Location.toObject(message.location[j], options, q + 1);
                     }
                     return object;
                 };
@@ -20663,7 +23349,7 @@
                         this.span = [];
                         if (properties)
                             for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                                if (properties[keys[i]] != null)
+                                if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                     this[keys[i]] = properties[keys[i]];
                     }
     
@@ -20704,9 +23390,13 @@
                      * @param {$protobuf.Writer} [writer] Writer to encode to
                      * @returns {$protobuf.Writer} Writer
                      */
-                    Location.encode = function encode(message, writer) {
+                    Location.encode = function encode(message, writer, q) {
                         if (!writer)
                             writer = $Writer.create();
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $util.recursionLimit)
+                            throw Error("max depth exceeded");
                         if (message.path != null && message.path.length) {
                             writer.uint32(/* id 1, wireType 2 =*/10).fork();
                             for (var i = 0; i < message.path.length; ++i)
@@ -20732,7 +23422,7 @@
                      * @returns {$protobuf.Writer} Writer
                      */
                     Location.encodeDelimited = function encodeDelimited(message, writer) {
-                        return this.encode(message, writer).ldelim();
+                        return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
                     };
     
                     /**
@@ -20746,10 +23436,24 @@
                      * @throws {Error} If the payload is not a reader or valid buffer
                      * @throws {$protobuf.util.ProtocolError} If required fields are missing
                      */
-                    Location.decode = function decode(reader, length, error) {
+                    Location.decode = function decode(reader, length, error, long) {
                         if (!(reader instanceof $Reader))
                             reader = $Reader.create(reader);
-                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.SourceCodeInfo.Location();
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $Reader.recursionLimit)
+                            throw Error("maximum nesting depth exceeded");
+                        var end, message;
+                        if (length === undefined)
+                            end = reader.len;
+                        else {
+                            end = reader.pos + length;
+                            if (end > reader.len)
+                                throw RangeError("index out of range");
+                            length = reader.len;
+                            reader.len = end;
+                        }
+                        message = new $root.google.protobuf.SourceCodeInfo.Location();
                         while (reader.pos < end) {
                             var tag = reader.uint32();
                             if (tag === error)
@@ -20760,8 +23464,14 @@
                                         message.path = [];
                                     if ((tag & 7) === 2) {
                                         var end2 = reader.uint32() + reader.pos;
+                                        if (end2 > reader.len)
+                                            throw RangeError("index out of range");
+                                        reader.len = end2;
                                         while (reader.pos < end2)
                                             message.path.push(reader.int32());
+                                        if (reader.pos !== end2)
+                                            throw RangeError("index out of range");
+                                        reader.len = end;
                                     } else
                                         message.path.push(reader.int32());
                                     break;
@@ -20771,16 +23481,27 @@
                                         message.span = [];
                                     if ((tag & 7) === 2) {
                                         var end2 = reader.uint32() + reader.pos;
+                                        if (end2 > reader.len)
+                                            throw RangeError("index out of range");
+                                        reader.len = end2;
                                         while (reader.pos < end2)
                                             message.span.push(reader.int32());
+                                        if (reader.pos !== end2)
+                                            throw RangeError("index out of range");
+                                        reader.len = end;
                                     } else
                                         message.span.push(reader.int32());
                                     break;
                                 }
                             default:
-                                reader.skipType(tag & 7);
+                                reader.skipType(tag & 7, long);
                                 break;
                             }
+                        }
+                        if (length !== undefined) {
+                            if (reader.pos !== end)
+                                throw RangeError("index out of range");
+                            reader.len = length;
                         }
                         return message;
                     };
@@ -20809,17 +23530,21 @@
                      * @param {Object.<string,*>} message Plain object to verify
                      * @returns {string|null} `null` if valid, otherwise the reason why it is not
                      */
-                    Location.verify = function verify(message) {
+                    Location.verify = function verify(message, long) {
                         if (typeof message !== "object" || message === null)
                             return "object expected";
-                        if (message.path != null && message.hasOwnProperty("path")) {
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $util.recursionLimit)
+                            return "maximum nesting depth exceeded";
+                        if (message.path != null && Object.hasOwnProperty.call(message, "path")) {
                             if (!Array.isArray(message.path))
                                 return "path: array expected";
                             for (var i = 0; i < message.path.length; ++i)
                                 if (!$util.isInteger(message.path[i]))
                                     return "path: integer[] expected";
                         }
-                        if (message.span != null && message.hasOwnProperty("span")) {
+                        if (message.span != null && Object.hasOwnProperty.call(message, "span")) {
                             if (!Array.isArray(message.span))
                                 return "span: array expected";
                             for (var i = 0; i < message.span.length; ++i)
@@ -20837,9 +23562,15 @@
                      * @param {Object.<string,*>} object Plain object
                      * @returns {google.protobuf.SourceCodeInfo.Location} Location
                      */
-                    Location.fromObject = function fromObject(object) {
+                    Location.fromObject = function fromObject(object, long) {
                         if (object instanceof $root.google.protobuf.SourceCodeInfo.Location)
                             return object;
+                        if (!$util.isObject(object))
+                            throw TypeError(".google.protobuf.SourceCodeInfo.Location: object expected");
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $util.recursionLimit)
+                            throw Error("maximum nesting depth exceeded");
                         var message = new $root.google.protobuf.SourceCodeInfo.Location();
                         if (object.path) {
                             if (!Array.isArray(object.path))
@@ -20867,9 +23598,13 @@
                      * @param {$protobuf.IConversionOptions} [options] Conversion options
                      * @returns {Object.<string,*>} Plain object
                      */
-                    Location.toObject = function toObject(message, options) {
+                    Location.toObject = function toObject(message, options, q) {
                         if (!options)
                             options = {};
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $util.recursionLimit)
+                            throw Error("max depth exceeded");
                         var object = {};
                         if (options.arrays || options.defaults) {
                             object.path = [];

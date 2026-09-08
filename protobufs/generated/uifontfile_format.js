@@ -37,7 +37,7 @@
         function CUIFontFilePB(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -78,9 +78,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CUIFontFilePB.encode = function encode(message, writer) {
+        CUIFontFilePB.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.font_file_name != null && Object.hasOwnProperty.call(message, "font_file_name"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.font_file_name);
             if (message.opentype_font_data != null && Object.hasOwnProperty.call(message, "opentype_font_data"))
@@ -98,7 +102,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CUIFontFilePB.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -112,10 +116,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CUIFontFilePB.decode = function decode(reader, length, error) {
+        CUIFontFilePB.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CUIFontFilePB();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CUIFontFilePB();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -130,9 +148,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -161,13 +184,17 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CUIFontFilePB.verify = function verify(message) {
+        CUIFontFilePB.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.font_file_name != null && message.hasOwnProperty("font_file_name"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.font_file_name != null && Object.hasOwnProperty.call(message, "font_file_name"))
                 if (!$util.isString(message.font_file_name))
                     return "font_file_name: string expected";
-            if (message.opentype_font_data != null && message.hasOwnProperty("opentype_font_data"))
+            if (message.opentype_font_data != null && Object.hasOwnProperty.call(message, "opentype_font_data"))
                 if (!(message.opentype_font_data && typeof message.opentype_font_data.length === "number" || $util.isString(message.opentype_font_data)))
                     return "opentype_font_data: buffer expected";
             return null;
@@ -181,9 +208,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CUIFontFilePB} CUIFontFilePB
          */
-        CUIFontFilePB.fromObject = function fromObject(object) {
+        CUIFontFilePB.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CUIFontFilePB)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CUIFontFilePB: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CUIFontFilePB();
             if (object.font_file_name != null)
                 message.font_file_name = String(object.font_file_name);
@@ -204,9 +237,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CUIFontFilePB.toObject = function toObject(message, options) {
+        CUIFontFilePB.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.font_file_name = "";
@@ -218,9 +255,9 @@
                         object.opentype_font_data = $util.newBuffer(object.opentype_font_data);
                 }
             }
-            if (message.font_file_name != null && message.hasOwnProperty("font_file_name"))
+            if (message.font_file_name != null && Object.hasOwnProperty.call(message, "font_file_name"))
                 object.font_file_name = message.font_file_name;
-            if (message.opentype_font_data != null && message.hasOwnProperty("opentype_font_data"))
+            if (message.opentype_font_data != null && Object.hasOwnProperty.call(message, "opentype_font_data"))
                 object.opentype_font_data = options.bytes === String ? $util.base64.encode(message.opentype_font_data, 0, message.opentype_font_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.opentype_font_data) : message.opentype_font_data;
             return object;
         };
@@ -276,7 +313,7 @@
             this.encrypted_font_files = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -317,14 +354,18 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CUIFontFilePackagePB.encode = function encode(message, writer) {
+        CUIFontFilePackagePB.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.package_version != null && Object.hasOwnProperty.call(message, "package_version"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.package_version);
             if (message.encrypted_font_files != null && message.encrypted_font_files.length)
                 for (var i = 0; i < message.encrypted_font_files.length; ++i)
-                    $root.CUIFontFilePackagePB.CUIEncryptedFontFilePB.encode(message.encrypted_font_files[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    $root.CUIFontFilePackagePB.CUIEncryptedFontFilePB.encode(message.encrypted_font_files[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
             return writer;
         };
     
@@ -338,7 +379,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CUIFontFilePackagePB.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -352,10 +393,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CUIFontFilePackagePB.decode = function decode(reader, length, error) {
+        CUIFontFilePackagePB.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CUIFontFilePackagePB();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CUIFontFilePackagePB();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -368,13 +423,18 @@
                 case 2: {
                         if (!(message.encrypted_font_files && message.encrypted_font_files.length))
                             message.encrypted_font_files = [];
-                        message.encrypted_font_files.push($root.CUIFontFilePackagePB.CUIEncryptedFontFilePB.decode(reader, reader.uint32()));
+                        message.encrypted_font_files.push($root.CUIFontFilePackagePB.CUIEncryptedFontFilePB.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -403,17 +463,21 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CUIFontFilePackagePB.verify = function verify(message) {
+        CUIFontFilePackagePB.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.package_version != null && message.hasOwnProperty("package_version"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.package_version != null && Object.hasOwnProperty.call(message, "package_version"))
                 if (!$util.isInteger(message.package_version))
                     return "package_version: integer expected";
-            if (message.encrypted_font_files != null && message.hasOwnProperty("encrypted_font_files")) {
+            if (message.encrypted_font_files != null && Object.hasOwnProperty.call(message, "encrypted_font_files")) {
                 if (!Array.isArray(message.encrypted_font_files))
                     return "encrypted_font_files: array expected";
                 for (var i = 0; i < message.encrypted_font_files.length; ++i) {
-                    var error = $root.CUIFontFilePackagePB.CUIEncryptedFontFilePB.verify(message.encrypted_font_files[i]);
+                    var error = $root.CUIFontFilePackagePB.CUIEncryptedFontFilePB.verify(message.encrypted_font_files[i], long + 1);
                     if (error)
                         return "encrypted_font_files." + error;
                 }
@@ -429,9 +493,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CUIFontFilePackagePB} CUIFontFilePackagePB
          */
-        CUIFontFilePackagePB.fromObject = function fromObject(object) {
+        CUIFontFilePackagePB.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CUIFontFilePackagePB)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CUIFontFilePackagePB: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CUIFontFilePackagePB();
             if (object.package_version != null)
                 message.package_version = object.package_version >>> 0;
@@ -440,9 +510,9 @@
                     throw TypeError(".CUIFontFilePackagePB.encrypted_font_files: array expected");
                 message.encrypted_font_files = [];
                 for (var i = 0; i < object.encrypted_font_files.length; ++i) {
-                    if (typeof object.encrypted_font_files[i] !== "object")
+                    if (!$util.isObject(object.encrypted_font_files[i]))
                         throw TypeError(".CUIFontFilePackagePB.encrypted_font_files: object expected");
-                    message.encrypted_font_files[i] = $root.CUIFontFilePackagePB.CUIEncryptedFontFilePB.fromObject(object.encrypted_font_files[i]);
+                    message.encrypted_font_files[i] = $root.CUIFontFilePackagePB.CUIEncryptedFontFilePB.fromObject(object.encrypted_font_files[i], long + 1);
                 }
             }
             return message;
@@ -457,20 +527,24 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CUIFontFilePackagePB.toObject = function toObject(message, options) {
+        CUIFontFilePackagePB.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.encrypted_font_files = [];
             if (options.defaults)
                 object.package_version = 0;
-            if (message.package_version != null && message.hasOwnProperty("package_version"))
+            if (message.package_version != null && Object.hasOwnProperty.call(message, "package_version"))
                 object.package_version = message.package_version;
             if (message.encrypted_font_files && message.encrypted_font_files.length) {
                 object.encrypted_font_files = [];
                 for (var j = 0; j < message.encrypted_font_files.length; ++j)
-                    object.encrypted_font_files[j] = $root.CUIFontFilePackagePB.CUIEncryptedFontFilePB.toObject(message.encrypted_font_files[j], options);
+                    object.encrypted_font_files[j] = $root.CUIFontFilePackagePB.CUIEncryptedFontFilePB.toObject(message.encrypted_font_files[j], options, q + 1);
             }
             return object;
         };
@@ -521,7 +595,7 @@
             function CUIEncryptedFontFilePB(properties) {
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -554,9 +628,13 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            CUIEncryptedFontFilePB.encode = function encode(message, writer) {
+            CUIEncryptedFontFilePB.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.encrypted_contents != null && Object.hasOwnProperty.call(message, "encrypted_contents"))
                     writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.encrypted_contents);
                 return writer;
@@ -572,7 +650,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             CUIEncryptedFontFilePB.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -586,10 +664,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            CUIEncryptedFontFilePB.decode = function decode(reader, length, error) {
+            CUIEncryptedFontFilePB.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CUIFontFilePackagePB.CUIEncryptedFontFilePB();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CUIFontFilePackagePB.CUIEncryptedFontFilePB();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -600,9 +692,14 @@
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -631,10 +728,14 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            CUIEncryptedFontFilePB.verify = function verify(message) {
+            CUIEncryptedFontFilePB.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.encrypted_contents != null && message.hasOwnProperty("encrypted_contents"))
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.encrypted_contents != null && Object.hasOwnProperty.call(message, "encrypted_contents"))
                     if (!(message.encrypted_contents && typeof message.encrypted_contents.length === "number" || $util.isString(message.encrypted_contents)))
                         return "encrypted_contents: buffer expected";
                 return null;
@@ -648,9 +749,15 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CUIFontFilePackagePB.CUIEncryptedFontFilePB} CUIEncryptedFontFilePB
              */
-            CUIEncryptedFontFilePB.fromObject = function fromObject(object) {
+            CUIEncryptedFontFilePB.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CUIFontFilePackagePB.CUIEncryptedFontFilePB)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CUIFontFilePackagePB.CUIEncryptedFontFilePB: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CUIFontFilePackagePB.CUIEncryptedFontFilePB();
                 if (object.encrypted_contents != null)
                     if (typeof object.encrypted_contents === "string")
@@ -669,9 +776,13 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            CUIEncryptedFontFilePB.toObject = function toObject(message, options) {
+            CUIEncryptedFontFilePB.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.defaults)
                     if (options.bytes === String)
@@ -681,7 +792,7 @@
                         if (options.bytes !== Array)
                             object.encrypted_contents = $util.newBuffer(object.encrypted_contents);
                     }
-                if (message.encrypted_contents != null && message.hasOwnProperty("encrypted_contents"))
+                if (message.encrypted_contents != null && Object.hasOwnProperty.call(message, "encrypted_contents"))
                     object.encrypted_contents = options.bytes === String ? $util.base64.encode(message.encrypted_contents, 0, message.encrypted_contents.length) : options.bytes === Array ? Array.prototype.slice.call(message.encrypted_contents) : message.encrypted_contents;
                 return object;
             };

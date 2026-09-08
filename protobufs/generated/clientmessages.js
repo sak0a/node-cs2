@@ -77,7 +77,7 @@
         function CClientMsg_CustomGameEvent(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -118,9 +118,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CClientMsg_CustomGameEvent.encode = function encode(message, writer) {
+        CClientMsg_CustomGameEvent.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.event_name != null && Object.hasOwnProperty.call(message, "event_name"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.event_name);
             if (message.data != null && Object.hasOwnProperty.call(message, "data"))
@@ -138,7 +142,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CClientMsg_CustomGameEvent.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -152,10 +156,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CClientMsg_CustomGameEvent.decode = function decode(reader, length, error) {
+        CClientMsg_CustomGameEvent.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CClientMsg_CustomGameEvent();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CClientMsg_CustomGameEvent();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -170,9 +188,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -201,13 +224,17 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CClientMsg_CustomGameEvent.verify = function verify(message) {
+        CClientMsg_CustomGameEvent.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.event_name != null && message.hasOwnProperty("event_name"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.event_name != null && Object.hasOwnProperty.call(message, "event_name"))
                 if (!$util.isString(message.event_name))
                     return "event_name: string expected";
-            if (message.data != null && message.hasOwnProperty("data"))
+            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
                 if (!(message.data && typeof message.data.length === "number" || $util.isString(message.data)))
                     return "data: buffer expected";
             return null;
@@ -221,9 +248,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CClientMsg_CustomGameEvent} CClientMsg_CustomGameEvent
          */
-        CClientMsg_CustomGameEvent.fromObject = function fromObject(object) {
+        CClientMsg_CustomGameEvent.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CClientMsg_CustomGameEvent)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CClientMsg_CustomGameEvent: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CClientMsg_CustomGameEvent();
             if (object.event_name != null)
                 message.event_name = String(object.event_name);
@@ -244,9 +277,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CClientMsg_CustomGameEvent.toObject = function toObject(message, options) {
+        CClientMsg_CustomGameEvent.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.event_name = "";
@@ -258,9 +295,9 @@
                         object.data = $util.newBuffer(object.data);
                 }
             }
-            if (message.event_name != null && message.hasOwnProperty("event_name"))
+            if (message.event_name != null && Object.hasOwnProperty.call(message, "event_name"))
                 object.event_name = message.event_name;
-            if (message.data != null && message.hasOwnProperty("data"))
+            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
                 object.data = options.bytes === String ? $util.base64.encode(message.data, 0, message.data.length) : options.bytes === Array ? Array.prototype.slice.call(message.data) : message.data;
             return object;
         };
@@ -316,7 +353,7 @@
         function CClientMsg_CustomGameEventBounce(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -365,9 +402,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CClientMsg_CustomGameEventBounce.encode = function encode(message, writer) {
+        CClientMsg_CustomGameEventBounce.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.event_name != null && Object.hasOwnProperty.call(message, "event_name"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.event_name);
             if (message.data != null && Object.hasOwnProperty.call(message, "data"))
@@ -387,7 +428,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CClientMsg_CustomGameEventBounce.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -401,10 +442,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CClientMsg_CustomGameEventBounce.decode = function decode(reader, length, error) {
+        CClientMsg_CustomGameEventBounce.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CClientMsg_CustomGameEventBounce();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CClientMsg_CustomGameEventBounce();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -423,9 +478,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -454,16 +514,20 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CClientMsg_CustomGameEventBounce.verify = function verify(message) {
+        CClientMsg_CustomGameEventBounce.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.event_name != null && message.hasOwnProperty("event_name"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.event_name != null && Object.hasOwnProperty.call(message, "event_name"))
                 if (!$util.isString(message.event_name))
                     return "event_name: string expected";
-            if (message.data != null && message.hasOwnProperty("data"))
+            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
                 if (!(message.data && typeof message.data.length === "number" || $util.isString(message.data)))
                     return "data: buffer expected";
-            if (message.player_slot != null && message.hasOwnProperty("player_slot"))
+            if (message.player_slot != null && Object.hasOwnProperty.call(message, "player_slot"))
                 if (!$util.isInteger(message.player_slot))
                     return "player_slot: integer expected";
             return null;
@@ -477,9 +541,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CClientMsg_CustomGameEventBounce} CClientMsg_CustomGameEventBounce
          */
-        CClientMsg_CustomGameEventBounce.fromObject = function fromObject(object) {
+        CClientMsg_CustomGameEventBounce.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CClientMsg_CustomGameEventBounce)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CClientMsg_CustomGameEventBounce: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CClientMsg_CustomGameEventBounce();
             if (object.event_name != null)
                 message.event_name = String(object.event_name);
@@ -502,9 +572,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CClientMsg_CustomGameEventBounce.toObject = function toObject(message, options) {
+        CClientMsg_CustomGameEventBounce.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.event_name = "";
@@ -517,11 +591,11 @@
                 }
                 object.player_slot = -1;
             }
-            if (message.event_name != null && message.hasOwnProperty("event_name"))
+            if (message.event_name != null && Object.hasOwnProperty.call(message, "event_name"))
                 object.event_name = message.event_name;
-            if (message.data != null && message.hasOwnProperty("data"))
+            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
                 object.data = options.bytes === String ? $util.base64.encode(message.data, 0, message.data.length) : options.bytes === Array ? Array.prototype.slice.call(message.data) : message.data;
-            if (message.player_slot != null && message.hasOwnProperty("player_slot"))
+            if (message.player_slot != null && Object.hasOwnProperty.call(message, "player_slot"))
                 object.player_slot = message.player_slot;
             return object;
         };
@@ -579,7 +653,7 @@
         function CClientMsg_ClientUIEvent(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -644,9 +718,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CClientMsg_ClientUIEvent.encode = function encode(message, writer) {
+        CClientMsg_ClientUIEvent.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.event != null && Object.hasOwnProperty.call(message, "event"))
                 writer.uint32(/* id 1, wireType 0 =*/8).int32(message.event);
             if (message.ent_ehandle != null && Object.hasOwnProperty.call(message, "ent_ehandle"))
@@ -670,7 +748,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CClientMsg_ClientUIEvent.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -684,10 +762,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CClientMsg_ClientUIEvent.decode = function decode(reader, length, error) {
+        CClientMsg_ClientUIEvent.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CClientMsg_ClientUIEvent();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CClientMsg_ClientUIEvent();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -714,9 +806,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -745,10 +842,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CClientMsg_ClientUIEvent.verify = function verify(message) {
+        CClientMsg_ClientUIEvent.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.event != null && message.hasOwnProperty("event"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.event != null && Object.hasOwnProperty.call(message, "event"))
                 switch (message.event) {
                 default:
                     return "event: enum value expected";
@@ -757,16 +858,16 @@
                 case 2:
                     break;
                 }
-            if (message.ent_ehandle != null && message.hasOwnProperty("ent_ehandle"))
+            if (message.ent_ehandle != null && Object.hasOwnProperty.call(message, "ent_ehandle"))
                 if (!$util.isInteger(message.ent_ehandle))
                     return "ent_ehandle: integer expected";
-            if (message.client_ehandle != null && message.hasOwnProperty("client_ehandle"))
+            if (message.client_ehandle != null && Object.hasOwnProperty.call(message, "client_ehandle"))
                 if (!$util.isInteger(message.client_ehandle))
                     return "client_ehandle: integer expected";
-            if (message.data1 != null && message.hasOwnProperty("data1"))
+            if (message.data1 != null && Object.hasOwnProperty.call(message, "data1"))
                 if (!$util.isString(message.data1))
                     return "data1: string expected";
-            if (message.data2 != null && message.hasOwnProperty("data2"))
+            if (message.data2 != null && Object.hasOwnProperty.call(message, "data2"))
                 if (!$util.isString(message.data2))
                     return "data2: string expected";
             return null;
@@ -780,9 +881,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CClientMsg_ClientUIEvent} CClientMsg_ClientUIEvent
          */
-        CClientMsg_ClientUIEvent.fromObject = function fromObject(object) {
+        CClientMsg_ClientUIEvent.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CClientMsg_ClientUIEvent)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CClientMsg_ClientUIEvent: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CClientMsg_ClientUIEvent();
             switch (object.event) {
             default:
@@ -824,9 +931,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CClientMsg_ClientUIEvent.toObject = function toObject(message, options) {
+        CClientMsg_ClientUIEvent.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.event = options.enums === String ? "EClientUIEvent_Invalid" : 0;
@@ -835,15 +946,15 @@
                 object.data1 = "";
                 object.data2 = "";
             }
-            if (message.event != null && message.hasOwnProperty("event"))
+            if (message.event != null && Object.hasOwnProperty.call(message, "event"))
                 object.event = options.enums === String ? $root.EClientUIEvent[message.event] === undefined ? message.event : $root.EClientUIEvent[message.event] : message.event;
-            if (message.ent_ehandle != null && message.hasOwnProperty("ent_ehandle"))
+            if (message.ent_ehandle != null && Object.hasOwnProperty.call(message, "ent_ehandle"))
                 object.ent_ehandle = message.ent_ehandle;
-            if (message.client_ehandle != null && message.hasOwnProperty("client_ehandle"))
+            if (message.client_ehandle != null && Object.hasOwnProperty.call(message, "client_ehandle"))
                 object.client_ehandle = message.client_ehandle;
-            if (message.data1 != null && message.hasOwnProperty("data1"))
+            if (message.data1 != null && Object.hasOwnProperty.call(message, "data1"))
                 object.data1 = message.data1;
-            if (message.data2 != null && message.hasOwnProperty("data2"))
+            if (message.data2 != null && Object.hasOwnProperty.call(message, "data2"))
                 object.data2 = message.data2;
             return object;
         };
@@ -897,7 +1008,7 @@
         function CClientMsg_DevPaletteVisibilityChangedEvent(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -930,9 +1041,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CClientMsg_DevPaletteVisibilityChangedEvent.encode = function encode(message, writer) {
+        CClientMsg_DevPaletteVisibilityChangedEvent.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.visible != null && Object.hasOwnProperty.call(message, "visible"))
                 writer.uint32(/* id 1, wireType 0 =*/8).bool(message.visible);
             return writer;
@@ -948,7 +1063,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CClientMsg_DevPaletteVisibilityChangedEvent.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -962,10 +1077,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CClientMsg_DevPaletteVisibilityChangedEvent.decode = function decode(reader, length, error) {
+        CClientMsg_DevPaletteVisibilityChangedEvent.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CClientMsg_DevPaletteVisibilityChangedEvent();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CClientMsg_DevPaletteVisibilityChangedEvent();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -976,9 +1105,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -1007,10 +1141,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CClientMsg_DevPaletteVisibilityChangedEvent.verify = function verify(message) {
+        CClientMsg_DevPaletteVisibilityChangedEvent.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.visible != null && message.hasOwnProperty("visible"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.visible != null && Object.hasOwnProperty.call(message, "visible"))
                 if (typeof message.visible !== "boolean")
                     return "visible: boolean expected";
             return null;
@@ -1024,9 +1162,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CClientMsg_DevPaletteVisibilityChangedEvent} CClientMsg_DevPaletteVisibilityChangedEvent
          */
-        CClientMsg_DevPaletteVisibilityChangedEvent.fromObject = function fromObject(object) {
+        CClientMsg_DevPaletteVisibilityChangedEvent.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CClientMsg_DevPaletteVisibilityChangedEvent)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CClientMsg_DevPaletteVisibilityChangedEvent: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CClientMsg_DevPaletteVisibilityChangedEvent();
             if (object.visible != null)
                 message.visible = Boolean(object.visible);
@@ -1042,13 +1186,17 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CClientMsg_DevPaletteVisibilityChangedEvent.toObject = function toObject(message, options) {
+        CClientMsg_DevPaletteVisibilityChangedEvent.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.visible = false;
-            if (message.visible != null && message.hasOwnProperty("visible"))
+            if (message.visible != null && Object.hasOwnProperty.call(message, "visible"))
                 object.visible = message.visible;
             return object;
         };
@@ -1104,7 +1252,7 @@
         function CClientMsg_WorldUIControllerHasPanelChangedEvent(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -1153,9 +1301,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CClientMsg_WorldUIControllerHasPanelChangedEvent.encode = function encode(message, writer) {
+        CClientMsg_WorldUIControllerHasPanelChangedEvent.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.has_panel != null && Object.hasOwnProperty.call(message, "has_panel"))
                 writer.uint32(/* id 1, wireType 0 =*/8).bool(message.has_panel);
             if (message.client_ehandle != null && Object.hasOwnProperty.call(message, "client_ehandle"))
@@ -1175,7 +1327,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CClientMsg_WorldUIControllerHasPanelChangedEvent.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -1189,10 +1341,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CClientMsg_WorldUIControllerHasPanelChangedEvent.decode = function decode(reader, length, error) {
+        CClientMsg_WorldUIControllerHasPanelChangedEvent.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CClientMsg_WorldUIControllerHasPanelChangedEvent();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CClientMsg_WorldUIControllerHasPanelChangedEvent();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -1211,9 +1377,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -1242,16 +1413,20 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CClientMsg_WorldUIControllerHasPanelChangedEvent.verify = function verify(message) {
+        CClientMsg_WorldUIControllerHasPanelChangedEvent.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.has_panel != null && message.hasOwnProperty("has_panel"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.has_panel != null && Object.hasOwnProperty.call(message, "has_panel"))
                 if (typeof message.has_panel !== "boolean")
                     return "has_panel: boolean expected";
-            if (message.client_ehandle != null && message.hasOwnProperty("client_ehandle"))
+            if (message.client_ehandle != null && Object.hasOwnProperty.call(message, "client_ehandle"))
                 if (!$util.isInteger(message.client_ehandle))
                     return "client_ehandle: integer expected";
-            if (message.literal_hand_type != null && message.hasOwnProperty("literal_hand_type"))
+            if (message.literal_hand_type != null && Object.hasOwnProperty.call(message, "literal_hand_type"))
                 if (!$util.isInteger(message.literal_hand_type))
                     return "literal_hand_type: integer expected";
             return null;
@@ -1265,9 +1440,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CClientMsg_WorldUIControllerHasPanelChangedEvent} CClientMsg_WorldUIControllerHasPanelChangedEvent
          */
-        CClientMsg_WorldUIControllerHasPanelChangedEvent.fromObject = function fromObject(object) {
+        CClientMsg_WorldUIControllerHasPanelChangedEvent.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CClientMsg_WorldUIControllerHasPanelChangedEvent)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CClientMsg_WorldUIControllerHasPanelChangedEvent: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CClientMsg_WorldUIControllerHasPanelChangedEvent();
             if (object.has_panel != null)
                 message.has_panel = Boolean(object.has_panel);
@@ -1287,20 +1468,24 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CClientMsg_WorldUIControllerHasPanelChangedEvent.toObject = function toObject(message, options) {
+        CClientMsg_WorldUIControllerHasPanelChangedEvent.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.has_panel = false;
                 object.client_ehandle = 0;
                 object.literal_hand_type = 0;
             }
-            if (message.has_panel != null && message.hasOwnProperty("has_panel"))
+            if (message.has_panel != null && Object.hasOwnProperty.call(message, "has_panel"))
                 object.has_panel = message.has_panel;
-            if (message.client_ehandle != null && message.hasOwnProperty("client_ehandle"))
+            if (message.client_ehandle != null && Object.hasOwnProperty.call(message, "client_ehandle"))
                 object.client_ehandle = message.client_ehandle;
-            if (message.literal_hand_type != null && message.hasOwnProperty("literal_hand_type"))
+            if (message.literal_hand_type != null && Object.hasOwnProperty.call(message, "literal_hand_type"))
                 object.literal_hand_type = message.literal_hand_type;
             return object;
         };
@@ -1354,7 +1539,7 @@
         function CClientMsg_RotateAnchor(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -1387,9 +1572,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CClientMsg_RotateAnchor.encode = function encode(message, writer) {
+        CClientMsg_RotateAnchor.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.angle != null && Object.hasOwnProperty.call(message, "angle"))
                 writer.uint32(/* id 1, wireType 5 =*/13).float(message.angle);
             return writer;
@@ -1405,7 +1594,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CClientMsg_RotateAnchor.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -1419,10 +1608,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CClientMsg_RotateAnchor.decode = function decode(reader, length, error) {
+        CClientMsg_RotateAnchor.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CClientMsg_RotateAnchor();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CClientMsg_RotateAnchor();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -1433,9 +1636,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -1464,10 +1672,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CClientMsg_RotateAnchor.verify = function verify(message) {
+        CClientMsg_RotateAnchor.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.angle != null && message.hasOwnProperty("angle"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.angle != null && Object.hasOwnProperty.call(message, "angle"))
                 if (typeof message.angle !== "number")
                     return "angle: number expected";
             return null;
@@ -1481,9 +1693,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CClientMsg_RotateAnchor} CClientMsg_RotateAnchor
          */
-        CClientMsg_RotateAnchor.fromObject = function fromObject(object) {
+        CClientMsg_RotateAnchor.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CClientMsg_RotateAnchor)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CClientMsg_RotateAnchor: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CClientMsg_RotateAnchor();
             if (object.angle != null)
                 message.angle = Number(object.angle);
@@ -1499,13 +1717,17 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CClientMsg_RotateAnchor.toObject = function toObject(message, options) {
+        CClientMsg_RotateAnchor.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.angle = 0;
-            if (message.angle != null && message.hasOwnProperty("angle"))
+            if (message.angle != null && Object.hasOwnProperty.call(message, "angle"))
                 object.angle = options.json && !isFinite(message.angle) ? String(message.angle) : message.angle;
             return object;
         };

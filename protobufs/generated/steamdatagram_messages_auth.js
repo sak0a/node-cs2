@@ -49,7 +49,7 @@
             this.extra_fields = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -123,7 +123,7 @@
          * @memberof CMsgSteamDatagramRelayAuthTicket
          * @instance
          */
-        CMsgSteamDatagramRelayAuthTicket.prototype.legacy_authorized_steam_id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSteamDatagramRelayAuthTicket.prototype.legacy_authorized_steam_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CMsgSteamDatagramRelayAuthTicket legacy_gameserver_steam_id.
@@ -131,7 +131,7 @@
          * @memberof CMsgSteamDatagramRelayAuthTicket
          * @instance
          */
-        CMsgSteamDatagramRelayAuthTicket.prototype.legacy_gameserver_steam_id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSteamDatagramRelayAuthTicket.prototype.legacy_gameserver_steam_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CMsgSteamDatagramRelayAuthTicket legacy_gameserver_pop_id.
@@ -178,9 +178,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramRelayAuthTicket.encode = function encode(message, writer) {
+        CMsgSteamDatagramRelayAuthTicket.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.time_expiry != null && Object.hasOwnProperty.call(message, "time_expiry"))
                 writer.uint32(/* id 1, wireType 5 =*/13).fixed32(message.time_expiry);
             if (message.legacy_authorized_steam_id != null && Object.hasOwnProperty.call(message, "legacy_authorized_steam_id"))
@@ -193,7 +197,7 @@
                 writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.app_id);
             if (message.extra_fields != null && message.extra_fields.length)
                 for (var i = 0; i < message.extra_fields.length; ++i)
-                    $root.CMsgSteamDatagramRelayAuthTicket.ExtraField.encode(message.extra_fields[i], writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+                    $root.CMsgSteamDatagramRelayAuthTicket.ExtraField.encode(message.extra_fields[i], writer.uint32(/* id 8, wireType 2 =*/66).fork(), q + 1).ldelim();
             if (message.legacy_gameserver_pop_id != null && Object.hasOwnProperty.call(message, "legacy_gameserver_pop_id"))
                 writer.uint32(/* id 9, wireType 5 =*/77).fixed32(message.legacy_gameserver_pop_id);
             if (message.virtual_port != null && Object.hasOwnProperty.call(message, "virtual_port"))
@@ -221,7 +225,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSteamDatagramRelayAuthTicket.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -235,10 +239,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramRelayAuthTicket.decode = function decode(reader, length, error) {
+        CMsgSteamDatagramRelayAuthTicket.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSteamDatagramRelayAuthTicket();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSteamDatagramRelayAuthTicket();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -275,7 +293,7 @@
                 case 8: {
                         if (!(message.extra_fields && message.extra_fields.length))
                             message.extra_fields = [];
-                        message.extra_fields.push($root.CMsgSteamDatagramRelayAuthTicket.ExtraField.decode(reader, reader.uint32()));
+                        message.extra_fields.push($root.CMsgSteamDatagramRelayAuthTicket.ExtraField.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 case 2: {
@@ -299,9 +317,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -330,52 +353,56 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramRelayAuthTicket.verify = function verify(message) {
+        CMsgSteamDatagramRelayAuthTicket.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.time_expiry != null && message.hasOwnProperty("time_expiry"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.time_expiry != null && Object.hasOwnProperty.call(message, "time_expiry"))
                 if (!$util.isInteger(message.time_expiry))
                     return "time_expiry: integer expected";
-            if (message.authorized_client_identity_string != null && message.hasOwnProperty("authorized_client_identity_string"))
+            if (message.authorized_client_identity_string != null && Object.hasOwnProperty.call(message, "authorized_client_identity_string"))
                 if (!$util.isString(message.authorized_client_identity_string))
                     return "authorized_client_identity_string: string expected";
-            if (message.gameserver_identity_string != null && message.hasOwnProperty("gameserver_identity_string"))
+            if (message.gameserver_identity_string != null && Object.hasOwnProperty.call(message, "gameserver_identity_string"))
                 if (!$util.isString(message.gameserver_identity_string))
                     return "gameserver_identity_string: string expected";
-            if (message.authorized_public_ip != null && message.hasOwnProperty("authorized_public_ip"))
+            if (message.authorized_public_ip != null && Object.hasOwnProperty.call(message, "authorized_public_ip"))
                 if (!$util.isInteger(message.authorized_public_ip))
                     return "authorized_public_ip: integer expected";
-            if (message.gameserver_address != null && message.hasOwnProperty("gameserver_address"))
+            if (message.gameserver_address != null && Object.hasOwnProperty.call(message, "gameserver_address"))
                 if (!(message.gameserver_address && typeof message.gameserver_address.length === "number" || $util.isString(message.gameserver_address)))
                     return "gameserver_address: buffer expected";
-            if (message.app_id != null && message.hasOwnProperty("app_id"))
+            if (message.app_id != null && Object.hasOwnProperty.call(message, "app_id"))
                 if (!$util.isInteger(message.app_id))
                     return "app_id: integer expected";
-            if (message.virtual_port != null && message.hasOwnProperty("virtual_port"))
+            if (message.virtual_port != null && Object.hasOwnProperty.call(message, "virtual_port"))
                 if (!$util.isInteger(message.virtual_port))
                     return "virtual_port: integer expected";
-            if (message.extra_fields != null && message.hasOwnProperty("extra_fields")) {
+            if (message.extra_fields != null && Object.hasOwnProperty.call(message, "extra_fields")) {
                 if (!Array.isArray(message.extra_fields))
                     return "extra_fields: array expected";
                 for (var i = 0; i < message.extra_fields.length; ++i) {
-                    var error = $root.CMsgSteamDatagramRelayAuthTicket.ExtraField.verify(message.extra_fields[i]);
+                    var error = $root.CMsgSteamDatagramRelayAuthTicket.ExtraField.verify(message.extra_fields[i], long + 1);
                     if (error)
                         return "extra_fields." + error;
                 }
             }
-            if (message.legacy_authorized_steam_id != null && message.hasOwnProperty("legacy_authorized_steam_id"))
+            if (message.legacy_authorized_steam_id != null && Object.hasOwnProperty.call(message, "legacy_authorized_steam_id"))
                 if (!$util.isInteger(message.legacy_authorized_steam_id) && !(message.legacy_authorized_steam_id && $util.isInteger(message.legacy_authorized_steam_id.low) && $util.isInteger(message.legacy_authorized_steam_id.high)))
                     return "legacy_authorized_steam_id: integer|Long expected";
-            if (message.legacy_gameserver_steam_id != null && message.hasOwnProperty("legacy_gameserver_steam_id"))
+            if (message.legacy_gameserver_steam_id != null && Object.hasOwnProperty.call(message, "legacy_gameserver_steam_id"))
                 if (!$util.isInteger(message.legacy_gameserver_steam_id) && !(message.legacy_gameserver_steam_id && $util.isInteger(message.legacy_gameserver_steam_id.low) && $util.isInteger(message.legacy_gameserver_steam_id.high)))
                     return "legacy_gameserver_steam_id: integer|Long expected";
-            if (message.legacy_gameserver_pop_id != null && message.hasOwnProperty("legacy_gameserver_pop_id"))
+            if (message.legacy_gameserver_pop_id != null && Object.hasOwnProperty.call(message, "legacy_gameserver_pop_id"))
                 if (!$util.isInteger(message.legacy_gameserver_pop_id))
                     return "legacy_gameserver_pop_id: integer expected";
-            if (message.legacy_authorized_client_identity_binary != null && message.hasOwnProperty("legacy_authorized_client_identity_binary"))
+            if (message.legacy_authorized_client_identity_binary != null && Object.hasOwnProperty.call(message, "legacy_authorized_client_identity_binary"))
                 if (!(message.legacy_authorized_client_identity_binary && typeof message.legacy_authorized_client_identity_binary.length === "number" || $util.isString(message.legacy_authorized_client_identity_binary)))
                     return "legacy_authorized_client_identity_binary: buffer expected";
-            if (message.legacy_gameserver_identity_binary != null && message.hasOwnProperty("legacy_gameserver_identity_binary"))
+            if (message.legacy_gameserver_identity_binary != null && Object.hasOwnProperty.call(message, "legacy_gameserver_identity_binary"))
                 if (!(message.legacy_gameserver_identity_binary && typeof message.legacy_gameserver_identity_binary.length === "number" || $util.isString(message.legacy_gameserver_identity_binary)))
                     return "legacy_gameserver_identity_binary: buffer expected";
             return null;
@@ -389,9 +416,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramRelayAuthTicket} CMsgSteamDatagramRelayAuthTicket
          */
-        CMsgSteamDatagramRelayAuthTicket.fromObject = function fromObject(object) {
+        CMsgSteamDatagramRelayAuthTicket.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSteamDatagramRelayAuthTicket)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSteamDatagramRelayAuthTicket: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSteamDatagramRelayAuthTicket();
             if (object.time_expiry != null)
                 message.time_expiry = object.time_expiry >>> 0;
@@ -415,29 +448,29 @@
                     throw TypeError(".CMsgSteamDatagramRelayAuthTicket.extra_fields: array expected");
                 message.extra_fields = [];
                 for (var i = 0; i < object.extra_fields.length; ++i) {
-                    if (typeof object.extra_fields[i] !== "object")
+                    if (!$util.isObject(object.extra_fields[i]))
                         throw TypeError(".CMsgSteamDatagramRelayAuthTicket.extra_fields: object expected");
-                    message.extra_fields[i] = $root.CMsgSteamDatagramRelayAuthTicket.ExtraField.fromObject(object.extra_fields[i]);
+                    message.extra_fields[i] = $root.CMsgSteamDatagramRelayAuthTicket.ExtraField.fromObject(object.extra_fields[i], long + 1);
                 }
             }
             if (object.legacy_authorized_steam_id != null)
                 if ($util.Long)
-                    (message.legacy_authorized_steam_id = $util.Long.fromValue(object.legacy_authorized_steam_id)).unsigned = false;
+                    message.legacy_authorized_steam_id = $util.Long.fromValue(object.legacy_authorized_steam_id, true);
                 else if (typeof object.legacy_authorized_steam_id === "string")
                     message.legacy_authorized_steam_id = parseInt(object.legacy_authorized_steam_id, 10);
                 else if (typeof object.legacy_authorized_steam_id === "number")
                     message.legacy_authorized_steam_id = object.legacy_authorized_steam_id;
                 else if (typeof object.legacy_authorized_steam_id === "object")
-                    message.legacy_authorized_steam_id = new $util.LongBits(object.legacy_authorized_steam_id.low >>> 0, object.legacy_authorized_steam_id.high >>> 0).toNumber();
+                    message.legacy_authorized_steam_id = new $util.LongBits(object.legacy_authorized_steam_id.low >>> 0, object.legacy_authorized_steam_id.high >>> 0).toNumber(true);
             if (object.legacy_gameserver_steam_id != null)
                 if ($util.Long)
-                    (message.legacy_gameserver_steam_id = $util.Long.fromValue(object.legacy_gameserver_steam_id)).unsigned = false;
+                    message.legacy_gameserver_steam_id = $util.Long.fromValue(object.legacy_gameserver_steam_id, true);
                 else if (typeof object.legacy_gameserver_steam_id === "string")
                     message.legacy_gameserver_steam_id = parseInt(object.legacy_gameserver_steam_id, 10);
                 else if (typeof object.legacy_gameserver_steam_id === "number")
                     message.legacy_gameserver_steam_id = object.legacy_gameserver_steam_id;
                 else if (typeof object.legacy_gameserver_steam_id === "object")
-                    message.legacy_gameserver_steam_id = new $util.LongBits(object.legacy_gameserver_steam_id.low >>> 0, object.legacy_gameserver_steam_id.high >>> 0).toNumber();
+                    message.legacy_gameserver_steam_id = new $util.LongBits(object.legacy_gameserver_steam_id.low >>> 0, object.legacy_gameserver_steam_id.high >>> 0).toNumber(true);
             if (object.legacy_gameserver_pop_id != null)
                 message.legacy_gameserver_pop_id = object.legacy_gameserver_pop_id >>> 0;
             if (object.legacy_authorized_client_identity_binary != null)
@@ -462,25 +495,29 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramRelayAuthTicket.toObject = function toObject(message, options) {
+        CMsgSteamDatagramRelayAuthTicket.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.extra_fields = [];
             if (options.defaults) {
                 object.time_expiry = 0;
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.legacy_authorized_steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.legacy_authorized_steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.legacy_authorized_steam_id = options.longs === String ? "0" : 0;
+                    object.legacy_authorized_steam_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.authorized_public_ip = 0;
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.legacy_gameserver_steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.legacy_gameserver_steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.legacy_gameserver_steam_id = options.longs === String ? "0" : 0;
+                    object.legacy_gameserver_steam_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.app_id = 0;
                 object.legacy_gameserver_pop_id = 0;
                 object.virtual_port = 0;
@@ -508,40 +545,44 @@
                 object.authorized_client_identity_string = "";
                 object.gameserver_identity_string = "";
             }
-            if (message.time_expiry != null && message.hasOwnProperty("time_expiry"))
+            if (message.time_expiry != null && Object.hasOwnProperty.call(message, "time_expiry"))
                 object.time_expiry = message.time_expiry;
-            if (message.legacy_authorized_steam_id != null && message.hasOwnProperty("legacy_authorized_steam_id"))
-                if (typeof message.legacy_authorized_steam_id === "number")
+            if (message.legacy_authorized_steam_id != null && Object.hasOwnProperty.call(message, "legacy_authorized_steam_id"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.legacy_authorized_steam_id = typeof message.legacy_authorized_steam_id === "number" ? BigInt(message.legacy_authorized_steam_id) : $util.Long.fromBits(message.legacy_authorized_steam_id.low >>> 0, message.legacy_authorized_steam_id.high >>> 0, true).toBigInt();
+                else if (typeof message.legacy_authorized_steam_id === "number")
                     object.legacy_authorized_steam_id = options.longs === String ? String(message.legacy_authorized_steam_id) : message.legacy_authorized_steam_id;
                 else
-                    object.legacy_authorized_steam_id = options.longs === String ? $util.Long.prototype.toString.call(message.legacy_authorized_steam_id) : options.longs === Number ? new $util.LongBits(message.legacy_authorized_steam_id.low >>> 0, message.legacy_authorized_steam_id.high >>> 0).toNumber() : message.legacy_authorized_steam_id;
-            if (message.authorized_public_ip != null && message.hasOwnProperty("authorized_public_ip"))
+                    object.legacy_authorized_steam_id = options.longs === String ? $util.Long.prototype.toString.call(message.legacy_authorized_steam_id) : options.longs === Number ? new $util.LongBits(message.legacy_authorized_steam_id.low >>> 0, message.legacy_authorized_steam_id.high >>> 0).toNumber(true) : message.legacy_authorized_steam_id;
+            if (message.authorized_public_ip != null && Object.hasOwnProperty.call(message, "authorized_public_ip"))
                 object.authorized_public_ip = message.authorized_public_ip;
-            if (message.legacy_gameserver_steam_id != null && message.hasOwnProperty("legacy_gameserver_steam_id"))
-                if (typeof message.legacy_gameserver_steam_id === "number")
+            if (message.legacy_gameserver_steam_id != null && Object.hasOwnProperty.call(message, "legacy_gameserver_steam_id"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.legacy_gameserver_steam_id = typeof message.legacy_gameserver_steam_id === "number" ? BigInt(message.legacy_gameserver_steam_id) : $util.Long.fromBits(message.legacy_gameserver_steam_id.low >>> 0, message.legacy_gameserver_steam_id.high >>> 0, true).toBigInt();
+                else if (typeof message.legacy_gameserver_steam_id === "number")
                     object.legacy_gameserver_steam_id = options.longs === String ? String(message.legacy_gameserver_steam_id) : message.legacy_gameserver_steam_id;
                 else
-                    object.legacy_gameserver_steam_id = options.longs === String ? $util.Long.prototype.toString.call(message.legacy_gameserver_steam_id) : options.longs === Number ? new $util.LongBits(message.legacy_gameserver_steam_id.low >>> 0, message.legacy_gameserver_steam_id.high >>> 0).toNumber() : message.legacy_gameserver_steam_id;
-            if (message.app_id != null && message.hasOwnProperty("app_id"))
+                    object.legacy_gameserver_steam_id = options.longs === String ? $util.Long.prototype.toString.call(message.legacy_gameserver_steam_id) : options.longs === Number ? new $util.LongBits(message.legacy_gameserver_steam_id.low >>> 0, message.legacy_gameserver_steam_id.high >>> 0).toNumber(true) : message.legacy_gameserver_steam_id;
+            if (message.app_id != null && Object.hasOwnProperty.call(message, "app_id"))
                 object.app_id = message.app_id;
             if (message.extra_fields && message.extra_fields.length) {
                 object.extra_fields = [];
                 for (var j = 0; j < message.extra_fields.length; ++j)
-                    object.extra_fields[j] = $root.CMsgSteamDatagramRelayAuthTicket.ExtraField.toObject(message.extra_fields[j], options);
+                    object.extra_fields[j] = $root.CMsgSteamDatagramRelayAuthTicket.ExtraField.toObject(message.extra_fields[j], options, q + 1);
             }
-            if (message.legacy_gameserver_pop_id != null && message.hasOwnProperty("legacy_gameserver_pop_id"))
+            if (message.legacy_gameserver_pop_id != null && Object.hasOwnProperty.call(message, "legacy_gameserver_pop_id"))
                 object.legacy_gameserver_pop_id = message.legacy_gameserver_pop_id;
-            if (message.virtual_port != null && message.hasOwnProperty("virtual_port"))
+            if (message.virtual_port != null && Object.hasOwnProperty.call(message, "virtual_port"))
                 object.virtual_port = message.virtual_port;
-            if (message.gameserver_address != null && message.hasOwnProperty("gameserver_address"))
+            if (message.gameserver_address != null && Object.hasOwnProperty.call(message, "gameserver_address"))
                 object.gameserver_address = options.bytes === String ? $util.base64.encode(message.gameserver_address, 0, message.gameserver_address.length) : options.bytes === Array ? Array.prototype.slice.call(message.gameserver_address) : message.gameserver_address;
-            if (message.legacy_authorized_client_identity_binary != null && message.hasOwnProperty("legacy_authorized_client_identity_binary"))
+            if (message.legacy_authorized_client_identity_binary != null && Object.hasOwnProperty.call(message, "legacy_authorized_client_identity_binary"))
                 object.legacy_authorized_client_identity_binary = options.bytes === String ? $util.base64.encode(message.legacy_authorized_client_identity_binary, 0, message.legacy_authorized_client_identity_binary.length) : options.bytes === Array ? Array.prototype.slice.call(message.legacy_authorized_client_identity_binary) : message.legacy_authorized_client_identity_binary;
-            if (message.legacy_gameserver_identity_binary != null && message.hasOwnProperty("legacy_gameserver_identity_binary"))
+            if (message.legacy_gameserver_identity_binary != null && Object.hasOwnProperty.call(message, "legacy_gameserver_identity_binary"))
                 object.legacy_gameserver_identity_binary = options.bytes === String ? $util.base64.encode(message.legacy_gameserver_identity_binary, 0, message.legacy_gameserver_identity_binary.length) : options.bytes === Array ? Array.prototype.slice.call(message.legacy_gameserver_identity_binary) : message.legacy_gameserver_identity_binary;
-            if (message.authorized_client_identity_string != null && message.hasOwnProperty("authorized_client_identity_string"))
+            if (message.authorized_client_identity_string != null && Object.hasOwnProperty.call(message, "authorized_client_identity_string"))
                 object.authorized_client_identity_string = message.authorized_client_identity_string;
-            if (message.gameserver_identity_string != null && message.hasOwnProperty("gameserver_identity_string"))
+            if (message.gameserver_identity_string != null && Object.hasOwnProperty.call(message, "gameserver_identity_string"))
                 object.gameserver_identity_string = message.gameserver_identity_string;
             return object;
         };
@@ -595,7 +636,7 @@
             function ExtraField(properties) {
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
     
@@ -629,7 +670,7 @@
              * @memberof CMsgSteamDatagramRelayAuthTicket.ExtraField
              * @instance
              */
-            ExtraField.prototype.fixed64_value = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+            ExtraField.prototype.fixed64_value = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
             /**
              * Creates a new ExtraField instance using the specified properties.
@@ -652,9 +693,13 @@
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ExtraField.encode = function encode(message, writer) {
+            ExtraField.encode = function encode(message, writer, q) {
                 if (!writer)
                     writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
                 if (message.string_value != null && Object.hasOwnProperty.call(message, "string_value"))
@@ -676,7 +721,7 @@
              * @returns {$protobuf.Writer} Writer
              */
             ExtraField.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
     
             /**
@@ -690,10 +735,24 @@
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ExtraField.decode = function decode(reader, length, error) {
+            ExtraField.decode = function decode(reader, length, error, long) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSteamDatagramRelayAuthTicket.ExtraField();
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.CMsgSteamDatagramRelayAuthTicket.ExtraField();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     if (tag === error)
@@ -716,9 +775,14 @@
                             break;
                         }
                     default:
-                        reader.skipType(tag & 7);
+                        reader.skipType(tag & 7, long);
                         break;
                     }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
                 }
                 return message;
             };
@@ -747,19 +811,23 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            ExtraField.verify = function verify(message) {
+            ExtraField.verify = function verify(message, long) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.name != null && message.hasOwnProperty("name"))
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                     if (!$util.isString(message.name))
                         return "name: string expected";
-                if (message.string_value != null && message.hasOwnProperty("string_value"))
+                if (message.string_value != null && Object.hasOwnProperty.call(message, "string_value"))
                     if (!$util.isString(message.string_value))
                         return "string_value: string expected";
-                if (message.int64_value != null && message.hasOwnProperty("int64_value"))
+                if (message.int64_value != null && Object.hasOwnProperty.call(message, "int64_value"))
                     if (!$util.isInteger(message.int64_value) && !(message.int64_value && $util.isInteger(message.int64_value.low) && $util.isInteger(message.int64_value.high)))
                         return "int64_value: integer|Long expected";
-                if (message.fixed64_value != null && message.hasOwnProperty("fixed64_value"))
+                if (message.fixed64_value != null && Object.hasOwnProperty.call(message, "fixed64_value"))
                     if (!$util.isInteger(message.fixed64_value) && !(message.fixed64_value && $util.isInteger(message.fixed64_value.low) && $util.isInteger(message.fixed64_value.high)))
                         return "fixed64_value: integer|Long expected";
                 return null;
@@ -773,9 +841,15 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgSteamDatagramRelayAuthTicket.ExtraField} ExtraField
              */
-            ExtraField.fromObject = function fromObject(object) {
+            ExtraField.fromObject = function fromObject(object, long) {
                 if (object instanceof $root.CMsgSteamDatagramRelayAuthTicket.ExtraField)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".CMsgSteamDatagramRelayAuthTicket.ExtraField: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
                 var message = new $root.CMsgSteamDatagramRelayAuthTicket.ExtraField();
                 if (object.name != null)
                     message.name = String(object.name);
@@ -783,7 +857,7 @@
                     message.string_value = String(object.string_value);
                 if (object.int64_value != null)
                     if ($util.Long)
-                        (message.int64_value = $util.Long.fromValue(object.int64_value)).unsigned = false;
+                        message.int64_value = $util.Long.fromValue(object.int64_value, false);
                     else if (typeof object.int64_value === "string")
                         message.int64_value = parseInt(object.int64_value, 10);
                     else if (typeof object.int64_value === "number")
@@ -792,13 +866,13 @@
                         message.int64_value = new $util.LongBits(object.int64_value.low >>> 0, object.int64_value.high >>> 0).toNumber();
                 if (object.fixed64_value != null)
                     if ($util.Long)
-                        (message.fixed64_value = $util.Long.fromValue(object.fixed64_value)).unsigned = false;
+                        message.fixed64_value = $util.Long.fromValue(object.fixed64_value, true);
                     else if (typeof object.fixed64_value === "string")
                         message.fixed64_value = parseInt(object.fixed64_value, 10);
                     else if (typeof object.fixed64_value === "number")
                         message.fixed64_value = object.fixed64_value;
                     else if (typeof object.fixed64_value === "object")
-                        message.fixed64_value = new $util.LongBits(object.fixed64_value.low >>> 0, object.fixed64_value.high >>> 0).toNumber();
+                        message.fixed64_value = new $util.LongBits(object.fixed64_value.low >>> 0, object.fixed64_value.high >>> 0).toNumber(true);
                 return message;
             };
     
@@ -811,38 +885,46 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            ExtraField.toObject = function toObject(message, options) {
+            ExtraField.toObject = function toObject(message, options, q) {
                 if (!options)
                     options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.name = "";
                     object.string_value = "";
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, false);
-                        object.int64_value = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                        object.int64_value = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                     } else
-                        object.int64_value = options.longs === String ? "0" : 0;
+                        object.int64_value = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                     if ($util.Long) {
-                        var long = new $util.Long(0, 0, false);
-                        object.fixed64_value = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                        var long = new $util.Long(0, 0, true);
+                        object.fixed64_value = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                     } else
-                        object.fixed64_value = options.longs === String ? "0" : 0;
+                        object.fixed64_value = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 }
-                if (message.name != null && message.hasOwnProperty("name"))
+                if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                     object.name = message.name;
-                if (message.string_value != null && message.hasOwnProperty("string_value"))
+                if (message.string_value != null && Object.hasOwnProperty.call(message, "string_value"))
                     object.string_value = message.string_value;
-                if (message.int64_value != null && message.hasOwnProperty("int64_value"))
-                    if (typeof message.int64_value === "number")
+                if (message.int64_value != null && Object.hasOwnProperty.call(message, "int64_value"))
+                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                        object.int64_value = typeof message.int64_value === "number" ? BigInt(message.int64_value) : $util.Long.fromBits(message.int64_value.low >>> 0, message.int64_value.high >>> 0, false).toBigInt();
+                    else if (typeof message.int64_value === "number")
                         object.int64_value = options.longs === String ? String(message.int64_value) : message.int64_value;
                     else
                         object.int64_value = options.longs === String ? $util.Long.prototype.toString.call(message.int64_value) : options.longs === Number ? new $util.LongBits(message.int64_value.low >>> 0, message.int64_value.high >>> 0).toNumber() : message.int64_value;
-                if (message.fixed64_value != null && message.hasOwnProperty("fixed64_value"))
-                    if (typeof message.fixed64_value === "number")
+                if (message.fixed64_value != null && Object.hasOwnProperty.call(message, "fixed64_value"))
+                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                        object.fixed64_value = typeof message.fixed64_value === "number" ? BigInt(message.fixed64_value) : $util.Long.fromBits(message.fixed64_value.low >>> 0, message.fixed64_value.high >>> 0, true).toBigInt();
+                    else if (typeof message.fixed64_value === "number")
                         object.fixed64_value = options.longs === String ? String(message.fixed64_value) : message.fixed64_value;
                     else
-                        object.fixed64_value = options.longs === String ? $util.Long.prototype.toString.call(message.fixed64_value) : options.longs === Number ? new $util.LongBits(message.fixed64_value.low >>> 0, message.fixed64_value.high >>> 0).toNumber() : message.fixed64_value;
+                        object.fixed64_value = options.longs === String ? $util.Long.prototype.toString.call(message.fixed64_value) : options.longs === Number ? new $util.LongBits(message.fixed64_value.low >>> 0, message.fixed64_value.high >>> 0).toNumber(true) : message.fixed64_value;
                 return object;
             };
     
@@ -903,7 +985,7 @@
             this.certs = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -913,7 +995,7 @@
          * @memberof CMsgSteamDatagramSignedRelayAuthTicket
          * @instance
          */
-        CMsgSteamDatagramSignedRelayAuthTicket.prototype.reserved_do_not_use = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSteamDatagramSignedRelayAuthTicket.prototype.reserved_do_not_use = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CMsgSteamDatagramSignedRelayAuthTicket ticket.
@@ -937,7 +1019,7 @@
          * @memberof CMsgSteamDatagramSignedRelayAuthTicket
          * @instance
          */
-        CMsgSteamDatagramSignedRelayAuthTicket.prototype.key_id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSteamDatagramSignedRelayAuthTicket.prototype.key_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CMsgSteamDatagramSignedRelayAuthTicket certs.
@@ -968,9 +1050,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramSignedRelayAuthTicket.encode = function encode(message, writer) {
+        CMsgSteamDatagramSignedRelayAuthTicket.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.reserved_do_not_use != null && Object.hasOwnProperty.call(message, "reserved_do_not_use"))
                 writer.uint32(/* id 1, wireType 1 =*/9).fixed64(message.reserved_do_not_use);
             if (message.key_id != null && Object.hasOwnProperty.call(message, "key_id"))
@@ -981,7 +1067,7 @@
                 writer.uint32(/* id 4, wireType 2 =*/34).bytes(message.signature);
             if (message.certs != null && message.certs.length)
                 for (var i = 0; i < message.certs.length; ++i)
-                    $root.CMsgSteamDatagramCertificateSigned.encode(message.certs[i], writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                    $root.CMsgSteamDatagramCertificateSigned.encode(message.certs[i], writer.uint32(/* id 5, wireType 2 =*/42).fork(), q + 1).ldelim();
             return writer;
         };
     
@@ -995,7 +1081,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSteamDatagramSignedRelayAuthTicket.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -1009,10 +1095,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramSignedRelayAuthTicket.decode = function decode(reader, length, error) {
+        CMsgSteamDatagramSignedRelayAuthTicket.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSteamDatagramSignedRelayAuthTicket();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSteamDatagramSignedRelayAuthTicket();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -1037,13 +1137,18 @@
                 case 5: {
                         if (!(message.certs && message.certs.length))
                             message.certs = [];
-                        message.certs.push($root.CMsgSteamDatagramCertificateSigned.decode(reader, reader.uint32()));
+                        message.certs.push($root.CMsgSteamDatagramCertificateSigned.decode(reader, reader.uint32(), undefined, long + 1));
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -1072,26 +1177,30 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramSignedRelayAuthTicket.verify = function verify(message) {
+        CMsgSteamDatagramSignedRelayAuthTicket.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.reserved_do_not_use != null && message.hasOwnProperty("reserved_do_not_use"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.reserved_do_not_use != null && Object.hasOwnProperty.call(message, "reserved_do_not_use"))
                 if (!$util.isInteger(message.reserved_do_not_use) && !(message.reserved_do_not_use && $util.isInteger(message.reserved_do_not_use.low) && $util.isInteger(message.reserved_do_not_use.high)))
                     return "reserved_do_not_use: integer|Long expected";
-            if (message.ticket != null && message.hasOwnProperty("ticket"))
+            if (message.ticket != null && Object.hasOwnProperty.call(message, "ticket"))
                 if (!(message.ticket && typeof message.ticket.length === "number" || $util.isString(message.ticket)))
                     return "ticket: buffer expected";
-            if (message.signature != null && message.hasOwnProperty("signature"))
+            if (message.signature != null && Object.hasOwnProperty.call(message, "signature"))
                 if (!(message.signature && typeof message.signature.length === "number" || $util.isString(message.signature)))
                     return "signature: buffer expected";
-            if (message.key_id != null && message.hasOwnProperty("key_id"))
+            if (message.key_id != null && Object.hasOwnProperty.call(message, "key_id"))
                 if (!$util.isInteger(message.key_id) && !(message.key_id && $util.isInteger(message.key_id.low) && $util.isInteger(message.key_id.high)))
                     return "key_id: integer|Long expected";
-            if (message.certs != null && message.hasOwnProperty("certs")) {
+            if (message.certs != null && Object.hasOwnProperty.call(message, "certs")) {
                 if (!Array.isArray(message.certs))
                     return "certs: array expected";
                 for (var i = 0; i < message.certs.length; ++i) {
-                    var error = $root.CMsgSteamDatagramCertificateSigned.verify(message.certs[i]);
+                    var error = $root.CMsgSteamDatagramCertificateSigned.verify(message.certs[i], long + 1);
                     if (error)
                         return "certs." + error;
                 }
@@ -1107,19 +1216,25 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramSignedRelayAuthTicket} CMsgSteamDatagramSignedRelayAuthTicket
          */
-        CMsgSteamDatagramSignedRelayAuthTicket.fromObject = function fromObject(object) {
+        CMsgSteamDatagramSignedRelayAuthTicket.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSteamDatagramSignedRelayAuthTicket)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSteamDatagramSignedRelayAuthTicket: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSteamDatagramSignedRelayAuthTicket();
             if (object.reserved_do_not_use != null)
                 if ($util.Long)
-                    (message.reserved_do_not_use = $util.Long.fromValue(object.reserved_do_not_use)).unsigned = false;
+                    message.reserved_do_not_use = $util.Long.fromValue(object.reserved_do_not_use, true);
                 else if (typeof object.reserved_do_not_use === "string")
                     message.reserved_do_not_use = parseInt(object.reserved_do_not_use, 10);
                 else if (typeof object.reserved_do_not_use === "number")
                     message.reserved_do_not_use = object.reserved_do_not_use;
                 else if (typeof object.reserved_do_not_use === "object")
-                    message.reserved_do_not_use = new $util.LongBits(object.reserved_do_not_use.low >>> 0, object.reserved_do_not_use.high >>> 0).toNumber();
+                    message.reserved_do_not_use = new $util.LongBits(object.reserved_do_not_use.low >>> 0, object.reserved_do_not_use.high >>> 0).toNumber(true);
             if (object.ticket != null)
                 if (typeof object.ticket === "string")
                     $util.base64.decode(object.ticket, message.ticket = $util.newBuffer($util.base64.length(object.ticket)), 0);
@@ -1132,21 +1247,21 @@
                     message.signature = object.signature;
             if (object.key_id != null)
                 if ($util.Long)
-                    (message.key_id = $util.Long.fromValue(object.key_id)).unsigned = false;
+                    message.key_id = $util.Long.fromValue(object.key_id, true);
                 else if (typeof object.key_id === "string")
                     message.key_id = parseInt(object.key_id, 10);
                 else if (typeof object.key_id === "number")
                     message.key_id = object.key_id;
                 else if (typeof object.key_id === "object")
-                    message.key_id = new $util.LongBits(object.key_id.low >>> 0, object.key_id.high >>> 0).toNumber();
+                    message.key_id = new $util.LongBits(object.key_id.low >>> 0, object.key_id.high >>> 0).toNumber(true);
             if (object.certs) {
                 if (!Array.isArray(object.certs))
                     throw TypeError(".CMsgSteamDatagramSignedRelayAuthTicket.certs: array expected");
                 message.certs = [];
                 for (var i = 0; i < object.certs.length; ++i) {
-                    if (typeof object.certs[i] !== "object")
+                    if (!$util.isObject(object.certs[i]))
                         throw TypeError(".CMsgSteamDatagramSignedRelayAuthTicket.certs: object expected");
-                    message.certs[i] = $root.CMsgSteamDatagramCertificateSigned.fromObject(object.certs[i]);
+                    message.certs[i] = $root.CMsgSteamDatagramCertificateSigned.fromObject(object.certs[i], long + 1);
                 }
             }
             return message;
@@ -1161,23 +1276,27 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramSignedRelayAuthTicket.toObject = function toObject(message, options) {
+        CMsgSteamDatagramSignedRelayAuthTicket.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.certs = [];
             if (options.defaults) {
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.reserved_do_not_use = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.reserved_do_not_use = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.reserved_do_not_use = options.longs === String ? "0" : 0;
+                    object.reserved_do_not_use = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.key_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.key_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.key_id = options.longs === String ? "0" : 0;
+                    object.key_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 if (options.bytes === String)
                     object.ticket = "";
                 else {
@@ -1193,24 +1312,28 @@
                         object.signature = $util.newBuffer(object.signature);
                 }
             }
-            if (message.reserved_do_not_use != null && message.hasOwnProperty("reserved_do_not_use"))
-                if (typeof message.reserved_do_not_use === "number")
+            if (message.reserved_do_not_use != null && Object.hasOwnProperty.call(message, "reserved_do_not_use"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.reserved_do_not_use = typeof message.reserved_do_not_use === "number" ? BigInt(message.reserved_do_not_use) : $util.Long.fromBits(message.reserved_do_not_use.low >>> 0, message.reserved_do_not_use.high >>> 0, true).toBigInt();
+                else if (typeof message.reserved_do_not_use === "number")
                     object.reserved_do_not_use = options.longs === String ? String(message.reserved_do_not_use) : message.reserved_do_not_use;
                 else
-                    object.reserved_do_not_use = options.longs === String ? $util.Long.prototype.toString.call(message.reserved_do_not_use) : options.longs === Number ? new $util.LongBits(message.reserved_do_not_use.low >>> 0, message.reserved_do_not_use.high >>> 0).toNumber() : message.reserved_do_not_use;
-            if (message.key_id != null && message.hasOwnProperty("key_id"))
-                if (typeof message.key_id === "number")
+                    object.reserved_do_not_use = options.longs === String ? $util.Long.prototype.toString.call(message.reserved_do_not_use) : options.longs === Number ? new $util.LongBits(message.reserved_do_not_use.low >>> 0, message.reserved_do_not_use.high >>> 0).toNumber(true) : message.reserved_do_not_use;
+            if (message.key_id != null && Object.hasOwnProperty.call(message, "key_id"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.key_id = typeof message.key_id === "number" ? BigInt(message.key_id) : $util.Long.fromBits(message.key_id.low >>> 0, message.key_id.high >>> 0, true).toBigInt();
+                else if (typeof message.key_id === "number")
                     object.key_id = options.longs === String ? String(message.key_id) : message.key_id;
                 else
-                    object.key_id = options.longs === String ? $util.Long.prototype.toString.call(message.key_id) : options.longs === Number ? new $util.LongBits(message.key_id.low >>> 0, message.key_id.high >>> 0).toNumber() : message.key_id;
-            if (message.ticket != null && message.hasOwnProperty("ticket"))
+                    object.key_id = options.longs === String ? $util.Long.prototype.toString.call(message.key_id) : options.longs === Number ? new $util.LongBits(message.key_id.low >>> 0, message.key_id.high >>> 0).toNumber(true) : message.key_id;
+            if (message.ticket != null && Object.hasOwnProperty.call(message, "ticket"))
                 object.ticket = options.bytes === String ? $util.base64.encode(message.ticket, 0, message.ticket.length) : options.bytes === Array ? Array.prototype.slice.call(message.ticket) : message.ticket;
-            if (message.signature != null && message.hasOwnProperty("signature"))
+            if (message.signature != null && Object.hasOwnProperty.call(message, "signature"))
                 object.signature = options.bytes === String ? $util.base64.encode(message.signature, 0, message.signature.length) : options.bytes === Array ? Array.prototype.slice.call(message.signature) : message.signature;
             if (message.certs && message.certs.length) {
                 object.certs = [];
                 for (var j = 0; j < message.certs.length; ++j)
-                    object.certs[j] = $root.CMsgSteamDatagramCertificateSigned.toObject(message.certs[j], options);
+                    object.certs[j] = $root.CMsgSteamDatagramCertificateSigned.toObject(message.certs[j], options, q + 1);
             }
             return object;
         };
@@ -1267,7 +1390,7 @@
             this.relay_tickets = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -1316,9 +1439,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramCachedCredentialsForApp.encode = function encode(message, writer) {
+        CMsgSteamDatagramCachedCredentialsForApp.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.private_key != null && Object.hasOwnProperty.call(message, "private_key"))
                 writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.private_key);
             if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
@@ -1339,7 +1466,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSteamDatagramCachedCredentialsForApp.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -1353,10 +1480,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramCachedCredentialsForApp.decode = function decode(reader, length, error) {
+        CMsgSteamDatagramCachedCredentialsForApp.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSteamDatagramCachedCredentialsForApp();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSteamDatagramCachedCredentialsForApp();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -1377,9 +1518,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -1408,16 +1554,20 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramCachedCredentialsForApp.verify = function verify(message) {
+        CMsgSteamDatagramCachedCredentialsForApp.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.private_key != null && message.hasOwnProperty("private_key"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.private_key != null && Object.hasOwnProperty.call(message, "private_key"))
                 if (!(message.private_key && typeof message.private_key.length === "number" || $util.isString(message.private_key)))
                     return "private_key: buffer expected";
-            if (message.cert != null && message.hasOwnProperty("cert"))
+            if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
                 if (!(message.cert && typeof message.cert.length === "number" || $util.isString(message.cert)))
                     return "cert: buffer expected";
-            if (message.relay_tickets != null && message.hasOwnProperty("relay_tickets")) {
+            if (message.relay_tickets != null && Object.hasOwnProperty.call(message, "relay_tickets")) {
                 if (!Array.isArray(message.relay_tickets))
                     return "relay_tickets: array expected";
                 for (var i = 0; i < message.relay_tickets.length; ++i)
@@ -1435,9 +1585,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramCachedCredentialsForApp} CMsgSteamDatagramCachedCredentialsForApp
          */
-        CMsgSteamDatagramCachedCredentialsForApp.fromObject = function fromObject(object) {
+        CMsgSteamDatagramCachedCredentialsForApp.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSteamDatagramCachedCredentialsForApp)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSteamDatagramCachedCredentialsForApp: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSteamDatagramCachedCredentialsForApp();
             if (object.private_key != null)
                 if (typeof object.private_key === "string")
@@ -1471,9 +1627,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramCachedCredentialsForApp.toObject = function toObject(message, options) {
+        CMsgSteamDatagramCachedCredentialsForApp.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.relay_tickets = [];
@@ -1493,9 +1653,9 @@
                         object.cert = $util.newBuffer(object.cert);
                 }
             }
-            if (message.private_key != null && message.hasOwnProperty("private_key"))
+            if (message.private_key != null && Object.hasOwnProperty.call(message, "private_key"))
                 object.private_key = options.bytes === String ? $util.base64.encode(message.private_key, 0, message.private_key.length) : options.bytes === Array ? Array.prototype.slice.call(message.private_key) : message.private_key;
-            if (message.cert != null && message.hasOwnProperty("cert"))
+            if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
                 object.cert = options.bytes === String ? $util.base64.encode(message.cert, 0, message.cert.length) : options.bytes === Array ? Array.prototype.slice.call(message.cert) : message.cert;
             if (message.relay_tickets && message.relay_tickets.length) {
                 object.relay_tickets = [];
@@ -1560,7 +1720,7 @@
         function CMsgSteamDatagramGameCoordinatorServerLogin(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -1618,7 +1778,7 @@
          * @memberof CMsgSteamDatagramGameCoordinatorServerLogin
          * @instance
          */
-        CMsgSteamDatagramGameCoordinatorServerLogin.prototype.dummy_steam_id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSteamDatagramGameCoordinatorServerLogin.prototype.dummy_steam_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * Creates a new CMsgSteamDatagramGameCoordinatorServerLogin instance using the specified properties.
@@ -1641,9 +1801,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramGameCoordinatorServerLogin.encode = function encode(message, writer) {
+        CMsgSteamDatagramGameCoordinatorServerLogin.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.time_generated != null && Object.hasOwnProperty.call(message, "time_generated"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.time_generated);
             if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
@@ -1671,7 +1835,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSteamDatagramGameCoordinatorServerLogin.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -1685,10 +1849,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramGameCoordinatorServerLogin.decode = function decode(reader, length, error) {
+        CMsgSteamDatagramGameCoordinatorServerLogin.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSteamDatagramGameCoordinatorServerLogin();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSteamDatagramGameCoordinatorServerLogin();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -1723,9 +1901,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -1754,28 +1937,32 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramGameCoordinatorServerLogin.verify = function verify(message) {
+        CMsgSteamDatagramGameCoordinatorServerLogin.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.time_generated != null && message.hasOwnProperty("time_generated"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.time_generated != null && Object.hasOwnProperty.call(message, "time_generated"))
                 if (!$util.isInteger(message.time_generated))
                     return "time_generated: integer expected";
-            if (message.appid != null && message.hasOwnProperty("appid"))
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.routing != null && message.hasOwnProperty("routing"))
+            if (message.routing != null && Object.hasOwnProperty.call(message, "routing"))
                 if (!(message.routing && typeof message.routing.length === "number" || $util.isString(message.routing)))
                     return "routing: buffer expected";
-            if (message.appdata != null && message.hasOwnProperty("appdata"))
+            if (message.appdata != null && Object.hasOwnProperty.call(message, "appdata"))
                 if (!(message.appdata && typeof message.appdata.length === "number" || $util.isString(message.appdata)))
                     return "appdata: buffer expected";
-            if (message.legacy_identity_binary != null && message.hasOwnProperty("legacy_identity_binary"))
+            if (message.legacy_identity_binary != null && Object.hasOwnProperty.call(message, "legacy_identity_binary"))
                 if (!(message.legacy_identity_binary && typeof message.legacy_identity_binary.length === "number" || $util.isString(message.legacy_identity_binary)))
                     return "legacy_identity_binary: buffer expected";
-            if (message.identity_string != null && message.hasOwnProperty("identity_string"))
+            if (message.identity_string != null && Object.hasOwnProperty.call(message, "identity_string"))
                 if (!$util.isString(message.identity_string))
                     return "identity_string: string expected";
-            if (message.dummy_steam_id != null && message.hasOwnProperty("dummy_steam_id"))
+            if (message.dummy_steam_id != null && Object.hasOwnProperty.call(message, "dummy_steam_id"))
                 if (!$util.isInteger(message.dummy_steam_id) && !(message.dummy_steam_id && $util.isInteger(message.dummy_steam_id.low) && $util.isInteger(message.dummy_steam_id.high)))
                     return "dummy_steam_id: integer|Long expected";
             return null;
@@ -1789,9 +1976,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramGameCoordinatorServerLogin} CMsgSteamDatagramGameCoordinatorServerLogin
          */
-        CMsgSteamDatagramGameCoordinatorServerLogin.fromObject = function fromObject(object) {
+        CMsgSteamDatagramGameCoordinatorServerLogin.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSteamDatagramGameCoordinatorServerLogin)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSteamDatagramGameCoordinatorServerLogin: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSteamDatagramGameCoordinatorServerLogin();
             if (object.time_generated != null)
                 message.time_generated = object.time_generated >>> 0;
@@ -1816,13 +2009,13 @@
                 message.identity_string = String(object.identity_string);
             if (object.dummy_steam_id != null)
                 if ($util.Long)
-                    (message.dummy_steam_id = $util.Long.fromValue(object.dummy_steam_id)).unsigned = false;
+                    message.dummy_steam_id = $util.Long.fromValue(object.dummy_steam_id, true);
                 else if (typeof object.dummy_steam_id === "string")
                     message.dummy_steam_id = parseInt(object.dummy_steam_id, 10);
                 else if (typeof object.dummy_steam_id === "number")
                     message.dummy_steam_id = object.dummy_steam_id;
                 else if (typeof object.dummy_steam_id === "object")
-                    message.dummy_steam_id = new $util.LongBits(object.dummy_steam_id.low >>> 0, object.dummy_steam_id.high >>> 0).toNumber();
+                    message.dummy_steam_id = new $util.LongBits(object.dummy_steam_id.low >>> 0, object.dummy_steam_id.high >>> 0).toNumber(true);
             return message;
         };
     
@@ -1835,9 +2028,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramGameCoordinatorServerLogin.toObject = function toObject(message, options) {
+        CMsgSteamDatagramGameCoordinatorServerLogin.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.time_generated = 0;
@@ -1865,28 +2062,30 @@
                 }
                 object.identity_string = "";
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.dummy_steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.dummy_steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.dummy_steam_id = options.longs === String ? "0" : 0;
+                    object.dummy_steam_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
             }
-            if (message.time_generated != null && message.hasOwnProperty("time_generated"))
+            if (message.time_generated != null && Object.hasOwnProperty.call(message, "time_generated"))
                 object.time_generated = message.time_generated;
-            if (message.appid != null && message.hasOwnProperty("appid"))
+            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
-            if (message.routing != null && message.hasOwnProperty("routing"))
+            if (message.routing != null && Object.hasOwnProperty.call(message, "routing"))
                 object.routing = options.bytes === String ? $util.base64.encode(message.routing, 0, message.routing.length) : options.bytes === Array ? Array.prototype.slice.call(message.routing) : message.routing;
-            if (message.appdata != null && message.hasOwnProperty("appdata"))
+            if (message.appdata != null && Object.hasOwnProperty.call(message, "appdata"))
                 object.appdata = options.bytes === String ? $util.base64.encode(message.appdata, 0, message.appdata.length) : options.bytes === Array ? Array.prototype.slice.call(message.appdata) : message.appdata;
-            if (message.legacy_identity_binary != null && message.hasOwnProperty("legacy_identity_binary"))
+            if (message.legacy_identity_binary != null && Object.hasOwnProperty.call(message, "legacy_identity_binary"))
                 object.legacy_identity_binary = options.bytes === String ? $util.base64.encode(message.legacy_identity_binary, 0, message.legacy_identity_binary.length) : options.bytes === Array ? Array.prototype.slice.call(message.legacy_identity_binary) : message.legacy_identity_binary;
-            if (message.identity_string != null && message.hasOwnProperty("identity_string"))
+            if (message.identity_string != null && Object.hasOwnProperty.call(message, "identity_string"))
                 object.identity_string = message.identity_string;
-            if (message.dummy_steam_id != null && message.hasOwnProperty("dummy_steam_id"))
-                if (typeof message.dummy_steam_id === "number")
+            if (message.dummy_steam_id != null && Object.hasOwnProperty.call(message, "dummy_steam_id"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.dummy_steam_id = typeof message.dummy_steam_id === "number" ? BigInt(message.dummy_steam_id) : $util.Long.fromBits(message.dummy_steam_id.low >>> 0, message.dummy_steam_id.high >>> 0, true).toBigInt();
+                else if (typeof message.dummy_steam_id === "number")
                     object.dummy_steam_id = options.longs === String ? String(message.dummy_steam_id) : message.dummy_steam_id;
                 else
-                    object.dummy_steam_id = options.longs === String ? $util.Long.prototype.toString.call(message.dummy_steam_id) : options.longs === Number ? new $util.LongBits(message.dummy_steam_id.low >>> 0, message.dummy_steam_id.high >>> 0).toNumber() : message.dummy_steam_id;
+                    object.dummy_steam_id = options.longs === String ? $util.Long.prototype.toString.call(message.dummy_steam_id) : options.longs === Number ? new $util.LongBits(message.dummy_steam_id.low >>> 0, message.dummy_steam_id.high >>> 0).toNumber(true) : message.dummy_steam_id;
             return object;
         };
     
@@ -1941,7 +2140,7 @@
         function CMsgSteamDatagramSignedGameCoordinatorServerLogin(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -1990,11 +2189,15 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramSignedGameCoordinatorServerLogin.encode = function encode(message, writer) {
+        CMsgSteamDatagramSignedGameCoordinatorServerLogin.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
-                $root.CMsgSteamDatagramCertificateSigned.encode(message.cert, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                $root.CMsgSteamDatagramCertificateSigned.encode(message.cert, writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
             if (message.login != null && Object.hasOwnProperty.call(message, "login"))
                 writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.login);
             if (message.signature != null && Object.hasOwnProperty.call(message, "signature"))
@@ -2012,7 +2215,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSteamDatagramSignedGameCoordinatorServerLogin.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -2026,17 +2229,31 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramSignedGameCoordinatorServerLogin.decode = function decode(reader, length, error) {
+        CMsgSteamDatagramSignedGameCoordinatorServerLogin.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSteamDatagramSignedGameCoordinatorServerLogin();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSteamDatagramSignedGameCoordinatorServerLogin();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
                     break;
                 switch (tag >>> 3) {
                 case 1: {
-                        message.cert = $root.CMsgSteamDatagramCertificateSigned.decode(reader, reader.uint32());
+                        message.cert = $root.CMsgSteamDatagramCertificateSigned.decode(reader, reader.uint32(), undefined, long + 1);
                         break;
                     }
                 case 2: {
@@ -2048,9 +2265,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -2079,18 +2301,22 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramSignedGameCoordinatorServerLogin.verify = function verify(message) {
+        CMsgSteamDatagramSignedGameCoordinatorServerLogin.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.cert != null && message.hasOwnProperty("cert")) {
-                var error = $root.CMsgSteamDatagramCertificateSigned.verify(message.cert);
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.cert != null && Object.hasOwnProperty.call(message, "cert")) {
+                var error = $root.CMsgSteamDatagramCertificateSigned.verify(message.cert, long + 1);
                 if (error)
                     return "cert." + error;
             }
-            if (message.login != null && message.hasOwnProperty("login"))
+            if (message.login != null && Object.hasOwnProperty.call(message, "login"))
                 if (!(message.login && typeof message.login.length === "number" || $util.isString(message.login)))
                     return "login: buffer expected";
-            if (message.signature != null && message.hasOwnProperty("signature"))
+            if (message.signature != null && Object.hasOwnProperty.call(message, "signature"))
                 if (!(message.signature && typeof message.signature.length === "number" || $util.isString(message.signature)))
                     return "signature: buffer expected";
             return null;
@@ -2104,14 +2330,20 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramSignedGameCoordinatorServerLogin} CMsgSteamDatagramSignedGameCoordinatorServerLogin
          */
-        CMsgSteamDatagramSignedGameCoordinatorServerLogin.fromObject = function fromObject(object) {
+        CMsgSteamDatagramSignedGameCoordinatorServerLogin.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSteamDatagramSignedGameCoordinatorServerLogin)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSteamDatagramSignedGameCoordinatorServerLogin: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSteamDatagramSignedGameCoordinatorServerLogin();
             if (object.cert != null) {
-                if (typeof object.cert !== "object")
+                if (!$util.isObject(object.cert))
                     throw TypeError(".CMsgSteamDatagramSignedGameCoordinatorServerLogin.cert: object expected");
-                message.cert = $root.CMsgSteamDatagramCertificateSigned.fromObject(object.cert);
+                message.cert = $root.CMsgSteamDatagramCertificateSigned.fromObject(object.cert, long + 1);
             }
             if (object.login != null)
                 if (typeof object.login === "string")
@@ -2135,9 +2367,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramSignedGameCoordinatorServerLogin.toObject = function toObject(message, options) {
+        CMsgSteamDatagramSignedGameCoordinatorServerLogin.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.cert = null;
@@ -2156,11 +2392,11 @@
                         object.signature = $util.newBuffer(object.signature);
                 }
             }
-            if (message.cert != null && message.hasOwnProperty("cert"))
-                object.cert = $root.CMsgSteamDatagramCertificateSigned.toObject(message.cert, options);
-            if (message.login != null && message.hasOwnProperty("login"))
+            if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
+                object.cert = $root.CMsgSteamDatagramCertificateSigned.toObject(message.cert, options, q + 1);
+            if (message.login != null && Object.hasOwnProperty.call(message, "login"))
                 object.login = options.bytes === String ? $util.base64.encode(message.login, 0, message.login.length) : options.bytes === Array ? Array.prototype.slice.call(message.login) : message.login;
-            if (message.signature != null && message.hasOwnProperty("signature"))
+            if (message.signature != null && Object.hasOwnProperty.call(message, "signature"))
                 object.signature = options.bytes === String ? $util.base64.encode(message.signature, 0, message.signature.length) : options.bytes === Array ? Array.prototype.slice.call(message.signature) : message.signature;
             return object;
         };
@@ -2218,7 +2454,7 @@
         function CMsgSteamDatagramHostedServerAddressPlaintext(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -2252,7 +2488,7 @@
          * @memberof CMsgSteamDatagramHostedServerAddressPlaintext
          * @instance
          */
-        CMsgSteamDatagramHostedServerAddressPlaintext.prototype.routing_secret = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSteamDatagramHostedServerAddressPlaintext.prototype.routing_secret = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CMsgSteamDatagramHostedServerAddressPlaintext protocol_version.
@@ -2283,9 +2519,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramHostedServerAddressPlaintext.encode = function encode(message, writer) {
+        CMsgSteamDatagramHostedServerAddressPlaintext.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.ipv4 != null && Object.hasOwnProperty.call(message, "ipv4"))
                 writer.uint32(/* id 1, wireType 5 =*/13).fixed32(message.ipv4);
             if (message.ipv6 != null && Object.hasOwnProperty.call(message, "ipv6"))
@@ -2309,7 +2549,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSteamDatagramHostedServerAddressPlaintext.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -2323,10 +2563,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramHostedServerAddressPlaintext.decode = function decode(reader, length, error) {
+        CMsgSteamDatagramHostedServerAddressPlaintext.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSteamDatagramHostedServerAddressPlaintext();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSteamDatagramHostedServerAddressPlaintext();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -2353,9 +2607,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -2384,22 +2643,26 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramHostedServerAddressPlaintext.verify = function verify(message) {
+        CMsgSteamDatagramHostedServerAddressPlaintext.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.ipv4 != null && message.hasOwnProperty("ipv4"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.ipv4 != null && Object.hasOwnProperty.call(message, "ipv4"))
                 if (!$util.isInteger(message.ipv4))
                     return "ipv4: integer expected";
-            if (message.ipv6 != null && message.hasOwnProperty("ipv6"))
+            if (message.ipv6 != null && Object.hasOwnProperty.call(message, "ipv6"))
                 if (!(message.ipv6 && typeof message.ipv6.length === "number" || $util.isString(message.ipv6)))
                     return "ipv6: buffer expected";
-            if (message.port != null && message.hasOwnProperty("port"))
+            if (message.port != null && Object.hasOwnProperty.call(message, "port"))
                 if (!$util.isInteger(message.port))
                     return "port: integer expected";
-            if (message.routing_secret != null && message.hasOwnProperty("routing_secret"))
+            if (message.routing_secret != null && Object.hasOwnProperty.call(message, "routing_secret"))
                 if (!$util.isInteger(message.routing_secret) && !(message.routing_secret && $util.isInteger(message.routing_secret.low) && $util.isInteger(message.routing_secret.high)))
                     return "routing_secret: integer|Long expected";
-            if (message.protocol_version != null && message.hasOwnProperty("protocol_version"))
+            if (message.protocol_version != null && Object.hasOwnProperty.call(message, "protocol_version"))
                 if (!$util.isInteger(message.protocol_version))
                     return "protocol_version: integer expected";
             return null;
@@ -2413,9 +2676,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramHostedServerAddressPlaintext} CMsgSteamDatagramHostedServerAddressPlaintext
          */
-        CMsgSteamDatagramHostedServerAddressPlaintext.fromObject = function fromObject(object) {
+        CMsgSteamDatagramHostedServerAddressPlaintext.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSteamDatagramHostedServerAddressPlaintext)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSteamDatagramHostedServerAddressPlaintext: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSteamDatagramHostedServerAddressPlaintext();
             if (object.ipv4 != null)
                 message.ipv4 = object.ipv4 >>> 0;
@@ -2428,13 +2697,13 @@
                 message.port = object.port >>> 0;
             if (object.routing_secret != null)
                 if ($util.Long)
-                    (message.routing_secret = $util.Long.fromValue(object.routing_secret)).unsigned = false;
+                    message.routing_secret = $util.Long.fromValue(object.routing_secret, true);
                 else if (typeof object.routing_secret === "string")
                     message.routing_secret = parseInt(object.routing_secret, 10);
                 else if (typeof object.routing_secret === "number")
                     message.routing_secret = object.routing_secret;
                 else if (typeof object.routing_secret === "object")
-                    message.routing_secret = new $util.LongBits(object.routing_secret.low >>> 0, object.routing_secret.high >>> 0).toNumber();
+                    message.routing_secret = new $util.LongBits(object.routing_secret.low >>> 0, object.routing_secret.high >>> 0).toNumber(true);
             if (object.protocol_version != null)
                 message.protocol_version = object.protocol_version >>> 0;
             return message;
@@ -2449,9 +2718,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramHostedServerAddressPlaintext.toObject = function toObject(message, options) {
+        CMsgSteamDatagramHostedServerAddressPlaintext.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.ipv4 = 0;
@@ -2464,24 +2737,26 @@
                 }
                 object.port = 0;
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.routing_secret = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.routing_secret = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.routing_secret = options.longs === String ? "0" : 0;
+                    object.routing_secret = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.protocol_version = 0;
             }
-            if (message.ipv4 != null && message.hasOwnProperty("ipv4"))
+            if (message.ipv4 != null && Object.hasOwnProperty.call(message, "ipv4"))
                 object.ipv4 = message.ipv4;
-            if (message.ipv6 != null && message.hasOwnProperty("ipv6"))
+            if (message.ipv6 != null && Object.hasOwnProperty.call(message, "ipv6"))
                 object.ipv6 = options.bytes === String ? $util.base64.encode(message.ipv6, 0, message.ipv6.length) : options.bytes === Array ? Array.prototype.slice.call(message.ipv6) : message.ipv6;
-            if (message.port != null && message.hasOwnProperty("port"))
+            if (message.port != null && Object.hasOwnProperty.call(message, "port"))
                 object.port = message.port;
-            if (message.routing_secret != null && message.hasOwnProperty("routing_secret"))
-                if (typeof message.routing_secret === "number")
+            if (message.routing_secret != null && Object.hasOwnProperty.call(message, "routing_secret"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.routing_secret = typeof message.routing_secret === "number" ? BigInt(message.routing_secret) : $util.Long.fromBits(message.routing_secret.low >>> 0, message.routing_secret.high >>> 0, true).toBigInt();
+                else if (typeof message.routing_secret === "number")
                     object.routing_secret = options.longs === String ? String(message.routing_secret) : message.routing_secret;
                 else
-                    object.routing_secret = options.longs === String ? $util.Long.prototype.toString.call(message.routing_secret) : options.longs === Number ? new $util.LongBits(message.routing_secret.low >>> 0, message.routing_secret.high >>> 0).toNumber() : message.routing_secret;
-            if (message.protocol_version != null && message.hasOwnProperty("protocol_version"))
+                    object.routing_secret = options.longs === String ? $util.Long.prototype.toString.call(message.routing_secret) : options.longs === Number ? new $util.LongBits(message.routing_secret.low >>> 0, message.routing_secret.high >>> 0).toNumber(true) : message.routing_secret;
+            if (message.protocol_version != null && Object.hasOwnProperty.call(message, "protocol_version"))
                 object.protocol_version = message.protocol_version;
             return object;
         };
@@ -2538,7 +2813,7 @@
         function CMsgSteamNetworkingIdentityLegacyBinary(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -2548,7 +2823,7 @@
          * @memberof CMsgSteamNetworkingIdentityLegacyBinary
          * @instance
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.prototype.steam_id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSteamNetworkingIdentityLegacyBinary.prototype.steam_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CMsgSteamNetworkingIdentityLegacyBinary generic_bytes.
@@ -2595,9 +2870,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.encode = function encode(message, writer) {
+        CMsgSteamNetworkingIdentityLegacyBinary.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.generic_bytes != null && Object.hasOwnProperty.call(message, "generic_bytes"))
                 writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.generic_bytes);
             if (message.generic_string != null && Object.hasOwnProperty.call(message, "generic_string"))
@@ -2619,7 +2898,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSteamNetworkingIdentityLegacyBinary.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -2633,10 +2912,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.decode = function decode(reader, length, error) {
+        CMsgSteamNetworkingIdentityLegacyBinary.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSteamNetworkingIdentityLegacyBinary();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSteamNetworkingIdentityLegacyBinary();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -2659,9 +2952,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -2690,19 +2988,23 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.verify = function verify(message) {
+        CMsgSteamNetworkingIdentityLegacyBinary.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.steam_id != null && message.hasOwnProperty("steam_id"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.steam_id != null && Object.hasOwnProperty.call(message, "steam_id"))
                 if (!$util.isInteger(message.steam_id) && !(message.steam_id && $util.isInteger(message.steam_id.low) && $util.isInteger(message.steam_id.high)))
                     return "steam_id: integer|Long expected";
-            if (message.generic_bytes != null && message.hasOwnProperty("generic_bytes"))
+            if (message.generic_bytes != null && Object.hasOwnProperty.call(message, "generic_bytes"))
                 if (!(message.generic_bytes && typeof message.generic_bytes.length === "number" || $util.isString(message.generic_bytes)))
                     return "generic_bytes: buffer expected";
-            if (message.generic_string != null && message.hasOwnProperty("generic_string"))
+            if (message.generic_string != null && Object.hasOwnProperty.call(message, "generic_string"))
                 if (!$util.isString(message.generic_string))
                     return "generic_string: string expected";
-            if (message.ipv6_and_port != null && message.hasOwnProperty("ipv6_and_port"))
+            if (message.ipv6_and_port != null && Object.hasOwnProperty.call(message, "ipv6_and_port"))
                 if (!(message.ipv6_and_port && typeof message.ipv6_and_port.length === "number" || $util.isString(message.ipv6_and_port)))
                     return "ipv6_and_port: buffer expected";
             return null;
@@ -2716,19 +3018,25 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamNetworkingIdentityLegacyBinary} CMsgSteamNetworkingIdentityLegacyBinary
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.fromObject = function fromObject(object) {
+        CMsgSteamNetworkingIdentityLegacyBinary.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSteamNetworkingIdentityLegacyBinary)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSteamNetworkingIdentityLegacyBinary: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSteamNetworkingIdentityLegacyBinary();
             if (object.steam_id != null)
                 if ($util.Long)
-                    (message.steam_id = $util.Long.fromValue(object.steam_id)).unsigned = false;
+                    message.steam_id = $util.Long.fromValue(object.steam_id, true);
                 else if (typeof object.steam_id === "string")
                     message.steam_id = parseInt(object.steam_id, 10);
                 else if (typeof object.steam_id === "number")
                     message.steam_id = object.steam_id;
                 else if (typeof object.steam_id === "object")
-                    message.steam_id = new $util.LongBits(object.steam_id.low >>> 0, object.steam_id.high >>> 0).toNumber();
+                    message.steam_id = new $util.LongBits(object.steam_id.low >>> 0, object.steam_id.high >>> 0).toNumber(true);
             if (object.generic_bytes != null)
                 if (typeof object.generic_bytes === "string")
                     $util.base64.decode(object.generic_bytes, message.generic_bytes = $util.newBuffer($util.base64.length(object.generic_bytes)), 0);
@@ -2753,9 +3061,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.toObject = function toObject(message, options) {
+        CMsgSteamNetworkingIdentityLegacyBinary.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 if (options.bytes === String)
@@ -2774,22 +3086,24 @@
                         object.ipv6_and_port = $util.newBuffer(object.ipv6_and_port);
                 }
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.steam_id = options.longs === String ? "0" : 0;
+                    object.steam_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
             }
-            if (message.generic_bytes != null && message.hasOwnProperty("generic_bytes"))
+            if (message.generic_bytes != null && Object.hasOwnProperty.call(message, "generic_bytes"))
                 object.generic_bytes = options.bytes === String ? $util.base64.encode(message.generic_bytes, 0, message.generic_bytes.length) : options.bytes === Array ? Array.prototype.slice.call(message.generic_bytes) : message.generic_bytes;
-            if (message.generic_string != null && message.hasOwnProperty("generic_string"))
+            if (message.generic_string != null && Object.hasOwnProperty.call(message, "generic_string"))
                 object.generic_string = message.generic_string;
-            if (message.ipv6_and_port != null && message.hasOwnProperty("ipv6_and_port"))
+            if (message.ipv6_and_port != null && Object.hasOwnProperty.call(message, "ipv6_and_port"))
                 object.ipv6_and_port = options.bytes === String ? $util.base64.encode(message.ipv6_and_port, 0, message.ipv6_and_port.length) : options.bytes === Array ? Array.prototype.slice.call(message.ipv6_and_port) : message.ipv6_and_port;
-            if (message.steam_id != null && message.hasOwnProperty("steam_id"))
-                if (typeof message.steam_id === "number")
+            if (message.steam_id != null && Object.hasOwnProperty.call(message, "steam_id"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.steam_id = typeof message.steam_id === "number" ? BigInt(message.steam_id) : $util.Long.fromBits(message.steam_id.low >>> 0, message.steam_id.high >>> 0, true).toBigInt();
+                else if (typeof message.steam_id === "number")
                     object.steam_id = options.longs === String ? String(message.steam_id) : message.steam_id;
                 else
-                    object.steam_id = options.longs === String ? $util.Long.prototype.toString.call(message.steam_id) : options.longs === Number ? new $util.LongBits(message.steam_id.low >>> 0, message.steam_id.high >>> 0).toNumber() : message.steam_id;
+                    object.steam_id = options.longs === String ? $util.Long.prototype.toString.call(message.steam_id) : options.longs === Number ? new $util.LongBits(message.steam_id.low >>> 0, message.steam_id.high >>> 0).toNumber(true) : message.steam_id;
             return object;
         };
     
@@ -2854,7 +3168,7 @@
             this.ip_addresses = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -2880,7 +3194,7 @@
          * @memberof CMsgSteamDatagramCertificate
          * @instance
          */
-        CMsgSteamDatagramCertificate.prototype.legacy_steam_id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSteamDatagramCertificate.prototype.legacy_steam_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CMsgSteamDatagramCertificate legacy_identity_binary.
@@ -2959,9 +3273,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramCertificate.encode = function encode(message, writer) {
+        CMsgSteamDatagramCertificate.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.key_type != null && Object.hasOwnProperty.call(message, "key_type"))
                 writer.uint32(/* id 1, wireType 0 =*/8).int32(message.key_type);
             if (message.key_data != null && Object.hasOwnProperty.call(message, "key_data"))
@@ -2979,7 +3297,7 @@
                 for (var i = 0; i < message.app_ids.length; ++i)
                     writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.app_ids[i]);
             if (message.legacy_identity_binary != null && Object.hasOwnProperty.call(message, "legacy_identity_binary"))
-                $root.CMsgSteamNetworkingIdentityLegacyBinary.encode(message.legacy_identity_binary, writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
+                $root.CMsgSteamNetworkingIdentityLegacyBinary.encode(message.legacy_identity_binary, writer.uint32(/* id 11, wireType 2 =*/90).fork(), q + 1).ldelim();
             if (message.identity_string != null && Object.hasOwnProperty.call(message, "identity_string"))
                 writer.uint32(/* id 12, wireType 2 =*/98).string(message.identity_string);
             if (message.ip_addresses != null && message.ip_addresses.length)
@@ -2998,7 +3316,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSteamDatagramCertificate.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -3012,10 +3330,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramCertificate.decode = function decode(reader, length, error) {
+        CMsgSteamDatagramCertificate.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSteamDatagramCertificate();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSteamDatagramCertificate();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -3034,7 +3366,7 @@
                         break;
                     }
                 case 11: {
-                        message.legacy_identity_binary = $root.CMsgSteamNetworkingIdentityLegacyBinary.decode(reader, reader.uint32());
+                        message.legacy_identity_binary = $root.CMsgSteamNetworkingIdentityLegacyBinary.decode(reader, reader.uint32(), undefined, long + 1);
                         break;
                     }
                 case 12: {
@@ -3046,8 +3378,14 @@
                             message.gameserver_datacenter_ids = [];
                         if ((tag & 7) === 2) {
                             var end2 = reader.uint32() + reader.pos;
+                            if (end2 > reader.len)
+                                throw RangeError("index out of range");
+                            reader.len = end2;
                             while (reader.pos < end2)
                                 message.gameserver_datacenter_ids.push(reader.fixed32());
+                            if (reader.pos !== end2)
+                                throw RangeError("index out of range");
+                            reader.len = end;
                         } else
                             message.gameserver_datacenter_ids.push(reader.fixed32());
                         break;
@@ -3065,8 +3403,14 @@
                             message.app_ids = [];
                         if ((tag & 7) === 2) {
                             var end2 = reader.uint32() + reader.pos;
+                            if (end2 > reader.len)
+                                throw RangeError("index out of range");
+                            reader.len = end2;
                             while (reader.pos < end2)
                                 message.app_ids.push(reader.uint32());
+                            if (reader.pos !== end2)
+                                throw RangeError("index out of range");
+                            reader.len = end;
                         } else
                             message.app_ids.push(reader.uint32());
                         break;
@@ -3078,9 +3422,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -3109,10 +3458,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramCertificate.verify = function verify(message) {
+        CMsgSteamDatagramCertificate.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.key_type != null && message.hasOwnProperty("key_type"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.key_type != null && Object.hasOwnProperty.call(message, "key_type"))
                 switch (message.key_type) {
                 default:
                     return "key_type: enum value expected";
@@ -3120,41 +3473,41 @@
                 case 1:
                     break;
                 }
-            if (message.key_data != null && message.hasOwnProperty("key_data"))
+            if (message.key_data != null && Object.hasOwnProperty.call(message, "key_data"))
                 if (!(message.key_data && typeof message.key_data.length === "number" || $util.isString(message.key_data)))
                     return "key_data: buffer expected";
-            if (message.legacy_steam_id != null && message.hasOwnProperty("legacy_steam_id"))
+            if (message.legacy_steam_id != null && Object.hasOwnProperty.call(message, "legacy_steam_id"))
                 if (!$util.isInteger(message.legacy_steam_id) && !(message.legacy_steam_id && $util.isInteger(message.legacy_steam_id.low) && $util.isInteger(message.legacy_steam_id.high)))
                     return "legacy_steam_id: integer|Long expected";
-            if (message.legacy_identity_binary != null && message.hasOwnProperty("legacy_identity_binary")) {
-                var error = $root.CMsgSteamNetworkingIdentityLegacyBinary.verify(message.legacy_identity_binary);
+            if (message.legacy_identity_binary != null && Object.hasOwnProperty.call(message, "legacy_identity_binary")) {
+                var error = $root.CMsgSteamNetworkingIdentityLegacyBinary.verify(message.legacy_identity_binary, long + 1);
                 if (error)
                     return "legacy_identity_binary." + error;
             }
-            if (message.identity_string != null && message.hasOwnProperty("identity_string"))
+            if (message.identity_string != null && Object.hasOwnProperty.call(message, "identity_string"))
                 if (!$util.isString(message.identity_string))
                     return "identity_string: string expected";
-            if (message.gameserver_datacenter_ids != null && message.hasOwnProperty("gameserver_datacenter_ids")) {
+            if (message.gameserver_datacenter_ids != null && Object.hasOwnProperty.call(message, "gameserver_datacenter_ids")) {
                 if (!Array.isArray(message.gameserver_datacenter_ids))
                     return "gameserver_datacenter_ids: array expected";
                 for (var i = 0; i < message.gameserver_datacenter_ids.length; ++i)
                     if (!$util.isInteger(message.gameserver_datacenter_ids[i]))
                         return "gameserver_datacenter_ids: integer[] expected";
             }
-            if (message.time_created != null && message.hasOwnProperty("time_created"))
+            if (message.time_created != null && Object.hasOwnProperty.call(message, "time_created"))
                 if (!$util.isInteger(message.time_created))
                     return "time_created: integer expected";
-            if (message.time_expiry != null && message.hasOwnProperty("time_expiry"))
+            if (message.time_expiry != null && Object.hasOwnProperty.call(message, "time_expiry"))
                 if (!$util.isInteger(message.time_expiry))
                     return "time_expiry: integer expected";
-            if (message.app_ids != null && message.hasOwnProperty("app_ids")) {
+            if (message.app_ids != null && Object.hasOwnProperty.call(message, "app_ids")) {
                 if (!Array.isArray(message.app_ids))
                     return "app_ids: array expected";
                 for (var i = 0; i < message.app_ids.length; ++i)
                     if (!$util.isInteger(message.app_ids[i]))
                         return "app_ids: integer[] expected";
             }
-            if (message.ip_addresses != null && message.hasOwnProperty("ip_addresses")) {
+            if (message.ip_addresses != null && Object.hasOwnProperty.call(message, "ip_addresses")) {
                 if (!Array.isArray(message.ip_addresses))
                     return "ip_addresses: array expected";
                 for (var i = 0; i < message.ip_addresses.length; ++i)
@@ -3172,9 +3525,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramCertificate} CMsgSteamDatagramCertificate
          */
-        CMsgSteamDatagramCertificate.fromObject = function fromObject(object) {
+        CMsgSteamDatagramCertificate.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSteamDatagramCertificate)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSteamDatagramCertificate: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSteamDatagramCertificate();
             switch (object.key_type) {
             default:
@@ -3199,17 +3558,17 @@
                     message.key_data = object.key_data;
             if (object.legacy_steam_id != null)
                 if ($util.Long)
-                    (message.legacy_steam_id = $util.Long.fromValue(object.legacy_steam_id)).unsigned = false;
+                    message.legacy_steam_id = $util.Long.fromValue(object.legacy_steam_id, true);
                 else if (typeof object.legacy_steam_id === "string")
                     message.legacy_steam_id = parseInt(object.legacy_steam_id, 10);
                 else if (typeof object.legacy_steam_id === "number")
                     message.legacy_steam_id = object.legacy_steam_id;
                 else if (typeof object.legacy_steam_id === "object")
-                    message.legacy_steam_id = new $util.LongBits(object.legacy_steam_id.low >>> 0, object.legacy_steam_id.high >>> 0).toNumber();
+                    message.legacy_steam_id = new $util.LongBits(object.legacy_steam_id.low >>> 0, object.legacy_steam_id.high >>> 0).toNumber(true);
             if (object.legacy_identity_binary != null) {
-                if (typeof object.legacy_identity_binary !== "object")
+                if (!$util.isObject(object.legacy_identity_binary))
                     throw TypeError(".CMsgSteamDatagramCertificate.legacy_identity_binary: object expected");
-                message.legacy_identity_binary = $root.CMsgSteamNetworkingIdentityLegacyBinary.fromObject(object.legacy_identity_binary);
+                message.legacy_identity_binary = $root.CMsgSteamNetworkingIdentityLegacyBinary.fromObject(object.legacy_identity_binary, long + 1);
             }
             if (object.identity_string != null)
                 message.identity_string = String(object.identity_string);
@@ -3250,9 +3609,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramCertificate.toObject = function toObject(message, options) {
+        CMsgSteamDatagramCertificate.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults) {
                 object.gameserver_datacenter_ids = [];
@@ -3269,41 +3632,43 @@
                         object.key_data = $util.newBuffer(object.key_data);
                 }
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.legacy_steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.legacy_steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.legacy_steam_id = options.longs === String ? "0" : 0;
+                    object.legacy_steam_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.time_created = 0;
                 object.time_expiry = 0;
                 object.legacy_identity_binary = null;
                 object.identity_string = "";
             }
-            if (message.key_type != null && message.hasOwnProperty("key_type"))
+            if (message.key_type != null && Object.hasOwnProperty.call(message, "key_type"))
                 object.key_type = options.enums === String ? $root.CMsgSteamDatagramCertificate.EKeyType[message.key_type] === undefined ? message.key_type : $root.CMsgSteamDatagramCertificate.EKeyType[message.key_type] : message.key_type;
-            if (message.key_data != null && message.hasOwnProperty("key_data"))
+            if (message.key_data != null && Object.hasOwnProperty.call(message, "key_data"))
                 object.key_data = options.bytes === String ? $util.base64.encode(message.key_data, 0, message.key_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.key_data) : message.key_data;
-            if (message.legacy_steam_id != null && message.hasOwnProperty("legacy_steam_id"))
-                if (typeof message.legacy_steam_id === "number")
+            if (message.legacy_steam_id != null && Object.hasOwnProperty.call(message, "legacy_steam_id"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.legacy_steam_id = typeof message.legacy_steam_id === "number" ? BigInt(message.legacy_steam_id) : $util.Long.fromBits(message.legacy_steam_id.low >>> 0, message.legacy_steam_id.high >>> 0, true).toBigInt();
+                else if (typeof message.legacy_steam_id === "number")
                     object.legacy_steam_id = options.longs === String ? String(message.legacy_steam_id) : message.legacy_steam_id;
                 else
-                    object.legacy_steam_id = options.longs === String ? $util.Long.prototype.toString.call(message.legacy_steam_id) : options.longs === Number ? new $util.LongBits(message.legacy_steam_id.low >>> 0, message.legacy_steam_id.high >>> 0).toNumber() : message.legacy_steam_id;
+                    object.legacy_steam_id = options.longs === String ? $util.Long.prototype.toString.call(message.legacy_steam_id) : options.longs === Number ? new $util.LongBits(message.legacy_steam_id.low >>> 0, message.legacy_steam_id.high >>> 0).toNumber(true) : message.legacy_steam_id;
             if (message.gameserver_datacenter_ids && message.gameserver_datacenter_ids.length) {
                 object.gameserver_datacenter_ids = [];
                 for (var j = 0; j < message.gameserver_datacenter_ids.length; ++j)
                     object.gameserver_datacenter_ids[j] = message.gameserver_datacenter_ids[j];
             }
-            if (message.time_created != null && message.hasOwnProperty("time_created"))
+            if (message.time_created != null && Object.hasOwnProperty.call(message, "time_created"))
                 object.time_created = message.time_created;
-            if (message.time_expiry != null && message.hasOwnProperty("time_expiry"))
+            if (message.time_expiry != null && Object.hasOwnProperty.call(message, "time_expiry"))
                 object.time_expiry = message.time_expiry;
             if (message.app_ids && message.app_ids.length) {
                 object.app_ids = [];
                 for (var j = 0; j < message.app_ids.length; ++j)
                     object.app_ids[j] = message.app_ids[j];
             }
-            if (message.legacy_identity_binary != null && message.hasOwnProperty("legacy_identity_binary"))
-                object.legacy_identity_binary = $root.CMsgSteamNetworkingIdentityLegacyBinary.toObject(message.legacy_identity_binary, options);
-            if (message.identity_string != null && message.hasOwnProperty("identity_string"))
+            if (message.legacy_identity_binary != null && Object.hasOwnProperty.call(message, "legacy_identity_binary"))
+                object.legacy_identity_binary = $root.CMsgSteamNetworkingIdentityLegacyBinary.toObject(message.legacy_identity_binary, options, q + 1);
+            if (message.identity_string != null && Object.hasOwnProperty.call(message, "identity_string"))
                 object.identity_string = message.identity_string;
             if (message.ip_addresses && message.ip_addresses.length) {
                 object.ip_addresses = [];
@@ -3379,7 +3744,7 @@
         function CMsgSteamDatagramCertificateSigned(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -3397,7 +3762,7 @@
          * @memberof CMsgSteamDatagramCertificateSigned
          * @instance
          */
-        CMsgSteamDatagramCertificateSigned.prototype.ca_key_id = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        CMsgSteamDatagramCertificateSigned.prototype.ca_key_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
         /**
          * CMsgSteamDatagramCertificateSigned ca_signature.
@@ -3436,9 +3801,13 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramCertificateSigned.encode = function encode(message, writer) {
+        CMsgSteamDatagramCertificateSigned.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.private_key_data != null && Object.hasOwnProperty.call(message, "private_key_data"))
                 writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.private_key_data);
             if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
@@ -3460,7 +3829,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSteamDatagramCertificateSigned.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -3474,10 +3843,24 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramCertificateSigned.decode = function decode(reader, length, error) {
+        CMsgSteamDatagramCertificateSigned.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSteamDatagramCertificateSigned();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSteamDatagramCertificateSigned();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
@@ -3500,9 +3883,14 @@
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -3531,19 +3919,23 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramCertificateSigned.verify = function verify(message) {
+        CMsgSteamDatagramCertificateSigned.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.cert != null && message.hasOwnProperty("cert"))
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
                 if (!(message.cert && typeof message.cert.length === "number" || $util.isString(message.cert)))
                     return "cert: buffer expected";
-            if (message.ca_key_id != null && message.hasOwnProperty("ca_key_id"))
+            if (message.ca_key_id != null && Object.hasOwnProperty.call(message, "ca_key_id"))
                 if (!$util.isInteger(message.ca_key_id) && !(message.ca_key_id && $util.isInteger(message.ca_key_id.low) && $util.isInteger(message.ca_key_id.high)))
                     return "ca_key_id: integer|Long expected";
-            if (message.ca_signature != null && message.hasOwnProperty("ca_signature"))
+            if (message.ca_signature != null && Object.hasOwnProperty.call(message, "ca_signature"))
                 if (!(message.ca_signature && typeof message.ca_signature.length === "number" || $util.isString(message.ca_signature)))
                     return "ca_signature: buffer expected";
-            if (message.private_key_data != null && message.hasOwnProperty("private_key_data"))
+            if (message.private_key_data != null && Object.hasOwnProperty.call(message, "private_key_data"))
                 if (!(message.private_key_data && typeof message.private_key_data.length === "number" || $util.isString(message.private_key_data)))
                     return "private_key_data: buffer expected";
             return null;
@@ -3557,9 +3949,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramCertificateSigned} CMsgSteamDatagramCertificateSigned
          */
-        CMsgSteamDatagramCertificateSigned.fromObject = function fromObject(object) {
+        CMsgSteamDatagramCertificateSigned.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSteamDatagramCertificateSigned)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSteamDatagramCertificateSigned: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSteamDatagramCertificateSigned();
             if (object.cert != null)
                 if (typeof object.cert === "string")
@@ -3568,13 +3966,13 @@
                     message.cert = object.cert;
             if (object.ca_key_id != null)
                 if ($util.Long)
-                    (message.ca_key_id = $util.Long.fromValue(object.ca_key_id)).unsigned = false;
+                    message.ca_key_id = $util.Long.fromValue(object.ca_key_id, true);
                 else if (typeof object.ca_key_id === "string")
                     message.ca_key_id = parseInt(object.ca_key_id, 10);
                 else if (typeof object.ca_key_id === "number")
                     message.ca_key_id = object.ca_key_id;
                 else if (typeof object.ca_key_id === "object")
-                    message.ca_key_id = new $util.LongBits(object.ca_key_id.low >>> 0, object.ca_key_id.high >>> 0).toNumber();
+                    message.ca_key_id = new $util.LongBits(object.ca_key_id.low >>> 0, object.ca_key_id.high >>> 0).toNumber(true);
             if (object.ca_signature != null)
                 if (typeof object.ca_signature === "string")
                     $util.base64.decode(object.ca_signature, message.ca_signature = $util.newBuffer($util.base64.length(object.ca_signature)), 0);
@@ -3597,9 +3995,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramCertificateSigned.toObject = function toObject(message, options) {
+        CMsgSteamDatagramCertificateSigned.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 if (options.bytes === String)
@@ -3617,10 +4019,10 @@
                         object.cert = $util.newBuffer(object.cert);
                 }
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.ca_key_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    var long = new $util.Long(0, 0, true);
+                    object.ca_key_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
-                    object.ca_key_id = options.longs === String ? "0" : 0;
+                    object.ca_key_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 if (options.bytes === String)
                     object.ca_signature = "";
                 else {
@@ -3629,16 +4031,18 @@
                         object.ca_signature = $util.newBuffer(object.ca_signature);
                 }
             }
-            if (message.private_key_data != null && message.hasOwnProperty("private_key_data"))
+            if (message.private_key_data != null && Object.hasOwnProperty.call(message, "private_key_data"))
                 object.private_key_data = options.bytes === String ? $util.base64.encode(message.private_key_data, 0, message.private_key_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.private_key_data) : message.private_key_data;
-            if (message.cert != null && message.hasOwnProperty("cert"))
+            if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
                 object.cert = options.bytes === String ? $util.base64.encode(message.cert, 0, message.cert.length) : options.bytes === Array ? Array.prototype.slice.call(message.cert) : message.cert;
-            if (message.ca_key_id != null && message.hasOwnProperty("ca_key_id"))
-                if (typeof message.ca_key_id === "number")
+            if (message.ca_key_id != null && Object.hasOwnProperty.call(message, "ca_key_id"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.ca_key_id = typeof message.ca_key_id === "number" ? BigInt(message.ca_key_id) : $util.Long.fromBits(message.ca_key_id.low >>> 0, message.ca_key_id.high >>> 0, true).toBigInt();
+                else if (typeof message.ca_key_id === "number")
                     object.ca_key_id = options.longs === String ? String(message.ca_key_id) : message.ca_key_id;
                 else
-                    object.ca_key_id = options.longs === String ? $util.Long.prototype.toString.call(message.ca_key_id) : options.longs === Number ? new $util.LongBits(message.ca_key_id.low >>> 0, message.ca_key_id.high >>> 0).toNumber() : message.ca_key_id;
-            if (message.ca_signature != null && message.hasOwnProperty("ca_signature"))
+                    object.ca_key_id = options.longs === String ? $util.Long.prototype.toString.call(message.ca_key_id) : options.longs === Number ? new $util.LongBits(message.ca_key_id.low >>> 0, message.ca_key_id.high >>> 0).toNumber(true) : message.ca_key_id;
+            if (message.ca_signature != null && Object.hasOwnProperty.call(message, "ca_signature"))
                 object.ca_signature = options.bytes === String ? $util.base64.encode(message.ca_signature, 0, message.ca_signature.length) : options.bytes === Array ? Array.prototype.slice.call(message.ca_signature) : message.ca_signature;
             return object;
         };
@@ -3692,7 +4096,7 @@
         function CMsgSteamDatagramCertificateRequest(properties) {
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
         }
     
@@ -3725,11 +4129,15 @@
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramCertificateRequest.encode = function encode(message, writer) {
+        CMsgSteamDatagramCertificateRequest.encode = function encode(message, writer, q) {
             if (!writer)
                 writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
-                $root.CMsgSteamDatagramCertificate.encode(message.cert, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                $root.CMsgSteamDatagramCertificate.encode(message.cert, writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
             return writer;
         };
     
@@ -3743,7 +4151,7 @@
          * @returns {$protobuf.Writer} Writer
          */
         CMsgSteamDatagramCertificateRequest.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
         };
     
         /**
@@ -3757,23 +4165,42 @@
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramCertificateRequest.decode = function decode(reader, length, error) {
+        CMsgSteamDatagramCertificateRequest.decode = function decode(reader, length, error, long) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.CMsgSteamDatagramCertificateRequest();
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgSteamDatagramCertificateRequest();
             while (reader.pos < end) {
                 var tag = reader.uint32();
                 if (tag === error)
                     break;
                 switch (tag >>> 3) {
                 case 1: {
-                        message.cert = $root.CMsgSteamDatagramCertificate.decode(reader, reader.uint32());
+                        message.cert = $root.CMsgSteamDatagramCertificate.decode(reader, reader.uint32(), undefined, long + 1);
                         break;
                     }
                 default:
-                    reader.skipType(tag & 7);
+                    reader.skipType(tag & 7, long);
                     break;
                 }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
             }
             return message;
         };
@@ -3802,11 +4229,15 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramCertificateRequest.verify = function verify(message) {
+        CMsgSteamDatagramCertificateRequest.verify = function verify(message, long) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.cert != null && message.hasOwnProperty("cert")) {
-                var error = $root.CMsgSteamDatagramCertificate.verify(message.cert);
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.cert != null && Object.hasOwnProperty.call(message, "cert")) {
+                var error = $root.CMsgSteamDatagramCertificate.verify(message.cert, long + 1);
                 if (error)
                     return "cert." + error;
             }
@@ -3821,14 +4252,20 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramCertificateRequest} CMsgSteamDatagramCertificateRequest
          */
-        CMsgSteamDatagramCertificateRequest.fromObject = function fromObject(object) {
+        CMsgSteamDatagramCertificateRequest.fromObject = function fromObject(object, long) {
             if (object instanceof $root.CMsgSteamDatagramCertificateRequest)
                 return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgSteamDatagramCertificateRequest: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
             var message = new $root.CMsgSteamDatagramCertificateRequest();
             if (object.cert != null) {
-                if (typeof object.cert !== "object")
+                if (!$util.isObject(object.cert))
                     throw TypeError(".CMsgSteamDatagramCertificateRequest.cert: object expected");
-                message.cert = $root.CMsgSteamDatagramCertificate.fromObject(object.cert);
+                message.cert = $root.CMsgSteamDatagramCertificate.fromObject(object.cert, long + 1);
             }
             return message;
         };
@@ -3842,14 +4279,18 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramCertificateRequest.toObject = function toObject(message, options) {
+        CMsgSteamDatagramCertificateRequest.toObject = function toObject(message, options, q) {
             if (!options)
                 options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.cert = null;
-            if (message.cert != null && message.hasOwnProperty("cert"))
-                object.cert = $root.CMsgSteamDatagramCertificate.toObject(message.cert, options);
+            if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
+                object.cert = $root.CMsgSteamDatagramCertificate.toObject(message.cert, options, q + 1);
             return object;
         };
     
