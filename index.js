@@ -28,6 +28,7 @@ function NodeCS2(steam) {
 	}
 
 	this._steam = steam;
+	this.personalStore = null;
 	this.haveGCSession = false;
 	this._isInCSGO = false;
 
@@ -78,6 +79,8 @@ function NodeCS2(steam) {
 			clearInterval(this._helloInterval);
 			this._helloInterval = null;
 		}
+
+		this._setPersonalStore(null);
 
 		if (this.haveGCSession && emitDisconnectEvent) {
 			this.emit('disconnectedFromGC', NodeCS2.GCConnectionStatus.NO_SESSION);
@@ -771,7 +774,7 @@ NodeCS2.prototype.acknowledgeXPShopTracks = function () {
  * Redeem a free reward.
  * @param {int} generationTime - Generation time of the reward
  * @param {int} redeemableBalance - Redeemable balance
- * @param {int[]} items - Array of item IDs
+ * @param {Array<string|number>} items - Reward item IDs; use strings for 64-bit precision
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */

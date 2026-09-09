@@ -59,9 +59,20 @@ handlers[Language.ClientWelcome] = function (body) {
 		return;
 	}
 
+	this._setPersonalStore(null);
+	for (const subscribed of proto.outofdate_subscribed_caches || []) {
+		for (const cache of subscribed.objects || []) {
+			if (cache.type_id === Constants.SO_TYPE_PERSONAL_STORE) {
+				cache.object_data.forEach((object) => this._decodePersonalStore(object));
+			}
+		}
+	}
 	if (proto.outofdate_subscribed_caches && proto.outofdate_subscribed_caches.length) {
 		proto.outofdate_subscribed_caches[0].objects.forEach((cache) => {
 			switch (cache.type_id) {
+				case Constants.SO_TYPE_PERSONAL_STORE:
+					// Loaded from all subscribed caches above.
+					break;
 				case Constants.SO_TYPE_ECON_ITEM:
 					// Inventory
 					const items = cache.object_data
@@ -145,6 +156,7 @@ handlers[Language.ClientConnectionStatus] = function (body) {
 	);
 
 	if (proto.status != NodeCS2.GCConnectionStatus.HAVE_SESSION && this.haveGCSession) {
+		this._setPersonalStore(null);
 		this.emit('disconnectedFromGC', proto.status);
 		this.haveGCSession = false;
 		this._connect(); // Try to reconnect
@@ -446,6 +458,26 @@ NodeCS2.prototype._processSOEconItem = function (item) {
 	}
 };
 
+// Personal-store IDs are uint64 values and remain decimal strings, like inventory IDs.
+NodeCS2.prototype._setPersonalStore = function (store) {
+	if (store === null && this.personalStore === null) {
+		return;
+	}
+	this.personalStore = store;
+	this.emit('personalStoreUpdate', store);
+};
+
+NodeCS2.prototype._decodePersonalStore = function (body) {
+	let store;
+	try {
+		store = decodeProto(Protos.CSOAccountItemPersonalStore, body);
+	} catch (err) {
+		this.emit('debug', `Failed to decode personal store: ${err.message}`);
+		return;
+	}
+	this._setPersonalStore(store);
+};
+
 handlers[Language.SO_Create] = function (body) {
 	let proto;
 	try {
@@ -458,6 +490,11 @@ handlers[Language.SO_Create] = function (body) {
 };
 
 NodeCS2.prototype._handleSOCreate = function (proto) {
+	if (proto && proto.type_id === Constants.SO_TYPE_PERSONAL_STORE) {
+		this._decodePersonalStore(proto.object_data);
+		return;
+	}
+
 	if (!proto || proto.type_id != Constants.SO_TYPE_ECON_ITEM) {
 		return; // Not an item
 	}
@@ -492,6 +529,11 @@ handlers[Language.SO_Update] = function (body) {
 };
 
 NodeCS2.prototype._handleSOUpdate = function (so) {
+	if (so && so.type_id === Constants.SO_TYPE_PERSONAL_STORE) {
+		this._decodePersonalStore(so.object_data);
+		return;
+	}
+
 	if (!so || so.type_id != Constants.SO_TYPE_ECON_ITEM) {
 		return; // Not an item, we don't care
 	}
@@ -538,6 +580,11 @@ handlers[Language.SO_Destroy] = function (body) {
 };
 
 NodeCS2.prototype._handleSODestroy = function (proto) {
+	if (proto && proto.type_id === Constants.SO_TYPE_PERSONAL_STORE) {
+		this._setPersonalStore(null);
+		return;
+	}
+
 	if (!proto || proto.type_id != Constants.SO_TYPE_ECON_ITEM) {
 		return; // Not an item
 	}
