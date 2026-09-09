@@ -46,6 +46,12 @@ declare namespace NodeCS2 {
 
 	// ─── Data Types ─────────────────────────────────────────────────────────────
 
+	interface PersonalStore {
+		generation_time: number | null;
+		redeemable_balance: number | null;
+		items: string[];
+	}
+
 	interface StickerLike {
 		slot: number;
 		sticker_id: number;
@@ -156,6 +162,7 @@ declare namespace NodeCS2 {
 		disconnectedFromGC: (reason: GCConnectionStatus) => void;
 		connectionStatus: (status: GCConnectionStatus, data: unknown) => void;
 		accountData: (data: unknown) => void;
+		personalStoreUpdate: (store: PersonalStore | null) => void;
 		matchList: (matches: unknown[], data: unknown) => void;
 		inspectItemInfo: (item: ItemInfo) => void;
 		inspectItemTimedOut: (assetid: string) => void;
@@ -181,6 +188,7 @@ declare class NodeCS2 extends EventEmitter {
 	haveGCSession: boolean;
 	inventory: NodeCS2.EconItem[];
 	accountData: unknown;
+	personalStore: NodeCS2.PersonalStore | null;
 
 	// Configurable timeouts
 	_inspectTimeout: number;
@@ -242,10 +250,10 @@ declare class NodeCS2 extends EventEmitter {
 	redeemFreeReward(
 		generationTime: number,
 		redeemableBalance: number,
-		items: number[],
+		items: Array<string | number>,
 		callback: (error: Error | null, itemIds?: string[]) => void
 	): void;
-	redeemFreeReward(generationTime: number, redeemableBalance: number, items: number[]): Promise<string[]>;
+	redeemFreeReward(generationTime: number, redeemableBalance: number, items: Array<string | number>): Promise<string[]>;
 	redeemMissionReward(
 		campaignId: number,
 		redeemId: number,

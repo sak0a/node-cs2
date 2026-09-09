@@ -27,6 +27,7 @@ const PLAYERS_PROFILE_REQUEST_LEVEL = 32;
 
 // ─── Shared Object Types ────────────────────────────────────────────────────────
 const SO_TYPE_ECON_ITEM = 1;
+const SO_TYPE_PERSONAL_STORE = 4;
 
 // ─── Item Definition Indices ────────────────────────────────────────────────────
 const DEFINDEX_STORAGE_UNIT = 1201;
@@ -70,6 +71,7 @@ module.exports = {
 	CRATE_TIMEOUT_MS,
 	PLAYERS_PROFILE_REQUEST_LEVEL,
 	SO_TYPE_ECON_ITEM,
+	SO_TYPE_PERSONAL_STORE,
 	DEFINDEX_STORAGE_UNIT,
 	ATTRIB_PAINT_INDEX,
 	ATTRIB_PAINT_SEED,

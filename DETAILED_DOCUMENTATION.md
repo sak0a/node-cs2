@@ -406,15 +406,36 @@ Acknowledges XP shop tracks.
 
 ---
 
+##### `personalStore` and `personalStoreUpdate`
+
+`personalStore` is `null` until the GC supplies weekly reward data. Otherwise it contains:
+
+- `generation_time` (`number | null`) - Server-provided offer generation timestamp.
+- `redeemable_balance` (`number | null`) - Server-provided remaining balance.
+- `items` (`string[]`) - Available reward item IDs, preserved as decimal strings.
+
+Initial data is loaded before `connectedToGC`. The `personalStoreUpdate(store)` event
+fires when data arrives through welcome, create, or update messages, including batched
+updates. Removal, disconnect, or a new welcome clears stale data and emits `null` if a
+store was previously present. Missing scalar fields are `null`; an explicit zero balance
+remains `0`. Malformed store payloads emit a debug message and are ignored.
+
+A missing store does not prove that an account is ineligible. This API exposes server
+state; it does not calculate a weekly reset or generate rewards. Select IDs from the
+current offer and pass its generation time and balance to `redeemFreeReward`. Keep
+claims sequential and wait for refreshed store data before another claim.
+
+---
+
 ##### `redeemFreeReward(generationTime, redeemableBalance, items, callback)`
 
 Redeems a free reward.
 
 **Parameters:**
 
-- `generationTime` (number) - Generation time of the reward
-- `redeemableBalance` (number) - Redeemable balance
-- `items` (Array<number>) - Array of item IDs
+- `generationTime` (number) - Generation time from the current `personalStore`
+- `redeemableBalance` (number) - Balance from the current `personalStore`
+- `items` (Array<string | number>) - Selected reward IDs; use strings to preserve 64-bit precision
 - `callback` (function, optional) - Callback function `(err, itemIds) => {}`
 
 **Returns:**

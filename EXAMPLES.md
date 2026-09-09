@@ -337,25 +337,43 @@ cs2.acknowledgeRentalExpiration(crateItemId);
 cs2.acknowledgeXPShopTracks();
 ```
 
-### Redeem Free Reward
+### View and Redeem Weekly Rewards
+
+The GC supplies the current offer in `personalStore`. Listen for updates to display
+available choices, and explicitly choose which rewards to claim. A `null` store
+means no current data is available; it does not establish weekly eligibility.
 
 ```javascript
-// Redeem free reward
-const generationTime = Date.now() / 1000;
-const redeemableBalance = 100;
-const items = [1234567890, 9876543210];
-
-await cs2.redeemFreeReward(generationTime, redeemableBalance, items);
-
-// With callback
-cs2.redeemFreeReward(generationTime, redeemableBalance, items, (err, itemIds) => {
-	if (err) {
-		console.error('Error redeeming reward:', err);
-		return;
-	}
-	console.log('Reward redeemed, items:', itemIds);
+cs2.on('personalStoreUpdate', (store) => {
+	console.log('Weekly reward offer:', store);
 });
+
+cs2.on('connectedToGC', () => {
+	console.log('Initial weekly reward offer:', cs2.personalStore);
+});
+
+// Call after the user selects item IDs from the current offer.
+async function claimWeeklyRewards(selectedItemIds) {
+	const store = cs2.personalStore;
+	if (!cs2.haveGCSession || !store || store.generation_time === null || !store.redeemable_balance) {
+		throw new Error('No weekly rewards available to claim');
+	}
+	if (
+		selectedItemIds.length === 0 ||
+		selectedItemIds.length > store.redeemable_balance ||
+		new Set(selectedItemIds).size !== selectedItemIds.length ||
+		!selectedItemIds.every((id) => store.items.includes(id))
+	) {
+		throw new Error('Select distinct item IDs from the current weekly reward offer');
+	}
+	return cs2.redeemFreeReward(store.generation_time, store.redeemable_balance, selectedItemIds);
+}
 ```
+
+Keep item IDs as strings. Use the server-provided generation time and balance;
+do not substitute the current time or an invented balance. Make one claim at a
+time and wait for updated store data before another. The existing callback form
+`redeemFreeReward(generationTime, redeemableBalance, items, callback)` is also supported.
 
 ### Redeem Mission Reward
 
