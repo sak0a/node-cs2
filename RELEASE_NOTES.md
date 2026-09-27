@@ -1,5 +1,30 @@
 # Release Notes
 
+## v2.5.0 - September CS2 Protocol Refresh
+
+### Added
+
+- Latest pet protocol module and `ackPetEvent(petItemId)` fire-and-forget helper with uint64 validation
+- Inspection fields `customnames`, `pet_food_expiration_date`, and `blobdata`, with TypeScript declarations
+- New upstream clan tags, encrypted network messages, remote server commands, serialization settings, and network performance metrics
+
+### Changed
+
+- Synced all 44 upstream protobuf files through GameTracking-CS2 commit `3fc98e763328f7d1627405b389d1b6b69c5b0e38` (September 25, 2026): eight changed files and one new file
+- Regenerated all 44 schema modules and their loader
+- Preserved `inspectItem()`'s `customname` field as the last entry in `customnames`, or `null`, matching the previous singular protobuf decoder
+- Pinned each protobuf download run to one upstream commit; `PROTO_REF` optionally selects a snapshot
+
+### Compatibility
+
+- Direct consumers of generated protobuf modules must use `customnames` instead of `customname` when encoding inspection data. The public `inspectItem()` API retains its compatibility alias.
+- Upstream renamed legacy chat/team-money enum entries with the `_CSGOLegacy` suffix and removed the obsolete weapon-sound `stealth` field.
+- Live Steam/GC operations have not been tested; the pet protocol defines no acknowledgement response.
+
+Validation: 185 offline tests and ESLint pass; all 45 generated files reproduce exactly. The packed npm artifact passes a consumer smoke test on Node.js 24.21.0.
+
+---
+
 ## v2.4.1 - Dependency Security Refresh
 
 Validation: 171 tests and ESLint pass; all 44 generated files (43 schema modules plus loader) reproduce exactly. The packed package passes offline consumer smoke tests on Node.js 14.21.3 and 24.18.1 with SteamUser 4.29.3 and 5.3.0.

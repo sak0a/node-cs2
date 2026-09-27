@@ -112,6 +112,13 @@
      * @property {number} k_EGCMsgRecurringSubscriptionStatusChange=530 k_EGCMsgRecurringSubscriptionStatusChange value
      * @property {number} k_EGCMsgDirectServiceMethod=531 k_EGCMsgDirectServiceMethod value
      * @property {number} k_EGCMsgDirectServiceMethodResponse=532 k_EGCMsgDirectServiceMethodResponse value
+     * @property {number} k_EGCMsgAppCheersReceived=533 k_EGCMsgAppCheersReceived value
+     * @property {number} k_EGCMsgAppCheersGetAllowedTypes=534 k_EGCMsgAppCheersGetAllowedTypes value
+     * @property {number} k_EGCMsgAppCheersGetAllowedTypesResponse=535 k_EGCMsgAppCheersGetAllowedTypesResponse value
+     * @property {number} k_EGCMsgReportMetrics=536 k_EGCMsgReportMetrics value
+     * @property {number} k_EGCMsgReportMetricsResponse=537 k_EGCMsgReportMetricsResponse value
+     * @property {number} k_EGCMsgGetClanDetails=538 k_EGCMsgGetClanDetails value
+     * @property {number} k_EGCMsgGetClanDetailsResponse=539 k_EGCMsgGetClanDetailsResponse value
      */
     $root.EGCSystemMsg = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -207,6 +214,13 @@
         values[valuesById[530] = "k_EGCMsgRecurringSubscriptionStatusChange"] = 530;
         values[valuesById[531] = "k_EGCMsgDirectServiceMethod"] = 531;
         values[valuesById[532] = "k_EGCMsgDirectServiceMethodResponse"] = 532;
+        values[valuesById[533] = "k_EGCMsgAppCheersReceived"] = 533;
+        values[valuesById[534] = "k_EGCMsgAppCheersGetAllowedTypes"] = 534;
+        values[valuesById[535] = "k_EGCMsgAppCheersGetAllowedTypesResponse"] = 535;
+        values[valuesById[536] = "k_EGCMsgReportMetrics"] = 536;
+        values[valuesById[537] = "k_EGCMsgReportMetricsResponse"] = 537;
+        values[valuesById[538] = "k_EGCMsgGetClanDetails"] = 538;
+        values[valuesById[539] = "k_EGCMsgGetClanDetailsResponse"] = 539;
         return values;
     })();
     

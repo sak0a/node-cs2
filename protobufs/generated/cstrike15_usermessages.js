@@ -24,9 +24,9 @@
      * @property {number} CS_UM_Geiger=302 CS_UM_Geiger value
      * @property {number} CS_UM_Train=303 CS_UM_Train value
      * @property {number} CS_UM_HudText=304 CS_UM_HudText value
-     * @property {number} CS_UM_SayText=305 CS_UM_SayText value
-     * @property {number} CS_UM_SayText2=306 CS_UM_SayText2 value
-     * @property {number} CS_UM_TextMsg=307 CS_UM_TextMsg value
+     * @property {number} CS_UM_SayText_CSGOLegacy=305 CS_UM_SayText_CSGOLegacy value
+     * @property {number} CS_UM_SayText2_CSGOLegacy=306 CS_UM_SayText2_CSGOLegacy value
+     * @property {number} CS_UM_TextMsg_CSGOLegacy=307 CS_UM_TextMsg_CSGOLegacy value
      * @property {number} CS_UM_HudMsg=308 CS_UM_HudMsg value
      * @property {number} CS_UM_ResetHud=309 CS_UM_ResetHud value
      * @property {number} CS_UM_GameTitle=310 CS_UM_GameTitle value
@@ -46,7 +46,7 @@
      * @property {number} CS_UM_ProcessSpottedEntityUpdate=325 CS_UM_ProcessSpottedEntityUpdate value
      * @property {number} CS_UM_ReloadEffect=326 CS_UM_ReloadEffect value
      * @property {number} CS_UM_AdjustMoney=327 CS_UM_AdjustMoney value
-     * @property {number} CS_UM_UpdateTeamMoney=328 CS_UM_UpdateTeamMoney value
+     * @property {number} CS_UM_UpdateTeamMoney_CSGOLegacy=328 CS_UM_UpdateTeamMoney_CSGOLegacy value
      * @property {number} CS_UM_StopSpectatorMode=329 CS_UM_StopSpectatorMode value
      * @property {number} CS_UM_KillCam=330 CS_UM_KillCam value
      * @property {number} CS_UM_DesiredTimescale=331 CS_UM_DesiredTimescale value
@@ -106,9 +106,9 @@
         values[valuesById[302] = "CS_UM_Geiger"] = 302;
         values[valuesById[303] = "CS_UM_Train"] = 303;
         values[valuesById[304] = "CS_UM_HudText"] = 304;
-        values[valuesById[305] = "CS_UM_SayText"] = 305;
-        values[valuesById[306] = "CS_UM_SayText2"] = 306;
-        values[valuesById[307] = "CS_UM_TextMsg"] = 307;
+        values[valuesById[305] = "CS_UM_SayText_CSGOLegacy"] = 305;
+        values[valuesById[306] = "CS_UM_SayText2_CSGOLegacy"] = 306;
+        values[valuesById[307] = "CS_UM_TextMsg_CSGOLegacy"] = 307;
         values[valuesById[308] = "CS_UM_HudMsg"] = 308;
         values[valuesById[309] = "CS_UM_ResetHud"] = 309;
         values[valuesById[310] = "CS_UM_GameTitle"] = 310;
@@ -128,7 +128,7 @@
         values[valuesById[325] = "CS_UM_ProcessSpottedEntityUpdate"] = 325;
         values[valuesById[326] = "CS_UM_ReloadEffect"] = 326;
         values[valuesById[327] = "CS_UM_AdjustMoney"] = 327;
-        values[valuesById[328] = "CS_UM_UpdateTeamMoney"] = 328;
+        values[valuesById[328] = "CS_UM_UpdateTeamMoney_CSGOLegacy"] = 328;
         values[valuesById[329] = "CS_UM_StopSpectatorMode"] = 329;
         values[valuesById[330] = "CS_UM_KillCam"] = 330;
         values[valuesById[331] = "CS_UM_DesiredTimescale"] = 331;
@@ -7311,7 +7311,6 @@
          * @property {string|null} [sound] CCSUsrMsg_WeaponSound sound
          * @property {number|null} [game_timestamp] CCSUsrMsg_WeaponSound game_timestamp
          * @property {number|null} [source_soundscapeid] CCSUsrMsg_WeaponSound source_soundscapeid
-         * @property {boolean|null} [stealth] CCSUsrMsg_WeaponSound stealth
          */
     
         /**
@@ -7386,14 +7385,6 @@
         CCSUsrMsg_WeaponSound.prototype.source_soundscapeid = 0;
     
         /**
-         * CCSUsrMsg_WeaponSound stealth.
-         * @member {boolean} stealth
-         * @memberof CCSUsrMsg_WeaponSound
-         * @instance
-         */
-        CCSUsrMsg_WeaponSound.prototype.stealth = false;
-    
-        /**
          * Creates a new CCSUsrMsg_WeaponSound instance using the specified properties.
          * @function create
          * @memberof CCSUsrMsg_WeaponSound
@@ -7435,8 +7426,6 @@
                 writer.uint32(/* id 6, wireType 5 =*/53).float(message.game_timestamp);
             if (message.source_soundscapeid != null && Object.hasOwnProperty.call(message, "source_soundscapeid"))
                 writer.uint32(/* id 7, wireType 5 =*/61).fixed32(message.source_soundscapeid);
-            if (message.stealth != null && Object.hasOwnProperty.call(message, "stealth"))
-                writer.uint32(/* id 8, wireType 0 =*/64).bool(message.stealth);
             return writer;
         };
     
@@ -7515,10 +7504,6 @@
                         message.source_soundscapeid = reader.fixed32();
                         break;
                     }
-                case 8: {
-                        message.stealth = reader.bool();
-                        break;
-                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -7584,9 +7569,6 @@
             if (message.source_soundscapeid != null && Object.hasOwnProperty.call(message, "source_soundscapeid"))
                 if (!$util.isInteger(message.source_soundscapeid))
                     return "source_soundscapeid: integer expected";
-            if (message.stealth != null && Object.hasOwnProperty.call(message, "stealth"))
-                if (typeof message.stealth !== "boolean")
-                    return "stealth: boolean expected";
             return null;
         };
     
@@ -7622,8 +7604,6 @@
                 message.game_timestamp = Number(object.game_timestamp);
             if (object.source_soundscapeid != null)
                 message.source_soundscapeid = object.source_soundscapeid >>> 0;
-            if (object.stealth != null)
-                message.stealth = Boolean(object.stealth);
             return message;
         };
     
@@ -7652,7 +7632,6 @@
                 object.sound = "";
                 object.game_timestamp = 0;
                 object.source_soundscapeid = 0;
-                object.stealth = false;
             }
             if (message.entidx != null && Object.hasOwnProperty.call(message, "entidx"))
                 object.entidx = message.entidx;
@@ -7668,8 +7647,6 @@
                 object.game_timestamp = options.json && !isFinite(message.game_timestamp) ? String(message.game_timestamp) : message.game_timestamp;
             if (message.source_soundscapeid != null && Object.hasOwnProperty.call(message, "source_soundscapeid"))
                 object.source_soundscapeid = message.source_soundscapeid;
-            if (message.stealth != null && Object.hasOwnProperty.call(message, "stealth"))
-                object.stealth = message.stealth;
             return object;
         };
     
@@ -29719,6 +29696,8 @@
          * @property {number|Long|null} [steamid] CMsgPlayerInfo steamid
          * @property {boolean|null} [fakeplayer] CMsgPlayerInfo fakeplayer
          * @property {boolean|null} [ishltv] CMsgPlayerInfo ishltv
+         * @property {boolean|null} [clan_member] CMsgPlayerInfo clan_member
+         * @property {boolean|null} [clan_officer] CMsgPlayerInfo clan_officer
          */
     
         /**
@@ -29785,6 +29764,22 @@
         CMsgPlayerInfo.prototype.ishltv = false;
     
         /**
+         * CMsgPlayerInfo clan_member.
+         * @member {boolean} clan_member
+         * @memberof CMsgPlayerInfo
+         * @instance
+         */
+        CMsgPlayerInfo.prototype.clan_member = false;
+    
+        /**
+         * CMsgPlayerInfo clan_officer.
+         * @member {boolean} clan_officer
+         * @memberof CMsgPlayerInfo
+         * @instance
+         */
+        CMsgPlayerInfo.prototype.clan_officer = false;
+    
+        /**
          * Creates a new CMsgPlayerInfo instance using the specified properties.
          * @function create
          * @memberof CMsgPlayerInfo
@@ -29824,6 +29819,10 @@
                 writer.uint32(/* id 5, wireType 0 =*/40).bool(message.fakeplayer);
             if (message.ishltv != null && Object.hasOwnProperty.call(message, "ishltv"))
                 writer.uint32(/* id 6, wireType 0 =*/48).bool(message.ishltv);
+            if (message.clan_member != null && Object.hasOwnProperty.call(message, "clan_member"))
+                writer.uint32(/* id 9, wireType 0 =*/72).bool(message.clan_member);
+            if (message.clan_officer != null && Object.hasOwnProperty.call(message, "clan_officer"))
+                writer.uint32(/* id 10, wireType 0 =*/80).bool(message.clan_officer);
             return writer;
         };
     
@@ -29898,6 +29897,14 @@
                         message.ishltv = reader.bool();
                         break;
                     }
+                case 9: {
+                        message.clan_member = reader.bool();
+                        break;
+                    }
+                case 10: {
+                        message.clan_officer = reader.bool();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -29960,6 +29967,12 @@
             if (message.ishltv != null && Object.hasOwnProperty.call(message, "ishltv"))
                 if (typeof message.ishltv !== "boolean")
                     return "ishltv: boolean expected";
+            if (message.clan_member != null && Object.hasOwnProperty.call(message, "clan_member"))
+                if (typeof message.clan_member !== "boolean")
+                    return "clan_member: boolean expected";
+            if (message.clan_officer != null && Object.hasOwnProperty.call(message, "clan_officer"))
+                if (typeof message.clan_officer !== "boolean")
+                    return "clan_officer: boolean expected";
             return null;
         };
     
@@ -30007,6 +30020,10 @@
                 message.fakeplayer = Boolean(object.fakeplayer);
             if (object.ishltv != null)
                 message.ishltv = Boolean(object.ishltv);
+            if (object.clan_member != null)
+                message.clan_member = Boolean(object.clan_member);
+            if (object.clan_officer != null)
+                message.clan_officer = Boolean(object.clan_officer);
             return message;
         };
     
@@ -30042,6 +30059,8 @@
                     object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.fakeplayer = false;
                 object.ishltv = false;
+                object.clan_member = false;
+                object.clan_officer = false;
             }
             if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                 object.name = message.name;
@@ -30065,6 +30084,10 @@
                 object.fakeplayer = message.fakeplayer;
             if (message.ishltv != null && Object.hasOwnProperty.call(message, "ishltv"))
                 object.ishltv = message.ishltv;
+            if (message.clan_member != null && Object.hasOwnProperty.call(message, "clan_member"))
+                object.clan_member = message.clan_member;
+            if (message.clan_officer != null && Object.hasOwnProperty.call(message, "clan_officer"))
+                object.clan_officer = message.clan_officer;
             return object;
         };
     
@@ -35783,6 +35806,364 @@
         return CNETMsg_SpawnGroup_LoadCompleted;
     })();
     
+    $root.QuantizedFloatEncoderAlias_t = (function() {
+    
+        /**
+         * Properties of a QuantizedFloatEncoderAlias_t.
+         * @exports IQuantizedFloatEncoderAlias_t
+         * @interface IQuantizedFloatEncoderAlias_t
+         * @property {string|null} [name] QuantizedFloatEncoderAlias_t name
+         * @property {number|null} [bit_count] QuantizedFloatEncoderAlias_t bit_count
+         * @property {number|null} [encode_flags] QuantizedFloatEncoderAlias_t encode_flags
+         * @property {number|null} [min_value] QuantizedFloatEncoderAlias_t min_value
+         * @property {number|null} [max_value] QuantizedFloatEncoderAlias_t max_value
+         * @property {boolean|null} [validate] QuantizedFloatEncoderAlias_t validate
+         */
+    
+        /**
+         * Constructs a new QuantizedFloatEncoderAlias_t.
+         * @exports QuantizedFloatEncoderAlias_t
+         * @classdesc Represents a QuantizedFloatEncoderAlias_t.
+         * @implements IQuantizedFloatEncoderAlias_t
+         * @constructor
+         * @param {IQuantizedFloatEncoderAlias_t=} [properties] Properties to set
+         */
+        function QuantizedFloatEncoderAlias_t(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * QuantizedFloatEncoderAlias_t name.
+         * @member {string} name
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.name = "";
+    
+        /**
+         * QuantizedFloatEncoderAlias_t bit_count.
+         * @member {number} bit_count
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.bit_count = 0;
+    
+        /**
+         * QuantizedFloatEncoderAlias_t encode_flags.
+         * @member {number} encode_flags
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.encode_flags = 0;
+    
+        /**
+         * QuantizedFloatEncoderAlias_t min_value.
+         * @member {number} min_value
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.min_value = 0;
+    
+        /**
+         * QuantizedFloatEncoderAlias_t max_value.
+         * @member {number} max_value
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.max_value = 0;
+    
+        /**
+         * QuantizedFloatEncoderAlias_t validate.
+         * @member {boolean} validate
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.validate = false;
+    
+        /**
+         * Creates a new QuantizedFloatEncoderAlias_t instance using the specified properties.
+         * @function create
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {IQuantizedFloatEncoderAlias_t=} [properties] Properties to set
+         * @returns {QuantizedFloatEncoderAlias_t} QuantizedFloatEncoderAlias_t instance
+         */
+        QuantizedFloatEncoderAlias_t.create = function create(properties) {
+            return new QuantizedFloatEncoderAlias_t(properties);
+        };
+    
+        /**
+         * Encodes the specified QuantizedFloatEncoderAlias_t message. Does not implicitly {@link QuantizedFloatEncoderAlias_t.verify|verify} messages.
+         * @function encode
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {IQuantizedFloatEncoderAlias_t} message QuantizedFloatEncoderAlias_t message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        QuantizedFloatEncoderAlias_t.encode = function encode(message, writer, q) {
+            if (!writer)
+                writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+            if (message.bit_count != null && Object.hasOwnProperty.call(message, "bit_count"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.bit_count);
+            if (message.encode_flags != null && Object.hasOwnProperty.call(message, "encode_flags"))
+                writer.uint32(/* id 3, wireType 0 =*/24).int32(message.encode_flags);
+            if (message.min_value != null && Object.hasOwnProperty.call(message, "min_value"))
+                writer.uint32(/* id 4, wireType 5 =*/37).float(message.min_value);
+            if (message.max_value != null && Object.hasOwnProperty.call(message, "max_value"))
+                writer.uint32(/* id 5, wireType 5 =*/45).float(message.max_value);
+            if (message.validate != null && Object.hasOwnProperty.call(message, "validate"))
+                writer.uint32(/* id 6, wireType 0 =*/48).bool(message.validate);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified QuantizedFloatEncoderAlias_t message, length delimited. Does not implicitly {@link QuantizedFloatEncoderAlias_t.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {IQuantizedFloatEncoderAlias_t} message QuantizedFloatEncoderAlias_t message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        QuantizedFloatEncoderAlias_t.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+    
+        /**
+         * Decodes a QuantizedFloatEncoderAlias_t message from the specified reader or buffer.
+         * @function decode
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {QuantizedFloatEncoderAlias_t} QuantizedFloatEncoderAlias_t
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        QuantizedFloatEncoderAlias_t.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.QuantizedFloatEncoderAlias_t();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.name = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.bit_count = reader.int32();
+                        break;
+                    }
+                case 3: {
+                        message.encode_flags = reader.int32();
+                        break;
+                    }
+                case 4: {
+                        message.min_value = reader.float();
+                        break;
+                    }
+                case 5: {
+                        message.max_value = reader.float();
+                        break;
+                    }
+                case 6: {
+                        message.validate = reader.bool();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a QuantizedFloatEncoderAlias_t message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {QuantizedFloatEncoderAlias_t} QuantizedFloatEncoderAlias_t
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        QuantizedFloatEncoderAlias_t.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a QuantizedFloatEncoderAlias_t message.
+         * @function verify
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        QuantizedFloatEncoderAlias_t.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                if (!$util.isString(message.name))
+                    return "name: string expected";
+            if (message.bit_count != null && Object.hasOwnProperty.call(message, "bit_count"))
+                if (!$util.isInteger(message.bit_count))
+                    return "bit_count: integer expected";
+            if (message.encode_flags != null && Object.hasOwnProperty.call(message, "encode_flags"))
+                if (!$util.isInteger(message.encode_flags))
+                    return "encode_flags: integer expected";
+            if (message.min_value != null && Object.hasOwnProperty.call(message, "min_value"))
+                if (typeof message.min_value !== "number")
+                    return "min_value: number expected";
+            if (message.max_value != null && Object.hasOwnProperty.call(message, "max_value"))
+                if (typeof message.max_value !== "number")
+                    return "max_value: number expected";
+            if (message.validate != null && Object.hasOwnProperty.call(message, "validate"))
+                if (typeof message.validate !== "boolean")
+                    return "validate: boolean expected";
+            return null;
+        };
+    
+        /**
+         * Creates a QuantizedFloatEncoderAlias_t message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {QuantizedFloatEncoderAlias_t} QuantizedFloatEncoderAlias_t
+         */
+        QuantizedFloatEncoderAlias_t.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.QuantizedFloatEncoderAlias_t)
+                return object;
+            if (!$util.isObject(object))
+                throw TypeError(".QuantizedFloatEncoderAlias_t: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var message = new $root.QuantizedFloatEncoderAlias_t();
+            if (object.name != null)
+                message.name = String(object.name);
+            if (object.bit_count != null)
+                message.bit_count = object.bit_count | 0;
+            if (object.encode_flags != null)
+                message.encode_flags = object.encode_flags | 0;
+            if (object.min_value != null)
+                message.min_value = Number(object.min_value);
+            if (object.max_value != null)
+                message.max_value = Number(object.max_value);
+            if (object.validate != null)
+                message.validate = Boolean(object.validate);
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a QuantizedFloatEncoderAlias_t message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {QuantizedFloatEncoderAlias_t} message QuantizedFloatEncoderAlias_t
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        QuantizedFloatEncoderAlias_t.toObject = function toObject(message, options, q) {
+            if (!options)
+                options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var object = {};
+            if (options.defaults) {
+                object.name = "";
+                object.bit_count = 0;
+                object.encode_flags = 0;
+                object.min_value = 0;
+                object.max_value = 0;
+                object.validate = false;
+            }
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                object.name = message.name;
+            if (message.bit_count != null && Object.hasOwnProperty.call(message, "bit_count"))
+                object.bit_count = message.bit_count;
+            if (message.encode_flags != null && Object.hasOwnProperty.call(message, "encode_flags"))
+                object.encode_flags = message.encode_flags;
+            if (message.min_value != null && Object.hasOwnProperty.call(message, "min_value"))
+                object.min_value = options.json && !isFinite(message.min_value) ? String(message.min_value) : message.min_value;
+            if (message.max_value != null && Object.hasOwnProperty.call(message, "max_value"))
+                object.max_value = options.json && !isFinite(message.max_value) ? String(message.max_value) : message.max_value;
+            if (message.validate != null && Object.hasOwnProperty.call(message, "validate"))
+                object.validate = message.validate;
+            return object;
+        };
+    
+        /**
+         * Converts this QuantizedFloatEncoderAlias_t to JSON.
+         * @function toJSON
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        QuantizedFloatEncoderAlias_t.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for QuantizedFloatEncoderAlias_t
+         * @function getTypeUrl
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        QuantizedFloatEncoderAlias_t.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/QuantizedFloatEncoderAlias_t";
+        };
+    
+        return QuantizedFloatEncoderAlias_t;
+    })();
+    
     $root.CSVCMsg_GameSessionConfiguration = (function() {
     
         /**
@@ -35808,6 +36189,8 @@
          * @property {boolean|null} [is_transition] CSVCMsg_GameSessionConfiguration is_transition
          * @property {string|null} [previouslevel] CSVCMsg_GameSessionConfiguration previouslevel
          * @property {string|null} [landmarkname] CSVCMsg_GameSessionConfiguration landmarkname
+         * @property {Array.<IQuantizedFloatEncoderAlias_t>|null} [quantized_float_encoder_aliases] CSVCMsg_GameSessionConfiguration quantized_float_encoder_aliases
+         * @property {number|null} [max_coord] CSVCMsg_GameSessionConfiguration max_coord
          */
     
         /**
@@ -35819,6 +36202,7 @@
          * @param {ICSVCMsg_GameSessionConfiguration=} [properties] Properties to set
          */
         function CSVCMsg_GameSessionConfiguration(properties) {
+            this.quantized_float_encoder_aliases = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
@@ -35978,6 +36362,22 @@
         CSVCMsg_GameSessionConfiguration.prototype.landmarkname = "";
     
         /**
+         * CSVCMsg_GameSessionConfiguration quantized_float_encoder_aliases.
+         * @member {Array.<IQuantizedFloatEncoderAlias_t>} quantized_float_encoder_aliases
+         * @memberof CSVCMsg_GameSessionConfiguration
+         * @instance
+         */
+        CSVCMsg_GameSessionConfiguration.prototype.quantized_float_encoder_aliases = $util.emptyArray;
+    
+        /**
+         * CSVCMsg_GameSessionConfiguration max_coord.
+         * @member {number} max_coord
+         * @memberof CSVCMsg_GameSessionConfiguration
+         * @instance
+         */
+        CSVCMsg_GameSessionConfiguration.prototype.max_coord = 0;
+    
+        /**
          * Creates a new CSVCMsg_GameSessionConfiguration instance using the specified properties.
          * @function create
          * @memberof CSVCMsg_GameSessionConfiguration
@@ -36043,6 +36443,11 @@
                 writer.uint32(/* id 18, wireType 2 =*/146).string(message.landmarkname);
             if (message.no_steam_server != null && Object.hasOwnProperty.call(message, "no_steam_server"))
                 writer.uint32(/* id 19, wireType 0 =*/152).bool(message.no_steam_server);
+            if (message.quantized_float_encoder_aliases != null && message.quantized_float_encoder_aliases.length)
+                for (var i = 0; i < message.quantized_float_encoder_aliases.length; ++i)
+                    $root.QuantizedFloatEncoderAlias_t.encode(message.quantized_float_encoder_aliases[i], writer.uint32(/* id 20, wireType 2 =*/162).fork(), q + 1).ldelim();
+            if (message.max_coord != null && Object.hasOwnProperty.call(message, "max_coord"))
+                writer.uint32(/* id 21, wireType 5 =*/173).float(message.max_coord);
             return writer;
         };
     
@@ -36169,6 +36574,16 @@
                         message.landmarkname = reader.string();
                         break;
                     }
+                case 20: {
+                        if (!(message.quantized_float_encoder_aliases && message.quantized_float_encoder_aliases.length))
+                            message.quantized_float_encoder_aliases = [];
+                        message.quantized_float_encoder_aliases.push($root.QuantizedFloatEncoderAlias_t.decode(reader, reader.uint32(), undefined, long + 1));
+                        break;
+                    }
+                case 21: {
+                        message.max_coord = reader.float();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -36270,6 +36685,18 @@
             if (message.landmarkname != null && Object.hasOwnProperty.call(message, "landmarkname"))
                 if (!$util.isString(message.landmarkname))
                     return "landmarkname: string expected";
+            if (message.quantized_float_encoder_aliases != null && Object.hasOwnProperty.call(message, "quantized_float_encoder_aliases")) {
+                if (!Array.isArray(message.quantized_float_encoder_aliases))
+                    return "quantized_float_encoder_aliases: array expected";
+                for (var i = 0; i < message.quantized_float_encoder_aliases.length; ++i) {
+                    var error = $root.QuantizedFloatEncoderAlias_t.verify(message.quantized_float_encoder_aliases[i], long + 1);
+                    if (error)
+                        return "quantized_float_encoder_aliases." + error;
+                }
+            }
+            if (message.max_coord != null && Object.hasOwnProperty.call(message, "max_coord"))
+                if (typeof message.max_coord !== "number")
+                    return "max_coord: number expected";
             return null;
         };
     
@@ -36332,6 +36759,18 @@
                 message.previouslevel = String(object.previouslevel);
             if (object.landmarkname != null)
                 message.landmarkname = String(object.landmarkname);
+            if (object.quantized_float_encoder_aliases) {
+                if (!Array.isArray(object.quantized_float_encoder_aliases))
+                    throw TypeError(".CSVCMsg_GameSessionConfiguration.quantized_float_encoder_aliases: array expected");
+                message.quantized_float_encoder_aliases = [];
+                for (var i = 0; i < object.quantized_float_encoder_aliases.length; ++i) {
+                    if (!$util.isObject(object.quantized_float_encoder_aliases[i]))
+                        throw TypeError(".CSVCMsg_GameSessionConfiguration.quantized_float_encoder_aliases: object expected");
+                    message.quantized_float_encoder_aliases[i] = $root.QuantizedFloatEncoderAlias_t.fromObject(object.quantized_float_encoder_aliases[i], long + 1);
+                }
+            }
+            if (object.max_coord != null)
+                message.max_coord = Number(object.max_coord);
             return message;
         };
     
@@ -36352,6 +36791,8 @@
             if (q > $util.recursionLimit)
                 throw Error("max depth exceeded");
             var object = {};
+            if (options.arrays || options.defaults)
+                object.quantized_float_encoder_aliases = [];
             if (options.defaults) {
                 object.is_multiplayer = false;
                 object.is_loadsavegame = false;
@@ -36378,6 +36819,7 @@
                 object.previouslevel = "";
                 object.landmarkname = "";
                 object.no_steam_server = false;
+                object.max_coord = 0;
             }
             if (message.is_multiplayer != null && Object.hasOwnProperty.call(message, "is_multiplayer"))
                 object.is_multiplayer = message.is_multiplayer;
@@ -36417,6 +36859,13 @@
                 object.landmarkname = message.landmarkname;
             if (message.no_steam_server != null && Object.hasOwnProperty.call(message, "no_steam_server"))
                 object.no_steam_server = message.no_steam_server;
+            if (message.quantized_float_encoder_aliases && message.quantized_float_encoder_aliases.length) {
+                object.quantized_float_encoder_aliases = [];
+                for (var j = 0; j < message.quantized_float_encoder_aliases.length; ++j)
+                    object.quantized_float_encoder_aliases[j] = $root.QuantizedFloatEncoderAlias_t.toObject(message.quantized_float_encoder_aliases[j], options, q + 1);
+            }
+            if (message.max_coord != null && Object.hasOwnProperty.call(message, "max_coord"))
+                object.max_coord = options.json && !isFinite(message.max_coord) ? String(message.max_coord) : message.max_coord;
             return object;
         };
     
@@ -61544,6 +61993,7 @@
          * @property {number|null} [socache_control] CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve socache_control
          * @property {Array.<number>|null} [teammate_colors] CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve teammate_colors
          * @property {number|null} [match_id_additional] CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve match_id_additional
+         * @property {Array.<string>|null} [clan_tags] CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve clan_tags
          */
     
         /**
@@ -61563,6 +62013,7 @@
             this.tournament_casters_account_ids = [];
             this.op_var_values = [];
             this.teammate_colors = [];
+            this.clan_tags = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
@@ -61738,6 +62189,14 @@
         CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve.prototype.match_id_additional = 0;
     
         /**
+         * CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve clan_tags.
+         * @member {Array.<string>} clan_tags
+         * @memberof CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve
+         * @instance
+         */
+        CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve.prototype.clan_tags = $util.emptyArray;
+    
+        /**
          * Creates a new CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve instance using the specified properties.
          * @function create
          * @memberof CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve
@@ -61815,6 +62274,9 @@
                     writer.uint32(/* id 21, wireType 0 =*/168).int32(message.teammate_colors[i]);
             if (message.match_id_additional != null && Object.hasOwnProperty.call(message, "match_id_additional"))
                 writer.uint32(/* id 22, wireType 0 =*/176).uint32(message.match_id_additional);
+            if (message.clan_tags != null && message.clan_tags.length)
+                for (var i = 0; i < message.clan_tags.length; ++i)
+                    writer.uint32(/* id 23, wireType 2 =*/186).string(message.clan_tags[i]);
             return writer;
         };
     
@@ -62009,6 +62471,12 @@
                         message.match_id_additional = reader.uint32();
                         break;
                     }
+                case 23: {
+                        if (!(message.clan_tags && message.clan_tags.length))
+                            message.clan_tags = [];
+                        message.clan_tags.push(reader.string());
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -62160,6 +62628,13 @@
             if (message.match_id_additional != null && Object.hasOwnProperty.call(message, "match_id_additional"))
                 if (!$util.isInteger(message.match_id_additional))
                     return "match_id_additional: integer expected";
+            if (message.clan_tags != null && Object.hasOwnProperty.call(message, "clan_tags")) {
+                if (!Array.isArray(message.clan_tags))
+                    return "clan_tags: array expected";
+                for (var i = 0; i < message.clan_tags.length; ++i)
+                    if (!$util.isString(message.clan_tags[i]))
+                        return "clan_tags: string[] expected";
+            }
             return null;
         };
     
@@ -62316,6 +62791,13 @@
             }
             if (object.match_id_additional != null)
                 message.match_id_additional = object.match_id_additional >>> 0;
+            if (object.clan_tags) {
+                if (!Array.isArray(object.clan_tags))
+                    throw TypeError(".CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve.clan_tags: array expected");
+                message.clan_tags = [];
+                for (var i = 0; i < object.clan_tags.length; ++i)
+                    message.clan_tags[i] = String(object.clan_tags[i]);
+            }
             return message;
         };
     
@@ -62345,6 +62827,7 @@
                 object.tournament_casters_account_ids = [];
                 object.op_var_values = [];
                 object.teammate_colors = [];
+                object.clan_tags = [];
             }
             if (options.defaults) {
                 object.game_type = 0;
@@ -62472,6 +62955,11 @@
             }
             if (message.match_id_additional != null && Object.hasOwnProperty.call(message, "match_id_additional"))
                 object.match_id_additional = message.match_id_additional;
+            if (message.clan_tags && message.clan_tags.length) {
+                object.clan_tags = [];
+                for (var j = 0; j < message.clan_tags.length; ++j)
+                    object.clan_tags[j] = message.clan_tags[j];
+            }
             return object;
         };
     
@@ -78345,7 +78833,7 @@
          * @property {number|null} [paintseed] CEconItemPreviewDataBlock paintseed
          * @property {number|null} [killeaterscoretype] CEconItemPreviewDataBlock killeaterscoretype
          * @property {number|null} [killeatervalue] CEconItemPreviewDataBlock killeatervalue
-         * @property {string|null} [customname] CEconItemPreviewDataBlock customname
+         * @property {Array.<string>|null} [customnames] CEconItemPreviewDataBlock customnames
          * @property {Array.<CEconItemPreviewDataBlock.ISticker>|null} [stickers] CEconItemPreviewDataBlock stickers
          * @property {number|null} [inventory] CEconItemPreviewDataBlock inventory
          * @property {number|null} [origin] CEconItemPreviewDataBlock origin
@@ -78358,6 +78846,8 @@
          * @property {number|null} [style] CEconItemPreviewDataBlock style
          * @property {Array.<CEconItemPreviewDataBlock.ISticker>|null} [variations] CEconItemPreviewDataBlock variations
          * @property {number|null} [upgrade_level] CEconItemPreviewDataBlock upgrade_level
+         * @property {number|null} [pet_food_expiration_date] CEconItemPreviewDataBlock pet_food_expiration_date
+         * @property {Uint8Array|null} [blobdata] CEconItemPreviewDataBlock blobdata
          */
     
         /**
@@ -78369,6 +78859,7 @@
          * @param {ICEconItemPreviewDataBlock=} [properties] Properties to set
          */
         function CEconItemPreviewDataBlock(properties) {
+            this.customnames = [];
             this.stickers = [];
             this.keychains = [];
             this.variations = [];
@@ -78459,12 +78950,12 @@
         CEconItemPreviewDataBlock.prototype.killeatervalue = 0;
     
         /**
-         * CEconItemPreviewDataBlock customname.
-         * @member {string} customname
+         * CEconItemPreviewDataBlock customnames.
+         * @member {Array.<string>} customnames
          * @memberof CEconItemPreviewDataBlock
          * @instance
          */
-        CEconItemPreviewDataBlock.prototype.customname = "";
+        CEconItemPreviewDataBlock.prototype.customnames = $util.emptyArray;
     
         /**
          * CEconItemPreviewDataBlock stickers.
@@ -78563,6 +79054,22 @@
         CEconItemPreviewDataBlock.prototype.upgrade_level = 0;
     
         /**
+         * CEconItemPreviewDataBlock pet_food_expiration_date.
+         * @member {number} pet_food_expiration_date
+         * @memberof CEconItemPreviewDataBlock
+         * @instance
+         */
+        CEconItemPreviewDataBlock.prototype.pet_food_expiration_date = 0;
+    
+        /**
+         * CEconItemPreviewDataBlock blobdata.
+         * @member {Uint8Array} blobdata
+         * @memberof CEconItemPreviewDataBlock
+         * @instance
+         */
+        CEconItemPreviewDataBlock.prototype.blobdata = $util.newBuffer([]);
+    
+        /**
          * Creates a new CEconItemPreviewDataBlock instance using the specified properties.
          * @function create
          * @memberof CEconItemPreviewDataBlock
@@ -78610,8 +79117,9 @@
                 writer.uint32(/* id 9, wireType 0 =*/72).uint32(message.killeaterscoretype);
             if (message.killeatervalue != null && Object.hasOwnProperty.call(message, "killeatervalue"))
                 writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.killeatervalue);
-            if (message.customname != null && Object.hasOwnProperty.call(message, "customname"))
-                writer.uint32(/* id 11, wireType 2 =*/90).string(message.customname);
+            if (message.customnames != null && message.customnames.length)
+                for (var i = 0; i < message.customnames.length; ++i)
+                    writer.uint32(/* id 11, wireType 2 =*/90).string(message.customnames[i]);
             if (message.stickers != null && message.stickers.length)
                 for (var i = 0; i < message.stickers.length; ++i)
                     $root.CEconItemPreviewDataBlock.Sticker.encode(message.stickers[i], writer.uint32(/* id 12, wireType 2 =*/98).fork(), q + 1).ldelim();
@@ -78639,6 +79147,10 @@
                     $root.CEconItemPreviewDataBlock.Sticker.encode(message.variations[i], writer.uint32(/* id 22, wireType 2 =*/178).fork(), q + 1).ldelim();
             if (message.upgrade_level != null && Object.hasOwnProperty.call(message, "upgrade_level"))
                 writer.uint32(/* id 23, wireType 0 =*/184).uint32(message.upgrade_level);
+            if (message.pet_food_expiration_date != null && Object.hasOwnProperty.call(message, "pet_food_expiration_date"))
+                writer.uint32(/* id 24, wireType 0 =*/192).uint32(message.pet_food_expiration_date);
+            if (message.blobdata != null && Object.hasOwnProperty.call(message, "blobdata"))
+                writer.uint32(/* id 25, wireType 2 =*/202).bytes(message.blobdata);
             return writer;
         };
     
@@ -78730,7 +79242,9 @@
                         break;
                     }
                 case 11: {
-                        message.customname = reader.string();
+                        if (!(message.customnames && message.customnames.length))
+                            message.customnames = [];
+                        message.customnames.push(reader.string());
                         break;
                     }
                 case 12: {
@@ -78785,6 +79299,14 @@
                     }
                 case 23: {
                         message.upgrade_level = reader.uint32();
+                        break;
+                    }
+                case 24: {
+                        message.pet_food_expiration_date = reader.uint32();
+                        break;
+                    }
+                case 25: {
+                        message.blobdata = reader.bytes();
                         break;
                     }
                 default:
@@ -78861,9 +79383,13 @@
             if (message.killeatervalue != null && Object.hasOwnProperty.call(message, "killeatervalue"))
                 if (!$util.isInteger(message.killeatervalue))
                     return "killeatervalue: integer expected";
-            if (message.customname != null && Object.hasOwnProperty.call(message, "customname"))
-                if (!$util.isString(message.customname))
-                    return "customname: string expected";
+            if (message.customnames != null && Object.hasOwnProperty.call(message, "customnames")) {
+                if (!Array.isArray(message.customnames))
+                    return "customnames: array expected";
+                for (var i = 0; i < message.customnames.length; ++i)
+                    if (!$util.isString(message.customnames[i]))
+                        return "customnames: string[] expected";
+            }
             if (message.stickers != null && Object.hasOwnProperty.call(message, "stickers")) {
                 if (!Array.isArray(message.stickers))
                     return "stickers: array expected";
@@ -78918,6 +79444,12 @@
             if (message.upgrade_level != null && Object.hasOwnProperty.call(message, "upgrade_level"))
                 if (!$util.isInteger(message.upgrade_level))
                     return "upgrade_level: integer expected";
+            if (message.pet_food_expiration_date != null && Object.hasOwnProperty.call(message, "pet_food_expiration_date"))
+                if (!$util.isInteger(message.pet_food_expiration_date))
+                    return "pet_food_expiration_date: integer expected";
+            if (message.blobdata != null && Object.hasOwnProperty.call(message, "blobdata"))
+                if (!(message.blobdata && typeof message.blobdata.length === "number" || $util.isString(message.blobdata)))
+                    return "blobdata: buffer expected";
             return null;
         };
     
@@ -78966,8 +79498,13 @@
                 message.killeaterscoretype = object.killeaterscoretype >>> 0;
             if (object.killeatervalue != null)
                 message.killeatervalue = object.killeatervalue >>> 0;
-            if (object.customname != null)
-                message.customname = String(object.customname);
+            if (object.customnames) {
+                if (!Array.isArray(object.customnames))
+                    throw TypeError(".CEconItemPreviewDataBlock.customnames: array expected");
+                message.customnames = [];
+                for (var i = 0; i < object.customnames.length; ++i)
+                    message.customnames[i] = String(object.customnames[i]);
+            }
             if (object.stickers) {
                 if (!Array.isArray(object.stickers))
                     throw TypeError(".CEconItemPreviewDataBlock.stickers: array expected");
@@ -79016,6 +79553,13 @@
             }
             if (object.upgrade_level != null)
                 message.upgrade_level = object.upgrade_level >>> 0;
+            if (object.pet_food_expiration_date != null)
+                message.pet_food_expiration_date = object.pet_food_expiration_date >>> 0;
+            if (object.blobdata != null)
+                if (typeof object.blobdata === "string")
+                    $util.base64.decode(object.blobdata, message.blobdata = $util.newBuffer($util.base64.length(object.blobdata)), 0);
+                else if (object.blobdata.length >= 0)
+                    message.blobdata = object.blobdata;
             return message;
         };
     
@@ -79037,6 +79581,7 @@
                 throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults) {
+                object.customnames = [];
                 object.stickers = [];
                 object.keychains = [];
                 object.variations = [];
@@ -79056,7 +79601,6 @@
                 object.paintseed = 0;
                 object.killeaterscoretype = 0;
                 object.killeatervalue = 0;
-                object.customname = "";
                 object.inventory = 0;
                 object.origin = 0;
                 object.questid = 0;
@@ -79066,6 +79610,14 @@
                 object.petindex = 0;
                 object.style = 0;
                 object.upgrade_level = 0;
+                object.pet_food_expiration_date = 0;
+                if (options.bytes === String)
+                    object.blobdata = "";
+                else {
+                    object.blobdata = [];
+                    if (options.bytes !== Array)
+                        object.blobdata = $util.newBuffer(object.blobdata);
+                }
             }
             if (message.accountid != null && Object.hasOwnProperty.call(message, "accountid"))
                 object.accountid = message.accountid;
@@ -79092,8 +79644,11 @@
                 object.killeaterscoretype = message.killeaterscoretype;
             if (message.killeatervalue != null && Object.hasOwnProperty.call(message, "killeatervalue"))
                 object.killeatervalue = message.killeatervalue;
-            if (message.customname != null && Object.hasOwnProperty.call(message, "customname"))
-                object.customname = message.customname;
+            if (message.customnames && message.customnames.length) {
+                object.customnames = [];
+                for (var j = 0; j < message.customnames.length; ++j)
+                    object.customnames[j] = message.customnames[j];
+            }
             if (message.stickers && message.stickers.length) {
                 object.stickers = [];
                 for (var j = 0; j < message.stickers.length; ++j)
@@ -79127,6 +79682,10 @@
             }
             if (message.upgrade_level != null && Object.hasOwnProperty.call(message, "upgrade_level"))
                 object.upgrade_level = message.upgrade_level;
+            if (message.pet_food_expiration_date != null && Object.hasOwnProperty.call(message, "pet_food_expiration_date"))
+                object.pet_food_expiration_date = message.pet_food_expiration_date;
+            if (message.blobdata != null && Object.hasOwnProperty.call(message, "blobdata"))
+                object.blobdata = options.bytes === String ? $util.base64.encode(message.blobdata, 0, message.blobdata.length) : options.bytes === Array ? Array.prototype.slice.call(message.blobdata) : message.blobdata;
             return object;
         };
     
@@ -94056,6 +94615,7 @@
          * @property {number|null} [xp_trail_timestamp_refresh] CSOPersonaDataPublic xp_trail_timestamp_refresh
          * @property {number|null} [xp_trail_level] CSOPersonaDataPublic xp_trail_level
          * @property {number|null} [clan_id] CSOPersonaDataPublic clan_id
+         * @property {string|null} [clan_tag] CSOPersonaDataPublic clan_tag
          */
     
         /**
@@ -94122,6 +94682,14 @@
         CSOPersonaDataPublic.prototype.clan_id = 0;
     
         /**
+         * CSOPersonaDataPublic clan_tag.
+         * @member {string} clan_tag
+         * @memberof CSOPersonaDataPublic
+         * @instance
+         */
+        CSOPersonaDataPublic.prototype.clan_tag = "";
+    
+        /**
          * Creates a new CSOPersonaDataPublic instance using the specified properties.
          * @function create
          * @memberof CSOPersonaDataPublic
@@ -94161,6 +94729,8 @@
                 writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.xp_trail_level);
             if (message.clan_id != null && Object.hasOwnProperty.call(message, "clan_id"))
                 writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.clan_id);
+            if (message.clan_tag != null && Object.hasOwnProperty.call(message, "clan_tag"))
+                writer.uint32(/* id 7, wireType 2 =*/58).string(message.clan_tag);
             return writer;
         };
     
@@ -94235,6 +94805,10 @@
                         message.clan_id = reader.uint32();
                         break;
                     }
+                case 7: {
+                        message.clan_tag = reader.string();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -94299,6 +94873,9 @@
             if (message.clan_id != null && Object.hasOwnProperty.call(message, "clan_id"))
                 if (!$util.isInteger(message.clan_id))
                     return "clan_id: integer expected";
+            if (message.clan_tag != null && Object.hasOwnProperty.call(message, "clan_tag"))
+                if (!$util.isString(message.clan_tag))
+                    return "clan_tag: string expected";
             return null;
         };
     
@@ -94335,6 +94912,8 @@
                 message.xp_trail_level = object.xp_trail_level >>> 0;
             if (object.clan_id != null)
                 message.clan_id = object.clan_id >>> 0;
+            if (object.clan_tag != null)
+                message.clan_tag = String(object.clan_tag);
             return message;
         };
     
@@ -94362,6 +94941,7 @@
                 object.xp_trail_timestamp_refresh = 0;
                 object.xp_trail_level = 0;
                 object.clan_id = 0;
+                object.clan_tag = "";
             }
             if (message.player_level != null && Object.hasOwnProperty.call(message, "player_level"))
                 object.player_level = message.player_level;
@@ -94375,6 +94955,8 @@
                 object.xp_trail_level = message.xp_trail_level;
             if (message.clan_id != null && Object.hasOwnProperty.call(message, "clan_id"))
                 object.clan_id = message.clan_id;
+            if (message.clan_tag != null && Object.hasOwnProperty.call(message, "clan_tag"))
+                object.clan_tag = message.clan_tag;
             return object;
         };
     

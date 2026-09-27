@@ -110,7 +110,13 @@ declare namespace NodeCS2 {
 		paintseed: number;
 		killeaterscoretype: number | null;
 		killeatervalue: number | null;
+		/** Compatibility alias for the last entry in customnames, or null. */
 		customname: string | null;
+		customnames: string[];
+		pet_food_expiration_date: number | null;
+		blobdata: Buffer | null;
+		style: number | null;
+		upgrade_level: number | null;
 		stickers: StickerLike[];
 		keychains: StickerLike[];
 		variations: StickerLike[];
@@ -339,6 +345,9 @@ declare class NodeCS2 extends EventEmitter {
 	applyKeychain(itemId: string, keychainId: string, callback: (error: Error | null, itemIds?: string[]) => void): void;
 	applyKeychain(itemId: string, keychainId: string, keychainSlot?: number): Promise<string[]>;
 	removeKeychain(itemId: string): void;
+
+	/** Acknowledge a pet event. Fire-and-forget; no GC response is defined. */
+	ackPetEvent(petItemId: string): void;
 
 	// ─── Commendations ─────────────────────────────────────────────────────────
 	commendPlayer(

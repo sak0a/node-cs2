@@ -70,6 +70,8 @@
      * @property {number} UM_PlayResponseConditional=166 UM_PlayResponseConditional value
      * @property {number} UM_UserSentBugBug=167 UM_UserSentBugBug value
      * @property {number} UM_UsageReport=168 UM_UsageReport value
+     * @property {number} UM_RemoteServerCommand=169 UM_RemoteServerCommand value
+     * @property {number} UM_RemoteServerResponse=170 UM_RemoteServerResponse value
      * @property {number} UM_MAX_BASE=200 UM_MAX_BASE value
      */
     $root.EBaseUserMessages = (function() {
@@ -124,6 +126,8 @@
         values[valuesById[166] = "UM_PlayResponseConditional"] = 166;
         values[valuesById[167] = "UM_UserSentBugBug"] = 167;
         values[valuesById[168] = "UM_UsageReport"] = 168;
+        values[valuesById[169] = "UM_RemoteServerCommand"] = 169;
+        values[valuesById[170] = "UM_RemoteServerResponse"] = 170;
         values[valuesById[200] = "UM_MAX_BASE"] = 200;
         return values;
     })();
@@ -2947,6 +2951,7 @@
          * @property {number|null} [playerindex] CUserMessageSayText playerindex
          * @property {string|null} [text] CUserMessageSayText text
          * @property {boolean|null} [chat] CUserMessageSayText chat
+         * @property {boolean|null} [textallchat] CUserMessageSayText textallchat
          */
     
         /**
@@ -2989,6 +2994,14 @@
         CUserMessageSayText.prototype.chat = false;
     
         /**
+         * CUserMessageSayText textallchat.
+         * @member {boolean} textallchat
+         * @memberof CUserMessageSayText
+         * @instance
+         */
+        CUserMessageSayText.prototype.textallchat = false;
+    
+        /**
          * Creates a new CUserMessageSayText instance using the specified properties.
          * @function create
          * @memberof CUserMessageSayText
@@ -3022,6 +3035,8 @@
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.text);
             if (message.chat != null && Object.hasOwnProperty.call(message, "chat"))
                 writer.uint32(/* id 3, wireType 0 =*/24).bool(message.chat);
+            if (message.textallchat != null && Object.hasOwnProperty.call(message, "textallchat"))
+                writer.uint32(/* id 4, wireType 0 =*/32).bool(message.textallchat);
             return writer;
         };
     
@@ -3084,6 +3099,10 @@
                         message.chat = reader.bool();
                         break;
                     }
+                case 4: {
+                        message.textallchat = reader.bool();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -3137,6 +3156,9 @@
             if (message.chat != null && Object.hasOwnProperty.call(message, "chat"))
                 if (typeof message.chat !== "boolean")
                     return "chat: boolean expected";
+            if (message.textallchat != null && Object.hasOwnProperty.call(message, "textallchat"))
+                if (typeof message.textallchat !== "boolean")
+                    return "textallchat: boolean expected";
             return null;
         };
     
@@ -3164,6 +3186,8 @@
                 message.text = String(object.text);
             if (object.chat != null)
                 message.chat = Boolean(object.chat);
+            if (object.textallchat != null)
+                message.textallchat = Boolean(object.textallchat);
             return message;
         };
     
@@ -3188,6 +3212,7 @@
                 object.playerindex = -1;
                 object.text = "";
                 object.chat = false;
+                object.textallchat = false;
             }
             if (message.playerindex != null && Object.hasOwnProperty.call(message, "playerindex"))
                 object.playerindex = message.playerindex;
@@ -3195,6 +3220,8 @@
                 object.text = message.text;
             if (message.chat != null && Object.hasOwnProperty.call(message, "chat"))
                 object.chat = message.chat;
+            if (message.textallchat != null && Object.hasOwnProperty.call(message, "textallchat"))
+                object.textallchat = message.textallchat;
             return object;
         };
     
@@ -3240,6 +3267,7 @@
          * @property {string|null} [param2] CUserMessageSayText2 param2
          * @property {string|null} [param3] CUserMessageSayText2 param3
          * @property {string|null} [param4] CUserMessageSayText2 param4
+         * @property {boolean|null} [textallchat] CUserMessageSayText2 textallchat
          */
     
         /**
@@ -3314,6 +3342,14 @@
         CUserMessageSayText2.prototype.param4 = "";
     
         /**
+         * CUserMessageSayText2 textallchat.
+         * @member {boolean} textallchat
+         * @memberof CUserMessageSayText2
+         * @instance
+         */
+        CUserMessageSayText2.prototype.textallchat = false;
+    
+        /**
          * Creates a new CUserMessageSayText2 instance using the specified properties.
          * @function create
          * @memberof CUserMessageSayText2
@@ -3355,6 +3391,8 @@
                 writer.uint32(/* id 6, wireType 2 =*/50).string(message.param3);
             if (message.param4 != null && Object.hasOwnProperty.call(message, "param4"))
                 writer.uint32(/* id 7, wireType 2 =*/58).string(message.param4);
+            if (message.textallchat != null && Object.hasOwnProperty.call(message, "textallchat"))
+                writer.uint32(/* id 8, wireType 0 =*/64).bool(message.textallchat);
             return writer;
         };
     
@@ -3433,6 +3471,10 @@
                         message.param4 = reader.string();
                         break;
                     }
+                case 8: {
+                        message.textallchat = reader.bool();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -3498,6 +3540,9 @@
             if (message.param4 != null && Object.hasOwnProperty.call(message, "param4"))
                 if (!$util.isString(message.param4))
                     return "param4: string expected";
+            if (message.textallchat != null && Object.hasOwnProperty.call(message, "textallchat"))
+                if (typeof message.textallchat !== "boolean")
+                    return "textallchat: boolean expected";
             return null;
         };
     
@@ -3533,6 +3578,8 @@
                 message.param3 = String(object.param3);
             if (object.param4 != null)
                 message.param4 = String(object.param4);
+            if (object.textallchat != null)
+                message.textallchat = Boolean(object.textallchat);
             return message;
         };
     
@@ -3561,6 +3608,7 @@
                 object.param2 = "";
                 object.param3 = "";
                 object.param4 = "";
+                object.textallchat = false;
             }
             if (message.entityindex != null && Object.hasOwnProperty.call(message, "entityindex"))
                 object.entityindex = message.entityindex;
@@ -3576,6 +3624,8 @@
                 object.param3 = message.param3;
             if (message.param4 != null && Object.hasOwnProperty.call(message, "param4"))
                 object.param4 = message.param4;
+            if (message.textallchat != null && Object.hasOwnProperty.call(message, "textallchat"))
+                object.textallchat = message.textallchat;
             return object;
         };
     
@@ -34884,6 +34934,664 @@
         return CUserMessage_UsageReport;
     })();
     
+    $root.CUserMessage_RemoteServerCommand = (function() {
+    
+        /**
+         * Properties of a CUserMessage_RemoteServerCommand.
+         * @exports ICUserMessage_RemoteServerCommand
+         * @interface ICUserMessage_RemoteServerCommand
+         * @property {CUserMessage_RemoteServerCommand.ECommand|null} [command] CUserMessage_RemoteServerCommand command
+         * @property {string|null} [convar] CUserMessage_RemoteServerCommand convar
+         * @property {string|null} [value] CUserMessage_RemoteServerCommand value
+         */
+    
+        /**
+         * Constructs a new CUserMessage_RemoteServerCommand.
+         * @exports CUserMessage_RemoteServerCommand
+         * @classdesc Represents a CUserMessage_RemoteServerCommand.
+         * @implements ICUserMessage_RemoteServerCommand
+         * @constructor
+         * @param {ICUserMessage_RemoteServerCommand=} [properties] Properties to set
+         */
+        function CUserMessage_RemoteServerCommand(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CUserMessage_RemoteServerCommand command.
+         * @member {CUserMessage_RemoteServerCommand.ECommand} command
+         * @memberof CUserMessage_RemoteServerCommand
+         * @instance
+         */
+        CUserMessage_RemoteServerCommand.prototype.command = 1;
+    
+        /**
+         * CUserMessage_RemoteServerCommand convar.
+         * @member {string} convar
+         * @memberof CUserMessage_RemoteServerCommand
+         * @instance
+         */
+        CUserMessage_RemoteServerCommand.prototype.convar = "";
+    
+        /**
+         * CUserMessage_RemoteServerCommand value.
+         * @member {string} value
+         * @memberof CUserMessage_RemoteServerCommand
+         * @instance
+         */
+        CUserMessage_RemoteServerCommand.prototype.value = "";
+    
+        /**
+         * Creates a new CUserMessage_RemoteServerCommand instance using the specified properties.
+         * @function create
+         * @memberof CUserMessage_RemoteServerCommand
+         * @static
+         * @param {ICUserMessage_RemoteServerCommand=} [properties] Properties to set
+         * @returns {CUserMessage_RemoteServerCommand} CUserMessage_RemoteServerCommand instance
+         */
+        CUserMessage_RemoteServerCommand.create = function create(properties) {
+            return new CUserMessage_RemoteServerCommand(properties);
+        };
+    
+        /**
+         * Encodes the specified CUserMessage_RemoteServerCommand message. Does not implicitly {@link CUserMessage_RemoteServerCommand.verify|verify} messages.
+         * @function encode
+         * @memberof CUserMessage_RemoteServerCommand
+         * @static
+         * @param {ICUserMessage_RemoteServerCommand} message CUserMessage_RemoteServerCommand message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CUserMessage_RemoteServerCommand.encode = function encode(message, writer, q) {
+            if (!writer)
+                writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (message.command != null && Object.hasOwnProperty.call(message, "command"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.command);
+            if (message.convar != null && Object.hasOwnProperty.call(message, "convar"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.convar);
+            if (message.value != null && Object.hasOwnProperty.call(message, "value"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.value);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CUserMessage_RemoteServerCommand message, length delimited. Does not implicitly {@link CUserMessage_RemoteServerCommand.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CUserMessage_RemoteServerCommand
+         * @static
+         * @param {ICUserMessage_RemoteServerCommand} message CUserMessage_RemoteServerCommand message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CUserMessage_RemoteServerCommand.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CUserMessage_RemoteServerCommand message from the specified reader or buffer.
+         * @function decode
+         * @memberof CUserMessage_RemoteServerCommand
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CUserMessage_RemoteServerCommand} CUserMessage_RemoteServerCommand
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CUserMessage_RemoteServerCommand.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CUserMessage_RemoteServerCommand();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.command = reader.int32();
+                        break;
+                    }
+                case 2: {
+                        message.convar = reader.string();
+                        break;
+                    }
+                case 3: {
+                        message.value = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CUserMessage_RemoteServerCommand message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CUserMessage_RemoteServerCommand
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CUserMessage_RemoteServerCommand} CUserMessage_RemoteServerCommand
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CUserMessage_RemoteServerCommand.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CUserMessage_RemoteServerCommand message.
+         * @function verify
+         * @memberof CUserMessage_RemoteServerCommand
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CUserMessage_RemoteServerCommand.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.command != null && Object.hasOwnProperty.call(message, "command"))
+                switch (message.command) {
+                default:
+                    return "command: enum value expected";
+                case 1:
+                    break;
+                }
+            if (message.convar != null && Object.hasOwnProperty.call(message, "convar"))
+                if (!$util.isString(message.convar))
+                    return "convar: string expected";
+            if (message.value != null && Object.hasOwnProperty.call(message, "value"))
+                if (!$util.isString(message.value))
+                    return "value: string expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CUserMessage_RemoteServerCommand message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CUserMessage_RemoteServerCommand
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CUserMessage_RemoteServerCommand} CUserMessage_RemoteServerCommand
+         */
+        CUserMessage_RemoteServerCommand.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.CUserMessage_RemoteServerCommand)
+                return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CUserMessage_RemoteServerCommand: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var message = new $root.CUserMessage_RemoteServerCommand();
+            switch (object.command) {
+            default:
+                if (typeof object.command === "number") {
+                    message.command = object.command;
+                    break;
+                }
+                break;
+            case "ECommandChangeConVar":
+            case 1:
+                message.command = 1;
+                break;
+            }
+            if (object.convar != null)
+                message.convar = String(object.convar);
+            if (object.value != null)
+                message.value = String(object.value);
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CUserMessage_RemoteServerCommand message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CUserMessage_RemoteServerCommand
+         * @static
+         * @param {CUserMessage_RemoteServerCommand} message CUserMessage_RemoteServerCommand
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CUserMessage_RemoteServerCommand.toObject = function toObject(message, options, q) {
+            if (!options)
+                options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var object = {};
+            if (options.defaults) {
+                object.command = options.enums === String ? "ECommandChangeConVar" : 1;
+                object.convar = "";
+                object.value = "";
+            }
+            if (message.command != null && Object.hasOwnProperty.call(message, "command"))
+                object.command = options.enums === String ? $root.CUserMessage_RemoteServerCommand.ECommand[message.command] === undefined ? message.command : $root.CUserMessage_RemoteServerCommand.ECommand[message.command] : message.command;
+            if (message.convar != null && Object.hasOwnProperty.call(message, "convar"))
+                object.convar = message.convar;
+            if (message.value != null && Object.hasOwnProperty.call(message, "value"))
+                object.value = message.value;
+            return object;
+        };
+    
+        /**
+         * Converts this CUserMessage_RemoteServerCommand to JSON.
+         * @function toJSON
+         * @memberof CUserMessage_RemoteServerCommand
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CUserMessage_RemoteServerCommand.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CUserMessage_RemoteServerCommand
+         * @function getTypeUrl
+         * @memberof CUserMessage_RemoteServerCommand
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CUserMessage_RemoteServerCommand.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CUserMessage_RemoteServerCommand";
+        };
+    
+        /**
+         * ECommand enum.
+         * @name CUserMessage_RemoteServerCommand.ECommand
+         * @enum {number}
+         * @property {number} ECommandChangeConVar=1 ECommandChangeConVar value
+         */
+        CUserMessage_RemoteServerCommand.ECommand = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[1] = "ECommandChangeConVar"] = 1;
+            return values;
+        })();
+    
+        return CUserMessage_RemoteServerCommand;
+    })();
+    
+    $root.CUserMessageRemoteServerResponse = (function() {
+    
+        /**
+         * Properties of a CUserMessageRemoteServerResponse.
+         * @exports ICUserMessageRemoteServerResponse
+         * @interface ICUserMessageRemoteServerResponse
+         * @property {CUserMessageRemoteServerResponse.ECommandResult|null} [command_result] CUserMessageRemoteServerResponse command_result
+         * @property {string|null} [convar] CUserMessageRemoteServerResponse convar
+         * @property {string|null} [results] CUserMessageRemoteServerResponse results
+         */
+    
+        /**
+         * Constructs a new CUserMessageRemoteServerResponse.
+         * @exports CUserMessageRemoteServerResponse
+         * @classdesc Represents a CUserMessageRemoteServerResponse.
+         * @implements ICUserMessageRemoteServerResponse
+         * @constructor
+         * @param {ICUserMessageRemoteServerResponse=} [properties] Properties to set
+         */
+        function CUserMessageRemoteServerResponse(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CUserMessageRemoteServerResponse command_result.
+         * @member {CUserMessageRemoteServerResponse.ECommandResult} command_result
+         * @memberof CUserMessageRemoteServerResponse
+         * @instance
+         */
+        CUserMessageRemoteServerResponse.prototype.command_result = 1;
+    
+        /**
+         * CUserMessageRemoteServerResponse convar.
+         * @member {string} convar
+         * @memberof CUserMessageRemoteServerResponse
+         * @instance
+         */
+        CUserMessageRemoteServerResponse.prototype.convar = "";
+    
+        /**
+         * CUserMessageRemoteServerResponse results.
+         * @member {string} results
+         * @memberof CUserMessageRemoteServerResponse
+         * @instance
+         */
+        CUserMessageRemoteServerResponse.prototype.results = "";
+    
+        /**
+         * Creates a new CUserMessageRemoteServerResponse instance using the specified properties.
+         * @function create
+         * @memberof CUserMessageRemoteServerResponse
+         * @static
+         * @param {ICUserMessageRemoteServerResponse=} [properties] Properties to set
+         * @returns {CUserMessageRemoteServerResponse} CUserMessageRemoteServerResponse instance
+         */
+        CUserMessageRemoteServerResponse.create = function create(properties) {
+            return new CUserMessageRemoteServerResponse(properties);
+        };
+    
+        /**
+         * Encodes the specified CUserMessageRemoteServerResponse message. Does not implicitly {@link CUserMessageRemoteServerResponse.verify|verify} messages.
+         * @function encode
+         * @memberof CUserMessageRemoteServerResponse
+         * @static
+         * @param {ICUserMessageRemoteServerResponse} message CUserMessageRemoteServerResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CUserMessageRemoteServerResponse.encode = function encode(message, writer, q) {
+            if (!writer)
+                writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (message.command_result != null && Object.hasOwnProperty.call(message, "command_result"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.command_result);
+            if (message.convar != null && Object.hasOwnProperty.call(message, "convar"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.convar);
+            if (message.results != null && Object.hasOwnProperty.call(message, "results"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.results);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CUserMessageRemoteServerResponse message, length delimited. Does not implicitly {@link CUserMessageRemoteServerResponse.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CUserMessageRemoteServerResponse
+         * @static
+         * @param {ICUserMessageRemoteServerResponse} message CUserMessageRemoteServerResponse message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CUserMessageRemoteServerResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CUserMessageRemoteServerResponse message from the specified reader or buffer.
+         * @function decode
+         * @memberof CUserMessageRemoteServerResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CUserMessageRemoteServerResponse} CUserMessageRemoteServerResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CUserMessageRemoteServerResponse.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CUserMessageRemoteServerResponse();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.command_result = reader.int32();
+                        break;
+                    }
+                case 2: {
+                        message.convar = reader.string();
+                        break;
+                    }
+                case 3: {
+                        message.results = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CUserMessageRemoteServerResponse message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CUserMessageRemoteServerResponse
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CUserMessageRemoteServerResponse} CUserMessageRemoteServerResponse
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CUserMessageRemoteServerResponse.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CUserMessageRemoteServerResponse message.
+         * @function verify
+         * @memberof CUserMessageRemoteServerResponse
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CUserMessageRemoteServerResponse.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.command_result != null && Object.hasOwnProperty.call(message, "command_result"))
+                switch (message.command_result) {
+                default:
+                    return "command_result: enum value expected";
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    break;
+                }
+            if (message.convar != null && Object.hasOwnProperty.call(message, "convar"))
+                if (!$util.isString(message.convar))
+                    return "convar: string expected";
+            if (message.results != null && Object.hasOwnProperty.call(message, "results"))
+                if (!$util.isString(message.results))
+                    return "results: string expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CUserMessageRemoteServerResponse message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CUserMessageRemoteServerResponse
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CUserMessageRemoteServerResponse} CUserMessageRemoteServerResponse
+         */
+        CUserMessageRemoteServerResponse.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.CUserMessageRemoteServerResponse)
+                return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CUserMessageRemoteServerResponse: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var message = new $root.CUserMessageRemoteServerResponse();
+            switch (object.command_result) {
+            default:
+                if (typeof object.command_result === "number") {
+                    message.command_result = object.command_result;
+                    break;
+                }
+                break;
+            case "EResultSuccess":
+            case 1:
+                message.command_result = 1;
+                break;
+            case "EResultServerDoesntAllow":
+            case 2:
+                message.command_result = 2;
+                break;
+            case "EResultClientNotAuthenticated":
+            case 3:
+                message.command_result = 3;
+                break;
+            case "EResultClientNotAllowed":
+            case 4:
+                message.command_result = 4;
+                break;
+            case "EResultCommandNotAllowed":
+            case 5:
+                message.command_result = 5;
+                break;
+            }
+            if (object.convar != null)
+                message.convar = String(object.convar);
+            if (object.results != null)
+                message.results = String(object.results);
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CUserMessageRemoteServerResponse message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CUserMessageRemoteServerResponse
+         * @static
+         * @param {CUserMessageRemoteServerResponse} message CUserMessageRemoteServerResponse
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CUserMessageRemoteServerResponse.toObject = function toObject(message, options, q) {
+            if (!options)
+                options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var object = {};
+            if (options.defaults) {
+                object.command_result = options.enums === String ? "EResultSuccess" : 1;
+                object.convar = "";
+                object.results = "";
+            }
+            if (message.command_result != null && Object.hasOwnProperty.call(message, "command_result"))
+                object.command_result = options.enums === String ? $root.CUserMessageRemoteServerResponse.ECommandResult[message.command_result] === undefined ? message.command_result : $root.CUserMessageRemoteServerResponse.ECommandResult[message.command_result] : message.command_result;
+            if (message.convar != null && Object.hasOwnProperty.call(message, "convar"))
+                object.convar = message.convar;
+            if (message.results != null && Object.hasOwnProperty.call(message, "results"))
+                object.results = message.results;
+            return object;
+        };
+    
+        /**
+         * Converts this CUserMessageRemoteServerResponse to JSON.
+         * @function toJSON
+         * @memberof CUserMessageRemoteServerResponse
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CUserMessageRemoteServerResponse.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CUserMessageRemoteServerResponse
+         * @function getTypeUrl
+         * @memberof CUserMessageRemoteServerResponse
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CUserMessageRemoteServerResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CUserMessageRemoteServerResponse";
+        };
+    
+        /**
+         * ECommandResult enum.
+         * @name CUserMessageRemoteServerResponse.ECommandResult
+         * @enum {number}
+         * @property {number} EResultSuccess=1 EResultSuccess value
+         * @property {number} EResultServerDoesntAllow=2 EResultServerDoesntAllow value
+         * @property {number} EResultClientNotAuthenticated=3 EResultClientNotAuthenticated value
+         * @property {number} EResultClientNotAllowed=4 EResultClientNotAllowed value
+         * @property {number} EResultCommandNotAllowed=5 EResultCommandNotAllowed value
+         */
+        CUserMessageRemoteServerResponse.ECommandResult = (function() {
+            var valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[1] = "EResultSuccess"] = 1;
+            values[valuesById[2] = "EResultServerDoesntAllow"] = 2;
+            values[valuesById[3] = "EResultClientNotAuthenticated"] = 3;
+            values[valuesById[4] = "EResultClientNotAllowed"] = 4;
+            values[valuesById[5] = "EResultCommandNotAllowed"] = 5;
+            return values;
+        })();
+    
+        return CUserMessageRemoteServerResponse;
+    })();
+    
     /**
      * SignonState_t enum.
      * @exports SignonState_t
@@ -36774,6 +37482,8 @@
          * @property {number|Long|null} [steamid] CMsgPlayerInfo steamid
          * @property {boolean|null} [fakeplayer] CMsgPlayerInfo fakeplayer
          * @property {boolean|null} [ishltv] CMsgPlayerInfo ishltv
+         * @property {boolean|null} [clan_member] CMsgPlayerInfo clan_member
+         * @property {boolean|null} [clan_officer] CMsgPlayerInfo clan_officer
          */
     
         /**
@@ -36840,6 +37550,22 @@
         CMsgPlayerInfo.prototype.ishltv = false;
     
         /**
+         * CMsgPlayerInfo clan_member.
+         * @member {boolean} clan_member
+         * @memberof CMsgPlayerInfo
+         * @instance
+         */
+        CMsgPlayerInfo.prototype.clan_member = false;
+    
+        /**
+         * CMsgPlayerInfo clan_officer.
+         * @member {boolean} clan_officer
+         * @memberof CMsgPlayerInfo
+         * @instance
+         */
+        CMsgPlayerInfo.prototype.clan_officer = false;
+    
+        /**
          * Creates a new CMsgPlayerInfo instance using the specified properties.
          * @function create
          * @memberof CMsgPlayerInfo
@@ -36879,6 +37605,10 @@
                 writer.uint32(/* id 5, wireType 0 =*/40).bool(message.fakeplayer);
             if (message.ishltv != null && Object.hasOwnProperty.call(message, "ishltv"))
                 writer.uint32(/* id 6, wireType 0 =*/48).bool(message.ishltv);
+            if (message.clan_member != null && Object.hasOwnProperty.call(message, "clan_member"))
+                writer.uint32(/* id 9, wireType 0 =*/72).bool(message.clan_member);
+            if (message.clan_officer != null && Object.hasOwnProperty.call(message, "clan_officer"))
+                writer.uint32(/* id 10, wireType 0 =*/80).bool(message.clan_officer);
             return writer;
         };
     
@@ -36953,6 +37683,14 @@
                         message.ishltv = reader.bool();
                         break;
                     }
+                case 9: {
+                        message.clan_member = reader.bool();
+                        break;
+                    }
+                case 10: {
+                        message.clan_officer = reader.bool();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -37015,6 +37753,12 @@
             if (message.ishltv != null && Object.hasOwnProperty.call(message, "ishltv"))
                 if (typeof message.ishltv !== "boolean")
                     return "ishltv: boolean expected";
+            if (message.clan_member != null && Object.hasOwnProperty.call(message, "clan_member"))
+                if (typeof message.clan_member !== "boolean")
+                    return "clan_member: boolean expected";
+            if (message.clan_officer != null && Object.hasOwnProperty.call(message, "clan_officer"))
+                if (typeof message.clan_officer !== "boolean")
+                    return "clan_officer: boolean expected";
             return null;
         };
     
@@ -37062,6 +37806,10 @@
                 message.fakeplayer = Boolean(object.fakeplayer);
             if (object.ishltv != null)
                 message.ishltv = Boolean(object.ishltv);
+            if (object.clan_member != null)
+                message.clan_member = Boolean(object.clan_member);
+            if (object.clan_officer != null)
+                message.clan_officer = Boolean(object.clan_officer);
             return message;
         };
     
@@ -37097,6 +37845,8 @@
                     object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.fakeplayer = false;
                 object.ishltv = false;
+                object.clan_member = false;
+                object.clan_officer = false;
             }
             if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                 object.name = message.name;
@@ -37120,6 +37870,10 @@
                 object.fakeplayer = message.fakeplayer;
             if (message.ishltv != null && Object.hasOwnProperty.call(message, "ishltv"))
                 object.ishltv = message.ishltv;
+            if (message.clan_member != null && Object.hasOwnProperty.call(message, "clan_member"))
+                object.clan_member = message.clan_member;
+            if (message.clan_officer != null && Object.hasOwnProperty.call(message, "clan_officer"))
+                object.clan_officer = message.clan_officer;
             return object;
         };
     
@@ -42838,6 +43592,364 @@
         return CNETMsg_SpawnGroup_LoadCompleted;
     })();
     
+    $root.QuantizedFloatEncoderAlias_t = (function() {
+    
+        /**
+         * Properties of a QuantizedFloatEncoderAlias_t.
+         * @exports IQuantizedFloatEncoderAlias_t
+         * @interface IQuantizedFloatEncoderAlias_t
+         * @property {string|null} [name] QuantizedFloatEncoderAlias_t name
+         * @property {number|null} [bit_count] QuantizedFloatEncoderAlias_t bit_count
+         * @property {number|null} [encode_flags] QuantizedFloatEncoderAlias_t encode_flags
+         * @property {number|null} [min_value] QuantizedFloatEncoderAlias_t min_value
+         * @property {number|null} [max_value] QuantizedFloatEncoderAlias_t max_value
+         * @property {boolean|null} [validate] QuantizedFloatEncoderAlias_t validate
+         */
+    
+        /**
+         * Constructs a new QuantizedFloatEncoderAlias_t.
+         * @exports QuantizedFloatEncoderAlias_t
+         * @classdesc Represents a QuantizedFloatEncoderAlias_t.
+         * @implements IQuantizedFloatEncoderAlias_t
+         * @constructor
+         * @param {IQuantizedFloatEncoderAlias_t=} [properties] Properties to set
+         */
+        function QuantizedFloatEncoderAlias_t(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * QuantizedFloatEncoderAlias_t name.
+         * @member {string} name
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.name = "";
+    
+        /**
+         * QuantizedFloatEncoderAlias_t bit_count.
+         * @member {number} bit_count
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.bit_count = 0;
+    
+        /**
+         * QuantizedFloatEncoderAlias_t encode_flags.
+         * @member {number} encode_flags
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.encode_flags = 0;
+    
+        /**
+         * QuantizedFloatEncoderAlias_t min_value.
+         * @member {number} min_value
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.min_value = 0;
+    
+        /**
+         * QuantizedFloatEncoderAlias_t max_value.
+         * @member {number} max_value
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.max_value = 0;
+    
+        /**
+         * QuantizedFloatEncoderAlias_t validate.
+         * @member {boolean} validate
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.validate = false;
+    
+        /**
+         * Creates a new QuantizedFloatEncoderAlias_t instance using the specified properties.
+         * @function create
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {IQuantizedFloatEncoderAlias_t=} [properties] Properties to set
+         * @returns {QuantizedFloatEncoderAlias_t} QuantizedFloatEncoderAlias_t instance
+         */
+        QuantizedFloatEncoderAlias_t.create = function create(properties) {
+            return new QuantizedFloatEncoderAlias_t(properties);
+        };
+    
+        /**
+         * Encodes the specified QuantizedFloatEncoderAlias_t message. Does not implicitly {@link QuantizedFloatEncoderAlias_t.verify|verify} messages.
+         * @function encode
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {IQuantizedFloatEncoderAlias_t} message QuantizedFloatEncoderAlias_t message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        QuantizedFloatEncoderAlias_t.encode = function encode(message, writer, q) {
+            if (!writer)
+                writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+            if (message.bit_count != null && Object.hasOwnProperty.call(message, "bit_count"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.bit_count);
+            if (message.encode_flags != null && Object.hasOwnProperty.call(message, "encode_flags"))
+                writer.uint32(/* id 3, wireType 0 =*/24).int32(message.encode_flags);
+            if (message.min_value != null && Object.hasOwnProperty.call(message, "min_value"))
+                writer.uint32(/* id 4, wireType 5 =*/37).float(message.min_value);
+            if (message.max_value != null && Object.hasOwnProperty.call(message, "max_value"))
+                writer.uint32(/* id 5, wireType 5 =*/45).float(message.max_value);
+            if (message.validate != null && Object.hasOwnProperty.call(message, "validate"))
+                writer.uint32(/* id 6, wireType 0 =*/48).bool(message.validate);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified QuantizedFloatEncoderAlias_t message, length delimited. Does not implicitly {@link QuantizedFloatEncoderAlias_t.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {IQuantizedFloatEncoderAlias_t} message QuantizedFloatEncoderAlias_t message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        QuantizedFloatEncoderAlias_t.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+    
+        /**
+         * Decodes a QuantizedFloatEncoderAlias_t message from the specified reader or buffer.
+         * @function decode
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {QuantizedFloatEncoderAlias_t} QuantizedFloatEncoderAlias_t
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        QuantizedFloatEncoderAlias_t.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.QuantizedFloatEncoderAlias_t();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.name = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.bit_count = reader.int32();
+                        break;
+                    }
+                case 3: {
+                        message.encode_flags = reader.int32();
+                        break;
+                    }
+                case 4: {
+                        message.min_value = reader.float();
+                        break;
+                    }
+                case 5: {
+                        message.max_value = reader.float();
+                        break;
+                    }
+                case 6: {
+                        message.validate = reader.bool();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a QuantizedFloatEncoderAlias_t message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {QuantizedFloatEncoderAlias_t} QuantizedFloatEncoderAlias_t
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        QuantizedFloatEncoderAlias_t.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a QuantizedFloatEncoderAlias_t message.
+         * @function verify
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        QuantizedFloatEncoderAlias_t.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                if (!$util.isString(message.name))
+                    return "name: string expected";
+            if (message.bit_count != null && Object.hasOwnProperty.call(message, "bit_count"))
+                if (!$util.isInteger(message.bit_count))
+                    return "bit_count: integer expected";
+            if (message.encode_flags != null && Object.hasOwnProperty.call(message, "encode_flags"))
+                if (!$util.isInteger(message.encode_flags))
+                    return "encode_flags: integer expected";
+            if (message.min_value != null && Object.hasOwnProperty.call(message, "min_value"))
+                if (typeof message.min_value !== "number")
+                    return "min_value: number expected";
+            if (message.max_value != null && Object.hasOwnProperty.call(message, "max_value"))
+                if (typeof message.max_value !== "number")
+                    return "max_value: number expected";
+            if (message.validate != null && Object.hasOwnProperty.call(message, "validate"))
+                if (typeof message.validate !== "boolean")
+                    return "validate: boolean expected";
+            return null;
+        };
+    
+        /**
+         * Creates a QuantizedFloatEncoderAlias_t message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {QuantizedFloatEncoderAlias_t} QuantizedFloatEncoderAlias_t
+         */
+        QuantizedFloatEncoderAlias_t.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.QuantizedFloatEncoderAlias_t)
+                return object;
+            if (!$util.isObject(object))
+                throw TypeError(".QuantizedFloatEncoderAlias_t: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var message = new $root.QuantizedFloatEncoderAlias_t();
+            if (object.name != null)
+                message.name = String(object.name);
+            if (object.bit_count != null)
+                message.bit_count = object.bit_count | 0;
+            if (object.encode_flags != null)
+                message.encode_flags = object.encode_flags | 0;
+            if (object.min_value != null)
+                message.min_value = Number(object.min_value);
+            if (object.max_value != null)
+                message.max_value = Number(object.max_value);
+            if (object.validate != null)
+                message.validate = Boolean(object.validate);
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a QuantizedFloatEncoderAlias_t message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {QuantizedFloatEncoderAlias_t} message QuantizedFloatEncoderAlias_t
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        QuantizedFloatEncoderAlias_t.toObject = function toObject(message, options, q) {
+            if (!options)
+                options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var object = {};
+            if (options.defaults) {
+                object.name = "";
+                object.bit_count = 0;
+                object.encode_flags = 0;
+                object.min_value = 0;
+                object.max_value = 0;
+                object.validate = false;
+            }
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                object.name = message.name;
+            if (message.bit_count != null && Object.hasOwnProperty.call(message, "bit_count"))
+                object.bit_count = message.bit_count;
+            if (message.encode_flags != null && Object.hasOwnProperty.call(message, "encode_flags"))
+                object.encode_flags = message.encode_flags;
+            if (message.min_value != null && Object.hasOwnProperty.call(message, "min_value"))
+                object.min_value = options.json && !isFinite(message.min_value) ? String(message.min_value) : message.min_value;
+            if (message.max_value != null && Object.hasOwnProperty.call(message, "max_value"))
+                object.max_value = options.json && !isFinite(message.max_value) ? String(message.max_value) : message.max_value;
+            if (message.validate != null && Object.hasOwnProperty.call(message, "validate"))
+                object.validate = message.validate;
+            return object;
+        };
+    
+        /**
+         * Converts this QuantizedFloatEncoderAlias_t to JSON.
+         * @function toJSON
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        QuantizedFloatEncoderAlias_t.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for QuantizedFloatEncoderAlias_t
+         * @function getTypeUrl
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        QuantizedFloatEncoderAlias_t.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/QuantizedFloatEncoderAlias_t";
+        };
+    
+        return QuantizedFloatEncoderAlias_t;
+    })();
+    
     $root.CSVCMsg_GameSessionConfiguration = (function() {
     
         /**
@@ -42863,6 +43975,8 @@
          * @property {boolean|null} [is_transition] CSVCMsg_GameSessionConfiguration is_transition
          * @property {string|null} [previouslevel] CSVCMsg_GameSessionConfiguration previouslevel
          * @property {string|null} [landmarkname] CSVCMsg_GameSessionConfiguration landmarkname
+         * @property {Array.<IQuantizedFloatEncoderAlias_t>|null} [quantized_float_encoder_aliases] CSVCMsg_GameSessionConfiguration quantized_float_encoder_aliases
+         * @property {number|null} [max_coord] CSVCMsg_GameSessionConfiguration max_coord
          */
     
         /**
@@ -42874,6 +43988,7 @@
          * @param {ICSVCMsg_GameSessionConfiguration=} [properties] Properties to set
          */
         function CSVCMsg_GameSessionConfiguration(properties) {
+            this.quantized_float_encoder_aliases = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
@@ -43033,6 +44148,22 @@
         CSVCMsg_GameSessionConfiguration.prototype.landmarkname = "";
     
         /**
+         * CSVCMsg_GameSessionConfiguration quantized_float_encoder_aliases.
+         * @member {Array.<IQuantizedFloatEncoderAlias_t>} quantized_float_encoder_aliases
+         * @memberof CSVCMsg_GameSessionConfiguration
+         * @instance
+         */
+        CSVCMsg_GameSessionConfiguration.prototype.quantized_float_encoder_aliases = $util.emptyArray;
+    
+        /**
+         * CSVCMsg_GameSessionConfiguration max_coord.
+         * @member {number} max_coord
+         * @memberof CSVCMsg_GameSessionConfiguration
+         * @instance
+         */
+        CSVCMsg_GameSessionConfiguration.prototype.max_coord = 0;
+    
+        /**
          * Creates a new CSVCMsg_GameSessionConfiguration instance using the specified properties.
          * @function create
          * @memberof CSVCMsg_GameSessionConfiguration
@@ -43098,6 +44229,11 @@
                 writer.uint32(/* id 18, wireType 2 =*/146).string(message.landmarkname);
             if (message.no_steam_server != null && Object.hasOwnProperty.call(message, "no_steam_server"))
                 writer.uint32(/* id 19, wireType 0 =*/152).bool(message.no_steam_server);
+            if (message.quantized_float_encoder_aliases != null && message.quantized_float_encoder_aliases.length)
+                for (var i = 0; i < message.quantized_float_encoder_aliases.length; ++i)
+                    $root.QuantizedFloatEncoderAlias_t.encode(message.quantized_float_encoder_aliases[i], writer.uint32(/* id 20, wireType 2 =*/162).fork(), q + 1).ldelim();
+            if (message.max_coord != null && Object.hasOwnProperty.call(message, "max_coord"))
+                writer.uint32(/* id 21, wireType 5 =*/173).float(message.max_coord);
             return writer;
         };
     
@@ -43224,6 +44360,16 @@
                         message.landmarkname = reader.string();
                         break;
                     }
+                case 20: {
+                        if (!(message.quantized_float_encoder_aliases && message.quantized_float_encoder_aliases.length))
+                            message.quantized_float_encoder_aliases = [];
+                        message.quantized_float_encoder_aliases.push($root.QuantizedFloatEncoderAlias_t.decode(reader, reader.uint32(), undefined, long + 1));
+                        break;
+                    }
+                case 21: {
+                        message.max_coord = reader.float();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -43325,6 +44471,18 @@
             if (message.landmarkname != null && Object.hasOwnProperty.call(message, "landmarkname"))
                 if (!$util.isString(message.landmarkname))
                     return "landmarkname: string expected";
+            if (message.quantized_float_encoder_aliases != null && Object.hasOwnProperty.call(message, "quantized_float_encoder_aliases")) {
+                if (!Array.isArray(message.quantized_float_encoder_aliases))
+                    return "quantized_float_encoder_aliases: array expected";
+                for (var i = 0; i < message.quantized_float_encoder_aliases.length; ++i) {
+                    var error = $root.QuantizedFloatEncoderAlias_t.verify(message.quantized_float_encoder_aliases[i], long + 1);
+                    if (error)
+                        return "quantized_float_encoder_aliases." + error;
+                }
+            }
+            if (message.max_coord != null && Object.hasOwnProperty.call(message, "max_coord"))
+                if (typeof message.max_coord !== "number")
+                    return "max_coord: number expected";
             return null;
         };
     
@@ -43387,6 +44545,18 @@
                 message.previouslevel = String(object.previouslevel);
             if (object.landmarkname != null)
                 message.landmarkname = String(object.landmarkname);
+            if (object.quantized_float_encoder_aliases) {
+                if (!Array.isArray(object.quantized_float_encoder_aliases))
+                    throw TypeError(".CSVCMsg_GameSessionConfiguration.quantized_float_encoder_aliases: array expected");
+                message.quantized_float_encoder_aliases = [];
+                for (var i = 0; i < object.quantized_float_encoder_aliases.length; ++i) {
+                    if (!$util.isObject(object.quantized_float_encoder_aliases[i]))
+                        throw TypeError(".CSVCMsg_GameSessionConfiguration.quantized_float_encoder_aliases: object expected");
+                    message.quantized_float_encoder_aliases[i] = $root.QuantizedFloatEncoderAlias_t.fromObject(object.quantized_float_encoder_aliases[i], long + 1);
+                }
+            }
+            if (object.max_coord != null)
+                message.max_coord = Number(object.max_coord);
             return message;
         };
     
@@ -43407,6 +44577,8 @@
             if (q > $util.recursionLimit)
                 throw Error("max depth exceeded");
             var object = {};
+            if (options.arrays || options.defaults)
+                object.quantized_float_encoder_aliases = [];
             if (options.defaults) {
                 object.is_multiplayer = false;
                 object.is_loadsavegame = false;
@@ -43433,6 +44605,7 @@
                 object.previouslevel = "";
                 object.landmarkname = "";
                 object.no_steam_server = false;
+                object.max_coord = 0;
             }
             if (message.is_multiplayer != null && Object.hasOwnProperty.call(message, "is_multiplayer"))
                 object.is_multiplayer = message.is_multiplayer;
@@ -43472,6 +44645,13 @@
                 object.landmarkname = message.landmarkname;
             if (message.no_steam_server != null && Object.hasOwnProperty.call(message, "no_steam_server"))
                 object.no_steam_server = message.no_steam_server;
+            if (message.quantized_float_encoder_aliases && message.quantized_float_encoder_aliases.length) {
+                object.quantized_float_encoder_aliases = [];
+                for (var j = 0; j < message.quantized_float_encoder_aliases.length; ++j)
+                    object.quantized_float_encoder_aliases[j] = $root.QuantizedFloatEncoderAlias_t.toObject(message.quantized_float_encoder_aliases[j], options, q + 1);
+            }
+            if (message.max_coord != null && Object.hasOwnProperty.call(message, "max_coord"))
+                object.max_coord = options.json && !isFinite(message.max_coord) ? String(message.max_coord) : message.max_coord;
             return object;
         };
     

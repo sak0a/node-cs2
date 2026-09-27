@@ -74,6 +74,13 @@ cs2.inspectItem(owner, assetid, classid, (item) => {
 });
 ```
 
+### September 2026 protocol support
+
+Synced with [GameTracking-CS2 through September 25, 2026](https://github.com/SteamTracking/GameTracking-CS2/commit/3fc98e763328f7d1627405b389d1b6b69c5b0e38).
+Inspection results now include `customnames` (all names), `pet_food_expiration_date`, and opaque `blobdata` bytes. The existing `customname` remains the last name, or `null`, for compatibility. Direct protobuf consumers must encode names using `customnames`.
+
+`cs2.ackPetEvent(petItemId)` sends the new pet-event acknowledgement using a decimal string item ID. This is a fire-and-forget protocol helper, with no defined GC response; live pet behavior has not been verified.
+
 ### Volatile Items
 
 ```javascript
@@ -192,3 +199,5 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ### Development environment
 
 Use Node.js 24+ for the current lint and test tooling. The published library retains Node.js 14+ runtime support. The development dependency uses `steam-user` 5; consumers may continue using the supported `steam-user` 4 API.
+
+To refresh protocols, run `npm run update-protos`. Each download uses one upstream commit; set `PROTO_REF=<commit>` to reproduce a specific snapshot.

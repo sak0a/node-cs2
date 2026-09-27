@@ -587,6 +587,10 @@ handlers[Language.SO_UpdateMultiple] = function (body) {
 };
 
 NodeCS2.prototype._normalizeInspectItem = function (item) {
+	// Field 11 is now repeated; preserve the former singular decoder's last-name behavior.
+	item.customnames = item.customnames || (item.customname == null ? [] : [item.customname]);
+	item.customname = item.customnames.length ? item.customnames[item.customnames.length - 1] : null;
+
 	// decode the wear
 	if (typeof item.paintwear !== 'undefined') {
 		const buf = Buffer.alloc(4);

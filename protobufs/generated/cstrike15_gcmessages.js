@@ -16790,6 +16790,7 @@
          * @property {number|null} [socache_control] CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve socache_control
          * @property {Array.<number>|null} [teammate_colors] CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve teammate_colors
          * @property {number|null} [match_id_additional] CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve match_id_additional
+         * @property {Array.<string>|null} [clan_tags] CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve clan_tags
          */
     
         /**
@@ -16809,6 +16810,7 @@
             this.tournament_casters_account_ids = [];
             this.op_var_values = [];
             this.teammate_colors = [];
+            this.clan_tags = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
@@ -16984,6 +16986,14 @@
         CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve.prototype.match_id_additional = 0;
     
         /**
+         * CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve clan_tags.
+         * @member {Array.<string>} clan_tags
+         * @memberof CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve
+         * @instance
+         */
+        CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve.prototype.clan_tags = $util.emptyArray;
+    
+        /**
          * Creates a new CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve instance using the specified properties.
          * @function create
          * @memberof CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve
@@ -17061,6 +17071,9 @@
                     writer.uint32(/* id 21, wireType 0 =*/168).int32(message.teammate_colors[i]);
             if (message.match_id_additional != null && Object.hasOwnProperty.call(message, "match_id_additional"))
                 writer.uint32(/* id 22, wireType 0 =*/176).uint32(message.match_id_additional);
+            if (message.clan_tags != null && message.clan_tags.length)
+                for (var i = 0; i < message.clan_tags.length; ++i)
+                    writer.uint32(/* id 23, wireType 2 =*/186).string(message.clan_tags[i]);
             return writer;
         };
     
@@ -17255,6 +17268,12 @@
                         message.match_id_additional = reader.uint32();
                         break;
                     }
+                case 23: {
+                        if (!(message.clan_tags && message.clan_tags.length))
+                            message.clan_tags = [];
+                        message.clan_tags.push(reader.string());
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -17406,6 +17425,13 @@
             if (message.match_id_additional != null && Object.hasOwnProperty.call(message, "match_id_additional"))
                 if (!$util.isInteger(message.match_id_additional))
                     return "match_id_additional: integer expected";
+            if (message.clan_tags != null && Object.hasOwnProperty.call(message, "clan_tags")) {
+                if (!Array.isArray(message.clan_tags))
+                    return "clan_tags: array expected";
+                for (var i = 0; i < message.clan_tags.length; ++i)
+                    if (!$util.isString(message.clan_tags[i]))
+                        return "clan_tags: string[] expected";
+            }
             return null;
         };
     
@@ -17562,6 +17588,13 @@
             }
             if (object.match_id_additional != null)
                 message.match_id_additional = object.match_id_additional >>> 0;
+            if (object.clan_tags) {
+                if (!Array.isArray(object.clan_tags))
+                    throw TypeError(".CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve.clan_tags: array expected");
+                message.clan_tags = [];
+                for (var i = 0; i < object.clan_tags.length; ++i)
+                    message.clan_tags[i] = String(object.clan_tags[i]);
+            }
             return message;
         };
     
@@ -17591,6 +17624,7 @@
                 object.tournament_casters_account_ids = [];
                 object.op_var_values = [];
                 object.teammate_colors = [];
+                object.clan_tags = [];
             }
             if (options.defaults) {
                 object.game_type = 0;
@@ -17718,6 +17752,11 @@
             }
             if (message.match_id_additional != null && Object.hasOwnProperty.call(message, "match_id_additional"))
                 object.match_id_additional = message.match_id_additional;
+            if (message.clan_tags && message.clan_tags.length) {
+                object.clan_tags = [];
+                for (var j = 0; j < message.clan_tags.length; ++j)
+                    object.clan_tags[j] = message.clan_tags[j];
+            }
             return object;
         };
     
@@ -33591,7 +33630,7 @@
          * @property {number|null} [paintseed] CEconItemPreviewDataBlock paintseed
          * @property {number|null} [killeaterscoretype] CEconItemPreviewDataBlock killeaterscoretype
          * @property {number|null} [killeatervalue] CEconItemPreviewDataBlock killeatervalue
-         * @property {string|null} [customname] CEconItemPreviewDataBlock customname
+         * @property {Array.<string>|null} [customnames] CEconItemPreviewDataBlock customnames
          * @property {Array.<CEconItemPreviewDataBlock.ISticker>|null} [stickers] CEconItemPreviewDataBlock stickers
          * @property {number|null} [inventory] CEconItemPreviewDataBlock inventory
          * @property {number|null} [origin] CEconItemPreviewDataBlock origin
@@ -33604,6 +33643,8 @@
          * @property {number|null} [style] CEconItemPreviewDataBlock style
          * @property {Array.<CEconItemPreviewDataBlock.ISticker>|null} [variations] CEconItemPreviewDataBlock variations
          * @property {number|null} [upgrade_level] CEconItemPreviewDataBlock upgrade_level
+         * @property {number|null} [pet_food_expiration_date] CEconItemPreviewDataBlock pet_food_expiration_date
+         * @property {Uint8Array|null} [blobdata] CEconItemPreviewDataBlock blobdata
          */
     
         /**
@@ -33615,6 +33656,7 @@
          * @param {ICEconItemPreviewDataBlock=} [properties] Properties to set
          */
         function CEconItemPreviewDataBlock(properties) {
+            this.customnames = [];
             this.stickers = [];
             this.keychains = [];
             this.variations = [];
@@ -33705,12 +33747,12 @@
         CEconItemPreviewDataBlock.prototype.killeatervalue = 0;
     
         /**
-         * CEconItemPreviewDataBlock customname.
-         * @member {string} customname
+         * CEconItemPreviewDataBlock customnames.
+         * @member {Array.<string>} customnames
          * @memberof CEconItemPreviewDataBlock
          * @instance
          */
-        CEconItemPreviewDataBlock.prototype.customname = "";
+        CEconItemPreviewDataBlock.prototype.customnames = $util.emptyArray;
     
         /**
          * CEconItemPreviewDataBlock stickers.
@@ -33809,6 +33851,22 @@
         CEconItemPreviewDataBlock.prototype.upgrade_level = 0;
     
         /**
+         * CEconItemPreviewDataBlock pet_food_expiration_date.
+         * @member {number} pet_food_expiration_date
+         * @memberof CEconItemPreviewDataBlock
+         * @instance
+         */
+        CEconItemPreviewDataBlock.prototype.pet_food_expiration_date = 0;
+    
+        /**
+         * CEconItemPreviewDataBlock blobdata.
+         * @member {Uint8Array} blobdata
+         * @memberof CEconItemPreviewDataBlock
+         * @instance
+         */
+        CEconItemPreviewDataBlock.prototype.blobdata = $util.newBuffer([]);
+    
+        /**
          * Creates a new CEconItemPreviewDataBlock instance using the specified properties.
          * @function create
          * @memberof CEconItemPreviewDataBlock
@@ -33856,8 +33914,9 @@
                 writer.uint32(/* id 9, wireType 0 =*/72).uint32(message.killeaterscoretype);
             if (message.killeatervalue != null && Object.hasOwnProperty.call(message, "killeatervalue"))
                 writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.killeatervalue);
-            if (message.customname != null && Object.hasOwnProperty.call(message, "customname"))
-                writer.uint32(/* id 11, wireType 2 =*/90).string(message.customname);
+            if (message.customnames != null && message.customnames.length)
+                for (var i = 0; i < message.customnames.length; ++i)
+                    writer.uint32(/* id 11, wireType 2 =*/90).string(message.customnames[i]);
             if (message.stickers != null && message.stickers.length)
                 for (var i = 0; i < message.stickers.length; ++i)
                     $root.CEconItemPreviewDataBlock.Sticker.encode(message.stickers[i], writer.uint32(/* id 12, wireType 2 =*/98).fork(), q + 1).ldelim();
@@ -33885,6 +33944,10 @@
                     $root.CEconItemPreviewDataBlock.Sticker.encode(message.variations[i], writer.uint32(/* id 22, wireType 2 =*/178).fork(), q + 1).ldelim();
             if (message.upgrade_level != null && Object.hasOwnProperty.call(message, "upgrade_level"))
                 writer.uint32(/* id 23, wireType 0 =*/184).uint32(message.upgrade_level);
+            if (message.pet_food_expiration_date != null && Object.hasOwnProperty.call(message, "pet_food_expiration_date"))
+                writer.uint32(/* id 24, wireType 0 =*/192).uint32(message.pet_food_expiration_date);
+            if (message.blobdata != null && Object.hasOwnProperty.call(message, "blobdata"))
+                writer.uint32(/* id 25, wireType 2 =*/202).bytes(message.blobdata);
             return writer;
         };
     
@@ -33976,7 +34039,9 @@
                         break;
                     }
                 case 11: {
-                        message.customname = reader.string();
+                        if (!(message.customnames && message.customnames.length))
+                            message.customnames = [];
+                        message.customnames.push(reader.string());
                         break;
                     }
                 case 12: {
@@ -34031,6 +34096,14 @@
                     }
                 case 23: {
                         message.upgrade_level = reader.uint32();
+                        break;
+                    }
+                case 24: {
+                        message.pet_food_expiration_date = reader.uint32();
+                        break;
+                    }
+                case 25: {
+                        message.blobdata = reader.bytes();
                         break;
                     }
                 default:
@@ -34107,9 +34180,13 @@
             if (message.killeatervalue != null && Object.hasOwnProperty.call(message, "killeatervalue"))
                 if (!$util.isInteger(message.killeatervalue))
                     return "killeatervalue: integer expected";
-            if (message.customname != null && Object.hasOwnProperty.call(message, "customname"))
-                if (!$util.isString(message.customname))
-                    return "customname: string expected";
+            if (message.customnames != null && Object.hasOwnProperty.call(message, "customnames")) {
+                if (!Array.isArray(message.customnames))
+                    return "customnames: array expected";
+                for (var i = 0; i < message.customnames.length; ++i)
+                    if (!$util.isString(message.customnames[i]))
+                        return "customnames: string[] expected";
+            }
             if (message.stickers != null && Object.hasOwnProperty.call(message, "stickers")) {
                 if (!Array.isArray(message.stickers))
                     return "stickers: array expected";
@@ -34164,6 +34241,12 @@
             if (message.upgrade_level != null && Object.hasOwnProperty.call(message, "upgrade_level"))
                 if (!$util.isInteger(message.upgrade_level))
                     return "upgrade_level: integer expected";
+            if (message.pet_food_expiration_date != null && Object.hasOwnProperty.call(message, "pet_food_expiration_date"))
+                if (!$util.isInteger(message.pet_food_expiration_date))
+                    return "pet_food_expiration_date: integer expected";
+            if (message.blobdata != null && Object.hasOwnProperty.call(message, "blobdata"))
+                if (!(message.blobdata && typeof message.blobdata.length === "number" || $util.isString(message.blobdata)))
+                    return "blobdata: buffer expected";
             return null;
         };
     
@@ -34212,8 +34295,13 @@
                 message.killeaterscoretype = object.killeaterscoretype >>> 0;
             if (object.killeatervalue != null)
                 message.killeatervalue = object.killeatervalue >>> 0;
-            if (object.customname != null)
-                message.customname = String(object.customname);
+            if (object.customnames) {
+                if (!Array.isArray(object.customnames))
+                    throw TypeError(".CEconItemPreviewDataBlock.customnames: array expected");
+                message.customnames = [];
+                for (var i = 0; i < object.customnames.length; ++i)
+                    message.customnames[i] = String(object.customnames[i]);
+            }
             if (object.stickers) {
                 if (!Array.isArray(object.stickers))
                     throw TypeError(".CEconItemPreviewDataBlock.stickers: array expected");
@@ -34262,6 +34350,13 @@
             }
             if (object.upgrade_level != null)
                 message.upgrade_level = object.upgrade_level >>> 0;
+            if (object.pet_food_expiration_date != null)
+                message.pet_food_expiration_date = object.pet_food_expiration_date >>> 0;
+            if (object.blobdata != null)
+                if (typeof object.blobdata === "string")
+                    $util.base64.decode(object.blobdata, message.blobdata = $util.newBuffer($util.base64.length(object.blobdata)), 0);
+                else if (object.blobdata.length >= 0)
+                    message.blobdata = object.blobdata;
             return message;
         };
     
@@ -34283,6 +34378,7 @@
                 throw Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults) {
+                object.customnames = [];
                 object.stickers = [];
                 object.keychains = [];
                 object.variations = [];
@@ -34302,7 +34398,6 @@
                 object.paintseed = 0;
                 object.killeaterscoretype = 0;
                 object.killeatervalue = 0;
-                object.customname = "";
                 object.inventory = 0;
                 object.origin = 0;
                 object.questid = 0;
@@ -34312,6 +34407,14 @@
                 object.petindex = 0;
                 object.style = 0;
                 object.upgrade_level = 0;
+                object.pet_food_expiration_date = 0;
+                if (options.bytes === String)
+                    object.blobdata = "";
+                else {
+                    object.blobdata = [];
+                    if (options.bytes !== Array)
+                        object.blobdata = $util.newBuffer(object.blobdata);
+                }
             }
             if (message.accountid != null && Object.hasOwnProperty.call(message, "accountid"))
                 object.accountid = message.accountid;
@@ -34338,8 +34441,11 @@
                 object.killeaterscoretype = message.killeaterscoretype;
             if (message.killeatervalue != null && Object.hasOwnProperty.call(message, "killeatervalue"))
                 object.killeatervalue = message.killeatervalue;
-            if (message.customname != null && Object.hasOwnProperty.call(message, "customname"))
-                object.customname = message.customname;
+            if (message.customnames && message.customnames.length) {
+                object.customnames = [];
+                for (var j = 0; j < message.customnames.length; ++j)
+                    object.customnames[j] = message.customnames[j];
+            }
             if (message.stickers && message.stickers.length) {
                 object.stickers = [];
                 for (var j = 0; j < message.stickers.length; ++j)
@@ -34373,6 +34479,10 @@
             }
             if (message.upgrade_level != null && Object.hasOwnProperty.call(message, "upgrade_level"))
                 object.upgrade_level = message.upgrade_level;
+            if (message.pet_food_expiration_date != null && Object.hasOwnProperty.call(message, "pet_food_expiration_date"))
+                object.pet_food_expiration_date = message.pet_food_expiration_date;
+            if (message.blobdata != null && Object.hasOwnProperty.call(message, "blobdata"))
+                object.blobdata = options.bytes === String ? $util.base64.encode(message.blobdata, 0, message.blobdata.length) : options.bytes === Array ? Array.prototype.slice.call(message.blobdata) : message.blobdata;
             return object;
         };
     
@@ -49302,6 +49412,7 @@
          * @property {number|null} [xp_trail_timestamp_refresh] CSOPersonaDataPublic xp_trail_timestamp_refresh
          * @property {number|null} [xp_trail_level] CSOPersonaDataPublic xp_trail_level
          * @property {number|null} [clan_id] CSOPersonaDataPublic clan_id
+         * @property {string|null} [clan_tag] CSOPersonaDataPublic clan_tag
          */
     
         /**
@@ -49368,6 +49479,14 @@
         CSOPersonaDataPublic.prototype.clan_id = 0;
     
         /**
+         * CSOPersonaDataPublic clan_tag.
+         * @member {string} clan_tag
+         * @memberof CSOPersonaDataPublic
+         * @instance
+         */
+        CSOPersonaDataPublic.prototype.clan_tag = "";
+    
+        /**
          * Creates a new CSOPersonaDataPublic instance using the specified properties.
          * @function create
          * @memberof CSOPersonaDataPublic
@@ -49407,6 +49526,8 @@
                 writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.xp_trail_level);
             if (message.clan_id != null && Object.hasOwnProperty.call(message, "clan_id"))
                 writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.clan_id);
+            if (message.clan_tag != null && Object.hasOwnProperty.call(message, "clan_tag"))
+                writer.uint32(/* id 7, wireType 2 =*/58).string(message.clan_tag);
             return writer;
         };
     
@@ -49481,6 +49602,10 @@
                         message.clan_id = reader.uint32();
                         break;
                     }
+                case 7: {
+                        message.clan_tag = reader.string();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -49545,6 +49670,9 @@
             if (message.clan_id != null && Object.hasOwnProperty.call(message, "clan_id"))
                 if (!$util.isInteger(message.clan_id))
                     return "clan_id: integer expected";
+            if (message.clan_tag != null && Object.hasOwnProperty.call(message, "clan_tag"))
+                if (!$util.isString(message.clan_tag))
+                    return "clan_tag: string expected";
             return null;
         };
     
@@ -49581,6 +49709,8 @@
                 message.xp_trail_level = object.xp_trail_level >>> 0;
             if (object.clan_id != null)
                 message.clan_id = object.clan_id >>> 0;
+            if (object.clan_tag != null)
+                message.clan_tag = String(object.clan_tag);
             return message;
         };
     
@@ -49608,6 +49738,7 @@
                 object.xp_trail_timestamp_refresh = 0;
                 object.xp_trail_level = 0;
                 object.clan_id = 0;
+                object.clan_tag = "";
             }
             if (message.player_level != null && Object.hasOwnProperty.call(message, "player_level"))
                 object.player_level = message.player_level;
@@ -49621,6 +49752,8 @@
                 object.xp_trail_level = message.xp_trail_level;
             if (message.clan_id != null && Object.hasOwnProperty.call(message, "clan_id"))
                 object.clan_id = message.clan_id;
+            if (message.clan_tag != null && Object.hasOwnProperty.call(message, "clan_tag"))
+                object.clan_tag = message.clan_tag;
             return object;
         };
     

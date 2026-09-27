@@ -172,6 +172,16 @@ Requests live game information for a player.
 
 #### Item Inspection
 
+##### Inspection fields added in September 2026
+
+`customnames: string[]` contains every name from the current protocol. `customname: string | null` remains a compatibility alias for the last name (the behavior of the former singular protobuf decoder). Unnamed items expose `[]` and `null`, respectively. Both embedded links and GC responses follow this behavior.
+
+`pet_food_expiration_date: number | null` exposes the upstream uint32 value; `blobdata: Buffer | null` preserves opaque bytes without interpretation. `style` and `upgrade_level` are also declared in `ItemInfo`.
+
+##### `ackPetEvent(petItemId)`
+
+Sends `CMsgAckPetEvent` (2538). Pass a non-zero uint64 decimal string, for example `cs2.ackPetEvent('9007199254740993')`. Invalid or out-of-range IDs throw synchronously. Returns `void`; no response or success event is defined by the protocol. Live pet behavior has not been verified.
+
 ##### `inspectItem(owner, assetid, d, callback)`
 
 Inspects an item from another player's inventory. The `inspectItem(inspectLink[, callback])` overload also accepts CS2 embedded/masked links and decodes them locally without a GC connection. Both callbacks and Promises receive the same normalized item data as GC inspection, including float wear and string item IDs. Success emits `inspectItemInfo` and `inspectItemInfo#<itemid>` asynchronously. Invalid embedded token lengths, checksums, encoding, or protobuf payloads throw synchronously; legacy S/M links continue to use the GC.

@@ -2210,6 +2210,7 @@
      * @property {number} svc_HltvFixupOperatorStatus=75 svc_HltvFixupOperatorStatus value
      * @property {number} svc_UserCmds=76 svc_UserCmds value
      * @property {number} svc_NextMsgPredicted=77 svc_NextMsgPredicted value
+     * @property {number} svc_EncryptedData=78 svc_EncryptedData value
      */
     $root.SVC_Messages = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -2244,6 +2245,7 @@
         values[valuesById[75] = "svc_HltvFixupOperatorStatus"] = 75;
         values[valuesById[76] = "svc_UserCmds"] = 76;
         values[valuesById[77] = "svc_NextMsgPredicted"] = 77;
+        values[valuesById[78] = "svc_EncryptedData"] = 78;
         return values;
     })();
     
@@ -16529,6 +16531,7 @@
          * @property {number|null} [tick] CSVCMsg_VoiceData tick
          * @property {number|null} [passthrough] CSVCMsg_VoiceData passthrough
          * @property {number|null} [entity] CSVCMsg_VoiceData entity
+         * @property {boolean|null} [caster] CSVCMsg_VoiceData caster
          */
     
         /**
@@ -16611,6 +16614,14 @@
         CSVCMsg_VoiceData.prototype.entity = -1;
     
         /**
+         * CSVCMsg_VoiceData caster.
+         * @member {boolean} caster
+         * @memberof CSVCMsg_VoiceData
+         * @instance
+         */
+        CSVCMsg_VoiceData.prototype.caster = false;
+    
+        /**
          * Creates a new CSVCMsg_VoiceData instance using the specified properties.
          * @function create
          * @memberof CSVCMsg_VoiceData
@@ -16654,6 +16665,8 @@
                 writer.uint32(/* id 7, wireType 0 =*/56).int32(message.passthrough);
             if (message.entity != null && Object.hasOwnProperty.call(message, "entity"))
                 writer.uint32(/* id 8, wireType 0 =*/64).int32(message.entity);
+            if (message.caster != null && Object.hasOwnProperty.call(message, "caster"))
+                writer.uint32(/* id 9, wireType 0 =*/72).bool(message.caster);
             return writer;
         };
     
@@ -16736,6 +16749,10 @@
                         message.entity = reader.int32();
                         break;
                     }
+                case 9: {
+                        message.caster = reader.bool();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -16806,6 +16823,9 @@
             if (message.entity != null && Object.hasOwnProperty.call(message, "entity"))
                 if (!$util.isInteger(message.entity))
                     return "entity: integer expected";
+            if (message.caster != null && Object.hasOwnProperty.call(message, "caster"))
+                if (typeof message.caster !== "boolean")
+                    return "caster: boolean expected";
             return null;
         };
     
@@ -16853,6 +16873,8 @@
                 message.passthrough = object.passthrough | 0;
             if (object.entity != null)
                 message.entity = object.entity | 0;
+            if (object.caster != null)
+                message.caster = Boolean(object.caster);
             return message;
         };
     
@@ -16886,6 +16908,7 @@
                 object.tick = 0;
                 object.passthrough = 0;
                 object.entity = -1;
+                object.caster = false;
             }
             if (message.audio != null && Object.hasOwnProperty.call(message, "audio"))
                 object.audio = $root.CMsgVoiceAudio.toObject(message.audio, options, q + 1);
@@ -16908,6 +16931,8 @@
                 object.passthrough = message.passthrough;
             if (message.entity != null && Object.hasOwnProperty.call(message, "entity"))
                 object.entity = message.entity;
+            if (message.caster != null && Object.hasOwnProperty.call(message, "caster"))
+                object.caster = message.caster;
             return object;
         };
     
@@ -16938,6 +16963,281 @@
         };
     
         return CSVCMsg_VoiceData;
+    })();
+    
+    $root.CSVCMsg_EncryptedData = (function() {
+    
+        /**
+         * Properties of a CSVCMsg_EncryptedData.
+         * @exports ICSVCMsg_EncryptedData
+         * @interface ICSVCMsg_EncryptedData
+         * @property {Uint8Array|null} [encrypted] CSVCMsg_EncryptedData encrypted
+         * @property {number|null} [key_type] CSVCMsg_EncryptedData key_type
+         */
+    
+        /**
+         * Constructs a new CSVCMsg_EncryptedData.
+         * @exports CSVCMsg_EncryptedData
+         * @classdesc Represents a CSVCMsg_EncryptedData.
+         * @implements ICSVCMsg_EncryptedData
+         * @constructor
+         * @param {ICSVCMsg_EncryptedData=} [properties] Properties to set
+         */
+        function CSVCMsg_EncryptedData(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CSVCMsg_EncryptedData encrypted.
+         * @member {Uint8Array} encrypted
+         * @memberof CSVCMsg_EncryptedData
+         * @instance
+         */
+        CSVCMsg_EncryptedData.prototype.encrypted = $util.newBuffer([]);
+    
+        /**
+         * CSVCMsg_EncryptedData key_type.
+         * @member {number} key_type
+         * @memberof CSVCMsg_EncryptedData
+         * @instance
+         */
+        CSVCMsg_EncryptedData.prototype.key_type = 0;
+    
+        /**
+         * Creates a new CSVCMsg_EncryptedData instance using the specified properties.
+         * @function create
+         * @memberof CSVCMsg_EncryptedData
+         * @static
+         * @param {ICSVCMsg_EncryptedData=} [properties] Properties to set
+         * @returns {CSVCMsg_EncryptedData} CSVCMsg_EncryptedData instance
+         */
+        CSVCMsg_EncryptedData.create = function create(properties) {
+            return new CSVCMsg_EncryptedData(properties);
+        };
+    
+        /**
+         * Encodes the specified CSVCMsg_EncryptedData message. Does not implicitly {@link CSVCMsg_EncryptedData.verify|verify} messages.
+         * @function encode
+         * @memberof CSVCMsg_EncryptedData
+         * @static
+         * @param {ICSVCMsg_EncryptedData} message CSVCMsg_EncryptedData message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CSVCMsg_EncryptedData.encode = function encode(message, writer, q) {
+            if (!writer)
+                writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (message.encrypted != null && Object.hasOwnProperty.call(message, "encrypted"))
+                writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.encrypted);
+            if (message.key_type != null && Object.hasOwnProperty.call(message, "key_type"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.key_type);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CSVCMsg_EncryptedData message, length delimited. Does not implicitly {@link CSVCMsg_EncryptedData.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CSVCMsg_EncryptedData
+         * @static
+         * @param {ICSVCMsg_EncryptedData} message CSVCMsg_EncryptedData message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CSVCMsg_EncryptedData.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CSVCMsg_EncryptedData message from the specified reader or buffer.
+         * @function decode
+         * @memberof CSVCMsg_EncryptedData
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CSVCMsg_EncryptedData} CSVCMsg_EncryptedData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CSVCMsg_EncryptedData.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CSVCMsg_EncryptedData();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.encrypted = reader.bytes();
+                        break;
+                    }
+                case 2: {
+                        message.key_type = reader.int32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CSVCMsg_EncryptedData message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CSVCMsg_EncryptedData
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CSVCMsg_EncryptedData} CSVCMsg_EncryptedData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CSVCMsg_EncryptedData.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CSVCMsg_EncryptedData message.
+         * @function verify
+         * @memberof CSVCMsg_EncryptedData
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CSVCMsg_EncryptedData.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.encrypted != null && Object.hasOwnProperty.call(message, "encrypted"))
+                if (!(message.encrypted && typeof message.encrypted.length === "number" || $util.isString(message.encrypted)))
+                    return "encrypted: buffer expected";
+            if (message.key_type != null && Object.hasOwnProperty.call(message, "key_type"))
+                if (!$util.isInteger(message.key_type))
+                    return "key_type: integer expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CSVCMsg_EncryptedData message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CSVCMsg_EncryptedData
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CSVCMsg_EncryptedData} CSVCMsg_EncryptedData
+         */
+        CSVCMsg_EncryptedData.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.CSVCMsg_EncryptedData)
+                return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CSVCMsg_EncryptedData: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var message = new $root.CSVCMsg_EncryptedData();
+            if (object.encrypted != null)
+                if (typeof object.encrypted === "string")
+                    $util.base64.decode(object.encrypted, message.encrypted = $util.newBuffer($util.base64.length(object.encrypted)), 0);
+                else if (object.encrypted.length >= 0)
+                    message.encrypted = object.encrypted;
+            if (object.key_type != null)
+                message.key_type = object.key_type | 0;
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CSVCMsg_EncryptedData message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CSVCMsg_EncryptedData
+         * @static
+         * @param {CSVCMsg_EncryptedData} message CSVCMsg_EncryptedData
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CSVCMsg_EncryptedData.toObject = function toObject(message, options, q) {
+            if (!options)
+                options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var object = {};
+            if (options.defaults) {
+                if (options.bytes === String)
+                    object.encrypted = "";
+                else {
+                    object.encrypted = [];
+                    if (options.bytes !== Array)
+                        object.encrypted = $util.newBuffer(object.encrypted);
+                }
+                object.key_type = 0;
+            }
+            if (message.encrypted != null && Object.hasOwnProperty.call(message, "encrypted"))
+                object.encrypted = options.bytes === String ? $util.base64.encode(message.encrypted, 0, message.encrypted.length) : options.bytes === Array ? Array.prototype.slice.call(message.encrypted) : message.encrypted;
+            if (message.key_type != null && Object.hasOwnProperty.call(message, "key_type"))
+                object.key_type = message.key_type;
+            return object;
+        };
+    
+        /**
+         * Converts this CSVCMsg_EncryptedData to JSON.
+         * @function toJSON
+         * @memberof CSVCMsg_EncryptedData
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CSVCMsg_EncryptedData.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CSVCMsg_EncryptedData
+         * @function getTypeUrl
+         * @memberof CSVCMsg_EncryptedData
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CSVCMsg_EncryptedData.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CSVCMsg_EncryptedData";
+        };
+    
+        return CSVCMsg_EncryptedData;
     })();
     
     $root.CSVCMsg_PacketReliable = (function() {
@@ -19854,6 +20154,7 @@
          * @property {number|null} [var_encoder_sym] ProtoFlattenedSerializerField_t var_encoder_sym
          * @property {Array.<ProtoFlattenedSerializerField_t.Ipolymorphic_field_t>|null} [polymorphic_types] ProtoFlattenedSerializerField_t polymorphic_types
          * @property {number|null} [var_serializer_sym] ProtoFlattenedSerializerField_t var_serializer_sym
+         * @property {ProtoFlattenedSerializerField_t.Iproto_enum_info_t|null} [var_enum_info] ProtoFlattenedSerializerField_t var_enum_info
          */
     
         /**
@@ -19969,6 +20270,14 @@
         ProtoFlattenedSerializerField_t.prototype.var_serializer_sym = 0;
     
         /**
+         * ProtoFlattenedSerializerField_t var_enum_info.
+         * @member {ProtoFlattenedSerializerField_t.Iproto_enum_info_t|null|undefined} var_enum_info
+         * @memberof ProtoFlattenedSerializerField_t
+         * @instance
+         */
+        ProtoFlattenedSerializerField_t.prototype.var_enum_info = null;
+    
+        /**
          * Creates a new ProtoFlattenedSerializerField_t instance using the specified properties.
          * @function create
          * @memberof ProtoFlattenedSerializerField_t
@@ -20021,6 +20330,8 @@
                     $root.ProtoFlattenedSerializerField_t.polymorphic_field_t.encode(message.polymorphic_types[i], writer.uint32(/* id 11, wireType 2 =*/90).fork(), q + 1).ldelim();
             if (message.var_serializer_sym != null && Object.hasOwnProperty.call(message, "var_serializer_sym"))
                 writer.uint32(/* id 12, wireType 0 =*/96).int32(message.var_serializer_sym);
+            if (message.var_enum_info != null && Object.hasOwnProperty.call(message, "var_enum_info"))
+                $root.ProtoFlattenedSerializerField_t.proto_enum_info_t.encode(message.var_enum_info, writer.uint32(/* id 13, wireType 2 =*/106).fork(), q + 1).ldelim();
             return writer;
         };
     
@@ -20121,6 +20432,10 @@
                         message.var_serializer_sym = reader.int32();
                         break;
                     }
+                case 13: {
+                        message.var_enum_info = $root.ProtoFlattenedSerializerField_t.proto_enum_info_t.decode(reader, reader.uint32(), undefined, long + 1);
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -20207,6 +20522,11 @@
             if (message.var_serializer_sym != null && Object.hasOwnProperty.call(message, "var_serializer_sym"))
                 if (!$util.isInteger(message.var_serializer_sym))
                     return "var_serializer_sym: integer expected";
+            if (message.var_enum_info != null && Object.hasOwnProperty.call(message, "var_enum_info")) {
+                var error = $root.ProtoFlattenedSerializerField_t.proto_enum_info_t.verify(message.var_enum_info, long + 1);
+                if (error)
+                    return "var_enum_info." + error;
+            }
             return null;
         };
     
@@ -20260,6 +20580,11 @@
             }
             if (object.var_serializer_sym != null)
                 message.var_serializer_sym = object.var_serializer_sym | 0;
+            if (object.var_enum_info != null) {
+                if (!$util.isObject(object.var_enum_info))
+                    throw TypeError(".ProtoFlattenedSerializerField_t.var_enum_info: object expected");
+                message.var_enum_info = $root.ProtoFlattenedSerializerField_t.proto_enum_info_t.fromObject(object.var_enum_info, long + 1);
+            }
             return message;
         };
     
@@ -20294,6 +20619,7 @@
                 object.send_node_sym = 0;
                 object.var_encoder_sym = 0;
                 object.var_serializer_sym = 0;
+                object.var_enum_info = null;
             }
             if (message.var_type_sym != null && Object.hasOwnProperty.call(message, "var_type_sym"))
                 object.var_type_sym = message.var_type_sym;
@@ -20322,6 +20648,8 @@
             }
             if (message.var_serializer_sym != null && Object.hasOwnProperty.call(message, "var_serializer_sym"))
                 object.var_serializer_sym = message.var_serializer_sym;
+            if (message.var_enum_info != null && Object.hasOwnProperty.call(message, "var_enum_info"))
+                object.var_enum_info = $root.ProtoFlattenedSerializerField_t.proto_enum_info_t.toObject(message.var_enum_info, options, q + 1);
             return object;
         };
     
@@ -20615,6 +20943,248 @@
             };
     
             return polymorphic_field_t;
+        })();
+    
+        ProtoFlattenedSerializerField_t.proto_enum_info_t = (function() {
+    
+            /**
+             * Properties of a proto_enum_info_t.
+             * @memberof ProtoFlattenedSerializerField_t
+             * @interface Iproto_enum_info_t
+             * @property {boolean|null} [is_signed_enum] proto_enum_info_t is_signed_enum
+             */
+    
+            /**
+             * Constructs a new proto_enum_info_t.
+             * @memberof ProtoFlattenedSerializerField_t
+             * @classdesc Represents a proto_enum_info_t.
+             * @implements Iproto_enum_info_t
+             * @constructor
+             * @param {ProtoFlattenedSerializerField_t.Iproto_enum_info_t=} [properties] Properties to set
+             */
+            function proto_enum_info_t(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * proto_enum_info_t is_signed_enum.
+             * @member {boolean} is_signed_enum
+             * @memberof ProtoFlattenedSerializerField_t.proto_enum_info_t
+             * @instance
+             */
+            proto_enum_info_t.prototype.is_signed_enum = false;
+    
+            /**
+             * Creates a new proto_enum_info_t instance using the specified properties.
+             * @function create
+             * @memberof ProtoFlattenedSerializerField_t.proto_enum_info_t
+             * @static
+             * @param {ProtoFlattenedSerializerField_t.Iproto_enum_info_t=} [properties] Properties to set
+             * @returns {ProtoFlattenedSerializerField_t.proto_enum_info_t} proto_enum_info_t instance
+             */
+            proto_enum_info_t.create = function create(properties) {
+                return new proto_enum_info_t(properties);
+            };
+    
+            /**
+             * Encodes the specified proto_enum_info_t message. Does not implicitly {@link ProtoFlattenedSerializerField_t.proto_enum_info_t.verify|verify} messages.
+             * @function encode
+             * @memberof ProtoFlattenedSerializerField_t.proto_enum_info_t
+             * @static
+             * @param {ProtoFlattenedSerializerField_t.Iproto_enum_info_t} message proto_enum_info_t message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            proto_enum_info_t.encode = function encode(message, writer, q) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (message.is_signed_enum != null && Object.hasOwnProperty.call(message, "is_signed_enum"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).bool(message.is_signed_enum);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified proto_enum_info_t message, length delimited. Does not implicitly {@link ProtoFlattenedSerializerField_t.proto_enum_info_t.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof ProtoFlattenedSerializerField_t.proto_enum_info_t
+             * @static
+             * @param {ProtoFlattenedSerializerField_t.Iproto_enum_info_t} message proto_enum_info_t message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            proto_enum_info_t.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            };
+    
+            /**
+             * Decodes a proto_enum_info_t message from the specified reader or buffer.
+             * @function decode
+             * @memberof ProtoFlattenedSerializerField_t.proto_enum_info_t
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {ProtoFlattenedSerializerField_t.proto_enum_info_t} proto_enum_info_t
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            proto_enum_info_t.decode = function decode(reader, length, error, long) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (long === undefined)
+                    long = 0;
+                if (long > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var end, message;
+                if (length === undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = new $root.ProtoFlattenedSerializerField_t.proto_enum_info_t();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    if (tag === error)
+                        break;
+                    switch (tag >>> 3) {
+                    case 1: {
+                            message.is_signed_enum = reader.bool();
+                            break;
+                        }
+                    default:
+                        reader.skipType(tag & 7, long);
+                        break;
+                    }
+                }
+                if (length !== undefined) {
+                    if (reader.pos !== end)
+                        throw RangeError("index out of range");
+                    reader.len = length;
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a proto_enum_info_t message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof ProtoFlattenedSerializerField_t.proto_enum_info_t
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {ProtoFlattenedSerializerField_t.proto_enum_info_t} proto_enum_info_t
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            proto_enum_info_t.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a proto_enum_info_t message.
+             * @function verify
+             * @memberof ProtoFlattenedSerializerField_t.proto_enum_info_t
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            proto_enum_info_t.verify = function verify(message, long) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    return "maximum nesting depth exceeded";
+                if (message.is_signed_enum != null && Object.hasOwnProperty.call(message, "is_signed_enum"))
+                    if (typeof message.is_signed_enum !== "boolean")
+                        return "is_signed_enum: boolean expected";
+                return null;
+            };
+    
+            /**
+             * Creates a proto_enum_info_t message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof ProtoFlattenedSerializerField_t.proto_enum_info_t
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {ProtoFlattenedSerializerField_t.proto_enum_info_t} proto_enum_info_t
+             */
+            proto_enum_info_t.fromObject = function fromObject(object, long) {
+                if (object instanceof $root.ProtoFlattenedSerializerField_t.proto_enum_info_t)
+                    return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".ProtoFlattenedSerializerField_t.proto_enum_info_t: object expected");
+                if (long === undefined)
+                    long = 0;
+                if (long > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var message = new $root.ProtoFlattenedSerializerField_t.proto_enum_info_t();
+                if (object.is_signed_enum != null)
+                    message.is_signed_enum = Boolean(object.is_signed_enum);
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a proto_enum_info_t message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof ProtoFlattenedSerializerField_t.proto_enum_info_t
+             * @static
+             * @param {ProtoFlattenedSerializerField_t.proto_enum_info_t} message proto_enum_info_t
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            proto_enum_info_t.toObject = function toObject(message, options, q) {
+                if (!options)
+                    options = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var object = {};
+                if (options.defaults)
+                    object.is_signed_enum = false;
+                if (message.is_signed_enum != null && Object.hasOwnProperty.call(message, "is_signed_enum"))
+                    object.is_signed_enum = message.is_signed_enum;
+                return object;
+            };
+    
+            /**
+             * Converts this proto_enum_info_t to JSON.
+             * @function toJSON
+             * @memberof ProtoFlattenedSerializerField_t.proto_enum_info_t
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            proto_enum_info_t.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            /**
+             * Gets the default type url for proto_enum_info_t
+             * @function getTypeUrl
+             * @memberof ProtoFlattenedSerializerField_t.proto_enum_info_t
+             * @static
+             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+             * @returns {string} The default type url
+             */
+            proto_enum_info_t.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/ProtoFlattenedSerializerField_t.proto_enum_info_t";
+            };
+    
+            return proto_enum_info_t;
         })();
     
         return ProtoFlattenedSerializerField_t;
@@ -20937,6 +21507,364 @@
         return ProtoFlattenedSerializer_t;
     })();
     
+    $root.ProtoCoordSizeParams_t = (function() {
+    
+        /**
+         * Properties of a ProtoCoordSizeParams_t.
+         * @exports IProtoCoordSizeParams_t
+         * @interface IProtoCoordSizeParams_t
+         * @property {number|null} [coord_integer_bits] ProtoCoordSizeParams_t coord_integer_bits
+         * @property {number|null} [coord_fractional_bits] ProtoCoordSizeParams_t coord_fractional_bits
+         * @property {number|null} [coord_integer_bits_mp] ProtoCoordSizeParams_t coord_integer_bits_mp
+         * @property {number|null} [coord_fractional_bits_mp] ProtoCoordSizeParams_t coord_fractional_bits_mp
+         * @property {number|null} [normal_fractional_bits] ProtoCoordSizeParams_t normal_fractional_bits
+         * @property {number|null} [angle_bits] ProtoCoordSizeParams_t angle_bits
+         */
+    
+        /**
+         * Constructs a new ProtoCoordSizeParams_t.
+         * @exports ProtoCoordSizeParams_t
+         * @classdesc Represents a ProtoCoordSizeParams_t.
+         * @implements IProtoCoordSizeParams_t
+         * @constructor
+         * @param {IProtoCoordSizeParams_t=} [properties] Properties to set
+         */
+        function ProtoCoordSizeParams_t(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * ProtoCoordSizeParams_t coord_integer_bits.
+         * @member {number} coord_integer_bits
+         * @memberof ProtoCoordSizeParams_t
+         * @instance
+         */
+        ProtoCoordSizeParams_t.prototype.coord_integer_bits = 0;
+    
+        /**
+         * ProtoCoordSizeParams_t coord_fractional_bits.
+         * @member {number} coord_fractional_bits
+         * @memberof ProtoCoordSizeParams_t
+         * @instance
+         */
+        ProtoCoordSizeParams_t.prototype.coord_fractional_bits = 0;
+    
+        /**
+         * ProtoCoordSizeParams_t coord_integer_bits_mp.
+         * @member {number} coord_integer_bits_mp
+         * @memberof ProtoCoordSizeParams_t
+         * @instance
+         */
+        ProtoCoordSizeParams_t.prototype.coord_integer_bits_mp = 0;
+    
+        /**
+         * ProtoCoordSizeParams_t coord_fractional_bits_mp.
+         * @member {number} coord_fractional_bits_mp
+         * @memberof ProtoCoordSizeParams_t
+         * @instance
+         */
+        ProtoCoordSizeParams_t.prototype.coord_fractional_bits_mp = 0;
+    
+        /**
+         * ProtoCoordSizeParams_t normal_fractional_bits.
+         * @member {number} normal_fractional_bits
+         * @memberof ProtoCoordSizeParams_t
+         * @instance
+         */
+        ProtoCoordSizeParams_t.prototype.normal_fractional_bits = 0;
+    
+        /**
+         * ProtoCoordSizeParams_t angle_bits.
+         * @member {number} angle_bits
+         * @memberof ProtoCoordSizeParams_t
+         * @instance
+         */
+        ProtoCoordSizeParams_t.prototype.angle_bits = 0;
+    
+        /**
+         * Creates a new ProtoCoordSizeParams_t instance using the specified properties.
+         * @function create
+         * @memberof ProtoCoordSizeParams_t
+         * @static
+         * @param {IProtoCoordSizeParams_t=} [properties] Properties to set
+         * @returns {ProtoCoordSizeParams_t} ProtoCoordSizeParams_t instance
+         */
+        ProtoCoordSizeParams_t.create = function create(properties) {
+            return new ProtoCoordSizeParams_t(properties);
+        };
+    
+        /**
+         * Encodes the specified ProtoCoordSizeParams_t message. Does not implicitly {@link ProtoCoordSizeParams_t.verify|verify} messages.
+         * @function encode
+         * @memberof ProtoCoordSizeParams_t
+         * @static
+         * @param {IProtoCoordSizeParams_t} message ProtoCoordSizeParams_t message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ProtoCoordSizeParams_t.encode = function encode(message, writer, q) {
+            if (!writer)
+                writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (message.coord_integer_bits != null && Object.hasOwnProperty.call(message, "coord_integer_bits"))
+                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.coord_integer_bits);
+            if (message.coord_fractional_bits != null && Object.hasOwnProperty.call(message, "coord_fractional_bits"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.coord_fractional_bits);
+            if (message.coord_integer_bits_mp != null && Object.hasOwnProperty.call(message, "coord_integer_bits_mp"))
+                writer.uint32(/* id 3, wireType 0 =*/24).int32(message.coord_integer_bits_mp);
+            if (message.coord_fractional_bits_mp != null && Object.hasOwnProperty.call(message, "coord_fractional_bits_mp"))
+                writer.uint32(/* id 4, wireType 0 =*/32).int32(message.coord_fractional_bits_mp);
+            if (message.normal_fractional_bits != null && Object.hasOwnProperty.call(message, "normal_fractional_bits"))
+                writer.uint32(/* id 5, wireType 0 =*/40).int32(message.normal_fractional_bits);
+            if (message.angle_bits != null && Object.hasOwnProperty.call(message, "angle_bits"))
+                writer.uint32(/* id 6, wireType 0 =*/48).int32(message.angle_bits);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified ProtoCoordSizeParams_t message, length delimited. Does not implicitly {@link ProtoCoordSizeParams_t.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof ProtoCoordSizeParams_t
+         * @static
+         * @param {IProtoCoordSizeParams_t} message ProtoCoordSizeParams_t message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        ProtoCoordSizeParams_t.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+    
+        /**
+         * Decodes a ProtoCoordSizeParams_t message from the specified reader or buffer.
+         * @function decode
+         * @memberof ProtoCoordSizeParams_t
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {ProtoCoordSizeParams_t} ProtoCoordSizeParams_t
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ProtoCoordSizeParams_t.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.ProtoCoordSizeParams_t();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.coord_integer_bits = reader.int32();
+                        break;
+                    }
+                case 2: {
+                        message.coord_fractional_bits = reader.int32();
+                        break;
+                    }
+                case 3: {
+                        message.coord_integer_bits_mp = reader.int32();
+                        break;
+                    }
+                case 4: {
+                        message.coord_fractional_bits_mp = reader.int32();
+                        break;
+                    }
+                case 5: {
+                        message.normal_fractional_bits = reader.int32();
+                        break;
+                    }
+                case 6: {
+                        message.angle_bits = reader.int32();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a ProtoCoordSizeParams_t message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof ProtoCoordSizeParams_t
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {ProtoCoordSizeParams_t} ProtoCoordSizeParams_t
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        ProtoCoordSizeParams_t.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a ProtoCoordSizeParams_t message.
+         * @function verify
+         * @memberof ProtoCoordSizeParams_t
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        ProtoCoordSizeParams_t.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.coord_integer_bits != null && Object.hasOwnProperty.call(message, "coord_integer_bits"))
+                if (!$util.isInteger(message.coord_integer_bits))
+                    return "coord_integer_bits: integer expected";
+            if (message.coord_fractional_bits != null && Object.hasOwnProperty.call(message, "coord_fractional_bits"))
+                if (!$util.isInteger(message.coord_fractional_bits))
+                    return "coord_fractional_bits: integer expected";
+            if (message.coord_integer_bits_mp != null && Object.hasOwnProperty.call(message, "coord_integer_bits_mp"))
+                if (!$util.isInteger(message.coord_integer_bits_mp))
+                    return "coord_integer_bits_mp: integer expected";
+            if (message.coord_fractional_bits_mp != null && Object.hasOwnProperty.call(message, "coord_fractional_bits_mp"))
+                if (!$util.isInteger(message.coord_fractional_bits_mp))
+                    return "coord_fractional_bits_mp: integer expected";
+            if (message.normal_fractional_bits != null && Object.hasOwnProperty.call(message, "normal_fractional_bits"))
+                if (!$util.isInteger(message.normal_fractional_bits))
+                    return "normal_fractional_bits: integer expected";
+            if (message.angle_bits != null && Object.hasOwnProperty.call(message, "angle_bits"))
+                if (!$util.isInteger(message.angle_bits))
+                    return "angle_bits: integer expected";
+            return null;
+        };
+    
+        /**
+         * Creates a ProtoCoordSizeParams_t message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof ProtoCoordSizeParams_t
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {ProtoCoordSizeParams_t} ProtoCoordSizeParams_t
+         */
+        ProtoCoordSizeParams_t.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.ProtoCoordSizeParams_t)
+                return object;
+            if (!$util.isObject(object))
+                throw TypeError(".ProtoCoordSizeParams_t: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var message = new $root.ProtoCoordSizeParams_t();
+            if (object.coord_integer_bits != null)
+                message.coord_integer_bits = object.coord_integer_bits | 0;
+            if (object.coord_fractional_bits != null)
+                message.coord_fractional_bits = object.coord_fractional_bits | 0;
+            if (object.coord_integer_bits_mp != null)
+                message.coord_integer_bits_mp = object.coord_integer_bits_mp | 0;
+            if (object.coord_fractional_bits_mp != null)
+                message.coord_fractional_bits_mp = object.coord_fractional_bits_mp | 0;
+            if (object.normal_fractional_bits != null)
+                message.normal_fractional_bits = object.normal_fractional_bits | 0;
+            if (object.angle_bits != null)
+                message.angle_bits = object.angle_bits | 0;
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a ProtoCoordSizeParams_t message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof ProtoCoordSizeParams_t
+         * @static
+         * @param {ProtoCoordSizeParams_t} message ProtoCoordSizeParams_t
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        ProtoCoordSizeParams_t.toObject = function toObject(message, options, q) {
+            if (!options)
+                options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var object = {};
+            if (options.defaults) {
+                object.coord_integer_bits = 0;
+                object.coord_fractional_bits = 0;
+                object.coord_integer_bits_mp = 0;
+                object.coord_fractional_bits_mp = 0;
+                object.normal_fractional_bits = 0;
+                object.angle_bits = 0;
+            }
+            if (message.coord_integer_bits != null && Object.hasOwnProperty.call(message, "coord_integer_bits"))
+                object.coord_integer_bits = message.coord_integer_bits;
+            if (message.coord_fractional_bits != null && Object.hasOwnProperty.call(message, "coord_fractional_bits"))
+                object.coord_fractional_bits = message.coord_fractional_bits;
+            if (message.coord_integer_bits_mp != null && Object.hasOwnProperty.call(message, "coord_integer_bits_mp"))
+                object.coord_integer_bits_mp = message.coord_integer_bits_mp;
+            if (message.coord_fractional_bits_mp != null && Object.hasOwnProperty.call(message, "coord_fractional_bits_mp"))
+                object.coord_fractional_bits_mp = message.coord_fractional_bits_mp;
+            if (message.normal_fractional_bits != null && Object.hasOwnProperty.call(message, "normal_fractional_bits"))
+                object.normal_fractional_bits = message.normal_fractional_bits;
+            if (message.angle_bits != null && Object.hasOwnProperty.call(message, "angle_bits"))
+                object.angle_bits = message.angle_bits;
+            return object;
+        };
+    
+        /**
+         * Converts this ProtoCoordSizeParams_t to JSON.
+         * @function toJSON
+         * @memberof ProtoCoordSizeParams_t
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        ProtoCoordSizeParams_t.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for ProtoCoordSizeParams_t
+         * @function getTypeUrl
+         * @memberof ProtoCoordSizeParams_t
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        ProtoCoordSizeParams_t.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/ProtoCoordSizeParams_t";
+        };
+    
+        return ProtoCoordSizeParams_t;
+    })();
+    
     $root.CSVCMsg_FlattenedSerializer = (function() {
     
         /**
@@ -20946,6 +21874,7 @@
          * @property {Array.<IProtoFlattenedSerializer_t>|null} [serializers] CSVCMsg_FlattenedSerializer serializers
          * @property {Array.<string>|null} [symbols] CSVCMsg_FlattenedSerializer symbols
          * @property {Array.<IProtoFlattenedSerializerField_t>|null} [fields] CSVCMsg_FlattenedSerializer fields
+         * @property {IProtoCoordSizeParams_t|null} [coord_size_params] CSVCMsg_FlattenedSerializer coord_size_params
          */
     
         /**
@@ -20991,6 +21920,14 @@
         CSVCMsg_FlattenedSerializer.prototype.fields = $util.emptyArray;
     
         /**
+         * CSVCMsg_FlattenedSerializer coord_size_params.
+         * @member {IProtoCoordSizeParams_t|null|undefined} coord_size_params
+         * @memberof CSVCMsg_FlattenedSerializer
+         * @instance
+         */
+        CSVCMsg_FlattenedSerializer.prototype.coord_size_params = null;
+    
+        /**
          * Creates a new CSVCMsg_FlattenedSerializer instance using the specified properties.
          * @function create
          * @memberof CSVCMsg_FlattenedSerializer
@@ -21027,6 +21964,8 @@
             if (message.fields != null && message.fields.length)
                 for (var i = 0; i < message.fields.length; ++i)
                     $root.ProtoFlattenedSerializerField_t.encode(message.fields[i], writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
+            if (message.coord_size_params != null && Object.hasOwnProperty.call(message, "coord_size_params"))
+                $root.ProtoCoordSizeParams_t.encode(message.coord_size_params, writer.uint32(/* id 4, wireType 2 =*/34).fork(), q + 1).ldelim();
             return writer;
         };
     
@@ -21093,6 +22032,10 @@
                         if (!(message.fields && message.fields.length))
                             message.fields = [];
                         message.fields.push($root.ProtoFlattenedSerializerField_t.decode(reader, reader.uint32(), undefined, long + 1));
+                        break;
+                    }
+                case 4: {
+                        message.coord_size_params = $root.ProtoCoordSizeParams_t.decode(reader, reader.uint32(), undefined, long + 1);
                         break;
                     }
                 default:
@@ -21164,6 +22107,11 @@
                         return "fields." + error;
                 }
             }
+            if (message.coord_size_params != null && Object.hasOwnProperty.call(message, "coord_size_params")) {
+                var error = $root.ProtoCoordSizeParams_t.verify(message.coord_size_params, long + 1);
+                if (error)
+                    return "coord_size_params." + error;
+            }
             return null;
         };
     
@@ -21212,6 +22160,11 @@
                     message.fields[i] = $root.ProtoFlattenedSerializerField_t.fromObject(object.fields[i], long + 1);
                 }
             }
+            if (object.coord_size_params != null) {
+                if (!$util.isObject(object.coord_size_params))
+                    throw TypeError(".CSVCMsg_FlattenedSerializer.coord_size_params: object expected");
+                message.coord_size_params = $root.ProtoCoordSizeParams_t.fromObject(object.coord_size_params, long + 1);
+            }
             return message;
         };
     
@@ -21237,6 +22190,8 @@
                 object.symbols = [];
                 object.fields = [];
             }
+            if (options.defaults)
+                object.coord_size_params = null;
             if (message.serializers && message.serializers.length) {
                 object.serializers = [];
                 for (var j = 0; j < message.serializers.length; ++j)
@@ -21252,6 +22207,8 @@
                 for (var j = 0; j < message.fields.length; ++j)
                     object.fields[j] = $root.ProtoFlattenedSerializerField_t.toObject(message.fields[j], options, q + 1);
             }
+            if (message.coord_size_params != null && Object.hasOwnProperty.call(message, "coord_size_params"))
+                object.coord_size_params = $root.ProtoCoordSizeParams_t.toObject(message.coord_size_params, options, q + 1);
             return object;
         };
     
@@ -25707,6 +26664,7 @@
          * @property {number|null} [server_tick_executed] CMsgServerUserCmd server_tick_executed
          * @property {number|null} [client_tick] CMsgServerUserCmd client_tick
          * @property {Uint8Array|null} [delta_data] CMsgServerUserCmd delta_data
+         * @property {boolean|null} [delta_processed] CMsgServerUserCmd delta_processed
          */
     
         /**
@@ -25773,6 +26731,14 @@
         CMsgServerUserCmd.prototype.delta_data = $util.newBuffer([]);
     
         /**
+         * CMsgServerUserCmd delta_processed.
+         * @member {boolean} delta_processed
+         * @memberof CMsgServerUserCmd
+         * @instance
+         */
+        CMsgServerUserCmd.prototype.delta_processed = false;
+    
+        /**
          * Creates a new CMsgServerUserCmd instance using the specified properties.
          * @function create
          * @memberof CMsgServerUserCmd
@@ -25812,6 +26778,8 @@
                 writer.uint32(/* id 5, wireType 0 =*/40).int32(message.client_tick);
             if (message.delta_data != null && Object.hasOwnProperty.call(message, "delta_data"))
                 writer.uint32(/* id 6, wireType 2 =*/50).bytes(message.delta_data);
+            if (message.delta_processed != null && Object.hasOwnProperty.call(message, "delta_processed"))
+                writer.uint32(/* id 7, wireType 0 =*/56).bool(message.delta_processed);
             return writer;
         };
     
@@ -25886,6 +26854,10 @@
                         message.delta_data = reader.bytes();
                         break;
                     }
+                case 7: {
+                        message.delta_processed = reader.bool();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -25948,6 +26920,9 @@
             if (message.delta_data != null && Object.hasOwnProperty.call(message, "delta_data"))
                 if (!(message.delta_data && typeof message.delta_data.length === "number" || $util.isString(message.delta_data)))
                     return "delta_data: buffer expected";
+            if (message.delta_processed != null && Object.hasOwnProperty.call(message, "delta_processed"))
+                if (typeof message.delta_processed !== "boolean")
+                    return "delta_processed: boolean expected";
             return null;
         };
     
@@ -25987,6 +26962,8 @@
                     $util.base64.decode(object.delta_data, message.delta_data = $util.newBuffer($util.base64.length(object.delta_data)), 0);
                 else if (object.delta_data.length >= 0)
                     message.delta_data = object.delta_data;
+            if (object.delta_processed != null)
+                message.delta_processed = Boolean(object.delta_processed);
             return message;
         };
     
@@ -26026,6 +27003,7 @@
                     if (options.bytes !== Array)
                         object.delta_data = $util.newBuffer(object.delta_data);
                 }
+                object.delta_processed = false;
             }
             if (message.data != null && Object.hasOwnProperty.call(message, "data"))
                 object.data = options.bytes === String ? $util.base64.encode(message.data, 0, message.data.length) : options.bytes === Array ? Array.prototype.slice.call(message.data) : message.data;
@@ -26039,6 +27017,8 @@
                 object.client_tick = message.client_tick;
             if (message.delta_data != null && Object.hasOwnProperty.call(message, "delta_data"))
                 object.delta_data = options.bytes === String ? $util.base64.encode(message.delta_data, 0, message.delta_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.delta_data) : message.delta_data;
+            if (message.delta_processed != null && Object.hasOwnProperty.call(message, "delta_processed"))
+                object.delta_processed = message.delta_processed;
             return object;
         };
     
@@ -28490,6 +29470,8 @@
          * @property {number|Long|null} [steamid] CMsgPlayerInfo steamid
          * @property {boolean|null} [fakeplayer] CMsgPlayerInfo fakeplayer
          * @property {boolean|null} [ishltv] CMsgPlayerInfo ishltv
+         * @property {boolean|null} [clan_member] CMsgPlayerInfo clan_member
+         * @property {boolean|null} [clan_officer] CMsgPlayerInfo clan_officer
          */
     
         /**
@@ -28556,6 +29538,22 @@
         CMsgPlayerInfo.prototype.ishltv = false;
     
         /**
+         * CMsgPlayerInfo clan_member.
+         * @member {boolean} clan_member
+         * @memberof CMsgPlayerInfo
+         * @instance
+         */
+        CMsgPlayerInfo.prototype.clan_member = false;
+    
+        /**
+         * CMsgPlayerInfo clan_officer.
+         * @member {boolean} clan_officer
+         * @memberof CMsgPlayerInfo
+         * @instance
+         */
+        CMsgPlayerInfo.prototype.clan_officer = false;
+    
+        /**
          * Creates a new CMsgPlayerInfo instance using the specified properties.
          * @function create
          * @memberof CMsgPlayerInfo
@@ -28595,6 +29593,10 @@
                 writer.uint32(/* id 5, wireType 0 =*/40).bool(message.fakeplayer);
             if (message.ishltv != null && Object.hasOwnProperty.call(message, "ishltv"))
                 writer.uint32(/* id 6, wireType 0 =*/48).bool(message.ishltv);
+            if (message.clan_member != null && Object.hasOwnProperty.call(message, "clan_member"))
+                writer.uint32(/* id 9, wireType 0 =*/72).bool(message.clan_member);
+            if (message.clan_officer != null && Object.hasOwnProperty.call(message, "clan_officer"))
+                writer.uint32(/* id 10, wireType 0 =*/80).bool(message.clan_officer);
             return writer;
         };
     
@@ -28669,6 +29671,14 @@
                         message.ishltv = reader.bool();
                         break;
                     }
+                case 9: {
+                        message.clan_member = reader.bool();
+                        break;
+                    }
+                case 10: {
+                        message.clan_officer = reader.bool();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -28731,6 +29741,12 @@
             if (message.ishltv != null && Object.hasOwnProperty.call(message, "ishltv"))
                 if (typeof message.ishltv !== "boolean")
                     return "ishltv: boolean expected";
+            if (message.clan_member != null && Object.hasOwnProperty.call(message, "clan_member"))
+                if (typeof message.clan_member !== "boolean")
+                    return "clan_member: boolean expected";
+            if (message.clan_officer != null && Object.hasOwnProperty.call(message, "clan_officer"))
+                if (typeof message.clan_officer !== "boolean")
+                    return "clan_officer: boolean expected";
             return null;
         };
     
@@ -28778,6 +29794,10 @@
                 message.fakeplayer = Boolean(object.fakeplayer);
             if (object.ishltv != null)
                 message.ishltv = Boolean(object.ishltv);
+            if (object.clan_member != null)
+                message.clan_member = Boolean(object.clan_member);
+            if (object.clan_officer != null)
+                message.clan_officer = Boolean(object.clan_officer);
             return message;
         };
     
@@ -28813,6 +29833,8 @@
                     object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.fakeplayer = false;
                 object.ishltv = false;
+                object.clan_member = false;
+                object.clan_officer = false;
             }
             if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                 object.name = message.name;
@@ -28836,6 +29858,10 @@
                 object.fakeplayer = message.fakeplayer;
             if (message.ishltv != null && Object.hasOwnProperty.call(message, "ishltv"))
                 object.ishltv = message.ishltv;
+            if (message.clan_member != null && Object.hasOwnProperty.call(message, "clan_member"))
+                object.clan_member = message.clan_member;
+            if (message.clan_officer != null && Object.hasOwnProperty.call(message, "clan_officer"))
+                object.clan_officer = message.clan_officer;
             return object;
         };
     
@@ -34554,6 +35580,364 @@
         return CNETMsg_SpawnGroup_LoadCompleted;
     })();
     
+    $root.QuantizedFloatEncoderAlias_t = (function() {
+    
+        /**
+         * Properties of a QuantizedFloatEncoderAlias_t.
+         * @exports IQuantizedFloatEncoderAlias_t
+         * @interface IQuantizedFloatEncoderAlias_t
+         * @property {string|null} [name] QuantizedFloatEncoderAlias_t name
+         * @property {number|null} [bit_count] QuantizedFloatEncoderAlias_t bit_count
+         * @property {number|null} [encode_flags] QuantizedFloatEncoderAlias_t encode_flags
+         * @property {number|null} [min_value] QuantizedFloatEncoderAlias_t min_value
+         * @property {number|null} [max_value] QuantizedFloatEncoderAlias_t max_value
+         * @property {boolean|null} [validate] QuantizedFloatEncoderAlias_t validate
+         */
+    
+        /**
+         * Constructs a new QuantizedFloatEncoderAlias_t.
+         * @exports QuantizedFloatEncoderAlias_t
+         * @classdesc Represents a QuantizedFloatEncoderAlias_t.
+         * @implements IQuantizedFloatEncoderAlias_t
+         * @constructor
+         * @param {IQuantizedFloatEncoderAlias_t=} [properties] Properties to set
+         */
+        function QuantizedFloatEncoderAlias_t(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * QuantizedFloatEncoderAlias_t name.
+         * @member {string} name
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.name = "";
+    
+        /**
+         * QuantizedFloatEncoderAlias_t bit_count.
+         * @member {number} bit_count
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.bit_count = 0;
+    
+        /**
+         * QuantizedFloatEncoderAlias_t encode_flags.
+         * @member {number} encode_flags
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.encode_flags = 0;
+    
+        /**
+         * QuantizedFloatEncoderAlias_t min_value.
+         * @member {number} min_value
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.min_value = 0;
+    
+        /**
+         * QuantizedFloatEncoderAlias_t max_value.
+         * @member {number} max_value
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.max_value = 0;
+    
+        /**
+         * QuantizedFloatEncoderAlias_t validate.
+         * @member {boolean} validate
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         */
+        QuantizedFloatEncoderAlias_t.prototype.validate = false;
+    
+        /**
+         * Creates a new QuantizedFloatEncoderAlias_t instance using the specified properties.
+         * @function create
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {IQuantizedFloatEncoderAlias_t=} [properties] Properties to set
+         * @returns {QuantizedFloatEncoderAlias_t} QuantizedFloatEncoderAlias_t instance
+         */
+        QuantizedFloatEncoderAlias_t.create = function create(properties) {
+            return new QuantizedFloatEncoderAlias_t(properties);
+        };
+    
+        /**
+         * Encodes the specified QuantizedFloatEncoderAlias_t message. Does not implicitly {@link QuantizedFloatEncoderAlias_t.verify|verify} messages.
+         * @function encode
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {IQuantizedFloatEncoderAlias_t} message QuantizedFloatEncoderAlias_t message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        QuantizedFloatEncoderAlias_t.encode = function encode(message, writer, q) {
+            if (!writer)
+                writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+            if (message.bit_count != null && Object.hasOwnProperty.call(message, "bit_count"))
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.bit_count);
+            if (message.encode_flags != null && Object.hasOwnProperty.call(message, "encode_flags"))
+                writer.uint32(/* id 3, wireType 0 =*/24).int32(message.encode_flags);
+            if (message.min_value != null && Object.hasOwnProperty.call(message, "min_value"))
+                writer.uint32(/* id 4, wireType 5 =*/37).float(message.min_value);
+            if (message.max_value != null && Object.hasOwnProperty.call(message, "max_value"))
+                writer.uint32(/* id 5, wireType 5 =*/45).float(message.max_value);
+            if (message.validate != null && Object.hasOwnProperty.call(message, "validate"))
+                writer.uint32(/* id 6, wireType 0 =*/48).bool(message.validate);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified QuantizedFloatEncoderAlias_t message, length delimited. Does not implicitly {@link QuantizedFloatEncoderAlias_t.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {IQuantizedFloatEncoderAlias_t} message QuantizedFloatEncoderAlias_t message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        QuantizedFloatEncoderAlias_t.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+    
+        /**
+         * Decodes a QuantizedFloatEncoderAlias_t message from the specified reader or buffer.
+         * @function decode
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {QuantizedFloatEncoderAlias_t} QuantizedFloatEncoderAlias_t
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        QuantizedFloatEncoderAlias_t.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.QuantizedFloatEncoderAlias_t();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.name = reader.string();
+                        break;
+                    }
+                case 2: {
+                        message.bit_count = reader.int32();
+                        break;
+                    }
+                case 3: {
+                        message.encode_flags = reader.int32();
+                        break;
+                    }
+                case 4: {
+                        message.min_value = reader.float();
+                        break;
+                    }
+                case 5: {
+                        message.max_value = reader.float();
+                        break;
+                    }
+                case 6: {
+                        message.validate = reader.bool();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a QuantizedFloatEncoderAlias_t message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {QuantizedFloatEncoderAlias_t} QuantizedFloatEncoderAlias_t
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        QuantizedFloatEncoderAlias_t.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a QuantizedFloatEncoderAlias_t message.
+         * @function verify
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        QuantizedFloatEncoderAlias_t.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                if (!$util.isString(message.name))
+                    return "name: string expected";
+            if (message.bit_count != null && Object.hasOwnProperty.call(message, "bit_count"))
+                if (!$util.isInteger(message.bit_count))
+                    return "bit_count: integer expected";
+            if (message.encode_flags != null && Object.hasOwnProperty.call(message, "encode_flags"))
+                if (!$util.isInteger(message.encode_flags))
+                    return "encode_flags: integer expected";
+            if (message.min_value != null && Object.hasOwnProperty.call(message, "min_value"))
+                if (typeof message.min_value !== "number")
+                    return "min_value: number expected";
+            if (message.max_value != null && Object.hasOwnProperty.call(message, "max_value"))
+                if (typeof message.max_value !== "number")
+                    return "max_value: number expected";
+            if (message.validate != null && Object.hasOwnProperty.call(message, "validate"))
+                if (typeof message.validate !== "boolean")
+                    return "validate: boolean expected";
+            return null;
+        };
+    
+        /**
+         * Creates a QuantizedFloatEncoderAlias_t message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {QuantizedFloatEncoderAlias_t} QuantizedFloatEncoderAlias_t
+         */
+        QuantizedFloatEncoderAlias_t.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.QuantizedFloatEncoderAlias_t)
+                return object;
+            if (!$util.isObject(object))
+                throw TypeError(".QuantizedFloatEncoderAlias_t: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var message = new $root.QuantizedFloatEncoderAlias_t();
+            if (object.name != null)
+                message.name = String(object.name);
+            if (object.bit_count != null)
+                message.bit_count = object.bit_count | 0;
+            if (object.encode_flags != null)
+                message.encode_flags = object.encode_flags | 0;
+            if (object.min_value != null)
+                message.min_value = Number(object.min_value);
+            if (object.max_value != null)
+                message.max_value = Number(object.max_value);
+            if (object.validate != null)
+                message.validate = Boolean(object.validate);
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a QuantizedFloatEncoderAlias_t message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {QuantizedFloatEncoderAlias_t} message QuantizedFloatEncoderAlias_t
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        QuantizedFloatEncoderAlias_t.toObject = function toObject(message, options, q) {
+            if (!options)
+                options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var object = {};
+            if (options.defaults) {
+                object.name = "";
+                object.bit_count = 0;
+                object.encode_flags = 0;
+                object.min_value = 0;
+                object.max_value = 0;
+                object.validate = false;
+            }
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                object.name = message.name;
+            if (message.bit_count != null && Object.hasOwnProperty.call(message, "bit_count"))
+                object.bit_count = message.bit_count;
+            if (message.encode_flags != null && Object.hasOwnProperty.call(message, "encode_flags"))
+                object.encode_flags = message.encode_flags;
+            if (message.min_value != null && Object.hasOwnProperty.call(message, "min_value"))
+                object.min_value = options.json && !isFinite(message.min_value) ? String(message.min_value) : message.min_value;
+            if (message.max_value != null && Object.hasOwnProperty.call(message, "max_value"))
+                object.max_value = options.json && !isFinite(message.max_value) ? String(message.max_value) : message.max_value;
+            if (message.validate != null && Object.hasOwnProperty.call(message, "validate"))
+                object.validate = message.validate;
+            return object;
+        };
+    
+        /**
+         * Converts this QuantizedFloatEncoderAlias_t to JSON.
+         * @function toJSON
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        QuantizedFloatEncoderAlias_t.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for QuantizedFloatEncoderAlias_t
+         * @function getTypeUrl
+         * @memberof QuantizedFloatEncoderAlias_t
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        QuantizedFloatEncoderAlias_t.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/QuantizedFloatEncoderAlias_t";
+        };
+    
+        return QuantizedFloatEncoderAlias_t;
+    })();
+    
     $root.CSVCMsg_GameSessionConfiguration = (function() {
     
         /**
@@ -34579,6 +35963,8 @@
          * @property {boolean|null} [is_transition] CSVCMsg_GameSessionConfiguration is_transition
          * @property {string|null} [previouslevel] CSVCMsg_GameSessionConfiguration previouslevel
          * @property {string|null} [landmarkname] CSVCMsg_GameSessionConfiguration landmarkname
+         * @property {Array.<IQuantizedFloatEncoderAlias_t>|null} [quantized_float_encoder_aliases] CSVCMsg_GameSessionConfiguration quantized_float_encoder_aliases
+         * @property {number|null} [max_coord] CSVCMsg_GameSessionConfiguration max_coord
          */
     
         /**
@@ -34590,6 +35976,7 @@
          * @param {ICSVCMsg_GameSessionConfiguration=} [properties] Properties to set
          */
         function CSVCMsg_GameSessionConfiguration(properties) {
+            this.quantized_float_encoder_aliases = [];
             if (properties)
                 for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
@@ -34749,6 +36136,22 @@
         CSVCMsg_GameSessionConfiguration.prototype.landmarkname = "";
     
         /**
+         * CSVCMsg_GameSessionConfiguration quantized_float_encoder_aliases.
+         * @member {Array.<IQuantizedFloatEncoderAlias_t>} quantized_float_encoder_aliases
+         * @memberof CSVCMsg_GameSessionConfiguration
+         * @instance
+         */
+        CSVCMsg_GameSessionConfiguration.prototype.quantized_float_encoder_aliases = $util.emptyArray;
+    
+        /**
+         * CSVCMsg_GameSessionConfiguration max_coord.
+         * @member {number} max_coord
+         * @memberof CSVCMsg_GameSessionConfiguration
+         * @instance
+         */
+        CSVCMsg_GameSessionConfiguration.prototype.max_coord = 0;
+    
+        /**
          * Creates a new CSVCMsg_GameSessionConfiguration instance using the specified properties.
          * @function create
          * @memberof CSVCMsg_GameSessionConfiguration
@@ -34814,6 +36217,11 @@
                 writer.uint32(/* id 18, wireType 2 =*/146).string(message.landmarkname);
             if (message.no_steam_server != null && Object.hasOwnProperty.call(message, "no_steam_server"))
                 writer.uint32(/* id 19, wireType 0 =*/152).bool(message.no_steam_server);
+            if (message.quantized_float_encoder_aliases != null && message.quantized_float_encoder_aliases.length)
+                for (var i = 0; i < message.quantized_float_encoder_aliases.length; ++i)
+                    $root.QuantizedFloatEncoderAlias_t.encode(message.quantized_float_encoder_aliases[i], writer.uint32(/* id 20, wireType 2 =*/162).fork(), q + 1).ldelim();
+            if (message.max_coord != null && Object.hasOwnProperty.call(message, "max_coord"))
+                writer.uint32(/* id 21, wireType 5 =*/173).float(message.max_coord);
             return writer;
         };
     
@@ -34940,6 +36348,16 @@
                         message.landmarkname = reader.string();
                         break;
                     }
+                case 20: {
+                        if (!(message.quantized_float_encoder_aliases && message.quantized_float_encoder_aliases.length))
+                            message.quantized_float_encoder_aliases = [];
+                        message.quantized_float_encoder_aliases.push($root.QuantizedFloatEncoderAlias_t.decode(reader, reader.uint32(), undefined, long + 1));
+                        break;
+                    }
+                case 21: {
+                        message.max_coord = reader.float();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -35041,6 +36459,18 @@
             if (message.landmarkname != null && Object.hasOwnProperty.call(message, "landmarkname"))
                 if (!$util.isString(message.landmarkname))
                     return "landmarkname: string expected";
+            if (message.quantized_float_encoder_aliases != null && Object.hasOwnProperty.call(message, "quantized_float_encoder_aliases")) {
+                if (!Array.isArray(message.quantized_float_encoder_aliases))
+                    return "quantized_float_encoder_aliases: array expected";
+                for (var i = 0; i < message.quantized_float_encoder_aliases.length; ++i) {
+                    var error = $root.QuantizedFloatEncoderAlias_t.verify(message.quantized_float_encoder_aliases[i], long + 1);
+                    if (error)
+                        return "quantized_float_encoder_aliases." + error;
+                }
+            }
+            if (message.max_coord != null && Object.hasOwnProperty.call(message, "max_coord"))
+                if (typeof message.max_coord !== "number")
+                    return "max_coord: number expected";
             return null;
         };
     
@@ -35103,6 +36533,18 @@
                 message.previouslevel = String(object.previouslevel);
             if (object.landmarkname != null)
                 message.landmarkname = String(object.landmarkname);
+            if (object.quantized_float_encoder_aliases) {
+                if (!Array.isArray(object.quantized_float_encoder_aliases))
+                    throw TypeError(".CSVCMsg_GameSessionConfiguration.quantized_float_encoder_aliases: array expected");
+                message.quantized_float_encoder_aliases = [];
+                for (var i = 0; i < object.quantized_float_encoder_aliases.length; ++i) {
+                    if (!$util.isObject(object.quantized_float_encoder_aliases[i]))
+                        throw TypeError(".CSVCMsg_GameSessionConfiguration.quantized_float_encoder_aliases: object expected");
+                    message.quantized_float_encoder_aliases[i] = $root.QuantizedFloatEncoderAlias_t.fromObject(object.quantized_float_encoder_aliases[i], long + 1);
+                }
+            }
+            if (object.max_coord != null)
+                message.max_coord = Number(object.max_coord);
             return message;
         };
     
@@ -35123,6 +36565,8 @@
             if (q > $util.recursionLimit)
                 throw Error("max depth exceeded");
             var object = {};
+            if (options.arrays || options.defaults)
+                object.quantized_float_encoder_aliases = [];
             if (options.defaults) {
                 object.is_multiplayer = false;
                 object.is_loadsavegame = false;
@@ -35149,6 +36593,7 @@
                 object.previouslevel = "";
                 object.landmarkname = "";
                 object.no_steam_server = false;
+                object.max_coord = 0;
             }
             if (message.is_multiplayer != null && Object.hasOwnProperty.call(message, "is_multiplayer"))
                 object.is_multiplayer = message.is_multiplayer;
@@ -35188,6 +36633,13 @@
                 object.landmarkname = message.landmarkname;
             if (message.no_steam_server != null && Object.hasOwnProperty.call(message, "no_steam_server"))
                 object.no_steam_server = message.no_steam_server;
+            if (message.quantized_float_encoder_aliases && message.quantized_float_encoder_aliases.length) {
+                object.quantized_float_encoder_aliases = [];
+                for (var j = 0; j < message.quantized_float_encoder_aliases.length; ++j)
+                    object.quantized_float_encoder_aliases[j] = $root.QuantizedFloatEncoderAlias_t.toObject(message.quantized_float_encoder_aliases[j], options, q + 1);
+            }
+            if (message.max_coord != null && Object.hasOwnProperty.call(message, "max_coord"))
+                object.max_coord = options.json && !isFinite(message.max_coord) ? String(message.max_coord) : message.max_coord;
             return object;
         };
     
@@ -45031,6 +46483,14 @@
          * @property {number|null} [netframes_size_exceeds_mtu] CMsgSource2NetworkFlowQuality netframes_size_exceeds_mtu
          * @property {number|null} [netframes_size_p95] CMsgSource2NetworkFlowQuality netframes_size_p95
          * @property {number|null} [netframes_size_p99] CMsgSource2NetworkFlowQuality netframes_size_p99
+         * @property {number|null} [netframes_size_uncompressed_p50] CMsgSource2NetworkFlowQuality netframes_size_uncompressed_p50
+         * @property {number|null} [netframes_size_uncompressed_p95] CMsgSource2NetworkFlowQuality netframes_size_uncompressed_p95
+         * @property {number|null} [netframes_size_uncompressed_p99] CMsgSource2NetworkFlowQuality netframes_size_uncompressed_p99
+         * @property {number|null} [netframes_size_uncompressed_max] CMsgSource2NetworkFlowQuality netframes_size_uncompressed_max
+         * @property {number|null} [netframes_msgs_p50] CMsgSource2NetworkFlowQuality netframes_msgs_p50
+         * @property {number|null} [netframes_msgs_p95] CMsgSource2NetworkFlowQuality netframes_msgs_p95
+         * @property {number|null} [netframes_msgs_p99] CMsgSource2NetworkFlowQuality netframes_msgs_p99
+         * @property {number|null} [netframes_msgs_max] CMsgSource2NetworkFlowQuality netframes_msgs_max
          * @property {number|null} [ticks_total] CMsgSource2NetworkFlowQuality ticks_total
          * @property {number|null} [ticks_good] CMsgSource2NetworkFlowQuality ticks_good
          * @property {number|null} [ticks_good_almost_late] CMsgSource2NetworkFlowQuality ticks_good_almost_late
@@ -45060,6 +46520,18 @@
          * @property {number|null} [net_ping_p5] CMsgSource2NetworkFlowQuality net_ping_p5
          * @property {number|null} [net_ping_p50] CMsgSource2NetworkFlowQuality net_ping_p50
          * @property {number|null} [net_ping_p95] CMsgSource2NetworkFlowQuality net_ping_p95
+         * @property {number|null} [msgproc_usec_p50] CMsgSource2NetworkFlowQuality msgproc_usec_p50
+         * @property {number|null} [msgproc_usec_p95] CMsgSource2NetworkFlowQuality msgproc_usec_p95
+         * @property {number|null} [msgproc_usec_p99] CMsgSource2NetworkFlowQuality msgproc_usec_p99
+         * @property {number|null} [msgproc_usec_max] CMsgSource2NetworkFlowQuality msgproc_usec_max
+         * @property {number|null} [msgproc_usec_avg_p50] CMsgSource2NetworkFlowQuality msgproc_usec_avg_p50
+         * @property {number|null} [msgproc_usec_avg_p95] CMsgSource2NetworkFlowQuality msgproc_usec_avg_p95
+         * @property {number|null} [msgproc_usec_avg_p99] CMsgSource2NetworkFlowQuality msgproc_usec_avg_p99
+         * @property {number|null} [msgproc_usec_avg_max] CMsgSource2NetworkFlowQuality msgproc_usec_avg_max
+         * @property {number|null} [queuedmsgs_p50] CMsgSource2NetworkFlowQuality queuedmsgs_p50
+         * @property {number|null} [queuedmsgs_p95] CMsgSource2NetworkFlowQuality queuedmsgs_p95
+         * @property {number|null} [queuedmsgs_p99] CMsgSource2NetworkFlowQuality queuedmsgs_p99
+         * @property {number|null} [queuedmsgs_max] CMsgSource2NetworkFlowQuality queuedmsgs_max
          */
     
         /**
@@ -45196,6 +46668,70 @@
          * @instance
          */
         CMsgSource2NetworkFlowQuality.prototype.netframes_size_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_size_uncompressed_p50.
+         * @member {number} netframes_size_uncompressed_p50
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_size_uncompressed_p50 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_size_uncompressed_p95.
+         * @member {number} netframes_size_uncompressed_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_size_uncompressed_p95 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_size_uncompressed_p99.
+         * @member {number} netframes_size_uncompressed_p99
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_size_uncompressed_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_size_uncompressed_max.
+         * @member {number} netframes_size_uncompressed_max
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_size_uncompressed_max = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_msgs_p50.
+         * @member {number} netframes_msgs_p50
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_msgs_p50 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_msgs_p95.
+         * @member {number} netframes_msgs_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_msgs_p95 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_msgs_p99.
+         * @member {number} netframes_msgs_p99
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_msgs_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_msgs_max.
+         * @member {number} netframes_msgs_max
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_msgs_max = 0;
     
         /**
          * CMsgSource2NetworkFlowQuality ticks_total.
@@ -45430,6 +46966,102 @@
         CMsgSource2NetworkFlowQuality.prototype.net_ping_p95 = 0;
     
         /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_p50.
+         * @member {number} msgproc_usec_p50
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_p50 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_p95.
+         * @member {number} msgproc_usec_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_p95 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_p99.
+         * @member {number} msgproc_usec_p99
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_max.
+         * @member {number} msgproc_usec_max
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_max = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_avg_p50.
+         * @member {number} msgproc_usec_avg_p50
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_avg_p50 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_avg_p95.
+         * @member {number} msgproc_usec_avg_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_avg_p95 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_avg_p99.
+         * @member {number} msgproc_usec_avg_p99
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_avg_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_avg_max.
+         * @member {number} msgproc_usec_avg_max
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_avg_max = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality queuedmsgs_p50.
+         * @member {number} queuedmsgs_p50
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.queuedmsgs_p50 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality queuedmsgs_p95.
+         * @member {number} queuedmsgs_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.queuedmsgs_p95 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality queuedmsgs_p99.
+         * @member {number} queuedmsgs_p99
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.queuedmsgs_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality queuedmsgs_max.
+         * @member {number} queuedmsgs_max
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.queuedmsgs_max = 0;
+    
+        /**
          * Creates a new CMsgSource2NetworkFlowQuality instance using the specified properties.
          * @function create
          * @memberof CMsgSource2NetworkFlowQuality
@@ -45469,6 +47101,22 @@
                 writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.bytes_sec_p95);
             if (message.bytes_sec_p99 != null && Object.hasOwnProperty.call(message, "bytes_sec_p99"))
                 writer.uint32(/* id 11, wireType 0 =*/88).uint32(message.bytes_sec_p99);
+            if (message.netframes_size_uncompressed_p50 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p50"))
+                writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.netframes_size_uncompressed_p50);
+            if (message.netframes_size_uncompressed_p95 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p95"))
+                writer.uint32(/* id 13, wireType 0 =*/104).uint32(message.netframes_size_uncompressed_p95);
+            if (message.netframes_size_uncompressed_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p99"))
+                writer.uint32(/* id 14, wireType 0 =*/112).uint32(message.netframes_size_uncompressed_p99);
+            if (message.netframes_size_uncompressed_max != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_max"))
+                writer.uint32(/* id 15, wireType 0 =*/120).uint32(message.netframes_size_uncompressed_max);
+            if (message.netframes_msgs_p50 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p50"))
+                writer.uint32(/* id 16, wireType 0 =*/128).uint32(message.netframes_msgs_p50);
+            if (message.netframes_msgs_p95 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p95"))
+                writer.uint32(/* id 17, wireType 0 =*/136).uint32(message.netframes_msgs_p95);
+            if (message.netframes_msgs_p99 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p99"))
+                writer.uint32(/* id 18, wireType 0 =*/144).uint32(message.netframes_msgs_p99);
+            if (message.netframes_msgs_max != null && Object.hasOwnProperty.call(message, "netframes_msgs_max"))
+                writer.uint32(/* id 19, wireType 0 =*/152).uint32(message.netframes_msgs_max);
             if (message.enginemsgs_total != null && Object.hasOwnProperty.call(message, "enginemsgs_total"))
                 writer.uint32(/* id 20, wireType 0 =*/160).uint32(message.enginemsgs_total);
             if (message.enginemsgs_sec_p95 != null && Object.hasOwnProperty.call(message, "enginemsgs_sec_p95"))
@@ -45545,6 +47193,30 @@
                 writer.uint32(/* id 81, wireType 0 =*/648).uint32(message.net_ping_p50);
             if (message.net_ping_p95 != null && Object.hasOwnProperty.call(message, "net_ping_p95"))
                 writer.uint32(/* id 82, wireType 0 =*/656).uint32(message.net_ping_p95);
+            if (message.msgproc_usec_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p50"))
+                writer.uint32(/* id 90, wireType 0 =*/720).uint32(message.msgproc_usec_p50);
+            if (message.msgproc_usec_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p95"))
+                writer.uint32(/* id 91, wireType 0 =*/728).uint32(message.msgproc_usec_p95);
+            if (message.msgproc_usec_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p99"))
+                writer.uint32(/* id 92, wireType 0 =*/736).uint32(message.msgproc_usec_p99);
+            if (message.msgproc_usec_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_max"))
+                writer.uint32(/* id 93, wireType 0 =*/744).uint32(message.msgproc_usec_max);
+            if (message.msgproc_usec_avg_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p50"))
+                writer.uint32(/* id 94, wireType 0 =*/752).uint32(message.msgproc_usec_avg_p50);
+            if (message.msgproc_usec_avg_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p95"))
+                writer.uint32(/* id 95, wireType 0 =*/760).uint32(message.msgproc_usec_avg_p95);
+            if (message.msgproc_usec_avg_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p99"))
+                writer.uint32(/* id 96, wireType 0 =*/768).uint32(message.msgproc_usec_avg_p99);
+            if (message.msgproc_usec_avg_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_max"))
+                writer.uint32(/* id 97, wireType 0 =*/776).uint32(message.msgproc_usec_avg_max);
+            if (message.queuedmsgs_p50 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p50"))
+                writer.uint32(/* id 100, wireType 0 =*/800).uint32(message.queuedmsgs_p50);
+            if (message.queuedmsgs_p95 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p95"))
+                writer.uint32(/* id 101, wireType 0 =*/808).uint32(message.queuedmsgs_p95);
+            if (message.queuedmsgs_p99 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p99"))
+                writer.uint32(/* id 102, wireType 0 =*/816).uint32(message.queuedmsgs_p99);
+            if (message.queuedmsgs_max != null && Object.hasOwnProperty.call(message, "queuedmsgs_max"))
+                writer.uint32(/* id 103, wireType 0 =*/824).uint32(message.queuedmsgs_max);
             return writer;
         };
     
@@ -45653,6 +47325,38 @@
                     }
                 case 36: {
                         message.netframes_size_p99 = reader.uint32();
+                        break;
+                    }
+                case 12: {
+                        message.netframes_size_uncompressed_p50 = reader.uint32();
+                        break;
+                    }
+                case 13: {
+                        message.netframes_size_uncompressed_p95 = reader.uint32();
+                        break;
+                    }
+                case 14: {
+                        message.netframes_size_uncompressed_p99 = reader.uint32();
+                        break;
+                    }
+                case 15: {
+                        message.netframes_size_uncompressed_max = reader.uint32();
+                        break;
+                    }
+                case 16: {
+                        message.netframes_msgs_p50 = reader.uint32();
+                        break;
+                    }
+                case 17: {
+                        message.netframes_msgs_p95 = reader.uint32();
+                        break;
+                    }
+                case 18: {
+                        message.netframes_msgs_p99 = reader.uint32();
+                        break;
+                    }
+                case 19: {
+                        message.netframes_msgs_max = reader.uint32();
                         break;
                     }
                 case 40: {
@@ -45771,6 +47475,54 @@
                         message.net_ping_p95 = reader.uint32();
                         break;
                     }
+                case 90: {
+                        message.msgproc_usec_p50 = reader.uint32();
+                        break;
+                    }
+                case 91: {
+                        message.msgproc_usec_p95 = reader.uint32();
+                        break;
+                    }
+                case 92: {
+                        message.msgproc_usec_p99 = reader.uint32();
+                        break;
+                    }
+                case 93: {
+                        message.msgproc_usec_max = reader.uint32();
+                        break;
+                    }
+                case 94: {
+                        message.msgproc_usec_avg_p50 = reader.uint32();
+                        break;
+                    }
+                case 95: {
+                        message.msgproc_usec_avg_p95 = reader.uint32();
+                        break;
+                    }
+                case 96: {
+                        message.msgproc_usec_avg_p99 = reader.uint32();
+                        break;
+                    }
+                case 97: {
+                        message.msgproc_usec_avg_max = reader.uint32();
+                        break;
+                    }
+                case 100: {
+                        message.queuedmsgs_p50 = reader.uint32();
+                        break;
+                    }
+                case 101: {
+                        message.queuedmsgs_p95 = reader.uint32();
+                        break;
+                    }
+                case 102: {
+                        message.queuedmsgs_p99 = reader.uint32();
+                        break;
+                    }
+                case 103: {
+                        message.queuedmsgs_max = reader.uint32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -45860,6 +47612,30 @@
             if (message.netframes_size_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_p99"))
                 if (!$util.isInteger(message.netframes_size_p99))
                     return "netframes_size_p99: integer expected";
+            if (message.netframes_size_uncompressed_p50 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p50"))
+                if (!$util.isInteger(message.netframes_size_uncompressed_p50))
+                    return "netframes_size_uncompressed_p50: integer expected";
+            if (message.netframes_size_uncompressed_p95 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p95"))
+                if (!$util.isInteger(message.netframes_size_uncompressed_p95))
+                    return "netframes_size_uncompressed_p95: integer expected";
+            if (message.netframes_size_uncompressed_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p99"))
+                if (!$util.isInteger(message.netframes_size_uncompressed_p99))
+                    return "netframes_size_uncompressed_p99: integer expected";
+            if (message.netframes_size_uncompressed_max != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_max"))
+                if (!$util.isInteger(message.netframes_size_uncompressed_max))
+                    return "netframes_size_uncompressed_max: integer expected";
+            if (message.netframes_msgs_p50 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p50"))
+                if (!$util.isInteger(message.netframes_msgs_p50))
+                    return "netframes_msgs_p50: integer expected";
+            if (message.netframes_msgs_p95 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p95"))
+                if (!$util.isInteger(message.netframes_msgs_p95))
+                    return "netframes_msgs_p95: integer expected";
+            if (message.netframes_msgs_p99 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p99"))
+                if (!$util.isInteger(message.netframes_msgs_p99))
+                    return "netframes_msgs_p99: integer expected";
+            if (message.netframes_msgs_max != null && Object.hasOwnProperty.call(message, "netframes_msgs_max"))
+                if (!$util.isInteger(message.netframes_msgs_max))
+                    return "netframes_msgs_max: integer expected";
             if (message.ticks_total != null && Object.hasOwnProperty.call(message, "ticks_total"))
                 if (!$util.isInteger(message.ticks_total))
                     return "ticks_total: integer expected";
@@ -45947,6 +47723,42 @@
             if (message.net_ping_p95 != null && Object.hasOwnProperty.call(message, "net_ping_p95"))
                 if (!$util.isInteger(message.net_ping_p95))
                     return "net_ping_p95: integer expected";
+            if (message.msgproc_usec_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p50"))
+                if (!$util.isInteger(message.msgproc_usec_p50))
+                    return "msgproc_usec_p50: integer expected";
+            if (message.msgproc_usec_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p95"))
+                if (!$util.isInteger(message.msgproc_usec_p95))
+                    return "msgproc_usec_p95: integer expected";
+            if (message.msgproc_usec_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p99"))
+                if (!$util.isInteger(message.msgproc_usec_p99))
+                    return "msgproc_usec_p99: integer expected";
+            if (message.msgproc_usec_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_max"))
+                if (!$util.isInteger(message.msgproc_usec_max))
+                    return "msgproc_usec_max: integer expected";
+            if (message.msgproc_usec_avg_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p50"))
+                if (!$util.isInteger(message.msgproc_usec_avg_p50))
+                    return "msgproc_usec_avg_p50: integer expected";
+            if (message.msgproc_usec_avg_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p95"))
+                if (!$util.isInteger(message.msgproc_usec_avg_p95))
+                    return "msgproc_usec_avg_p95: integer expected";
+            if (message.msgproc_usec_avg_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p99"))
+                if (!$util.isInteger(message.msgproc_usec_avg_p99))
+                    return "msgproc_usec_avg_p99: integer expected";
+            if (message.msgproc_usec_avg_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_max"))
+                if (!$util.isInteger(message.msgproc_usec_avg_max))
+                    return "msgproc_usec_avg_max: integer expected";
+            if (message.queuedmsgs_p50 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p50"))
+                if (!$util.isInteger(message.queuedmsgs_p50))
+                    return "queuedmsgs_p50: integer expected";
+            if (message.queuedmsgs_p95 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p95"))
+                if (!$util.isInteger(message.queuedmsgs_p95))
+                    return "queuedmsgs_p95: integer expected";
+            if (message.queuedmsgs_p99 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p99"))
+                if (!$util.isInteger(message.queuedmsgs_p99))
+                    return "queuedmsgs_p99: integer expected";
+            if (message.queuedmsgs_max != null && Object.hasOwnProperty.call(message, "queuedmsgs_max"))
+                if (!$util.isInteger(message.queuedmsgs_max))
+                    return "queuedmsgs_max: integer expected";
             return null;
         };
     
@@ -46019,6 +47831,22 @@
                 message.netframes_size_p95 = object.netframes_size_p95 >>> 0;
             if (object.netframes_size_p99 != null)
                 message.netframes_size_p99 = object.netframes_size_p99 >>> 0;
+            if (object.netframes_size_uncompressed_p50 != null)
+                message.netframes_size_uncompressed_p50 = object.netframes_size_uncompressed_p50 >>> 0;
+            if (object.netframes_size_uncompressed_p95 != null)
+                message.netframes_size_uncompressed_p95 = object.netframes_size_uncompressed_p95 >>> 0;
+            if (object.netframes_size_uncompressed_p99 != null)
+                message.netframes_size_uncompressed_p99 = object.netframes_size_uncompressed_p99 >>> 0;
+            if (object.netframes_size_uncompressed_max != null)
+                message.netframes_size_uncompressed_max = object.netframes_size_uncompressed_max >>> 0;
+            if (object.netframes_msgs_p50 != null)
+                message.netframes_msgs_p50 = object.netframes_msgs_p50 >>> 0;
+            if (object.netframes_msgs_p95 != null)
+                message.netframes_msgs_p95 = object.netframes_msgs_p95 >>> 0;
+            if (object.netframes_msgs_p99 != null)
+                message.netframes_msgs_p99 = object.netframes_msgs_p99 >>> 0;
+            if (object.netframes_msgs_max != null)
+                message.netframes_msgs_max = object.netframes_msgs_max >>> 0;
             if (object.ticks_total != null)
                 message.ticks_total = object.ticks_total >>> 0;
             if (object.ticks_good != null)
@@ -46077,6 +47905,30 @@
                 message.net_ping_p50 = object.net_ping_p50 >>> 0;
             if (object.net_ping_p95 != null)
                 message.net_ping_p95 = object.net_ping_p95 >>> 0;
+            if (object.msgproc_usec_p50 != null)
+                message.msgproc_usec_p50 = object.msgproc_usec_p50 >>> 0;
+            if (object.msgproc_usec_p95 != null)
+                message.msgproc_usec_p95 = object.msgproc_usec_p95 >>> 0;
+            if (object.msgproc_usec_p99 != null)
+                message.msgproc_usec_p99 = object.msgproc_usec_p99 >>> 0;
+            if (object.msgproc_usec_max != null)
+                message.msgproc_usec_max = object.msgproc_usec_max >>> 0;
+            if (object.msgproc_usec_avg_p50 != null)
+                message.msgproc_usec_avg_p50 = object.msgproc_usec_avg_p50 >>> 0;
+            if (object.msgproc_usec_avg_p95 != null)
+                message.msgproc_usec_avg_p95 = object.msgproc_usec_avg_p95 >>> 0;
+            if (object.msgproc_usec_avg_p99 != null)
+                message.msgproc_usec_avg_p99 = object.msgproc_usec_avg_p99 >>> 0;
+            if (object.msgproc_usec_avg_max != null)
+                message.msgproc_usec_avg_max = object.msgproc_usec_avg_max >>> 0;
+            if (object.queuedmsgs_p50 != null)
+                message.queuedmsgs_p50 = object.queuedmsgs_p50 >>> 0;
+            if (object.queuedmsgs_p95 != null)
+                message.queuedmsgs_p95 = object.queuedmsgs_p95 >>> 0;
+            if (object.queuedmsgs_p99 != null)
+                message.queuedmsgs_p99 = object.queuedmsgs_p99 >>> 0;
+            if (object.queuedmsgs_max != null)
+                message.queuedmsgs_max = object.queuedmsgs_max >>> 0;
             return message;
         };
     
@@ -46116,6 +47968,14 @@
                     object.bytes_total_voice = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.bytes_sec_p95 = 0;
                 object.bytes_sec_p99 = 0;
+                object.netframes_size_uncompressed_p50 = 0;
+                object.netframes_size_uncompressed_p95 = 0;
+                object.netframes_size_uncompressed_p99 = 0;
+                object.netframes_size_uncompressed_max = 0;
+                object.netframes_msgs_p50 = 0;
+                object.netframes_msgs_p95 = 0;
+                object.netframes_msgs_p99 = 0;
+                object.netframes_msgs_max = 0;
                 object.enginemsgs_total = 0;
                 object.enginemsgs_sec_p95 = 0;
                 object.enginemsgs_sec_p99 = 0;
@@ -46154,6 +48014,18 @@
                 object.net_ping_p5 = 0;
                 object.net_ping_p50 = 0;
                 object.net_ping_p95 = 0;
+                object.msgproc_usec_p50 = 0;
+                object.msgproc_usec_p95 = 0;
+                object.msgproc_usec_p99 = 0;
+                object.msgproc_usec_max = 0;
+                object.msgproc_usec_avg_p50 = 0;
+                object.msgproc_usec_avg_p95 = 0;
+                object.msgproc_usec_avg_p99 = 0;
+                object.msgproc_usec_avg_max = 0;
+                object.queuedmsgs_p50 = 0;
+                object.queuedmsgs_p95 = 0;
+                object.queuedmsgs_p99 = 0;
+                object.queuedmsgs_max = 0;
             }
             if (message.duration != null && Object.hasOwnProperty.call(message, "duration"))
                 object.duration = message.duration;
@@ -46182,6 +48054,22 @@
                 object.bytes_sec_p95 = message.bytes_sec_p95;
             if (message.bytes_sec_p99 != null && Object.hasOwnProperty.call(message, "bytes_sec_p99"))
                 object.bytes_sec_p99 = message.bytes_sec_p99;
+            if (message.netframes_size_uncompressed_p50 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p50"))
+                object.netframes_size_uncompressed_p50 = message.netframes_size_uncompressed_p50;
+            if (message.netframes_size_uncompressed_p95 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p95"))
+                object.netframes_size_uncompressed_p95 = message.netframes_size_uncompressed_p95;
+            if (message.netframes_size_uncompressed_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p99"))
+                object.netframes_size_uncompressed_p99 = message.netframes_size_uncompressed_p99;
+            if (message.netframes_size_uncompressed_max != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_max"))
+                object.netframes_size_uncompressed_max = message.netframes_size_uncompressed_max;
+            if (message.netframes_msgs_p50 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p50"))
+                object.netframes_msgs_p50 = message.netframes_msgs_p50;
+            if (message.netframes_msgs_p95 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p95"))
+                object.netframes_msgs_p95 = message.netframes_msgs_p95;
+            if (message.netframes_msgs_p99 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p99"))
+                object.netframes_msgs_p99 = message.netframes_msgs_p99;
+            if (message.netframes_msgs_max != null && Object.hasOwnProperty.call(message, "netframes_msgs_max"))
+                object.netframes_msgs_max = message.netframes_msgs_max;
             if (message.enginemsgs_total != null && Object.hasOwnProperty.call(message, "enginemsgs_total"))
                 object.enginemsgs_total = message.enginemsgs_total;
             if (message.enginemsgs_sec_p95 != null && Object.hasOwnProperty.call(message, "enginemsgs_sec_p95"))
@@ -46258,6 +48146,30 @@
                 object.net_ping_p50 = message.net_ping_p50;
             if (message.net_ping_p95 != null && Object.hasOwnProperty.call(message, "net_ping_p95"))
                 object.net_ping_p95 = message.net_ping_p95;
+            if (message.msgproc_usec_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p50"))
+                object.msgproc_usec_p50 = message.msgproc_usec_p50;
+            if (message.msgproc_usec_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p95"))
+                object.msgproc_usec_p95 = message.msgproc_usec_p95;
+            if (message.msgproc_usec_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p99"))
+                object.msgproc_usec_p99 = message.msgproc_usec_p99;
+            if (message.msgproc_usec_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_max"))
+                object.msgproc_usec_max = message.msgproc_usec_max;
+            if (message.msgproc_usec_avg_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p50"))
+                object.msgproc_usec_avg_p50 = message.msgproc_usec_avg_p50;
+            if (message.msgproc_usec_avg_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p95"))
+                object.msgproc_usec_avg_p95 = message.msgproc_usec_avg_p95;
+            if (message.msgproc_usec_avg_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p99"))
+                object.msgproc_usec_avg_p99 = message.msgproc_usec_avg_p99;
+            if (message.msgproc_usec_avg_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_max"))
+                object.msgproc_usec_avg_max = message.msgproc_usec_avg_max;
+            if (message.queuedmsgs_p50 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p50"))
+                object.queuedmsgs_p50 = message.queuedmsgs_p50;
+            if (message.queuedmsgs_p95 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p95"))
+                object.queuedmsgs_p95 = message.queuedmsgs_p95;
+            if (message.queuedmsgs_p99 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p99"))
+                object.queuedmsgs_p99 = message.queuedmsgs_p99;
+            if (message.queuedmsgs_max != null && Object.hasOwnProperty.call(message, "queuedmsgs_max"))
+                object.queuedmsgs_max = message.queuedmsgs_max;
             return object;
         };
     

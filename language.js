@@ -166,6 +166,9 @@ module.exports = {
 	AcknowledgeRentalExpiration: 2535,
 	VolatileItemLoadContents: 2536,
 
+	// EGCPetMsg
+	AckPetEvent: 2538,
+
 	// EGCBaseClientMsg
 	ClientWelcome: 4004,
 	ServerWelcome: 4005,

@@ -23,6 +23,7 @@ mergeObjects(Schema, require('./netmessages.js'));
 mergeObjects(Schema, require('./network_connection.js'));
 mergeObjects(Schema, require('./networkbasetypes.js'));
 mergeObjects(Schema, require('./networksystem_protomessages.js'));
+mergeObjects(Schema, require('./pet_gcmessages.js'));
 mergeObjects(Schema, require('./prediction_events.js'));
 mergeObjects(Schema, require('./source2_steam_stats.js'));
 mergeObjects(Schema, require('./steamdatagram_messages_auth.js'));

@@ -1575,6 +1575,14 @@
          * @property {number|null} [netframes_size_exceeds_mtu] CMsgSource2NetworkFlowQuality netframes_size_exceeds_mtu
          * @property {number|null} [netframes_size_p95] CMsgSource2NetworkFlowQuality netframes_size_p95
          * @property {number|null} [netframes_size_p99] CMsgSource2NetworkFlowQuality netframes_size_p99
+         * @property {number|null} [netframes_size_uncompressed_p50] CMsgSource2NetworkFlowQuality netframes_size_uncompressed_p50
+         * @property {number|null} [netframes_size_uncompressed_p95] CMsgSource2NetworkFlowQuality netframes_size_uncompressed_p95
+         * @property {number|null} [netframes_size_uncompressed_p99] CMsgSource2NetworkFlowQuality netframes_size_uncompressed_p99
+         * @property {number|null} [netframes_size_uncompressed_max] CMsgSource2NetworkFlowQuality netframes_size_uncompressed_max
+         * @property {number|null} [netframes_msgs_p50] CMsgSource2NetworkFlowQuality netframes_msgs_p50
+         * @property {number|null} [netframes_msgs_p95] CMsgSource2NetworkFlowQuality netframes_msgs_p95
+         * @property {number|null} [netframes_msgs_p99] CMsgSource2NetworkFlowQuality netframes_msgs_p99
+         * @property {number|null} [netframes_msgs_max] CMsgSource2NetworkFlowQuality netframes_msgs_max
          * @property {number|null} [ticks_total] CMsgSource2NetworkFlowQuality ticks_total
          * @property {number|null} [ticks_good] CMsgSource2NetworkFlowQuality ticks_good
          * @property {number|null} [ticks_good_almost_late] CMsgSource2NetworkFlowQuality ticks_good_almost_late
@@ -1604,6 +1612,18 @@
          * @property {number|null} [net_ping_p5] CMsgSource2NetworkFlowQuality net_ping_p5
          * @property {number|null} [net_ping_p50] CMsgSource2NetworkFlowQuality net_ping_p50
          * @property {number|null} [net_ping_p95] CMsgSource2NetworkFlowQuality net_ping_p95
+         * @property {number|null} [msgproc_usec_p50] CMsgSource2NetworkFlowQuality msgproc_usec_p50
+         * @property {number|null} [msgproc_usec_p95] CMsgSource2NetworkFlowQuality msgproc_usec_p95
+         * @property {number|null} [msgproc_usec_p99] CMsgSource2NetworkFlowQuality msgproc_usec_p99
+         * @property {number|null} [msgproc_usec_max] CMsgSource2NetworkFlowQuality msgproc_usec_max
+         * @property {number|null} [msgproc_usec_avg_p50] CMsgSource2NetworkFlowQuality msgproc_usec_avg_p50
+         * @property {number|null} [msgproc_usec_avg_p95] CMsgSource2NetworkFlowQuality msgproc_usec_avg_p95
+         * @property {number|null} [msgproc_usec_avg_p99] CMsgSource2NetworkFlowQuality msgproc_usec_avg_p99
+         * @property {number|null} [msgproc_usec_avg_max] CMsgSource2NetworkFlowQuality msgproc_usec_avg_max
+         * @property {number|null} [queuedmsgs_p50] CMsgSource2NetworkFlowQuality queuedmsgs_p50
+         * @property {number|null} [queuedmsgs_p95] CMsgSource2NetworkFlowQuality queuedmsgs_p95
+         * @property {number|null} [queuedmsgs_p99] CMsgSource2NetworkFlowQuality queuedmsgs_p99
+         * @property {number|null} [queuedmsgs_max] CMsgSource2NetworkFlowQuality queuedmsgs_max
          */
     
         /**
@@ -1740,6 +1760,70 @@
          * @instance
          */
         CMsgSource2NetworkFlowQuality.prototype.netframes_size_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_size_uncompressed_p50.
+         * @member {number} netframes_size_uncompressed_p50
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_size_uncompressed_p50 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_size_uncompressed_p95.
+         * @member {number} netframes_size_uncompressed_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_size_uncompressed_p95 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_size_uncompressed_p99.
+         * @member {number} netframes_size_uncompressed_p99
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_size_uncompressed_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_size_uncompressed_max.
+         * @member {number} netframes_size_uncompressed_max
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_size_uncompressed_max = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_msgs_p50.
+         * @member {number} netframes_msgs_p50
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_msgs_p50 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_msgs_p95.
+         * @member {number} netframes_msgs_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_msgs_p95 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_msgs_p99.
+         * @member {number} netframes_msgs_p99
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_msgs_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality netframes_msgs_max.
+         * @member {number} netframes_msgs_max
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.netframes_msgs_max = 0;
     
         /**
          * CMsgSource2NetworkFlowQuality ticks_total.
@@ -1974,6 +2058,102 @@
         CMsgSource2NetworkFlowQuality.prototype.net_ping_p95 = 0;
     
         /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_p50.
+         * @member {number} msgproc_usec_p50
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_p50 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_p95.
+         * @member {number} msgproc_usec_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_p95 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_p99.
+         * @member {number} msgproc_usec_p99
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_max.
+         * @member {number} msgproc_usec_max
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_max = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_avg_p50.
+         * @member {number} msgproc_usec_avg_p50
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_avg_p50 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_avg_p95.
+         * @member {number} msgproc_usec_avg_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_avg_p95 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_avg_p99.
+         * @member {number} msgproc_usec_avg_p99
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_avg_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality msgproc_usec_avg_max.
+         * @member {number} msgproc_usec_avg_max
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.msgproc_usec_avg_max = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality queuedmsgs_p50.
+         * @member {number} queuedmsgs_p50
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.queuedmsgs_p50 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality queuedmsgs_p95.
+         * @member {number} queuedmsgs_p95
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.queuedmsgs_p95 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality queuedmsgs_p99.
+         * @member {number} queuedmsgs_p99
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.queuedmsgs_p99 = 0;
+    
+        /**
+         * CMsgSource2NetworkFlowQuality queuedmsgs_max.
+         * @member {number} queuedmsgs_max
+         * @memberof CMsgSource2NetworkFlowQuality
+         * @instance
+         */
+        CMsgSource2NetworkFlowQuality.prototype.queuedmsgs_max = 0;
+    
+        /**
          * Creates a new CMsgSource2NetworkFlowQuality instance using the specified properties.
          * @function create
          * @memberof CMsgSource2NetworkFlowQuality
@@ -2013,6 +2193,22 @@
                 writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.bytes_sec_p95);
             if (message.bytes_sec_p99 != null && Object.hasOwnProperty.call(message, "bytes_sec_p99"))
                 writer.uint32(/* id 11, wireType 0 =*/88).uint32(message.bytes_sec_p99);
+            if (message.netframes_size_uncompressed_p50 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p50"))
+                writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.netframes_size_uncompressed_p50);
+            if (message.netframes_size_uncompressed_p95 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p95"))
+                writer.uint32(/* id 13, wireType 0 =*/104).uint32(message.netframes_size_uncompressed_p95);
+            if (message.netframes_size_uncompressed_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p99"))
+                writer.uint32(/* id 14, wireType 0 =*/112).uint32(message.netframes_size_uncompressed_p99);
+            if (message.netframes_size_uncompressed_max != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_max"))
+                writer.uint32(/* id 15, wireType 0 =*/120).uint32(message.netframes_size_uncompressed_max);
+            if (message.netframes_msgs_p50 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p50"))
+                writer.uint32(/* id 16, wireType 0 =*/128).uint32(message.netframes_msgs_p50);
+            if (message.netframes_msgs_p95 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p95"))
+                writer.uint32(/* id 17, wireType 0 =*/136).uint32(message.netframes_msgs_p95);
+            if (message.netframes_msgs_p99 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p99"))
+                writer.uint32(/* id 18, wireType 0 =*/144).uint32(message.netframes_msgs_p99);
+            if (message.netframes_msgs_max != null && Object.hasOwnProperty.call(message, "netframes_msgs_max"))
+                writer.uint32(/* id 19, wireType 0 =*/152).uint32(message.netframes_msgs_max);
             if (message.enginemsgs_total != null && Object.hasOwnProperty.call(message, "enginemsgs_total"))
                 writer.uint32(/* id 20, wireType 0 =*/160).uint32(message.enginemsgs_total);
             if (message.enginemsgs_sec_p95 != null && Object.hasOwnProperty.call(message, "enginemsgs_sec_p95"))
@@ -2089,6 +2285,30 @@
                 writer.uint32(/* id 81, wireType 0 =*/648).uint32(message.net_ping_p50);
             if (message.net_ping_p95 != null && Object.hasOwnProperty.call(message, "net_ping_p95"))
                 writer.uint32(/* id 82, wireType 0 =*/656).uint32(message.net_ping_p95);
+            if (message.msgproc_usec_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p50"))
+                writer.uint32(/* id 90, wireType 0 =*/720).uint32(message.msgproc_usec_p50);
+            if (message.msgproc_usec_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p95"))
+                writer.uint32(/* id 91, wireType 0 =*/728).uint32(message.msgproc_usec_p95);
+            if (message.msgproc_usec_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p99"))
+                writer.uint32(/* id 92, wireType 0 =*/736).uint32(message.msgproc_usec_p99);
+            if (message.msgproc_usec_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_max"))
+                writer.uint32(/* id 93, wireType 0 =*/744).uint32(message.msgproc_usec_max);
+            if (message.msgproc_usec_avg_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p50"))
+                writer.uint32(/* id 94, wireType 0 =*/752).uint32(message.msgproc_usec_avg_p50);
+            if (message.msgproc_usec_avg_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p95"))
+                writer.uint32(/* id 95, wireType 0 =*/760).uint32(message.msgproc_usec_avg_p95);
+            if (message.msgproc_usec_avg_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p99"))
+                writer.uint32(/* id 96, wireType 0 =*/768).uint32(message.msgproc_usec_avg_p99);
+            if (message.msgproc_usec_avg_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_max"))
+                writer.uint32(/* id 97, wireType 0 =*/776).uint32(message.msgproc_usec_avg_max);
+            if (message.queuedmsgs_p50 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p50"))
+                writer.uint32(/* id 100, wireType 0 =*/800).uint32(message.queuedmsgs_p50);
+            if (message.queuedmsgs_p95 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p95"))
+                writer.uint32(/* id 101, wireType 0 =*/808).uint32(message.queuedmsgs_p95);
+            if (message.queuedmsgs_p99 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p99"))
+                writer.uint32(/* id 102, wireType 0 =*/816).uint32(message.queuedmsgs_p99);
+            if (message.queuedmsgs_max != null && Object.hasOwnProperty.call(message, "queuedmsgs_max"))
+                writer.uint32(/* id 103, wireType 0 =*/824).uint32(message.queuedmsgs_max);
             return writer;
         };
     
@@ -2197,6 +2417,38 @@
                     }
                 case 36: {
                         message.netframes_size_p99 = reader.uint32();
+                        break;
+                    }
+                case 12: {
+                        message.netframes_size_uncompressed_p50 = reader.uint32();
+                        break;
+                    }
+                case 13: {
+                        message.netframes_size_uncompressed_p95 = reader.uint32();
+                        break;
+                    }
+                case 14: {
+                        message.netframes_size_uncompressed_p99 = reader.uint32();
+                        break;
+                    }
+                case 15: {
+                        message.netframes_size_uncompressed_max = reader.uint32();
+                        break;
+                    }
+                case 16: {
+                        message.netframes_msgs_p50 = reader.uint32();
+                        break;
+                    }
+                case 17: {
+                        message.netframes_msgs_p95 = reader.uint32();
+                        break;
+                    }
+                case 18: {
+                        message.netframes_msgs_p99 = reader.uint32();
+                        break;
+                    }
+                case 19: {
+                        message.netframes_msgs_max = reader.uint32();
                         break;
                     }
                 case 40: {
@@ -2315,6 +2567,54 @@
                         message.net_ping_p95 = reader.uint32();
                         break;
                     }
+                case 90: {
+                        message.msgproc_usec_p50 = reader.uint32();
+                        break;
+                    }
+                case 91: {
+                        message.msgproc_usec_p95 = reader.uint32();
+                        break;
+                    }
+                case 92: {
+                        message.msgproc_usec_p99 = reader.uint32();
+                        break;
+                    }
+                case 93: {
+                        message.msgproc_usec_max = reader.uint32();
+                        break;
+                    }
+                case 94: {
+                        message.msgproc_usec_avg_p50 = reader.uint32();
+                        break;
+                    }
+                case 95: {
+                        message.msgproc_usec_avg_p95 = reader.uint32();
+                        break;
+                    }
+                case 96: {
+                        message.msgproc_usec_avg_p99 = reader.uint32();
+                        break;
+                    }
+                case 97: {
+                        message.msgproc_usec_avg_max = reader.uint32();
+                        break;
+                    }
+                case 100: {
+                        message.queuedmsgs_p50 = reader.uint32();
+                        break;
+                    }
+                case 101: {
+                        message.queuedmsgs_p95 = reader.uint32();
+                        break;
+                    }
+                case 102: {
+                        message.queuedmsgs_p99 = reader.uint32();
+                        break;
+                    }
+                case 103: {
+                        message.queuedmsgs_max = reader.uint32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7, long);
                     break;
@@ -2404,6 +2704,30 @@
             if (message.netframes_size_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_p99"))
                 if (!$util.isInteger(message.netframes_size_p99))
                     return "netframes_size_p99: integer expected";
+            if (message.netframes_size_uncompressed_p50 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p50"))
+                if (!$util.isInteger(message.netframes_size_uncompressed_p50))
+                    return "netframes_size_uncompressed_p50: integer expected";
+            if (message.netframes_size_uncompressed_p95 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p95"))
+                if (!$util.isInteger(message.netframes_size_uncompressed_p95))
+                    return "netframes_size_uncompressed_p95: integer expected";
+            if (message.netframes_size_uncompressed_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p99"))
+                if (!$util.isInteger(message.netframes_size_uncompressed_p99))
+                    return "netframes_size_uncompressed_p99: integer expected";
+            if (message.netframes_size_uncompressed_max != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_max"))
+                if (!$util.isInteger(message.netframes_size_uncompressed_max))
+                    return "netframes_size_uncompressed_max: integer expected";
+            if (message.netframes_msgs_p50 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p50"))
+                if (!$util.isInteger(message.netframes_msgs_p50))
+                    return "netframes_msgs_p50: integer expected";
+            if (message.netframes_msgs_p95 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p95"))
+                if (!$util.isInteger(message.netframes_msgs_p95))
+                    return "netframes_msgs_p95: integer expected";
+            if (message.netframes_msgs_p99 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p99"))
+                if (!$util.isInteger(message.netframes_msgs_p99))
+                    return "netframes_msgs_p99: integer expected";
+            if (message.netframes_msgs_max != null && Object.hasOwnProperty.call(message, "netframes_msgs_max"))
+                if (!$util.isInteger(message.netframes_msgs_max))
+                    return "netframes_msgs_max: integer expected";
             if (message.ticks_total != null && Object.hasOwnProperty.call(message, "ticks_total"))
                 if (!$util.isInteger(message.ticks_total))
                     return "ticks_total: integer expected";
@@ -2491,6 +2815,42 @@
             if (message.net_ping_p95 != null && Object.hasOwnProperty.call(message, "net_ping_p95"))
                 if (!$util.isInteger(message.net_ping_p95))
                     return "net_ping_p95: integer expected";
+            if (message.msgproc_usec_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p50"))
+                if (!$util.isInteger(message.msgproc_usec_p50))
+                    return "msgproc_usec_p50: integer expected";
+            if (message.msgproc_usec_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p95"))
+                if (!$util.isInteger(message.msgproc_usec_p95))
+                    return "msgproc_usec_p95: integer expected";
+            if (message.msgproc_usec_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p99"))
+                if (!$util.isInteger(message.msgproc_usec_p99))
+                    return "msgproc_usec_p99: integer expected";
+            if (message.msgproc_usec_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_max"))
+                if (!$util.isInteger(message.msgproc_usec_max))
+                    return "msgproc_usec_max: integer expected";
+            if (message.msgproc_usec_avg_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p50"))
+                if (!$util.isInteger(message.msgproc_usec_avg_p50))
+                    return "msgproc_usec_avg_p50: integer expected";
+            if (message.msgproc_usec_avg_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p95"))
+                if (!$util.isInteger(message.msgproc_usec_avg_p95))
+                    return "msgproc_usec_avg_p95: integer expected";
+            if (message.msgproc_usec_avg_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p99"))
+                if (!$util.isInteger(message.msgproc_usec_avg_p99))
+                    return "msgproc_usec_avg_p99: integer expected";
+            if (message.msgproc_usec_avg_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_max"))
+                if (!$util.isInteger(message.msgproc_usec_avg_max))
+                    return "msgproc_usec_avg_max: integer expected";
+            if (message.queuedmsgs_p50 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p50"))
+                if (!$util.isInteger(message.queuedmsgs_p50))
+                    return "queuedmsgs_p50: integer expected";
+            if (message.queuedmsgs_p95 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p95"))
+                if (!$util.isInteger(message.queuedmsgs_p95))
+                    return "queuedmsgs_p95: integer expected";
+            if (message.queuedmsgs_p99 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p99"))
+                if (!$util.isInteger(message.queuedmsgs_p99))
+                    return "queuedmsgs_p99: integer expected";
+            if (message.queuedmsgs_max != null && Object.hasOwnProperty.call(message, "queuedmsgs_max"))
+                if (!$util.isInteger(message.queuedmsgs_max))
+                    return "queuedmsgs_max: integer expected";
             return null;
         };
     
@@ -2563,6 +2923,22 @@
                 message.netframes_size_p95 = object.netframes_size_p95 >>> 0;
             if (object.netframes_size_p99 != null)
                 message.netframes_size_p99 = object.netframes_size_p99 >>> 0;
+            if (object.netframes_size_uncompressed_p50 != null)
+                message.netframes_size_uncompressed_p50 = object.netframes_size_uncompressed_p50 >>> 0;
+            if (object.netframes_size_uncompressed_p95 != null)
+                message.netframes_size_uncompressed_p95 = object.netframes_size_uncompressed_p95 >>> 0;
+            if (object.netframes_size_uncompressed_p99 != null)
+                message.netframes_size_uncompressed_p99 = object.netframes_size_uncompressed_p99 >>> 0;
+            if (object.netframes_size_uncompressed_max != null)
+                message.netframes_size_uncompressed_max = object.netframes_size_uncompressed_max >>> 0;
+            if (object.netframes_msgs_p50 != null)
+                message.netframes_msgs_p50 = object.netframes_msgs_p50 >>> 0;
+            if (object.netframes_msgs_p95 != null)
+                message.netframes_msgs_p95 = object.netframes_msgs_p95 >>> 0;
+            if (object.netframes_msgs_p99 != null)
+                message.netframes_msgs_p99 = object.netframes_msgs_p99 >>> 0;
+            if (object.netframes_msgs_max != null)
+                message.netframes_msgs_max = object.netframes_msgs_max >>> 0;
             if (object.ticks_total != null)
                 message.ticks_total = object.ticks_total >>> 0;
             if (object.ticks_good != null)
@@ -2621,6 +2997,30 @@
                 message.net_ping_p50 = object.net_ping_p50 >>> 0;
             if (object.net_ping_p95 != null)
                 message.net_ping_p95 = object.net_ping_p95 >>> 0;
+            if (object.msgproc_usec_p50 != null)
+                message.msgproc_usec_p50 = object.msgproc_usec_p50 >>> 0;
+            if (object.msgproc_usec_p95 != null)
+                message.msgproc_usec_p95 = object.msgproc_usec_p95 >>> 0;
+            if (object.msgproc_usec_p99 != null)
+                message.msgproc_usec_p99 = object.msgproc_usec_p99 >>> 0;
+            if (object.msgproc_usec_max != null)
+                message.msgproc_usec_max = object.msgproc_usec_max >>> 0;
+            if (object.msgproc_usec_avg_p50 != null)
+                message.msgproc_usec_avg_p50 = object.msgproc_usec_avg_p50 >>> 0;
+            if (object.msgproc_usec_avg_p95 != null)
+                message.msgproc_usec_avg_p95 = object.msgproc_usec_avg_p95 >>> 0;
+            if (object.msgproc_usec_avg_p99 != null)
+                message.msgproc_usec_avg_p99 = object.msgproc_usec_avg_p99 >>> 0;
+            if (object.msgproc_usec_avg_max != null)
+                message.msgproc_usec_avg_max = object.msgproc_usec_avg_max >>> 0;
+            if (object.queuedmsgs_p50 != null)
+                message.queuedmsgs_p50 = object.queuedmsgs_p50 >>> 0;
+            if (object.queuedmsgs_p95 != null)
+                message.queuedmsgs_p95 = object.queuedmsgs_p95 >>> 0;
+            if (object.queuedmsgs_p99 != null)
+                message.queuedmsgs_p99 = object.queuedmsgs_p99 >>> 0;
+            if (object.queuedmsgs_max != null)
+                message.queuedmsgs_max = object.queuedmsgs_max >>> 0;
             return message;
         };
     
@@ -2660,6 +3060,14 @@
                     object.bytes_total_voice = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.bytes_sec_p95 = 0;
                 object.bytes_sec_p99 = 0;
+                object.netframes_size_uncompressed_p50 = 0;
+                object.netframes_size_uncompressed_p95 = 0;
+                object.netframes_size_uncompressed_p99 = 0;
+                object.netframes_size_uncompressed_max = 0;
+                object.netframes_msgs_p50 = 0;
+                object.netframes_msgs_p95 = 0;
+                object.netframes_msgs_p99 = 0;
+                object.netframes_msgs_max = 0;
                 object.enginemsgs_total = 0;
                 object.enginemsgs_sec_p95 = 0;
                 object.enginemsgs_sec_p99 = 0;
@@ -2698,6 +3106,18 @@
                 object.net_ping_p5 = 0;
                 object.net_ping_p50 = 0;
                 object.net_ping_p95 = 0;
+                object.msgproc_usec_p50 = 0;
+                object.msgproc_usec_p95 = 0;
+                object.msgproc_usec_p99 = 0;
+                object.msgproc_usec_max = 0;
+                object.msgproc_usec_avg_p50 = 0;
+                object.msgproc_usec_avg_p95 = 0;
+                object.msgproc_usec_avg_p99 = 0;
+                object.msgproc_usec_avg_max = 0;
+                object.queuedmsgs_p50 = 0;
+                object.queuedmsgs_p95 = 0;
+                object.queuedmsgs_p99 = 0;
+                object.queuedmsgs_max = 0;
             }
             if (message.duration != null && Object.hasOwnProperty.call(message, "duration"))
                 object.duration = message.duration;
@@ -2726,6 +3146,22 @@
                 object.bytes_sec_p95 = message.bytes_sec_p95;
             if (message.bytes_sec_p99 != null && Object.hasOwnProperty.call(message, "bytes_sec_p99"))
                 object.bytes_sec_p99 = message.bytes_sec_p99;
+            if (message.netframes_size_uncompressed_p50 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p50"))
+                object.netframes_size_uncompressed_p50 = message.netframes_size_uncompressed_p50;
+            if (message.netframes_size_uncompressed_p95 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p95"))
+                object.netframes_size_uncompressed_p95 = message.netframes_size_uncompressed_p95;
+            if (message.netframes_size_uncompressed_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p99"))
+                object.netframes_size_uncompressed_p99 = message.netframes_size_uncompressed_p99;
+            if (message.netframes_size_uncompressed_max != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_max"))
+                object.netframes_size_uncompressed_max = message.netframes_size_uncompressed_max;
+            if (message.netframes_msgs_p50 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p50"))
+                object.netframes_msgs_p50 = message.netframes_msgs_p50;
+            if (message.netframes_msgs_p95 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p95"))
+                object.netframes_msgs_p95 = message.netframes_msgs_p95;
+            if (message.netframes_msgs_p99 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p99"))
+                object.netframes_msgs_p99 = message.netframes_msgs_p99;
+            if (message.netframes_msgs_max != null && Object.hasOwnProperty.call(message, "netframes_msgs_max"))
+                object.netframes_msgs_max = message.netframes_msgs_max;
             if (message.enginemsgs_total != null && Object.hasOwnProperty.call(message, "enginemsgs_total"))
                 object.enginemsgs_total = message.enginemsgs_total;
             if (message.enginemsgs_sec_p95 != null && Object.hasOwnProperty.call(message, "enginemsgs_sec_p95"))
@@ -2802,6 +3238,30 @@
                 object.net_ping_p50 = message.net_ping_p50;
             if (message.net_ping_p95 != null && Object.hasOwnProperty.call(message, "net_ping_p95"))
                 object.net_ping_p95 = message.net_ping_p95;
+            if (message.msgproc_usec_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p50"))
+                object.msgproc_usec_p50 = message.msgproc_usec_p50;
+            if (message.msgproc_usec_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p95"))
+                object.msgproc_usec_p95 = message.msgproc_usec_p95;
+            if (message.msgproc_usec_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p99"))
+                object.msgproc_usec_p99 = message.msgproc_usec_p99;
+            if (message.msgproc_usec_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_max"))
+                object.msgproc_usec_max = message.msgproc_usec_max;
+            if (message.msgproc_usec_avg_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p50"))
+                object.msgproc_usec_avg_p50 = message.msgproc_usec_avg_p50;
+            if (message.msgproc_usec_avg_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p95"))
+                object.msgproc_usec_avg_p95 = message.msgproc_usec_avg_p95;
+            if (message.msgproc_usec_avg_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p99"))
+                object.msgproc_usec_avg_p99 = message.msgproc_usec_avg_p99;
+            if (message.msgproc_usec_avg_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_max"))
+                object.msgproc_usec_avg_max = message.msgproc_usec_avg_max;
+            if (message.queuedmsgs_p50 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p50"))
+                object.queuedmsgs_p50 = message.queuedmsgs_p50;
+            if (message.queuedmsgs_p95 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p95"))
+                object.queuedmsgs_p95 = message.queuedmsgs_p95;
+            if (message.queuedmsgs_p99 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p99"))
+                object.queuedmsgs_p99 = message.queuedmsgs_p99;
+            if (message.queuedmsgs_max != null && Object.hasOwnProperty.call(message, "queuedmsgs_max"))
+                object.queuedmsgs_max = message.queuedmsgs_max;
             return object;
         };
     

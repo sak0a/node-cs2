@@ -2,8 +2,8 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
-const REPO_API_URL = 'https://api.github.com/repos/SteamTracking/GameTracking-CS2/contents/Protobufs';
-const RAW_BASE_URL = 'https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/master/Protobufs';
+const REPO_API_URL = 'https://api.github.com/repos/SteamTracking/GameTracking-CS2';
+const RAW_BASE_URL = 'https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2';
 const PROTO_DIR = path.join(__dirname, '..', 'protobufs');
 
 function fetch(url) {
@@ -23,16 +23,16 @@ function fetch(url) {
 	});
 }
 
-async function getFileList(apiUrl) {
+async function getFileList(apiUrl, ref) {
 	const data = JSON.parse(await fetch(apiUrl));
 	let files = [];
 
 	for (const entry of data) {
 		if (entry.type === 'file' && entry.name.endsWith('.proto')) {
-			files.push({name: entry.name, download_url: entry.download_url, path: entry.path});
+			files.push({name: entry.name, download_url: entry.download_url, path: entry.path.slice('Protobufs/'.length)});
 		} else if (entry.type === 'dir') {
-			const subFiles = await getFileList(entry.url);
-			files = files.concat(subFiles.map((f) => ({...f, subdir: entry.name})));
+			const subFiles = await getFileList(`${REPO_API_URL}/contents/${entry.path}?ref=${ref}`, ref);
+			files = files.concat(subFiles);
 		}
 	}
 
@@ -41,7 +41,10 @@ async function getFileList(apiUrl) {
 
 async function main() {
 	console.log('Fetching file list from GameTracking-CS2...');
-	const files = await getFileList(REPO_API_URL);
+	const commit = JSON.parse(await fetch(`${REPO_API_URL}/commits/${encodeURIComponent(process.env.PROTO_REF || 'master')}`));
+	const ref = commit.sha;
+	console.log(`Upstream snapshot: ${ref}`);
+	const files = await getFileList(`${REPO_API_URL}/contents/Protobufs?ref=${ref}`, ref);
 	console.log(`Found ${files.length} proto files\n`);
 
 	let updated = 0;
@@ -49,13 +52,11 @@ async function main() {
 	let added = 0;
 
 	for (const file of files) {
-		const subdir = file.subdir || '';
+		const subdir = path.dirname(file.path) === '.' ? '' : path.dirname(file.path);
 		const destDir = subdir ? path.join(PROTO_DIR, subdir) : PROTO_DIR;
 		const destPath = path.join(destDir, file.name);
 
-		const rawUrl = subdir
-			? `${RAW_BASE_URL}/${subdir}/${file.name}`
-			: `${RAW_BASE_URL}/${file.name}`;
+		const rawUrl = `${RAW_BASE_URL}/${ref}/Protobufs/${file.path}`;
 
 		const content = await fetch(rawUrl);
 

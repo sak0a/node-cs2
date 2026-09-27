@@ -1325,6 +1325,18 @@ NodeCS2.prototype.commendPlayer = function (accountId, commendation, matchId, to
 	this._send(Language.ClientCommendPlayer, Protos.CMsgGCCStrike15_v2_ClientCommendPlayer, body);
 };
 
+/**
+ * Acknowledge a pet event. The protocol defines no response.
+ * @param {string} petItemId - Non-zero uint64 item ID as a decimal string
+ */
+NodeCS2.prototype.ackPetEvent = function (petItemId) {
+	if (typeof petItemId !== 'string' || !/^[1-9]\d{0,19}$/.test(petItemId) ||
+		(petItemId.length === 20 && petItemId > '18446744073709551615')) {
+		throw new Error('petItemId must be a non-zero uint64 decimal string');
+	}
+	this._send(Language.AckPetEvent, Protos.CMsgAckPetEvent, { pet_item_id: petItemId });
+};
+
 NodeCS2.prototype._handlers = {};
 
 require('./enums.js');
