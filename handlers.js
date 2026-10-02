@@ -79,6 +79,7 @@ handlers[Language.ClientWelcome] = function (body) {
 
 					this.inventory = Array.from(new Map(items.map((item) => [item.id, item])).values());
 					const version = proto.outofdate_subscribed_caches[0].version;
+					this._soSnapshotVersion = version == null ? null : BigInt(version);
 					this._soVersions = new Map(version == null ? [] : this.inventory.map((item) => [item.id, BigInt(version)]));
 					break;
 				/*case 7:
@@ -634,9 +635,11 @@ NodeCS2.prototype._normalizeInspectItem = function (item) {
 // so an old create cannot resurrect a destroyed item within the current cache.
 NodeCS2.prototype._acceptSOVersion = function (id, version) {
 	if (version == null) return true;
+	const incoming = BigInt(version);
+	if (this._soSnapshotVersion != null && incoming <= this._soSnapshotVersion) return false;
 	this._soVersions = this._soVersions || new Map();
 	const previous = this._soVersions.get(String(id));
-	if (previous !== undefined && BigInt(version) <= previous) return false;
-	this._soVersions.set(String(id), BigInt(version));
+	if (previous !== undefined && incoming <= previous) return false;
+	this._soVersions.set(String(id), incoming);
 	return true;
 };

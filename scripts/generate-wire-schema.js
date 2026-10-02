@@ -30,7 +30,12 @@ function visit(type) {
 					: ['float', 'fixed32', 'sfixed32'].includes(field.type)
 						? 5
 						: 0;
-		fields[field.id] = [wire, nested, !!field.repeated && wire !== 2, field.type];
+		fields[field.id] = [
+			wire,
+			nested,
+			!!field.repeated && wire !== 2,
+			field.resolvedType instanceof pb.Enum ? 'enum' : field.type
+		];
 	}
 	return name;
 }

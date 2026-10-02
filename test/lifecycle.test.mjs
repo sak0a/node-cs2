@@ -257,3 +257,27 @@ it('rejects incoming known uint32 overflow and ignores missing connection status
 	steam.receive(L.Client2GCEconPreviewDataBlockResponse, bytes(1, [...uint(2, 11), ...uint(3, '4294967296')]));
 	expect(errors).toHaveBeenCalledOnce();
 });
+it('rejects int32 overflow and invalid UTF-8, while preserving signed encodings', () => {
+	const errors = vi.fn(),
+		items = vi.fn();
+	cs.on('error', errors);
+	cs.on('inspectItemInfo', items);
+	const response = (fields) => bytes(1, [...uint(2, 11), ...fields]);
+	steam.receive(L.Client2GCEconPreviewDataBlockResponse, response(uint(18, '4294967296')));
+	steam.receive(L.Client2GCEconPreviewDataBlockResponse, response(bytes(11, [0xc0, 0xaf])));
+	expect(errors).toHaveBeenCalledTimes(2);
+	expect(items).not.toHaveBeenCalled();
+	for (const value of ['4294967295', '18446744073709551615']) {
+		steam.receive(L.Client2GCEconPreviewDataBlockResponse, response(uint(18, value)));
+	}
+	expect(items.mock.calls.map((call) => call[0].entindex)).toEqual([-1, -1]);
+});
+it('authoritative empty inventory snapshot rejects stale unknown creates and updates', () => {
+	steam.receive(L.ClientWelcome, bytes(3, [...bytes(2, uint(1, 1)), ...fixed64(3, 10)]));
+	const so = (v) => [...uint(2, 1), ...bytes(3, uint(1, 11)), ...fixed64(4, v)];
+	steam.receive(L.SO_Create, so(9));
+	steam.receive(L.SO_Update, so(10));
+	expect(cs.inventory).toEqual([]);
+	steam.receive(L.SO_Create, so(11));
+	expect(cs.inventory).toHaveLength(1);
+});
