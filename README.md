@@ -201,3 +201,15 @@ MIT License - see [LICENSE](LICENSE) file for details.
 Use Node.js 24+ for the current lint and test tooling. The published library retains Node.js 14+ runtime support. The development dependency uses `steam-user` 5; consumers may continue using the supported `steam-user` 4 API.
 
 To refresh protocols, run `npm run update-protos`. Each download uses one upstream commit; set `PROTO_REF=<commit>` to reproduce a specific snapshot.
+
+## Verification and request lifecycle
+
+See the [feature support matrix and migration notes](FEATURE_SUPPORT.md) for separate
+payload, decoding, offline lifecycle, and live evidence. Version 2.6 adds
+`cancelPendingRequests()`, `dispose()`, typed response events, and structured
+`NodeCS2.RequestError` failures. Sent failures quarantine their correlation key; mutations
+are never automatically retried. Existing callback and Promise signatures are retained.
+
+Run `npm test`, `npm run test:types`, and `npm run test:consumer` for offline verification.
+Authenticated checks are explicitly opt-in through `npm run test:live`; see the matrix
+for credential setup and individual mutation selection. No live behavior is claimed here.

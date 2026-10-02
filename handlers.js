@@ -17,18 +17,18 @@ const handlers = NodeCS2.prototype._handlers;
  */
 NodeCS2.prototype._mapStickerLikeItem = function (stickerLike) {
 	return {
-		slot: stickerLike.slot || 0,
-		sticker_id: stickerLike.sticker_id || 0,
-		wear: stickerLike.wear || null,
-		scale: stickerLike.scale || null,
-		rotation: stickerLike.rotation || null,
-		tint_id: stickerLike.tint_id || null,
-		offset_x: stickerLike.offset_x || null,
-		offset_y: stickerLike.offset_y || null,
-		offset_z: stickerLike.offset_z || null,
-		pattern: stickerLike.pattern || null,
-		highlight_reel: stickerLike.highlight_reel || null,
-		wrapped_sticker: stickerLike.wrapped_sticker || null
+		slot: stickerLike.slot ?? 0,
+		sticker_id: stickerLike.sticker_id ?? 0,
+		wear: stickerLike.wear ?? null,
+		scale: stickerLike.scale ?? null,
+		rotation: stickerLike.rotation ?? null,
+		tint_id: stickerLike.tint_id ?? null,
+		offset_x: stickerLike.offset_x ?? null,
+		offset_y: stickerLike.offset_y ?? null,
+		offset_z: stickerLike.offset_z ?? null,
+		pattern: stickerLike.pattern ?? null,
+		highlight_reel: stickerLike.highlight_reel ?? null,
+		wrapped_sticker: stickerLike.wrapped_sticker ?? null
 	};
 };
 
@@ -77,7 +77,10 @@ handlers[Language.ClientWelcome] = function (body) {
 						})
 						.filter((item) => item !== null);
 
-					this.inventory = items;
+					this.inventory = Array.from(new Map(items.map((item) => [item.id, item])).values());
+					const version = proto.outofdate_subscribed_caches[0].version;
+					this._soSnapshotVersion = version == null ? null : BigInt(version);
+					this._soVersions = new Map(version == null ? [] : this.inventory.map((item) => [item.id, BigInt(version)]));
 					break;
 				/*case 7:
 					// Account metadata - this doesn't appear to be useful in CS:GO
@@ -125,7 +128,7 @@ handlers[Language.ClientConnectionStatus] = function (body) {
 		return;
 	}
 
-	if (!proto || typeof proto.status === 'undefined') {
+	if (!proto || proto.status == null) {
 		this.emit('debug', 'ClientConnectionStatus missing status field');
 		return;
 	}
@@ -145,6 +148,7 @@ handlers[Language.ClientConnectionStatus] = function (body) {
 	);
 
 	if (proto.status != NodeCS2.GCConnectionStatus.HAVE_SESSION && this.haveGCSession) {
+		this.cancelPendingRequests('DISCONNECTED');
 		this.emit('disconnectedFromGC', proto.status);
 		this.haveGCSession = false;
 		this._connect(); // Try to reconnect
@@ -178,17 +182,15 @@ handlers[Language.PlayersProfile] = function (body) {
 		return;
 	}
 
-	const profile = proto.account_profiles[0];
-
-	if (!profile.account_id) {
-		this.emit('debug', 'PlayersProfile missing account_id');
-		return;
+	for (const profile of proto.account_profiles) {
+		if (!profile.account_id) {
+			this.emit('debug', 'PlayersProfile missing account_id');
+			continue;
+		}
+		const sid = SteamID.fromIndividualAccountID(profile.account_id);
+		this.emit('playersProfile', profile);
+		this.emit('playersProfile#' + sid.getSteamID64(), profile);
 	}
-
-	const sid = SteamID.fromIndividualAccountID(profile.account_id);
-
-	this.emit('playersProfile', profile);
-	this.emit('playersProfile#' + sid.getSteamID64(), profile);
 };
 
 // Inspecting items
@@ -209,7 +211,7 @@ handlers[Language.Client2GCEconPreviewDataBlockResponse] = function (body) {
 	const item = proto.iteminfo;
 
 	// Validate critical fields
-	if (typeof item.itemid === 'undefined') {
+	if (item.itemid == null) {
 		this.emit('debug', 'Item inspection missing itemid');
 		return;
 	}
@@ -294,17 +296,18 @@ handlers[Language.MatchmakingGC2ClientSearchStats] = function (body) {
 
 // Item manipulation
 handlers[Language.CraftResponse] = function (body) {
-	const blueprint = body.readInt16(); // recipe ID
-	const unknown = body.readUint32(); // always 0 in my experience
-
-	const idCount = body.readUint16();
-	const idList = []; // let's form an array of IDs
-
-	for (let i = 0; i < idCount; i++) {
-		const id = body.readUint64().toString(); // grab the next id
-		idList.push(id); // item id
+	let blueprint;
+	const idList = [];
+	try {
+		blueprint = body.readInt16();
+		body.readUint32(); // reserved
+		const idCount = body.readUint16();
+		if (body.remaining() < idCount * 8) throw new Error('Truncated item IDs');
+		for (let i = 0; i < idCount; i++) idList.push(body.readUint64().toString());
+	} catch (error) {
+		this.emit('error', new Error(`Failed to decode CraftResponse: ${error.message}`));
+		return;
 	}
-
 	this.emit('craftingComplete', blueprint, idList);
 };
 
@@ -335,7 +338,7 @@ NodeCS2.prototype._processSOEconItem = function (item) {
 	const casketIdLow = getAttributeValueBytes(Constants.ATTRIB_CASKET_ID_LOW);
 	const casketIdHigh = getAttributeValueBytes(Constants.ATTRIB_CASKET_ID_HIGH);
 	if (casketIdLow && casketIdHigh) {
-		const casketIdLong = new Long(casketIdLow.readUInt32LE(0), casketIdHigh.readUInt32LE(0));
+		const casketIdLong = new Long(casketIdLow.readUInt32LE(0), casketIdHigh.readUInt32LE(0), true);
 		item.casket_id = casketIdLong.toString();
 	}
 
@@ -442,7 +445,8 @@ NodeCS2.prototype._processSOEconItem = function (item) {
 	 */
 	function getAttributeValueBytes(attribDefIndex) {
 		const attrib = (item.attribute || []).find((attrib) => attrib.def_index == attribDefIndex);
-		return attrib ? attrib.value_bytes : null;
+		const bytes = attrib ? attrib.value_bytes : null;
+		return bytes && bytes.length >= (attribDefIndex === Constants.ATTRIB_CUSTOM_NAME ? 2 : 4) ? bytes : null;
 	}
 };
 
@@ -474,7 +478,12 @@ NodeCS2.prototype._handleSOCreate = function (proto) {
 		return;
 	}
 
+	if (!item || !item.id) return;
+	if (this.inventory.some((entry) => entry.id === item.id)) return this._handleSOUpdate(proto);
+	if (!this._acceptSOVersion(item.id, proto.version)) return;
 	this._processSOEconItem(item);
+	const existing = this.inventory.findIndex((entry) => entry.id === item.id);
+	if (existing !== -1) return;
 	this.inventory.push(item);
 
 	this.emit('itemAcquired', item);
@@ -513,11 +522,18 @@ NodeCS2.prototype._handleSOUpdate = function (so) {
 		return;
 	}
 
+	if (!this._acceptSOVersion(item.id, so.version)) return;
 	this._processSOEconItem(item);
+	if (!this.inventory.some((entry) => entry.id === item.id)) {
+		this.inventory.push(item);
+		this.emit('itemAcquired', item);
+		return;
+	}
 
 	for (let i = 0; i < this.inventory.length; i++) {
 		if (this.inventory[i].id == item.id) {
 			const oldItem = this.inventory[i];
+			if (require('util').isDeepStrictEqual(oldItem, item)) return;
 			this.inventory[i] = item;
 
 			this.emit('itemChanged', oldItem, item);
@@ -559,6 +575,7 @@ NodeCS2.prototype._handleSODestroy = function (proto) {
 		return;
 	}
 
+	if (!this._acceptSOVersion(item.id, proto.version)) return;
 	item.id = item.id.toString();
 	let itemData = null;
 	for (let i = 0; i < this.inventory.length; i++) {
@@ -569,7 +586,7 @@ NodeCS2.prototype._handleSODestroy = function (proto) {
 		}
 	}
 
-	this.emit('itemRemoved', itemData);
+	if (itemData) this.emit('itemRemoved', itemData);
 };
 
 handlers[Language.SO_UpdateMultiple] = function (body) {
@@ -581,9 +598,7 @@ handlers[Language.SO_UpdateMultiple] = function (body) {
 		return;
 	}
 
-	(proto.objects_added || []).forEach((item) => this._handleSOCreate(item));
-	(proto.objects_modified || []).forEach((item) => this._handleSOUpdate(item));
-	(proto.objects_removed || []).forEach((item) => this._handleSODestroy(item));
+	(proto.objects_modified || []).forEach((item) => this._handleSOUpdate({ ...item, version: proto.version }));
 };
 
 NodeCS2.prototype._normalizeInspectItem = function (item) {
@@ -592,7 +607,7 @@ NodeCS2.prototype._normalizeInspectItem = function (item) {
 	item.customname = item.customnames.length ? item.customnames[item.customnames.length - 1] : null;
 
 	// decode the wear
-	if (typeof item.paintwear !== 'undefined') {
+	if (item.paintwear != null) {
 		const buf = Buffer.alloc(4);
 		buf.writeUInt32BE(item.paintwear, 0);
 		item.paintwear = buf.readFloatBE(0);
@@ -614,4 +629,17 @@ NodeCS2.prototype._normalizeInspectItem = function (item) {
 	}
 
 	return item;
+};
+
+// Compare decimal uint64 cache versions without losing precision. Track tombstones
+// so an old create cannot resurrect a destroyed item within the current cache.
+NodeCS2.prototype._acceptSOVersion = function (id, version) {
+	if (version == null) return true;
+	const incoming = BigInt(version);
+	if (this._soSnapshotVersion != null && incoming <= this._soSnapshotVersion) return false;
+	this._soVersions = this._soVersions || new Map();
+	const previous = this._soVersions.get(String(id));
+	if (previous !== undefined && incoming <= previous) return false;
+	this._soVersions.set(String(id), incoming);
+	return true;
 };

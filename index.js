@@ -8,6 +8,8 @@ const Language = require('./language.js');
 const Protos = require('./protobufs/generated/_load.js');
 const Constants = require('./constants.js');
 const decodeInspectLink = require('./lib/inspect-link.js');
+const { request, RequestError } = require('./lib/request.js');
+NodeCS2.RequestError = RequestError;
 
 const STEAM_APPID = Constants.STEAM_APPID;
 
@@ -30,8 +32,13 @@ function NodeCS2(steam) {
 	this._steam = steam;
 	this.haveGCSession = false;
 	this._isInCSGO = false;
+	this._transportListeners = [];
+	const listen = (event, listener) => {
+		this._transportListeners.push([event, listener]);
+		this._steam.on(event, listener);
+	};
 
-	this._steam.on('receivedFromGC', (appid, msgType, payload) => {
+	listen('receivedFromGC', (appid, msgType, payload) => {
 		if (appid != STEAM_APPID) {
 			return; // we don't care
 		}
@@ -60,7 +67,7 @@ function NodeCS2(steam) {
 		}
 	});
 
-	this._steam.on('appLaunched', (appid) => {
+	listen('appLaunched', (appid) => {
 		if (this._isInCSGO) {
 			return; // we don't care if it was launched again
 		}
@@ -74,6 +81,9 @@ function NodeCS2(steam) {
 	});
 
 	const handleAppQuit = (emitDisconnectEvent) => {
+		clearTimeout(this._helloTimer);
+		this._helloTimer = null;
+		this.cancelPendingRequests('DISCONNECTED');
 		if (this._helloInterval) {
 			clearInterval(this._helloInterval);
 			this._helloInterval = null;
@@ -87,7 +97,7 @@ function NodeCS2(steam) {
 		this.haveGCSession = false;
 	};
 
-	this._steam.on('appQuit', (appid) => {
+	listen('appQuit', (appid) => {
 		if (!this._isInCSGO) {
 			return;
 		}
@@ -97,11 +107,11 @@ function NodeCS2(steam) {
 		}
 	});
 
-	this._steam.on('disconnected', () => {
+	listen('disconnected', () => {
 		handleAppQuit(true);
 	});
 
-	this._steam.on('error', (err) => {
+	listen('error', (err) => {
 		handleAppQuit(true);
 	});
 }
@@ -147,7 +157,7 @@ NodeCS2.prototype.helloGC = function () {
 };
 
 NodeCS2.prototype._send = function (type, protobuf, body) {
-	if (!this._steam.steamID) {
+	if (this._disposed || !this._steam.steamID) {
 		return false;
 	}
 
@@ -258,82 +268,67 @@ NodeCS2.prototype.inspectItem = function (owner, assetid, d, callback) {
 	}
 
 	let match;
-	if (typeof owner === 'string' && (match = owner.match(/[SM](\d+)A(\d+)D(\d+)$/))) {
+	let ownerKind;
+	if (typeof owner === 'string' && (match = owner.match(/([SM])(\d+)A(\d+)D(\d+)$/))) {
 		callback = assetid;
-		owner = match[1];
-		assetid = match[2];
-		d = match[3];
+		ownerKind = match[1];
+		owner = match[2];
+		assetid = match[3];
+		d = match[4];
 	}
 
-	const msg = {
-		param_a: assetid,
-		param_d: d,
-		param_s: 0,
-		param_m: 0
+	// protobufjs coerces and wraps invalid integers; reject before any send and use
+	// canonical keys so a response without leading zeroes reaches its request.
+	const uint64 = (value, field) => {
+		if (typeof value === 'number' && Number.isSafeInteger(value) && value >= 0) value = String(value);
+		if (typeof value !== 'string' || !/^\d+$/.test(value) || BigInt(value) > 18446744073709551615n) {
+			throw new RangeError(`${field} must be a uint64 decimal string or a safe non-negative integer`);
+		}
+		return BigInt(value).toString();
 	};
-
-	if (typeof owner === 'object') {
-		owner = owner.toString();
-	}
-
+	if (owner && typeof owner === 'object') owner = owner.toString();
+	owner = uint64(owner, 'owner');
+	assetid = uint64(assetid, 'assetid');
+	d = uint64(d, 'd');
+	const msg = { param_a: assetid, param_d: d, param_s: 0, param_m: 0 };
+	let validSteamID = false;
 	try {
 		const sid = new SteamID(owner);
-		if (
-			!sid.isValid() ||
-			sid.universe != SteamID.Universe.PUBLIC ||
-			sid.type != SteamID.Type.INDIVIDUAL ||
-			sid.instance != SteamID.Instance.DESKTOP
-		) {
-			throw 0;
-		}
-		// it's a valid steamid
-		msg.param_s = owner;
-	} catch (e) {
-		msg.param_m = owner;
+		validSteamID =
+			sid.isValid() &&
+			sid.universe === SteamID.Universe.PUBLIC &&
+			sid.type === SteamID.Type.INDIVIDUAL &&
+			sid.instance === SteamID.Instance.DESKTOP;
+	} catch (error) {
+		/* Non-SteamID uint64 values identify market listings. */
 	}
+	if (ownerKind === 'S' && !validSteamID) throw new RangeError('S owner must be a valid individual SteamID');
+	if (ownerKind === 'M' || (!ownerKind && !validSteamID)) msg.param_m = owner;
+	else msg.param_s = owner;
 
-	this._send(
-		Language.Client2GCEconPreviewDataBlockRequest,
-		Protos.CMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockRequest,
-		msg
-	);
-
-	// Support both callback and Promise-based API
-	if (callback) {
-		const listener = (item) => {
-			clearTimeout(timeout);
-			callback(item);
-		};
-		const timeout = setTimeout(() => {
-			this.removeListener('inspectItemInfo#' + assetid, listener);
-			this.emit('inspectItemTimedOut', assetid);
-			this.emit('inspectItemTimedOut#' + assetid, assetid);
-		}, this._inspectTimeout || Constants.INSPECT_ITEM_TIMEOUT_MS);
-
-		this.once('inspectItemInfo#' + assetid, listener);
-	} else {
-		// Return Promise when no callback provided
-		return new Promise((resolve, reject) => {
-			const successListener = (item) => {
-				clearTimeout(timeout);
-				this.removeListener('inspectItemTimedOut#' + assetid, timeoutListener);
-				resolve(item);
-			};
-			const timeoutListener = () => {
-				this.removeListener('inspectItemInfo#' + assetid, successListener);
-				reject(new Error(`Inspect item timed out for assetid: ${assetid}`));
-			};
-
-			const timeout = setTimeout(() => {
-				this.removeListener('inspectItemInfo#' + assetid, successListener);
+	return request(
+		this,
+		{
+			key: 'inspect:' + assetid,
+			event: 'inspectItemInfo#' + assetid,
+			timeout: this._inspectTimeout || Constants.INSPECT_ITEM_TIMEOUT_MS,
+			message: `Inspect item timed out for assetid: ${assetid}`,
+			onTimeout: () => {
 				this.emit('inspectItemTimedOut', assetid);
 				this.emit('inspectItemTimedOut#' + assetid, assetid);
-			}, this._inspectTimeout || Constants.INSPECT_ITEM_TIMEOUT_MS);
-
-			this.once('inspectItemInfo#' + assetid, successListener);
-			this.once('inspectItemTimedOut#' + assetid, timeoutListener);
-		});
-	}
+			},
+			send: () =>
+				this._send(
+					Language.Client2GCEconPreviewDataBlockRequest,
+					Protos.CMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockRequest,
+					msg
+				)
+		},
+		callback &&
+			((error, item) => {
+				if (!error) callback(item);
+			})
+	);
 };
 
 NodeCS2.prototype.requestPlayersProfile = function (steamid, callback) {
@@ -354,27 +349,22 @@ NodeCS2.prototype.requestPlayersProfile = function (steamid, callback) {
 		return Promise.reject(new Error('Invalid SteamID'));
 	}
 
-	this._send(Language.ClientRequestPlayersProfile, Protos.CMsgGCCStrike15_v2_ClientRequestPlayersProfile, {
-		account_id: steamid.accountid,
-		request_level: Constants.PLAYERS_PROFILE_REQUEST_LEVEL
-	});
-
-	if (callback) {
-		this.once('playersProfile#' + steamid.getSteamID64(), callback);
-	} else {
-		// Return Promise when no callback provided
-		return new Promise((resolve, reject) => {
-			const timeout = setTimeout(() => {
-				this.removeListener('playersProfile#' + steamid.getSteamID64(), resolve);
-				reject(new Error(`Request players profile timed out for SteamID: ${steamid.getSteamID64()}`));
-			}, this._profileTimeout || Constants.PROFILE_TIMEOUT_MS);
-
-			this.once('playersProfile#' + steamid.getSteamID64(), (profile) => {
-				clearTimeout(timeout);
-				resolve(profile);
-			});
-		});
-	}
+	return request(
+		this,
+		{
+			key: 'profile:' + steamid.getSteamID64(),
+			event: 'playersProfile#' + steamid.getSteamID64(),
+			mutation: false,
+			timeout: this._profileTimeout || Constants.PROFILE_TIMEOUT_MS,
+			message: 'requestPlayersProfile timed out',
+			send: () =>
+				this._send(Language.ClientRequestPlayersProfile, Protos.CMsgGCCStrike15_v2_ClientRequestPlayersProfile, {
+					account_id: steamid.accountid,
+					request_level: Constants.PLAYERS_PROFILE_REQUEST_LEVEL
+				})
+		},
+		callback && ((error, value) => callback(error || value))
+	);
 };
 
 /**
@@ -451,7 +441,7 @@ NodeCS2.prototype.removeFromCasket = function (casketId, itemId) {
  */
 NodeCS2.prototype.getCasketContents = function (casketId, callback) {
 	// First see if we already have this casket's contents in our inventory
-	const casketItem = this.inventory.find((item) => item.id == casketId);
+	const casketItem = (this.inventory || []).find((item) => item.id == casketId);
 	if (!casketItem) {
 		const error = new Error(`No casket matching ID ${casketId} was found`);
 		if (callback) {
@@ -480,80 +470,24 @@ NodeCS2.prototype.getCasketContents = function (casketId, callback) {
 	}
 
 	// We need to load casket contents from the GC
-	this._send(Language.CasketItemLoadContents, Protos.CMsgCasketItem, {
-		casket_item_id: casketId,
-		item_item_id: casketId
-	});
-
-	// Set a timeout in case the GC isn't being cooperative (configurable via _casketTimeout)
-	let timedOut = false;
-	let timeout;
-	let customizationNotification;
-
-	if (callback) {
-		// Callback-based API
-		timeout = setTimeout(() => {
-			if (timedOut) {
-				return;
-			}
-			timedOut = true;
-			this.off('itemCustomizationNotification', customizationNotification);
-			callback(new Error('Loading casket contents timed out'));
-		}, this._casketTimeout || Constants.CASKET_TIMEOUT_MS);
-
-		customizationNotification = (itemIds, notificationType) => {
-			if (timedOut) {
-				this.off('itemCustomizationNotification', customizationNotification);
-				return;
-			}
-
-			if (itemIds[0] != casketId || notificationType != NodeCS2.ItemCustomizationNotification.CasketContents) {
-				return;
-			}
-
-			// This is our casket, and it's the correct notification
-			clearTimeout(timeout);
-			timedOut = true;
-			this.off('itemCustomizationNotification', customizationNotification);
-			callback(
-				null,
-				this.inventory.filter((item) => item.casket_id == casketId)
-			);
-		};
-
-		this.on('itemCustomizationNotification', customizationNotification);
-	} else {
-		// Promise-based API
-		return new Promise((resolve, reject) => {
-			timeout = setTimeout(() => {
-				if (timedOut) {
-					return;
-				}
-				timedOut = true;
-				this.off('itemCustomizationNotification', customizationNotification);
-				reject(new Error('Loading casket contents timed out'));
-			}, this._casketTimeout || Constants.CASKET_TIMEOUT_MS);
-
-			customizationNotification = (itemIds, notificationType) => {
-				if (timedOut) {
-					this.off('itemCustomizationNotification', customizationNotification);
-					return;
-				}
-
-				if (itemIds[0] != casketId || notificationType != NodeCS2.ItemCustomizationNotification.CasketContents) {
-					return;
-				}
-
-				// This is our casket, and it's the correct notification
-				clearTimeout(timeout);
-				timedOut = true;
-				this.off('itemCustomizationNotification', customizationNotification);
-				resolve(this.inventory.filter((item) => item.casket_id == casketId));
-			};
-
-			this.on('itemCustomizationNotification', customizationNotification);
-		});
-	}
+	return request(
+		this,
+		{
+			key: 'item:' + casketId,
+			event: 'itemCustomizationNotification',
+			timeout: this._casketTimeout || Constants.CASKET_TIMEOUT_MS,
+			message: 'Loading casket contents timed out',
+			match: (ids, type) =>
+				ids[0] === String(casketId) && type === NodeCS2.ItemCustomizationNotification.CasketContents,
+			map: () => this.inventory.filter((item) => item.casket_id == casketId),
+			send: () =>
+				this._send(Language.CasketItemLoadContents, Protos.CMsgCasketItem, {
+					casket_item_id: casketId,
+					item_item_id: casketId
+				})
+		},
+		callback
+	);
 };
 
 // ============================================================================
@@ -568,7 +502,7 @@ NodeCS2.prototype.getCasketContents = function (casketId, callback) {
  */
 NodeCS2.prototype.loadVolatileItemContents = function (volatileItemId, callback) {
 	// Similar to getCasketContents, but for volatile items
-	const volatileItem = this.inventory.find((item) => item.id == volatileItemId);
+	const volatileItem = (this.inventory || []).find((item) => item.id == volatileItemId);
 	if (!volatileItem) {
 		const error = new Error(`No volatile item matching ID ${volatileItemId} was found`);
 		if (callback) {
@@ -578,78 +512,25 @@ NodeCS2.prototype.loadVolatileItemContents = function (volatileItemId, callback)
 		return Promise.reject(error);
 	}
 
-	// We need to load volatile item contents from the GC
-	this._send(Language.VolatileItemLoadContents, Protos.CMsgCasketItem, {
-		casket_item_id: volatileItemId,
-		item_item_id: volatileItemId
-	});
-
-	// Set a timeout (configurable via _volatileItemTimeout)
-	let timedOut = false;
-	let timeout;
-	let customizationNotification;
-
-	if (callback) {
-		timeout = setTimeout(() => {
-			if (timedOut) {
-				return;
-			}
-			timedOut = true;
-			this.off('itemCustomizationNotification', customizationNotification);
-			callback(new Error('Loading volatile item contents timed out'));
-		}, this._volatileItemTimeout || Constants.VOLATILE_ITEM_TIMEOUT_MS);
-
-		customizationNotification = (itemIds, notificationType) => {
-			if (timedOut) {
-				this.off('itemCustomizationNotification', customizationNotification);
-				return;
-			}
-
-			// Check for volatile item notification (may use VolatileItemClaimReward notification type)
-			if (itemIds[0] != volatileItemId) {
-				return;
-			}
-
-			clearTimeout(timeout);
-			timedOut = true;
-			this.off('itemCustomizationNotification', customizationNotification);
-			callback(
-				null,
-				this.inventory.filter((item) => item.volatile_item_id == volatileItemId || item.id == volatileItemId)
-			);
-		};
-
-		this.on('itemCustomizationNotification', customizationNotification);
-	} else {
-		return new Promise((resolve, reject) => {
-			timeout = setTimeout(() => {
-				if (timedOut) {
-					return;
-				}
-				timedOut = true;
-				this.off('itemCustomizationNotification', customizationNotification);
-				reject(new Error('Loading volatile item contents timed out'));
-			}, this._volatileItemTimeout || Constants.VOLATILE_ITEM_TIMEOUT_MS);
-
-			customizationNotification = (itemIds, notificationType) => {
-				if (timedOut) {
-					this.off('itemCustomizationNotification', customizationNotification);
-					return;
-				}
-
-				if (itemIds[0] != volatileItemId) {
-					return;
-				}
-
-				clearTimeout(timeout);
-				timedOut = true;
-				this.off('itemCustomizationNotification', customizationNotification);
-				resolve(this.inventory.filter((item) => item.volatile_item_id == volatileItemId || item.id == volatileItemId));
-			};
-
-			this.on('itemCustomizationNotification', customizationNotification);
-		});
-	}
+	return request(
+		this,
+		{
+			// Share the item lane with mutations: no unique request id exists here.
+			key: 'item:' + volatileItemId,
+			event: 'itemCustomizationNotification',
+			timeout: this._volatileItemTimeout || Constants.VOLATILE_ITEM_TIMEOUT_MS,
+			message: 'Loading volatile item contents timed out',
+			match: (ids, type) =>
+				ids[0] === String(volatileItemId) && type === NodeCS2.ItemCustomizationNotification.CasketContents,
+			map: () => this.inventory.filter((item) => item.volatile_item_id == volatileItemId || item.id == volatileItemId),
+			send: () =>
+				this._send(Language.VolatileItemLoadContents, Protos.CMsgCasketItem, {
+					casket_item_id: volatileItemId,
+					item_item_id: volatileItemId
+				})
+		},
+		callback
+	);
 };
 
 /**
@@ -664,42 +545,19 @@ NodeCS2.prototype.claimVolatileItemReward = function (defindex, callback) {
 	// Send as empty ByteBuffer - response comes via ItemCustomizationNotification
 	const buffer = new ByteBuffer(4, ByteBuffer.LITTLE_ENDIAN);
 	buffer.writeUint32(defindex);
-	this._send(Language.VolatileItemClaimReward, null, buffer);
-
-	if (callback) {
-		// Listen for itemCustomizationNotification with VolatileItemClaimReward type
-		const timeout = setTimeout(() => {
-			this.removeListener('itemCustomizationNotification', notificationListener);
-			callback(new Error('Claiming volatile item reward timed out'));
-		}, this._volatileItemTimeout || Constants.VOLATILE_ITEM_TIMEOUT_MS);
-
-		const notificationListener = (itemIds, notificationType) => {
-			if (notificationType == NodeCS2.ItemCustomizationNotification.ClientRedeemFreeReward) {
-				clearTimeout(timeout);
-				this.removeListener('itemCustomizationNotification', notificationListener);
-				callback(null, itemIds);
-			}
-		};
-
-		this.on('itemCustomizationNotification', notificationListener);
-	} else {
-		return new Promise((resolve, reject) => {
-			const timeout = setTimeout(() => {
-				this.removeListener('itemCustomizationNotification', notificationListener);
-				reject(new Error('Claiming volatile item reward timed out'));
-			}, this._volatileItemTimeout || Constants.VOLATILE_ITEM_TIMEOUT_MS);
-
-			const notificationListener = (itemIds, notificationType) => {
-				if (notificationType == NodeCS2.ItemCustomizationNotification.ClientRedeemFreeReward) {
-					clearTimeout(timeout);
-					this.removeListener('itemCustomizationNotification', notificationListener);
-					resolve(itemIds);
-				}
-			};
-
-			this.on('itemCustomizationNotification', notificationListener);
-		});
-	}
+	return request(
+		this,
+		{
+			key: 'reward:free',
+			event: 'itemCustomizationNotification',
+			mutation: true,
+			timeout: this._volatileItemTimeout || Constants.VOLATILE_ITEM_TIMEOUT_MS,
+			message: 'claimVolatileItemReward timed out',
+			match: (ids, type) => type === NodeCS2.ItemCustomizationNotification.ClientRedeemFreeReward,
+			send: () => this._send(Language.VolatileItemClaimReward, null, buffer)
+		},
+		callback
+	);
 };
 
 /**
@@ -722,38 +580,18 @@ NodeCS2.prototype.acknowledgeRentalExpiration = function (crateItemId) {
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
 NodeCS2.prototype.requestRecurringMissionSchedule = function (callback) {
-	this._send(Language.RequestRecurringMissionSchedule, Protos.CMsgRequestRecurringMissionSchedule, {});
-
-	if (callback) {
-		// Listen for RecurringMissionSchema response
-		const timeout = setTimeout(() => {
-			this.removeListener('recurringMissionSchema', schemaListener);
-			callback(new Error('Requesting recurring mission schedule timed out'));
-		}, this._missionTimeout || Constants.MISSION_TIMEOUT_MS);
-
-		const schemaListener = (schema) => {
-			clearTimeout(timeout);
-			this.removeListener('recurringMissionSchema', schemaListener);
-			callback(null, schema);
-		};
-
-		this.once('recurringMissionSchema', schemaListener);
-	} else {
-		return new Promise((resolve, reject) => {
-			const timeout = setTimeout(() => {
-				this.removeListener('recurringMissionSchema', schemaListener);
-				reject(new Error('Requesting recurring mission schedule timed out'));
-			}, this._missionTimeout || Constants.MISSION_TIMEOUT_MS);
-
-			const schemaListener = (schema) => {
-				clearTimeout(timeout);
-				this.removeListener('recurringMissionSchema', schemaListener);
-				resolve(schema);
-			};
-
-			this.once('recurringMissionSchema', schemaListener);
-		});
-	}
+	return request(
+		this,
+		{
+			key: 'missionSchedule',
+			event: 'recurringMissionSchema',
+			mutation: false,
+			timeout: this._missionTimeout || Constants.MISSION_TIMEOUT_MS,
+			message: 'requestRecurringMissionSchedule timed out',
+			send: () => this._send(Language.RequestRecurringMissionSchedule, Protos.CMsgRequestRecurringMissionSchedule, {})
+		},
+		callback
+	);
 };
 
 // ============================================================================
@@ -776,46 +614,24 @@ NodeCS2.prototype.acknowledgeXPShopTracks = function () {
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
 NodeCS2.prototype.redeemFreeReward = function (generationTime, redeemableBalance, items, callback) {
-	this._send(Language.ClientRedeemFreeReward, Protos.CMsgGCCstrike15_v2_ClientRedeemFreeReward, {
-		generation_time: generationTime,
-		redeemable_balance: redeemableBalance,
-		items: items || []
-	});
-
-	if (callback) {
-		// Listen for itemCustomizationNotification
-		const timeout = setTimeout(() => {
-			this.removeListener('itemCustomizationNotification', notificationListener);
-			callback(new Error('Redeeming free reward timed out'));
-		}, this._rewardTimeout || Constants.REWARD_TIMEOUT_MS);
-
-		const notificationListener = (itemIds, notificationType) => {
-			if (notificationType == NodeCS2.ItemCustomizationNotification.ClientRedeemFreeReward) {
-				clearTimeout(timeout);
-				this.removeListener('itemCustomizationNotification', notificationListener);
-				callback(null, itemIds);
-			}
-		};
-
-		this.on('itemCustomizationNotification', notificationListener);
-	} else {
-		return new Promise((resolve, reject) => {
-			const timeout = setTimeout(() => {
-				this.removeListener('itemCustomizationNotification', notificationListener);
-				reject(new Error('Redeeming free reward timed out'));
-			}, this._rewardTimeout || Constants.REWARD_TIMEOUT_MS);
-
-			const notificationListener = (itemIds, notificationType) => {
-				if (notificationType == NodeCS2.ItemCustomizationNotification.ClientRedeemFreeReward) {
-					clearTimeout(timeout);
-					this.removeListener('itemCustomizationNotification', notificationListener);
-					resolve(itemIds);
-				}
-			};
-
-			this.on('itemCustomizationNotification', notificationListener);
-		});
-	}
+	return request(
+		this,
+		{
+			key: 'reward:free',
+			event: 'itemCustomizationNotification',
+			mutation: true,
+			timeout: this._rewardTimeout || Constants.REWARD_TIMEOUT_MS,
+			message: 'redeemFreeReward timed out',
+			match: (ids, type) => type === NodeCS2.ItemCustomizationNotification.ClientRedeemFreeReward,
+			send: () =>
+				this._send(Language.ClientRedeemFreeReward, Protos.CMsgGCCstrike15_v2_ClientRedeemFreeReward, {
+					generation_time: generationTime,
+					redeemable_balance: redeemableBalance,
+					items: items || []
+				})
+		},
+		callback
+	);
 };
 
 /**
@@ -842,48 +658,26 @@ NodeCS2.prototype.redeemMissionReward = function (
 		bidControl = undefined;
 	}
 
-	this._send(Language.ClientRedeemMissionReward, Protos.CMsgGCCstrike15_v2_ClientRedeemMissionReward, {
-		campaign_id: campaignId,
-		redeem_id: redeemId,
-		redeemable_balance: redeemableBalance,
-		expected_cost: expectedCost,
-		bid_control: bidControl
-	});
-
-	if (callback) {
-		// Listen for itemCustomizationNotification
-		const timeout = setTimeout(() => {
-			this.removeListener('itemCustomizationNotification', notificationListener);
-			callback(new Error('Redeeming mission reward timed out'));
-		}, this._rewardTimeout || Constants.REWARD_TIMEOUT_MS);
-
-		const notificationListener = (itemIds, notificationType) => {
-			if (notificationType == NodeCS2.ItemCustomizationNotification.ClientRedeemMissionReward) {
-				clearTimeout(timeout);
-				this.removeListener('itemCustomizationNotification', notificationListener);
-				callback(null, itemIds);
-			}
-		};
-
-		this.on('itemCustomizationNotification', notificationListener);
-	} else {
-		return new Promise((resolve, reject) => {
-			const timeout = setTimeout(() => {
-				this.removeListener('itemCustomizationNotification', notificationListener);
-				reject(new Error('Redeeming mission reward timed out'));
-			}, this._rewardTimeout || Constants.REWARD_TIMEOUT_MS);
-
-			const notificationListener = (itemIds, notificationType) => {
-				if (notificationType == NodeCS2.ItemCustomizationNotification.ClientRedeemMissionReward) {
-					clearTimeout(timeout);
-					this.removeListener('itemCustomizationNotification', notificationListener);
-					resolve(itemIds);
-				}
-			};
-
-			this.on('itemCustomizationNotification', notificationListener);
-		});
-	}
+	return request(
+		this,
+		{
+			key: 'reward:mission',
+			event: 'itemCustomizationNotification',
+			mutation: true,
+			timeout: this._rewardTimeout || Constants.REWARD_TIMEOUT_MS,
+			message: 'redeemMissionReward timed out',
+			match: (ids, type) => type === NodeCS2.ItemCustomizationNotification.ClientRedeemMissionReward,
+			send: () =>
+				this._send(Language.ClientRedeemMissionReward, Protos.CMsgGCCstrike15_v2_ClientRedeemMissionReward, {
+					campaign_id: campaignId,
+					redeem_id: redeemId,
+					redeemable_balance: redeemableBalance,
+					expected_cost: expectedCost,
+					bid_control: bidControl
+				})
+		},
+		callback
+	);
 };
 
 // ============================================================================
@@ -918,7 +712,14 @@ NodeCS2.prototype.setLeaderboardSafeName = function (leaderboardSafeName) {
  * @param {function} callback - Optional callback. If not provided, returns a Promise.
  * @returns {Promise|undefined} Returns a Promise if no callback is provided
  */
-NodeCS2.prototype.openCrate = function (toolItemId, subjectItemId, forRental, pointsRemaining, volatileLimit, callback) {
+NodeCS2.prototype.openCrate = function (
+	toolItemId,
+	subjectItemId,
+	forRental,
+	pointsRemaining,
+	volatileLimit,
+	callback
+) {
 	// Handle optional parameters
 	if (typeof forRental === 'function') {
 		callback = forRental;
@@ -934,54 +735,27 @@ NodeCS2.prototype.openCrate = function (toolItemId, subjectItemId, forRental, po
 		volatileLimit = undefined;
 	}
 
-	this._send(Language.OpenCrate, Protos.CMsgOpenCrate, {
-		tool_item_id: toolItemId,
-		subject_item_id: subjectItemId,
-		for_rental: forRental,
-		points_remaining: pointsRemaining,
-		volatile_limit: volatileLimit
-	});
-
-	if (callback) {
-		// Listen for ItemCustomizationNotification with UnlockCrate type
-		const timeout = setTimeout(() => {
-			this.removeListener('itemCustomizationNotification', notificationListener);
-			callback(new Error('Opening crate timed out'));
-		}, this._crateTimeout || Constants.CRATE_TIMEOUT_MS);
-
-		const notificationListener = (itemIds, notificationType) => {
-			if (notificationType == NodeCS2.ItemCustomizationNotification.UnlockCrate) {
-				// Check if this is our crate
-				if (itemIds.indexOf(subjectItemId.toString()) !== -1 || itemIds.indexOf(subjectItemId) !== -1) {
-					clearTimeout(timeout);
-					this.removeListener('itemCustomizationNotification', notificationListener);
-					callback(null, itemIds);
-				}
-			}
-		};
-
-		this.on('itemCustomizationNotification', notificationListener);
-	} else {
-		return new Promise((resolve, reject) => {
-			const timeout = setTimeout(() => {
-				this.removeListener('itemCustomizationNotification', notificationListener);
-				reject(new Error('Opening crate timed out'));
-			}, this._crateTimeout || Constants.CRATE_TIMEOUT_MS);
-
-			const notificationListener = (itemIds, notificationType) => {
-				if (notificationType == NodeCS2.ItemCustomizationNotification.UnlockCrate) {
-					// Check if this is our crate
-					if (itemIds.indexOf(subjectItemId.toString()) !== -1 || itemIds.indexOf(subjectItemId) !== -1) {
-						clearTimeout(timeout);
-						this.removeListener('itemCustomizationNotification', notificationListener);
-						resolve(itemIds);
-					}
-				}
-			};
-
-			this.on('itemCustomizationNotification', notificationListener);
-		});
-	}
+	return request(
+		this,
+		{
+			key: 'item:' + subjectItemId,
+			event: 'itemCustomizationNotification',
+			mutation: true,
+			timeout: this._crateTimeout || Constants.CRATE_TIMEOUT_MS,
+			message: 'openCrate timed out',
+			match: (ids, type) =>
+				type === NodeCS2.ItemCustomizationNotification.UnlockCrate && ids.includes(String(subjectItemId)),
+			send: () =>
+				this._send(Language.OpenCrate, Protos.CMsgOpenCrate, {
+					tool_item_id: toolItemId,
+					subject_item_id: subjectItemId,
+					for_rental: forRental,
+					points_remaining: pointsRemaining,
+					volatile_limit: volatileLimit
+				})
+		},
+		callback
+	);
 };
 
 // ============================================================================
@@ -997,49 +771,25 @@ NodeCS2.prototype.openCrate = function (toolItemId, subjectItemId, forRental, po
  */
 NodeCS2.prototype.extractSticker = function (itemId, stickerSlot, callback) {
 	// Send request via ItemCustomizationNotification
-	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
-		item_id: [itemId],
-		request: NodeCS2.ItemCustomizationNotification.ExtractSticker,
-		extra_data: stickerSlot !== undefined ? [stickerSlot] : []
-	});
-
-	if (callback) {
-		const timeout = setTimeout(() => {
-			this.removeListener('itemCustomizationNotification', notificationListener);
-			callback(new Error('Extracting sticker timed out'));
-		}, this._stickerTimeout || Constants.STICKER_TIMEOUT_MS);
-
-		const notificationListener = (itemIds, notificationType) => {
-			if (notificationType == NodeCS2.ItemCustomizationNotification.ExtractSticker) {
-				if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
-					clearTimeout(timeout);
-					this.removeListener('itemCustomizationNotification', notificationListener);
-					callback(null, itemIds);
-				}
-			}
-		};
-
-		this.on('itemCustomizationNotification', notificationListener);
-	} else {
-		return new Promise((resolve, reject) => {
-			const timeout = setTimeout(() => {
-				this.removeListener('itemCustomizationNotification', notificationListener);
-				reject(new Error('Extracting sticker timed out'));
-			}, this._stickerTimeout || Constants.STICKER_TIMEOUT_MS);
-
-			const notificationListener = (itemIds, notificationType) => {
-				if (notificationType == NodeCS2.ItemCustomizationNotification.ExtractSticker) {
-					if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
-						clearTimeout(timeout);
-						this.removeListener('itemCustomizationNotification', notificationListener);
-						resolve(itemIds);
-					}
-				}
-			};
-
-			this.on('itemCustomizationNotification', notificationListener);
-		});
-	}
+	return request(
+		this,
+		{
+			key: 'item:' + itemId,
+			event: 'itemCustomizationNotification',
+			mutation: true,
+			timeout: this._stickerTimeout || Constants.STICKER_TIMEOUT_MS,
+			message: 'extractSticker timed out',
+			match: (ids, type) =>
+				type === NodeCS2.ItemCustomizationNotification.ExtractSticker && ids.includes(String(itemId)),
+			send: () =>
+				this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
+					item_id: [itemId],
+					request: NodeCS2.ItemCustomizationNotification.ExtractSticker,
+					extra_data: stickerSlot !== undefined ? [stickerSlot] : []
+				})
+		},
+		callback
+	);
 };
 
 /**
@@ -1050,49 +800,25 @@ NodeCS2.prototype.extractSticker = function (itemId, stickerSlot, callback) {
  */
 NodeCS2.prototype.encapsulateSticker = function (stickerId, callback) {
 	// Send request via ItemCustomizationNotification
-	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
-		item_id: [stickerId],
-		request: NodeCS2.ItemCustomizationNotification.EncapsulateSticker,
-		extra_data: []
-	});
-
-	if (callback) {
-		const timeout = setTimeout(() => {
-			this.removeListener('itemCustomizationNotification', notificationListener);
-			callback(new Error('Encapsulating sticker timed out'));
-		}, this._stickerTimeout || Constants.STICKER_TIMEOUT_MS);
-
-		const notificationListener = (itemIds, notificationType) => {
-			if (notificationType == NodeCS2.ItemCustomizationNotification.EncapsulateSticker) {
-				if (itemIds.indexOf(stickerId.toString()) !== -1 || itemIds.indexOf(stickerId) !== -1) {
-					clearTimeout(timeout);
-					this.removeListener('itemCustomizationNotification', notificationListener);
-					callback(null, itemIds);
-				}
-			}
-		};
-
-		this.on('itemCustomizationNotification', notificationListener);
-	} else {
-		return new Promise((resolve, reject) => {
-			const timeout = setTimeout(() => {
-				this.removeListener('itemCustomizationNotification', notificationListener);
-				reject(new Error('Encapsulating sticker timed out'));
-			}, this._stickerTimeout || Constants.STICKER_TIMEOUT_MS);
-
-			const notificationListener = (itemIds, notificationType) => {
-				if (notificationType == NodeCS2.ItemCustomizationNotification.EncapsulateSticker) {
-					if (itemIds.indexOf(stickerId.toString()) !== -1 || itemIds.indexOf(stickerId) !== -1) {
-						clearTimeout(timeout);
-						this.removeListener('itemCustomizationNotification', notificationListener);
-						resolve(itemIds);
-					}
-				}
-			};
-
-			this.on('itemCustomizationNotification', notificationListener);
-		});
-	}
+	return request(
+		this,
+		{
+			key: 'item:' + stickerId,
+			event: 'itemCustomizationNotification',
+			mutation: true,
+			timeout: this._stickerTimeout || Constants.STICKER_TIMEOUT_MS,
+			message: 'encapsulateSticker timed out',
+			match: (ids, type) =>
+				type === NodeCS2.ItemCustomizationNotification.EncapsulateSticker && ids.includes(String(stickerId)),
+			send: () =>
+				this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
+					item_id: [stickerId],
+					request: NodeCS2.ItemCustomizationNotification.EncapsulateSticker,
+					extra_data: []
+				})
+		},
+		callback
+	);
 };
 
 // ============================================================================
@@ -1114,49 +840,24 @@ NodeCS2.prototype.applyPatch = function (itemId, patchId, patchSlot, callback) {
 	}
 
 	// Send request via ItemCustomizationNotification
-	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
-		item_id: [itemId, patchId],
-		request: NodeCS2.ItemCustomizationNotification.ApplyPatch,
-		extra_data: patchSlot !== undefined ? [patchSlot] : []
-	});
-
-	if (callback) {
-		const timeout = setTimeout(() => {
-			this.removeListener('itemCustomizationNotification', notificationListener);
-			callback(new Error('Applying patch timed out'));
-		}, this._stickerTimeout || Constants.STICKER_TIMEOUT_MS);
-
-		const notificationListener = (itemIds, notificationType) => {
-			if (notificationType == NodeCS2.ItemCustomizationNotification.ApplyPatch) {
-				if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
-					clearTimeout(timeout);
-					this.removeListener('itemCustomizationNotification', notificationListener);
-					callback(null, itemIds);
-				}
-			}
-		};
-
-		this.on('itemCustomizationNotification', notificationListener);
-	} else {
-		return new Promise((resolve, reject) => {
-			const timeout = setTimeout(() => {
-				this.removeListener('itemCustomizationNotification', notificationListener);
-				reject(new Error('Applying patch timed out'));
-			}, this._stickerTimeout || Constants.STICKER_TIMEOUT_MS);
-
-			const notificationListener = (itemIds, notificationType) => {
-				if (notificationType == NodeCS2.ItemCustomizationNotification.ApplyPatch) {
-					if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
-						clearTimeout(timeout);
-						this.removeListener('itemCustomizationNotification', notificationListener);
-						resolve(itemIds);
-					}
-				}
-			};
-
-			this.on('itemCustomizationNotification', notificationListener);
-		});
-	}
+	return request(
+		this,
+		{
+			key: 'item:' + itemId,
+			event: 'itemCustomizationNotification',
+			mutation: true,
+			timeout: this._stickerTimeout || Constants.STICKER_TIMEOUT_MS,
+			message: 'applyPatch timed out',
+			match: (ids, type) => type === NodeCS2.ItemCustomizationNotification.ApplyPatch && ids.includes(String(itemId)),
+			send: () =>
+				this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
+					item_id: [itemId, patchId],
+					request: NodeCS2.ItemCustomizationNotification.ApplyPatch,
+					extra_data: patchSlot !== undefined ? [patchSlot] : []
+				})
+		},
+		callback
+	);
 };
 
 /**
@@ -1168,49 +869,24 @@ NodeCS2.prototype.applyPatch = function (itemId, patchId, patchSlot, callback) {
  */
 NodeCS2.prototype.removePatch = function (itemId, patchSlot, callback) {
 	// Send request via ItemCustomizationNotification
-	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
-		item_id: [itemId],
-		request: NodeCS2.ItemCustomizationNotification.RemovePatch,
-		extra_data: patchSlot !== undefined ? [patchSlot] : []
-	});
-
-	if (callback) {
-		const timeout = setTimeout(() => {
-			this.removeListener('itemCustomizationNotification', notificationListener);
-			callback(new Error('Removing patch timed out'));
-		}, this._stickerTimeout || Constants.STICKER_TIMEOUT_MS);
-
-		const notificationListener = (itemIds, notificationType) => {
-			if (notificationType == NodeCS2.ItemCustomizationNotification.RemovePatch) {
-				if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
-					clearTimeout(timeout);
-					this.removeListener('itemCustomizationNotification', notificationListener);
-					callback(null, itemIds);
-				}
-			}
-		};
-
-		this.on('itemCustomizationNotification', notificationListener);
-	} else {
-		return new Promise((resolve, reject) => {
-			const timeout = setTimeout(() => {
-				this.removeListener('itemCustomizationNotification', notificationListener);
-				reject(new Error('Removing patch timed out'));
-			}, this._stickerTimeout || Constants.STICKER_TIMEOUT_MS);
-
-			const notificationListener = (itemIds, notificationType) => {
-				if (notificationType == NodeCS2.ItemCustomizationNotification.RemovePatch) {
-					if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
-						clearTimeout(timeout);
-						this.removeListener('itemCustomizationNotification', notificationListener);
-						resolve(itemIds);
-					}
-				}
-			};
-
-			this.on('itemCustomizationNotification', notificationListener);
-		});
-	}
+	return request(
+		this,
+		{
+			key: 'item:' + itemId,
+			event: 'itemCustomizationNotification',
+			mutation: true,
+			timeout: this._stickerTimeout || Constants.STICKER_TIMEOUT_MS,
+			message: 'removePatch timed out',
+			match: (ids, type) => type === NodeCS2.ItemCustomizationNotification.RemovePatch && ids.includes(String(itemId)),
+			send: () =>
+				this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
+					item_id: [itemId],
+					request: NodeCS2.ItemCustomizationNotification.RemovePatch,
+					extra_data: patchSlot !== undefined ? [patchSlot] : []
+				})
+		},
+		callback
+	);
 };
 
 // ============================================================================
@@ -1232,49 +908,25 @@ NodeCS2.prototype.applyKeychain = function (itemId, keychainId, keychainSlot, ca
 	}
 
 	// Send request via ItemCustomizationNotification
-	this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
-		item_id: [itemId, keychainId],
-		request: NodeCS2.ItemCustomizationNotification.ApplyKeychain,
-		extra_data: keychainSlot !== undefined ? [keychainSlot] : []
-	});
-
-	if (callback) {
-		const timeout = setTimeout(() => {
-			this.removeListener('itemCustomizationNotification', notificationListener);
-			callback(new Error('Applying keychain timed out'));
-		}, this._stickerTimeout || Constants.STICKER_TIMEOUT_MS);
-
-		const notificationListener = (itemIds, notificationType) => {
-			if (notificationType == NodeCS2.ItemCustomizationNotification.ApplyKeychain) {
-				if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
-					clearTimeout(timeout);
-					this.removeListener('itemCustomizationNotification', notificationListener);
-					callback(null, itemIds);
-				}
-			}
-		};
-
-		this.on('itemCustomizationNotification', notificationListener);
-	} else {
-		return new Promise((resolve, reject) => {
-			const timeout = setTimeout(() => {
-				this.removeListener('itemCustomizationNotification', notificationListener);
-				reject(new Error('Applying keychain timed out'));
-			}, this._stickerTimeout || Constants.STICKER_TIMEOUT_MS);
-
-			const notificationListener = (itemIds, notificationType) => {
-				if (notificationType == NodeCS2.ItemCustomizationNotification.ApplyKeychain) {
-					if (itemIds.indexOf(itemId.toString()) !== -1 || itemIds.indexOf(itemId) !== -1) {
-						clearTimeout(timeout);
-						this.removeListener('itemCustomizationNotification', notificationListener);
-						resolve(itemIds);
-					}
-				}
-			};
-
-			this.on('itemCustomizationNotification', notificationListener);
-		});
-	}
+	return request(
+		this,
+		{
+			key: 'item:' + itemId,
+			event: 'itemCustomizationNotification',
+			mutation: true,
+			timeout: this._stickerTimeout || Constants.STICKER_TIMEOUT_MS,
+			message: 'applyKeychain timed out',
+			match: (ids, type) =>
+				type === NodeCS2.ItemCustomizationNotification.ApplyKeychain && ids.includes(String(itemId)),
+			send: () =>
+				this._send(Language.ItemCustomizationNotification, Protos.CMsgGCItemCustomizationNotification, {
+					item_id: [itemId, keychainId],
+					request: NodeCS2.ItemCustomizationNotification.ApplyKeychain,
+					extra_data: keychainSlot !== undefined ? [keychainSlot] : []
+				})
+		},
+		callback
+	);
 };
 
 /**
@@ -1330,8 +982,11 @@ NodeCS2.prototype.commendPlayer = function (accountId, commendation, matchId, to
  * @param {string} petItemId - Non-zero uint64 item ID as a decimal string
  */
 NodeCS2.prototype.ackPetEvent = function (petItemId) {
-	if (typeof petItemId !== 'string' || !/^[1-9]\d{0,19}$/.test(petItemId) ||
-		(petItemId.length === 20 && petItemId > '18446744073709551615')) {
+	if (
+		typeof petItemId !== 'string' ||
+		!/^[1-9]\d{0,19}$/.test(petItemId) ||
+		(petItemId.length === 20 && petItemId > '18446744073709551615')
+	) {
 		throw new Error('petItemId must be a non-zero uint64 decimal string');
 	}
 	this._send(Language.AckPetEvent, Protos.CMsgAckPetEvent, { pet_item_id: petItemId });
@@ -1341,3 +996,20 @@ NodeCS2.prototype._handlers = {};
 
 require('./enums.js');
 require('./handlers.js');
+
+/** Reject outstanding work without retrying any sent operation. */
+NodeCS2.prototype.cancelPendingRequests = function (code = 'CANCELLED') {
+	for (const cancel of Array.from(this._pendingRequests || [])) cancel(code);
+};
+
+/** Permanently detach this instance from the transport. */
+NodeCS2.prototype.dispose = function () {
+	this._disposed = true;
+	this.cancelPendingRequests();
+	clearTimeout(this._helloTimer);
+	this._helloTimer = null;
+	this.haveGCSession = false;
+	this._isInCSGO = false;
+	for (const [event, listener] of this._transportListeners || []) this._steam.removeListener(event, listener);
+	this._transportListeners = [];
+};
