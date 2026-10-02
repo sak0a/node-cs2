@@ -69,6 +69,21 @@ const cs2 = new NodeCS2(steam);
   assert.equal(item.itemid, fixture.expected.itemid);
   assert.equal(item.paintwear, fixture.expected.paintwear);
  }
+
+ // Exercise the real peer EventEmitter contract as well as local decoding.
+ steam.steamID = new (require('steamid'))('76561198000000001');
+ const sent = [];
+ steam.sendToGC = (appid, type, headers, payload) => sent.push({appid, type, headers, payload});
+ const inspection = cs2.inspectItem('M1A11D1');
+ assert.equal(sent[0].appid, 730);
+ assert.equal(Buffer.from(sent[0].payload).toString('hex'), '0800100b18012001');
+ const language = require('node-cs2/language.js');
+ steam.emit('receivedFromGC', 730, language.Client2GCEconPreviewDataBlockResponse, Buffer.from([10, 2, 16, 11]));
+ assert.equal((await inspection).itemid, '11');
+ const disconnected = cs2.inspectItem('M1A12D1').then(() => { throw new Error('Expected disconnection'); }, error => error);
+ steam.emit('disconnected');
+ assert.equal((await disconnected).code, 'DISCONNECTED');
+ assert.equal(cs2.listenerCount('inspectItemInfo#12'), 0);
  assert.equal(typeof cs2.inspectItem, 'function');
  if (cs2.dispose) cs2.dispose();
  console.log(process.version + ' / ' + process.argv[2] + ': 56 independent fixtures passed');
