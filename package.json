@@ -1,6 +1,6 @@
 {
 	"name": "node-cs2",
-	"version": "2.5.0",
+	"version": "2.6.0",
 	"description": "Modern CS2/CS:GO Game Coordinator integration with latest GameTracking-CS2 protobuf definitions. Includes support for highlight_reel, wrapped_sticker, variations, Promise-based API, crate opening, sticker/patch/keychain operations, and all modern CS2 fields.",
 	"keywords": [
 		"cs2",
@@ -47,16 +47,24 @@
 		"prettier": "^3.9.6",
 		"protobufjs-cli": "^1.3.3",
 		"steam-user": "^5.3.0",
-		"vitest": "^4.1.11"
+		"vitest": "^4.1.11",
+		"typescript": "^5.9.3",
+		"@types/node": "^24.0.0",
+		"@types/steam-user": "^5.1.1"
 	},
 	"scripts": {
 		"download-protos": "node scripts/download-protos.js",
-		"generate-protos": "node scripts/generate-protos.js",
+		"generate-protos": "node scripts/generate-protos.js && npm run generate-wire-schema && npm run generate-response-types",
 		"update-protos": "npm run download-protos && npm run generate-protos",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"format": "prettier --write .",
-		"test": "vitest run"
+		"test": "vitest run",
+		"test:types": "tsc -p test/types/tsconfig.json",
+		"test:live": "node scripts/live-test.js",
+		"test:consumer": "node scripts/verify-consumers.js",
+		"generate-response-types": "node scripts/generate-response-types.js",
+		"generate-wire-schema": "node scripts/generate-wire-schema.js"
 	},
 	"engines": {
 		"node": ">=14.0.0"
@@ -74,6 +82,9 @@
 		"EXAMPLES.md",
 		"DETAILED_DOCUMENTATION.md",
 		"CHANGELOG.md",
-		"LICENSE"
+		"LICENSE",
+		"FEATURE_SUPPORT.md",
+		"RELEASE_NOTES.md",
+		"scripts/live-test.js"
 	]
 }

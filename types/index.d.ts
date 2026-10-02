@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import SteamUser = require('steam-user');
 import SteamID = require('steamid');
+import * as Responses from './responses';
 
 declare namespace NodeCS2 {
 	// ─── Enums ──────────────────────────────────────────────────────────────────
@@ -100,13 +101,13 @@ declare namespace NodeCS2 {
 	}
 
 	interface ItemInfo {
-		accountid: string | null;
+		accountid: number | null;
 		itemid: string;
 		defindex: number;
 		paintindex: number;
 		rarity: number;
 		quality: number;
-		paintwear: number;
+		paintwear: number | null;
 		paintseed: number;
 		killeaterscoretype: number | null;
 		killeatervalue: number | null;
@@ -128,25 +129,30 @@ declare namespace NodeCS2 {
 		entindex: number | null;
 	}
 
-	interface PlayerProfile {
+	/** Decoded protocol objects: absent scalar fields are null, repeated fields are arrays. */
+	type AccountData = Responses.CMsgGCCStrike15_v2_MatchmakingGC2ClientHello;
+	interface PlayerProfile extends AccountData {
 		account_id: number;
-		ongoingmatch: unknown;
-		global_stats: unknown;
-		penalty_seconds: number | null;
-		penalty_reason: number | null;
-		vac_banned: number | null;
-		ranking: unknown;
-		commendation: unknown;
-		medals: unknown;
-		my_current_event: unknown;
-		my_current_event_teams: unknown[];
-		my_current_team: unknown;
-		my_current_event_stages: unknown[];
-		survey_vote: number | null;
-		activity: unknown;
-		player_level: number | null;
-		player_cur_xp: number | null;
-		player_xp_bonus_flags: number | null;
+	}
+	type ConnectionStatus = Responses.CMsgConnectionStatus;
+	type MatchList = Responses.CMsgGCCStrike15_v2_MatchList;
+	type XPShopNotification = Responses.CMsgGCCStrike15_v2_GC2ClientNotifyXPShop;
+	type RecurringMissionSchema = Responses.CMsgRecurringMissionSchema;
+	type PremierSeasonSummary = Responses.CMsgGCCStrike15_v2_PremierSeasonSummary;
+	type MatchmakingSearchStats = Responses.CMsgGCCStrike15_v2_MatchmakingGC2ClientSearchStats;
+	type RequestErrorCode =
+		| 'TIMEOUT'
+		| 'CANCELLED'
+		| 'DISCONNECTED'
+		| 'DISPOSED'
+		| 'NOT_CONNECTED'
+		| 'SEND_FAILED'
+		| 'UNCERTAIN_PREVIOUS_RESULT';
+	class RequestError extends Error {
+		constructor(code: string, message: string, uncertain?: boolean);
+		code: RequestErrorCode | (string & {});
+		/** A sent mutation may have completed despite the error. Never retry automatically. */
+		uncertain: boolean;
 	}
 
 	interface ShareCodeDetails {
@@ -160,9 +166,9 @@ declare namespace NodeCS2 {
 	interface Events {
 		connectedToGC: () => void;
 		disconnectedFromGC: (reason: GCConnectionStatus) => void;
-		connectionStatus: (status: GCConnectionStatus, data: unknown) => void;
-		accountData: (data: unknown) => void;
-		matchList: (matches: unknown[], data: unknown) => void;
+		connectionStatus: (status: GCConnectionStatus, data: ConnectionStatus) => void;
+		accountData: (data: AccountData) => void;
+		matchList: (matches: MatchList['matches'], data: MatchList) => void;
 		inspectItemInfo: (item: ItemInfo) => void;
 		inspectItemTimedOut: (assetid: string) => void;
 		itemAcquired: (item: EconItem) => void;
@@ -171,10 +177,10 @@ declare namespace NodeCS2 {
 		itemCustomizationNotification: (itemIds: string[], notificationType: number) => void;
 		playersProfile: (profile: PlayerProfile) => void;
 		craftingComplete: (recipe: number, itemIds: string[]) => void;
-		xpShopNotification: (data: unknown) => void;
-		recurringMissionSchema: (schema: unknown) => void;
-		premierSeasonSummary: (data: unknown) => void;
-		matchmakingSearchStats: (data: unknown) => void;
+		xpShopNotification: (data: XPShopNotification) => void;
+		recurringMissionSchema: (schema: RecurringMissionSchema) => void;
+		premierSeasonSummary: (data: PremierSeasonSummary) => void;
+		matchmakingSearchStats: (data: MatchmakingSearchStats) => void;
 		debug: (message: string) => void;
 		error: (error: Error) => void;
 	}
@@ -186,7 +192,7 @@ declare class NodeCS2 extends EventEmitter {
 	// ─── Properties ─────────────────────────────────────────────────────────────
 	haveGCSession: boolean;
 	inventory: NodeCS2.EconItem[];
-	accountData: unknown;
+	accountData: NodeCS2.AccountData | undefined;
 
 	// Configurable timeouts
 	_inspectTimeout: number;
@@ -200,6 +206,10 @@ declare class NodeCS2 extends EventEmitter {
 
 	// ─── Connection ─────────────────────────────────────────────────────────────
 	helloGC(): void;
+	/** Cancel active and queued requests; sent correlation lanes remain quarantined. */
+	cancelPendingRequests(code?: NodeCS2.RequestErrorCode): void;
+	/** Cancel pending requests and permanently detach transport listeners. */
+	dispose(): void;
 
 	// ─── Match Data ─────────────────────────────────────────────────────────────
 	requestGame(shareCodeOrDetails: string | NodeCS2.ShareCodeDetails): void;
@@ -240,8 +250,10 @@ declare class NodeCS2 extends EventEmitter {
 	acknowledgeRentalExpiration(crateItemId: string): void;
 
 	// ─── Recurring Missions ─────────────────────────────────────────────────────
-	requestRecurringMissionSchedule(callback: (error: Error | null, schema?: unknown) => void): void;
-	requestRecurringMissionSchedule(): Promise<unknown>;
+	requestRecurringMissionSchedule(
+		callback: (error: Error | null, schema?: NodeCS2.RecurringMissionSchema) => void
+	): void;
+	requestRecurringMissionSchedule(): Promise<NodeCS2.RecurringMissionSchema>;
 
 	// ─── XP Shop & Rewards ──────────────────────────────────────────────────────
 	acknowledgeXPShopTracks(): void;
@@ -257,8 +269,8 @@ declare class NodeCS2 extends EventEmitter {
 		redeemId: number,
 		redeemableBalance: number,
 		expectedCost: number,
-		bidControl?: number,
-		callback?: (error: Error | null, itemIds?: string[]) => void
+		bidControl: number | undefined,
+		callback: (error: Error | null, itemIds?: string[]) => void
 	): void;
 	redeemMissionReward(
 		campaignId: number,
@@ -282,10 +294,10 @@ declare class NodeCS2 extends EventEmitter {
 	openCrate(
 		toolItemId: string,
 		subjectItemId: string,
-		forRental?: boolean,
-		pointsRemaining?: number,
-		volatileLimit?: number,
-		callback?: (error: Error | null, itemIds?: string[]) => void
+		forRental: boolean | undefined,
+		pointsRemaining: number | undefined,
+		volatileLimit: number | undefined,
+		callback: (error: Error | null, itemIds?: string[]) => void
 	): void;
 	openCrate(
 		toolItemId: string,
@@ -327,8 +339,8 @@ declare class NodeCS2 extends EventEmitter {
 	applyPatch(
 		itemId: string,
 		patchId: string,
-		patchSlot?: number,
-		callback?: (error: Error | null, itemIds?: string[]) => void
+		patchSlot: number | undefined,
+		callback: (error: Error | null, itemIds?: string[]) => void
 	): void;
 	applyPatch(itemId: string, patchId: string, callback: (error: Error | null, itemIds?: string[]) => void): void;
 	applyPatch(itemId: string, patchId: string, patchSlot?: number): Promise<string[]>;
@@ -339,8 +351,8 @@ declare class NodeCS2 extends EventEmitter {
 	applyKeychain(
 		itemId: string,
 		keychainId: string,
-		keychainSlot?: number,
-		callback?: (error: Error | null, itemIds?: string[]) => void
+		keychainSlot: number | undefined,
+		callback: (error: Error | null, itemIds?: string[]) => void
 	): void;
 	applyKeychain(itemId: string, keychainId: string, callback: (error: Error | null, itemIds?: string[]) => void): void;
 	applyKeychain(itemId: string, keychainId: string, keychainSlot?: number): Promise<string[]>;

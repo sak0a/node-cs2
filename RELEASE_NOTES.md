@@ -1,5 +1,27 @@
 # Release Notes
 
+## v2.6.0 - Request lifecycle and verification
+
+- Added a reusable fake Steam transport, independent outgoing/incoming wire fixtures,
+  and a shared randomized inspect corpus. New tests are no longer hidden by the test-directory ignore rule.
+- Centralized request cleanup and same-key serialization; added `cancelPendingRequests()`,
+  `dispose()`, and `RequestError` codes with mutation uncertainty. Failed sent keys remain
+  quarantined for the client lifetime and are never automatically retried.
+- Fixed subscription-after-send races, wrong notification correlation, discarded additional
+  profiles, absent wear coerced to zero, duplicate/reordered inventory changes, unsigned
+  storage-unit IDs, and malformed nested protobuf/craft payload handling.
+- Added schema-generated public response/event types and compile-time consumer examples.
+  Corrected Promise overload inference and the numeric `ItemInfo.accountid` declaration.
+- Added an explicit [feature support matrix](FEATURE_SUPPORT.md) and a safe, opt-in
+  authenticated live runner with individually designated mutations and inventory assertions.
+- Added packed consumer CI across Node 14/16/18/20/22/24 and steam-user 4.2.0/4.29.3/5.3.0.
+
+Migration: existing calls remain compatible. Handle request rejections, reconcile uncertain
+mutations before any manual retry, and dispose unused clients. Read FEATURE_SUPPORT.md
+for quarantine semantics and callback differences. Live Steam/GC behavior remains unverified;
+schema-correct sends and offline notifications do not establish server-side feature support.
+
+
 ## v2.5.0 - September CS2 Protocol Refresh
 
 ### Added

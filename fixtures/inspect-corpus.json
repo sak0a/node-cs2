@@ -1,0 +1,1813 @@
+{
+  "formatVersion": 1,
+  "provenance": {
+    "kind": "independently-encoded-synthetic",
+    "generator": "scripts/generate-inspect-corpus.py",
+    "seed": 73020261002,
+    "encoding": "Python stdlib varints, struct IEEE754 and zlib CRC32; no project codec or generated protobuf used",
+    "schema": "CEconItemPreviewDataBlock and nested Sticker in Valve GameTracking-CS2 cstrike15_gcmessages.proto",
+    "liveCapture": false
+  },
+  "unknownSegments": {
+    "top": "a806ffffffffffffffffff01b2060400ff80febd0678563412c1068877665544332211",
+    "nested": "ea040300ffaaf0048180808080808010"
+  },
+  "valid": [
+    {
+      "name": "uint64-0",
+      "protobufHex": "10001807202c38004000",
+      "token": "0010001807202C38004000C6B2A054",
+      "expected": {
+        "itemid": "0",
+        "defindex": 7,
+        "paintindex": 44,
+        "paintseed": 0,
+        "paintwear": 0.0
+      }
+    },
+    {
+      "name": "uint64-1",
+      "protobufHex": "10011807202c38808080fc034001",
+      "token": "A5B5A4BDA285899D25252559A6E5A4E623E52C",
+      "expected": {
+        "itemid": "1",
+        "defindex": 7,
+        "paintindex": 44,
+        "paintseed": 1,
+        "paintwear": 1.0
+      }
+    },
+    {
+      "name": "uint64-9007199254740991",
+      "protobufHex": "10ffffffffffffff0f1807202c38cd99b3ee034002",
+      "token": "FFEF00000000000000F0E7F8DFD3C732664C11FCBFFD645B192F",
+      "expected": {
+        "itemid": "9007199254740991",
+        "defindex": 7,
+        "paintindex": 44,
+        "paintseed": 2,
+        "paintwear": 0.10000000149011612
+      }
+    },
+    {
+      "name": "uint64-9007199254740992",
+      "protobufHex": "1080808080808080101807202c389ab3e6f0034003",
+      "token": "001080808080808080101807202C389AB3E6F003400369F1E974",
+      "expected": {
+        "itemid": "9007199254740992",
+        "defindex": 7,
+        "paintindex": 44,
+        "paintseed": 3,
+        "paintwear": 0.15000000596046448
+      }
+    },
+    {
+      "name": "uint64-9007199254740993",
+      "protobufHex": "1081808080808080101807202c38014004",
+      "token": "A5B524252525252525B5BDA285899DA4E5A1A143E5E5",
+      "expected": {
+        "itemid": "9007199254740993",
+        "defindex": 7,
+        "paintindex": 44,
+        "paintseed": 4,
+        "paintwear": 1.401298464324817e-45
+      }
+    },
+    {
+      "name": "uint64-18446744073709551615",
+      "protobufHex": "10ffffffffffffffffff011807202c38fffffffb034005",
+      "token": "FFEF000000000000000000FEE7F8DFD3C700000004FCBFFA8585F669",
+      "expected": {
+        "itemid": "18446744073709551615",
+        "defindex": 7,
+        "paintindex": 44,
+        "paintseed": 5,
+        "paintwear": 0.9999999403953552
+      }
+    },
+    {
+      "name": "all-fields-unknown",
+      "protobufHex": "08ffffffff0f10ffffffffffffffffff011807202c28063000389ab3e6f00340ffffffff0f480050ffffffff0f680070007800800100880100900180808080f8ffffffff01980100a80100b80100c001ffffffff0f5a005a0be9be8df09f94a52065cc815a02c3a95a0be9be8df09f94a52065cc81623e080010011dcdcccc3d250000803f2d000034c330003dcdcc4c3e459a9999be4d0000000050ffffffff0f58006001ea040300ffaaf0048180808080808010a2011b080010143d0000003e507bea040300ffaaf0048180808080808010b20116080010645032ea040300ffaaf0048180808080808010ca010700ff80fe000102a806ffffffffffffffffff01b2060400ff80febd0678563412c1068877665544332211",
+      "token": "0008FFFFFFFF0F10FFFFFFFFFFFFFFFFFF011807202C28063000389AB3E6F00340FFFFFFFF0F480050FFFFFFFF0F680070007800800100880100900180808080F8FFFFFFFF01980100A80100B80100C001FFFFFFFF0F5A005A0BE9BE8DF09F94A52065CC815A02C3A95A0BE9BE8DF09F94A52065CC81623E080010011DCDCCCC3D250000803F2D000034C330003DCDCC4C3E459A9999BE4D0000000050FFFFFFFF0F58006001EA040300FFAAF0048180808080808010A2011B080010143D0000003E507BEA040300FFAAF0048180808080808010B20116080010645032EA040300FFAAF0048180808080808010CA010700FF80FE000102A806FFFFFFFFFFFFFFFFFF01B2060400FF80FEBD0678563412C1068877665544332211F0E8CE48",
+      "expected": {
+        "accountid": 4294967295,
+        "itemid": "18446744073709551615",
+        "defindex": 7,
+        "paintindex": 44,
+        "rarity": 6,
+        "quality": 0,
+        "paintwear": 0.15000000596046448,
+        "paintseed": 4294967295,
+        "killeaterscoretype": 0,
+        "killeatervalue": 4294967295,
+        "customnames": [
+          "",
+          "龍🔥 é",
+          "é",
+          "龍🔥 é"
+        ],
+        "inventory": 0,
+        "origin": 0,
+        "questid": 0,
+        "dropreason": 0,
+        "musicindex": 0,
+        "entindex": -2147483648,
+        "petindex": 0,
+        "style": 0,
+        "upgrade_level": 0,
+        "pet_food_expiration_date": 4294967295,
+        "blobdata": "00ff80fe000102",
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 1,
+            "wear": 0.10000000149011612,
+            "scale": 1,
+            "rotation": -180,
+            "tint_id": 0,
+            "offset_x": 0.20000000298023224,
+            "offset_y": -0.30000001192092896,
+            "offset_z": 0,
+            "pattern": 4294967295,
+            "highlight_reel": 0,
+            "wrapped_sticker": 1
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 20,
+            "pattern": 123,
+            "offset_x": 0.125
+          }
+        ],
+        "variations": [
+          {
+            "slot": 0,
+            "sticker_id": 100,
+            "pattern": 50
+          }
+        ]
+      }
+    },
+    {
+      "name": "empty-and-explicit-zero",
+      "protobufHex": "100018002000380040005a006209080010001d00000000ca0100",
+      "token": "A5B5A5BDA585A59DA5E5A5FFA5C7ACADA5B5A5B8A5A5A5A56FA4A5CCF89F9A",
+      "expected": {
+        "itemid": "0",
+        "defindex": 0,
+        "paintindex": 0,
+        "paintseed": 0,
+        "paintwear": 0,
+        "customnames": [
+          ""
+        ],
+        "blobdata": "",
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 0,
+            "wear": 0
+          }
+        ]
+      }
+    },
+    {
+      "name": "seeded-00",
+      "protobufHex": "10f4deb1d7e28e968cb001180720f50a38fad4aff90340f2ae86a8045a04746573746212080010cfd9cfc4071d0db01c3e2d742d9ac2a2010e080010b08ee2ea0c50edfcbfcb04ca0108abaeeeebd26d31e5",
+      "token": "FFEF0B214E281D7169734FFEE7F8DF0AF5C7052B5006FCBF0D517957FBA5FB8B9A8C8B9DEDF7FFEF3026303BF8E2F24FE3C1D28BD2653D5DFEF1F7FFEF4F711D15F3AF12034034FB35FEF7545111142D92CE1A15131470",
+      "expected": {
+        "itemid": "12688989214665895796",
+        "defindex": 7,
+        "paintindex": 1397,
+        "paintseed": 1157732210,
+        "paintwear": 0.6715465784072876,
+        "customnames": [
+          "test"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 2022960335,
+            "wear": 0.15301533043384552,
+            "rotation": -77.08877563476562
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 3445131056,
+            "pattern": 1232076397
+          }
+        ],
+        "blobdata": "abaeeeebd26d31e5"
+      }
+    },
+    {
+      "name": "seeded-01",
+      "protobufHex": "10f385c9d2968ce9f52e1801209e0d38da84b6f90340e1e4bb950d5a09e697a5e69cace8aa9e5a00a2010e080010ebc09ddb0750bbbf95850eca0101a3",
+      "token": "0010F385C9D2968CE9F52E1801209E0D38DA84B6F90340E1E4BB950D5A09E697A5E69CACE8AA9E5A00A2010E080010EBC09DDB0750BBBF95850ECA0101A30CA04D6C",
+      "expected": {
+        "itemid": "3380976683574248179",
+        "defindex": 1,
+        "paintindex": 1694,
+        "paintseed": 3534680673,
+        "paintwear": 0.6777702569961548,
+        "customnames": [
+          "日本語",
+          ""
+        ],
+        "stickers": [],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2070372459,
+            "pattern": 3768934331
+          }
+        ],
+        "blobdata": "a3"
+      }
+    },
+    {
+      "name": "seeded-02",
+      "protobufHex": "10a7e0af93dcd289e272181020bf043889aea9f40340c8d3fe990c5a09e697a5e69cace8aa9e6212080010b4c8e4c8071d6ca3b33e2d548eb5426212080110eca58ef4031de431ea3e2d00a25242a2010e080010f595a0bb0d50e9e2cecd02ca010f71978bbcaf35585c60d51e6955041f",
+      "token": "A5B502450A3679772C47D7BDB5851AA19D2C0B0C51A6E56D765B3CA9FFAC4332004339094D0F3BC7B7ADA5B5116D416DA2B8C906169B88F12B10E7C7B7ADA4B549002B51A6B841944F9B88A507F7E707A4ABADA5B55030051EA8F54C476B68A76FA4AAD4322E190A90FDF9C570BBCCF0A1BAAAC5EAE5",
+      "expected": {
+        "itemid": "8269777240412909607",
+        "defindex": 16,
+        "paintindex": 575,
+        "paintseed": 3275729352,
+        "paintwear": 0.27019527554512024,
+        "customnames": [
+          "日本語"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 2031690804,
+            "wear": 0.3508561849594116,
+            "rotation": 90.77798461914062
+          },
+          {
+            "slot": 1,
+            "sticker_id": 1048810220,
+            "wear": 0.45741188526153564,
+            "rotation": 52.658203125
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 3613919989,
+            "pattern": 699642217
+          }
+        ],
+        "blobdata": "71978bbcaf35585c60d51e6955041f"
+      }
+    },
+    {
+      "name": "seeded-03",
+      "protobufHex": "109cd3fffc8deddaadac01180120ef0b38c1a5d0f80340cec2e3f2025a09e697a5e69cace8aa9e5a0062120800109ea8f5d6091d138dab3d2df5a303436212080110a7abe1a4011dd533463e2db9d72fc36212080210feadb3ae011d556d0f3f2d256e8bc2a2010e080010df91f4a0055083efd8b00eca01033cd049",
+      "token": "FFEF632C00037212255253FEE7FEDF10F4C73E5A2F07FCBF313D1C0DFDA5F619685A196353175561A5FF9DEDF7FFEF61570A29F6E2EC7254C2D20A5CFCBC9DEDF7FEEF58541E5BFEE22ACCB9C1D24628D03C9DEDF7FDEF01524C51FEE2AA92F0C0D2DA91743D5DFEF1F7FFEF206E0B5FFAAF7C10274FF135FEFCC32FB6DFCCF81E",
+      "expected": {
+        "itemid": "12419638495576844700",
+        "defindex": 1,
+        "paintindex": 1519,
+        "paintseed": 777576782,
+        "paintwear": 0.5784111618995667,
+        "customnames": [
+          "日本語",
+          ""
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 2598196254,
+            "wear": 0.0837651714682579,
+            "rotation": 131.6404571533203
+          },
+          {
+            "slot": 1,
+            "sticker_id": 345527719,
+            "wear": 0.19355709850788116,
+            "rotation": -175.84266662597656
+          },
+          {
+            "slot": 2,
+            "sticker_id": 365745918,
+            "wear": 0.5602620244026184,
+            "rotation": -69.71512603759766
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 1411188959,
+            "pattern": 3860215683
+          }
+        ],
+        "blobdata": "3cd049"
+      }
+    },
+    {
+      "name": "seeded-04",
+      "protobufHex": "10ef9aa58fd68eeffcfb01180120d30138a0e7a8f80340bff49eb8015a04f09f94a56212080010e8ba878b0b1d792d903e2d738d19436212080110a6b7a5a0051dfcef203e2d16869b426212080210ace9bfd10e1d0738d73d2dd735bb42a2010e080010c780dfe70f50c594aaae0eca0105dfb4ca09b8",
+      "token": "0010EF9AA58FD68EEFFCFB01180120D30138A0E7A8F80340BFF49EB8015A04F09F94A56212080010E8BA878B0B1D792D903E2D738D19436212080110A6B7A5A0051DFCEF203E2D16869B426212080210ACE9BFD10E1D0738D73D2DD735BB42A2010E080010C780DFE70F50C594AAAE0ECA0105DFB4CA09B8A5DAB14C",
+      "expected": {
+        "itemid": "18156750585060740463",
+        "defindex": 1,
+        "paintindex": 211,
+        "paintseed": 386382399,
+        "paintwear": 0.5398502349853516,
+        "customnames": [
+          "🔥"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 2975980904,
+            "wear": 0.28159692883491516,
+            "rotation": 153.5525360107422
+          },
+          {
+            "slot": 1,
+            "sticker_id": 1409899430,
+            "wear": 0.15716546773910522,
+            "rotation": 77.76188659667969
+          },
+          {
+            "slot": 2,
+            "sticker_id": 3929011372,
+            "wear": 0.10508733242750168,
+            "rotation": 93.60515594482422
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 4244095047,
+            "pattern": 3855256133
+          }
+        ],
+        "blobdata": "dfb4ca09b8"
+      }
+    },
+    {
+      "name": "seeded-05",
+      "protobufHex": "10e8d5b58fadbed3a3ba011801206338b1d9d8fa0340a8decb87086212080010e6c1fcd80e1d136cdc3e2de9981a43a2010e080010b596a7a20c50dee3a1a00aca0100",
+      "token": "A5B54D70102A081B76061FA4BDA485C69D147C7D5FA6E50D7B6E22ADC7B7ADA5B54364597DABB8B6C9799B884C3DBFE607A4ABADA5B510330207A9F57B460405AF6FA4A5BB528BF7",
+      "expected": {
+        "itemid": "13422782919700474600",
+        "defindex": 1,
+        "paintindex": 99,
+        "paintseed": 2163404584,
+        "paintwear": 0.8366194367408752,
+        "customnames": [],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 3944685798,
+            "wear": 0.43051204085350037,
+            "rotation": 154.59730529785156
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 3293170485,
+            "pattern": 2752016862
+          }
+        ],
+        "blobdata": ""
+      }
+    },
+    {
+      "name": "seeded-06",
+      "protobufHex": "10f7e8849ad9ccbfb88001180720a20a388ab9adf90340af9df3d8035a005a0474657374621208001089b29bbc021db322703e2d4c1101406212080110cb80af87061dad9dd83e2d134732c2a2010e080010cdd1e8b9075085c39ff004ca01082eb14c6afe990074",
+      "token": "FFEF08177B65263340477FFEE7F8DF5DF5C775465206FCBF50620C27FCA5FFA5FB8B9A8C8B9DEDF7FFEF764D6443FDE24CDD8FC1D2B3EEFEBF9DEDF7FEEF347F5078F9E2526227C1D2ECB8CD3D5DFEF1F7FFEF322E1746F8AF7A3C600FFB35FEF7D14EB3950166FF8B01F3C948",
+      "expected": {
+        "itemid": "9255176946462045303",
+        "defindex": 7,
+        "paintindex": 1314,
+        "paintseed": 991743663,
+        "paintwear": 0.669380784034729,
+        "customnames": [
+          "",
+          "test"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 663148809,
+            "wear": 0.23450736701488495,
+            "rotation": 2.0166807174682617
+          },
+          {
+            "slot": 1,
+            "sticker_id": 1626062923,
+            "wear": 0.4230779707431793,
+            "rotation": -44.56940841674805
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2000300237,
+            "pattern": 1309139333
+          }
+        ],
+        "blobdata": "2eb14c6afe990074"
+      }
+    },
+    {
+      "name": "seeded-07",
+      "protobufHex": "10fddbc7fcd0d5f8ebe301180120f50e388cef98f20340e1d4bc8a095a005a0361cc816212080010bfe3a590051da5bb5c3f2d2c1d1bc2621108011095c7930a1d76267f3f2df4521343a2010e080010a3fe9ee70550f7fefe8b03ca010d9549ae378e4247e35e8c7610cc",
+      "token": "0010FDDBC7FCD0D5F8EBE301180120F50E388CEF98F20340E1D4BC8A095A005A0361CC816212080010BFE3A590051DA5BB5C3F2D2C1D1BC2621108011095C7930A1D76267F3F2DF4521343A2010E080010A3FE9EE70550F7FEFE8B03CA010D9549AE378E4247E35E8C7610CCD7893284",
+      "expected": {
+        "itemid": "16417840199520873981",
+        "defindex": 1,
+        "paintindex": 1909,
+        "paintseed": 2437884513,
+        "paintwear": 0.1935712695121765,
+        "customnames": [
+          "",
+          "á"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 1376350655,
+            "wear": 0.8622382283210754,
+            "rotation": -38.77848815917969
+          },
+          {
+            "slot": 1,
+            "sticker_id": 21291925,
+            "wear": 0.9966806173324585,
+            "rotation": 147.32403564453125
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 1558691619,
+            "pattern": 830455671
+          }
+        ],
+        "blobdata": "9549ae378e4247e35e8c7610cc"
+      }
+    },
+    {
+      "name": "seeded-08",
+      "protobufHex": "10e08ac392b1bc9ecc70180120880138f6f4f8ef0340abecb38b0e5a04f09f94a562110800108a91be0a1d06c90c3f2d4fff2243a2010e080010ebb59f8b0d509bea80930dca010ba21e1306e0790a0fe21d5b",
+      "token": "A5B5452F663714193B69D5BDA4852DA49D53515D4AA6E50E49162EABFFA1553A3100C7B4ADA5B52F341BAFB8A36CA99A88EA5A87E607A4ABADA5B54E103A2EA8F53E4F2536A86FA4AE07BBB6A345DCAFAA47B8FEB5906F4D",
+      "expected": {
+        "itemid": "8113368744879768928",
+        "defindex": 1,
+        "paintindex": 136,
+        "paintseed": 3782014507,
+        "paintwear": 0.12413494288921356,
+        "customnames": [
+          "🔥"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 21989514,
+            "wear": 0.5499423742294312,
+            "rotation": 162.99729919433594
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 3513244395,
+            "pattern": 3529520411
+          }
+        ],
+        "blobdata": "a21e1306e0790a0fe21d5b"
+      }
+    },
+    {
+      "name": "seeded-09",
+      "protobufHex": "10b3d6b09ce4a9eedaa801183c208b0238abc4d9f40340cfcebecd086212080010d8a69ac90f1d8569563f2dbf7dd6426212080110f5ffe5ea0d1db9a69f3e2d9820d6c26212080210b9fd93d10a1d1c33233d2d2dc4fe42a2010e0800109094f5f40550dff1cdac07ca010b335938a009bcf34f24de7f",
+      "token": "FFEF4C294F631B56112557FEE7C3DF74FDC7543B260BFCBF30314132F79DEDF7FFEF27596536F0E27A96A9C0D2408229BD9DEDF7FEEF0A001A15F2E2465960C1D267DF293D9DEDF7FDEF46026C2EF5E2E3CCDCC2D2D23B01BD5DFEF1F7FFEF6F6B0A0BFAAF200E3253F835FEF4CCA6C75FF6430CB0DB2180FFA186A9",
+      "expected": {
+        "itemid": "12156826514948369203",
+        "defindex": 60,
+        "paintindex": 267,
+        "paintseed": 2309990223,
+        "paintwear": 0.29371771216392517,
+        "customnames": [],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 4180054872,
+            "wear": 0.8375476002693176,
+            "rotation": 107.24559783935547
+          },
+          {
+            "slot": 1,
+            "sticker_id": 3713630197,
+            "wear": 0.3118188679218292,
+            "rotation": -107.06365966796875
+          },
+          {
+            "slot": 2,
+            "sticker_id": 2854551225,
+            "wear": 0.039843663573265076,
+            "rotation": 127.3831558227539
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 1587366416,
+            "pattern": 1972599007
+          }
+        ],
+        "blobdata": "335938a009bcf34f24de7f"
+      }
+    },
+    {
+      "name": "seeded-10",
+      "protobufHex": "10cfd8fbbdc6f5e0d56118072001388c96fefb034087f4ffc4025a04f09f94a55a04746573746211080010a4a3b5601da5d1683f2d53861dc262120801109abc89c90d1d8222b03d2de58ccec26212080210dcf790cd0d1d49b85f3f2d69fe2642a2010e0800109eaeb18e07508bb786b705ca010760e391fffc7e28",
+      "token": "0010CFD8FBBDC6F5E0D56118072001388C96FEFB034087F4FFC4025A04F09F94A55A04746573746211080010A4A3B5601DA5D1683F2D53861DC262120801109ABC89C90D1D8222B03D2DE58CCEC26212080210DCF790CD0D1D49B85F3F2D69FE2642A2010E0800109EAEB18E07508BB786B705CA010760E391FFFC7E2833279AB1",
+      "expected": {
+        "itemid": "7037863619194711119",
+        "defindex": 7,
+        "paintindex": 1,
+        "paintseed": 681572871,
+        "paintwear": 0.9982154369354248,
+        "customnames": [
+          "🔥",
+          "test"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 202199460,
+            "wear": 0.9094489216804504,
+            "rotation": -39.38117599487305
+          },
+          {
+            "slot": 1,
+            "sticker_id": 3642908186,
+            "wear": 0.08600331842899323,
+            "rotation": -103.27518463134766
+          },
+          {
+            "slot": 2,
+            "sticker_id": 3651419100,
+            "wear": 0.8739057183265686,
+            "rotation": 41.74844741821289
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 1909217054,
+            "pattern": 1457625995
+          }
+        ],
+        "blobdata": "60e391fffc7e28"
+      }
+    },
+    {
+      "name": "seeded-11",
+      "protobufHex": "10d0cb8ab1ca9ea2870d180720e90738dbaacaf90340ecf8dda0066212080010d3c5c888091dabdc3d3e2d91942a436212080110e59389810c1dbf69923e2dfcd6da42a2010e080010d9b4bfa90b50f1d9dcd20aca010b85e422d093fe3aad561041",
+      "token": "A5B5756E2F146F3B0722A8BDA2854CA29D7E0F6F5CA6E5495D7805A3C7B7ADA5B576606D2DACB80E79989B8834318FE6C7B7ADA4B540362C24A9B81ACC379B8859737FE707A4ABADA5B57C111A0CAEF5547C7977AF6FA4AE20418775365B9F08F3B5E4C364EFD0",
+      "expected": {
+        "itemid": "940839956507698640",
+        "defindex": 7,
+        "paintindex": 1001,
+        "paintseed": 1679260780,
+        "paintwear": 0.6975914835929871,
+        "customnames": [],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 2433884883,
+            "wear": 0.18541209399700165,
+            "rotation": 170.58033752441406
+          },
+          {
+            "slot": 1,
+            "sticker_id": 3223472613,
+            "wear": 0.2859630286693573,
+            "rotation": 109.41989135742188
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 3039812185,
+            "pattern": 2857839857
+          }
+        ],
+        "blobdata": "85e422d093fe3aad561041"
+      }
+    },
+    {
+      "name": "seeded-12",
+      "protobufHex": "10b8dbca9d9582f397a001180720ac0438c4a588fb0340fff4fb830b5a09e697a5e69cace8aa9e5a09e697a5e69cace8aa9e5a09e697a5e69cace8aa9ea2010e080010f3c6b1e10b50b3edd9f805ca010f947eaee2ae6cb4030f56ab565fada3",
+      "token": "FFEF472435626A7D0C685FFEE7F8DF53FBC73B5A7704FCBF000B047CF4A5F619685A196353175561A5F619685A196353175561A5F619685A1963531755615DFEF1F7FFEF0C394E1EF4AF4C122607FA35FEF06B81511D51934BFCF0A954A9A0525C5CE93ABF",
+      "expected": {
+        "itemid": "11542668744764599736",
+        "defindex": 7,
+        "paintindex": 556,
+        "paintseed": 2961111679,
+        "paintwear": 0.883098840713501,
+        "customnames": [
+          "日本語",
+          "日本語",
+          "日本語"
+        ],
+        "stickers": [],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 3157025651,
+            "pattern": 1595307699
+          }
+        ],
+        "blobdata": "947eaee2ae6cb4030f56ab565fada3"
+      }
+    },
+    {
+      "name": "seeded-13",
+      "protobufHex": "10ac9bdd90968bb4894e180920bc0d38b8dfd3e60340e0f8e6a6086212080010a8d1a2b5071d61dd563f2d36282fc3a2010e080010bfafd5820d50ef84ed8a06ca01032e8078",
+      "token": "0010AC9BDD90968BB4894E180920BC0D38B8DFD3E60340E0F8E6A6086212080010A8D1A2B5071D61DD563F2D36282FC3A2010E080010BFAFD5820D50EF84ED8A06CA01032E8078AAD1AF7C",
+      "expected": {
+        "itemid": "5625787966855531948",
+        "defindex": 9,
+        "paintindex": 1724,
+        "paintseed": 2228862048,
+        "paintwear": 0.025993213057518005,
+        "customnames": [],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 1990764712,
+            "wear": 0.8393154740333557,
+            "rotation": -175.15707397460938
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 3495253951,
+            "pattern": 1633370735
+          }
+        ],
+        "blobdata": "2e8078"
+      }
+    },
+    {
+      "name": "seeded-14",
+      "protobufHex": "108dc8bedad1d9a8a1dd01180720ed0e38dce086f00340c8f2beb705a2010e08001097adedc70950f2f7e6e203ca01035ac6d3",
+      "token": "A5B5286D1B7F747C0D0478A4BDA28548AB9D79452355A6E56D571B12A007A4ABADA5B532084862ACF557524347A66FA4A6FF6376546495BF",
+      "expected": {
+        "itemid": "15943484632655176717",
+        "defindex": 7,
+        "paintindex": 1901,
+        "paintseed": 1458551112,
+        "paintwear": 0.12664932012557983,
+        "customnames": [],
+        "stickers": [],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2566608535,
+            "pattern": 1012513778
+          }
+        ],
+        "blobdata": "5ac6d3"
+      }
+    },
+    {
+      "name": "seeded-15",
+      "protobufHex": "10aeabd4b1ceaf9495e101181020980238f0daa3fa0340b0feb2165a0361cc815a0361cc816212080010bdccb9c70b1d95b3413f2dd82d1ac36212080110bb95d7fd091dd8e7073f2df376ee41621208021097e8ba8f0c1de4a6033f2d8f7431c2a2010e080010df83efa40a50f8fc8ff80bca0109721ee674971a5432e0",
+      "token": "FFEF51542B4E31506B6A1EFEE7EFDF67FDC70F255C05FCBF4F014DE9A5FC9E337EA5FC9E337E9DEDF7FFEF42334638F4E26A4CBEC0D227D2E53C9DEDF7FEEF446A2802F6E22718F8C0D20C8911BE9DEDF7FDEF68174570F3E21B59FCC0D2708BCE3D5DFEF1F7FFEF207C105BF5AF07037007F435FEF68DE1198B68E5ABCD1F8207CEA7",
+      "expected": {
+        "itemid": "16224870204435666350",
+        "defindex": 16,
+        "paintindex": 280,
+        "paintseed": 46972720,
+        "paintwear": 0.7848730087280273,
+        "customnames": [
+          "á",
+          "á"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 3102631485,
+            "wear": 0.756646454334259,
+            "rotation": -154.1790771484375
+          },
+          {
+            "slot": 1,
+            "sticker_id": 2679491259,
+            "wear": 0.530881404876709,
+            "rotation": 29.808080673217773
+          },
+          {
+            "slot": 2,
+            "sticker_id": 3253646359,
+            "wear": 0.5142652988433838,
+            "rotation": -44.363826751708984
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2761671135,
+            "pattern": 3204710008
+          }
+        ],
+        "blobdata": "721ee674971a5432e0"
+      }
+    },
+    {
+      "name": "seeded-16",
+      "protobufHex": "108ef391f98ce7afc879180720810438fbede1fa034084b6f48d076212080010bbfcfde6071d8086603f2d3ea9084362120801108bb0bceb0c1da5ee8d3e2d8fce1a43a2010e08001086c5c2970450dab6c9a10aca01080a23128fe9f78125",
+      "token": "00108EF391F98CE7AFC879180720810438FBEDE1FA034084B6F48D076212080010BBFCFDE6071D8086603F2D3EA9084362120801108BB0BCEB0C1DA5EE8D3E2D8FCE1A43A2010E08001086C5C2970450DAB6C9A10ACA01080A23128FE9F781250FEB723C",
+      "expected": {
+        "itemid": "8759711525949962638",
+        "defindex": 7,
+        "paintindex": 513,
+        "paintseed": 1908218628,
+        "paintwear": 0.8455654978752136,
+        "customnames": [],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 2095021627,
+            "wear": 0.8770523071289062,
+            "rotation": 136.66110229492188
+          },
+          {
+            "slot": 1,
+            "sticker_id": 3446609931,
+            "wear": 0.27721133828163147,
+            "rotation": 154.80686950683594
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 1123066502,
+            "pattern": 2754763610
+          }
+        ],
+        "blobdata": "0a23128fe9f78125"
+      }
+    },
+    {
+      "name": "seeded-17",
+      "protobufHex": "10d1d5adeee890f5bc77180720b80a38d7e9bef80340cde9bb85075a005a006212080010e6c6fad4081dec61213d2d6af56242a2010d080010c591e0ea0a508fbdb83dca0103c8e5f4",
+      "token": "A5B57470084B4D355019D2BDA2851DAF9D724C1B5DA6E5684C1E20A2FFA5FFA5C7B7ADA5B543635F71ADB849C4849888CF50C7E707A4A8ADA5B56034454FAFF52A181D986FA4A66D4051804A6225",
+      "expected": {
+        "itemid": "8609145837065038545",
+        "defindex": 7,
+        "paintindex": 1336,
+        "paintseed": 1890514125,
+        "paintwear": 0.5613531470298767,
+        "customnames": [
+          "",
+          ""
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 2325652326,
+            "wear": 0.03940002620220184,
+            "rotation": 56.739662170410156
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2908227781,
+            "pattern": 128851599
+          }
+        ],
+        "blobdata": "c8e5f4"
+      }
+    },
+    {
+      "name": "seeded-18",
+      "protobufHex": "10e1e7e6aaf48297c626183c20910a38969592f803409af2a6b8015a09e697a5e69cace8aa9e5a09e697a5e69cace8aa9ea2010e080010fee3bc990150d2ded8ae04ca010d00a41027b34a6ae0b4c0e03992",
+      "token": "FFEF1E1819550B7D6839D9E7C3DF6EF5C7696A6D07FCBF650D5947FEA5F619685A196353175561A5F619685A1963531755615DFEF1F7FFEF011C4366FEAF2D212751FB35FEF2FF5BEFD84CB5951F4B3F1FC66DF0CAC8D1",
+      "expected": {
+        "itemid": "2777696325198263265",
+        "defindex": 60,
+        "paintindex": 1297,
+        "paintseed": 386513178,
+        "paintwear": 0.5177396535873413,
+        "customnames": [
+          "日本語",
+          "日本語"
+        ],
+        "stickers": [],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 321860094,
+            "pattern": 1171664722
+          }
+        ],
+        "blobdata": "00a41027b34a6ae0b4c0e03992"
+      }
+    },
+    {
+      "name": "seeded-19",
+      "protobufHex": "10dfdb96e297c789aeb201181020f40638a58bf7f80340cffcddcb0c6211080010b6b58f521d3af8f33e2db2c029c3a2010d080010f899c5f40850c8d69962ca0107cd57ce1d082cec",
+      "token": "0010DFDB96E297C789AEB201181020F40638A58BF7F80340CFFCDDCB0C6211080010B6B58F521D3AF8F33E2DB2C029C3A2010D080010F899C5F40850C8D69962CA0107CD57CE1D082CECA6D85748",
+      "expected": {
+        "itemid": "12852189464948485599",
+        "defindex": 16,
+        "paintindex": 884,
+        "paintseed": 3380051535,
+        "paintwear": 0.6162970662117004,
+        "customnames": [],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 172219062,
+            "wear": 0.4765031933784485,
+            "rotation": -169.75271606445312
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2391887096,
+            "pattern": 205941576
+          }
+        ],
+        "blobdata": "cd57ce1d082cec"
+      }
+    },
+    {
+      "name": "seeded-20",
+      "protobufHex": "10faf78f8ccae192dc651801209c05388cf2d1f80340afd1fbb20d6212080010d1c6dad30f1d1ad60d3f2dbfecea406212080110a8cd83f6021da577983e2d1def91c2a2010e080010b7bba4910a50d8e89dc00aca01038c9017",
+      "token": "A5B55F522A296F443779C0BDA48539A09D2957745DA6E50A745E17A8C7B7ADA5B574637F76AAB8BF73A89A881A494FE5C7B7ADA4B50D682653A7B800D23D9B88B84A346707A4ABADA5B5121E0134AFF57D4D3865AF6FA4A62935B22D2B09E0",
+      "expected": {
+        "itemid": "7329690911166954490",
+        "defindex": 1,
+        "paintindex": 668,
+        "paintseed": 3596544175,
+        "paintwear": 0.5799720287322998,
+        "customnames": [],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 4202079057,
+            "wear": 0.5540481805801392,
+            "rotation": 7.341399669647217
+          },
+          {
+            "slot": 1,
+            "sticker_id": 784393896,
+            "wear": 0.2977878153324127,
+            "rotation": -72.9670181274414
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2720603575,
+            "pattern": 2819060824
+          }
+        ],
+        "blobdata": "8c9017"
+      }
+    },
+    {
+      "name": "seeded-21",
+      "protobufHex": "1084cb9b99a48cfaf439183c20df0638b6e59df70340f0d6b2830a5a04f09f94a55a04f09f94a55a0062120800108aa49697091de1a9a03e2de633e3426212080110c6adbaa00a1de32aca3e2db551c0426212080210eda2c5c80e1d30929b3e2dfd2032c3a2010e080010a1b5bdcf0b5092c3c98505ca010e0ce024d630fe5bcd312fb760cd0e",
+      "token": "FFEF7B3464665B73050BC6E7C3DF20F9C7491A6208FCBF0F294D7CF5A5FB0F606B5AA5FB0F606B5AA5FF9DEDF7FFEF755B6968F6E21E565FC1D219CC1CBD9DEDF7FEEF3952455FF5E21CD535C1D24AAE3FBD9DEDF7FDEF125D3A37F1E2CF6D64C1D202DFCD3C5DFEF1F7FFEF5E4A4230F4AF6D3C367AFA35FEF1F31FDB29CF01A432CED0489F32F1FF864F29",
+      "expected": {
+        "itemid": "4173122038466536836",
+        "defindex": 60,
+        "paintindex": 863,
+        "paintseed": 2691476336,
+        "paintwear": 0.45204704999923706,
+        "customnames": [
+          "🔥",
+          "🔥",
+          ""
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 2464518666,
+            "wear": 0.3137960731983185,
+            "rotation": 113.60136413574219
+          },
+          {
+            "slot": 1,
+            "sticker_id": 2752419526,
+            "wear": 0.3948584496974945,
+            "rotation": 96.15958404541016
+          },
+          {
+            "slot": 2,
+            "sticker_id": 3910226285,
+            "wear": 0.3038496971130371,
+            "rotation": -178.1288604736328
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 3119471265,
+            "pattern": 1353867666
+          }
+        ],
+        "blobdata": "0ce024d630fe5bcd312fb760cd0e"
+      }
+    },
+    {
+      "name": "seeded-22",
+      "protobufHex": "10dce5b2c9a881b2a7df01180920e70d3883f2c3f70340e7e2ab625a09e697a5e69cace8aa9e5a09e697a5e69cace8aa9e5a0361cc81a2010e0800109f9087ce0550d396bfa306ca010e67191108fcc6138e586b201f90b9",
+      "token": "0010DCE5B2C9A881B2A7DF01180920E70D3883F2C3F70340E7E2AB625A09E697A5E69CACE8AA9E5A09E697A5E69CACE8AA9E5A0361CC81A2010E0800109F9087CE0550D396BFA306CA010E67191108FCC6138E586B201F90B9F74679A7",
+      "expected": {
+        "itemid": "16091018466217997020",
+        "defindex": 9,
+        "paintindex": 1767,
+        "paintseed": 206238055,
+        "paintwear": 0.4706498086452484,
+        "customnames": [
+          "日本語",
+          "日本語",
+          "á"
+        ],
+        "stickers": [],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 1505871903,
+            "pattern": 1685048147
+          }
+        ],
+        "blobdata": "67191108fcc6138e586b201f90b9"
+      }
+    },
+    {
+      "name": "seeded-23",
+      "protobufHex": "10e784cd90d3aeff8a8a01180120d20338d2a0ecfb0340e2ccece80d5a0361cc815a0361cc81a2010e0800109dcaad8e05508ee48eb609ca010b061601d9a80eab537e7cbe",
+      "token": "A5B542216835760B5A2F2FA4BDA48577A69D7705495EA6E54769494DA8FFA6C46924FFA6C4692407A4ABADA5B5386F082BA0F52B412B13AC6FA4AEA3B3A47C0DAB0EF6DBD91B91E3E535",
+      "expected": {
+        "itemid": "9950137631538102887",
+        "defindex": 1,
+        "paintindex": 466,
+        "paintseed": 3709544034,
+        "paintwear": 0.9807177782058716,
+        "customnames": [
+          "á",
+          "á"
+        ],
+        "stickers": [],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 1372284189,
+            "pattern": 2529407502
+          }
+        ],
+        "blobdata": "061601d9a80eab537e7cbe"
+      }
+    },
+    {
+      "name": "seeded-24",
+      "protobufHex": "10f6c7c7edb4a6a8f8a901183c20d008388fdcaff20340e3d7b1a2065a04f09f94a5a2010e080010988cfdd90850aeb8939504ca0106c4c022359818",
+      "token": "FFEF093838124B59570756FEE7C3DF2FF7C77023500DFCBF1C284E5DF9A5FB0F606B5A5DFEF1F7FFEF67730226F7AF51476C6AFB35FEF93B3FDDCA67E758C48FEF",
+      "expected": {
+        "itemid": "12245464628539286518",
+        "defindex": 60,
+        "paintindex": 1104,
+        "paintseed": 1682729955,
+        "paintwear": 0.19915030896663666,
+        "customnames": [
+          "🔥"
+        ],
+        "stickers": [],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2336179736,
+            "pattern": 1118100526
+          }
+        ],
+        "blobdata": "c4c022359818"
+      }
+    },
+    {
+      "name": "seeded-25",
+      "protobufHex": "10f198ca9882d5b8cf4e181020f80238d29295f80340b19abf83095a04f09f94a55a006212080010f49b97f2011d87142c3f2de61b5842621208011082ba8ffa061db288403f2d684e26c262120802109cd2a79f061d10eeee3e2dfedb65c2a2010e08001094d180920750d1aaae8c0bca0100",
+      "token": "0010F198CA9882D5B8CF4E181020F80238D29295F80340B19ABF83095A04F09F94A55A006212080010F49B97F2011D87142C3F2DE61B5842621208011082BA8FFA061DB288403F2D684E26C262120802109CD2A79F061D10EEEE3E2DFEDB65C2A2010E08001094D180920750D1AAAE8C0BCA010018ACDC22",
+      "expected": {
+        "itemid": "5665214593049463921",
+        "defindex": 16,
+        "paintindex": 376,
+        "paintseed": 2423246129,
+        "paintwear": 0.5206500291824341,
+        "customnames": [
+          "🔥",
+          ""
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 507891188,
+            "wear": 0.6721882224082947,
+            "rotation": 54.027244567871094
+          },
+          {
+            "slot": 1,
+            "sticker_id": 1866718466,
+            "wear": 0.75208580493927,
+            "rotation": -41.576568603515625
+          },
+          {
+            "slot": 2,
+            "sticker_id": 1676273948,
+            "wear": 0.4666600227355957,
+            "rotation": -57.46483612060547
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 1916807316,
+            "pattern": 2978714961
+          }
+        ],
+        "blobdata": ""
+      }
+    },
+    {
+      "name": "seeded-26",
+      "protobufHex": "1094c297b1ab98caa646180920dd0a38c09aeff80340a4e6f2890b5a005a09e697a5e69cace8aa9e5a04f09f94a56212080010e395c2890c1d9456613f2dc67a97c2a2010e08001099cc86880750f9d5c7bc0dca0100",
+      "token": "A5B5316732140E3D6F03E3BDAC8578AF9D653F4A5DA6E50143572CAEFFA5FFAC4332004339094D0F3BFFA1553A3100C7B7ADA5B54630672CA9B831F3C49A8863DF326707A4ABADA5B53C69232DA2F55C706219A86FA4A5A307557D",
+      "expected": {
+        "itemid": "5065749972606378260",
+        "defindex": 9,
+        "paintindex": 1373,
+        "paintseed": 2973545252,
+        "paintwear": 0.6086006164550781,
+        "customnames": [
+          "",
+          "日本語",
+          "🔥"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 3241183971,
+            "wear": 0.8802273273468018,
+            "rotation": -75.73979187011719
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 1895933465,
+            "pattern": 3616664313
+          }
+        ],
+        "blobdata": ""
+      }
+    },
+    {
+      "name": "seeded-27",
+      "protobufHex": "10d780bbd2cfa480938301180720bd0a3895cff6f90340d3a4d0f00c5a09e697a5e69cace8aa9e6212080010a4b4dcc20e1db7c8a83c2d87d1a1c26212080110e1ec8bb4041dfc7ef93e2d3848f0c26212080210a2aab3a00b1d3fed7d3f2d40282bc3a2010e080010f4b2b6f209508699afb10eca0103674626",
+      "token": "FFEF287F442D305B7F6C7CFEE7F8DF42F5C76A300906FCBF2C5B2F0FF3A5F619685A1963531755619DEDF7FFEF5B4B233DF1E2483757C3D2782E5E3D9DEDF7FEEF1E13744BFBE2038106C1D2C7B70F3D9DEDF7FDEF5D554C5FF4E2C01282C0D2BFD7D43C5DFEF1F7FFEF0B4D490DF6AF7966504EF135FEFC98B9D9F86B100E",
+      "expected": {
+        "itemid": "9450242126413480023",
+        "defindex": 7,
+        "paintindex": 1341,
+        "paintseed": 3457421907,
+        "paintwear": 0.740838348865509,
+        "customnames": [
+          "日本語"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 3898022436,
+            "wear": 0.020603520795702934,
+            "rotation": -80.90923309326172
+          },
+          {
+            "slot": 1,
+            "sticker_id": 1182987873,
+            "wear": 0.4872969388961792,
+            "rotation": -120.14105224609375
+          },
+          {
+            "slot": 2,
+            "sticker_id": 3020739874,
+            "wear": 0.9919013381004333,
+            "rotation": -171.1572265625
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2655885684,
+            "pattern": 3861630086
+          }
+        ],
+        "blobdata": "674626"
+      }
+    },
+    {
+      "name": "seeded-28",
+      "protobufHex": "10e0bfca89edb1e3f7771801209a05389bb9b3fa0340faddace90c6211080010c582c9181d8c451f3f2d58ca21c26212080110a1f6e9d8071de473ff3e2dfdd3a9426212080210fff5d4e4091d9318d43d2daedc5042a2010e080010b392f2920e509986afaa09ca0100",
+      "token": "0010E0BFCA89EDB1E3F7771801209A05389BB9B3FA0340FADDACE90C6211080010C582C9181D8C451F3F2D58CA21C26212080110A1F6E9D8071DE473FF3E2DFDD3A9426212080210FFF5D4E4091D9318D43D2DAEDC5042A2010E080010B392F2920E509986AFAA09CA01004416BA2F",
+      "expected": {
+        "itemid": "8642281854481899488",
+        "defindex": 1,
+        "paintindex": 666,
+        "paintseed": 3442159354,
+        "paintwear": 0.8002411723136902,
+        "customnames": [],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 51528005,
+            "wear": 0.622154951095581,
+            "rotation": -40.447601318359375
+          },
+          {
+            "slot": 1,
+            "sticker_id": 2065333025,
+            "wear": 0.49893105030059814,
+            "rotation": 84.9140396118164
+          },
+          {
+            "slot": 2,
+            "sticker_id": 2627025663,
+            "wear": 0.10356249660253525,
+            "rotation": 52.21550750732422
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 3797715251,
+            "pattern": 2504770329
+          }
+        ],
+        "blobdata": ""
+      }
+    },
+    {
+      "name": "seeded-29",
+      "protobufHex": "10f7a6e99883ddf68dfb01180920a10838d2b8c8ee0340e7b7b58604a2010e080010f2b9d7e20950d1b5c6c60bca01067f9556014570",
+      "token": "A5B552034C3D267853285EA4BDAC8504AD9D771D6D4BA6E542121023A107A4ABADA5B5571C7247ACF574106363AE6FA4A3DA30F3A4E0D540F5BD93",
+      "expected": {
+        "itemid": "18094296618715730807",
+        "defindex": 9,
+        "paintindex": 1057,
+        "paintseed": 1087200231,
+        "paintwear": 0.1025930792093277,
+        "customnames": [],
+        "stickers": [],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2622872818,
+            "pattern": 3100744401
+          }
+        ],
+        "blobdata": "7f9556014570"
+      }
+    },
+    {
+      "name": "seeded-30",
+      "protobufHex": "10a6d1c5a58da1c8ec36183c20ea0738b4e0f4fb0340aff4b49c055a04f09f94a55a04746573745a0361cc816212080010b783b5cb051d60c9063f2d35283041a2010e080010b6a287a001508087958408ca01040ef40686",
+      "token": "FFEF592E3A5A725E3713C9E7C3DF15F8C74B1F0B04FCBF500B4B63FAA5FB0F606B5AA5FB8B9A8C8BA5FC9E337E9DEDF7FFEF487C4A34FAE29F36F9C0D2CAD7CFBE5DFEF1F7FFEF495D785FFEAF7F786A7BF735FEFBF10BF9798C7AA463",
+      "expected": {
+        "itemid": "3952226469806172326",
+        "defindex": 60,
+        "paintindex": 1002,
+        "paintseed": 1401764399,
+        "paintwear": 0.9890167713165283,
+        "customnames": [
+          "🔥",
+          "test",
+          "á"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 1500332471,
+            "wear": 0.5265102386474609,
+            "rotation": 11.00981616973877
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 335663414,
+            "pattern": 2156217216
+          }
+        ],
+        "blobdata": "0ef40686"
+      }
+    },
+    {
+      "name": "seeded-31",
+      "protobufHex": "10b8eb85b4e198cf9b79180720860238a9f1e1f00340adffe7655a04746573745a0474657374a2010e080010c888f1c20850add283f702ca010b9b7044904e1c177a93f63e",
+      "token": "0010B8EB85B4E198CF9B79180720860238A9F1E1F00340ADFFE7655A04746573745A0474657374A2010E080010C888F1C20850ADD283F702CA010B9B7044904E1C177A93F63E3683ECE4",
+      "expected": {
+        "itemid": "8734516823787140536",
+        "defindex": 7,
+        "paintindex": 262,
+        "paintseed": 213516205,
+        "paintwear": 0.14889778196811676,
+        "customnames": [
+          "test",
+          "test"
+        ],
+        "stickers": [],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2287748168,
+            "pattern": 786491693
+          }
+        ],
+        "blobdata": "9b7044904e1c177a93f63e"
+      }
+    },
+    {
+      "name": "seeded-32",
+      "protobufHex": "10dd8093b3efedd5d07b181020aa0538b2efe3f40340aaccece00262120800108ef7a5f90b1de42a553f2d35b317436212080110d5f6eecc021dd94c9e3d2db80e00c1a2010e0800109da896ed0e50accda3c00cca01027755",
+      "token": "A5B5782536164A487075DEBDB5850FA09D174A4651A6E50F694945A7C7B7ADA5B52B52005CAEB8418FF09A889016B2E6C7B7ADA4B570534B69A7B87CE93B98881DABA56407A4ABADA5B5380D3348ABF509680665A96FA4A7D2F02BD331FD",
+      "expected": {
+        "itemid": "8908497672007368797",
+        "defindex": 16,
+        "paintindex": 682,
+        "paintseed": 739976746,
+        "paintwear": 0.29876476526260376,
+        "customnames": [],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 3207166862,
+            "wear": 0.8326857089996338,
+            "rotation": 151.7000274658203
+          },
+          {
+            "slot": 1,
+            "sticker_id": 698071893,
+            "wear": 0.07729501277208328,
+            "rotation": -8.003593444824219
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 3987051549,
+            "pattern": 3356026540
+          }
+        ],
+        "blobdata": "7755"
+      }
+    },
+    {
+      "name": "seeded-33",
+      "protobufHex": "10998ff0eea8c9f98035180920de0d38cae0b0eb0340bbf986aa0ca2010d080010a0b3b79b0850f2de921aca01057b50828d31",
+      "token": "FFEF66700F115736067FCAE7F6DF21F2C7351F4F14FCBF44067955F35DFEF2F7FFEF5F4C4864F7AF0D216DE535FEFA84AF7D72CED7D52C3B",
+      "expected": {
+        "itemid": "3819587166868866969",
+        "defindex": 9,
+        "paintindex": 1758,
+        "paintseed": 3309419707,
+        "paintwear": 0.057663239538669586,
+        "customnames": [],
+        "stickers": [],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2205014432,
+            "pattern": 54833010
+          }
+        ],
+        "blobdata": "7b50828d31"
+      }
+    },
+    {
+      "name": "seeded-34",
+      "protobufHex": "1081f7f0b190cdd2c016180120950a38a0d3b1f903408dd4cea70d62120800109dc7cc86051d46482e3e2dad14e4c2a2010e080010e980a9820b50fcbc9e9c01ca010fef908e7c61cb116e4e39bde063a443",
+      "token": "001081F7F0B190CDD2C016180120950A38A0D3B1F903408DD4CEA70D62120800109DC7CC86051D46482E3E2DAD14E4C2A2010E080010E980A9820B50FCBC9E9C01CA010FEF908E7C61CB116E4E39BDE063A44316C082DB",
+      "expected": {
+        "itemid": "1621659155766721409",
+        "defindex": 1,
+        "paintindex": 1301,
+        "paintseed": 3572738573,
+        "paintwear": 0.6734867095947266,
+        "customnames": [],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 1356014493,
+            "wear": 0.17019757628440857,
+            "rotation": -114.0403823852539
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2957656169,
+            "pattern": 327655036
+          }
+        ],
+        "blobdata": "ef908e7c61cb116e4e39bde063a443"
+      }
+    },
+    {
+      "name": "seeded-35",
+      "protobufHex": "1093a6fd909b9e88acb6011809209c0538a7bbadf8034087c6b0d1066211080010b393f31b1da96d103f2d9e5929c2a2010e080010c79085850c50d4a5f1a208ca010a9078401ed5a3f3a15241",
+      "token": "A5B5360358353E3B2D0913A4BDAC8539A09D021E085DA6E522631574A3C7B4ADA5B5163656BEB80CC8B59A883BFC8C6707A4ABADA5B562352020A9F571005407AD6FA4AF35DDE5BB70065604F7E42EF70B9D",
+      "expected": {
+        "itemid": "13139288135301026579",
+        "defindex": 9,
+        "paintindex": 668,
+        "paintseed": 1781277447,
+        "paintwear": 0.54439777135849,
+        "customnames": [],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 58509747,
+            "wear": 0.5641732811927795,
+            "rotation": -42.33751678466797
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 3231795271,
+            "pattern": 2220643028
+          }
+        ],
+        "blobdata": "9078401ed5a3f3a15241"
+      }
+    },
+    {
+      "name": "seeded-36",
+      "protobufHex": "10f4e1bcfcc5b193b89401181020aa0d389981a3f80340bfd7e985075a0361cc815a006212080010b48987c70a1d67ee1d3f2d9a8203436212080110c7e0a58a0a1d144f673f2dce399242a2010e0800109eb2d2cb07509bd6cefb04ca010cfdcdb7c3b85dc58e908cc03b",
+      "token": "FFEF0B1E43033A4E6C476BFEE7EFDF55F2C7667E5C07FCBF4028167AF8A5FC9E337EA5FF9DEDF7FFEF4B767838F5E29811E2C0D2657DFCBC9DEDF7FEEF381F5A75F5E2EBB098C0D231C66DBD5DFEF1F7FFEF614D2D34F8AF64293104FB35FEF30232483C47A23A716F733FC437076615",
+      "expected": {
+        "itemid": "10696134380298907892",
+        "defindex": 16,
+        "paintindex": 1706,
+        "paintseed": 1891265471,
+        "paintwear": 0.5341888070106506,
+        "customnames": [
+          "á",
+          ""
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 2833368244,
+            "wear": 0.6169189810752869,
+            "rotation": 131.51016235351562
+          },
+          {
+            "slot": 1,
+            "sticker_id": 2705944647,
+            "wear": 0.903550386428833,
+            "rotation": 73.11289978027344
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2037684510,
+            "pattern": 1332980507
+          }
+        ],
+        "blobdata": "fdcdb7c3b85dc58e908cc03b"
+      }
+    },
+    {
+      "name": "seeded-37",
+      "protobufHex": "10a8adbe8af98b9be53e180920ae0a38f2869afa03409ed5bdcf0a5a09e697a5e69cace8aa9e5a0361cc81621208001087c1bb9f0f1d4bec013f2d367f0d436212080110c48980c20a1d8dffe53e2d8c3a29c3a2010e080010cec8cac80650aaefa0d102ca0104d8958bc2",
+      "token": "0010A8ADBE8AF98B9BE53E180920AE0A38F2869AFA03409ED5BDCF0A5A09E697A5E69CACE8AA9E5A0361CC81621208001087C1BB9F0F1D4BEC013F2D367F0D436212080110C48980C20A1D8DFFE53E2D8C3A29C3A2010E080010CEC8CAC80650AAEFA0D102CA0104D8958BC2F3A02AE2",
+      "expected": {
+        "itemid": "4524547933362689704",
+        "defindex": 9,
+        "paintindex": 1326,
+        "paintseed": 2851039902,
+        "paintwear": 0.7754431962966919,
+        "customnames": [
+          "日本語",
+          "á"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 4092518535,
+            "wear": 0.5075117945671082,
+            "rotation": 141.49691772460938
+          },
+          {
+            "slot": 1,
+            "sticker_id": 2822767812,
+            "wear": 0.4492153227329254,
+            "rotation": -169.22869873046875
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 1762829390,
+            "pattern": 707278762
+          }
+        ],
+        "blobdata": "d8958bc2"
+      }
+    },
+    {
+      "name": "seeded-38",
+      "protobufHex": "10d8e7c5acc7a6b69b76180920c80238c9829ef80340f5b0ddcb045a005a0361cc815a006211080010e98796121d2611563b2d5a155541a2010e08001084b2e3ba0650fc81b9c50dca010516f3a0e762",
+      "token": "A5B57D4260096203133ED3BDAC856DA79D6C273B5DA6E55015786EA1FFA5FFA6C46924FFA5C7B4ADA5B54C2233B7B883B4F39E88FFB0F0E407A4ABADA5B52117461FA3F559241C60A86FA4A0B3560542C7221A0FD0",
+      "expected": {
+        "itemid": "8518234564551865304",
+        "defindex": 9,
+        "paintindex": 328,
+        "paintseed": 1232558197,
+        "paintwear": 0.5293164849281311,
+        "customnames": [
+          "",
+          "á",
+          ""
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 38110185,
+            "wear": 0.0032664029859006405,
+            "rotation": 13.317712783813477
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 1733875972,
+            "pattern": 3635298556
+          }
+        ],
+        "blobdata": "16f3a0e762"
+      }
+    },
+    {
+      "name": "seeded-39",
+      "protobufHex": "10c9bac28ee1dccaa2fc01180120d20b38c9c4c4dd0340a6e1a6f50a5a09e697a5e69cace8aa9e6212080010d0add588051d38b36f3f2d8f1303436212080110e99ffaf30a1d26b2163f2d98703343a2010e080010fcb7b1c60a5091b1c0830eca0102979c",
+      "token": "FFEF36453D711E23355D03FEE7FEDF2DF4C7363B3B22FCBF591E590AF5A5F619685A1963531755619DEDF7FFEF2F522A77FAE2C74C90C0D270ECFCBC9DEDF7FEEF1660050CF5E2D94DE9C0D2678FCCBC5DFEF1F7FFEF03484E39F5AF6E4E3F7CF135FEFD6863E688EF1B",
+      "expected": {
+        "itemid": "18177982638580604233",
+        "defindex": 1,
+        "paintindex": 1490,
+        "paintseed": 2930356390,
+        "paintwear": 0.0054056984372437,
+        "customnames": [
+          "日本語"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 1360352976,
+            "wear": 0.9363284111022949,
+            "rotation": 131.07640075683594
+          },
+          {
+            "slot": 1,
+            "sticker_id": 2927529961,
+            "wear": 0.5886558294296265,
+            "rotation": 179.4398193359375
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 2831965180,
+            "pattern": 3765442705
+          }
+        ],
+        "blobdata": "979c"
+      }
+    },
+    {
+      "name": "seeded-40",
+      "protobufHex": "10f891e5aca9dce687b801180120fe0738cf95edf90340a3e79296056212080010b3f6cbb40b1d8bf90a3f2d7bc6a0c2a2010d080010eed8ca9e0450f2fe904aca01084287b2b377d1e43d",
+      "token": "0010F891E5ACA9DCE687B801180120FE0738CF95EDF90340A3E79296056212080010B3F6CBB40B1D8BF90A3F2D7BC6A0C2A2010D080010EED8CA9E0450F2FE904ACA01084287B2B377D1E43D77CAFC32",
+      "expected": {
+        "itemid": "13262989725592537336",
+        "defindex": 1,
+        "paintindex": 1022,
+        "paintseed": 1388622755,
+        "paintwear": 0.7316102385520935,
+        "customnames": [],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 3063085875,
+            "wear": 0.5428702235221863,
+            "rotation": -80.38765716552734
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 1137880174,
+            "pattern": 155467634
+          }
+        ],
+        "blobdata": "4287b2b377d1e43d"
+      }
+    },
+    {
+      "name": "seeded-41",
+      "protobufHex": "10adf7ba8b88a380d4bd01183c209d0638b2e7f5f20340ebacdef90e5a04f09f94a55a09e697a5e69cace8aa9e5a04746573746212080010e0ac9889081d8e30843e2d74a2c7c2a2010e080010f4e5c3a602508aedab9a0dca0109b8612caeec4f72910a",
+      "token": "A5B508521F2E2D06257118A4BD998538A39D17425057A6E54E097B5CABFFA1553A3100FFAC4332004339094D0F3BFFA1D1C0D6D1C7B7ADA5B545093D2CADB82B95219B88D107626707A4ABADA5B551406603A7F52F480E3FA86FA4AC1DC4890B49EAD734AF0AD8207E",
+      "expected": {
+        "itemid": "13666174274018130861",
+        "defindex": 60,
+        "paintindex": 797,
+        "paintseed": 4013397611,
+        "paintwear": 0.21626165509223938,
+        "customnames": [
+          "🔥",
+          "日本語",
+          "test"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 2166756960,
+            "wear": 0.25818294286727905,
+            "rotation": -99.81729125976562
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 617673460,
+            "pattern": 3544905354
+          }
+        ],
+        "blobdata": "b8612caeec4f72910a"
+      }
+    },
+    {
+      "name": "seeded-42",
+      "protobufHex": "10afdd90cbe6c2a8d70a180720ce0338948bfef60340a0bf9b92015a04f09f94a55a0361cc8162120800108baceebe071d980d673f2db79717c36211080110d6f79b0f1d0e08fc3e2dfaea87c2a2010e080010f98abfb90c508997f29206ca01040663a7c9",
+      "token": "FFEF50226F34193D5728F5E7F8DF31FCC76B740109FCBF5F40646DFEA5FB0F606B5AA5FC9E337E9DEDF7FFEF74531141F8E267F298C0D24868E83C9DEEF7FEEF290864F0E2F1F703C1D20515783D5DFEF1F7FFEF06754046F3AF76680D6DF935FEFBF99C583610115C9B",
+      "expected": {
+        "itemid": "769730803468086959",
+        "defindex": 7,
+        "paintindex": 462,
+        "paintseed": 306634656,
+        "paintwear": 0.43656599521636963,
+        "customnames": [
+          "🔥",
+          "á"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 2010879499,
+            "wear": 0.9025511741638184,
+            "rotation": -151.59263610839844
+          },
+          {
+            "slot": 1,
+            "sticker_id": 31914966,
+            "wear": 0.4922489523887634,
+            "rotation": -67.95893859863281
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 3341796729,
+            "pattern": 1650232201
+          }
+        ],
+        "blobdata": "0663a7c9"
+      }
+    },
+    {
+      "name": "seeded-43",
+      "protobufHex": "10a3dcf7c0f591eaaa5b180720cc0f38d5d6ddf80340ceffcfdc015a0361cc81a2010e080010ba9d85ec065095fc89b20dca0102289f",
+      "token": "0010A3DCF7C0F591EAAA5B180720CC0F38D5D6DDF80340CEFFCFDC015A0361CC81A2010E080010BA9D85EC065095FC89B20DCA0102289F8CDB3580",
+      "expected": {
+        "itemid": "6581351764083994147",
+        "defindex": 7,
+        "paintindex": 1996,
+        "paintseed": 462684110,
+        "paintwear": 0.5914815068244934,
+        "customnames": [
+          "á"
+        ],
+        "stickers": [],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 1837190842,
+            "pattern": 3594681877
+          }
+        ],
+        "blobdata": "289f"
+      }
+    },
+    {
+      "name": "seeded-44",
+      "protobufHex": "1091a6dbc993f8cf8fd201183c20c60a38fc82cffa0340fb8bc192035a04f09f94a55a04f09f94a56212080010f3be8ad10f1d7a68563f2d79b69ac26212080110e5c1c2d30c1d6ba0373f2de9e81fc36212080210a9b4ca90051d7dace43e2db73cfd42a2010e080010b2a18a9b0150dca7c8b90cca010c639368e54ddedd3707490626",
+      "token": "A5B534037E6C365D6A2A77A4BD998563AF9D59276A5FA6E55E2E6437A6FFA1553A3100FFA1553A3100C7B7ADA5B5561B2F74AAB8DFCDF39A88DC133F67C7B7ADA4B540646776A9B8CE05929A884C4DBA66C7B7ADA7B50C116F35A0B8D809419B88129958E707A4ABADA5B517042F3EA4F579026D1CA96FA4A9C636CD40E87B7892A2ECA3838C66E6DC",
+      "expected": {
+        "itemid": "15140890571364029201",
+        "defindex": 60,
+        "paintindex": 1350,
+        "paintseed": 844121595,
+        "paintwear": 0.8271710872650146,
+        "customnames": [
+          "🔥",
+          "🔥"
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 4196573043,
+            "wear": 0.8375316858291626,
+            "rotation": -77.35639190673828
+          },
+          {
+            "slot": 1,
+            "sticker_id": 3396378853,
+            "wear": 0.717291533946991,
+            "rotation": -159.90980529785156
+          },
+          {
+            "slot": 2,
+            "sticker_id": 1376950825,
+            "wear": 0.44662848114967346,
+            "rotation": 126.61858367919922
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 325226674,
+            "pattern": 3341947868
+          }
+        ],
+        "blobdata": "639368e54ddedd3707490626"
+      }
+    },
+    {
+      "name": "seeded-45",
+      "protobufHex": "10fbe8e699ece6b3c88901180720d80538a7cefff70340e4be97c10b5a04746573745a0062120800109087cae5091d3e306d3f2de806ffc262120801108694e3b9041db2d6383f2d881b04c2a2010e080010f5a9b4ff0b50e3fccff90bca010747383a505249d8",
+      "token": "FFEF0417196613194C3776FEE7F8DF27FAC758310008FCBF1B41683EF4A5FB8B9A8C8BA5FF9DEDF7FFEF6F78351AF6E2C1CF92C0D217F9003D9DEDF7FEEF796B1C46FBE24D29C7C0D277E4FB3D5DFEF1F7FFEF0A564B00F4AF1C033006F435FEF8B8C7C5AFADB627C0C84AC9",
+      "expected": {
+        "itemid": "9912650613952984187",
+        "defindex": 7,
+        "paintindex": 728,
+        "paintseed": 3089489764,
+        "paintwear": 0.49981042742729187,
+        "customnames": [
+          "test",
+          ""
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 2628944784,
+            "wear": 0.9265173673629761,
+            "rotation": -127.51348876953125
+          },
+          {
+            "slot": 1,
+            "sticker_id": 1194904070,
+            "wear": 0.722025990486145,
+            "rotation": -33.026885986328125
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 3219985653,
+            "pattern": 3207855715
+          }
+        ],
+        "blobdata": "47383a505249d8"
+      }
+    },
+    {
+      "name": "seeded-46",
+      "protobufHex": "10befea0f8b2cd9ab846183c20d1043884baf8f0034083afcbc8095a005a00621208001099e280f90d1dab64073f2d22e5f8c262120801109aa3daeb051d0373113f2d398a90c26212080210d9c6d2fd081d5355e33e2d19c5c4c2a2010e08001098da90b70b50fecd8fd104ca010fc73dc9ed0ca8924c359dd819275ead",
+      "token": "0010BEFEA0F8B2CD9AB846183C20D1043884BAF8F0034083AFCBC8095A005A00621208001099E280F90D1DAB64073F2D22E5F8C262120801109AA3DAEB051D0373113F2D398A90C26212080210D9C6D2FD081D5355E33E2D19C5C4C2A2010E08001098DA90B70B50FECD8FD104CA010FC73DC9ED0CA8924C359DD819275EAD61D56D6F",
+      "expected": {
+        "itemid": "5075673788629663550",
+        "defindex": 60,
+        "paintindex": 593,
+        "paintseed": 2568148867,
+        "paintwear": 0.1544075608253479,
+        "customnames": [
+          "",
+          ""
+        ],
+        "stickers": [
+          {
+            "slot": 0,
+            "sticker_id": 3743428889,
+            "wear": 0.5288798213005066,
+            "rotation": -124.44752502441406
+          },
+          {
+            "slot": 1,
+            "sticker_id": 1568051610,
+            "wear": 0.5681611895561218,
+            "rotation": -72.26996612548828
+          },
+          {
+            "slot": 2,
+            "sticker_id": 2410980185,
+            "wear": 0.44401034712791443,
+            "rotation": -98.38495635986328
+          }
+        ],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 3068407064,
+            "pattern": 1243866878
+          }
+        ],
+        "blobdata": "c73dc9ed0ca8924c359dd819275ead"
+      }
+    },
+    {
+      "name": "seeded-47",
+      "protobufHex": "10d988b6e8dbcc98899f011810200538e1e7fdf10340e186ecc2095a00a2010e080010ce99fbbc0150cfe4d5e101ca010b485a235c1bf0f757b1f828",
+      "token": "A5B57C2D134D7E693D2C3AA4BDB585A09D44425854A6E544234967ACFFA507A4ABADA5B56B3C5E19A4F56A417044A46FA4AEEDFF86F9BE5552F2145D8D8CADB7E5",
+      "expected": {
+        "itemid": "11462332190714332249",
+        "defindex": 16,
+        "paintindex": 5,
+        "paintseed": 2556101473,
+        "paintwear": 0.1869654804468155,
+        "customnames": [
+          ""
+        ],
+        "stickers": [],
+        "keychains": [
+          {
+            "slot": 0,
+            "sticker_id": 396283086,
+            "pattern": 473264719
+          }
+        ],
+        "blobdata": "485a235c1bf0f757b1f828"
+      }
+    }
+  ],
+  "malformed": [
+    {
+      "name": "truncated-uint64",
+      "protobufHex": "1080",
+      "token": "001080B076D8A5"
+    },
+    {
+      "name": "truncated-string",
+      "protobufHex": "10015a056162",
+      "token": "0010015A05616239E59496"
+    },
+    {
+      "name": "truncated-attachment",
+      "protobufHex": "1001620308",
+      "token": "0010016203082429781C"
+    },
+    {
+      "name": "truncated-fixed32",
+      "protobufHex": "100162021d00",
+      "token": "00100162021D00D4B0C5B5"
+    },
+    {
+      "name": "invalid-wire-type",
+      "protobufHex": "10010f",
+      "token": "0010010F1E52A288"
+    }
+  ]
+}
