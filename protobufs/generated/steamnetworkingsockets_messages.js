@@ -1,4 +1,4 @@
-/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
+/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-mixed-operators, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars, default-case, jsdoc/require-param*/
 (function(global, factory) { /* global define, require, module */
 
     /* AMD */ if (typeof define === 'function' && define.amd)
@@ -12,20 +12,21 @@
 
     // Common aliases
     var $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
+    var $Object = $util.global.Object, $undefined = $util.global.undefined, $Error = $util.global.Error, $RangeError = $util.global.RangeError, $Array = $util.global.Array, $TypeError = $util.global.TypeError, $parseInt = $util.global.parseInt, $String = $util.global.String, $Number = $util.global.Number, $BigInt = $util.global.BigInt, $Boolean = $util.global.Boolean;
     
     // Exported root namespace
     var $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
     
     /**
      * ESteamNetworkingSocketsCipher enum.
-     * @exports ESteamNetworkingSocketsCipher
+     * @name ESteamNetworkingSocketsCipher
      * @enum {number}
      * @property {number} k_ESteamNetworkingSocketsCipher_INVALID=0 k_ESteamNetworkingSocketsCipher_INVALID value
      * @property {number} k_ESteamNetworkingSocketsCipher_NULL=1 k_ESteamNetworkingSocketsCipher_NULL value
      * @property {number} k_ESteamNetworkingSocketsCipher_AES_256_GCM=2 k_ESteamNetworkingSocketsCipher_AES_256_GCM value
      */
     $root.ESteamNetworkingSocketsCipher = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
+        var valuesById = $Object.create(null), values = $Object.create(valuesById);
         values[valuesById[0] = "k_ESteamNetworkingSocketsCipher_INVALID"] = 0;
         values[valuesById[1] = "k_ESteamNetworkingSocketsCipher_NULL"] = 1;
         values[valuesById[2] = "k_ESteamNetworkingSocketsCipher_AES_256_GCM"] = 2;
@@ -36,30 +37,43 @@
     
         /**
          * Properties of a CMsgSteamDatagramSessionCryptInfo.
-         * @exports ICMsgSteamDatagramSessionCryptInfo
-         * @interface ICMsgSteamDatagramSessionCryptInfo
+         * @typedef {Object} CMsgSteamDatagramSessionCryptInfo.$Properties
          * @property {CMsgSteamDatagramSessionCryptInfo.EKeyType|null} [key_type] CMsgSteamDatagramSessionCryptInfo key_type
          * @property {Uint8Array|null} [key_data] CMsgSteamDatagramSessionCryptInfo key_data
          * @property {number|Long|null} [nonce] CMsgSteamDatagramSessionCryptInfo nonce
          * @property {number|null} [protocol_version] CMsgSteamDatagramSessionCryptInfo protocol_version
          * @property {Array.<ESteamNetworkingSocketsCipher>|null} [ciphers] CMsgSteamDatagramSessionCryptInfo ciphers
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSteamDatagramSessionCryptInfo.
+         * @exports ICMsgSteamDatagramSessionCryptInfo
+         * @interface ICMsgSteamDatagramSessionCryptInfo
+         * @augments CMsgSteamDatagramSessionCryptInfo.$Properties
+         * @deprecated Use CMsgSteamDatagramSessionCryptInfo.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSteamDatagramSessionCryptInfo.
+         * @typedef {CMsgSteamDatagramSessionCryptInfo.$Properties} CMsgSteamDatagramSessionCryptInfo.$Shape
          */
     
         /**
          * Constructs a new CMsgSteamDatagramSessionCryptInfo.
          * @exports CMsgSteamDatagramSessionCryptInfo
          * @classdesc Represents a CMsgSteamDatagramSessionCryptInfo.
-         * @implements ICMsgSteamDatagramSessionCryptInfo
          * @constructor
-         * @param {ICMsgSteamDatagramSessionCryptInfo=} [properties] Properties to set
+         * @param {CMsgSteamDatagramSessionCryptInfo.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSteamDatagramSessionCryptInfo(properties) {
+        var CMsgSteamDatagramSessionCryptInfo = function (properties) {
             this.ciphers = [];
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSteamDatagramSessionCryptInfo key_type.
@@ -106,10 +120,14 @@
          * @function create
          * @memberof CMsgSteamDatagramSessionCryptInfo
          * @static
-         * @param {ICMsgSteamDatagramSessionCryptInfo=} [properties] Properties to set
+         * @param {CMsgSteamDatagramSessionCryptInfo.$Properties=} [properties] Properties to set
          * @returns {CMsgSteamDatagramSessionCryptInfo} CMsgSteamDatagramSessionCryptInfo instance
+         * @type {{
+         *   (properties: CMsgSteamDatagramSessionCryptInfo.$Shape): CMsgSteamDatagramSessionCryptInfo & CMsgSteamDatagramSessionCryptInfo.$Shape;
+         *   (properties?: CMsgSteamDatagramSessionCryptInfo.$Properties): CMsgSteamDatagramSessionCryptInfo;
+         * }}
          */
-        CMsgSteamDatagramSessionCryptInfo.create = function create(properties) {
+        CMsgSteamDatagramSessionCryptInfo.create = function(properties) {
             return new CMsgSteamDatagramSessionCryptInfo(properties);
         };
     
@@ -118,28 +136,31 @@
          * @function encode
          * @memberof CMsgSteamDatagramSessionCryptInfo
          * @static
-         * @param {ICMsgSteamDatagramSessionCryptInfo} message CMsgSteamDatagramSessionCryptInfo message or plain object to encode
+         * @param {CMsgSteamDatagramSessionCryptInfo.$Properties} message CMsgSteamDatagramSessionCryptInfo message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramSessionCryptInfo.encode = function encode(message, writer, q) {
+        CMsgSteamDatagramSessionCryptInfo.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.key_type != null && Object.hasOwnProperty.call(message, "key_type"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.key_type != null && $Object.hasOwnProperty.call(message, "key_type"))
                 writer.uint32(/* id 1, wireType 0 =*/8).int32(message.key_type);
-            if (message.key_data != null && Object.hasOwnProperty.call(message, "key_data"))
+            if (message.key_data != null && $Object.hasOwnProperty.call(message, "key_data"))
                 writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.key_data);
-            if (message.nonce != null && Object.hasOwnProperty.call(message, "nonce"))
+            if (message.nonce != null && $Object.hasOwnProperty.call(message, "nonce"))
                 writer.uint32(/* id 3, wireType 1 =*/25).fixed64(message.nonce);
-            if (message.protocol_version != null && Object.hasOwnProperty.call(message, "protocol_version"))
+            if (message.protocol_version != null && $Object.hasOwnProperty.call(message, "protocol_version"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.protocol_version);
             if (message.ciphers != null && message.ciphers.length)
                 for (var i = 0; i < message.ciphers.length; ++i)
                     writer.uint32(/* id 5, wireType 0 =*/40).int32(message.ciphers[i]);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -148,12 +169,12 @@
          * @function encodeDelimited
          * @memberof CMsgSteamDatagramSessionCryptInfo
          * @static
-         * @param {ICMsgSteamDatagramSessionCryptInfo} message CMsgSteamDatagramSessionCryptInfo message or plain object to encode
+         * @param {CMsgSteamDatagramSessionCryptInfo.$Properties} message CMsgSteamDatagramSessionCryptInfo message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramSessionCryptInfo.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSteamDatagramSessionCryptInfo.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -163,76 +184,117 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSteamDatagramSessionCryptInfo} CMsgSteamDatagramSessionCryptInfo
+         * @returns {CMsgSteamDatagramSessionCryptInfo & CMsgSteamDatagramSessionCryptInfo.$Shape} CMsgSteamDatagramSessionCryptInfo
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramSessionCryptInfo.decode = function decode(reader, length, error, long) {
+        CMsgSteamDatagramSessionCryptInfo.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var end, message;
-            if (length === undefined)
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            var end, message, value;
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSteamDatagramSessionCryptInfo();
+            message = _target || new $root.CMsgSteamDatagramSessionCryptInfo();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.key_type = reader.int32();
-                        break;
-                    }
-                case 2: {
-                        message.key_data = reader.bytes();
-                        break;
-                    }
-                case 3: {
-                        message.nonce = reader.fixed64();
-                        break;
-                    }
-                case 4: {
-                        message.protocol_version = reader.uint32();
-                        break;
-                    }
-                case 5: {
-                        if (!(message.ciphers && message.ciphers.length))
-                            message.ciphers = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.ciphers.push(reader.int32());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.ciphers.push(reader.int32());
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        value = reader.int32();
+                        if ($root.CMsgSteamDatagramSessionCryptInfo.EKeyType[value] !== $undefined)
+                            message.key_type = value;
+                        else if (!reader.discardUnknown) {
+                            $util.makeProp(message, "$unknowns", false);
+                            (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                        }
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.key_data = reader.bytes();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 1)
+                            break;
+                        message.nonce = reader.fixed64();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 0)
+                            break;
+                        message.protocol_version = reader.uint32();
+                        continue;
+                    }
+                case 5: {
+                        if (wireType === 2) {
+                            var end2 = reader.size() + reader.pos;
+                            if (end2 > reader.len)
+                                throw $RangeError("index out of range");
+                            reader.len = end2;
+                            while (reader.pos < end2) {
+                                start = reader.pos;
+                                value = reader.int32();
+                                if ($root.ESteamNetworkingSocketsCipher[value] !== $undefined) {
+                                    if (!(message.ciphers && message.ciphers.length))
+                                        message.ciphers = [];
+                                    message.ciphers.push(value);
+                                } else if (!reader.discardUnknown) {
+                                    $util.makeProp(message, "$unknowns", false);
+                                    (message.$unknowns || (message.$unknowns = [])).push($util.rawField(5, 0, reader.raw(start, reader.pos)));
+                                }
+                            }
+                            if (reader.pos !== end2)
+                                throw $RangeError("index out of range");
+                            reader.len = end;
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
+                        value = reader.int32();
+                        if ($root.ESteamNetworkingSocketsCipher[value] !== $undefined) {
+                            if (!(message.ciphers && message.ciphers.length))
+                                message.ciphers = [];
+                            message.ciphers.push(value);
+                        } else if (!reader.discardUnknown) {
+                            $util.makeProp(message, "$unknowns", false);
+                            (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                        }
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -242,14 +304,14 @@
          * @memberof CMsgSteamDatagramSessionCryptInfo
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSteamDatagramSessionCryptInfo} CMsgSteamDatagramSessionCryptInfo
+         * @returns {CMsgSteamDatagramSessionCryptInfo & CMsgSteamDatagramSessionCryptInfo.$Shape} CMsgSteamDatagramSessionCryptInfo
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramSessionCryptInfo.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSteamDatagramSessionCryptInfo.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -260,14 +322,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramSessionCryptInfo.verify = function verify(message, long) {
+        CMsgSteamDatagramSessionCryptInfo.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.key_type != null && Object.hasOwnProperty.call(message, "key_type"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.key_type != null && $Object.hasOwnProperty.call(message, "key_type"))
                 switch (message.key_type) {
                 default:
                     return "key_type: enum value expected";
@@ -275,17 +337,17 @@
                 case 1:
                     break;
                 }
-            if (message.key_data != null && Object.hasOwnProperty.call(message, "key_data"))
+            if (message.key_data != null && $Object.hasOwnProperty.call(message, "key_data"))
                 if (!(message.key_data && typeof message.key_data.length === "number" || $util.isString(message.key_data)))
                     return "key_data: buffer expected";
-            if (message.nonce != null && Object.hasOwnProperty.call(message, "nonce"))
+            if (message.nonce != null && $Object.hasOwnProperty.call(message, "nonce"))
                 if (!$util.isInteger(message.nonce) && !(message.nonce && $util.isInteger(message.nonce.low) && $util.isInteger(message.nonce.high)))
                     return "nonce: integer|Long expected";
-            if (message.protocol_version != null && Object.hasOwnProperty.call(message, "protocol_version"))
+            if (message.protocol_version != null && $Object.hasOwnProperty.call(message, "protocol_version"))
                 if (!$util.isInteger(message.protocol_version))
                     return "protocol_version: integer expected";
-            if (message.ciphers != null && Object.hasOwnProperty.call(message, "ciphers")) {
-                if (!Array.isArray(message.ciphers))
+            if (message.ciphers != null && $Object.hasOwnProperty.call(message, "ciphers")) {
+                if (!$Array.isArray(message.ciphers))
                     return "ciphers: array expected";
                 for (var i = 0; i < message.ciphers.length; ++i)
                     switch (message.ciphers[i]) {
@@ -308,23 +370,17 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramSessionCryptInfo} CMsgSteamDatagramSessionCryptInfo
          */
-        CMsgSteamDatagramSessionCryptInfo.fromObject = function fromObject(object, long) {
+        CMsgSteamDatagramSessionCryptInfo.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSteamDatagramSessionCryptInfo)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSteamDatagramSessionCryptInfo: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSteamDatagramSessionCryptInfo: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSteamDatagramSessionCryptInfo();
             switch (object.key_type) {
-            default:
-                if (typeof object.key_type === "number") {
-                    message.key_type = object.key_type;
-                    break;
-                }
-                break;
             case "INVALID":
             case 0:
                 message.key_type = 0;
@@ -333,6 +389,7 @@
             case 1:
                 message.key_type = 1;
                 break;
+            default:
             }
             if (object.key_data != null)
                 if (typeof object.key_data === "string")
@@ -343,7 +400,7 @@
                 if ($util.Long)
                     message.nonce = $util.Long.fromValue(object.nonce, true);
                 else if (typeof object.nonce === "string")
-                    message.nonce = parseInt(object.nonce, 10);
+                    message.nonce = $parseInt(object.nonce, 10);
                 else if (typeof object.nonce === "number")
                     message.nonce = object.nonce;
                 else if (typeof object.nonce === "object")
@@ -351,28 +408,24 @@
             if (object.protocol_version != null)
                 message.protocol_version = object.protocol_version >>> 0;
             if (object.ciphers) {
-                if (!Array.isArray(object.ciphers))
-                    throw TypeError(".CMsgSteamDatagramSessionCryptInfo.ciphers: array expected");
+                if (!$Array.isArray(object.ciphers))
+                    throw $TypeError(".CMsgSteamDatagramSessionCryptInfo.ciphers: array expected");
                 message.ciphers = [];
                 for (var i = 0; i < object.ciphers.length; ++i)
                     switch (object.ciphers[i]) {
-                    default:
-                        if (typeof object.ciphers[i] === "number") {
-                            message.ciphers[i] = object.ciphers[i];
-                            break;
-                        }
                     case "k_ESteamNetworkingSocketsCipher_INVALID":
                     case 0:
-                        message.ciphers[i] = 0;
+                        message.ciphers[message.ciphers.length] = 0;
                         break;
                     case "k_ESteamNetworkingSocketsCipher_NULL":
                     case 1:
-                        message.ciphers[i] = 1;
+                        message.ciphers[message.ciphers.length] = 1;
                         break;
                     case "k_ESteamNetworkingSocketsCipher_AES_256_GCM":
                     case 2:
-                        message.ciphers[i] = 2;
+                        message.ciphers[message.ciphers.length] = 2;
                         break;
+                    default:
                     }
             }
             return message;
@@ -387,49 +440,49 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramSessionCryptInfo.toObject = function toObject(message, options, q) {
+        CMsgSteamDatagramSessionCryptInfo.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.ciphers = [];
             if (options.defaults) {
-                object.key_type = options.enums === String ? "INVALID" : 0;
-                if (options.bytes === String)
+                object.key_type = options.enums === $String ? "INVALID" : 0;
+                if (options.bytes === $String)
                     object.key_data = "";
                 else {
                     object.key_data = [];
-                    if (options.bytes !== Array)
+                    if (options.bytes !== $Array)
                         object.key_data = $util.newBuffer(object.key_data);
                 }
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.nonce = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.nonce = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.nonce = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.nonce = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 object.protocol_version = 0;
             }
-            if (message.key_type != null && Object.hasOwnProperty.call(message, "key_type"))
-                object.key_type = options.enums === String ? $root.CMsgSteamDatagramSessionCryptInfo.EKeyType[message.key_type] === undefined ? message.key_type : $root.CMsgSteamDatagramSessionCryptInfo.EKeyType[message.key_type] : message.key_type;
-            if (message.key_data != null && Object.hasOwnProperty.call(message, "key_data"))
-                object.key_data = options.bytes === String ? $util.base64.encode(message.key_data, 0, message.key_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.key_data) : message.key_data;
-            if (message.nonce != null && Object.hasOwnProperty.call(message, "nonce"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.nonce = typeof message.nonce === "number" ? BigInt(message.nonce) : $util.Long.fromBits(message.nonce.low >>> 0, message.nonce.high >>> 0, true).toBigInt();
+            if (message.key_type != null && $Object.hasOwnProperty.call(message, "key_type"))
+                object.key_type = options.enums === $String ? $root.CMsgSteamDatagramSessionCryptInfo.EKeyType[message.key_type] === $undefined ? message.key_type : $root.CMsgSteamDatagramSessionCryptInfo.EKeyType[message.key_type] : message.key_type;
+            if (message.key_data != null && $Object.hasOwnProperty.call(message, "key_data"))
+                object.key_data = options.bytes === $String ? $util.base64.encode(message.key_data, 0, message.key_data.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.key_data) : message.key_data;
+            if (message.nonce != null && $Object.hasOwnProperty.call(message, "nonce"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.nonce = typeof message.nonce === "number" ? $BigInt(message.nonce) : $util.Long.fromBits(message.nonce.low >>> 0, message.nonce.high >>> 0, true).toBigInt();
                 else if (typeof message.nonce === "number")
-                    object.nonce = options.longs === String ? String(message.nonce) : message.nonce;
+                    object.nonce = options.longs === $String ? $String(message.nonce) : message.nonce;
                 else
-                    object.nonce = options.longs === String ? $util.Long.prototype.toString.call(message.nonce) : options.longs === Number ? new $util.LongBits(message.nonce.low >>> 0, message.nonce.high >>> 0).toNumber(true) : message.nonce;
-            if (message.protocol_version != null && Object.hasOwnProperty.call(message, "protocol_version"))
+                    object.nonce = options.longs === $String ? $util.Long.prototype.toString.call(message.nonce) : options.longs === $Number ? new $util.LongBits(message.nonce.low >>> 0, message.nonce.high >>> 0).toNumber(true) : message.nonce;
+            if (message.protocol_version != null && $Object.hasOwnProperty.call(message, "protocol_version"))
                 object.protocol_version = message.protocol_version;
             if (message.ciphers && message.ciphers.length) {
-                object.ciphers = [];
+                object.ciphers = $Array(message.ciphers.length);
                 for (var j = 0; j < message.ciphers.length; ++j)
-                    object.ciphers[j] = options.enums === String ? $root.ESteamNetworkingSocketsCipher[message.ciphers[j]] === undefined ? message.ciphers[j] : $root.ESteamNetworkingSocketsCipher[message.ciphers[j]] : message.ciphers[j];
+                    object.ciphers[j] = options.enums === $String ? $root.ESteamNetworkingSocketsCipher[message.ciphers[j]] === $undefined ? message.ciphers[j] : $root.ESteamNetworkingSocketsCipher[message.ciphers[j]] : message.ciphers[j];
             }
             return object;
         };
@@ -441,23 +494,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSteamDatagramSessionCryptInfo.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSteamDatagramSessionCryptInfo.prototype.toJSON = function() {
+            return CMsgSteamDatagramSessionCryptInfo.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSteamDatagramSessionCryptInfo
+         * Gets the type url for CMsgSteamDatagramSessionCryptInfo
          * @function getTypeUrl
          * @memberof CMsgSteamDatagramSessionCryptInfo
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSteamDatagramSessionCryptInfo.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSteamDatagramSessionCryptInfo";
+        CMsgSteamDatagramSessionCryptInfo.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSteamDatagramSessionCryptInfo";
         };
     
         /**
@@ -468,7 +520,7 @@
          * @property {number} CURVE25519=1 CURVE25519 value
          */
         CMsgSteamDatagramSessionCryptInfo.EKeyType = (function() {
-            var valuesById = {}, values = Object.create(valuesById);
+            var valuesById = $Object.create(null), values = $Object.create(valuesById);
             values[valuesById[0] = "INVALID"] = 0;
             values[valuesById[1] = "CURVE25519"] = 1;
             return values;
@@ -481,26 +533,39 @@
     
         /**
          * Properties of a CMsgSteamDatagramSessionCryptInfoSigned.
-         * @exports ICMsgSteamDatagramSessionCryptInfoSigned
-         * @interface ICMsgSteamDatagramSessionCryptInfoSigned
+         * @typedef {Object} CMsgSteamDatagramSessionCryptInfoSigned.$Properties
          * @property {Uint8Array|null} [info] CMsgSteamDatagramSessionCryptInfoSigned info
          * @property {Uint8Array|null} [signature] CMsgSteamDatagramSessionCryptInfoSigned signature
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSteamDatagramSessionCryptInfoSigned.
+         * @exports ICMsgSteamDatagramSessionCryptInfoSigned
+         * @interface ICMsgSteamDatagramSessionCryptInfoSigned
+         * @augments CMsgSteamDatagramSessionCryptInfoSigned.$Properties
+         * @deprecated Use CMsgSteamDatagramSessionCryptInfoSigned.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSteamDatagramSessionCryptInfoSigned.
+         * @typedef {CMsgSteamDatagramSessionCryptInfoSigned.$Properties} CMsgSteamDatagramSessionCryptInfoSigned.$Shape
          */
     
         /**
          * Constructs a new CMsgSteamDatagramSessionCryptInfoSigned.
          * @exports CMsgSteamDatagramSessionCryptInfoSigned
          * @classdesc Represents a CMsgSteamDatagramSessionCryptInfoSigned.
-         * @implements ICMsgSteamDatagramSessionCryptInfoSigned
          * @constructor
-         * @param {ICMsgSteamDatagramSessionCryptInfoSigned=} [properties] Properties to set
+         * @param {CMsgSteamDatagramSessionCryptInfoSigned.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSteamDatagramSessionCryptInfoSigned(properties) {
+        var CMsgSteamDatagramSessionCryptInfoSigned = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSteamDatagramSessionCryptInfoSigned info.
@@ -523,10 +588,14 @@
          * @function create
          * @memberof CMsgSteamDatagramSessionCryptInfoSigned
          * @static
-         * @param {ICMsgSteamDatagramSessionCryptInfoSigned=} [properties] Properties to set
+         * @param {CMsgSteamDatagramSessionCryptInfoSigned.$Properties=} [properties] Properties to set
          * @returns {CMsgSteamDatagramSessionCryptInfoSigned} CMsgSteamDatagramSessionCryptInfoSigned instance
+         * @type {{
+         *   (properties: CMsgSteamDatagramSessionCryptInfoSigned.$Shape): CMsgSteamDatagramSessionCryptInfoSigned & CMsgSteamDatagramSessionCryptInfoSigned.$Shape;
+         *   (properties?: CMsgSteamDatagramSessionCryptInfoSigned.$Properties): CMsgSteamDatagramSessionCryptInfoSigned;
+         * }}
          */
-        CMsgSteamDatagramSessionCryptInfoSigned.create = function create(properties) {
+        CMsgSteamDatagramSessionCryptInfoSigned.create = function(properties) {
             return new CMsgSteamDatagramSessionCryptInfoSigned(properties);
         };
     
@@ -535,21 +604,24 @@
          * @function encode
          * @memberof CMsgSteamDatagramSessionCryptInfoSigned
          * @static
-         * @param {ICMsgSteamDatagramSessionCryptInfoSigned} message CMsgSteamDatagramSessionCryptInfoSigned message or plain object to encode
+         * @param {CMsgSteamDatagramSessionCryptInfoSigned.$Properties} message CMsgSteamDatagramSessionCryptInfoSigned message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramSessionCryptInfoSigned.encode = function encode(message, writer, q) {
+        CMsgSteamDatagramSessionCryptInfoSigned.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.info != null && Object.hasOwnProperty.call(message, "info"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.info != null && $Object.hasOwnProperty.call(message, "info"))
                 writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.info);
-            if (message.signature != null && Object.hasOwnProperty.call(message, "signature"))
+            if (message.signature != null && $Object.hasOwnProperty.call(message, "signature"))
                 writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.signature);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -558,12 +630,12 @@
          * @function encodeDelimited
          * @memberof CMsgSteamDatagramSessionCryptInfoSigned
          * @static
-         * @param {ICMsgSteamDatagramSessionCryptInfoSigned} message CMsgSteamDatagramSessionCryptInfoSigned message or plain object to encode
+         * @param {CMsgSteamDatagramSessionCryptInfoSigned.$Properties} message CMsgSteamDatagramSessionCryptInfoSigned message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramSessionCryptInfoSigned.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSteamDatagramSessionCryptInfoSigned.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -573,51 +645,63 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSteamDatagramSessionCryptInfoSigned} CMsgSteamDatagramSessionCryptInfoSigned
+         * @returns {CMsgSteamDatagramSessionCryptInfoSigned & CMsgSteamDatagramSessionCryptInfoSigned.$Shape} CMsgSteamDatagramSessionCryptInfoSigned
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramSessionCryptInfoSigned.decode = function decode(reader, length, error, long) {
+        CMsgSteamDatagramSessionCryptInfoSigned.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSteamDatagramSessionCryptInfoSigned();
+            message = _target || new $root.CMsgSteamDatagramSessionCryptInfoSigned();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.info = reader.bytes();
-                        break;
-                    }
-                case 2: {
-                        message.signature = reader.bytes();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        message.info = reader.bytes();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.signature = reader.bytes();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -627,14 +711,14 @@
          * @memberof CMsgSteamDatagramSessionCryptInfoSigned
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSteamDatagramSessionCryptInfoSigned} CMsgSteamDatagramSessionCryptInfoSigned
+         * @returns {CMsgSteamDatagramSessionCryptInfoSigned & CMsgSteamDatagramSessionCryptInfoSigned.$Shape} CMsgSteamDatagramSessionCryptInfoSigned
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramSessionCryptInfoSigned.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSteamDatagramSessionCryptInfoSigned.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -645,17 +729,17 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramSessionCryptInfoSigned.verify = function verify(message, long) {
+        CMsgSteamDatagramSessionCryptInfoSigned.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.info != null && Object.hasOwnProperty.call(message, "info"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.info != null && $Object.hasOwnProperty.call(message, "info"))
                 if (!(message.info && typeof message.info.length === "number" || $util.isString(message.info)))
                     return "info: buffer expected";
-            if (message.signature != null && Object.hasOwnProperty.call(message, "signature"))
+            if (message.signature != null && $Object.hasOwnProperty.call(message, "signature"))
                 if (!(message.signature && typeof message.signature.length === "number" || $util.isString(message.signature)))
                     return "signature: buffer expected";
             return null;
@@ -669,15 +753,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramSessionCryptInfoSigned} CMsgSteamDatagramSessionCryptInfoSigned
          */
-        CMsgSteamDatagramSessionCryptInfoSigned.fromObject = function fromObject(object, long) {
+        CMsgSteamDatagramSessionCryptInfoSigned.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSteamDatagramSessionCryptInfoSigned)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSteamDatagramSessionCryptInfoSigned: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSteamDatagramSessionCryptInfoSigned: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSteamDatagramSessionCryptInfoSigned();
             if (object.info != null)
                 if (typeof object.info === "string")
@@ -701,34 +785,34 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramSessionCryptInfoSigned.toObject = function toObject(message, options, q) {
+        CMsgSteamDatagramSessionCryptInfoSigned.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
-                if (options.bytes === String)
+                if (options.bytes === $String)
                     object.info = "";
                 else {
                     object.info = [];
-                    if (options.bytes !== Array)
+                    if (options.bytes !== $Array)
                         object.info = $util.newBuffer(object.info);
                 }
-                if (options.bytes === String)
+                if (options.bytes === $String)
                     object.signature = "";
                 else {
                     object.signature = [];
-                    if (options.bytes !== Array)
+                    if (options.bytes !== $Array)
                         object.signature = $util.newBuffer(object.signature);
                 }
             }
-            if (message.info != null && Object.hasOwnProperty.call(message, "info"))
-                object.info = options.bytes === String ? $util.base64.encode(message.info, 0, message.info.length) : options.bytes === Array ? Array.prototype.slice.call(message.info) : message.info;
-            if (message.signature != null && Object.hasOwnProperty.call(message, "signature"))
-                object.signature = options.bytes === String ? $util.base64.encode(message.signature, 0, message.signature.length) : options.bytes === Array ? Array.prototype.slice.call(message.signature) : message.signature;
+            if (message.info != null && $Object.hasOwnProperty.call(message, "info"))
+                object.info = options.bytes === $String ? $util.base64.encode(message.info, 0, message.info.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.info) : message.info;
+            if (message.signature != null && $Object.hasOwnProperty.call(message, "signature"))
+                object.signature = options.bytes === $String ? $util.base64.encode(message.signature, 0, message.signature.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.signature) : message.signature;
             return object;
         };
     
@@ -739,23 +823,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSteamDatagramSessionCryptInfoSigned.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSteamDatagramSessionCryptInfoSigned.prototype.toJSON = function() {
+            return CMsgSteamDatagramSessionCryptInfoSigned.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSteamDatagramSessionCryptInfoSigned
+         * Gets the type url for CMsgSteamDatagramSessionCryptInfoSigned
          * @function getTypeUrl
          * @memberof CMsgSteamDatagramSessionCryptInfoSigned
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSteamDatagramSessionCryptInfoSigned.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSteamDatagramSessionCryptInfoSigned";
+        CMsgSteamDatagramSessionCryptInfoSigned.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSteamDatagramSessionCryptInfoSigned";
         };
     
         return CMsgSteamDatagramSessionCryptInfoSigned;
@@ -765,26 +848,39 @@
     
         /**
          * Properties of a CMsgSteamDatagramDiagnostic.
-         * @exports ICMsgSteamDatagramDiagnostic
-         * @interface ICMsgSteamDatagramDiagnostic
+         * @typedef {Object} CMsgSteamDatagramDiagnostic.$Properties
          * @property {number|null} [severity] CMsgSteamDatagramDiagnostic severity
          * @property {string|null} [text] CMsgSteamDatagramDiagnostic text
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSteamDatagramDiagnostic.
+         * @exports ICMsgSteamDatagramDiagnostic
+         * @interface ICMsgSteamDatagramDiagnostic
+         * @augments CMsgSteamDatagramDiagnostic.$Properties
+         * @deprecated Use CMsgSteamDatagramDiagnostic.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSteamDatagramDiagnostic.
+         * @typedef {CMsgSteamDatagramDiagnostic.$Properties} CMsgSteamDatagramDiagnostic.$Shape
          */
     
         /**
          * Constructs a new CMsgSteamDatagramDiagnostic.
          * @exports CMsgSteamDatagramDiagnostic
          * @classdesc Represents a CMsgSteamDatagramDiagnostic.
-         * @implements ICMsgSteamDatagramDiagnostic
          * @constructor
-         * @param {ICMsgSteamDatagramDiagnostic=} [properties] Properties to set
+         * @param {CMsgSteamDatagramDiagnostic.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSteamDatagramDiagnostic(properties) {
+        var CMsgSteamDatagramDiagnostic = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSteamDatagramDiagnostic severity.
@@ -807,10 +903,14 @@
          * @function create
          * @memberof CMsgSteamDatagramDiagnostic
          * @static
-         * @param {ICMsgSteamDatagramDiagnostic=} [properties] Properties to set
+         * @param {CMsgSteamDatagramDiagnostic.$Properties=} [properties] Properties to set
          * @returns {CMsgSteamDatagramDiagnostic} CMsgSteamDatagramDiagnostic instance
+         * @type {{
+         *   (properties: CMsgSteamDatagramDiagnostic.$Shape): CMsgSteamDatagramDiagnostic & CMsgSteamDatagramDiagnostic.$Shape;
+         *   (properties?: CMsgSteamDatagramDiagnostic.$Properties): CMsgSteamDatagramDiagnostic;
+         * }}
          */
-        CMsgSteamDatagramDiagnostic.create = function create(properties) {
+        CMsgSteamDatagramDiagnostic.create = function(properties) {
             return new CMsgSteamDatagramDiagnostic(properties);
         };
     
@@ -819,21 +919,24 @@
          * @function encode
          * @memberof CMsgSteamDatagramDiagnostic
          * @static
-         * @param {ICMsgSteamDatagramDiagnostic} message CMsgSteamDatagramDiagnostic message or plain object to encode
+         * @param {CMsgSteamDatagramDiagnostic.$Properties} message CMsgSteamDatagramDiagnostic message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramDiagnostic.encode = function encode(message, writer, q) {
+        CMsgSteamDatagramDiagnostic.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.severity != null && Object.hasOwnProperty.call(message, "severity"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.severity != null && $Object.hasOwnProperty.call(message, "severity"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.severity);
-            if (message.text != null && Object.hasOwnProperty.call(message, "text"))
+            if (message.text != null && $Object.hasOwnProperty.call(message, "text"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.text);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -842,12 +945,12 @@
          * @function encodeDelimited
          * @memberof CMsgSteamDatagramDiagnostic
          * @static
-         * @param {ICMsgSteamDatagramDiagnostic} message CMsgSteamDatagramDiagnostic message or plain object to encode
+         * @param {CMsgSteamDatagramDiagnostic.$Properties} message CMsgSteamDatagramDiagnostic message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramDiagnostic.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSteamDatagramDiagnostic.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -857,51 +960,63 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSteamDatagramDiagnostic} CMsgSteamDatagramDiagnostic
+         * @returns {CMsgSteamDatagramDiagnostic & CMsgSteamDatagramDiagnostic.$Shape} CMsgSteamDatagramDiagnostic
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramDiagnostic.decode = function decode(reader, length, error, long) {
+        CMsgSteamDatagramDiagnostic.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSteamDatagramDiagnostic();
+            message = _target || new $root.CMsgSteamDatagramDiagnostic();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.severity = reader.uint32();
-                        break;
-                    }
-                case 2: {
-                        message.text = reader.string();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.severity = reader.uint32();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.text = reader.string();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -911,14 +1026,14 @@
          * @memberof CMsgSteamDatagramDiagnostic
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSteamDatagramDiagnostic} CMsgSteamDatagramDiagnostic
+         * @returns {CMsgSteamDatagramDiagnostic & CMsgSteamDatagramDiagnostic.$Shape} CMsgSteamDatagramDiagnostic
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramDiagnostic.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSteamDatagramDiagnostic.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -929,17 +1044,17 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramDiagnostic.verify = function verify(message, long) {
+        CMsgSteamDatagramDiagnostic.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.severity != null && Object.hasOwnProperty.call(message, "severity"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.severity != null && $Object.hasOwnProperty.call(message, "severity"))
                 if (!$util.isInteger(message.severity))
                     return "severity: integer expected";
-            if (message.text != null && Object.hasOwnProperty.call(message, "text"))
+            if (message.text != null && $Object.hasOwnProperty.call(message, "text"))
                 if (!$util.isString(message.text))
                     return "text: string expected";
             return null;
@@ -953,20 +1068,20 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramDiagnostic} CMsgSteamDatagramDiagnostic
          */
-        CMsgSteamDatagramDiagnostic.fromObject = function fromObject(object, long) {
+        CMsgSteamDatagramDiagnostic.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSteamDatagramDiagnostic)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSteamDatagramDiagnostic: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSteamDatagramDiagnostic: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSteamDatagramDiagnostic();
             if (object.severity != null)
                 message.severity = object.severity >>> 0;
             if (object.text != null)
-                message.text = String(object.text);
+                message.text = $String(object.text);
             return message;
         };
     
@@ -979,21 +1094,21 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramDiagnostic.toObject = function toObject(message, options, q) {
+        CMsgSteamDatagramDiagnostic.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.severity = 0;
                 object.text = "";
             }
-            if (message.severity != null && Object.hasOwnProperty.call(message, "severity"))
+            if (message.severity != null && $Object.hasOwnProperty.call(message, "severity"))
                 object.severity = message.severity;
-            if (message.text != null && Object.hasOwnProperty.call(message, "text"))
+            if (message.text != null && $Object.hasOwnProperty.call(message, "text"))
                 object.text = message.text;
             return object;
         };
@@ -1005,23 +1120,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSteamDatagramDiagnostic.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSteamDatagramDiagnostic.prototype.toJSON = function() {
+            return CMsgSteamDatagramDiagnostic.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSteamDatagramDiagnostic
+         * Gets the type url for CMsgSteamDatagramDiagnostic
          * @function getTypeUrl
          * @memberof CMsgSteamDatagramDiagnostic
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSteamDatagramDiagnostic.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSteamDatagramDiagnostic";
+        CMsgSteamDatagramDiagnostic.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSteamDatagramDiagnostic";
         };
     
         return CMsgSteamDatagramDiagnostic;
@@ -1031,8 +1145,7 @@
     
         /**
          * Properties of a CMsgSteamDatagramLinkInstantaneousStats.
-         * @exports ICMsgSteamDatagramLinkInstantaneousStats
-         * @interface ICMsgSteamDatagramLinkInstantaneousStats
+         * @typedef {Object} CMsgSteamDatagramLinkInstantaneousStats.$Properties
          * @property {number|null} [out_packets_per_sec_x10] CMsgSteamDatagramLinkInstantaneousStats out_packets_per_sec_x10
          * @property {number|null} [out_bytes_per_sec] CMsgSteamDatagramLinkInstantaneousStats out_bytes_per_sec
          * @property {number|null} [in_packets_per_sec_x10] CMsgSteamDatagramLinkInstantaneousStats in_packets_per_sec_x10
@@ -1041,22 +1154,36 @@
          * @property {number|null} [packets_dropped_pct] CMsgSteamDatagramLinkInstantaneousStats packets_dropped_pct
          * @property {number|null} [packets_weird_sequence_pct] CMsgSteamDatagramLinkInstantaneousStats packets_weird_sequence_pct
          * @property {number|null} [peak_jitter_usec] CMsgSteamDatagramLinkInstantaneousStats peak_jitter_usec
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSteamDatagramLinkInstantaneousStats.
+         * @exports ICMsgSteamDatagramLinkInstantaneousStats
+         * @interface ICMsgSteamDatagramLinkInstantaneousStats
+         * @augments CMsgSteamDatagramLinkInstantaneousStats.$Properties
+         * @deprecated Use CMsgSteamDatagramLinkInstantaneousStats.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSteamDatagramLinkInstantaneousStats.
+         * @typedef {CMsgSteamDatagramLinkInstantaneousStats.$Properties} CMsgSteamDatagramLinkInstantaneousStats.$Shape
          */
     
         /**
          * Constructs a new CMsgSteamDatagramLinkInstantaneousStats.
          * @exports CMsgSteamDatagramLinkInstantaneousStats
          * @classdesc Represents a CMsgSteamDatagramLinkInstantaneousStats.
-         * @implements ICMsgSteamDatagramLinkInstantaneousStats
          * @constructor
-         * @param {ICMsgSteamDatagramLinkInstantaneousStats=} [properties] Properties to set
+         * @param {CMsgSteamDatagramLinkInstantaneousStats.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSteamDatagramLinkInstantaneousStats(properties) {
+        var CMsgSteamDatagramLinkInstantaneousStats = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSteamDatagramLinkInstantaneousStats out_packets_per_sec_x10.
@@ -1127,10 +1254,14 @@
          * @function create
          * @memberof CMsgSteamDatagramLinkInstantaneousStats
          * @static
-         * @param {ICMsgSteamDatagramLinkInstantaneousStats=} [properties] Properties to set
+         * @param {CMsgSteamDatagramLinkInstantaneousStats.$Properties=} [properties] Properties to set
          * @returns {CMsgSteamDatagramLinkInstantaneousStats} CMsgSteamDatagramLinkInstantaneousStats instance
+         * @type {{
+         *   (properties: CMsgSteamDatagramLinkInstantaneousStats.$Shape): CMsgSteamDatagramLinkInstantaneousStats & CMsgSteamDatagramLinkInstantaneousStats.$Shape;
+         *   (properties?: CMsgSteamDatagramLinkInstantaneousStats.$Properties): CMsgSteamDatagramLinkInstantaneousStats;
+         * }}
          */
-        CMsgSteamDatagramLinkInstantaneousStats.create = function create(properties) {
+        CMsgSteamDatagramLinkInstantaneousStats.create = function(properties) {
             return new CMsgSteamDatagramLinkInstantaneousStats(properties);
         };
     
@@ -1139,33 +1270,36 @@
          * @function encode
          * @memberof CMsgSteamDatagramLinkInstantaneousStats
          * @static
-         * @param {ICMsgSteamDatagramLinkInstantaneousStats} message CMsgSteamDatagramLinkInstantaneousStats message or plain object to encode
+         * @param {CMsgSteamDatagramLinkInstantaneousStats.$Properties} message CMsgSteamDatagramLinkInstantaneousStats message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramLinkInstantaneousStats.encode = function encode(message, writer, q) {
+        CMsgSteamDatagramLinkInstantaneousStats.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.out_packets_per_sec_x10 != null && Object.hasOwnProperty.call(message, "out_packets_per_sec_x10"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.out_packets_per_sec_x10 != null && $Object.hasOwnProperty.call(message, "out_packets_per_sec_x10"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.out_packets_per_sec_x10);
-            if (message.out_bytes_per_sec != null && Object.hasOwnProperty.call(message, "out_bytes_per_sec"))
+            if (message.out_bytes_per_sec != null && $Object.hasOwnProperty.call(message, "out_bytes_per_sec"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.out_bytes_per_sec);
-            if (message.in_packets_per_sec_x10 != null && Object.hasOwnProperty.call(message, "in_packets_per_sec_x10"))
+            if (message.in_packets_per_sec_x10 != null && $Object.hasOwnProperty.call(message, "in_packets_per_sec_x10"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.in_packets_per_sec_x10);
-            if (message.in_bytes_per_sec != null && Object.hasOwnProperty.call(message, "in_bytes_per_sec"))
+            if (message.in_bytes_per_sec != null && $Object.hasOwnProperty.call(message, "in_bytes_per_sec"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.in_bytes_per_sec);
-            if (message.ping_ms != null && Object.hasOwnProperty.call(message, "ping_ms"))
+            if (message.ping_ms != null && $Object.hasOwnProperty.call(message, "ping_ms"))
                 writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.ping_ms);
-            if (message.packets_dropped_pct != null && Object.hasOwnProperty.call(message, "packets_dropped_pct"))
+            if (message.packets_dropped_pct != null && $Object.hasOwnProperty.call(message, "packets_dropped_pct"))
                 writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.packets_dropped_pct);
-            if (message.packets_weird_sequence_pct != null && Object.hasOwnProperty.call(message, "packets_weird_sequence_pct"))
+            if (message.packets_weird_sequence_pct != null && $Object.hasOwnProperty.call(message, "packets_weird_sequence_pct"))
                 writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.packets_weird_sequence_pct);
-            if (message.peak_jitter_usec != null && Object.hasOwnProperty.call(message, "peak_jitter_usec"))
+            if (message.peak_jitter_usec != null && $Object.hasOwnProperty.call(message, "peak_jitter_usec"))
                 writer.uint32(/* id 8, wireType 0 =*/64).uint32(message.peak_jitter_usec);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -1174,12 +1308,12 @@
          * @function encodeDelimited
          * @memberof CMsgSteamDatagramLinkInstantaneousStats
          * @static
-         * @param {ICMsgSteamDatagramLinkInstantaneousStats} message CMsgSteamDatagramLinkInstantaneousStats message or plain object to encode
+         * @param {CMsgSteamDatagramLinkInstantaneousStats.$Properties} message CMsgSteamDatagramLinkInstantaneousStats message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramLinkInstantaneousStats.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSteamDatagramLinkInstantaneousStats.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -1189,75 +1323,99 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSteamDatagramLinkInstantaneousStats} CMsgSteamDatagramLinkInstantaneousStats
+         * @returns {CMsgSteamDatagramLinkInstantaneousStats & CMsgSteamDatagramLinkInstantaneousStats.$Shape} CMsgSteamDatagramLinkInstantaneousStats
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramLinkInstantaneousStats.decode = function decode(reader, length, error, long) {
+        CMsgSteamDatagramLinkInstantaneousStats.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSteamDatagramLinkInstantaneousStats();
+            message = _target || new $root.CMsgSteamDatagramLinkInstantaneousStats();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.out_packets_per_sec_x10 = reader.uint32();
-                        break;
-                    }
-                case 2: {
-                        message.out_bytes_per_sec = reader.uint32();
-                        break;
-                    }
-                case 3: {
-                        message.in_packets_per_sec_x10 = reader.uint32();
-                        break;
-                    }
-                case 4: {
-                        message.in_bytes_per_sec = reader.uint32();
-                        break;
-                    }
-                case 5: {
-                        message.ping_ms = reader.uint32();
-                        break;
-                    }
-                case 6: {
-                        message.packets_dropped_pct = reader.uint32();
-                        break;
-                    }
-                case 7: {
-                        message.packets_weird_sequence_pct = reader.uint32();
-                        break;
-                    }
-                case 8: {
-                        message.peak_jitter_usec = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.out_packets_per_sec_x10 = reader.uint32();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.out_bytes_per_sec = reader.uint32();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 0)
+                            break;
+                        message.in_packets_per_sec_x10 = reader.uint32();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 0)
+                            break;
+                        message.in_bytes_per_sec = reader.uint32();
+                        continue;
+                    }
+                case 5: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_ms = reader.uint32();
+                        continue;
+                    }
+                case 6: {
+                        if (wireType !== 0)
+                            break;
+                        message.packets_dropped_pct = reader.uint32();
+                        continue;
+                    }
+                case 7: {
+                        if (wireType !== 0)
+                            break;
+                        message.packets_weird_sequence_pct = reader.uint32();
+                        continue;
+                    }
+                case 8: {
+                        if (wireType !== 0)
+                            break;
+                        message.peak_jitter_usec = reader.uint32();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -1267,14 +1425,14 @@
          * @memberof CMsgSteamDatagramLinkInstantaneousStats
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSteamDatagramLinkInstantaneousStats} CMsgSteamDatagramLinkInstantaneousStats
+         * @returns {CMsgSteamDatagramLinkInstantaneousStats & CMsgSteamDatagramLinkInstantaneousStats.$Shape} CMsgSteamDatagramLinkInstantaneousStats
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramLinkInstantaneousStats.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSteamDatagramLinkInstantaneousStats.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -1285,35 +1443,35 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramLinkInstantaneousStats.verify = function verify(message, long) {
+        CMsgSteamDatagramLinkInstantaneousStats.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.out_packets_per_sec_x10 != null && Object.hasOwnProperty.call(message, "out_packets_per_sec_x10"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.out_packets_per_sec_x10 != null && $Object.hasOwnProperty.call(message, "out_packets_per_sec_x10"))
                 if (!$util.isInteger(message.out_packets_per_sec_x10))
                     return "out_packets_per_sec_x10: integer expected";
-            if (message.out_bytes_per_sec != null && Object.hasOwnProperty.call(message, "out_bytes_per_sec"))
+            if (message.out_bytes_per_sec != null && $Object.hasOwnProperty.call(message, "out_bytes_per_sec"))
                 if (!$util.isInteger(message.out_bytes_per_sec))
                     return "out_bytes_per_sec: integer expected";
-            if (message.in_packets_per_sec_x10 != null && Object.hasOwnProperty.call(message, "in_packets_per_sec_x10"))
+            if (message.in_packets_per_sec_x10 != null && $Object.hasOwnProperty.call(message, "in_packets_per_sec_x10"))
                 if (!$util.isInteger(message.in_packets_per_sec_x10))
                     return "in_packets_per_sec_x10: integer expected";
-            if (message.in_bytes_per_sec != null && Object.hasOwnProperty.call(message, "in_bytes_per_sec"))
+            if (message.in_bytes_per_sec != null && $Object.hasOwnProperty.call(message, "in_bytes_per_sec"))
                 if (!$util.isInteger(message.in_bytes_per_sec))
                     return "in_bytes_per_sec: integer expected";
-            if (message.ping_ms != null && Object.hasOwnProperty.call(message, "ping_ms"))
+            if (message.ping_ms != null && $Object.hasOwnProperty.call(message, "ping_ms"))
                 if (!$util.isInteger(message.ping_ms))
                     return "ping_ms: integer expected";
-            if (message.packets_dropped_pct != null && Object.hasOwnProperty.call(message, "packets_dropped_pct"))
+            if (message.packets_dropped_pct != null && $Object.hasOwnProperty.call(message, "packets_dropped_pct"))
                 if (!$util.isInteger(message.packets_dropped_pct))
                     return "packets_dropped_pct: integer expected";
-            if (message.packets_weird_sequence_pct != null && Object.hasOwnProperty.call(message, "packets_weird_sequence_pct"))
+            if (message.packets_weird_sequence_pct != null && $Object.hasOwnProperty.call(message, "packets_weird_sequence_pct"))
                 if (!$util.isInteger(message.packets_weird_sequence_pct))
                     return "packets_weird_sequence_pct: integer expected";
-            if (message.peak_jitter_usec != null && Object.hasOwnProperty.call(message, "peak_jitter_usec"))
+            if (message.peak_jitter_usec != null && $Object.hasOwnProperty.call(message, "peak_jitter_usec"))
                 if (!$util.isInteger(message.peak_jitter_usec))
                     return "peak_jitter_usec: integer expected";
             return null;
@@ -1327,15 +1485,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramLinkInstantaneousStats} CMsgSteamDatagramLinkInstantaneousStats
          */
-        CMsgSteamDatagramLinkInstantaneousStats.fromObject = function fromObject(object, long) {
+        CMsgSteamDatagramLinkInstantaneousStats.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSteamDatagramLinkInstantaneousStats)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSteamDatagramLinkInstantaneousStats: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSteamDatagramLinkInstantaneousStats: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSteamDatagramLinkInstantaneousStats();
             if (object.out_packets_per_sec_x10 != null)
                 message.out_packets_per_sec_x10 = object.out_packets_per_sec_x10 >>> 0;
@@ -1365,13 +1523,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramLinkInstantaneousStats.toObject = function toObject(message, options, q) {
+        CMsgSteamDatagramLinkInstantaneousStats.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.out_packets_per_sec_x10 = 0;
@@ -1383,21 +1541,21 @@
                 object.packets_weird_sequence_pct = 0;
                 object.peak_jitter_usec = 0;
             }
-            if (message.out_packets_per_sec_x10 != null && Object.hasOwnProperty.call(message, "out_packets_per_sec_x10"))
+            if (message.out_packets_per_sec_x10 != null && $Object.hasOwnProperty.call(message, "out_packets_per_sec_x10"))
                 object.out_packets_per_sec_x10 = message.out_packets_per_sec_x10;
-            if (message.out_bytes_per_sec != null && Object.hasOwnProperty.call(message, "out_bytes_per_sec"))
+            if (message.out_bytes_per_sec != null && $Object.hasOwnProperty.call(message, "out_bytes_per_sec"))
                 object.out_bytes_per_sec = message.out_bytes_per_sec;
-            if (message.in_packets_per_sec_x10 != null && Object.hasOwnProperty.call(message, "in_packets_per_sec_x10"))
+            if (message.in_packets_per_sec_x10 != null && $Object.hasOwnProperty.call(message, "in_packets_per_sec_x10"))
                 object.in_packets_per_sec_x10 = message.in_packets_per_sec_x10;
-            if (message.in_bytes_per_sec != null && Object.hasOwnProperty.call(message, "in_bytes_per_sec"))
+            if (message.in_bytes_per_sec != null && $Object.hasOwnProperty.call(message, "in_bytes_per_sec"))
                 object.in_bytes_per_sec = message.in_bytes_per_sec;
-            if (message.ping_ms != null && Object.hasOwnProperty.call(message, "ping_ms"))
+            if (message.ping_ms != null && $Object.hasOwnProperty.call(message, "ping_ms"))
                 object.ping_ms = message.ping_ms;
-            if (message.packets_dropped_pct != null && Object.hasOwnProperty.call(message, "packets_dropped_pct"))
+            if (message.packets_dropped_pct != null && $Object.hasOwnProperty.call(message, "packets_dropped_pct"))
                 object.packets_dropped_pct = message.packets_dropped_pct;
-            if (message.packets_weird_sequence_pct != null && Object.hasOwnProperty.call(message, "packets_weird_sequence_pct"))
+            if (message.packets_weird_sequence_pct != null && $Object.hasOwnProperty.call(message, "packets_weird_sequence_pct"))
                 object.packets_weird_sequence_pct = message.packets_weird_sequence_pct;
-            if (message.peak_jitter_usec != null && Object.hasOwnProperty.call(message, "peak_jitter_usec"))
+            if (message.peak_jitter_usec != null && $Object.hasOwnProperty.call(message, "peak_jitter_usec"))
                 object.peak_jitter_usec = message.peak_jitter_usec;
             return object;
         };
@@ -1409,23 +1567,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSteamDatagramLinkInstantaneousStats.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSteamDatagramLinkInstantaneousStats.prototype.toJSON = function() {
+            return CMsgSteamDatagramLinkInstantaneousStats.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSteamDatagramLinkInstantaneousStats
+         * Gets the type url for CMsgSteamDatagramLinkInstantaneousStats
          * @function getTypeUrl
          * @memberof CMsgSteamDatagramLinkInstantaneousStats
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSteamDatagramLinkInstantaneousStats.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSteamDatagramLinkInstantaneousStats";
+        CMsgSteamDatagramLinkInstantaneousStats.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSteamDatagramLinkInstantaneousStats";
         };
     
         return CMsgSteamDatagramLinkInstantaneousStats;
@@ -1435,8 +1592,7 @@
     
         /**
          * Properties of a CMsgSteamDatagramLinkLifetimeStats.
-         * @exports ICMsgSteamDatagramLinkLifetimeStats
-         * @interface ICMsgSteamDatagramLinkLifetimeStats
+         * @typedef {Object} CMsgSteamDatagramLinkLifetimeStats.$Properties
          * @property {number|null} [connected_seconds] CMsgSteamDatagramLinkLifetimeStats connected_seconds
          * @property {number|Long|null} [packets_sent] CMsgSteamDatagramLinkLifetimeStats packets_sent
          * @property {number|Long|null} [kb_sent] CMsgSteamDatagramLinkLifetimeStats kb_sent
@@ -1484,24 +1640,38 @@
          * @property {number|null} [jitter_histogram_5] CMsgSteamDatagramLinkLifetimeStats jitter_histogram_5
          * @property {number|null} [jitter_histogram_10] CMsgSteamDatagramLinkLifetimeStats jitter_histogram_10
          * @property {number|null} [jitter_histogram_20] CMsgSteamDatagramLinkLifetimeStats jitter_histogram_20
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSteamDatagramLinkLifetimeStats.
+         * @exports ICMsgSteamDatagramLinkLifetimeStats
+         * @interface ICMsgSteamDatagramLinkLifetimeStats
+         * @augments CMsgSteamDatagramLinkLifetimeStats.$Properties
+         * @deprecated Use CMsgSteamDatagramLinkLifetimeStats.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSteamDatagramLinkLifetimeStats.
+         * @typedef {CMsgSteamDatagramLinkLifetimeStats.$Properties} CMsgSteamDatagramLinkLifetimeStats.$Shape
          */
     
         /**
          * Constructs a new CMsgSteamDatagramLinkLifetimeStats.
          * @exports CMsgSteamDatagramLinkLifetimeStats
          * @classdesc Represents a CMsgSteamDatagramLinkLifetimeStats.
-         * @implements ICMsgSteamDatagramLinkLifetimeStats
          * @constructor
-         * @param {ICMsgSteamDatagramLinkLifetimeStats=} [properties] Properties to set
+         * @param {CMsgSteamDatagramLinkLifetimeStats.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSteamDatagramLinkLifetimeStats(properties) {
+        var CMsgSteamDatagramLinkLifetimeStats = function (properties) {
             this.multipath_packets_recv_sequenced = [];
             this.multipath_packets_recv_later = [];
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSteamDatagramLinkLifetimeStats connected_seconds.
@@ -1884,10 +2054,14 @@
          * @function create
          * @memberof CMsgSteamDatagramLinkLifetimeStats
          * @static
-         * @param {ICMsgSteamDatagramLinkLifetimeStats=} [properties] Properties to set
+         * @param {CMsgSteamDatagramLinkLifetimeStats.$Properties=} [properties] Properties to set
          * @returns {CMsgSteamDatagramLinkLifetimeStats} CMsgSteamDatagramLinkLifetimeStats instance
+         * @type {{
+         *   (properties: CMsgSteamDatagramLinkLifetimeStats.$Shape): CMsgSteamDatagramLinkLifetimeStats & CMsgSteamDatagramLinkLifetimeStats.$Shape;
+         *   (properties?: CMsgSteamDatagramLinkLifetimeStats.$Properties): CMsgSteamDatagramLinkLifetimeStats;
+         * }}
          */
-        CMsgSteamDatagramLinkLifetimeStats.create = function create(properties) {
+        CMsgSteamDatagramLinkLifetimeStats.create = function(properties) {
             return new CMsgSteamDatagramLinkLifetimeStats(properties);
         };
     
@@ -1896,36 +2070,36 @@
          * @function encode
          * @memberof CMsgSteamDatagramLinkLifetimeStats
          * @static
-         * @param {ICMsgSteamDatagramLinkLifetimeStats} message CMsgSteamDatagramLinkLifetimeStats message or plain object to encode
+         * @param {CMsgSteamDatagramLinkLifetimeStats.$Properties} message CMsgSteamDatagramLinkLifetimeStats message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramLinkLifetimeStats.encode = function encode(message, writer, q) {
+        CMsgSteamDatagramLinkLifetimeStats.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.connected_seconds != null && Object.hasOwnProperty.call(message, "connected_seconds"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.connected_seconds != null && $Object.hasOwnProperty.call(message, "connected_seconds"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.connected_seconds);
-            if (message.packets_sent != null && Object.hasOwnProperty.call(message, "packets_sent"))
+            if (message.packets_sent != null && $Object.hasOwnProperty.call(message, "packets_sent"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.packets_sent);
-            if (message.kb_sent != null && Object.hasOwnProperty.call(message, "kb_sent"))
+            if (message.kb_sent != null && $Object.hasOwnProperty.call(message, "kb_sent"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.kb_sent);
-            if (message.packets_recv != null && Object.hasOwnProperty.call(message, "packets_recv"))
+            if (message.packets_recv != null && $Object.hasOwnProperty.call(message, "packets_recv"))
                 writer.uint32(/* id 5, wireType 0 =*/40).uint64(message.packets_recv);
-            if (message.kb_recv != null && Object.hasOwnProperty.call(message, "kb_recv"))
+            if (message.kb_recv != null && $Object.hasOwnProperty.call(message, "kb_recv"))
                 writer.uint32(/* id 6, wireType 0 =*/48).uint64(message.kb_recv);
-            if (message.packets_recv_sequenced != null && Object.hasOwnProperty.call(message, "packets_recv_sequenced"))
+            if (message.packets_recv_sequenced != null && $Object.hasOwnProperty.call(message, "packets_recv_sequenced"))
                 writer.uint32(/* id 7, wireType 0 =*/56).uint64(message.packets_recv_sequenced);
-            if (message.packets_recv_dropped != null && Object.hasOwnProperty.call(message, "packets_recv_dropped"))
+            if (message.packets_recv_dropped != null && $Object.hasOwnProperty.call(message, "packets_recv_dropped"))
                 writer.uint32(/* id 8, wireType 0 =*/64).uint64(message.packets_recv_dropped);
-            if (message.packets_recv_out_of_order != null && Object.hasOwnProperty.call(message, "packets_recv_out_of_order"))
+            if (message.packets_recv_out_of_order != null && $Object.hasOwnProperty.call(message, "packets_recv_out_of_order"))
                 writer.uint32(/* id 9, wireType 0 =*/72).uint64(message.packets_recv_out_of_order);
-            if (message.packets_recv_duplicate != null && Object.hasOwnProperty.call(message, "packets_recv_duplicate"))
+            if (message.packets_recv_duplicate != null && $Object.hasOwnProperty.call(message, "packets_recv_duplicate"))
                 writer.uint32(/* id 10, wireType 0 =*/80).uint64(message.packets_recv_duplicate);
-            if (message.packets_recv_lurch != null && Object.hasOwnProperty.call(message, "packets_recv_lurch"))
+            if (message.packets_recv_lurch != null && $Object.hasOwnProperty.call(message, "packets_recv_lurch"))
                 writer.uint32(/* id 11, wireType 0 =*/88).uint64(message.packets_recv_lurch);
             if (message.multipath_packets_recv_sequenced != null && message.multipath_packets_recv_sequenced.length)
                 for (var i = 0; i < message.multipath_packets_recv_sequenced.length; ++i)
@@ -1933,76 +2107,79 @@
             if (message.multipath_packets_recv_later != null && message.multipath_packets_recv_later.length)
                 for (var i = 0; i < message.multipath_packets_recv_later.length; ++i)
                     writer.uint32(/* id 13, wireType 0 =*/104).uint64(message.multipath_packets_recv_later[i]);
-            if (message.multipath_send_enabled != null && Object.hasOwnProperty.call(message, "multipath_send_enabled"))
+            if (message.multipath_send_enabled != null && $Object.hasOwnProperty.call(message, "multipath_send_enabled"))
                 writer.uint32(/* id 14, wireType 0 =*/112).uint32(message.multipath_send_enabled);
-            if (message.packets_recv_out_of_order_corrected != null && Object.hasOwnProperty.call(message, "packets_recv_out_of_order_corrected"))
+            if (message.packets_recv_out_of_order_corrected != null && $Object.hasOwnProperty.call(message, "packets_recv_out_of_order_corrected"))
                 writer.uint32(/* id 15, wireType 0 =*/120).uint64(message.packets_recv_out_of_order_corrected);
-            if (message.quality_histogram_100 != null && Object.hasOwnProperty.call(message, "quality_histogram_100"))
+            if (message.quality_histogram_100 != null && $Object.hasOwnProperty.call(message, "quality_histogram_100"))
                 writer.uint32(/* id 21, wireType 0 =*/168).uint32(message.quality_histogram_100);
-            if (message.quality_histogram_99 != null && Object.hasOwnProperty.call(message, "quality_histogram_99"))
+            if (message.quality_histogram_99 != null && $Object.hasOwnProperty.call(message, "quality_histogram_99"))
                 writer.uint32(/* id 22, wireType 0 =*/176).uint32(message.quality_histogram_99);
-            if (message.quality_histogram_97 != null && Object.hasOwnProperty.call(message, "quality_histogram_97"))
+            if (message.quality_histogram_97 != null && $Object.hasOwnProperty.call(message, "quality_histogram_97"))
                 writer.uint32(/* id 23, wireType 0 =*/184).uint32(message.quality_histogram_97);
-            if (message.quality_histogram_95 != null && Object.hasOwnProperty.call(message, "quality_histogram_95"))
+            if (message.quality_histogram_95 != null && $Object.hasOwnProperty.call(message, "quality_histogram_95"))
                 writer.uint32(/* id 24, wireType 0 =*/192).uint32(message.quality_histogram_95);
-            if (message.quality_histogram_90 != null && Object.hasOwnProperty.call(message, "quality_histogram_90"))
+            if (message.quality_histogram_90 != null && $Object.hasOwnProperty.call(message, "quality_histogram_90"))
                 writer.uint32(/* id 25, wireType 0 =*/200).uint32(message.quality_histogram_90);
-            if (message.quality_histogram_75 != null && Object.hasOwnProperty.call(message, "quality_histogram_75"))
+            if (message.quality_histogram_75 != null && $Object.hasOwnProperty.call(message, "quality_histogram_75"))
                 writer.uint32(/* id 26, wireType 0 =*/208).uint32(message.quality_histogram_75);
-            if (message.quality_histogram_50 != null && Object.hasOwnProperty.call(message, "quality_histogram_50"))
+            if (message.quality_histogram_50 != null && $Object.hasOwnProperty.call(message, "quality_histogram_50"))
                 writer.uint32(/* id 27, wireType 0 =*/216).uint32(message.quality_histogram_50);
-            if (message.quality_histogram_1 != null && Object.hasOwnProperty.call(message, "quality_histogram_1"))
+            if (message.quality_histogram_1 != null && $Object.hasOwnProperty.call(message, "quality_histogram_1"))
                 writer.uint32(/* id 28, wireType 0 =*/224).uint32(message.quality_histogram_1);
-            if (message.quality_histogram_dead != null && Object.hasOwnProperty.call(message, "quality_histogram_dead"))
+            if (message.quality_histogram_dead != null && $Object.hasOwnProperty.call(message, "quality_histogram_dead"))
                 writer.uint32(/* id 29, wireType 0 =*/232).uint32(message.quality_histogram_dead);
-            if (message.quality_ntile_2nd != null && Object.hasOwnProperty.call(message, "quality_ntile_2nd"))
+            if (message.quality_ntile_2nd != null && $Object.hasOwnProperty.call(message, "quality_ntile_2nd"))
                 writer.uint32(/* id 30, wireType 0 =*/240).uint32(message.quality_ntile_2nd);
-            if (message.quality_ntile_5th != null && Object.hasOwnProperty.call(message, "quality_ntile_5th"))
+            if (message.quality_ntile_5th != null && $Object.hasOwnProperty.call(message, "quality_ntile_5th"))
                 writer.uint32(/* id 31, wireType 0 =*/248).uint32(message.quality_ntile_5th);
-            if (message.quality_ntile_25th != null && Object.hasOwnProperty.call(message, "quality_ntile_25th"))
+            if (message.quality_ntile_25th != null && $Object.hasOwnProperty.call(message, "quality_ntile_25th"))
                 writer.uint32(/* id 32, wireType 0 =*/256).uint32(message.quality_ntile_25th);
-            if (message.quality_ntile_50th != null && Object.hasOwnProperty.call(message, "quality_ntile_50th"))
+            if (message.quality_ntile_50th != null && $Object.hasOwnProperty.call(message, "quality_ntile_50th"))
                 writer.uint32(/* id 33, wireType 0 =*/264).uint32(message.quality_ntile_50th);
-            if (message.ping_histogram_25 != null && Object.hasOwnProperty.call(message, "ping_histogram_25"))
+            if (message.ping_histogram_25 != null && $Object.hasOwnProperty.call(message, "ping_histogram_25"))
                 writer.uint32(/* id 41, wireType 0 =*/328).uint32(message.ping_histogram_25);
-            if (message.ping_histogram_50 != null && Object.hasOwnProperty.call(message, "ping_histogram_50"))
+            if (message.ping_histogram_50 != null && $Object.hasOwnProperty.call(message, "ping_histogram_50"))
                 writer.uint32(/* id 42, wireType 0 =*/336).uint32(message.ping_histogram_50);
-            if (message.ping_histogram_75 != null && Object.hasOwnProperty.call(message, "ping_histogram_75"))
+            if (message.ping_histogram_75 != null && $Object.hasOwnProperty.call(message, "ping_histogram_75"))
                 writer.uint32(/* id 43, wireType 0 =*/344).uint32(message.ping_histogram_75);
-            if (message.ping_histogram_100 != null && Object.hasOwnProperty.call(message, "ping_histogram_100"))
+            if (message.ping_histogram_100 != null && $Object.hasOwnProperty.call(message, "ping_histogram_100"))
                 writer.uint32(/* id 44, wireType 0 =*/352).uint32(message.ping_histogram_100);
-            if (message.ping_histogram_125 != null && Object.hasOwnProperty.call(message, "ping_histogram_125"))
+            if (message.ping_histogram_125 != null && $Object.hasOwnProperty.call(message, "ping_histogram_125"))
                 writer.uint32(/* id 45, wireType 0 =*/360).uint32(message.ping_histogram_125);
-            if (message.ping_histogram_150 != null && Object.hasOwnProperty.call(message, "ping_histogram_150"))
+            if (message.ping_histogram_150 != null && $Object.hasOwnProperty.call(message, "ping_histogram_150"))
                 writer.uint32(/* id 46, wireType 0 =*/368).uint32(message.ping_histogram_150);
-            if (message.ping_histogram_200 != null && Object.hasOwnProperty.call(message, "ping_histogram_200"))
+            if (message.ping_histogram_200 != null && $Object.hasOwnProperty.call(message, "ping_histogram_200"))
                 writer.uint32(/* id 47, wireType 0 =*/376).uint32(message.ping_histogram_200);
-            if (message.ping_histogram_300 != null && Object.hasOwnProperty.call(message, "ping_histogram_300"))
+            if (message.ping_histogram_300 != null && $Object.hasOwnProperty.call(message, "ping_histogram_300"))
                 writer.uint32(/* id 48, wireType 0 =*/384).uint32(message.ping_histogram_300);
-            if (message.ping_histogram_max != null && Object.hasOwnProperty.call(message, "ping_histogram_max"))
+            if (message.ping_histogram_max != null && $Object.hasOwnProperty.call(message, "ping_histogram_max"))
                 writer.uint32(/* id 49, wireType 0 =*/392).uint32(message.ping_histogram_max);
-            if (message.ping_ntile_5th != null && Object.hasOwnProperty.call(message, "ping_ntile_5th"))
+            if (message.ping_ntile_5th != null && $Object.hasOwnProperty.call(message, "ping_ntile_5th"))
                 writer.uint32(/* id 50, wireType 0 =*/400).uint32(message.ping_ntile_5th);
-            if (message.ping_ntile_50th != null && Object.hasOwnProperty.call(message, "ping_ntile_50th"))
+            if (message.ping_ntile_50th != null && $Object.hasOwnProperty.call(message, "ping_ntile_50th"))
                 writer.uint32(/* id 51, wireType 0 =*/408).uint32(message.ping_ntile_50th);
-            if (message.ping_ntile_75th != null && Object.hasOwnProperty.call(message, "ping_ntile_75th"))
+            if (message.ping_ntile_75th != null && $Object.hasOwnProperty.call(message, "ping_ntile_75th"))
                 writer.uint32(/* id 52, wireType 0 =*/416).uint32(message.ping_ntile_75th);
-            if (message.ping_ntile_95th != null && Object.hasOwnProperty.call(message, "ping_ntile_95th"))
+            if (message.ping_ntile_95th != null && $Object.hasOwnProperty.call(message, "ping_ntile_95th"))
                 writer.uint32(/* id 53, wireType 0 =*/424).uint32(message.ping_ntile_95th);
-            if (message.ping_ntile_98th != null && Object.hasOwnProperty.call(message, "ping_ntile_98th"))
+            if (message.ping_ntile_98th != null && $Object.hasOwnProperty.call(message, "ping_ntile_98th"))
                 writer.uint32(/* id 54, wireType 0 =*/432).uint32(message.ping_ntile_98th);
-            if (message.jitter_histogram_negligible != null && Object.hasOwnProperty.call(message, "jitter_histogram_negligible"))
+            if (message.jitter_histogram_negligible != null && $Object.hasOwnProperty.call(message, "jitter_histogram_negligible"))
                 writer.uint32(/* id 61, wireType 0 =*/488).uint32(message.jitter_histogram_negligible);
-            if (message.jitter_histogram_1 != null && Object.hasOwnProperty.call(message, "jitter_histogram_1"))
+            if (message.jitter_histogram_1 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_1"))
                 writer.uint32(/* id 62, wireType 0 =*/496).uint32(message.jitter_histogram_1);
-            if (message.jitter_histogram_2 != null && Object.hasOwnProperty.call(message, "jitter_histogram_2"))
+            if (message.jitter_histogram_2 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_2"))
                 writer.uint32(/* id 63, wireType 0 =*/504).uint32(message.jitter_histogram_2);
-            if (message.jitter_histogram_5 != null && Object.hasOwnProperty.call(message, "jitter_histogram_5"))
+            if (message.jitter_histogram_5 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_5"))
                 writer.uint32(/* id 64, wireType 0 =*/512).uint32(message.jitter_histogram_5);
-            if (message.jitter_histogram_10 != null && Object.hasOwnProperty.call(message, "jitter_histogram_10"))
+            if (message.jitter_histogram_10 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_10"))
                 writer.uint32(/* id 65, wireType 0 =*/520).uint32(message.jitter_histogram_10);
-            if (message.jitter_histogram_20 != null && Object.hasOwnProperty.call(message, "jitter_histogram_20"))
+            if (message.jitter_histogram_20 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_20"))
                 writer.uint32(/* id 66, wireType 0 =*/528).uint32(message.jitter_histogram_20);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -2011,12 +2188,12 @@
          * @function encodeDelimited
          * @memberof CMsgSteamDatagramLinkLifetimeStats
          * @static
-         * @param {ICMsgSteamDatagramLinkLifetimeStats} message CMsgSteamDatagramLinkLifetimeStats message or plain object to encode
+         * @param {CMsgSteamDatagramLinkLifetimeStats.$Properties} message CMsgSteamDatagramLinkLifetimeStats message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramLinkLifetimeStats.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSteamDatagramLinkLifetimeStats.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -2026,257 +2203,349 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSteamDatagramLinkLifetimeStats} CMsgSteamDatagramLinkLifetimeStats
+         * @returns {CMsgSteamDatagramLinkLifetimeStats & CMsgSteamDatagramLinkLifetimeStats.$Shape} CMsgSteamDatagramLinkLifetimeStats
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramLinkLifetimeStats.decode = function decode(reader, length, error, long) {
+        CMsgSteamDatagramLinkLifetimeStats.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSteamDatagramLinkLifetimeStats();
+            message = _target || new $root.CMsgSteamDatagramLinkLifetimeStats();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 2: {
-                        message.connected_seconds = reader.uint32();
-                        break;
-                    }
-                case 3: {
-                        message.packets_sent = reader.uint64();
-                        break;
-                    }
-                case 4: {
-                        message.kb_sent = reader.uint64();
-                        break;
-                    }
-                case 5: {
-                        message.packets_recv = reader.uint64();
-                        break;
-                    }
-                case 6: {
-                        message.kb_recv = reader.uint64();
-                        break;
-                    }
-                case 7: {
-                        message.packets_recv_sequenced = reader.uint64();
-                        break;
-                    }
-                case 8: {
-                        message.packets_recv_dropped = reader.uint64();
-                        break;
-                    }
-                case 9: {
-                        message.packets_recv_out_of_order = reader.uint64();
-                        break;
-                    }
-                case 15: {
-                        message.packets_recv_out_of_order_corrected = reader.uint64();
-                        break;
-                    }
-                case 10: {
-                        message.packets_recv_duplicate = reader.uint64();
-                        break;
-                    }
-                case 11: {
-                        message.packets_recv_lurch = reader.uint64();
-                        break;
-                    }
-                case 12: {
-                        if (!(message.multipath_packets_recv_sequenced && message.multipath_packets_recv_sequenced.length))
-                            message.multipath_packets_recv_sequenced = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.multipath_packets_recv_sequenced.push(reader.uint64());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.multipath_packets_recv_sequenced.push(reader.uint64());
-                        break;
-                    }
-                case 13: {
-                        if (!(message.multipath_packets_recv_later && message.multipath_packets_recv_later.length))
-                            message.multipath_packets_recv_later = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.multipath_packets_recv_later.push(reader.uint64());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.multipath_packets_recv_later.push(reader.uint64());
-                        break;
-                    }
-                case 14: {
-                        message.multipath_send_enabled = reader.uint32();
-                        break;
-                    }
-                case 21: {
-                        message.quality_histogram_100 = reader.uint32();
-                        break;
-                    }
-                case 22: {
-                        message.quality_histogram_99 = reader.uint32();
-                        break;
-                    }
-                case 23: {
-                        message.quality_histogram_97 = reader.uint32();
-                        break;
-                    }
-                case 24: {
-                        message.quality_histogram_95 = reader.uint32();
-                        break;
-                    }
-                case 25: {
-                        message.quality_histogram_90 = reader.uint32();
-                        break;
-                    }
-                case 26: {
-                        message.quality_histogram_75 = reader.uint32();
-                        break;
-                    }
-                case 27: {
-                        message.quality_histogram_50 = reader.uint32();
-                        break;
-                    }
-                case 28: {
-                        message.quality_histogram_1 = reader.uint32();
-                        break;
-                    }
-                case 29: {
-                        message.quality_histogram_dead = reader.uint32();
-                        break;
-                    }
-                case 30: {
-                        message.quality_ntile_2nd = reader.uint32();
-                        break;
-                    }
-                case 31: {
-                        message.quality_ntile_5th = reader.uint32();
-                        break;
-                    }
-                case 32: {
-                        message.quality_ntile_25th = reader.uint32();
-                        break;
-                    }
-                case 33: {
-                        message.quality_ntile_50th = reader.uint32();
-                        break;
-                    }
-                case 41: {
-                        message.ping_histogram_25 = reader.uint32();
-                        break;
-                    }
-                case 42: {
-                        message.ping_histogram_50 = reader.uint32();
-                        break;
-                    }
-                case 43: {
-                        message.ping_histogram_75 = reader.uint32();
-                        break;
-                    }
-                case 44: {
-                        message.ping_histogram_100 = reader.uint32();
-                        break;
-                    }
-                case 45: {
-                        message.ping_histogram_125 = reader.uint32();
-                        break;
-                    }
-                case 46: {
-                        message.ping_histogram_150 = reader.uint32();
-                        break;
-                    }
-                case 47: {
-                        message.ping_histogram_200 = reader.uint32();
-                        break;
-                    }
-                case 48: {
-                        message.ping_histogram_300 = reader.uint32();
-                        break;
-                    }
-                case 49: {
-                        message.ping_histogram_max = reader.uint32();
-                        break;
-                    }
-                case 50: {
-                        message.ping_ntile_5th = reader.uint32();
-                        break;
-                    }
-                case 51: {
-                        message.ping_ntile_50th = reader.uint32();
-                        break;
-                    }
-                case 52: {
-                        message.ping_ntile_75th = reader.uint32();
-                        break;
-                    }
-                case 53: {
-                        message.ping_ntile_95th = reader.uint32();
-                        break;
-                    }
-                case 54: {
-                        message.ping_ntile_98th = reader.uint32();
-                        break;
-                    }
-                case 61: {
-                        message.jitter_histogram_negligible = reader.uint32();
-                        break;
-                    }
-                case 62: {
-                        message.jitter_histogram_1 = reader.uint32();
-                        break;
-                    }
-                case 63: {
-                        message.jitter_histogram_2 = reader.uint32();
-                        break;
-                    }
-                case 64: {
-                        message.jitter_histogram_5 = reader.uint32();
-                        break;
-                    }
-                case 65: {
-                        message.jitter_histogram_10 = reader.uint32();
-                        break;
-                    }
-                case 66: {
-                        message.jitter_histogram_20 = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.connected_seconds = reader.uint32();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 0)
+                            break;
+                        message.packets_sent = reader.uint64();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 0)
+                            break;
+                        message.kb_sent = reader.uint64();
+                        continue;
+                    }
+                case 5: {
+                        if (wireType !== 0)
+                            break;
+                        message.packets_recv = reader.uint64();
+                        continue;
+                    }
+                case 6: {
+                        if (wireType !== 0)
+                            break;
+                        message.kb_recv = reader.uint64();
+                        continue;
+                    }
+                case 7: {
+                        if (wireType !== 0)
+                            break;
+                        message.packets_recv_sequenced = reader.uint64();
+                        continue;
+                    }
+                case 8: {
+                        if (wireType !== 0)
+                            break;
+                        message.packets_recv_dropped = reader.uint64();
+                        continue;
+                    }
+                case 9: {
+                        if (wireType !== 0)
+                            break;
+                        message.packets_recv_out_of_order = reader.uint64();
+                        continue;
+                    }
+                case 15: {
+                        if (wireType !== 0)
+                            break;
+                        message.packets_recv_out_of_order_corrected = reader.uint64();
+                        continue;
+                    }
+                case 10: {
+                        if (wireType !== 0)
+                            break;
+                        message.packets_recv_duplicate = reader.uint64();
+                        continue;
+                    }
+                case 11: {
+                        if (wireType !== 0)
+                            break;
+                        message.packets_recv_lurch = reader.uint64();
+                        continue;
+                    }
+                case 12: {
+                        if (wireType === 2) {
+                            if (!(message.multipath_packets_recv_sequenced && message.multipath_packets_recv_sequenced.length))
+                                message.multipath_packets_recv_sequenced = [];
+                            reader.uint64s(message.multipath_packets_recv_sequenced);
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
+                        if (!(message.multipath_packets_recv_sequenced && message.multipath_packets_recv_sequenced.length))
+                            message.multipath_packets_recv_sequenced = [];
+                        message.multipath_packets_recv_sequenced.push(reader.uint64());
+                        continue;
+                    }
+                case 13: {
+                        if (wireType === 2) {
+                            if (!(message.multipath_packets_recv_later && message.multipath_packets_recv_later.length))
+                                message.multipath_packets_recv_later = [];
+                            reader.uint64s(message.multipath_packets_recv_later);
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
+                        if (!(message.multipath_packets_recv_later && message.multipath_packets_recv_later.length))
+                            message.multipath_packets_recv_later = [];
+                        message.multipath_packets_recv_later.push(reader.uint64());
+                        continue;
+                    }
+                case 14: {
+                        if (wireType !== 0)
+                            break;
+                        message.multipath_send_enabled = reader.uint32();
+                        continue;
+                    }
+                case 21: {
+                        if (wireType !== 0)
+                            break;
+                        message.quality_histogram_100 = reader.uint32();
+                        continue;
+                    }
+                case 22: {
+                        if (wireType !== 0)
+                            break;
+                        message.quality_histogram_99 = reader.uint32();
+                        continue;
+                    }
+                case 23: {
+                        if (wireType !== 0)
+                            break;
+                        message.quality_histogram_97 = reader.uint32();
+                        continue;
+                    }
+                case 24: {
+                        if (wireType !== 0)
+                            break;
+                        message.quality_histogram_95 = reader.uint32();
+                        continue;
+                    }
+                case 25: {
+                        if (wireType !== 0)
+                            break;
+                        message.quality_histogram_90 = reader.uint32();
+                        continue;
+                    }
+                case 26: {
+                        if (wireType !== 0)
+                            break;
+                        message.quality_histogram_75 = reader.uint32();
+                        continue;
+                    }
+                case 27: {
+                        if (wireType !== 0)
+                            break;
+                        message.quality_histogram_50 = reader.uint32();
+                        continue;
+                    }
+                case 28: {
+                        if (wireType !== 0)
+                            break;
+                        message.quality_histogram_1 = reader.uint32();
+                        continue;
+                    }
+                case 29: {
+                        if (wireType !== 0)
+                            break;
+                        message.quality_histogram_dead = reader.uint32();
+                        continue;
+                    }
+                case 30: {
+                        if (wireType !== 0)
+                            break;
+                        message.quality_ntile_2nd = reader.uint32();
+                        continue;
+                    }
+                case 31: {
+                        if (wireType !== 0)
+                            break;
+                        message.quality_ntile_5th = reader.uint32();
+                        continue;
+                    }
+                case 32: {
+                        if (wireType !== 0)
+                            break;
+                        message.quality_ntile_25th = reader.uint32();
+                        continue;
+                    }
+                case 33: {
+                        if (wireType !== 0)
+                            break;
+                        message.quality_ntile_50th = reader.uint32();
+                        continue;
+                    }
+                case 41: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_histogram_25 = reader.uint32();
+                        continue;
+                    }
+                case 42: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_histogram_50 = reader.uint32();
+                        continue;
+                    }
+                case 43: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_histogram_75 = reader.uint32();
+                        continue;
+                    }
+                case 44: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_histogram_100 = reader.uint32();
+                        continue;
+                    }
+                case 45: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_histogram_125 = reader.uint32();
+                        continue;
+                    }
+                case 46: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_histogram_150 = reader.uint32();
+                        continue;
+                    }
+                case 47: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_histogram_200 = reader.uint32();
+                        continue;
+                    }
+                case 48: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_histogram_300 = reader.uint32();
+                        continue;
+                    }
+                case 49: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_histogram_max = reader.uint32();
+                        continue;
+                    }
+                case 50: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_ntile_5th = reader.uint32();
+                        continue;
+                    }
+                case 51: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_ntile_50th = reader.uint32();
+                        continue;
+                    }
+                case 52: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_ntile_75th = reader.uint32();
+                        continue;
+                    }
+                case 53: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_ntile_95th = reader.uint32();
+                        continue;
+                    }
+                case 54: {
+                        if (wireType !== 0)
+                            break;
+                        message.ping_ntile_98th = reader.uint32();
+                        continue;
+                    }
+                case 61: {
+                        if (wireType !== 0)
+                            break;
+                        message.jitter_histogram_negligible = reader.uint32();
+                        continue;
+                    }
+                case 62: {
+                        if (wireType !== 0)
+                            break;
+                        message.jitter_histogram_1 = reader.uint32();
+                        continue;
+                    }
+                case 63: {
+                        if (wireType !== 0)
+                            break;
+                        message.jitter_histogram_2 = reader.uint32();
+                        continue;
+                    }
+                case 64: {
+                        if (wireType !== 0)
+                            break;
+                        message.jitter_histogram_5 = reader.uint32();
+                        continue;
+                    }
+                case 65: {
+                        if (wireType !== 0)
+                            break;
+                        message.jitter_histogram_10 = reader.uint32();
+                        continue;
+                    }
+                case 66: {
+                        if (wireType !== 0)
+                            break;
+                        message.jitter_histogram_20 = reader.uint32();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -2286,14 +2555,14 @@
          * @memberof CMsgSteamDatagramLinkLifetimeStats
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSteamDatagramLinkLifetimeStats} CMsgSteamDatagramLinkLifetimeStats
+         * @returns {CMsgSteamDatagramLinkLifetimeStats & CMsgSteamDatagramLinkLifetimeStats.$Shape} CMsgSteamDatagramLinkLifetimeStats
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramLinkLifetimeStats.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSteamDatagramLinkLifetimeStats.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -2304,160 +2573,160 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramLinkLifetimeStats.verify = function verify(message, long) {
+        CMsgSteamDatagramLinkLifetimeStats.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.connected_seconds != null && Object.hasOwnProperty.call(message, "connected_seconds"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.connected_seconds != null && $Object.hasOwnProperty.call(message, "connected_seconds"))
                 if (!$util.isInteger(message.connected_seconds))
                     return "connected_seconds: integer expected";
-            if (message.packets_sent != null && Object.hasOwnProperty.call(message, "packets_sent"))
+            if (message.packets_sent != null && $Object.hasOwnProperty.call(message, "packets_sent"))
                 if (!$util.isInteger(message.packets_sent) && !(message.packets_sent && $util.isInteger(message.packets_sent.low) && $util.isInteger(message.packets_sent.high)))
                     return "packets_sent: integer|Long expected";
-            if (message.kb_sent != null && Object.hasOwnProperty.call(message, "kb_sent"))
+            if (message.kb_sent != null && $Object.hasOwnProperty.call(message, "kb_sent"))
                 if (!$util.isInteger(message.kb_sent) && !(message.kb_sent && $util.isInteger(message.kb_sent.low) && $util.isInteger(message.kb_sent.high)))
                     return "kb_sent: integer|Long expected";
-            if (message.packets_recv != null && Object.hasOwnProperty.call(message, "packets_recv"))
+            if (message.packets_recv != null && $Object.hasOwnProperty.call(message, "packets_recv"))
                 if (!$util.isInteger(message.packets_recv) && !(message.packets_recv && $util.isInteger(message.packets_recv.low) && $util.isInteger(message.packets_recv.high)))
                     return "packets_recv: integer|Long expected";
-            if (message.kb_recv != null && Object.hasOwnProperty.call(message, "kb_recv"))
+            if (message.kb_recv != null && $Object.hasOwnProperty.call(message, "kb_recv"))
                 if (!$util.isInteger(message.kb_recv) && !(message.kb_recv && $util.isInteger(message.kb_recv.low) && $util.isInteger(message.kb_recv.high)))
                     return "kb_recv: integer|Long expected";
-            if (message.packets_recv_sequenced != null && Object.hasOwnProperty.call(message, "packets_recv_sequenced"))
+            if (message.packets_recv_sequenced != null && $Object.hasOwnProperty.call(message, "packets_recv_sequenced"))
                 if (!$util.isInteger(message.packets_recv_sequenced) && !(message.packets_recv_sequenced && $util.isInteger(message.packets_recv_sequenced.low) && $util.isInteger(message.packets_recv_sequenced.high)))
                     return "packets_recv_sequenced: integer|Long expected";
-            if (message.packets_recv_dropped != null && Object.hasOwnProperty.call(message, "packets_recv_dropped"))
+            if (message.packets_recv_dropped != null && $Object.hasOwnProperty.call(message, "packets_recv_dropped"))
                 if (!$util.isInteger(message.packets_recv_dropped) && !(message.packets_recv_dropped && $util.isInteger(message.packets_recv_dropped.low) && $util.isInteger(message.packets_recv_dropped.high)))
                     return "packets_recv_dropped: integer|Long expected";
-            if (message.packets_recv_out_of_order != null && Object.hasOwnProperty.call(message, "packets_recv_out_of_order"))
+            if (message.packets_recv_out_of_order != null && $Object.hasOwnProperty.call(message, "packets_recv_out_of_order"))
                 if (!$util.isInteger(message.packets_recv_out_of_order) && !(message.packets_recv_out_of_order && $util.isInteger(message.packets_recv_out_of_order.low) && $util.isInteger(message.packets_recv_out_of_order.high)))
                     return "packets_recv_out_of_order: integer|Long expected";
-            if (message.packets_recv_out_of_order_corrected != null && Object.hasOwnProperty.call(message, "packets_recv_out_of_order_corrected"))
+            if (message.packets_recv_out_of_order_corrected != null && $Object.hasOwnProperty.call(message, "packets_recv_out_of_order_corrected"))
                 if (!$util.isInteger(message.packets_recv_out_of_order_corrected) && !(message.packets_recv_out_of_order_corrected && $util.isInteger(message.packets_recv_out_of_order_corrected.low) && $util.isInteger(message.packets_recv_out_of_order_corrected.high)))
                     return "packets_recv_out_of_order_corrected: integer|Long expected";
-            if (message.packets_recv_duplicate != null && Object.hasOwnProperty.call(message, "packets_recv_duplicate"))
+            if (message.packets_recv_duplicate != null && $Object.hasOwnProperty.call(message, "packets_recv_duplicate"))
                 if (!$util.isInteger(message.packets_recv_duplicate) && !(message.packets_recv_duplicate && $util.isInteger(message.packets_recv_duplicate.low) && $util.isInteger(message.packets_recv_duplicate.high)))
                     return "packets_recv_duplicate: integer|Long expected";
-            if (message.packets_recv_lurch != null && Object.hasOwnProperty.call(message, "packets_recv_lurch"))
+            if (message.packets_recv_lurch != null && $Object.hasOwnProperty.call(message, "packets_recv_lurch"))
                 if (!$util.isInteger(message.packets_recv_lurch) && !(message.packets_recv_lurch && $util.isInteger(message.packets_recv_lurch.low) && $util.isInteger(message.packets_recv_lurch.high)))
                     return "packets_recv_lurch: integer|Long expected";
-            if (message.multipath_packets_recv_sequenced != null && Object.hasOwnProperty.call(message, "multipath_packets_recv_sequenced")) {
-                if (!Array.isArray(message.multipath_packets_recv_sequenced))
+            if (message.multipath_packets_recv_sequenced != null && $Object.hasOwnProperty.call(message, "multipath_packets_recv_sequenced")) {
+                if (!$Array.isArray(message.multipath_packets_recv_sequenced))
                     return "multipath_packets_recv_sequenced: array expected";
                 for (var i = 0; i < message.multipath_packets_recv_sequenced.length; ++i)
                     if (!$util.isInteger(message.multipath_packets_recv_sequenced[i]) && !(message.multipath_packets_recv_sequenced[i] && $util.isInteger(message.multipath_packets_recv_sequenced[i].low) && $util.isInteger(message.multipath_packets_recv_sequenced[i].high)))
                         return "multipath_packets_recv_sequenced: integer|Long[] expected";
             }
-            if (message.multipath_packets_recv_later != null && Object.hasOwnProperty.call(message, "multipath_packets_recv_later")) {
-                if (!Array.isArray(message.multipath_packets_recv_later))
+            if (message.multipath_packets_recv_later != null && $Object.hasOwnProperty.call(message, "multipath_packets_recv_later")) {
+                if (!$Array.isArray(message.multipath_packets_recv_later))
                     return "multipath_packets_recv_later: array expected";
                 for (var i = 0; i < message.multipath_packets_recv_later.length; ++i)
                     if (!$util.isInteger(message.multipath_packets_recv_later[i]) && !(message.multipath_packets_recv_later[i] && $util.isInteger(message.multipath_packets_recv_later[i].low) && $util.isInteger(message.multipath_packets_recv_later[i].high)))
                         return "multipath_packets_recv_later: integer|Long[] expected";
             }
-            if (message.multipath_send_enabled != null && Object.hasOwnProperty.call(message, "multipath_send_enabled"))
+            if (message.multipath_send_enabled != null && $Object.hasOwnProperty.call(message, "multipath_send_enabled"))
                 if (!$util.isInteger(message.multipath_send_enabled))
                     return "multipath_send_enabled: integer expected";
-            if (message.quality_histogram_100 != null && Object.hasOwnProperty.call(message, "quality_histogram_100"))
+            if (message.quality_histogram_100 != null && $Object.hasOwnProperty.call(message, "quality_histogram_100"))
                 if (!$util.isInteger(message.quality_histogram_100))
                     return "quality_histogram_100: integer expected";
-            if (message.quality_histogram_99 != null && Object.hasOwnProperty.call(message, "quality_histogram_99"))
+            if (message.quality_histogram_99 != null && $Object.hasOwnProperty.call(message, "quality_histogram_99"))
                 if (!$util.isInteger(message.quality_histogram_99))
                     return "quality_histogram_99: integer expected";
-            if (message.quality_histogram_97 != null && Object.hasOwnProperty.call(message, "quality_histogram_97"))
+            if (message.quality_histogram_97 != null && $Object.hasOwnProperty.call(message, "quality_histogram_97"))
                 if (!$util.isInteger(message.quality_histogram_97))
                     return "quality_histogram_97: integer expected";
-            if (message.quality_histogram_95 != null && Object.hasOwnProperty.call(message, "quality_histogram_95"))
+            if (message.quality_histogram_95 != null && $Object.hasOwnProperty.call(message, "quality_histogram_95"))
                 if (!$util.isInteger(message.quality_histogram_95))
                     return "quality_histogram_95: integer expected";
-            if (message.quality_histogram_90 != null && Object.hasOwnProperty.call(message, "quality_histogram_90"))
+            if (message.quality_histogram_90 != null && $Object.hasOwnProperty.call(message, "quality_histogram_90"))
                 if (!$util.isInteger(message.quality_histogram_90))
                     return "quality_histogram_90: integer expected";
-            if (message.quality_histogram_75 != null && Object.hasOwnProperty.call(message, "quality_histogram_75"))
+            if (message.quality_histogram_75 != null && $Object.hasOwnProperty.call(message, "quality_histogram_75"))
                 if (!$util.isInteger(message.quality_histogram_75))
                     return "quality_histogram_75: integer expected";
-            if (message.quality_histogram_50 != null && Object.hasOwnProperty.call(message, "quality_histogram_50"))
+            if (message.quality_histogram_50 != null && $Object.hasOwnProperty.call(message, "quality_histogram_50"))
                 if (!$util.isInteger(message.quality_histogram_50))
                     return "quality_histogram_50: integer expected";
-            if (message.quality_histogram_1 != null && Object.hasOwnProperty.call(message, "quality_histogram_1"))
+            if (message.quality_histogram_1 != null && $Object.hasOwnProperty.call(message, "quality_histogram_1"))
                 if (!$util.isInteger(message.quality_histogram_1))
                     return "quality_histogram_1: integer expected";
-            if (message.quality_histogram_dead != null && Object.hasOwnProperty.call(message, "quality_histogram_dead"))
+            if (message.quality_histogram_dead != null && $Object.hasOwnProperty.call(message, "quality_histogram_dead"))
                 if (!$util.isInteger(message.quality_histogram_dead))
                     return "quality_histogram_dead: integer expected";
-            if (message.quality_ntile_2nd != null && Object.hasOwnProperty.call(message, "quality_ntile_2nd"))
+            if (message.quality_ntile_2nd != null && $Object.hasOwnProperty.call(message, "quality_ntile_2nd"))
                 if (!$util.isInteger(message.quality_ntile_2nd))
                     return "quality_ntile_2nd: integer expected";
-            if (message.quality_ntile_5th != null && Object.hasOwnProperty.call(message, "quality_ntile_5th"))
+            if (message.quality_ntile_5th != null && $Object.hasOwnProperty.call(message, "quality_ntile_5th"))
                 if (!$util.isInteger(message.quality_ntile_5th))
                     return "quality_ntile_5th: integer expected";
-            if (message.quality_ntile_25th != null && Object.hasOwnProperty.call(message, "quality_ntile_25th"))
+            if (message.quality_ntile_25th != null && $Object.hasOwnProperty.call(message, "quality_ntile_25th"))
                 if (!$util.isInteger(message.quality_ntile_25th))
                     return "quality_ntile_25th: integer expected";
-            if (message.quality_ntile_50th != null && Object.hasOwnProperty.call(message, "quality_ntile_50th"))
+            if (message.quality_ntile_50th != null && $Object.hasOwnProperty.call(message, "quality_ntile_50th"))
                 if (!$util.isInteger(message.quality_ntile_50th))
                     return "quality_ntile_50th: integer expected";
-            if (message.ping_histogram_25 != null && Object.hasOwnProperty.call(message, "ping_histogram_25"))
+            if (message.ping_histogram_25 != null && $Object.hasOwnProperty.call(message, "ping_histogram_25"))
                 if (!$util.isInteger(message.ping_histogram_25))
                     return "ping_histogram_25: integer expected";
-            if (message.ping_histogram_50 != null && Object.hasOwnProperty.call(message, "ping_histogram_50"))
+            if (message.ping_histogram_50 != null && $Object.hasOwnProperty.call(message, "ping_histogram_50"))
                 if (!$util.isInteger(message.ping_histogram_50))
                     return "ping_histogram_50: integer expected";
-            if (message.ping_histogram_75 != null && Object.hasOwnProperty.call(message, "ping_histogram_75"))
+            if (message.ping_histogram_75 != null && $Object.hasOwnProperty.call(message, "ping_histogram_75"))
                 if (!$util.isInteger(message.ping_histogram_75))
                     return "ping_histogram_75: integer expected";
-            if (message.ping_histogram_100 != null && Object.hasOwnProperty.call(message, "ping_histogram_100"))
+            if (message.ping_histogram_100 != null && $Object.hasOwnProperty.call(message, "ping_histogram_100"))
                 if (!$util.isInteger(message.ping_histogram_100))
                     return "ping_histogram_100: integer expected";
-            if (message.ping_histogram_125 != null && Object.hasOwnProperty.call(message, "ping_histogram_125"))
+            if (message.ping_histogram_125 != null && $Object.hasOwnProperty.call(message, "ping_histogram_125"))
                 if (!$util.isInteger(message.ping_histogram_125))
                     return "ping_histogram_125: integer expected";
-            if (message.ping_histogram_150 != null && Object.hasOwnProperty.call(message, "ping_histogram_150"))
+            if (message.ping_histogram_150 != null && $Object.hasOwnProperty.call(message, "ping_histogram_150"))
                 if (!$util.isInteger(message.ping_histogram_150))
                     return "ping_histogram_150: integer expected";
-            if (message.ping_histogram_200 != null && Object.hasOwnProperty.call(message, "ping_histogram_200"))
+            if (message.ping_histogram_200 != null && $Object.hasOwnProperty.call(message, "ping_histogram_200"))
                 if (!$util.isInteger(message.ping_histogram_200))
                     return "ping_histogram_200: integer expected";
-            if (message.ping_histogram_300 != null && Object.hasOwnProperty.call(message, "ping_histogram_300"))
+            if (message.ping_histogram_300 != null && $Object.hasOwnProperty.call(message, "ping_histogram_300"))
                 if (!$util.isInteger(message.ping_histogram_300))
                     return "ping_histogram_300: integer expected";
-            if (message.ping_histogram_max != null && Object.hasOwnProperty.call(message, "ping_histogram_max"))
+            if (message.ping_histogram_max != null && $Object.hasOwnProperty.call(message, "ping_histogram_max"))
                 if (!$util.isInteger(message.ping_histogram_max))
                     return "ping_histogram_max: integer expected";
-            if (message.ping_ntile_5th != null && Object.hasOwnProperty.call(message, "ping_ntile_5th"))
+            if (message.ping_ntile_5th != null && $Object.hasOwnProperty.call(message, "ping_ntile_5th"))
                 if (!$util.isInteger(message.ping_ntile_5th))
                     return "ping_ntile_5th: integer expected";
-            if (message.ping_ntile_50th != null && Object.hasOwnProperty.call(message, "ping_ntile_50th"))
+            if (message.ping_ntile_50th != null && $Object.hasOwnProperty.call(message, "ping_ntile_50th"))
                 if (!$util.isInteger(message.ping_ntile_50th))
                     return "ping_ntile_50th: integer expected";
-            if (message.ping_ntile_75th != null && Object.hasOwnProperty.call(message, "ping_ntile_75th"))
+            if (message.ping_ntile_75th != null && $Object.hasOwnProperty.call(message, "ping_ntile_75th"))
                 if (!$util.isInteger(message.ping_ntile_75th))
                     return "ping_ntile_75th: integer expected";
-            if (message.ping_ntile_95th != null && Object.hasOwnProperty.call(message, "ping_ntile_95th"))
+            if (message.ping_ntile_95th != null && $Object.hasOwnProperty.call(message, "ping_ntile_95th"))
                 if (!$util.isInteger(message.ping_ntile_95th))
                     return "ping_ntile_95th: integer expected";
-            if (message.ping_ntile_98th != null && Object.hasOwnProperty.call(message, "ping_ntile_98th"))
+            if (message.ping_ntile_98th != null && $Object.hasOwnProperty.call(message, "ping_ntile_98th"))
                 if (!$util.isInteger(message.ping_ntile_98th))
                     return "ping_ntile_98th: integer expected";
-            if (message.jitter_histogram_negligible != null && Object.hasOwnProperty.call(message, "jitter_histogram_negligible"))
+            if (message.jitter_histogram_negligible != null && $Object.hasOwnProperty.call(message, "jitter_histogram_negligible"))
                 if (!$util.isInteger(message.jitter_histogram_negligible))
                     return "jitter_histogram_negligible: integer expected";
-            if (message.jitter_histogram_1 != null && Object.hasOwnProperty.call(message, "jitter_histogram_1"))
+            if (message.jitter_histogram_1 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_1"))
                 if (!$util.isInteger(message.jitter_histogram_1))
                     return "jitter_histogram_1: integer expected";
-            if (message.jitter_histogram_2 != null && Object.hasOwnProperty.call(message, "jitter_histogram_2"))
+            if (message.jitter_histogram_2 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_2"))
                 if (!$util.isInteger(message.jitter_histogram_2))
                     return "jitter_histogram_2: integer expected";
-            if (message.jitter_histogram_5 != null && Object.hasOwnProperty.call(message, "jitter_histogram_5"))
+            if (message.jitter_histogram_5 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_5"))
                 if (!$util.isInteger(message.jitter_histogram_5))
                     return "jitter_histogram_5: integer expected";
-            if (message.jitter_histogram_10 != null && Object.hasOwnProperty.call(message, "jitter_histogram_10"))
+            if (message.jitter_histogram_10 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_10"))
                 if (!$util.isInteger(message.jitter_histogram_10))
                     return "jitter_histogram_10: integer expected";
-            if (message.jitter_histogram_20 != null && Object.hasOwnProperty.call(message, "jitter_histogram_20"))
+            if (message.jitter_histogram_20 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_20"))
                 if (!$util.isInteger(message.jitter_histogram_20))
                     return "jitter_histogram_20: integer expected";
             return null;
@@ -2471,15 +2740,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramLinkLifetimeStats} CMsgSteamDatagramLinkLifetimeStats
          */
-        CMsgSteamDatagramLinkLifetimeStats.fromObject = function fromObject(object, long) {
+        CMsgSteamDatagramLinkLifetimeStats.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSteamDatagramLinkLifetimeStats)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSteamDatagramLinkLifetimeStats: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSteamDatagramLinkLifetimeStats: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSteamDatagramLinkLifetimeStats();
             if (object.connected_seconds != null)
                 message.connected_seconds = object.connected_seconds >>> 0;
@@ -2487,7 +2756,7 @@
                 if ($util.Long)
                     message.packets_sent = $util.Long.fromValue(object.packets_sent, true);
                 else if (typeof object.packets_sent === "string")
-                    message.packets_sent = parseInt(object.packets_sent, 10);
+                    message.packets_sent = $parseInt(object.packets_sent, 10);
                 else if (typeof object.packets_sent === "number")
                     message.packets_sent = object.packets_sent;
                 else if (typeof object.packets_sent === "object")
@@ -2496,7 +2765,7 @@
                 if ($util.Long)
                     message.kb_sent = $util.Long.fromValue(object.kb_sent, true);
                 else if (typeof object.kb_sent === "string")
-                    message.kb_sent = parseInt(object.kb_sent, 10);
+                    message.kb_sent = $parseInt(object.kb_sent, 10);
                 else if (typeof object.kb_sent === "number")
                     message.kb_sent = object.kb_sent;
                 else if (typeof object.kb_sent === "object")
@@ -2505,7 +2774,7 @@
                 if ($util.Long)
                     message.packets_recv = $util.Long.fromValue(object.packets_recv, true);
                 else if (typeof object.packets_recv === "string")
-                    message.packets_recv = parseInt(object.packets_recv, 10);
+                    message.packets_recv = $parseInt(object.packets_recv, 10);
                 else if (typeof object.packets_recv === "number")
                     message.packets_recv = object.packets_recv;
                 else if (typeof object.packets_recv === "object")
@@ -2514,7 +2783,7 @@
                 if ($util.Long)
                     message.kb_recv = $util.Long.fromValue(object.kb_recv, true);
                 else if (typeof object.kb_recv === "string")
-                    message.kb_recv = parseInt(object.kb_recv, 10);
+                    message.kb_recv = $parseInt(object.kb_recv, 10);
                 else if (typeof object.kb_recv === "number")
                     message.kb_recv = object.kb_recv;
                 else if (typeof object.kb_recv === "object")
@@ -2523,7 +2792,7 @@
                 if ($util.Long)
                     message.packets_recv_sequenced = $util.Long.fromValue(object.packets_recv_sequenced, true);
                 else if (typeof object.packets_recv_sequenced === "string")
-                    message.packets_recv_sequenced = parseInt(object.packets_recv_sequenced, 10);
+                    message.packets_recv_sequenced = $parseInt(object.packets_recv_sequenced, 10);
                 else if (typeof object.packets_recv_sequenced === "number")
                     message.packets_recv_sequenced = object.packets_recv_sequenced;
                 else if (typeof object.packets_recv_sequenced === "object")
@@ -2532,7 +2801,7 @@
                 if ($util.Long)
                     message.packets_recv_dropped = $util.Long.fromValue(object.packets_recv_dropped, true);
                 else if (typeof object.packets_recv_dropped === "string")
-                    message.packets_recv_dropped = parseInt(object.packets_recv_dropped, 10);
+                    message.packets_recv_dropped = $parseInt(object.packets_recv_dropped, 10);
                 else if (typeof object.packets_recv_dropped === "number")
                     message.packets_recv_dropped = object.packets_recv_dropped;
                 else if (typeof object.packets_recv_dropped === "object")
@@ -2541,7 +2810,7 @@
                 if ($util.Long)
                     message.packets_recv_out_of_order = $util.Long.fromValue(object.packets_recv_out_of_order, true);
                 else if (typeof object.packets_recv_out_of_order === "string")
-                    message.packets_recv_out_of_order = parseInt(object.packets_recv_out_of_order, 10);
+                    message.packets_recv_out_of_order = $parseInt(object.packets_recv_out_of_order, 10);
                 else if (typeof object.packets_recv_out_of_order === "number")
                     message.packets_recv_out_of_order = object.packets_recv_out_of_order;
                 else if (typeof object.packets_recv_out_of_order === "object")
@@ -2550,7 +2819,7 @@
                 if ($util.Long)
                     message.packets_recv_out_of_order_corrected = $util.Long.fromValue(object.packets_recv_out_of_order_corrected, true);
                 else if (typeof object.packets_recv_out_of_order_corrected === "string")
-                    message.packets_recv_out_of_order_corrected = parseInt(object.packets_recv_out_of_order_corrected, 10);
+                    message.packets_recv_out_of_order_corrected = $parseInt(object.packets_recv_out_of_order_corrected, 10);
                 else if (typeof object.packets_recv_out_of_order_corrected === "number")
                     message.packets_recv_out_of_order_corrected = object.packets_recv_out_of_order_corrected;
                 else if (typeof object.packets_recv_out_of_order_corrected === "object")
@@ -2559,7 +2828,7 @@
                 if ($util.Long)
                     message.packets_recv_duplicate = $util.Long.fromValue(object.packets_recv_duplicate, true);
                 else if (typeof object.packets_recv_duplicate === "string")
-                    message.packets_recv_duplicate = parseInt(object.packets_recv_duplicate, 10);
+                    message.packets_recv_duplicate = $parseInt(object.packets_recv_duplicate, 10);
                 else if (typeof object.packets_recv_duplicate === "number")
                     message.packets_recv_duplicate = object.packets_recv_duplicate;
                 else if (typeof object.packets_recv_duplicate === "object")
@@ -2568,34 +2837,34 @@
                 if ($util.Long)
                     message.packets_recv_lurch = $util.Long.fromValue(object.packets_recv_lurch, true);
                 else if (typeof object.packets_recv_lurch === "string")
-                    message.packets_recv_lurch = parseInt(object.packets_recv_lurch, 10);
+                    message.packets_recv_lurch = $parseInt(object.packets_recv_lurch, 10);
                 else if (typeof object.packets_recv_lurch === "number")
                     message.packets_recv_lurch = object.packets_recv_lurch;
                 else if (typeof object.packets_recv_lurch === "object")
                     message.packets_recv_lurch = new $util.LongBits(object.packets_recv_lurch.low >>> 0, object.packets_recv_lurch.high >>> 0).toNumber(true);
             if (object.multipath_packets_recv_sequenced) {
-                if (!Array.isArray(object.multipath_packets_recv_sequenced))
-                    throw TypeError(".CMsgSteamDatagramLinkLifetimeStats.multipath_packets_recv_sequenced: array expected");
-                message.multipath_packets_recv_sequenced = [];
+                if (!$Array.isArray(object.multipath_packets_recv_sequenced))
+                    throw $TypeError(".CMsgSteamDatagramLinkLifetimeStats.multipath_packets_recv_sequenced: array expected");
+                message.multipath_packets_recv_sequenced = $Array(object.multipath_packets_recv_sequenced.length);
                 for (var i = 0; i < object.multipath_packets_recv_sequenced.length; ++i)
                     if ($util.Long)
                         message.multipath_packets_recv_sequenced[i] = $util.Long.fromValue(object.multipath_packets_recv_sequenced[i], true);
                     else if (typeof object.multipath_packets_recv_sequenced[i] === "string")
-                        message.multipath_packets_recv_sequenced[i] = parseInt(object.multipath_packets_recv_sequenced[i], 10);
+                        message.multipath_packets_recv_sequenced[i] = $parseInt(object.multipath_packets_recv_sequenced[i], 10);
                     else if (typeof object.multipath_packets_recv_sequenced[i] === "number")
                         message.multipath_packets_recv_sequenced[i] = object.multipath_packets_recv_sequenced[i];
                     else if (typeof object.multipath_packets_recv_sequenced[i] === "object")
                         message.multipath_packets_recv_sequenced[i] = new $util.LongBits(object.multipath_packets_recv_sequenced[i].low >>> 0, object.multipath_packets_recv_sequenced[i].high >>> 0).toNumber(true);
             }
             if (object.multipath_packets_recv_later) {
-                if (!Array.isArray(object.multipath_packets_recv_later))
-                    throw TypeError(".CMsgSteamDatagramLinkLifetimeStats.multipath_packets_recv_later: array expected");
-                message.multipath_packets_recv_later = [];
+                if (!$Array.isArray(object.multipath_packets_recv_later))
+                    throw $TypeError(".CMsgSteamDatagramLinkLifetimeStats.multipath_packets_recv_later: array expected");
+                message.multipath_packets_recv_later = $Array(object.multipath_packets_recv_later.length);
                 for (var i = 0; i < object.multipath_packets_recv_later.length; ++i)
                     if ($util.Long)
                         message.multipath_packets_recv_later[i] = $util.Long.fromValue(object.multipath_packets_recv_later[i], true);
                     else if (typeof object.multipath_packets_recv_later[i] === "string")
-                        message.multipath_packets_recv_later[i] = parseInt(object.multipath_packets_recv_later[i], 10);
+                        message.multipath_packets_recv_later[i] = $parseInt(object.multipath_packets_recv_later[i], 10);
                     else if (typeof object.multipath_packets_recv_later[i] === "number")
                         message.multipath_packets_recv_later[i] = object.multipath_packets_recv_later[i];
                     else if (typeof object.multipath_packets_recv_later[i] === "object")
@@ -2681,13 +2950,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramLinkLifetimeStats.toObject = function toObject(message, options, q) {
+        CMsgSteamDatagramLinkLifetimeStats.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults) {
                 object.multipath_packets_recv_sequenced = [];
@@ -2697,55 +2966,55 @@
                 object.connected_seconds = 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.packets_sent = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.packets_sent = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.packets_sent = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.packets_sent = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.kb_sent = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.kb_sent = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.kb_sent = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.kb_sent = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.packets_recv = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.packets_recv = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.packets_recv = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.packets_recv = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.kb_recv = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.kb_recv = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.kb_recv = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.kb_recv = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.packets_recv_sequenced = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.packets_recv_sequenced = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.packets_recv_sequenced = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.packets_recv_sequenced = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.packets_recv_dropped = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.packets_recv_dropped = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.packets_recv_dropped = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.packets_recv_dropped = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.packets_recv_out_of_order = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.packets_recv_out_of_order = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.packets_recv_out_of_order = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.packets_recv_out_of_order = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.packets_recv_duplicate = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.packets_recv_duplicate = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.packets_recv_duplicate = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.packets_recv_duplicate = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.packets_recv_lurch = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.packets_recv_lurch = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.packets_recv_lurch = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.packets_recv_lurch = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 object.multipath_send_enabled = 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.packets_recv_out_of_order_corrected = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.packets_recv_out_of_order_corrected = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.packets_recv_out_of_order_corrected = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.packets_recv_out_of_order_corrected = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 object.quality_histogram_100 = 0;
                 object.quality_histogram_99 = 0;
                 object.quality_histogram_97 = 0;
@@ -2780,165 +3049,165 @@
                 object.jitter_histogram_10 = 0;
                 object.jitter_histogram_20 = 0;
             }
-            if (message.connected_seconds != null && Object.hasOwnProperty.call(message, "connected_seconds"))
+            if (message.connected_seconds != null && $Object.hasOwnProperty.call(message, "connected_seconds"))
                 object.connected_seconds = message.connected_seconds;
-            if (message.packets_sent != null && Object.hasOwnProperty.call(message, "packets_sent"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.packets_sent = typeof message.packets_sent === "number" ? BigInt(message.packets_sent) : $util.Long.fromBits(message.packets_sent.low >>> 0, message.packets_sent.high >>> 0, true).toBigInt();
+            if (message.packets_sent != null && $Object.hasOwnProperty.call(message, "packets_sent"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.packets_sent = typeof message.packets_sent === "number" ? $BigInt(message.packets_sent) : $util.Long.fromBits(message.packets_sent.low >>> 0, message.packets_sent.high >>> 0, true).toBigInt();
                 else if (typeof message.packets_sent === "number")
-                    object.packets_sent = options.longs === String ? String(message.packets_sent) : message.packets_sent;
+                    object.packets_sent = options.longs === $String ? $String(message.packets_sent) : message.packets_sent;
                 else
-                    object.packets_sent = options.longs === String ? $util.Long.prototype.toString.call(message.packets_sent) : options.longs === Number ? new $util.LongBits(message.packets_sent.low >>> 0, message.packets_sent.high >>> 0).toNumber(true) : message.packets_sent;
-            if (message.kb_sent != null && Object.hasOwnProperty.call(message, "kb_sent"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.kb_sent = typeof message.kb_sent === "number" ? BigInt(message.kb_sent) : $util.Long.fromBits(message.kb_sent.low >>> 0, message.kb_sent.high >>> 0, true).toBigInt();
+                    object.packets_sent = options.longs === $String ? $util.Long.prototype.toString.call(message.packets_sent) : options.longs === $Number ? new $util.LongBits(message.packets_sent.low >>> 0, message.packets_sent.high >>> 0).toNumber(true) : message.packets_sent;
+            if (message.kb_sent != null && $Object.hasOwnProperty.call(message, "kb_sent"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.kb_sent = typeof message.kb_sent === "number" ? $BigInt(message.kb_sent) : $util.Long.fromBits(message.kb_sent.low >>> 0, message.kb_sent.high >>> 0, true).toBigInt();
                 else if (typeof message.kb_sent === "number")
-                    object.kb_sent = options.longs === String ? String(message.kb_sent) : message.kb_sent;
+                    object.kb_sent = options.longs === $String ? $String(message.kb_sent) : message.kb_sent;
                 else
-                    object.kb_sent = options.longs === String ? $util.Long.prototype.toString.call(message.kb_sent) : options.longs === Number ? new $util.LongBits(message.kb_sent.low >>> 0, message.kb_sent.high >>> 0).toNumber(true) : message.kb_sent;
-            if (message.packets_recv != null && Object.hasOwnProperty.call(message, "packets_recv"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.packets_recv = typeof message.packets_recv === "number" ? BigInt(message.packets_recv) : $util.Long.fromBits(message.packets_recv.low >>> 0, message.packets_recv.high >>> 0, true).toBigInt();
+                    object.kb_sent = options.longs === $String ? $util.Long.prototype.toString.call(message.kb_sent) : options.longs === $Number ? new $util.LongBits(message.kb_sent.low >>> 0, message.kb_sent.high >>> 0).toNumber(true) : message.kb_sent;
+            if (message.packets_recv != null && $Object.hasOwnProperty.call(message, "packets_recv"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.packets_recv = typeof message.packets_recv === "number" ? $BigInt(message.packets_recv) : $util.Long.fromBits(message.packets_recv.low >>> 0, message.packets_recv.high >>> 0, true).toBigInt();
                 else if (typeof message.packets_recv === "number")
-                    object.packets_recv = options.longs === String ? String(message.packets_recv) : message.packets_recv;
+                    object.packets_recv = options.longs === $String ? $String(message.packets_recv) : message.packets_recv;
                 else
-                    object.packets_recv = options.longs === String ? $util.Long.prototype.toString.call(message.packets_recv) : options.longs === Number ? new $util.LongBits(message.packets_recv.low >>> 0, message.packets_recv.high >>> 0).toNumber(true) : message.packets_recv;
-            if (message.kb_recv != null && Object.hasOwnProperty.call(message, "kb_recv"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.kb_recv = typeof message.kb_recv === "number" ? BigInt(message.kb_recv) : $util.Long.fromBits(message.kb_recv.low >>> 0, message.kb_recv.high >>> 0, true).toBigInt();
+                    object.packets_recv = options.longs === $String ? $util.Long.prototype.toString.call(message.packets_recv) : options.longs === $Number ? new $util.LongBits(message.packets_recv.low >>> 0, message.packets_recv.high >>> 0).toNumber(true) : message.packets_recv;
+            if (message.kb_recv != null && $Object.hasOwnProperty.call(message, "kb_recv"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.kb_recv = typeof message.kb_recv === "number" ? $BigInt(message.kb_recv) : $util.Long.fromBits(message.kb_recv.low >>> 0, message.kb_recv.high >>> 0, true).toBigInt();
                 else if (typeof message.kb_recv === "number")
-                    object.kb_recv = options.longs === String ? String(message.kb_recv) : message.kb_recv;
+                    object.kb_recv = options.longs === $String ? $String(message.kb_recv) : message.kb_recv;
                 else
-                    object.kb_recv = options.longs === String ? $util.Long.prototype.toString.call(message.kb_recv) : options.longs === Number ? new $util.LongBits(message.kb_recv.low >>> 0, message.kb_recv.high >>> 0).toNumber(true) : message.kb_recv;
-            if (message.packets_recv_sequenced != null && Object.hasOwnProperty.call(message, "packets_recv_sequenced"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.packets_recv_sequenced = typeof message.packets_recv_sequenced === "number" ? BigInt(message.packets_recv_sequenced) : $util.Long.fromBits(message.packets_recv_sequenced.low >>> 0, message.packets_recv_sequenced.high >>> 0, true).toBigInt();
+                    object.kb_recv = options.longs === $String ? $util.Long.prototype.toString.call(message.kb_recv) : options.longs === $Number ? new $util.LongBits(message.kb_recv.low >>> 0, message.kb_recv.high >>> 0).toNumber(true) : message.kb_recv;
+            if (message.packets_recv_sequenced != null && $Object.hasOwnProperty.call(message, "packets_recv_sequenced"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.packets_recv_sequenced = typeof message.packets_recv_sequenced === "number" ? $BigInt(message.packets_recv_sequenced) : $util.Long.fromBits(message.packets_recv_sequenced.low >>> 0, message.packets_recv_sequenced.high >>> 0, true).toBigInt();
                 else if (typeof message.packets_recv_sequenced === "number")
-                    object.packets_recv_sequenced = options.longs === String ? String(message.packets_recv_sequenced) : message.packets_recv_sequenced;
+                    object.packets_recv_sequenced = options.longs === $String ? $String(message.packets_recv_sequenced) : message.packets_recv_sequenced;
                 else
-                    object.packets_recv_sequenced = options.longs === String ? $util.Long.prototype.toString.call(message.packets_recv_sequenced) : options.longs === Number ? new $util.LongBits(message.packets_recv_sequenced.low >>> 0, message.packets_recv_sequenced.high >>> 0).toNumber(true) : message.packets_recv_sequenced;
-            if (message.packets_recv_dropped != null && Object.hasOwnProperty.call(message, "packets_recv_dropped"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.packets_recv_dropped = typeof message.packets_recv_dropped === "number" ? BigInt(message.packets_recv_dropped) : $util.Long.fromBits(message.packets_recv_dropped.low >>> 0, message.packets_recv_dropped.high >>> 0, true).toBigInt();
+                    object.packets_recv_sequenced = options.longs === $String ? $util.Long.prototype.toString.call(message.packets_recv_sequenced) : options.longs === $Number ? new $util.LongBits(message.packets_recv_sequenced.low >>> 0, message.packets_recv_sequenced.high >>> 0).toNumber(true) : message.packets_recv_sequenced;
+            if (message.packets_recv_dropped != null && $Object.hasOwnProperty.call(message, "packets_recv_dropped"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.packets_recv_dropped = typeof message.packets_recv_dropped === "number" ? $BigInt(message.packets_recv_dropped) : $util.Long.fromBits(message.packets_recv_dropped.low >>> 0, message.packets_recv_dropped.high >>> 0, true).toBigInt();
                 else if (typeof message.packets_recv_dropped === "number")
-                    object.packets_recv_dropped = options.longs === String ? String(message.packets_recv_dropped) : message.packets_recv_dropped;
+                    object.packets_recv_dropped = options.longs === $String ? $String(message.packets_recv_dropped) : message.packets_recv_dropped;
                 else
-                    object.packets_recv_dropped = options.longs === String ? $util.Long.prototype.toString.call(message.packets_recv_dropped) : options.longs === Number ? new $util.LongBits(message.packets_recv_dropped.low >>> 0, message.packets_recv_dropped.high >>> 0).toNumber(true) : message.packets_recv_dropped;
-            if (message.packets_recv_out_of_order != null && Object.hasOwnProperty.call(message, "packets_recv_out_of_order"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.packets_recv_out_of_order = typeof message.packets_recv_out_of_order === "number" ? BigInt(message.packets_recv_out_of_order) : $util.Long.fromBits(message.packets_recv_out_of_order.low >>> 0, message.packets_recv_out_of_order.high >>> 0, true).toBigInt();
+                    object.packets_recv_dropped = options.longs === $String ? $util.Long.prototype.toString.call(message.packets_recv_dropped) : options.longs === $Number ? new $util.LongBits(message.packets_recv_dropped.low >>> 0, message.packets_recv_dropped.high >>> 0).toNumber(true) : message.packets_recv_dropped;
+            if (message.packets_recv_out_of_order != null && $Object.hasOwnProperty.call(message, "packets_recv_out_of_order"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.packets_recv_out_of_order = typeof message.packets_recv_out_of_order === "number" ? $BigInt(message.packets_recv_out_of_order) : $util.Long.fromBits(message.packets_recv_out_of_order.low >>> 0, message.packets_recv_out_of_order.high >>> 0, true).toBigInt();
                 else if (typeof message.packets_recv_out_of_order === "number")
-                    object.packets_recv_out_of_order = options.longs === String ? String(message.packets_recv_out_of_order) : message.packets_recv_out_of_order;
+                    object.packets_recv_out_of_order = options.longs === $String ? $String(message.packets_recv_out_of_order) : message.packets_recv_out_of_order;
                 else
-                    object.packets_recv_out_of_order = options.longs === String ? $util.Long.prototype.toString.call(message.packets_recv_out_of_order) : options.longs === Number ? new $util.LongBits(message.packets_recv_out_of_order.low >>> 0, message.packets_recv_out_of_order.high >>> 0).toNumber(true) : message.packets_recv_out_of_order;
-            if (message.packets_recv_duplicate != null && Object.hasOwnProperty.call(message, "packets_recv_duplicate"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.packets_recv_duplicate = typeof message.packets_recv_duplicate === "number" ? BigInt(message.packets_recv_duplicate) : $util.Long.fromBits(message.packets_recv_duplicate.low >>> 0, message.packets_recv_duplicate.high >>> 0, true).toBigInt();
+                    object.packets_recv_out_of_order = options.longs === $String ? $util.Long.prototype.toString.call(message.packets_recv_out_of_order) : options.longs === $Number ? new $util.LongBits(message.packets_recv_out_of_order.low >>> 0, message.packets_recv_out_of_order.high >>> 0).toNumber(true) : message.packets_recv_out_of_order;
+            if (message.packets_recv_duplicate != null && $Object.hasOwnProperty.call(message, "packets_recv_duplicate"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.packets_recv_duplicate = typeof message.packets_recv_duplicate === "number" ? $BigInt(message.packets_recv_duplicate) : $util.Long.fromBits(message.packets_recv_duplicate.low >>> 0, message.packets_recv_duplicate.high >>> 0, true).toBigInt();
                 else if (typeof message.packets_recv_duplicate === "number")
-                    object.packets_recv_duplicate = options.longs === String ? String(message.packets_recv_duplicate) : message.packets_recv_duplicate;
+                    object.packets_recv_duplicate = options.longs === $String ? $String(message.packets_recv_duplicate) : message.packets_recv_duplicate;
                 else
-                    object.packets_recv_duplicate = options.longs === String ? $util.Long.prototype.toString.call(message.packets_recv_duplicate) : options.longs === Number ? new $util.LongBits(message.packets_recv_duplicate.low >>> 0, message.packets_recv_duplicate.high >>> 0).toNumber(true) : message.packets_recv_duplicate;
-            if (message.packets_recv_lurch != null && Object.hasOwnProperty.call(message, "packets_recv_lurch"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.packets_recv_lurch = typeof message.packets_recv_lurch === "number" ? BigInt(message.packets_recv_lurch) : $util.Long.fromBits(message.packets_recv_lurch.low >>> 0, message.packets_recv_lurch.high >>> 0, true).toBigInt();
+                    object.packets_recv_duplicate = options.longs === $String ? $util.Long.prototype.toString.call(message.packets_recv_duplicate) : options.longs === $Number ? new $util.LongBits(message.packets_recv_duplicate.low >>> 0, message.packets_recv_duplicate.high >>> 0).toNumber(true) : message.packets_recv_duplicate;
+            if (message.packets_recv_lurch != null && $Object.hasOwnProperty.call(message, "packets_recv_lurch"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.packets_recv_lurch = typeof message.packets_recv_lurch === "number" ? $BigInt(message.packets_recv_lurch) : $util.Long.fromBits(message.packets_recv_lurch.low >>> 0, message.packets_recv_lurch.high >>> 0, true).toBigInt();
                 else if (typeof message.packets_recv_lurch === "number")
-                    object.packets_recv_lurch = options.longs === String ? String(message.packets_recv_lurch) : message.packets_recv_lurch;
+                    object.packets_recv_lurch = options.longs === $String ? $String(message.packets_recv_lurch) : message.packets_recv_lurch;
                 else
-                    object.packets_recv_lurch = options.longs === String ? $util.Long.prototype.toString.call(message.packets_recv_lurch) : options.longs === Number ? new $util.LongBits(message.packets_recv_lurch.low >>> 0, message.packets_recv_lurch.high >>> 0).toNumber(true) : message.packets_recv_lurch;
+                    object.packets_recv_lurch = options.longs === $String ? $util.Long.prototype.toString.call(message.packets_recv_lurch) : options.longs === $Number ? new $util.LongBits(message.packets_recv_lurch.low >>> 0, message.packets_recv_lurch.high >>> 0).toNumber(true) : message.packets_recv_lurch;
             if (message.multipath_packets_recv_sequenced && message.multipath_packets_recv_sequenced.length) {
-                object.multipath_packets_recv_sequenced = [];
+                object.multipath_packets_recv_sequenced = $Array(message.multipath_packets_recv_sequenced.length);
                 for (var j = 0; j < message.multipath_packets_recv_sequenced.length; ++j)
-                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                        object.multipath_packets_recv_sequenced[j] = typeof message.multipath_packets_recv_sequenced[j] === "number" ? BigInt(message.multipath_packets_recv_sequenced[j]) : $util.Long.fromBits(message.multipath_packets_recv_sequenced[j].low >>> 0, message.multipath_packets_recv_sequenced[j].high >>> 0, true).toBigInt();
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.multipath_packets_recv_sequenced[j] = typeof message.multipath_packets_recv_sequenced[j] === "number" ? $BigInt(message.multipath_packets_recv_sequenced[j]) : $util.Long.fromBits(message.multipath_packets_recv_sequenced[j].low >>> 0, message.multipath_packets_recv_sequenced[j].high >>> 0, true).toBigInt();
                     else if (typeof message.multipath_packets_recv_sequenced[j] === "number")
-                        object.multipath_packets_recv_sequenced[j] = options.longs === String ? String(message.multipath_packets_recv_sequenced[j]) : message.multipath_packets_recv_sequenced[j];
+                        object.multipath_packets_recv_sequenced[j] = options.longs === $String ? $String(message.multipath_packets_recv_sequenced[j]) : message.multipath_packets_recv_sequenced[j];
                     else
-                        object.multipath_packets_recv_sequenced[j] = options.longs === String ? $util.Long.prototype.toString.call(message.multipath_packets_recv_sequenced[j]) : options.longs === Number ? new $util.LongBits(message.multipath_packets_recv_sequenced[j].low >>> 0, message.multipath_packets_recv_sequenced[j].high >>> 0).toNumber(true) : message.multipath_packets_recv_sequenced[j];
+                        object.multipath_packets_recv_sequenced[j] = options.longs === $String ? $util.Long.prototype.toString.call(message.multipath_packets_recv_sequenced[j]) : options.longs === $Number ? new $util.LongBits(message.multipath_packets_recv_sequenced[j].low >>> 0, message.multipath_packets_recv_sequenced[j].high >>> 0).toNumber(true) : message.multipath_packets_recv_sequenced[j];
             }
             if (message.multipath_packets_recv_later && message.multipath_packets_recv_later.length) {
-                object.multipath_packets_recv_later = [];
+                object.multipath_packets_recv_later = $Array(message.multipath_packets_recv_later.length);
                 for (var j = 0; j < message.multipath_packets_recv_later.length; ++j)
-                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                        object.multipath_packets_recv_later[j] = typeof message.multipath_packets_recv_later[j] === "number" ? BigInt(message.multipath_packets_recv_later[j]) : $util.Long.fromBits(message.multipath_packets_recv_later[j].low >>> 0, message.multipath_packets_recv_later[j].high >>> 0, true).toBigInt();
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.multipath_packets_recv_later[j] = typeof message.multipath_packets_recv_later[j] === "number" ? $BigInt(message.multipath_packets_recv_later[j]) : $util.Long.fromBits(message.multipath_packets_recv_later[j].low >>> 0, message.multipath_packets_recv_later[j].high >>> 0, true).toBigInt();
                     else if (typeof message.multipath_packets_recv_later[j] === "number")
-                        object.multipath_packets_recv_later[j] = options.longs === String ? String(message.multipath_packets_recv_later[j]) : message.multipath_packets_recv_later[j];
+                        object.multipath_packets_recv_later[j] = options.longs === $String ? $String(message.multipath_packets_recv_later[j]) : message.multipath_packets_recv_later[j];
                     else
-                        object.multipath_packets_recv_later[j] = options.longs === String ? $util.Long.prototype.toString.call(message.multipath_packets_recv_later[j]) : options.longs === Number ? new $util.LongBits(message.multipath_packets_recv_later[j].low >>> 0, message.multipath_packets_recv_later[j].high >>> 0).toNumber(true) : message.multipath_packets_recv_later[j];
+                        object.multipath_packets_recv_later[j] = options.longs === $String ? $util.Long.prototype.toString.call(message.multipath_packets_recv_later[j]) : options.longs === $Number ? new $util.LongBits(message.multipath_packets_recv_later[j].low >>> 0, message.multipath_packets_recv_later[j].high >>> 0).toNumber(true) : message.multipath_packets_recv_later[j];
             }
-            if (message.multipath_send_enabled != null && Object.hasOwnProperty.call(message, "multipath_send_enabled"))
+            if (message.multipath_send_enabled != null && $Object.hasOwnProperty.call(message, "multipath_send_enabled"))
                 object.multipath_send_enabled = message.multipath_send_enabled;
-            if (message.packets_recv_out_of_order_corrected != null && Object.hasOwnProperty.call(message, "packets_recv_out_of_order_corrected"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.packets_recv_out_of_order_corrected = typeof message.packets_recv_out_of_order_corrected === "number" ? BigInt(message.packets_recv_out_of_order_corrected) : $util.Long.fromBits(message.packets_recv_out_of_order_corrected.low >>> 0, message.packets_recv_out_of_order_corrected.high >>> 0, true).toBigInt();
+            if (message.packets_recv_out_of_order_corrected != null && $Object.hasOwnProperty.call(message, "packets_recv_out_of_order_corrected"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.packets_recv_out_of_order_corrected = typeof message.packets_recv_out_of_order_corrected === "number" ? $BigInt(message.packets_recv_out_of_order_corrected) : $util.Long.fromBits(message.packets_recv_out_of_order_corrected.low >>> 0, message.packets_recv_out_of_order_corrected.high >>> 0, true).toBigInt();
                 else if (typeof message.packets_recv_out_of_order_corrected === "number")
-                    object.packets_recv_out_of_order_corrected = options.longs === String ? String(message.packets_recv_out_of_order_corrected) : message.packets_recv_out_of_order_corrected;
+                    object.packets_recv_out_of_order_corrected = options.longs === $String ? $String(message.packets_recv_out_of_order_corrected) : message.packets_recv_out_of_order_corrected;
                 else
-                    object.packets_recv_out_of_order_corrected = options.longs === String ? $util.Long.prototype.toString.call(message.packets_recv_out_of_order_corrected) : options.longs === Number ? new $util.LongBits(message.packets_recv_out_of_order_corrected.low >>> 0, message.packets_recv_out_of_order_corrected.high >>> 0).toNumber(true) : message.packets_recv_out_of_order_corrected;
-            if (message.quality_histogram_100 != null && Object.hasOwnProperty.call(message, "quality_histogram_100"))
+                    object.packets_recv_out_of_order_corrected = options.longs === $String ? $util.Long.prototype.toString.call(message.packets_recv_out_of_order_corrected) : options.longs === $Number ? new $util.LongBits(message.packets_recv_out_of_order_corrected.low >>> 0, message.packets_recv_out_of_order_corrected.high >>> 0).toNumber(true) : message.packets_recv_out_of_order_corrected;
+            if (message.quality_histogram_100 != null && $Object.hasOwnProperty.call(message, "quality_histogram_100"))
                 object.quality_histogram_100 = message.quality_histogram_100;
-            if (message.quality_histogram_99 != null && Object.hasOwnProperty.call(message, "quality_histogram_99"))
+            if (message.quality_histogram_99 != null && $Object.hasOwnProperty.call(message, "quality_histogram_99"))
                 object.quality_histogram_99 = message.quality_histogram_99;
-            if (message.quality_histogram_97 != null && Object.hasOwnProperty.call(message, "quality_histogram_97"))
+            if (message.quality_histogram_97 != null && $Object.hasOwnProperty.call(message, "quality_histogram_97"))
                 object.quality_histogram_97 = message.quality_histogram_97;
-            if (message.quality_histogram_95 != null && Object.hasOwnProperty.call(message, "quality_histogram_95"))
+            if (message.quality_histogram_95 != null && $Object.hasOwnProperty.call(message, "quality_histogram_95"))
                 object.quality_histogram_95 = message.quality_histogram_95;
-            if (message.quality_histogram_90 != null && Object.hasOwnProperty.call(message, "quality_histogram_90"))
+            if (message.quality_histogram_90 != null && $Object.hasOwnProperty.call(message, "quality_histogram_90"))
                 object.quality_histogram_90 = message.quality_histogram_90;
-            if (message.quality_histogram_75 != null && Object.hasOwnProperty.call(message, "quality_histogram_75"))
+            if (message.quality_histogram_75 != null && $Object.hasOwnProperty.call(message, "quality_histogram_75"))
                 object.quality_histogram_75 = message.quality_histogram_75;
-            if (message.quality_histogram_50 != null && Object.hasOwnProperty.call(message, "quality_histogram_50"))
+            if (message.quality_histogram_50 != null && $Object.hasOwnProperty.call(message, "quality_histogram_50"))
                 object.quality_histogram_50 = message.quality_histogram_50;
-            if (message.quality_histogram_1 != null && Object.hasOwnProperty.call(message, "quality_histogram_1"))
+            if (message.quality_histogram_1 != null && $Object.hasOwnProperty.call(message, "quality_histogram_1"))
                 object.quality_histogram_1 = message.quality_histogram_1;
-            if (message.quality_histogram_dead != null && Object.hasOwnProperty.call(message, "quality_histogram_dead"))
+            if (message.quality_histogram_dead != null && $Object.hasOwnProperty.call(message, "quality_histogram_dead"))
                 object.quality_histogram_dead = message.quality_histogram_dead;
-            if (message.quality_ntile_2nd != null && Object.hasOwnProperty.call(message, "quality_ntile_2nd"))
+            if (message.quality_ntile_2nd != null && $Object.hasOwnProperty.call(message, "quality_ntile_2nd"))
                 object.quality_ntile_2nd = message.quality_ntile_2nd;
-            if (message.quality_ntile_5th != null && Object.hasOwnProperty.call(message, "quality_ntile_5th"))
+            if (message.quality_ntile_5th != null && $Object.hasOwnProperty.call(message, "quality_ntile_5th"))
                 object.quality_ntile_5th = message.quality_ntile_5th;
-            if (message.quality_ntile_25th != null && Object.hasOwnProperty.call(message, "quality_ntile_25th"))
+            if (message.quality_ntile_25th != null && $Object.hasOwnProperty.call(message, "quality_ntile_25th"))
                 object.quality_ntile_25th = message.quality_ntile_25th;
-            if (message.quality_ntile_50th != null && Object.hasOwnProperty.call(message, "quality_ntile_50th"))
+            if (message.quality_ntile_50th != null && $Object.hasOwnProperty.call(message, "quality_ntile_50th"))
                 object.quality_ntile_50th = message.quality_ntile_50th;
-            if (message.ping_histogram_25 != null && Object.hasOwnProperty.call(message, "ping_histogram_25"))
+            if (message.ping_histogram_25 != null && $Object.hasOwnProperty.call(message, "ping_histogram_25"))
                 object.ping_histogram_25 = message.ping_histogram_25;
-            if (message.ping_histogram_50 != null && Object.hasOwnProperty.call(message, "ping_histogram_50"))
+            if (message.ping_histogram_50 != null && $Object.hasOwnProperty.call(message, "ping_histogram_50"))
                 object.ping_histogram_50 = message.ping_histogram_50;
-            if (message.ping_histogram_75 != null && Object.hasOwnProperty.call(message, "ping_histogram_75"))
+            if (message.ping_histogram_75 != null && $Object.hasOwnProperty.call(message, "ping_histogram_75"))
                 object.ping_histogram_75 = message.ping_histogram_75;
-            if (message.ping_histogram_100 != null && Object.hasOwnProperty.call(message, "ping_histogram_100"))
+            if (message.ping_histogram_100 != null && $Object.hasOwnProperty.call(message, "ping_histogram_100"))
                 object.ping_histogram_100 = message.ping_histogram_100;
-            if (message.ping_histogram_125 != null && Object.hasOwnProperty.call(message, "ping_histogram_125"))
+            if (message.ping_histogram_125 != null && $Object.hasOwnProperty.call(message, "ping_histogram_125"))
                 object.ping_histogram_125 = message.ping_histogram_125;
-            if (message.ping_histogram_150 != null && Object.hasOwnProperty.call(message, "ping_histogram_150"))
+            if (message.ping_histogram_150 != null && $Object.hasOwnProperty.call(message, "ping_histogram_150"))
                 object.ping_histogram_150 = message.ping_histogram_150;
-            if (message.ping_histogram_200 != null && Object.hasOwnProperty.call(message, "ping_histogram_200"))
+            if (message.ping_histogram_200 != null && $Object.hasOwnProperty.call(message, "ping_histogram_200"))
                 object.ping_histogram_200 = message.ping_histogram_200;
-            if (message.ping_histogram_300 != null && Object.hasOwnProperty.call(message, "ping_histogram_300"))
+            if (message.ping_histogram_300 != null && $Object.hasOwnProperty.call(message, "ping_histogram_300"))
                 object.ping_histogram_300 = message.ping_histogram_300;
-            if (message.ping_histogram_max != null && Object.hasOwnProperty.call(message, "ping_histogram_max"))
+            if (message.ping_histogram_max != null && $Object.hasOwnProperty.call(message, "ping_histogram_max"))
                 object.ping_histogram_max = message.ping_histogram_max;
-            if (message.ping_ntile_5th != null && Object.hasOwnProperty.call(message, "ping_ntile_5th"))
+            if (message.ping_ntile_5th != null && $Object.hasOwnProperty.call(message, "ping_ntile_5th"))
                 object.ping_ntile_5th = message.ping_ntile_5th;
-            if (message.ping_ntile_50th != null && Object.hasOwnProperty.call(message, "ping_ntile_50th"))
+            if (message.ping_ntile_50th != null && $Object.hasOwnProperty.call(message, "ping_ntile_50th"))
                 object.ping_ntile_50th = message.ping_ntile_50th;
-            if (message.ping_ntile_75th != null && Object.hasOwnProperty.call(message, "ping_ntile_75th"))
+            if (message.ping_ntile_75th != null && $Object.hasOwnProperty.call(message, "ping_ntile_75th"))
                 object.ping_ntile_75th = message.ping_ntile_75th;
-            if (message.ping_ntile_95th != null && Object.hasOwnProperty.call(message, "ping_ntile_95th"))
+            if (message.ping_ntile_95th != null && $Object.hasOwnProperty.call(message, "ping_ntile_95th"))
                 object.ping_ntile_95th = message.ping_ntile_95th;
-            if (message.ping_ntile_98th != null && Object.hasOwnProperty.call(message, "ping_ntile_98th"))
+            if (message.ping_ntile_98th != null && $Object.hasOwnProperty.call(message, "ping_ntile_98th"))
                 object.ping_ntile_98th = message.ping_ntile_98th;
-            if (message.jitter_histogram_negligible != null && Object.hasOwnProperty.call(message, "jitter_histogram_negligible"))
+            if (message.jitter_histogram_negligible != null && $Object.hasOwnProperty.call(message, "jitter_histogram_negligible"))
                 object.jitter_histogram_negligible = message.jitter_histogram_negligible;
-            if (message.jitter_histogram_1 != null && Object.hasOwnProperty.call(message, "jitter_histogram_1"))
+            if (message.jitter_histogram_1 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_1"))
                 object.jitter_histogram_1 = message.jitter_histogram_1;
-            if (message.jitter_histogram_2 != null && Object.hasOwnProperty.call(message, "jitter_histogram_2"))
+            if (message.jitter_histogram_2 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_2"))
                 object.jitter_histogram_2 = message.jitter_histogram_2;
-            if (message.jitter_histogram_5 != null && Object.hasOwnProperty.call(message, "jitter_histogram_5"))
+            if (message.jitter_histogram_5 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_5"))
                 object.jitter_histogram_5 = message.jitter_histogram_5;
-            if (message.jitter_histogram_10 != null && Object.hasOwnProperty.call(message, "jitter_histogram_10"))
+            if (message.jitter_histogram_10 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_10"))
                 object.jitter_histogram_10 = message.jitter_histogram_10;
-            if (message.jitter_histogram_20 != null && Object.hasOwnProperty.call(message, "jitter_histogram_20"))
+            if (message.jitter_histogram_20 != null && $Object.hasOwnProperty.call(message, "jitter_histogram_20"))
                 object.jitter_histogram_20 = message.jitter_histogram_20;
             return object;
         };
@@ -2950,23 +3219,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSteamDatagramLinkLifetimeStats.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSteamDatagramLinkLifetimeStats.prototype.toJSON = function() {
+            return CMsgSteamDatagramLinkLifetimeStats.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSteamDatagramLinkLifetimeStats
+         * Gets the type url for CMsgSteamDatagramLinkLifetimeStats
          * @function getTypeUrl
          * @memberof CMsgSteamDatagramLinkLifetimeStats
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSteamDatagramLinkLifetimeStats.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSteamDatagramLinkLifetimeStats";
+        CMsgSteamDatagramLinkLifetimeStats.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSteamDatagramLinkLifetimeStats";
         };
     
         return CMsgSteamDatagramLinkLifetimeStats;
@@ -2976,30 +3244,43 @@
     
         /**
          * Properties of a CMsgSteamDatagramConnectionQuality.
+         * @typedef {Object} CMsgSteamDatagramConnectionQuality.$Properties
+         * @property {CMsgSteamDatagramLinkInstantaneousStats.$Properties|null} [instantaneous] CMsgSteamDatagramConnectionQuality instantaneous
+         * @property {CMsgSteamDatagramLinkLifetimeStats.$Properties|null} [lifetime] CMsgSteamDatagramConnectionQuality lifetime
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSteamDatagramConnectionQuality.
          * @exports ICMsgSteamDatagramConnectionQuality
          * @interface ICMsgSteamDatagramConnectionQuality
-         * @property {ICMsgSteamDatagramLinkInstantaneousStats|null} [instantaneous] CMsgSteamDatagramConnectionQuality instantaneous
-         * @property {ICMsgSteamDatagramLinkLifetimeStats|null} [lifetime] CMsgSteamDatagramConnectionQuality lifetime
+         * @augments CMsgSteamDatagramConnectionQuality.$Properties
+         * @deprecated Use CMsgSteamDatagramConnectionQuality.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSteamDatagramConnectionQuality.
+         * @typedef {CMsgSteamDatagramConnectionQuality.$Properties} CMsgSteamDatagramConnectionQuality.$Shape
          */
     
         /**
          * Constructs a new CMsgSteamDatagramConnectionQuality.
          * @exports CMsgSteamDatagramConnectionQuality
          * @classdesc Represents a CMsgSteamDatagramConnectionQuality.
-         * @implements ICMsgSteamDatagramConnectionQuality
          * @constructor
-         * @param {ICMsgSteamDatagramConnectionQuality=} [properties] Properties to set
+         * @param {CMsgSteamDatagramConnectionQuality.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSteamDatagramConnectionQuality(properties) {
+        var CMsgSteamDatagramConnectionQuality = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSteamDatagramConnectionQuality instantaneous.
-         * @member {ICMsgSteamDatagramLinkInstantaneousStats|null|undefined} instantaneous
+         * @member {CMsgSteamDatagramLinkInstantaneousStats.$Properties|null|undefined} instantaneous
          * @memberof CMsgSteamDatagramConnectionQuality
          * @instance
          */
@@ -3007,7 +3288,7 @@
     
         /**
          * CMsgSteamDatagramConnectionQuality lifetime.
-         * @member {ICMsgSteamDatagramLinkLifetimeStats|null|undefined} lifetime
+         * @member {CMsgSteamDatagramLinkLifetimeStats.$Properties|null|undefined} lifetime
          * @memberof CMsgSteamDatagramConnectionQuality
          * @instance
          */
@@ -3018,10 +3299,14 @@
          * @function create
          * @memberof CMsgSteamDatagramConnectionQuality
          * @static
-         * @param {ICMsgSteamDatagramConnectionQuality=} [properties] Properties to set
+         * @param {CMsgSteamDatagramConnectionQuality.$Properties=} [properties] Properties to set
          * @returns {CMsgSteamDatagramConnectionQuality} CMsgSteamDatagramConnectionQuality instance
+         * @type {{
+         *   (properties: CMsgSteamDatagramConnectionQuality.$Shape): CMsgSteamDatagramConnectionQuality & CMsgSteamDatagramConnectionQuality.$Shape;
+         *   (properties?: CMsgSteamDatagramConnectionQuality.$Properties): CMsgSteamDatagramConnectionQuality;
+         * }}
          */
-        CMsgSteamDatagramConnectionQuality.create = function create(properties) {
+        CMsgSteamDatagramConnectionQuality.create = function(properties) {
             return new CMsgSteamDatagramConnectionQuality(properties);
         };
     
@@ -3030,21 +3315,24 @@
          * @function encode
          * @memberof CMsgSteamDatagramConnectionQuality
          * @static
-         * @param {ICMsgSteamDatagramConnectionQuality} message CMsgSteamDatagramConnectionQuality message or plain object to encode
+         * @param {CMsgSteamDatagramConnectionQuality.$Properties} message CMsgSteamDatagramConnectionQuality message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramConnectionQuality.encode = function encode(message, writer, q) {
+        CMsgSteamDatagramConnectionQuality.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.instantaneous != null && Object.hasOwnProperty.call(message, "instantaneous"))
-                $root.CMsgSteamDatagramLinkInstantaneousStats.encode(message.instantaneous, writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
-            if (message.lifetime != null && Object.hasOwnProperty.call(message, "lifetime"))
-                $root.CMsgSteamDatagramLinkLifetimeStats.encode(message.lifetime, writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.instantaneous != null && $Object.hasOwnProperty.call(message, "instantaneous"))
+                $root.CMsgSteamDatagramLinkInstantaneousStats.encode(message.instantaneous, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+            if (message.lifetime != null && $Object.hasOwnProperty.call(message, "lifetime"))
+                $root.CMsgSteamDatagramLinkLifetimeStats.encode(message.lifetime, writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -3053,12 +3341,12 @@
          * @function encodeDelimited
          * @memberof CMsgSteamDatagramConnectionQuality
          * @static
-         * @param {ICMsgSteamDatagramConnectionQuality} message CMsgSteamDatagramConnectionQuality message or plain object to encode
+         * @param {CMsgSteamDatagramConnectionQuality.$Properties} message CMsgSteamDatagramConnectionQuality message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramConnectionQuality.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSteamDatagramConnectionQuality.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -3068,51 +3356,63 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSteamDatagramConnectionQuality} CMsgSteamDatagramConnectionQuality
+         * @returns {CMsgSteamDatagramConnectionQuality & CMsgSteamDatagramConnectionQuality.$Shape} CMsgSteamDatagramConnectionQuality
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramConnectionQuality.decode = function decode(reader, length, error, long) {
+        CMsgSteamDatagramConnectionQuality.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSteamDatagramConnectionQuality();
+            message = _target || new $root.CMsgSteamDatagramConnectionQuality();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.instantaneous = $root.CMsgSteamDatagramLinkInstantaneousStats.decode(reader, reader.uint32(), undefined, long + 1);
-                        break;
-                    }
-                case 2: {
-                        message.lifetime = $root.CMsgSteamDatagramLinkLifetimeStats.decode(reader, reader.uint32(), undefined, long + 1);
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        message.instantaneous = $root.CMsgSteamDatagramLinkInstantaneousStats.decode(reader, reader.size(), $undefined, _depth + 1, message.instantaneous);
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.lifetime = $root.CMsgSteamDatagramLinkLifetimeStats.decode(reader, reader.size(), $undefined, _depth + 1, message.lifetime);
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -3122,14 +3422,14 @@
          * @memberof CMsgSteamDatagramConnectionQuality
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSteamDatagramConnectionQuality} CMsgSteamDatagramConnectionQuality
+         * @returns {CMsgSteamDatagramConnectionQuality & CMsgSteamDatagramConnectionQuality.$Shape} CMsgSteamDatagramConnectionQuality
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramConnectionQuality.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSteamDatagramConnectionQuality.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -3140,20 +3440,20 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramConnectionQuality.verify = function verify(message, long) {
+        CMsgSteamDatagramConnectionQuality.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.instantaneous != null && Object.hasOwnProperty.call(message, "instantaneous")) {
-                var error = $root.CMsgSteamDatagramLinkInstantaneousStats.verify(message.instantaneous, long + 1);
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.instantaneous != null && $Object.hasOwnProperty.call(message, "instantaneous")) {
+                var error = $root.CMsgSteamDatagramLinkInstantaneousStats.verify(message.instantaneous, _depth + 1);
                 if (error)
                     return "instantaneous." + error;
             }
-            if (message.lifetime != null && Object.hasOwnProperty.call(message, "lifetime")) {
-                var error = $root.CMsgSteamDatagramLinkLifetimeStats.verify(message.lifetime, long + 1);
+            if (message.lifetime != null && $Object.hasOwnProperty.call(message, "lifetime")) {
+                var error = $root.CMsgSteamDatagramLinkLifetimeStats.verify(message.lifetime, _depth + 1);
                 if (error)
                     return "lifetime." + error;
             }
@@ -3168,25 +3468,25 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramConnectionQuality} CMsgSteamDatagramConnectionQuality
          */
-        CMsgSteamDatagramConnectionQuality.fromObject = function fromObject(object, long) {
+        CMsgSteamDatagramConnectionQuality.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSteamDatagramConnectionQuality)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSteamDatagramConnectionQuality: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSteamDatagramConnectionQuality: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSteamDatagramConnectionQuality();
             if (object.instantaneous != null) {
                 if (!$util.isObject(object.instantaneous))
-                    throw TypeError(".CMsgSteamDatagramConnectionQuality.instantaneous: object expected");
-                message.instantaneous = $root.CMsgSteamDatagramLinkInstantaneousStats.fromObject(object.instantaneous, long + 1);
+                    throw $TypeError(".CMsgSteamDatagramConnectionQuality.instantaneous: object expected");
+                message.instantaneous = $root.CMsgSteamDatagramLinkInstantaneousStats.fromObject(object.instantaneous, _depth + 1);
             }
             if (object.lifetime != null) {
                 if (!$util.isObject(object.lifetime))
-                    throw TypeError(".CMsgSteamDatagramConnectionQuality.lifetime: object expected");
-                message.lifetime = $root.CMsgSteamDatagramLinkLifetimeStats.fromObject(object.lifetime, long + 1);
+                    throw $TypeError(".CMsgSteamDatagramConnectionQuality.lifetime: object expected");
+                message.lifetime = $root.CMsgSteamDatagramLinkLifetimeStats.fromObject(object.lifetime, _depth + 1);
             }
             return message;
         };
@@ -3200,22 +3500,22 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramConnectionQuality.toObject = function toObject(message, options, q) {
+        CMsgSteamDatagramConnectionQuality.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.instantaneous = null;
                 object.lifetime = null;
             }
-            if (message.instantaneous != null && Object.hasOwnProperty.call(message, "instantaneous"))
-                object.instantaneous = $root.CMsgSteamDatagramLinkInstantaneousStats.toObject(message.instantaneous, options, q + 1);
-            if (message.lifetime != null && Object.hasOwnProperty.call(message, "lifetime"))
-                object.lifetime = $root.CMsgSteamDatagramLinkLifetimeStats.toObject(message.lifetime, options, q + 1);
+            if (message.instantaneous != null && $Object.hasOwnProperty.call(message, "instantaneous"))
+                object.instantaneous = $root.CMsgSteamDatagramLinkInstantaneousStats.toObject(message.instantaneous, options, _depth + 1);
+            if (message.lifetime != null && $Object.hasOwnProperty.call(message, "lifetime"))
+                object.lifetime = $root.CMsgSteamDatagramLinkLifetimeStats.toObject(message.lifetime, options, _depth + 1);
             return object;
         };
     
@@ -3226,23 +3526,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSteamDatagramConnectionQuality.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSteamDatagramConnectionQuality.prototype.toJSON = function() {
+            return CMsgSteamDatagramConnectionQuality.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSteamDatagramConnectionQuality
+         * Gets the type url for CMsgSteamDatagramConnectionQuality
          * @function getTypeUrl
          * @memberof CMsgSteamDatagramConnectionQuality
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSteamDatagramConnectionQuality.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSteamDatagramConnectionQuality";
+        CMsgSteamDatagramConnectionQuality.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSteamDatagramConnectionQuality";
         };
     
         return CMsgSteamDatagramConnectionQuality;
@@ -3252,25 +3551,38 @@
     
         /**
          * Properties of a CMsgICECandidate.
+         * @typedef {Object} CMsgICECandidate.$Properties
+         * @property {string|null} [candidate] CMsgICECandidate candidate
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgICECandidate.
          * @exports ICMsgICECandidate
          * @interface ICMsgICECandidate
-         * @property {string|null} [candidate] CMsgICECandidate candidate
+         * @augments CMsgICECandidate.$Properties
+         * @deprecated Use CMsgICECandidate.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgICECandidate.
+         * @typedef {CMsgICECandidate.$Properties} CMsgICECandidate.$Shape
          */
     
         /**
          * Constructs a new CMsgICECandidate.
          * @exports CMsgICECandidate
          * @classdesc Represents a CMsgICECandidate.
-         * @implements ICMsgICECandidate
          * @constructor
-         * @param {ICMsgICECandidate=} [properties] Properties to set
+         * @param {CMsgICECandidate.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgICECandidate(properties) {
+        var CMsgICECandidate = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgICECandidate candidate.
@@ -3285,10 +3597,14 @@
          * @function create
          * @memberof CMsgICECandidate
          * @static
-         * @param {ICMsgICECandidate=} [properties] Properties to set
+         * @param {CMsgICECandidate.$Properties=} [properties] Properties to set
          * @returns {CMsgICECandidate} CMsgICECandidate instance
+         * @type {{
+         *   (properties: CMsgICECandidate.$Shape): CMsgICECandidate & CMsgICECandidate.$Shape;
+         *   (properties?: CMsgICECandidate.$Properties): CMsgICECandidate;
+         * }}
          */
-        CMsgICECandidate.create = function create(properties) {
+        CMsgICECandidate.create = function(properties) {
             return new CMsgICECandidate(properties);
         };
     
@@ -3297,19 +3613,22 @@
          * @function encode
          * @memberof CMsgICECandidate
          * @static
-         * @param {ICMsgICECandidate} message CMsgICECandidate message or plain object to encode
+         * @param {CMsgICECandidate.$Properties} message CMsgICECandidate message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgICECandidate.encode = function encode(message, writer, q) {
+        CMsgICECandidate.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.candidate != null && Object.hasOwnProperty.call(message, "candidate"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.candidate != null && $Object.hasOwnProperty.call(message, "candidate"))
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.candidate);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -3318,12 +3637,12 @@
          * @function encodeDelimited
          * @memberof CMsgICECandidate
          * @static
-         * @param {ICMsgICECandidate} message CMsgICECandidate message or plain object to encode
+         * @param {CMsgICECandidate.$Properties} message CMsgICECandidate message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgICECandidate.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgICECandidate.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -3333,47 +3652,57 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgICECandidate} CMsgICECandidate
+         * @returns {CMsgICECandidate & CMsgICECandidate.$Shape} CMsgICECandidate
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgICECandidate.decode = function decode(reader, length, error, long) {
+        CMsgICECandidate.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgICECandidate();
+            message = _target || new $root.CMsgICECandidate();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 3: {
-                        message.candidate = reader.string();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 3: {
+                        if (wireType !== 2)
+                            break;
+                        message.candidate = reader.string();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -3383,14 +3712,14 @@
          * @memberof CMsgICECandidate
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgICECandidate} CMsgICECandidate
+         * @returns {CMsgICECandidate & CMsgICECandidate.$Shape} CMsgICECandidate
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgICECandidate.decodeDelimited = function decodeDelimited(reader) {
+        CMsgICECandidate.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -3401,14 +3730,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgICECandidate.verify = function verify(message, long) {
+        CMsgICECandidate.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.candidate != null && Object.hasOwnProperty.call(message, "candidate"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.candidate != null && $Object.hasOwnProperty.call(message, "candidate"))
                 if (!$util.isString(message.candidate))
                     return "candidate: string expected";
             return null;
@@ -3422,18 +3751,18 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgICECandidate} CMsgICECandidate
          */
-        CMsgICECandidate.fromObject = function fromObject(object, long) {
+        CMsgICECandidate.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgICECandidate)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgICECandidate: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgICECandidate: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgICECandidate();
             if (object.candidate != null)
-                message.candidate = String(object.candidate);
+                message.candidate = $String(object.candidate);
             return message;
         };
     
@@ -3446,17 +3775,17 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgICECandidate.toObject = function toObject(message, options, q) {
+        CMsgICECandidate.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.candidate = "";
-            if (message.candidate != null && Object.hasOwnProperty.call(message, "candidate"))
+            if (message.candidate != null && $Object.hasOwnProperty.call(message, "candidate"))
                 object.candidate = message.candidate;
             return object;
         };
@@ -3468,23 +3797,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgICECandidate.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgICECandidate.prototype.toJSON = function() {
+            return CMsgICECandidate.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgICECandidate
+         * Gets the type url for CMsgICECandidate
          * @function getTypeUrl
          * @memberof CMsgICECandidate
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgICECandidate.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgICECandidate";
+        CMsgICECandidate.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgICECandidate";
         };
     
         return CMsgICECandidate;
@@ -3494,30 +3822,43 @@
     
         /**
          * Properties of a CMsgICERendezvous.
+         * @typedef {Object} CMsgICERendezvous.$Properties
+         * @property {CMsgICERendezvous.Auth.$Properties|null} [auth] CMsgICERendezvous auth
+         * @property {CMsgICECandidate.$Properties|null} [add_candidate] CMsgICERendezvous add_candidate
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgICERendezvous.
          * @exports ICMsgICERendezvous
          * @interface ICMsgICERendezvous
-         * @property {CMsgICERendezvous.IAuth|null} [auth] CMsgICERendezvous auth
-         * @property {ICMsgICECandidate|null} [add_candidate] CMsgICERendezvous add_candidate
+         * @augments CMsgICERendezvous.$Properties
+         * @deprecated Use CMsgICERendezvous.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgICERendezvous.
+         * @typedef {CMsgICERendezvous.$Properties} CMsgICERendezvous.$Shape
          */
     
         /**
          * Constructs a new CMsgICERendezvous.
          * @exports CMsgICERendezvous
          * @classdesc Represents a CMsgICERendezvous.
-         * @implements ICMsgICERendezvous
          * @constructor
-         * @param {ICMsgICERendezvous=} [properties] Properties to set
+         * @param {CMsgICERendezvous.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgICERendezvous(properties) {
+        var CMsgICERendezvous = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgICERendezvous auth.
-         * @member {CMsgICERendezvous.IAuth|null|undefined} auth
+         * @member {CMsgICERendezvous.Auth.$Properties|null|undefined} auth
          * @memberof CMsgICERendezvous
          * @instance
          */
@@ -3525,7 +3866,7 @@
     
         /**
          * CMsgICERendezvous add_candidate.
-         * @member {ICMsgICECandidate|null|undefined} add_candidate
+         * @member {CMsgICECandidate.$Properties|null|undefined} add_candidate
          * @memberof CMsgICERendezvous
          * @instance
          */
@@ -3536,10 +3877,14 @@
          * @function create
          * @memberof CMsgICERendezvous
          * @static
-         * @param {ICMsgICERendezvous=} [properties] Properties to set
+         * @param {CMsgICERendezvous.$Properties=} [properties] Properties to set
          * @returns {CMsgICERendezvous} CMsgICERendezvous instance
+         * @type {{
+         *   (properties: CMsgICERendezvous.$Shape): CMsgICERendezvous & CMsgICERendezvous.$Shape;
+         *   (properties?: CMsgICERendezvous.$Properties): CMsgICERendezvous;
+         * }}
          */
-        CMsgICERendezvous.create = function create(properties) {
+        CMsgICERendezvous.create = function(properties) {
             return new CMsgICERendezvous(properties);
         };
     
@@ -3548,21 +3893,24 @@
          * @function encode
          * @memberof CMsgICERendezvous
          * @static
-         * @param {ICMsgICERendezvous} message CMsgICERendezvous message or plain object to encode
+         * @param {CMsgICERendezvous.$Properties} message CMsgICERendezvous message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgICERendezvous.encode = function encode(message, writer, q) {
+        CMsgICERendezvous.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.add_candidate != null && Object.hasOwnProperty.call(message, "add_candidate"))
-                $root.CMsgICECandidate.encode(message.add_candidate, writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
-            if (message.auth != null && Object.hasOwnProperty.call(message, "auth"))
-                $root.CMsgICERendezvous.Auth.encode(message.auth, writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.add_candidate != null && $Object.hasOwnProperty.call(message, "add_candidate"))
+                $root.CMsgICECandidate.encode(message.add_candidate, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+            if (message.auth != null && $Object.hasOwnProperty.call(message, "auth"))
+                $root.CMsgICERendezvous.Auth.encode(message.auth, writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -3571,12 +3919,12 @@
          * @function encodeDelimited
          * @memberof CMsgICERendezvous
          * @static
-         * @param {ICMsgICERendezvous} message CMsgICERendezvous message or plain object to encode
+         * @param {CMsgICERendezvous.$Properties} message CMsgICERendezvous message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgICERendezvous.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgICERendezvous.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -3586,51 +3934,63 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgICERendezvous} CMsgICERendezvous
+         * @returns {CMsgICERendezvous & CMsgICERendezvous.$Shape} CMsgICERendezvous
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgICERendezvous.decode = function decode(reader, length, error, long) {
+        CMsgICERendezvous.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgICERendezvous();
+            message = _target || new $root.CMsgICERendezvous();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 2: {
-                        message.auth = $root.CMsgICERendezvous.Auth.decode(reader, reader.uint32(), undefined, long + 1);
-                        break;
-                    }
-                case 1: {
-                        message.add_candidate = $root.CMsgICECandidate.decode(reader, reader.uint32(), undefined, long + 1);
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.auth = $root.CMsgICERendezvous.Auth.decode(reader, reader.size(), $undefined, _depth + 1, message.auth);
+                        continue;
+                    }
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        message.add_candidate = $root.CMsgICECandidate.decode(reader, reader.size(), $undefined, _depth + 1, message.add_candidate);
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -3640,14 +4000,14 @@
          * @memberof CMsgICERendezvous
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgICERendezvous} CMsgICERendezvous
+         * @returns {CMsgICERendezvous & CMsgICERendezvous.$Shape} CMsgICERendezvous
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgICERendezvous.decodeDelimited = function decodeDelimited(reader) {
+        CMsgICERendezvous.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -3658,20 +4018,20 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgICERendezvous.verify = function verify(message, long) {
+        CMsgICERendezvous.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.auth != null && Object.hasOwnProperty.call(message, "auth")) {
-                var error = $root.CMsgICERendezvous.Auth.verify(message.auth, long + 1);
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.auth != null && $Object.hasOwnProperty.call(message, "auth")) {
+                var error = $root.CMsgICERendezvous.Auth.verify(message.auth, _depth + 1);
                 if (error)
                     return "auth." + error;
             }
-            if (message.add_candidate != null && Object.hasOwnProperty.call(message, "add_candidate")) {
-                var error = $root.CMsgICECandidate.verify(message.add_candidate, long + 1);
+            if (message.add_candidate != null && $Object.hasOwnProperty.call(message, "add_candidate")) {
+                var error = $root.CMsgICECandidate.verify(message.add_candidate, _depth + 1);
                 if (error)
                     return "add_candidate." + error;
             }
@@ -3686,25 +4046,25 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgICERendezvous} CMsgICERendezvous
          */
-        CMsgICERendezvous.fromObject = function fromObject(object, long) {
+        CMsgICERendezvous.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgICERendezvous)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgICERendezvous: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgICERendezvous: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgICERendezvous();
             if (object.auth != null) {
                 if (!$util.isObject(object.auth))
-                    throw TypeError(".CMsgICERendezvous.auth: object expected");
-                message.auth = $root.CMsgICERendezvous.Auth.fromObject(object.auth, long + 1);
+                    throw $TypeError(".CMsgICERendezvous.auth: object expected");
+                message.auth = $root.CMsgICERendezvous.Auth.fromObject(object.auth, _depth + 1);
             }
             if (object.add_candidate != null) {
                 if (!$util.isObject(object.add_candidate))
-                    throw TypeError(".CMsgICERendezvous.add_candidate: object expected");
-                message.add_candidate = $root.CMsgICECandidate.fromObject(object.add_candidate, long + 1);
+                    throw $TypeError(".CMsgICERendezvous.add_candidate: object expected");
+                message.add_candidate = $root.CMsgICECandidate.fromObject(object.add_candidate, _depth + 1);
             }
             return message;
         };
@@ -3718,22 +4078,22 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgICERendezvous.toObject = function toObject(message, options, q) {
+        CMsgICERendezvous.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.add_candidate = null;
                 object.auth = null;
             }
-            if (message.add_candidate != null && Object.hasOwnProperty.call(message, "add_candidate"))
-                object.add_candidate = $root.CMsgICECandidate.toObject(message.add_candidate, options, q + 1);
-            if (message.auth != null && Object.hasOwnProperty.call(message, "auth"))
-                object.auth = $root.CMsgICERendezvous.Auth.toObject(message.auth, options, q + 1);
+            if (message.add_candidate != null && $Object.hasOwnProperty.call(message, "add_candidate"))
+                object.add_candidate = $root.CMsgICECandidate.toObject(message.add_candidate, options, _depth + 1);
+            if (message.auth != null && $Object.hasOwnProperty.call(message, "auth"))
+                object.auth = $root.CMsgICERendezvous.Auth.toObject(message.auth, options, _depth + 1);
             return object;
         };
     
@@ -3744,48 +4104,60 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgICERendezvous.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgICERendezvous.prototype.toJSON = function() {
+            return CMsgICERendezvous.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgICERendezvous
+         * Gets the type url for CMsgICERendezvous
          * @function getTypeUrl
          * @memberof CMsgICERendezvous
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgICERendezvous.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgICERendezvous";
+        CMsgICERendezvous.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgICERendezvous";
         };
     
         CMsgICERendezvous.Auth = (function() {
     
             /**
              * Properties of an Auth.
+             * @typedef {Object} CMsgICERendezvous.Auth.$Properties
+             * @property {string|null} [pwd_frag] Auth pwd_frag
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+    
+            /**
+             * Properties of an Auth.
              * @memberof CMsgICERendezvous
              * @interface IAuth
-             * @property {string|null} [pwd_frag] Auth pwd_frag
+             * @augments CMsgICERendezvous.Auth.$Properties
+             * @deprecated Use CMsgICERendezvous.Auth.$Properties instead.
+             */
+    
+            /**
+             * Shape of an Auth.
+             * @typedef {CMsgICERendezvous.Auth.$Properties} CMsgICERendezvous.Auth.$Shape
              */
     
             /**
              * Constructs a new Auth.
              * @memberof CMsgICERendezvous
              * @classdesc Represents an Auth.
-             * @implements IAuth
              * @constructor
-             * @param {CMsgICERendezvous.IAuth=} [properties] Properties to set
+             * @param {CMsgICERendezvous.Auth.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function Auth(properties) {
+            var Auth = function (properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
     
             /**
              * Auth pwd_frag.
@@ -3800,10 +4172,14 @@
              * @function create
              * @memberof CMsgICERendezvous.Auth
              * @static
-             * @param {CMsgICERendezvous.IAuth=} [properties] Properties to set
+             * @param {CMsgICERendezvous.Auth.$Properties=} [properties] Properties to set
              * @returns {CMsgICERendezvous.Auth} Auth instance
+             * @type {{
+             *   (properties: CMsgICERendezvous.Auth.$Shape): CMsgICERendezvous.Auth & CMsgICERendezvous.Auth.$Shape;
+             *   (properties?: CMsgICERendezvous.Auth.$Properties): CMsgICERendezvous.Auth;
+             * }}
              */
-            Auth.create = function create(properties) {
+            Auth.create = function(properties) {
                 return new Auth(properties);
             };
     
@@ -3812,19 +4188,22 @@
              * @function encode
              * @memberof CMsgICERendezvous.Auth
              * @static
-             * @param {CMsgICERendezvous.IAuth} message Auth message or plain object to encode
+             * @param {CMsgICERendezvous.Auth.$Properties} message Auth message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Auth.encode = function encode(message, writer, q) {
+            Auth.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.pwd_frag != null && Object.hasOwnProperty.call(message, "pwd_frag"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.pwd_frag != null && $Object.hasOwnProperty.call(message, "pwd_frag"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.pwd_frag);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
     
@@ -3833,12 +4212,12 @@
              * @function encodeDelimited
              * @memberof CMsgICERendezvous.Auth
              * @static
-             * @param {CMsgICERendezvous.IAuth} message Auth message or plain object to encode
+             * @param {CMsgICERendezvous.Auth.$Properties} message Auth message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Auth.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            Auth.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
     
             /**
@@ -3848,47 +4227,57 @@
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {CMsgICERendezvous.Auth} Auth
+             * @returns {CMsgICERendezvous.Auth & CMsgICERendezvous.Auth.$Shape} Auth
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Auth.decode = function decode(reader, length, error, long) {
+            Auth.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (long === undefined)
-                    long = 0;
-                if (long > $Reader.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var end, message;
-                if (length === undefined)
+                if (length === $undefined)
                     end = reader.len;
                 else {
                     end = reader.pos + length;
                     if (end > reader.len)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     length = reader.len;
                     reader.len = end;
                 }
-                message = new $root.CMsgICERendezvous.Auth();
+                message = _target || new $root.CMsgICERendezvous.Auth();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 1: {
-                            message.pwd_frag = reader.string();
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7, long);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            message.pwd_frag = reader.string();
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
-                if (length !== undefined) {
+                if (length !== $undefined) {
                     if (reader.pos !== end)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     reader.len = length;
                 }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
     
@@ -3898,14 +4287,14 @@
              * @memberof CMsgICERendezvous.Auth
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {CMsgICERendezvous.Auth} Auth
+             * @returns {CMsgICERendezvous.Auth & CMsgICERendezvous.Auth.$Shape} Auth
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Auth.decodeDelimited = function decodeDelimited(reader) {
+            Auth.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
     
             /**
@@ -3916,14 +4305,14 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Auth.verify = function verify(message, long) {
+            Auth.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    return "maximum nesting depth exceeded";
-                if (message.pwd_frag != null && Object.hasOwnProperty.call(message, "pwd_frag"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.pwd_frag != null && $Object.hasOwnProperty.call(message, "pwd_frag"))
                     if (!$util.isString(message.pwd_frag))
                         return "pwd_frag: string expected";
                 return null;
@@ -3937,18 +4326,18 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgICERendezvous.Auth} Auth
              */
-            Auth.fromObject = function fromObject(object, long) {
+            Auth.fromObject = function (object, _depth) {
                 if (object instanceof $root.CMsgICERendezvous.Auth)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".CMsgICERendezvous.Auth: object expected");
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                    throw $TypeError(".CMsgICERendezvous.Auth: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.CMsgICERendezvous.Auth();
                 if (object.pwd_frag != null)
-                    message.pwd_frag = String(object.pwd_frag);
+                    message.pwd_frag = $String(object.pwd_frag);
                 return message;
             };
     
@@ -3961,17 +4350,17 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Auth.toObject = function toObject(message, options, q) {
+            Auth.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.defaults)
                     object.pwd_frag = "";
-                if (message.pwd_frag != null && Object.hasOwnProperty.call(message, "pwd_frag"))
+                if (message.pwd_frag != null && $Object.hasOwnProperty.call(message, "pwd_frag"))
                     object.pwd_frag = message.pwd_frag;
                 return object;
             };
@@ -3983,23 +4372,22 @@
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            Auth.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            Auth.prototype.toJSON = function() {
+                return Auth.toObject(this, $protobuf.util.toJSONOptions);
             };
     
             /**
-             * Gets the default type url for Auth
+             * Gets the type url for Auth
              * @function getTypeUrl
              * @memberof CMsgICERendezvous.Auth
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            Auth.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/CMsgICERendezvous.Auth";
+            Auth.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/CMsgICERendezvous.Auth";
             };
     
             return Auth;
@@ -4012,8 +4400,7 @@
     
         /**
          * Properties of a CMsgSteamNetworkingP2PRendezvous.
-         * @exports ICMsgSteamNetworkingP2PRendezvous
-         * @interface ICMsgSteamNetworkingP2PRendezvous
+         * @typedef {Object} CMsgSteamNetworkingP2PRendezvous.$Properties
          * @property {string|null} [from_identity] CMsgSteamNetworkingP2PRendezvous from_identity
          * @property {number|null} [from_connection_id] CMsgSteamNetworkingP2PRendezvous from_connection_id
          * @property {string|null} [to_identity] CMsgSteamNetworkingP2PRendezvous to_identity
@@ -4022,31 +4409,45 @@
          * @property {number|null} [ack_peer_routes_revision] CMsgSteamNetworkingP2PRendezvous ack_peer_routes_revision
          * @property {boolean|null} [ice_enabled] CMsgSteamNetworkingP2PRendezvous ice_enabled
          * @property {Uint8Array|null} [hosted_server_ticket] CMsgSteamNetworkingP2PRendezvous hosted_server_ticket
-         * @property {CMsgSteamNetworkingP2PRendezvous.IConnectRequest|null} [connect_request] CMsgSteamNetworkingP2PRendezvous connect_request
-         * @property {CMsgSteamNetworkingP2PRendezvous.IConnectOK|null} [connect_ok] CMsgSteamNetworkingP2PRendezvous connect_ok
-         * @property {CMsgSteamNetworkingP2PRendezvous.IConnectionClosed|null} [connection_closed] CMsgSteamNetworkingP2PRendezvous connection_closed
+         * @property {CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Properties|null} [connect_request] CMsgSteamNetworkingP2PRendezvous connect_request
+         * @property {CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Properties|null} [connect_ok] CMsgSteamNetworkingP2PRendezvous connect_ok
+         * @property {CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Properties|null} [connection_closed] CMsgSteamNetworkingP2PRendezvous connection_closed
          * @property {number|null} [ack_reliable_msg] CMsgSteamNetworkingP2PRendezvous ack_reliable_msg
          * @property {number|null} [first_reliable_msg] CMsgSteamNetworkingP2PRendezvous first_reliable_msg
-         * @property {Array.<CMsgSteamNetworkingP2PRendezvous.IReliableMessage>|null} [reliable_messages] CMsgSteamNetworkingP2PRendezvous reliable_messages
-         * @property {Array.<CMsgSteamNetworkingP2PRendezvous.IApplicationMessage>|null} [application_messages] CMsgSteamNetworkingP2PRendezvous application_messages
+         * @property {Array.<CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Properties>|null} [reliable_messages] CMsgSteamNetworkingP2PRendezvous reliable_messages
+         * @property {Array.<CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Properties>|null} [application_messages] CMsgSteamNetworkingP2PRendezvous application_messages
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSteamNetworkingP2PRendezvous.
+         * @exports ICMsgSteamNetworkingP2PRendezvous
+         * @interface ICMsgSteamNetworkingP2PRendezvous
+         * @augments CMsgSteamNetworkingP2PRendezvous.$Properties
+         * @deprecated Use CMsgSteamNetworkingP2PRendezvous.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSteamNetworkingP2PRendezvous.
+         * @typedef {CMsgSteamNetworkingP2PRendezvous.$Properties} CMsgSteamNetworkingP2PRendezvous.$Shape
          */
     
         /**
          * Constructs a new CMsgSteamNetworkingP2PRendezvous.
          * @exports CMsgSteamNetworkingP2PRendezvous
          * @classdesc Represents a CMsgSteamNetworkingP2PRendezvous.
-         * @implements ICMsgSteamNetworkingP2PRendezvous
          * @constructor
-         * @param {ICMsgSteamNetworkingP2PRendezvous=} [properties] Properties to set
+         * @param {CMsgSteamNetworkingP2PRendezvous.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSteamNetworkingP2PRendezvous(properties) {
+        var CMsgSteamNetworkingP2PRendezvous = function (properties) {
             this.reliable_messages = [];
             this.application_messages = [];
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSteamNetworkingP2PRendezvous from_identity.
@@ -4114,7 +4515,7 @@
     
         /**
          * CMsgSteamNetworkingP2PRendezvous connect_request.
-         * @member {CMsgSteamNetworkingP2PRendezvous.IConnectRequest|null|undefined} connect_request
+         * @member {CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Properties|null|undefined} connect_request
          * @memberof CMsgSteamNetworkingP2PRendezvous
          * @instance
          */
@@ -4122,7 +4523,7 @@
     
         /**
          * CMsgSteamNetworkingP2PRendezvous connect_ok.
-         * @member {CMsgSteamNetworkingP2PRendezvous.IConnectOK|null|undefined} connect_ok
+         * @member {CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Properties|null|undefined} connect_ok
          * @memberof CMsgSteamNetworkingP2PRendezvous
          * @instance
          */
@@ -4130,7 +4531,7 @@
     
         /**
          * CMsgSteamNetworkingP2PRendezvous connection_closed.
-         * @member {CMsgSteamNetworkingP2PRendezvous.IConnectionClosed|null|undefined} connection_closed
+         * @member {CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Properties|null|undefined} connection_closed
          * @memberof CMsgSteamNetworkingP2PRendezvous
          * @instance
          */
@@ -4154,7 +4555,7 @@
     
         /**
          * CMsgSteamNetworkingP2PRendezvous reliable_messages.
-         * @member {Array.<CMsgSteamNetworkingP2PRendezvous.IReliableMessage>} reliable_messages
+         * @member {Array.<CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Properties>} reliable_messages
          * @memberof CMsgSteamNetworkingP2PRendezvous
          * @instance
          */
@@ -4162,7 +4563,7 @@
     
         /**
          * CMsgSteamNetworkingP2PRendezvous application_messages.
-         * @member {Array.<CMsgSteamNetworkingP2PRendezvous.IApplicationMessage>} application_messages
+         * @member {Array.<CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Properties>} application_messages
          * @memberof CMsgSteamNetworkingP2PRendezvous
          * @instance
          */
@@ -4173,10 +4574,14 @@
          * @function create
          * @memberof CMsgSteamNetworkingP2PRendezvous
          * @static
-         * @param {ICMsgSteamNetworkingP2PRendezvous=} [properties] Properties to set
+         * @param {CMsgSteamNetworkingP2PRendezvous.$Properties=} [properties] Properties to set
          * @returns {CMsgSteamNetworkingP2PRendezvous} CMsgSteamNetworkingP2PRendezvous instance
+         * @type {{
+         *   (properties: CMsgSteamNetworkingP2PRendezvous.$Shape): CMsgSteamNetworkingP2PRendezvous & CMsgSteamNetworkingP2PRendezvous.$Shape;
+         *   (properties?: CMsgSteamNetworkingP2PRendezvous.$Properties): CMsgSteamNetworkingP2PRendezvous;
+         * }}
          */
-        CMsgSteamNetworkingP2PRendezvous.create = function create(properties) {
+        CMsgSteamNetworkingP2PRendezvous.create = function(properties) {
             return new CMsgSteamNetworkingP2PRendezvous(properties);
         };
     
@@ -4185,49 +4590,52 @@
          * @function encode
          * @memberof CMsgSteamNetworkingP2PRendezvous
          * @static
-         * @param {ICMsgSteamNetworkingP2PRendezvous} message CMsgSteamNetworkingP2PRendezvous message or plain object to encode
+         * @param {CMsgSteamNetworkingP2PRendezvous.$Properties} message CMsgSteamNetworkingP2PRendezvous message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamNetworkingP2PRendezvous.encode = function encode(message, writer, q) {
+        CMsgSteamNetworkingP2PRendezvous.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.to_connection_id != null && Object.hasOwnProperty.call(message, "to_connection_id"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.to_connection_id != null && $Object.hasOwnProperty.call(message, "to_connection_id"))
                 writer.uint32(/* id 1, wireType 5 =*/13).fixed32(message.to_connection_id);
-            if (message.sdr_routes != null && Object.hasOwnProperty.call(message, "sdr_routes"))
+            if (message.sdr_routes != null && $Object.hasOwnProperty.call(message, "sdr_routes"))
                 writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.sdr_routes);
-            if (message.ack_peer_routes_revision != null && Object.hasOwnProperty.call(message, "ack_peer_routes_revision"))
+            if (message.ack_peer_routes_revision != null && $Object.hasOwnProperty.call(message, "ack_peer_routes_revision"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.ack_peer_routes_revision);
-            if (message.connect_request != null && Object.hasOwnProperty.call(message, "connect_request"))
-                $root.CMsgSteamNetworkingP2PRendezvous.ConnectRequest.encode(message.connect_request, writer.uint32(/* id 4, wireType 2 =*/34).fork(), q + 1).ldelim();
-            if (message.connect_ok != null && Object.hasOwnProperty.call(message, "connect_ok"))
-                $root.CMsgSteamNetworkingP2PRendezvous.ConnectOK.encode(message.connect_ok, writer.uint32(/* id 5, wireType 2 =*/42).fork(), q + 1).ldelim();
-            if (message.connection_closed != null && Object.hasOwnProperty.call(message, "connection_closed"))
-                $root.CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.encode(message.connection_closed, writer.uint32(/* id 6, wireType 2 =*/50).fork(), q + 1).ldelim();
-            if (message.ice_enabled != null && Object.hasOwnProperty.call(message, "ice_enabled"))
+            if (message.connect_request != null && $Object.hasOwnProperty.call(message, "connect_request"))
+                $root.CMsgSteamNetworkingP2PRendezvous.ConnectRequest.encode(message.connect_request, writer.uint32(/* id 4, wireType 2 =*/34).fork(), _depth + 1).ldelim();
+            if (message.connect_ok != null && $Object.hasOwnProperty.call(message, "connect_ok"))
+                $root.CMsgSteamNetworkingP2PRendezvous.ConnectOK.encode(message.connect_ok, writer.uint32(/* id 5, wireType 2 =*/42).fork(), _depth + 1).ldelim();
+            if (message.connection_closed != null && $Object.hasOwnProperty.call(message, "connection_closed"))
+                $root.CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.encode(message.connection_closed, writer.uint32(/* id 6, wireType 2 =*/50).fork(), _depth + 1).ldelim();
+            if (message.ice_enabled != null && $Object.hasOwnProperty.call(message, "ice_enabled"))
                 writer.uint32(/* id 7, wireType 0 =*/56).bool(message.ice_enabled);
-            if (message.from_identity != null && Object.hasOwnProperty.call(message, "from_identity"))
+            if (message.from_identity != null && $Object.hasOwnProperty.call(message, "from_identity"))
                 writer.uint32(/* id 8, wireType 2 =*/66).string(message.from_identity);
-            if (message.from_connection_id != null && Object.hasOwnProperty.call(message, "from_connection_id"))
+            if (message.from_connection_id != null && $Object.hasOwnProperty.call(message, "from_connection_id"))
                 writer.uint32(/* id 9, wireType 5 =*/77).fixed32(message.from_connection_id);
-            if (message.to_identity != null && Object.hasOwnProperty.call(message, "to_identity"))
+            if (message.to_identity != null && $Object.hasOwnProperty.call(message, "to_identity"))
                 writer.uint32(/* id 10, wireType 2 =*/82).string(message.to_identity);
-            if (message.ack_reliable_msg != null && Object.hasOwnProperty.call(message, "ack_reliable_msg"))
+            if (message.ack_reliable_msg != null && $Object.hasOwnProperty.call(message, "ack_reliable_msg"))
                 writer.uint32(/* id 11, wireType 0 =*/88).uint32(message.ack_reliable_msg);
-            if (message.first_reliable_msg != null && Object.hasOwnProperty.call(message, "first_reliable_msg"))
+            if (message.first_reliable_msg != null && $Object.hasOwnProperty.call(message, "first_reliable_msg"))
                 writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.first_reliable_msg);
             if (message.reliable_messages != null && message.reliable_messages.length)
                 for (var i = 0; i < message.reliable_messages.length; ++i)
-                    $root.CMsgSteamNetworkingP2PRendezvous.ReliableMessage.encode(message.reliable_messages[i], writer.uint32(/* id 13, wireType 2 =*/106).fork(), q + 1).ldelim();
-            if (message.hosted_server_ticket != null && Object.hasOwnProperty.call(message, "hosted_server_ticket"))
+                    $root.CMsgSteamNetworkingP2PRendezvous.ReliableMessage.encode(message.reliable_messages[i], writer.uint32(/* id 13, wireType 2 =*/106).fork(), _depth + 1).ldelim();
+            if (message.hosted_server_ticket != null && $Object.hasOwnProperty.call(message, "hosted_server_ticket"))
                 writer.uint32(/* id 14, wireType 2 =*/114).bytes(message.hosted_server_ticket);
             if (message.application_messages != null && message.application_messages.length)
                 for (var i = 0; i < message.application_messages.length; ++i)
-                    $root.CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.encode(message.application_messages[i], writer.uint32(/* id 15, wireType 2 =*/122).fork(), q + 1).ldelim();
+                    $root.CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.encode(message.application_messages[i], writer.uint32(/* id 15, wireType 2 =*/122).fork(), _depth + 1).ldelim();
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -4236,12 +4644,12 @@
          * @function encodeDelimited
          * @memberof CMsgSteamNetworkingP2PRendezvous
          * @static
-         * @param {ICMsgSteamNetworkingP2PRendezvous} message CMsgSteamNetworkingP2PRendezvous message or plain object to encode
+         * @param {CMsgSteamNetworkingP2PRendezvous.$Properties} message CMsgSteamNetworkingP2PRendezvous message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamNetworkingP2PRendezvous.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSteamNetworkingP2PRendezvous.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -4251,107 +4659,145 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSteamNetworkingP2PRendezvous} CMsgSteamNetworkingP2PRendezvous
+         * @returns {CMsgSteamNetworkingP2PRendezvous & CMsgSteamNetworkingP2PRendezvous.$Shape} CMsgSteamNetworkingP2PRendezvous
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamNetworkingP2PRendezvous.decode = function decode(reader, length, error, long) {
+        CMsgSteamNetworkingP2PRendezvous.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSteamNetworkingP2PRendezvous();
+            message = _target || new $root.CMsgSteamNetworkingP2PRendezvous();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 8: {
-                        message.from_identity = reader.string();
-                        break;
-                    }
-                case 9: {
-                        message.from_connection_id = reader.fixed32();
-                        break;
-                    }
-                case 10: {
-                        message.to_identity = reader.string();
-                        break;
-                    }
-                case 1: {
-                        message.to_connection_id = reader.fixed32();
-                        break;
-                    }
-                case 2: {
-                        message.sdr_routes = reader.bytes();
-                        break;
-                    }
-                case 3: {
-                        message.ack_peer_routes_revision = reader.uint32();
-                        break;
-                    }
-                case 7: {
-                        message.ice_enabled = reader.bool();
-                        break;
-                    }
-                case 14: {
-                        message.hosted_server_ticket = reader.bytes();
-                        break;
-                    }
-                case 4: {
-                        message.connect_request = $root.CMsgSteamNetworkingP2PRendezvous.ConnectRequest.decode(reader, reader.uint32(), undefined, long + 1);
-                        break;
-                    }
-                case 5: {
-                        message.connect_ok = $root.CMsgSteamNetworkingP2PRendezvous.ConnectOK.decode(reader, reader.uint32(), undefined, long + 1);
-                        break;
-                    }
-                case 6: {
-                        message.connection_closed = $root.CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.decode(reader, reader.uint32(), undefined, long + 1);
-                        break;
-                    }
-                case 11: {
-                        message.ack_reliable_msg = reader.uint32();
-                        break;
-                    }
-                case 12: {
-                        message.first_reliable_msg = reader.uint32();
-                        break;
-                    }
-                case 13: {
-                        if (!(message.reliable_messages && message.reliable_messages.length))
-                            message.reliable_messages = [];
-                        message.reliable_messages.push($root.CMsgSteamNetworkingP2PRendezvous.ReliableMessage.decode(reader, reader.uint32(), undefined, long + 1));
-                        break;
-                    }
-                case 15: {
-                        if (!(message.application_messages && message.application_messages.length))
-                            message.application_messages = [];
-                        message.application_messages.push($root.CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.decode(reader, reader.uint32(), undefined, long + 1));
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 8: {
+                        if (wireType !== 2)
+                            break;
+                        message.from_identity = reader.string();
+                        continue;
+                    }
+                case 9: {
+                        if (wireType !== 5)
+                            break;
+                        message.from_connection_id = reader.fixed32();
+                        continue;
+                    }
+                case 10: {
+                        if (wireType !== 2)
+                            break;
+                        message.to_identity = reader.string();
+                        continue;
+                    }
+                case 1: {
+                        if (wireType !== 5)
+                            break;
+                        message.to_connection_id = reader.fixed32();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.sdr_routes = reader.bytes();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 0)
+                            break;
+                        message.ack_peer_routes_revision = reader.uint32();
+                        continue;
+                    }
+                case 7: {
+                        if (wireType !== 0)
+                            break;
+                        message.ice_enabled = reader.bool();
+                        continue;
+                    }
+                case 14: {
+                        if (wireType !== 2)
+                            break;
+                        message.hosted_server_ticket = reader.bytes();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 2)
+                            break;
+                        message.connect_request = $root.CMsgSteamNetworkingP2PRendezvous.ConnectRequest.decode(reader, reader.size(), $undefined, _depth + 1, message.connect_request);
+                        continue;
+                    }
+                case 5: {
+                        if (wireType !== 2)
+                            break;
+                        message.connect_ok = $root.CMsgSteamNetworkingP2PRendezvous.ConnectOK.decode(reader, reader.size(), $undefined, _depth + 1, message.connect_ok);
+                        continue;
+                    }
+                case 6: {
+                        if (wireType !== 2)
+                            break;
+                        message.connection_closed = $root.CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.decode(reader, reader.size(), $undefined, _depth + 1, message.connection_closed);
+                        continue;
+                    }
+                case 11: {
+                        if (wireType !== 0)
+                            break;
+                        message.ack_reliable_msg = reader.uint32();
+                        continue;
+                    }
+                case 12: {
+                        if (wireType !== 0)
+                            break;
+                        message.first_reliable_msg = reader.uint32();
+                        continue;
+                    }
+                case 13: {
+                        if (wireType !== 2)
+                            break;
+                        if (!(message.reliable_messages && message.reliable_messages.length))
+                            message.reliable_messages = [];
+                        message.reliable_messages.push($root.CMsgSteamNetworkingP2PRendezvous.ReliableMessage.decode(reader, reader.size(), $undefined, _depth + 1));
+                        continue;
+                    }
+                case 15: {
+                        if (wireType !== 2)
+                            break;
+                        if (!(message.application_messages && message.application_messages.length))
+                            message.application_messages = [];
+                        message.application_messages.push($root.CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.decode(reader, reader.size(), $undefined, _depth + 1));
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -4361,14 +4807,14 @@
          * @memberof CMsgSteamNetworkingP2PRendezvous
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSteamNetworkingP2PRendezvous} CMsgSteamNetworkingP2PRendezvous
+         * @returns {CMsgSteamNetworkingP2PRendezvous & CMsgSteamNetworkingP2PRendezvous.$Shape} CMsgSteamNetworkingP2PRendezvous
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamNetworkingP2PRendezvous.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSteamNetworkingP2PRendezvous.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -4379,72 +4825,72 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamNetworkingP2PRendezvous.verify = function verify(message, long) {
+        CMsgSteamNetworkingP2PRendezvous.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.from_identity != null && Object.hasOwnProperty.call(message, "from_identity"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.from_identity != null && $Object.hasOwnProperty.call(message, "from_identity"))
                 if (!$util.isString(message.from_identity))
                     return "from_identity: string expected";
-            if (message.from_connection_id != null && Object.hasOwnProperty.call(message, "from_connection_id"))
+            if (message.from_connection_id != null && $Object.hasOwnProperty.call(message, "from_connection_id"))
                 if (!$util.isInteger(message.from_connection_id))
                     return "from_connection_id: integer expected";
-            if (message.to_identity != null && Object.hasOwnProperty.call(message, "to_identity"))
+            if (message.to_identity != null && $Object.hasOwnProperty.call(message, "to_identity"))
                 if (!$util.isString(message.to_identity))
                     return "to_identity: string expected";
-            if (message.to_connection_id != null && Object.hasOwnProperty.call(message, "to_connection_id"))
+            if (message.to_connection_id != null && $Object.hasOwnProperty.call(message, "to_connection_id"))
                 if (!$util.isInteger(message.to_connection_id))
                     return "to_connection_id: integer expected";
-            if (message.sdr_routes != null && Object.hasOwnProperty.call(message, "sdr_routes"))
+            if (message.sdr_routes != null && $Object.hasOwnProperty.call(message, "sdr_routes"))
                 if (!(message.sdr_routes && typeof message.sdr_routes.length === "number" || $util.isString(message.sdr_routes)))
                     return "sdr_routes: buffer expected";
-            if (message.ack_peer_routes_revision != null && Object.hasOwnProperty.call(message, "ack_peer_routes_revision"))
+            if (message.ack_peer_routes_revision != null && $Object.hasOwnProperty.call(message, "ack_peer_routes_revision"))
                 if (!$util.isInteger(message.ack_peer_routes_revision))
                     return "ack_peer_routes_revision: integer expected";
-            if (message.ice_enabled != null && Object.hasOwnProperty.call(message, "ice_enabled"))
+            if (message.ice_enabled != null && $Object.hasOwnProperty.call(message, "ice_enabled"))
                 if (typeof message.ice_enabled !== "boolean")
                     return "ice_enabled: boolean expected";
-            if (message.hosted_server_ticket != null && Object.hasOwnProperty.call(message, "hosted_server_ticket"))
+            if (message.hosted_server_ticket != null && $Object.hasOwnProperty.call(message, "hosted_server_ticket"))
                 if (!(message.hosted_server_ticket && typeof message.hosted_server_ticket.length === "number" || $util.isString(message.hosted_server_ticket)))
                     return "hosted_server_ticket: buffer expected";
-            if (message.connect_request != null && Object.hasOwnProperty.call(message, "connect_request")) {
-                var error = $root.CMsgSteamNetworkingP2PRendezvous.ConnectRequest.verify(message.connect_request, long + 1);
+            if (message.connect_request != null && $Object.hasOwnProperty.call(message, "connect_request")) {
+                var error = $root.CMsgSteamNetworkingP2PRendezvous.ConnectRequest.verify(message.connect_request, _depth + 1);
                 if (error)
                     return "connect_request." + error;
             }
-            if (message.connect_ok != null && Object.hasOwnProperty.call(message, "connect_ok")) {
-                var error = $root.CMsgSteamNetworkingP2PRendezvous.ConnectOK.verify(message.connect_ok, long + 1);
+            if (message.connect_ok != null && $Object.hasOwnProperty.call(message, "connect_ok")) {
+                var error = $root.CMsgSteamNetworkingP2PRendezvous.ConnectOK.verify(message.connect_ok, _depth + 1);
                 if (error)
                     return "connect_ok." + error;
             }
-            if (message.connection_closed != null && Object.hasOwnProperty.call(message, "connection_closed")) {
-                var error = $root.CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.verify(message.connection_closed, long + 1);
+            if (message.connection_closed != null && $Object.hasOwnProperty.call(message, "connection_closed")) {
+                var error = $root.CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.verify(message.connection_closed, _depth + 1);
                 if (error)
                     return "connection_closed." + error;
             }
-            if (message.ack_reliable_msg != null && Object.hasOwnProperty.call(message, "ack_reliable_msg"))
+            if (message.ack_reliable_msg != null && $Object.hasOwnProperty.call(message, "ack_reliable_msg"))
                 if (!$util.isInteger(message.ack_reliable_msg))
                     return "ack_reliable_msg: integer expected";
-            if (message.first_reliable_msg != null && Object.hasOwnProperty.call(message, "first_reliable_msg"))
+            if (message.first_reliable_msg != null && $Object.hasOwnProperty.call(message, "first_reliable_msg"))
                 if (!$util.isInteger(message.first_reliable_msg))
                     return "first_reliable_msg: integer expected";
-            if (message.reliable_messages != null && Object.hasOwnProperty.call(message, "reliable_messages")) {
-                if (!Array.isArray(message.reliable_messages))
+            if (message.reliable_messages != null && $Object.hasOwnProperty.call(message, "reliable_messages")) {
+                if (!$Array.isArray(message.reliable_messages))
                     return "reliable_messages: array expected";
                 for (var i = 0; i < message.reliable_messages.length; ++i) {
-                    var error = $root.CMsgSteamNetworkingP2PRendezvous.ReliableMessage.verify(message.reliable_messages[i], long + 1);
+                    var error = $root.CMsgSteamNetworkingP2PRendezvous.ReliableMessage.verify(message.reliable_messages[i], _depth + 1);
                     if (error)
                         return "reliable_messages." + error;
                 }
             }
-            if (message.application_messages != null && Object.hasOwnProperty.call(message, "application_messages")) {
-                if (!Array.isArray(message.application_messages))
+            if (message.application_messages != null && $Object.hasOwnProperty.call(message, "application_messages")) {
+                if (!$Array.isArray(message.application_messages))
                     return "application_messages: array expected";
                 for (var i = 0; i < message.application_messages.length; ++i) {
-                    var error = $root.CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.verify(message.application_messages[i], long + 1);
+                    var error = $root.CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.verify(message.application_messages[i], _depth + 1);
                     if (error)
                         return "application_messages." + error;
                 }
@@ -4460,22 +4906,22 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamNetworkingP2PRendezvous} CMsgSteamNetworkingP2PRendezvous
          */
-        CMsgSteamNetworkingP2PRendezvous.fromObject = function fromObject(object, long) {
+        CMsgSteamNetworkingP2PRendezvous.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSteamNetworkingP2PRendezvous)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSteamNetworkingP2PRendezvous: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSteamNetworkingP2PRendezvous: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSteamNetworkingP2PRendezvous();
             if (object.from_identity != null)
-                message.from_identity = String(object.from_identity);
+                message.from_identity = $String(object.from_identity);
             if (object.from_connection_id != null)
                 message.from_connection_id = object.from_connection_id >>> 0;
             if (object.to_identity != null)
-                message.to_identity = String(object.to_identity);
+                message.to_identity = $String(object.to_identity);
             if (object.to_connection_id != null)
                 message.to_connection_id = object.to_connection_id >>> 0;
             if (object.sdr_routes != null)
@@ -4486,7 +4932,7 @@
             if (object.ack_peer_routes_revision != null)
                 message.ack_peer_routes_revision = object.ack_peer_routes_revision >>> 0;
             if (object.ice_enabled != null)
-                message.ice_enabled = Boolean(object.ice_enabled);
+                message.ice_enabled = $Boolean(object.ice_enabled);
             if (object.hosted_server_ticket != null)
                 if (typeof object.hosted_server_ticket === "string")
                     $util.base64.decode(object.hosted_server_ticket, message.hosted_server_ticket = $util.newBuffer($util.base64.length(object.hosted_server_ticket)), 0);
@@ -4494,41 +4940,41 @@
                     message.hosted_server_ticket = object.hosted_server_ticket;
             if (object.connect_request != null) {
                 if (!$util.isObject(object.connect_request))
-                    throw TypeError(".CMsgSteamNetworkingP2PRendezvous.connect_request: object expected");
-                message.connect_request = $root.CMsgSteamNetworkingP2PRendezvous.ConnectRequest.fromObject(object.connect_request, long + 1);
+                    throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.connect_request: object expected");
+                message.connect_request = $root.CMsgSteamNetworkingP2PRendezvous.ConnectRequest.fromObject(object.connect_request, _depth + 1);
             }
             if (object.connect_ok != null) {
                 if (!$util.isObject(object.connect_ok))
-                    throw TypeError(".CMsgSteamNetworkingP2PRendezvous.connect_ok: object expected");
-                message.connect_ok = $root.CMsgSteamNetworkingP2PRendezvous.ConnectOK.fromObject(object.connect_ok, long + 1);
+                    throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.connect_ok: object expected");
+                message.connect_ok = $root.CMsgSteamNetworkingP2PRendezvous.ConnectOK.fromObject(object.connect_ok, _depth + 1);
             }
             if (object.connection_closed != null) {
                 if (!$util.isObject(object.connection_closed))
-                    throw TypeError(".CMsgSteamNetworkingP2PRendezvous.connection_closed: object expected");
-                message.connection_closed = $root.CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.fromObject(object.connection_closed, long + 1);
+                    throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.connection_closed: object expected");
+                message.connection_closed = $root.CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.fromObject(object.connection_closed, _depth + 1);
             }
             if (object.ack_reliable_msg != null)
                 message.ack_reliable_msg = object.ack_reliable_msg >>> 0;
             if (object.first_reliable_msg != null)
                 message.first_reliable_msg = object.first_reliable_msg >>> 0;
             if (object.reliable_messages) {
-                if (!Array.isArray(object.reliable_messages))
-                    throw TypeError(".CMsgSteamNetworkingP2PRendezvous.reliable_messages: array expected");
-                message.reliable_messages = [];
+                if (!$Array.isArray(object.reliable_messages))
+                    throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.reliable_messages: array expected");
+                message.reliable_messages = $Array(object.reliable_messages.length);
                 for (var i = 0; i < object.reliable_messages.length; ++i) {
                     if (!$util.isObject(object.reliable_messages[i]))
-                        throw TypeError(".CMsgSteamNetworkingP2PRendezvous.reliable_messages: object expected");
-                    message.reliable_messages[i] = $root.CMsgSteamNetworkingP2PRendezvous.ReliableMessage.fromObject(object.reliable_messages[i], long + 1);
+                        throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.reliable_messages: object expected");
+                    message.reliable_messages[i] = $root.CMsgSteamNetworkingP2PRendezvous.ReliableMessage.fromObject(object.reliable_messages[i], _depth + 1);
                 }
             }
             if (object.application_messages) {
-                if (!Array.isArray(object.application_messages))
-                    throw TypeError(".CMsgSteamNetworkingP2PRendezvous.application_messages: array expected");
-                message.application_messages = [];
+                if (!$Array.isArray(object.application_messages))
+                    throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.application_messages: array expected");
+                message.application_messages = $Array(object.application_messages.length);
                 for (var i = 0; i < object.application_messages.length; ++i) {
                     if (!$util.isObject(object.application_messages[i]))
-                        throw TypeError(".CMsgSteamNetworkingP2PRendezvous.application_messages: object expected");
-                    message.application_messages[i] = $root.CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.fromObject(object.application_messages[i], long + 1);
+                        throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.application_messages: object expected");
+                    message.application_messages[i] = $root.CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.fromObject(object.application_messages[i], _depth + 1);
                 }
             }
             return message;
@@ -4543,13 +4989,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamNetworkingP2PRendezvous.toObject = function toObject(message, options, q) {
+        CMsgSteamNetworkingP2PRendezvous.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults) {
                 object.reliable_messages = [];
@@ -4557,11 +5003,11 @@
             }
             if (options.defaults) {
                 object.to_connection_id = 0;
-                if (options.bytes === String)
+                if (options.bytes === $String)
                     object.sdr_routes = "";
                 else {
                     object.sdr_routes = [];
-                    if (options.bytes !== Array)
+                    if (options.bytes !== $Array)
                         object.sdr_routes = $util.newBuffer(object.sdr_routes);
                 }
                 object.ack_peer_routes_revision = 0;
@@ -4574,49 +5020,49 @@
                 object.to_identity = "";
                 object.ack_reliable_msg = 0;
                 object.first_reliable_msg = 0;
-                if (options.bytes === String)
+                if (options.bytes === $String)
                     object.hosted_server_ticket = "";
                 else {
                     object.hosted_server_ticket = [];
-                    if (options.bytes !== Array)
+                    if (options.bytes !== $Array)
                         object.hosted_server_ticket = $util.newBuffer(object.hosted_server_ticket);
                 }
             }
-            if (message.to_connection_id != null && Object.hasOwnProperty.call(message, "to_connection_id"))
+            if (message.to_connection_id != null && $Object.hasOwnProperty.call(message, "to_connection_id"))
                 object.to_connection_id = message.to_connection_id;
-            if (message.sdr_routes != null && Object.hasOwnProperty.call(message, "sdr_routes"))
-                object.sdr_routes = options.bytes === String ? $util.base64.encode(message.sdr_routes, 0, message.sdr_routes.length) : options.bytes === Array ? Array.prototype.slice.call(message.sdr_routes) : message.sdr_routes;
-            if (message.ack_peer_routes_revision != null && Object.hasOwnProperty.call(message, "ack_peer_routes_revision"))
+            if (message.sdr_routes != null && $Object.hasOwnProperty.call(message, "sdr_routes"))
+                object.sdr_routes = options.bytes === $String ? $util.base64.encode(message.sdr_routes, 0, message.sdr_routes.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.sdr_routes) : message.sdr_routes;
+            if (message.ack_peer_routes_revision != null && $Object.hasOwnProperty.call(message, "ack_peer_routes_revision"))
                 object.ack_peer_routes_revision = message.ack_peer_routes_revision;
-            if (message.connect_request != null && Object.hasOwnProperty.call(message, "connect_request"))
-                object.connect_request = $root.CMsgSteamNetworkingP2PRendezvous.ConnectRequest.toObject(message.connect_request, options, q + 1);
-            if (message.connect_ok != null && Object.hasOwnProperty.call(message, "connect_ok"))
-                object.connect_ok = $root.CMsgSteamNetworkingP2PRendezvous.ConnectOK.toObject(message.connect_ok, options, q + 1);
-            if (message.connection_closed != null && Object.hasOwnProperty.call(message, "connection_closed"))
-                object.connection_closed = $root.CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.toObject(message.connection_closed, options, q + 1);
-            if (message.ice_enabled != null && Object.hasOwnProperty.call(message, "ice_enabled"))
+            if (message.connect_request != null && $Object.hasOwnProperty.call(message, "connect_request"))
+                object.connect_request = $root.CMsgSteamNetworkingP2PRendezvous.ConnectRequest.toObject(message.connect_request, options, _depth + 1);
+            if (message.connect_ok != null && $Object.hasOwnProperty.call(message, "connect_ok"))
+                object.connect_ok = $root.CMsgSteamNetworkingP2PRendezvous.ConnectOK.toObject(message.connect_ok, options, _depth + 1);
+            if (message.connection_closed != null && $Object.hasOwnProperty.call(message, "connection_closed"))
+                object.connection_closed = $root.CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.toObject(message.connection_closed, options, _depth + 1);
+            if (message.ice_enabled != null && $Object.hasOwnProperty.call(message, "ice_enabled"))
                 object.ice_enabled = message.ice_enabled;
-            if (message.from_identity != null && Object.hasOwnProperty.call(message, "from_identity"))
+            if (message.from_identity != null && $Object.hasOwnProperty.call(message, "from_identity"))
                 object.from_identity = message.from_identity;
-            if (message.from_connection_id != null && Object.hasOwnProperty.call(message, "from_connection_id"))
+            if (message.from_connection_id != null && $Object.hasOwnProperty.call(message, "from_connection_id"))
                 object.from_connection_id = message.from_connection_id;
-            if (message.to_identity != null && Object.hasOwnProperty.call(message, "to_identity"))
+            if (message.to_identity != null && $Object.hasOwnProperty.call(message, "to_identity"))
                 object.to_identity = message.to_identity;
-            if (message.ack_reliable_msg != null && Object.hasOwnProperty.call(message, "ack_reliable_msg"))
+            if (message.ack_reliable_msg != null && $Object.hasOwnProperty.call(message, "ack_reliable_msg"))
                 object.ack_reliable_msg = message.ack_reliable_msg;
-            if (message.first_reliable_msg != null && Object.hasOwnProperty.call(message, "first_reliable_msg"))
+            if (message.first_reliable_msg != null && $Object.hasOwnProperty.call(message, "first_reliable_msg"))
                 object.first_reliable_msg = message.first_reliable_msg;
             if (message.reliable_messages && message.reliable_messages.length) {
-                object.reliable_messages = [];
+                object.reliable_messages = $Array(message.reliable_messages.length);
                 for (var j = 0; j < message.reliable_messages.length; ++j)
-                    object.reliable_messages[j] = $root.CMsgSteamNetworkingP2PRendezvous.ReliableMessage.toObject(message.reliable_messages[j], options, q + 1);
+                    object.reliable_messages[j] = $root.CMsgSteamNetworkingP2PRendezvous.ReliableMessage.toObject(message.reliable_messages[j], options, _depth + 1);
             }
-            if (message.hosted_server_ticket != null && Object.hasOwnProperty.call(message, "hosted_server_ticket"))
-                object.hosted_server_ticket = options.bytes === String ? $util.base64.encode(message.hosted_server_ticket, 0, message.hosted_server_ticket.length) : options.bytes === Array ? Array.prototype.slice.call(message.hosted_server_ticket) : message.hosted_server_ticket;
+            if (message.hosted_server_ticket != null && $Object.hasOwnProperty.call(message, "hosted_server_ticket"))
+                object.hosted_server_ticket = options.bytes === $String ? $util.base64.encode(message.hosted_server_ticket, 0, message.hosted_server_ticket.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.hosted_server_ticket) : message.hosted_server_ticket;
             if (message.application_messages && message.application_messages.length) {
-                object.application_messages = [];
+                object.application_messages = $Array(message.application_messages.length);
                 for (var j = 0; j < message.application_messages.length; ++j)
-                    object.application_messages[j] = $root.CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.toObject(message.application_messages[j], options, q + 1);
+                    object.application_messages[j] = $root.CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.toObject(message.application_messages[j], options, _depth + 1);
             }
             return object;
         };
@@ -4628,56 +5074,68 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSteamNetworkingP2PRendezvous.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSteamNetworkingP2PRendezvous.prototype.toJSON = function() {
+            return CMsgSteamNetworkingP2PRendezvous.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSteamNetworkingP2PRendezvous
+         * Gets the type url for CMsgSteamNetworkingP2PRendezvous
          * @function getTypeUrl
          * @memberof CMsgSteamNetworkingP2PRendezvous
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSteamNetworkingP2PRendezvous.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSteamNetworkingP2PRendezvous";
+        CMsgSteamNetworkingP2PRendezvous.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSteamNetworkingP2PRendezvous";
         };
     
         CMsgSteamNetworkingP2PRendezvous.ConnectRequest = (function() {
     
             /**
              * Properties of a ConnectRequest.
-             * @memberof CMsgSteamNetworkingP2PRendezvous
-             * @interface IConnectRequest
-             * @property {ICMsgSteamDatagramSessionCryptInfoSigned|null} [crypt] ConnectRequest crypt
-             * @property {ICMsgSteamDatagramCertificateSigned|null} [cert] ConnectRequest cert
+             * @typedef {Object} CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Properties
+             * @property {CMsgSteamDatagramSessionCryptInfoSigned.$Properties|null} [crypt] ConnectRequest crypt
+             * @property {CMsgSteamDatagramCertificateSigned.$Properties|null} [cert] ConnectRequest cert
              * @property {number|null} [to_virtual_port] ConnectRequest to_virtual_port
              * @property {number|null} [from_virtual_port] ConnectRequest from_virtual_port
              * @property {string|null} [from_fakeip] ConnectRequest from_fakeip
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+    
+            /**
+             * Properties of a ConnectRequest.
+             * @memberof CMsgSteamNetworkingP2PRendezvous
+             * @interface IConnectRequest
+             * @augments CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Properties
+             * @deprecated Use CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Properties instead.
+             */
+    
+            /**
+             * Shape of a ConnectRequest.
+             * @typedef {CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Properties} CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Shape
              */
     
             /**
              * Constructs a new ConnectRequest.
              * @memberof CMsgSteamNetworkingP2PRendezvous
              * @classdesc Represents a ConnectRequest.
-             * @implements IConnectRequest
              * @constructor
-             * @param {CMsgSteamNetworkingP2PRendezvous.IConnectRequest=} [properties] Properties to set
+             * @param {CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function ConnectRequest(properties) {
+            var ConnectRequest = function (properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
     
             /**
              * ConnectRequest crypt.
-             * @member {ICMsgSteamDatagramSessionCryptInfoSigned|null|undefined} crypt
+             * @member {CMsgSteamDatagramSessionCryptInfoSigned.$Properties|null|undefined} crypt
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectRequest
              * @instance
              */
@@ -4685,7 +5143,7 @@
     
             /**
              * ConnectRequest cert.
-             * @member {ICMsgSteamDatagramCertificateSigned|null|undefined} cert
+             * @member {CMsgSteamDatagramCertificateSigned.$Properties|null|undefined} cert
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectRequest
              * @instance
              */
@@ -4720,10 +5178,14 @@
              * @function create
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectRequest
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IConnectRequest=} [properties] Properties to set
+             * @param {CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Properties=} [properties] Properties to set
              * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectRequest} ConnectRequest instance
+             * @type {{
+             *   (properties: CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Shape): CMsgSteamNetworkingP2PRendezvous.ConnectRequest & CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Shape;
+             *   (properties?: CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Properties): CMsgSteamNetworkingP2PRendezvous.ConnectRequest;
+             * }}
              */
-            ConnectRequest.create = function create(properties) {
+            ConnectRequest.create = function(properties) {
                 return new ConnectRequest(properties);
             };
     
@@ -4732,27 +5194,30 @@
              * @function encode
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectRequest
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IConnectRequest} message ConnectRequest message or plain object to encode
+             * @param {CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Properties} message ConnectRequest message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ConnectRequest.encode = function encode(message, writer, q) {
+            ConnectRequest.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.crypt != null && Object.hasOwnProperty.call(message, "crypt"))
-                    $root.CMsgSteamDatagramSessionCryptInfoSigned.encode(message.crypt, writer.uint32(/* id 6, wireType 2 =*/50).fork(), q + 1).ldelim();
-                if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
-                    $root.CMsgSteamDatagramCertificateSigned.encode(message.cert, writer.uint32(/* id 7, wireType 2 =*/58).fork(), q + 1).ldelim();
-                if (message.to_virtual_port != null && Object.hasOwnProperty.call(message, "to_virtual_port"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.crypt != null && $Object.hasOwnProperty.call(message, "crypt"))
+                    $root.CMsgSteamDatagramSessionCryptInfoSigned.encode(message.crypt, writer.uint32(/* id 6, wireType 2 =*/50).fork(), _depth + 1).ldelim();
+                if (message.cert != null && $Object.hasOwnProperty.call(message, "cert"))
+                    $root.CMsgSteamDatagramCertificateSigned.encode(message.cert, writer.uint32(/* id 7, wireType 2 =*/58).fork(), _depth + 1).ldelim();
+                if (message.to_virtual_port != null && $Object.hasOwnProperty.call(message, "to_virtual_port"))
                     writer.uint32(/* id 9, wireType 0 =*/72).uint32(message.to_virtual_port);
-                if (message.from_virtual_port != null && Object.hasOwnProperty.call(message, "from_virtual_port"))
+                if (message.from_virtual_port != null && $Object.hasOwnProperty.call(message, "from_virtual_port"))
                     writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.from_virtual_port);
-                if (message.from_fakeip != null && Object.hasOwnProperty.call(message, "from_fakeip"))
+                if (message.from_fakeip != null && $Object.hasOwnProperty.call(message, "from_fakeip"))
                     writer.uint32(/* id 11, wireType 2 =*/90).string(message.from_fakeip);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
     
@@ -4761,12 +5226,12 @@
              * @function encodeDelimited
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectRequest
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IConnectRequest} message ConnectRequest message or plain object to encode
+             * @param {CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Properties} message ConnectRequest message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ConnectRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            ConnectRequest.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
     
             /**
@@ -4776,63 +5241,81 @@
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectRequest} ConnectRequest
+             * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectRequest & CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Shape} ConnectRequest
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ConnectRequest.decode = function decode(reader, length, error, long) {
+            ConnectRequest.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (long === undefined)
-                    long = 0;
-                if (long > $Reader.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var end, message;
-                if (length === undefined)
+                if (length === $undefined)
                     end = reader.len;
                 else {
                     end = reader.pos + length;
                     if (end > reader.len)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     length = reader.len;
                     reader.len = end;
                 }
-                message = new $root.CMsgSteamNetworkingP2PRendezvous.ConnectRequest();
+                message = _target || new $root.CMsgSteamNetworkingP2PRendezvous.ConnectRequest();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 6: {
-                            message.crypt = $root.CMsgSteamDatagramSessionCryptInfoSigned.decode(reader, reader.uint32(), undefined, long + 1);
-                            break;
-                        }
-                    case 7: {
-                            message.cert = $root.CMsgSteamDatagramCertificateSigned.decode(reader, reader.uint32(), undefined, long + 1);
-                            break;
-                        }
-                    case 9: {
-                            message.to_virtual_port = reader.uint32();
-                            break;
-                        }
-                    case 10: {
-                            message.from_virtual_port = reader.uint32();
-                            break;
-                        }
-                    case 11: {
-                            message.from_fakeip = reader.string();
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7, long);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 6: {
+                            if (wireType !== 2)
+                                break;
+                            message.crypt = $root.CMsgSteamDatagramSessionCryptInfoSigned.decode(reader, reader.size(), $undefined, _depth + 1, message.crypt);
+                            continue;
+                        }
+                    case 7: {
+                            if (wireType !== 2)
+                                break;
+                            message.cert = $root.CMsgSteamDatagramCertificateSigned.decode(reader, reader.size(), $undefined, _depth + 1, message.cert);
+                            continue;
+                        }
+                    case 9: {
+                            if (wireType !== 0)
+                                break;
+                            message.to_virtual_port = reader.uint32();
+                            continue;
+                        }
+                    case 10: {
+                            if (wireType !== 0)
+                                break;
+                            message.from_virtual_port = reader.uint32();
+                            continue;
+                        }
+                    case 11: {
+                            if (wireType !== 2)
+                                break;
+                            message.from_fakeip = reader.string();
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
-                if (length !== undefined) {
+                if (length !== $undefined) {
                     if (reader.pos !== end)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     reader.len = length;
                 }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
     
@@ -4842,14 +5325,14 @@
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectRequest
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectRequest} ConnectRequest
+             * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectRequest & CMsgSteamNetworkingP2PRendezvous.ConnectRequest.$Shape} ConnectRequest
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ConnectRequest.decodeDelimited = function decodeDelimited(reader) {
+            ConnectRequest.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
     
             /**
@@ -4860,30 +5343,30 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            ConnectRequest.verify = function verify(message, long) {
+            ConnectRequest.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    return "maximum nesting depth exceeded";
-                if (message.crypt != null && Object.hasOwnProperty.call(message, "crypt")) {
-                    var error = $root.CMsgSteamDatagramSessionCryptInfoSigned.verify(message.crypt, long + 1);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.crypt != null && $Object.hasOwnProperty.call(message, "crypt")) {
+                    var error = $root.CMsgSteamDatagramSessionCryptInfoSigned.verify(message.crypt, _depth + 1);
                     if (error)
                         return "crypt." + error;
                 }
-                if (message.cert != null && Object.hasOwnProperty.call(message, "cert")) {
-                    var error = $root.CMsgSteamDatagramCertificateSigned.verify(message.cert, long + 1);
+                if (message.cert != null && $Object.hasOwnProperty.call(message, "cert")) {
+                    var error = $root.CMsgSteamDatagramCertificateSigned.verify(message.cert, _depth + 1);
                     if (error)
                         return "cert." + error;
                 }
-                if (message.to_virtual_port != null && Object.hasOwnProperty.call(message, "to_virtual_port"))
+                if (message.to_virtual_port != null && $Object.hasOwnProperty.call(message, "to_virtual_port"))
                     if (!$util.isInteger(message.to_virtual_port))
                         return "to_virtual_port: integer expected";
-                if (message.from_virtual_port != null && Object.hasOwnProperty.call(message, "from_virtual_port"))
+                if (message.from_virtual_port != null && $Object.hasOwnProperty.call(message, "from_virtual_port"))
                     if (!$util.isInteger(message.from_virtual_port))
                         return "from_virtual_port: integer expected";
-                if (message.from_fakeip != null && Object.hasOwnProperty.call(message, "from_fakeip"))
+                if (message.from_fakeip != null && $Object.hasOwnProperty.call(message, "from_fakeip"))
                     if (!$util.isString(message.from_fakeip))
                         return "from_fakeip: string expected";
                 return null;
@@ -4897,32 +5380,32 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectRequest} ConnectRequest
              */
-            ConnectRequest.fromObject = function fromObject(object, long) {
+            ConnectRequest.fromObject = function (object, _depth) {
                 if (object instanceof $root.CMsgSteamNetworkingP2PRendezvous.ConnectRequest)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".CMsgSteamNetworkingP2PRendezvous.ConnectRequest: object expected");
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                    throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.ConnectRequest: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.CMsgSteamNetworkingP2PRendezvous.ConnectRequest();
                 if (object.crypt != null) {
                     if (!$util.isObject(object.crypt))
-                        throw TypeError(".CMsgSteamNetworkingP2PRendezvous.ConnectRequest.crypt: object expected");
-                    message.crypt = $root.CMsgSteamDatagramSessionCryptInfoSigned.fromObject(object.crypt, long + 1);
+                        throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.ConnectRequest.crypt: object expected");
+                    message.crypt = $root.CMsgSteamDatagramSessionCryptInfoSigned.fromObject(object.crypt, _depth + 1);
                 }
                 if (object.cert != null) {
                     if (!$util.isObject(object.cert))
-                        throw TypeError(".CMsgSteamNetworkingP2PRendezvous.ConnectRequest.cert: object expected");
-                    message.cert = $root.CMsgSteamDatagramCertificateSigned.fromObject(object.cert, long + 1);
+                        throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.ConnectRequest.cert: object expected");
+                    message.cert = $root.CMsgSteamDatagramCertificateSigned.fromObject(object.cert, _depth + 1);
                 }
                 if (object.to_virtual_port != null)
                     message.to_virtual_port = object.to_virtual_port >>> 0;
                 if (object.from_virtual_port != null)
                     message.from_virtual_port = object.from_virtual_port >>> 0;
                 if (object.from_fakeip != null)
-                    message.from_fakeip = String(object.from_fakeip);
+                    message.from_fakeip = $String(object.from_fakeip);
                 return message;
             };
     
@@ -4935,13 +5418,13 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            ConnectRequest.toObject = function toObject(message, options, q) {
+            ConnectRequest.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.crypt = null;
@@ -4950,15 +5433,15 @@
                     object.from_virtual_port = 0;
                     object.from_fakeip = "";
                 }
-                if (message.crypt != null && Object.hasOwnProperty.call(message, "crypt"))
-                    object.crypt = $root.CMsgSteamDatagramSessionCryptInfoSigned.toObject(message.crypt, options, q + 1);
-                if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
-                    object.cert = $root.CMsgSteamDatagramCertificateSigned.toObject(message.cert, options, q + 1);
-                if (message.to_virtual_port != null && Object.hasOwnProperty.call(message, "to_virtual_port"))
+                if (message.crypt != null && $Object.hasOwnProperty.call(message, "crypt"))
+                    object.crypt = $root.CMsgSteamDatagramSessionCryptInfoSigned.toObject(message.crypt, options, _depth + 1);
+                if (message.cert != null && $Object.hasOwnProperty.call(message, "cert"))
+                    object.cert = $root.CMsgSteamDatagramCertificateSigned.toObject(message.cert, options, _depth + 1);
+                if (message.to_virtual_port != null && $Object.hasOwnProperty.call(message, "to_virtual_port"))
                     object.to_virtual_port = message.to_virtual_port;
-                if (message.from_virtual_port != null && Object.hasOwnProperty.call(message, "from_virtual_port"))
+                if (message.from_virtual_port != null && $Object.hasOwnProperty.call(message, "from_virtual_port"))
                     object.from_virtual_port = message.from_virtual_port;
-                if (message.from_fakeip != null && Object.hasOwnProperty.call(message, "from_fakeip"))
+                if (message.from_fakeip != null && $Object.hasOwnProperty.call(message, "from_fakeip"))
                     object.from_fakeip = message.from_fakeip;
                 return object;
             };
@@ -4970,23 +5453,22 @@
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            ConnectRequest.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            ConnectRequest.prototype.toJSON = function() {
+                return ConnectRequest.toObject(this, $protobuf.util.toJSONOptions);
             };
     
             /**
-             * Gets the default type url for ConnectRequest
+             * Gets the type url for ConnectRequest
              * @function getTypeUrl
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectRequest
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            ConnectRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/CMsgSteamNetworkingP2PRendezvous.ConnectRequest";
+            ConnectRequest.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/CMsgSteamNetworkingP2PRendezvous.ConnectRequest";
             };
     
             return ConnectRequest;
@@ -4996,30 +5478,43 @@
     
             /**
              * Properties of a ConnectOK.
+             * @typedef {Object} CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Properties
+             * @property {CMsgSteamDatagramSessionCryptInfoSigned.$Properties|null} [crypt] ConnectOK crypt
+             * @property {CMsgSteamDatagramCertificateSigned.$Properties|null} [cert] ConnectOK cert
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+    
+            /**
+             * Properties of a ConnectOK.
              * @memberof CMsgSteamNetworkingP2PRendezvous
              * @interface IConnectOK
-             * @property {ICMsgSteamDatagramSessionCryptInfoSigned|null} [crypt] ConnectOK crypt
-             * @property {ICMsgSteamDatagramCertificateSigned|null} [cert] ConnectOK cert
+             * @augments CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Properties
+             * @deprecated Use CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Properties instead.
+             */
+    
+            /**
+             * Shape of a ConnectOK.
+             * @typedef {CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Properties} CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Shape
              */
     
             /**
              * Constructs a new ConnectOK.
              * @memberof CMsgSteamNetworkingP2PRendezvous
              * @classdesc Represents a ConnectOK.
-             * @implements IConnectOK
              * @constructor
-             * @param {CMsgSteamNetworkingP2PRendezvous.IConnectOK=} [properties] Properties to set
+             * @param {CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function ConnectOK(properties) {
+            var ConnectOK = function (properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
     
             /**
              * ConnectOK crypt.
-             * @member {ICMsgSteamDatagramSessionCryptInfoSigned|null|undefined} crypt
+             * @member {CMsgSteamDatagramSessionCryptInfoSigned.$Properties|null|undefined} crypt
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectOK
              * @instance
              */
@@ -5027,7 +5522,7 @@
     
             /**
              * ConnectOK cert.
-             * @member {ICMsgSteamDatagramCertificateSigned|null|undefined} cert
+             * @member {CMsgSteamDatagramCertificateSigned.$Properties|null|undefined} cert
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectOK
              * @instance
              */
@@ -5038,10 +5533,14 @@
              * @function create
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectOK
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IConnectOK=} [properties] Properties to set
+             * @param {CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Properties=} [properties] Properties to set
              * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectOK} ConnectOK instance
+             * @type {{
+             *   (properties: CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Shape): CMsgSteamNetworkingP2PRendezvous.ConnectOK & CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Shape;
+             *   (properties?: CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Properties): CMsgSteamNetworkingP2PRendezvous.ConnectOK;
+             * }}
              */
-            ConnectOK.create = function create(properties) {
+            ConnectOK.create = function(properties) {
                 return new ConnectOK(properties);
             };
     
@@ -5050,21 +5549,24 @@
              * @function encode
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectOK
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IConnectOK} message ConnectOK message or plain object to encode
+             * @param {CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Properties} message ConnectOK message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ConnectOK.encode = function encode(message, writer, q) {
+            ConnectOK.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.crypt != null && Object.hasOwnProperty.call(message, "crypt"))
-                    $root.CMsgSteamDatagramSessionCryptInfoSigned.encode(message.crypt, writer.uint32(/* id 5, wireType 2 =*/42).fork(), q + 1).ldelim();
-                if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
-                    $root.CMsgSteamDatagramCertificateSigned.encode(message.cert, writer.uint32(/* id 6, wireType 2 =*/50).fork(), q + 1).ldelim();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.crypt != null && $Object.hasOwnProperty.call(message, "crypt"))
+                    $root.CMsgSteamDatagramSessionCryptInfoSigned.encode(message.crypt, writer.uint32(/* id 5, wireType 2 =*/42).fork(), _depth + 1).ldelim();
+                if (message.cert != null && $Object.hasOwnProperty.call(message, "cert"))
+                    $root.CMsgSteamDatagramCertificateSigned.encode(message.cert, writer.uint32(/* id 6, wireType 2 =*/50).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
     
@@ -5073,12 +5575,12 @@
              * @function encodeDelimited
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectOK
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IConnectOK} message ConnectOK message or plain object to encode
+             * @param {CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Properties} message ConnectOK message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ConnectOK.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            ConnectOK.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
     
             /**
@@ -5088,51 +5590,63 @@
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectOK} ConnectOK
+             * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectOK & CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Shape} ConnectOK
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ConnectOK.decode = function decode(reader, length, error, long) {
+            ConnectOK.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (long === undefined)
-                    long = 0;
-                if (long > $Reader.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var end, message;
-                if (length === undefined)
+                if (length === $undefined)
                     end = reader.len;
                 else {
                     end = reader.pos + length;
                     if (end > reader.len)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     length = reader.len;
                     reader.len = end;
                 }
-                message = new $root.CMsgSteamNetworkingP2PRendezvous.ConnectOK();
+                message = _target || new $root.CMsgSteamNetworkingP2PRendezvous.ConnectOK();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 5: {
-                            message.crypt = $root.CMsgSteamDatagramSessionCryptInfoSigned.decode(reader, reader.uint32(), undefined, long + 1);
-                            break;
-                        }
-                    case 6: {
-                            message.cert = $root.CMsgSteamDatagramCertificateSigned.decode(reader, reader.uint32(), undefined, long + 1);
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7, long);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 5: {
+                            if (wireType !== 2)
+                                break;
+                            message.crypt = $root.CMsgSteamDatagramSessionCryptInfoSigned.decode(reader, reader.size(), $undefined, _depth + 1, message.crypt);
+                            continue;
+                        }
+                    case 6: {
+                            if (wireType !== 2)
+                                break;
+                            message.cert = $root.CMsgSteamDatagramCertificateSigned.decode(reader, reader.size(), $undefined, _depth + 1, message.cert);
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
-                if (length !== undefined) {
+                if (length !== $undefined) {
                     if (reader.pos !== end)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     reader.len = length;
                 }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
     
@@ -5142,14 +5656,14 @@
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectOK
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectOK} ConnectOK
+             * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectOK & CMsgSteamNetworkingP2PRendezvous.ConnectOK.$Shape} ConnectOK
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ConnectOK.decodeDelimited = function decodeDelimited(reader) {
+            ConnectOK.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
     
             /**
@@ -5160,20 +5674,20 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            ConnectOK.verify = function verify(message, long) {
+            ConnectOK.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    return "maximum nesting depth exceeded";
-                if (message.crypt != null && Object.hasOwnProperty.call(message, "crypt")) {
-                    var error = $root.CMsgSteamDatagramSessionCryptInfoSigned.verify(message.crypt, long + 1);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.crypt != null && $Object.hasOwnProperty.call(message, "crypt")) {
+                    var error = $root.CMsgSteamDatagramSessionCryptInfoSigned.verify(message.crypt, _depth + 1);
                     if (error)
                         return "crypt." + error;
                 }
-                if (message.cert != null && Object.hasOwnProperty.call(message, "cert")) {
-                    var error = $root.CMsgSteamDatagramCertificateSigned.verify(message.cert, long + 1);
+                if (message.cert != null && $Object.hasOwnProperty.call(message, "cert")) {
+                    var error = $root.CMsgSteamDatagramCertificateSigned.verify(message.cert, _depth + 1);
                     if (error)
                         return "cert." + error;
                 }
@@ -5188,25 +5702,25 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectOK} ConnectOK
              */
-            ConnectOK.fromObject = function fromObject(object, long) {
+            ConnectOK.fromObject = function (object, _depth) {
                 if (object instanceof $root.CMsgSteamNetworkingP2PRendezvous.ConnectOK)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".CMsgSteamNetworkingP2PRendezvous.ConnectOK: object expected");
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                    throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.ConnectOK: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.CMsgSteamNetworkingP2PRendezvous.ConnectOK();
                 if (object.crypt != null) {
                     if (!$util.isObject(object.crypt))
-                        throw TypeError(".CMsgSteamNetworkingP2PRendezvous.ConnectOK.crypt: object expected");
-                    message.crypt = $root.CMsgSteamDatagramSessionCryptInfoSigned.fromObject(object.crypt, long + 1);
+                        throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.ConnectOK.crypt: object expected");
+                    message.crypt = $root.CMsgSteamDatagramSessionCryptInfoSigned.fromObject(object.crypt, _depth + 1);
                 }
                 if (object.cert != null) {
                     if (!$util.isObject(object.cert))
-                        throw TypeError(".CMsgSteamNetworkingP2PRendezvous.ConnectOK.cert: object expected");
-                    message.cert = $root.CMsgSteamDatagramCertificateSigned.fromObject(object.cert, long + 1);
+                        throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.ConnectOK.cert: object expected");
+                    message.cert = $root.CMsgSteamDatagramCertificateSigned.fromObject(object.cert, _depth + 1);
                 }
                 return message;
             };
@@ -5220,22 +5734,22 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            ConnectOK.toObject = function toObject(message, options, q) {
+            ConnectOK.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.crypt = null;
                     object.cert = null;
                 }
-                if (message.crypt != null && Object.hasOwnProperty.call(message, "crypt"))
-                    object.crypt = $root.CMsgSteamDatagramSessionCryptInfoSigned.toObject(message.crypt, options, q + 1);
-                if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
-                    object.cert = $root.CMsgSteamDatagramCertificateSigned.toObject(message.cert, options, q + 1);
+                if (message.crypt != null && $Object.hasOwnProperty.call(message, "crypt"))
+                    object.crypt = $root.CMsgSteamDatagramSessionCryptInfoSigned.toObject(message.crypt, options, _depth + 1);
+                if (message.cert != null && $Object.hasOwnProperty.call(message, "cert"))
+                    object.cert = $root.CMsgSteamDatagramCertificateSigned.toObject(message.cert, options, _depth + 1);
                 return object;
             };
     
@@ -5246,23 +5760,22 @@
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            ConnectOK.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            ConnectOK.prototype.toJSON = function() {
+                return ConnectOK.toObject(this, $protobuf.util.toJSONOptions);
             };
     
             /**
-             * Gets the default type url for ConnectOK
+             * Gets the type url for ConnectOK
              * @function getTypeUrl
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectOK
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            ConnectOK.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/CMsgSteamNetworkingP2PRendezvous.ConnectOK";
+            ConnectOK.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/CMsgSteamNetworkingP2PRendezvous.ConnectOK";
             };
     
             return ConnectOK;
@@ -5272,26 +5785,39 @@
     
             /**
              * Properties of a ConnectionClosed.
-             * @memberof CMsgSteamNetworkingP2PRendezvous
-             * @interface IConnectionClosed
+             * @typedef {Object} CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Properties
              * @property {string|null} [debug] ConnectionClosed debug
              * @property {number|null} [reason_code] ConnectionClosed reason_code
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+    
+            /**
+             * Properties of a ConnectionClosed.
+             * @memberof CMsgSteamNetworkingP2PRendezvous
+             * @interface IConnectionClosed
+             * @augments CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Properties
+             * @deprecated Use CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Properties instead.
+             */
+    
+            /**
+             * Shape of a ConnectionClosed.
+             * @typedef {CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Properties} CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Shape
              */
     
             /**
              * Constructs a new ConnectionClosed.
              * @memberof CMsgSteamNetworkingP2PRendezvous
              * @classdesc Represents a ConnectionClosed.
-             * @implements IConnectionClosed
              * @constructor
-             * @param {CMsgSteamNetworkingP2PRendezvous.IConnectionClosed=} [properties] Properties to set
+             * @param {CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function ConnectionClosed(properties) {
+            var ConnectionClosed = function (properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
     
             /**
              * ConnectionClosed debug.
@@ -5314,10 +5840,14 @@
              * @function create
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectionClosed
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IConnectionClosed=} [properties] Properties to set
+             * @param {CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Properties=} [properties] Properties to set
              * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectionClosed} ConnectionClosed instance
+             * @type {{
+             *   (properties: CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Shape): CMsgSteamNetworkingP2PRendezvous.ConnectionClosed & CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Shape;
+             *   (properties?: CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Properties): CMsgSteamNetworkingP2PRendezvous.ConnectionClosed;
+             * }}
              */
-            ConnectionClosed.create = function create(properties) {
+            ConnectionClosed.create = function(properties) {
                 return new ConnectionClosed(properties);
             };
     
@@ -5326,21 +5856,24 @@
              * @function encode
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectionClosed
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IConnectionClosed} message ConnectionClosed message or plain object to encode
+             * @param {CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Properties} message ConnectionClosed message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ConnectionClosed.encode = function encode(message, writer, q) {
+            ConnectionClosed.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.debug != null && Object.hasOwnProperty.call(message, "debug"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.debug != null && $Object.hasOwnProperty.call(message, "debug"))
                     writer.uint32(/* id 5, wireType 2 =*/42).string(message.debug);
-                if (message.reason_code != null && Object.hasOwnProperty.call(message, "reason_code"))
+                if (message.reason_code != null && $Object.hasOwnProperty.call(message, "reason_code"))
                     writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.reason_code);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
     
@@ -5349,12 +5882,12 @@
              * @function encodeDelimited
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectionClosed
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IConnectionClosed} message ConnectionClosed message or plain object to encode
+             * @param {CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Properties} message ConnectionClosed message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ConnectionClosed.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            ConnectionClosed.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
     
             /**
@@ -5364,51 +5897,63 @@
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectionClosed} ConnectionClosed
+             * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectionClosed & CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Shape} ConnectionClosed
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ConnectionClosed.decode = function decode(reader, length, error, long) {
+            ConnectionClosed.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (long === undefined)
-                    long = 0;
-                if (long > $Reader.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var end, message;
-                if (length === undefined)
+                if (length === $undefined)
                     end = reader.len;
                 else {
                     end = reader.pos + length;
                     if (end > reader.len)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     length = reader.len;
                     reader.len = end;
                 }
-                message = new $root.CMsgSteamNetworkingP2PRendezvous.ConnectionClosed();
+                message = _target || new $root.CMsgSteamNetworkingP2PRendezvous.ConnectionClosed();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 5: {
-                            message.debug = reader.string();
-                            break;
-                        }
-                    case 6: {
-                            message.reason_code = reader.uint32();
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7, long);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 5: {
+                            if (wireType !== 2)
+                                break;
+                            message.debug = reader.string();
+                            continue;
+                        }
+                    case 6: {
+                            if (wireType !== 0)
+                                break;
+                            message.reason_code = reader.uint32();
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
-                if (length !== undefined) {
+                if (length !== $undefined) {
                     if (reader.pos !== end)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     reader.len = length;
                 }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
     
@@ -5418,14 +5963,14 @@
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectionClosed
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectionClosed} ConnectionClosed
+             * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectionClosed & CMsgSteamNetworkingP2PRendezvous.ConnectionClosed.$Shape} ConnectionClosed
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ConnectionClosed.decodeDelimited = function decodeDelimited(reader) {
+            ConnectionClosed.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
     
             /**
@@ -5436,17 +5981,17 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            ConnectionClosed.verify = function verify(message, long) {
+            ConnectionClosed.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    return "maximum nesting depth exceeded";
-                if (message.debug != null && Object.hasOwnProperty.call(message, "debug"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.debug != null && $Object.hasOwnProperty.call(message, "debug"))
                     if (!$util.isString(message.debug))
                         return "debug: string expected";
-                if (message.reason_code != null && Object.hasOwnProperty.call(message, "reason_code"))
+                if (message.reason_code != null && $Object.hasOwnProperty.call(message, "reason_code"))
                     if (!$util.isInteger(message.reason_code))
                         return "reason_code: integer expected";
                 return null;
@@ -5460,18 +6005,18 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgSteamNetworkingP2PRendezvous.ConnectionClosed} ConnectionClosed
              */
-            ConnectionClosed.fromObject = function fromObject(object, long) {
+            ConnectionClosed.fromObject = function (object, _depth) {
                 if (object instanceof $root.CMsgSteamNetworkingP2PRendezvous.ConnectionClosed)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".CMsgSteamNetworkingP2PRendezvous.ConnectionClosed: object expected");
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                    throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.ConnectionClosed: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.CMsgSteamNetworkingP2PRendezvous.ConnectionClosed();
                 if (object.debug != null)
-                    message.debug = String(object.debug);
+                    message.debug = $String(object.debug);
                 if (object.reason_code != null)
                     message.reason_code = object.reason_code >>> 0;
                 return message;
@@ -5486,21 +6031,21 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            ConnectionClosed.toObject = function toObject(message, options, q) {
+            ConnectionClosed.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.debug = "";
                     object.reason_code = 0;
                 }
-                if (message.debug != null && Object.hasOwnProperty.call(message, "debug"))
+                if (message.debug != null && $Object.hasOwnProperty.call(message, "debug"))
                     object.debug = message.debug;
-                if (message.reason_code != null && Object.hasOwnProperty.call(message, "reason_code"))
+                if (message.reason_code != null && $Object.hasOwnProperty.call(message, "reason_code"))
                     object.reason_code = message.reason_code;
                 return object;
             };
@@ -5512,23 +6057,22 @@
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            ConnectionClosed.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            ConnectionClosed.prototype.toJSON = function() {
+                return ConnectionClosed.toObject(this, $protobuf.util.toJSONOptions);
             };
     
             /**
-             * Gets the default type url for ConnectionClosed
+             * Gets the type url for ConnectionClosed
              * @function getTypeUrl
              * @memberof CMsgSteamNetworkingP2PRendezvous.ConnectionClosed
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            ConnectionClosed.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/CMsgSteamNetworkingP2PRendezvous.ConnectionClosed";
+            ConnectionClosed.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/CMsgSteamNetworkingP2PRendezvous.ConnectionClosed";
             };
     
             return ConnectionClosed;
@@ -5538,29 +6082,42 @@
     
             /**
              * Properties of a ReliableMessage.
+             * @typedef {Object} CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Properties
+             * @property {CMsgICERendezvous.$Properties|null} [ice] ReliableMessage ice
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+    
+            /**
+             * Properties of a ReliableMessage.
              * @memberof CMsgSteamNetworkingP2PRendezvous
              * @interface IReliableMessage
-             * @property {ICMsgICERendezvous|null} [ice] ReliableMessage ice
+             * @augments CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Properties
+             * @deprecated Use CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Properties instead.
+             */
+    
+            /**
+             * Shape of a ReliableMessage.
+             * @typedef {CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Properties} CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Shape
              */
     
             /**
              * Constructs a new ReliableMessage.
              * @memberof CMsgSteamNetworkingP2PRendezvous
              * @classdesc Represents a ReliableMessage.
-             * @implements IReliableMessage
              * @constructor
-             * @param {CMsgSteamNetworkingP2PRendezvous.IReliableMessage=} [properties] Properties to set
+             * @param {CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function ReliableMessage(properties) {
+            var ReliableMessage = function (properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
     
             /**
              * ReliableMessage ice.
-             * @member {ICMsgICERendezvous|null|undefined} ice
+             * @member {CMsgICERendezvous.$Properties|null|undefined} ice
              * @memberof CMsgSteamNetworkingP2PRendezvous.ReliableMessage
              * @instance
              */
@@ -5571,10 +6128,14 @@
              * @function create
              * @memberof CMsgSteamNetworkingP2PRendezvous.ReliableMessage
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IReliableMessage=} [properties] Properties to set
+             * @param {CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Properties=} [properties] Properties to set
              * @returns {CMsgSteamNetworkingP2PRendezvous.ReliableMessage} ReliableMessage instance
+             * @type {{
+             *   (properties: CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Shape): CMsgSteamNetworkingP2PRendezvous.ReliableMessage & CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Shape;
+             *   (properties?: CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Properties): CMsgSteamNetworkingP2PRendezvous.ReliableMessage;
+             * }}
              */
-            ReliableMessage.create = function create(properties) {
+            ReliableMessage.create = function(properties) {
                 return new ReliableMessage(properties);
             };
     
@@ -5583,19 +6144,22 @@
              * @function encode
              * @memberof CMsgSteamNetworkingP2PRendezvous.ReliableMessage
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IReliableMessage} message ReliableMessage message or plain object to encode
+             * @param {CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Properties} message ReliableMessage message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ReliableMessage.encode = function encode(message, writer, q) {
+            ReliableMessage.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.ice != null && Object.hasOwnProperty.call(message, "ice"))
-                    $root.CMsgICERendezvous.encode(message.ice, writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.ice != null && $Object.hasOwnProperty.call(message, "ice"))
+                    $root.CMsgICERendezvous.encode(message.ice, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
     
@@ -5604,12 +6168,12 @@
              * @function encodeDelimited
              * @memberof CMsgSteamNetworkingP2PRendezvous.ReliableMessage
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IReliableMessage} message ReliableMessage message or plain object to encode
+             * @param {CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Properties} message ReliableMessage message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ReliableMessage.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            ReliableMessage.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
     
             /**
@@ -5619,47 +6183,57 @@
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {CMsgSteamNetworkingP2PRendezvous.ReliableMessage} ReliableMessage
+             * @returns {CMsgSteamNetworkingP2PRendezvous.ReliableMessage & CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Shape} ReliableMessage
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ReliableMessage.decode = function decode(reader, length, error, long) {
+            ReliableMessage.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (long === undefined)
-                    long = 0;
-                if (long > $Reader.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var end, message;
-                if (length === undefined)
+                if (length === $undefined)
                     end = reader.len;
                 else {
                     end = reader.pos + length;
                     if (end > reader.len)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     length = reader.len;
                     reader.len = end;
                 }
-                message = new $root.CMsgSteamNetworkingP2PRendezvous.ReliableMessage();
+                message = _target || new $root.CMsgSteamNetworkingP2PRendezvous.ReliableMessage();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 1: {
-                            message.ice = $root.CMsgICERendezvous.decode(reader, reader.uint32(), undefined, long + 1);
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7, long);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            message.ice = $root.CMsgICERendezvous.decode(reader, reader.size(), $undefined, _depth + 1, message.ice);
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
-                if (length !== undefined) {
+                if (length !== $undefined) {
                     if (reader.pos !== end)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     reader.len = length;
                 }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
     
@@ -5669,14 +6243,14 @@
              * @memberof CMsgSteamNetworkingP2PRendezvous.ReliableMessage
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {CMsgSteamNetworkingP2PRendezvous.ReliableMessage} ReliableMessage
+             * @returns {CMsgSteamNetworkingP2PRendezvous.ReliableMessage & CMsgSteamNetworkingP2PRendezvous.ReliableMessage.$Shape} ReliableMessage
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ReliableMessage.decodeDelimited = function decodeDelimited(reader) {
+            ReliableMessage.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
     
             /**
@@ -5687,15 +6261,15 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            ReliableMessage.verify = function verify(message, long) {
+            ReliableMessage.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    return "maximum nesting depth exceeded";
-                if (message.ice != null && Object.hasOwnProperty.call(message, "ice")) {
-                    var error = $root.CMsgICERendezvous.verify(message.ice, long + 1);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.ice != null && $Object.hasOwnProperty.call(message, "ice")) {
+                    var error = $root.CMsgICERendezvous.verify(message.ice, _depth + 1);
                     if (error)
                         return "ice." + error;
                 }
@@ -5710,20 +6284,20 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgSteamNetworkingP2PRendezvous.ReliableMessage} ReliableMessage
              */
-            ReliableMessage.fromObject = function fromObject(object, long) {
+            ReliableMessage.fromObject = function (object, _depth) {
                 if (object instanceof $root.CMsgSteamNetworkingP2PRendezvous.ReliableMessage)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".CMsgSteamNetworkingP2PRendezvous.ReliableMessage: object expected");
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                    throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.ReliableMessage: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.CMsgSteamNetworkingP2PRendezvous.ReliableMessage();
                 if (object.ice != null) {
                     if (!$util.isObject(object.ice))
-                        throw TypeError(".CMsgSteamNetworkingP2PRendezvous.ReliableMessage.ice: object expected");
-                    message.ice = $root.CMsgICERendezvous.fromObject(object.ice, long + 1);
+                        throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.ReliableMessage.ice: object expected");
+                    message.ice = $root.CMsgICERendezvous.fromObject(object.ice, _depth + 1);
                 }
                 return message;
             };
@@ -5737,18 +6311,18 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            ReliableMessage.toObject = function toObject(message, options, q) {
+            ReliableMessage.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.defaults)
                     object.ice = null;
-                if (message.ice != null && Object.hasOwnProperty.call(message, "ice"))
-                    object.ice = $root.CMsgICERendezvous.toObject(message.ice, options, q + 1);
+                if (message.ice != null && $Object.hasOwnProperty.call(message, "ice"))
+                    object.ice = $root.CMsgICERendezvous.toObject(message.ice, options, _depth + 1);
                 return object;
             };
     
@@ -5759,23 +6333,22 @@
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            ReliableMessage.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            ReliableMessage.prototype.toJSON = function() {
+                return ReliableMessage.toObject(this, $protobuf.util.toJSONOptions);
             };
     
             /**
-             * Gets the default type url for ReliableMessage
+             * Gets the type url for ReliableMessage
              * @function getTypeUrl
              * @memberof CMsgSteamNetworkingP2PRendezvous.ReliableMessage
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            ReliableMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/CMsgSteamNetworkingP2PRendezvous.ReliableMessage";
+            ReliableMessage.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/CMsgSteamNetworkingP2PRendezvous.ReliableMessage";
             };
     
             return ReliableMessage;
@@ -5785,28 +6358,41 @@
     
             /**
              * Properties of an ApplicationMessage.
-             * @memberof CMsgSteamNetworkingP2PRendezvous
-             * @interface IApplicationMessage
+             * @typedef {Object} CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Properties
              * @property {Uint8Array|null} [data] ApplicationMessage data
              * @property {number|Long|null} [msg_num] ApplicationMessage msg_num
              * @property {number|null} [flags] ApplicationMessage flags
              * @property {number|null} [lane_idx] ApplicationMessage lane_idx
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+    
+            /**
+             * Properties of an ApplicationMessage.
+             * @memberof CMsgSteamNetworkingP2PRendezvous
+             * @interface IApplicationMessage
+             * @augments CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Properties
+             * @deprecated Use CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Properties instead.
+             */
+    
+            /**
+             * Shape of an ApplicationMessage.
+             * @typedef {CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Properties} CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Shape
              */
     
             /**
              * Constructs a new ApplicationMessage.
              * @memberof CMsgSteamNetworkingP2PRendezvous
              * @classdesc Represents an ApplicationMessage.
-             * @implements IApplicationMessage
              * @constructor
-             * @param {CMsgSteamNetworkingP2PRendezvous.IApplicationMessage=} [properties] Properties to set
+             * @param {CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function ApplicationMessage(properties) {
+            var ApplicationMessage = function (properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
     
             /**
              * ApplicationMessage data.
@@ -5845,10 +6431,14 @@
              * @function create
              * @memberof CMsgSteamNetworkingP2PRendezvous.ApplicationMessage
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IApplicationMessage=} [properties] Properties to set
+             * @param {CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Properties=} [properties] Properties to set
              * @returns {CMsgSteamNetworkingP2PRendezvous.ApplicationMessage} ApplicationMessage instance
+             * @type {{
+             *   (properties: CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Shape): CMsgSteamNetworkingP2PRendezvous.ApplicationMessage & CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Shape;
+             *   (properties?: CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Properties): CMsgSteamNetworkingP2PRendezvous.ApplicationMessage;
+             * }}
              */
-            ApplicationMessage.create = function create(properties) {
+            ApplicationMessage.create = function(properties) {
                 return new ApplicationMessage(properties);
             };
     
@@ -5857,25 +6447,28 @@
              * @function encode
              * @memberof CMsgSteamNetworkingP2PRendezvous.ApplicationMessage
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IApplicationMessage} message ApplicationMessage message or plain object to encode
+             * @param {CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Properties} message ApplicationMessage message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ApplicationMessage.encode = function encode(message, writer, q) {
+            ApplicationMessage.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.data != null && Object.hasOwnProperty.call(message, "data"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.data != null && $Object.hasOwnProperty.call(message, "data"))
                     writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.data);
-                if (message.msg_num != null && Object.hasOwnProperty.call(message, "msg_num"))
+                if (message.msg_num != null && $Object.hasOwnProperty.call(message, "msg_num"))
                     writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.msg_num);
-                if (message.flags != null && Object.hasOwnProperty.call(message, "flags"))
+                if (message.flags != null && $Object.hasOwnProperty.call(message, "flags"))
                     writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.flags);
-                if (message.lane_idx != null && Object.hasOwnProperty.call(message, "lane_idx"))
+                if (message.lane_idx != null && $Object.hasOwnProperty.call(message, "lane_idx"))
                     writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.lane_idx);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
     
@@ -5884,12 +6477,12 @@
              * @function encodeDelimited
              * @memberof CMsgSteamNetworkingP2PRendezvous.ApplicationMessage
              * @static
-             * @param {CMsgSteamNetworkingP2PRendezvous.IApplicationMessage} message ApplicationMessage message or plain object to encode
+             * @param {CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Properties} message ApplicationMessage message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ApplicationMessage.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            ApplicationMessage.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
     
             /**
@@ -5899,59 +6492,75 @@
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {CMsgSteamNetworkingP2PRendezvous.ApplicationMessage} ApplicationMessage
+             * @returns {CMsgSteamNetworkingP2PRendezvous.ApplicationMessage & CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Shape} ApplicationMessage
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ApplicationMessage.decode = function decode(reader, length, error, long) {
+            ApplicationMessage.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (long === undefined)
-                    long = 0;
-                if (long > $Reader.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var end, message;
-                if (length === undefined)
+                if (length === $undefined)
                     end = reader.len;
                 else {
                     end = reader.pos + length;
                     if (end > reader.len)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     length = reader.len;
                     reader.len = end;
                 }
-                message = new $root.CMsgSteamNetworkingP2PRendezvous.ApplicationMessage();
+                message = _target || new $root.CMsgSteamNetworkingP2PRendezvous.ApplicationMessage();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 1: {
-                            message.data = reader.bytes();
-                            break;
-                        }
-                    case 2: {
-                            message.msg_num = reader.uint64();
-                            break;
-                        }
-                    case 3: {
-                            message.flags = reader.uint32();
-                            break;
-                        }
-                    case 4: {
-                            message.lane_idx = reader.uint32();
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7, long);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            message.data = reader.bytes();
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            message.msg_num = reader.uint64();
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 0)
+                                break;
+                            message.flags = reader.uint32();
+                            continue;
+                        }
+                    case 4: {
+                            if (wireType !== 0)
+                                break;
+                            message.lane_idx = reader.uint32();
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
-                if (length !== undefined) {
+                if (length !== $undefined) {
                     if (reader.pos !== end)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     reader.len = length;
                 }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
     
@@ -5961,14 +6570,14 @@
              * @memberof CMsgSteamNetworkingP2PRendezvous.ApplicationMessage
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {CMsgSteamNetworkingP2PRendezvous.ApplicationMessage} ApplicationMessage
+             * @returns {CMsgSteamNetworkingP2PRendezvous.ApplicationMessage & CMsgSteamNetworkingP2PRendezvous.ApplicationMessage.$Shape} ApplicationMessage
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ApplicationMessage.decodeDelimited = function decodeDelimited(reader) {
+            ApplicationMessage.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
     
             /**
@@ -5979,23 +6588,23 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            ApplicationMessage.verify = function verify(message, long) {
+            ApplicationMessage.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    return "maximum nesting depth exceeded";
-                if (message.data != null && Object.hasOwnProperty.call(message, "data"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.data != null && $Object.hasOwnProperty.call(message, "data"))
                     if (!(message.data && typeof message.data.length === "number" || $util.isString(message.data)))
                         return "data: buffer expected";
-                if (message.msg_num != null && Object.hasOwnProperty.call(message, "msg_num"))
+                if (message.msg_num != null && $Object.hasOwnProperty.call(message, "msg_num"))
                     if (!$util.isInteger(message.msg_num) && !(message.msg_num && $util.isInteger(message.msg_num.low) && $util.isInteger(message.msg_num.high)))
                         return "msg_num: integer|Long expected";
-                if (message.flags != null && Object.hasOwnProperty.call(message, "flags"))
+                if (message.flags != null && $Object.hasOwnProperty.call(message, "flags"))
                     if (!$util.isInteger(message.flags))
                         return "flags: integer expected";
-                if (message.lane_idx != null && Object.hasOwnProperty.call(message, "lane_idx"))
+                if (message.lane_idx != null && $Object.hasOwnProperty.call(message, "lane_idx"))
                     if (!$util.isInteger(message.lane_idx))
                         return "lane_idx: integer expected";
                 return null;
@@ -6009,15 +6618,15 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgSteamNetworkingP2PRendezvous.ApplicationMessage} ApplicationMessage
              */
-            ApplicationMessage.fromObject = function fromObject(object, long) {
+            ApplicationMessage.fromObject = function (object, _depth) {
                 if (object instanceof $root.CMsgSteamNetworkingP2PRendezvous.ApplicationMessage)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".CMsgSteamNetworkingP2PRendezvous.ApplicationMessage: object expected");
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                    throw $TypeError(".CMsgSteamNetworkingP2PRendezvous.ApplicationMessage: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.CMsgSteamNetworkingP2PRendezvous.ApplicationMessage();
                 if (object.data != null)
                     if (typeof object.data === "string")
@@ -6028,7 +6637,7 @@
                     if ($util.Long)
                         message.msg_num = $util.Long.fromValue(object.msg_num, true);
                     else if (typeof object.msg_num === "string")
-                        message.msg_num = parseInt(object.msg_num, 10);
+                        message.msg_num = $parseInt(object.msg_num, 10);
                     else if (typeof object.msg_num === "number")
                         message.msg_num = object.msg_num;
                     else if (typeof object.msg_num === "object")
@@ -6049,42 +6658,42 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            ApplicationMessage.toObject = function toObject(message, options, q) {
+            ApplicationMessage.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
-                    if (options.bytes === String)
+                    if (options.bytes === $String)
                         object.data = "";
                     else {
                         object.data = [];
-                        if (options.bytes !== Array)
+                        if (options.bytes !== $Array)
                             object.data = $util.newBuffer(object.data);
                     }
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, true);
-                        object.msg_num = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                        object.msg_num = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                     } else
-                        object.msg_num = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                        object.msg_num = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                     object.flags = 0;
                     object.lane_idx = 0;
                 }
-                if (message.data != null && Object.hasOwnProperty.call(message, "data"))
-                    object.data = options.bytes === String ? $util.base64.encode(message.data, 0, message.data.length) : options.bytes === Array ? Array.prototype.slice.call(message.data) : message.data;
-                if (message.msg_num != null && Object.hasOwnProperty.call(message, "msg_num"))
-                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                        object.msg_num = typeof message.msg_num === "number" ? BigInt(message.msg_num) : $util.Long.fromBits(message.msg_num.low >>> 0, message.msg_num.high >>> 0, true).toBigInt();
+                if (message.data != null && $Object.hasOwnProperty.call(message, "data"))
+                    object.data = options.bytes === $String ? $util.base64.encode(message.data, 0, message.data.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.data) : message.data;
+                if (message.msg_num != null && $Object.hasOwnProperty.call(message, "msg_num"))
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.msg_num = typeof message.msg_num === "number" ? $BigInt(message.msg_num) : $util.Long.fromBits(message.msg_num.low >>> 0, message.msg_num.high >>> 0, true).toBigInt();
                     else if (typeof message.msg_num === "number")
-                        object.msg_num = options.longs === String ? String(message.msg_num) : message.msg_num;
+                        object.msg_num = options.longs === $String ? $String(message.msg_num) : message.msg_num;
                     else
-                        object.msg_num = options.longs === String ? $util.Long.prototype.toString.call(message.msg_num) : options.longs === Number ? new $util.LongBits(message.msg_num.low >>> 0, message.msg_num.high >>> 0).toNumber(true) : message.msg_num;
-                if (message.flags != null && Object.hasOwnProperty.call(message, "flags"))
+                        object.msg_num = options.longs === $String ? $util.Long.prototype.toString.call(message.msg_num) : options.longs === $Number ? new $util.LongBits(message.msg_num.low >>> 0, message.msg_num.high >>> 0).toNumber(true) : message.msg_num;
+                if (message.flags != null && $Object.hasOwnProperty.call(message, "flags"))
                     object.flags = message.flags;
-                if (message.lane_idx != null && Object.hasOwnProperty.call(message, "lane_idx"))
+                if (message.lane_idx != null && $Object.hasOwnProperty.call(message, "lane_idx"))
                     object.lane_idx = message.lane_idx;
                 return object;
             };
@@ -6096,23 +6705,22 @@
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            ApplicationMessage.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            ApplicationMessage.prototype.toJSON = function() {
+                return ApplicationMessage.toObject(this, $protobuf.util.toJSONOptions);
             };
     
             /**
-             * Gets the default type url for ApplicationMessage
+             * Gets the type url for ApplicationMessage
              * @function getTypeUrl
              * @memberof CMsgSteamNetworkingP2PRendezvous.ApplicationMessage
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            ApplicationMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/CMsgSteamNetworkingP2PRendezvous.ApplicationMessage";
+            ApplicationMessage.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/CMsgSteamNetworkingP2PRendezvous.ApplicationMessage";
             };
     
             return ApplicationMessage;
@@ -6125,8 +6733,7 @@
     
         /**
          * Properties of a CMsgSteamNetworkingICESessionSummary.
-         * @exports ICMsgSteamNetworkingICESessionSummary
-         * @interface ICMsgSteamNetworkingICESessionSummary
+         * @typedef {Object} CMsgSteamNetworkingICESessionSummary.$Properties
          * @property {number|null} [failure_reason_code] CMsgSteamNetworkingICESessionSummary failure_reason_code
          * @property {number|null} [local_candidate_types] CMsgSteamNetworkingICESessionSummary local_candidate_types
          * @property {number|null} [remote_candidate_types] CMsgSteamNetworkingICESessionSummary remote_candidate_types
@@ -6142,22 +6749,36 @@
          * @property {number|null} [user_settings] CMsgSteamNetworkingICESessionSummary user_settings
          * @property {number|null} [ice_enable_var] CMsgSteamNetworkingICESessionSummary ice_enable_var
          * @property {number|null} [local_candidate_types_allowed] CMsgSteamNetworkingICESessionSummary local_candidate_types_allowed
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSteamNetworkingICESessionSummary.
+         * @exports ICMsgSteamNetworkingICESessionSummary
+         * @interface ICMsgSteamNetworkingICESessionSummary
+         * @augments CMsgSteamNetworkingICESessionSummary.$Properties
+         * @deprecated Use CMsgSteamNetworkingICESessionSummary.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSteamNetworkingICESessionSummary.
+         * @typedef {CMsgSteamNetworkingICESessionSummary.$Properties} CMsgSteamNetworkingICESessionSummary.$Shape
          */
     
         /**
          * Constructs a new CMsgSteamNetworkingICESessionSummary.
          * @exports CMsgSteamNetworkingICESessionSummary
          * @classdesc Represents a CMsgSteamNetworkingICESessionSummary.
-         * @implements ICMsgSteamNetworkingICESessionSummary
          * @constructor
-         * @param {ICMsgSteamNetworkingICESessionSummary=} [properties] Properties to set
+         * @param {CMsgSteamNetworkingICESessionSummary.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSteamNetworkingICESessionSummary(properties) {
+        var CMsgSteamNetworkingICESessionSummary = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSteamNetworkingICESessionSummary failure_reason_code.
@@ -6284,10 +6905,14 @@
          * @function create
          * @memberof CMsgSteamNetworkingICESessionSummary
          * @static
-         * @param {ICMsgSteamNetworkingICESessionSummary=} [properties] Properties to set
+         * @param {CMsgSteamNetworkingICESessionSummary.$Properties=} [properties] Properties to set
          * @returns {CMsgSteamNetworkingICESessionSummary} CMsgSteamNetworkingICESessionSummary instance
+         * @type {{
+         *   (properties: CMsgSteamNetworkingICESessionSummary.$Shape): CMsgSteamNetworkingICESessionSummary & CMsgSteamNetworkingICESessionSummary.$Shape;
+         *   (properties?: CMsgSteamNetworkingICESessionSummary.$Properties): CMsgSteamNetworkingICESessionSummary;
+         * }}
          */
-        CMsgSteamNetworkingICESessionSummary.create = function create(properties) {
+        CMsgSteamNetworkingICESessionSummary.create = function(properties) {
             return new CMsgSteamNetworkingICESessionSummary(properties);
         };
     
@@ -6296,47 +6921,50 @@
          * @function encode
          * @memberof CMsgSteamNetworkingICESessionSummary
          * @static
-         * @param {ICMsgSteamNetworkingICESessionSummary} message CMsgSteamNetworkingICESessionSummary message or plain object to encode
+         * @param {CMsgSteamNetworkingICESessionSummary.$Properties} message CMsgSteamNetworkingICESessionSummary message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamNetworkingICESessionSummary.encode = function encode(message, writer, q) {
+        CMsgSteamNetworkingICESessionSummary.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.local_candidate_types != null && Object.hasOwnProperty.call(message, "local_candidate_types"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.local_candidate_types != null && $Object.hasOwnProperty.call(message, "local_candidate_types"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.local_candidate_types);
-            if (message.remote_candidate_types != null && Object.hasOwnProperty.call(message, "remote_candidate_types"))
+            if (message.remote_candidate_types != null && $Object.hasOwnProperty.call(message, "remote_candidate_types"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.remote_candidate_types);
-            if (message.initial_route_kind != null && Object.hasOwnProperty.call(message, "initial_route_kind"))
+            if (message.initial_route_kind != null && $Object.hasOwnProperty.call(message, "initial_route_kind"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.initial_route_kind);
-            if (message.initial_ping != null && Object.hasOwnProperty.call(message, "initial_ping"))
+            if (message.initial_ping != null && $Object.hasOwnProperty.call(message, "initial_ping"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.initial_ping);
-            if (message.negotiation_ms != null && Object.hasOwnProperty.call(message, "negotiation_ms"))
+            if (message.negotiation_ms != null && $Object.hasOwnProperty.call(message, "negotiation_ms"))
                 writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.negotiation_ms);
-            if (message.initial_score != null && Object.hasOwnProperty.call(message, "initial_score"))
+            if (message.initial_score != null && $Object.hasOwnProperty.call(message, "initial_score"))
                 writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.initial_score);
-            if (message.failure_reason_code != null && Object.hasOwnProperty.call(message, "failure_reason_code"))
+            if (message.failure_reason_code != null && $Object.hasOwnProperty.call(message, "failure_reason_code"))
                 writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.failure_reason_code);
-            if (message.selected_seconds != null && Object.hasOwnProperty.call(message, "selected_seconds"))
+            if (message.selected_seconds != null && $Object.hasOwnProperty.call(message, "selected_seconds"))
                 writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.selected_seconds);
-            if (message.user_settings != null && Object.hasOwnProperty.call(message, "user_settings"))
+            if (message.user_settings != null && $Object.hasOwnProperty.call(message, "user_settings"))
                 writer.uint32(/* id 13, wireType 0 =*/104).uint32(message.user_settings);
-            if (message.ice_enable_var != null && Object.hasOwnProperty.call(message, "ice_enable_var"))
+            if (message.ice_enable_var != null && $Object.hasOwnProperty.call(message, "ice_enable_var"))
                 writer.uint32(/* id 14, wireType 0 =*/112).uint32(message.ice_enable_var);
-            if (message.local_candidate_types_allowed != null && Object.hasOwnProperty.call(message, "local_candidate_types_allowed"))
+            if (message.local_candidate_types_allowed != null && $Object.hasOwnProperty.call(message, "local_candidate_types_allowed"))
                 writer.uint32(/* id 15, wireType 0 =*/120).uint32(message.local_candidate_types_allowed);
-            if (message.best_route_kind != null && Object.hasOwnProperty.call(message, "best_route_kind"))
+            if (message.best_route_kind != null && $Object.hasOwnProperty.call(message, "best_route_kind"))
                 writer.uint32(/* id 16, wireType 0 =*/128).uint32(message.best_route_kind);
-            if (message.best_ping != null && Object.hasOwnProperty.call(message, "best_ping"))
+            if (message.best_ping != null && $Object.hasOwnProperty.call(message, "best_ping"))
                 writer.uint32(/* id 17, wireType 0 =*/136).uint32(message.best_ping);
-            if (message.best_score != null && Object.hasOwnProperty.call(message, "best_score"))
+            if (message.best_score != null && $Object.hasOwnProperty.call(message, "best_score"))
                 writer.uint32(/* id 18, wireType 0 =*/144).uint32(message.best_score);
-            if (message.best_time != null && Object.hasOwnProperty.call(message, "best_time"))
+            if (message.best_time != null && $Object.hasOwnProperty.call(message, "best_time"))
                 writer.uint32(/* id 19, wireType 0 =*/152).uint32(message.best_time);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -6345,12 +6973,12 @@
          * @function encodeDelimited
          * @memberof CMsgSteamNetworkingICESessionSummary
          * @static
-         * @param {ICMsgSteamNetworkingICESessionSummary} message CMsgSteamNetworkingICESessionSummary message or plain object to encode
+         * @param {CMsgSteamNetworkingICESessionSummary.$Properties} message CMsgSteamNetworkingICESessionSummary message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamNetworkingICESessionSummary.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSteamNetworkingICESessionSummary.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -6360,103 +6988,141 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSteamNetworkingICESessionSummary} CMsgSteamNetworkingICESessionSummary
+         * @returns {CMsgSteamNetworkingICESessionSummary & CMsgSteamNetworkingICESessionSummary.$Shape} CMsgSteamNetworkingICESessionSummary
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamNetworkingICESessionSummary.decode = function decode(reader, length, error, long) {
+        CMsgSteamNetworkingICESessionSummary.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSteamNetworkingICESessionSummary();
+            message = _target || new $root.CMsgSteamNetworkingICESessionSummary();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 7: {
-                        message.failure_reason_code = reader.uint32();
-                        break;
-                    }
-                case 1: {
-                        message.local_candidate_types = reader.uint32();
-                        break;
-                    }
-                case 2: {
-                        message.remote_candidate_types = reader.uint32();
-                        break;
-                    }
-                case 3: {
-                        message.initial_route_kind = reader.uint32();
-                        break;
-                    }
-                case 4: {
-                        message.initial_ping = reader.uint32();
-                        break;
-                    }
-                case 6: {
-                        message.initial_score = reader.uint32();
-                        break;
-                    }
-                case 5: {
-                        message.negotiation_ms = reader.uint32();
-                        break;
-                    }
-                case 16: {
-                        message.best_route_kind = reader.uint32();
-                        break;
-                    }
-                case 17: {
-                        message.best_ping = reader.uint32();
-                        break;
-                    }
-                case 18: {
-                        message.best_score = reader.uint32();
-                        break;
-                    }
-                case 19: {
-                        message.best_time = reader.uint32();
-                        break;
-                    }
-                case 12: {
-                        message.selected_seconds = reader.uint32();
-                        break;
-                    }
-                case 13: {
-                        message.user_settings = reader.uint32();
-                        break;
-                    }
-                case 14: {
-                        message.ice_enable_var = reader.uint32();
-                        break;
-                    }
-                case 15: {
-                        message.local_candidate_types_allowed = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 7: {
+                        if (wireType !== 0)
+                            break;
+                        message.failure_reason_code = reader.uint32();
+                        continue;
+                    }
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.local_candidate_types = reader.uint32();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.remote_candidate_types = reader.uint32();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 0)
+                            break;
+                        message.initial_route_kind = reader.uint32();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 0)
+                            break;
+                        message.initial_ping = reader.uint32();
+                        continue;
+                    }
+                case 6: {
+                        if (wireType !== 0)
+                            break;
+                        message.initial_score = reader.uint32();
+                        continue;
+                    }
+                case 5: {
+                        if (wireType !== 0)
+                            break;
+                        message.negotiation_ms = reader.uint32();
+                        continue;
+                    }
+                case 16: {
+                        if (wireType !== 0)
+                            break;
+                        message.best_route_kind = reader.uint32();
+                        continue;
+                    }
+                case 17: {
+                        if (wireType !== 0)
+                            break;
+                        message.best_ping = reader.uint32();
+                        continue;
+                    }
+                case 18: {
+                        if (wireType !== 0)
+                            break;
+                        message.best_score = reader.uint32();
+                        continue;
+                    }
+                case 19: {
+                        if (wireType !== 0)
+                            break;
+                        message.best_time = reader.uint32();
+                        continue;
+                    }
+                case 12: {
+                        if (wireType !== 0)
+                            break;
+                        message.selected_seconds = reader.uint32();
+                        continue;
+                    }
+                case 13: {
+                        if (wireType !== 0)
+                            break;
+                        message.user_settings = reader.uint32();
+                        continue;
+                    }
+                case 14: {
+                        if (wireType !== 0)
+                            break;
+                        message.ice_enable_var = reader.uint32();
+                        continue;
+                    }
+                case 15: {
+                        if (wireType !== 0)
+                            break;
+                        message.local_candidate_types_allowed = reader.uint32();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -6466,14 +7132,14 @@
          * @memberof CMsgSteamNetworkingICESessionSummary
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSteamNetworkingICESessionSummary} CMsgSteamNetworkingICESessionSummary
+         * @returns {CMsgSteamNetworkingICESessionSummary & CMsgSteamNetworkingICESessionSummary.$Shape} CMsgSteamNetworkingICESessionSummary
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamNetworkingICESessionSummary.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSteamNetworkingICESessionSummary.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -6484,56 +7150,56 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamNetworkingICESessionSummary.verify = function verify(message, long) {
+        CMsgSteamNetworkingICESessionSummary.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.failure_reason_code != null && Object.hasOwnProperty.call(message, "failure_reason_code"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.failure_reason_code != null && $Object.hasOwnProperty.call(message, "failure_reason_code"))
                 if (!$util.isInteger(message.failure_reason_code))
                     return "failure_reason_code: integer expected";
-            if (message.local_candidate_types != null && Object.hasOwnProperty.call(message, "local_candidate_types"))
+            if (message.local_candidate_types != null && $Object.hasOwnProperty.call(message, "local_candidate_types"))
                 if (!$util.isInteger(message.local_candidate_types))
                     return "local_candidate_types: integer expected";
-            if (message.remote_candidate_types != null && Object.hasOwnProperty.call(message, "remote_candidate_types"))
+            if (message.remote_candidate_types != null && $Object.hasOwnProperty.call(message, "remote_candidate_types"))
                 if (!$util.isInteger(message.remote_candidate_types))
                     return "remote_candidate_types: integer expected";
-            if (message.initial_route_kind != null && Object.hasOwnProperty.call(message, "initial_route_kind"))
+            if (message.initial_route_kind != null && $Object.hasOwnProperty.call(message, "initial_route_kind"))
                 if (!$util.isInteger(message.initial_route_kind))
                     return "initial_route_kind: integer expected";
-            if (message.initial_ping != null && Object.hasOwnProperty.call(message, "initial_ping"))
+            if (message.initial_ping != null && $Object.hasOwnProperty.call(message, "initial_ping"))
                 if (!$util.isInteger(message.initial_ping))
                     return "initial_ping: integer expected";
-            if (message.initial_score != null && Object.hasOwnProperty.call(message, "initial_score"))
+            if (message.initial_score != null && $Object.hasOwnProperty.call(message, "initial_score"))
                 if (!$util.isInteger(message.initial_score))
                     return "initial_score: integer expected";
-            if (message.negotiation_ms != null && Object.hasOwnProperty.call(message, "negotiation_ms"))
+            if (message.negotiation_ms != null && $Object.hasOwnProperty.call(message, "negotiation_ms"))
                 if (!$util.isInteger(message.negotiation_ms))
                     return "negotiation_ms: integer expected";
-            if (message.best_route_kind != null && Object.hasOwnProperty.call(message, "best_route_kind"))
+            if (message.best_route_kind != null && $Object.hasOwnProperty.call(message, "best_route_kind"))
                 if (!$util.isInteger(message.best_route_kind))
                     return "best_route_kind: integer expected";
-            if (message.best_ping != null && Object.hasOwnProperty.call(message, "best_ping"))
+            if (message.best_ping != null && $Object.hasOwnProperty.call(message, "best_ping"))
                 if (!$util.isInteger(message.best_ping))
                     return "best_ping: integer expected";
-            if (message.best_score != null && Object.hasOwnProperty.call(message, "best_score"))
+            if (message.best_score != null && $Object.hasOwnProperty.call(message, "best_score"))
                 if (!$util.isInteger(message.best_score))
                     return "best_score: integer expected";
-            if (message.best_time != null && Object.hasOwnProperty.call(message, "best_time"))
+            if (message.best_time != null && $Object.hasOwnProperty.call(message, "best_time"))
                 if (!$util.isInteger(message.best_time))
                     return "best_time: integer expected";
-            if (message.selected_seconds != null && Object.hasOwnProperty.call(message, "selected_seconds"))
+            if (message.selected_seconds != null && $Object.hasOwnProperty.call(message, "selected_seconds"))
                 if (!$util.isInteger(message.selected_seconds))
                     return "selected_seconds: integer expected";
-            if (message.user_settings != null && Object.hasOwnProperty.call(message, "user_settings"))
+            if (message.user_settings != null && $Object.hasOwnProperty.call(message, "user_settings"))
                 if (!$util.isInteger(message.user_settings))
                     return "user_settings: integer expected";
-            if (message.ice_enable_var != null && Object.hasOwnProperty.call(message, "ice_enable_var"))
+            if (message.ice_enable_var != null && $Object.hasOwnProperty.call(message, "ice_enable_var"))
                 if (!$util.isInteger(message.ice_enable_var))
                     return "ice_enable_var: integer expected";
-            if (message.local_candidate_types_allowed != null && Object.hasOwnProperty.call(message, "local_candidate_types_allowed"))
+            if (message.local_candidate_types_allowed != null && $Object.hasOwnProperty.call(message, "local_candidate_types_allowed"))
                 if (!$util.isInteger(message.local_candidate_types_allowed))
                     return "local_candidate_types_allowed: integer expected";
             return null;
@@ -6547,15 +7213,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamNetworkingICESessionSummary} CMsgSteamNetworkingICESessionSummary
          */
-        CMsgSteamNetworkingICESessionSummary.fromObject = function fromObject(object, long) {
+        CMsgSteamNetworkingICESessionSummary.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSteamNetworkingICESessionSummary)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSteamNetworkingICESessionSummary: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSteamNetworkingICESessionSummary: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSteamNetworkingICESessionSummary();
             if (object.failure_reason_code != null)
                 message.failure_reason_code = object.failure_reason_code >>> 0;
@@ -6599,13 +7265,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamNetworkingICESessionSummary.toObject = function toObject(message, options, q) {
+        CMsgSteamNetworkingICESessionSummary.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.local_candidate_types = 0;
@@ -6624,35 +7290,35 @@
                 object.best_score = 0;
                 object.best_time = 0;
             }
-            if (message.local_candidate_types != null && Object.hasOwnProperty.call(message, "local_candidate_types"))
+            if (message.local_candidate_types != null && $Object.hasOwnProperty.call(message, "local_candidate_types"))
                 object.local_candidate_types = message.local_candidate_types;
-            if (message.remote_candidate_types != null && Object.hasOwnProperty.call(message, "remote_candidate_types"))
+            if (message.remote_candidate_types != null && $Object.hasOwnProperty.call(message, "remote_candidate_types"))
                 object.remote_candidate_types = message.remote_candidate_types;
-            if (message.initial_route_kind != null && Object.hasOwnProperty.call(message, "initial_route_kind"))
+            if (message.initial_route_kind != null && $Object.hasOwnProperty.call(message, "initial_route_kind"))
                 object.initial_route_kind = message.initial_route_kind;
-            if (message.initial_ping != null && Object.hasOwnProperty.call(message, "initial_ping"))
+            if (message.initial_ping != null && $Object.hasOwnProperty.call(message, "initial_ping"))
                 object.initial_ping = message.initial_ping;
-            if (message.negotiation_ms != null && Object.hasOwnProperty.call(message, "negotiation_ms"))
+            if (message.negotiation_ms != null && $Object.hasOwnProperty.call(message, "negotiation_ms"))
                 object.negotiation_ms = message.negotiation_ms;
-            if (message.initial_score != null && Object.hasOwnProperty.call(message, "initial_score"))
+            if (message.initial_score != null && $Object.hasOwnProperty.call(message, "initial_score"))
                 object.initial_score = message.initial_score;
-            if (message.failure_reason_code != null && Object.hasOwnProperty.call(message, "failure_reason_code"))
+            if (message.failure_reason_code != null && $Object.hasOwnProperty.call(message, "failure_reason_code"))
                 object.failure_reason_code = message.failure_reason_code;
-            if (message.selected_seconds != null && Object.hasOwnProperty.call(message, "selected_seconds"))
+            if (message.selected_seconds != null && $Object.hasOwnProperty.call(message, "selected_seconds"))
                 object.selected_seconds = message.selected_seconds;
-            if (message.user_settings != null && Object.hasOwnProperty.call(message, "user_settings"))
+            if (message.user_settings != null && $Object.hasOwnProperty.call(message, "user_settings"))
                 object.user_settings = message.user_settings;
-            if (message.ice_enable_var != null && Object.hasOwnProperty.call(message, "ice_enable_var"))
+            if (message.ice_enable_var != null && $Object.hasOwnProperty.call(message, "ice_enable_var"))
                 object.ice_enable_var = message.ice_enable_var;
-            if (message.local_candidate_types_allowed != null && Object.hasOwnProperty.call(message, "local_candidate_types_allowed"))
+            if (message.local_candidate_types_allowed != null && $Object.hasOwnProperty.call(message, "local_candidate_types_allowed"))
                 object.local_candidate_types_allowed = message.local_candidate_types_allowed;
-            if (message.best_route_kind != null && Object.hasOwnProperty.call(message, "best_route_kind"))
+            if (message.best_route_kind != null && $Object.hasOwnProperty.call(message, "best_route_kind"))
                 object.best_route_kind = message.best_route_kind;
-            if (message.best_ping != null && Object.hasOwnProperty.call(message, "best_ping"))
+            if (message.best_ping != null && $Object.hasOwnProperty.call(message, "best_ping"))
                 object.best_ping = message.best_ping;
-            if (message.best_score != null && Object.hasOwnProperty.call(message, "best_score"))
+            if (message.best_score != null && $Object.hasOwnProperty.call(message, "best_score"))
                 object.best_score = message.best_score;
-            if (message.best_time != null && Object.hasOwnProperty.call(message, "best_time"))
+            if (message.best_time != null && $Object.hasOwnProperty.call(message, "best_time"))
                 object.best_time = message.best_time;
             return object;
         };
@@ -6664,23 +7330,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSteamNetworkingICESessionSummary.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSteamNetworkingICESessionSummary.prototype.toJSON = function() {
+            return CMsgSteamNetworkingICESessionSummary.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSteamNetworkingICESessionSummary
+         * Gets the type url for CMsgSteamNetworkingICESessionSummary
          * @function getTypeUrl
          * @memberof CMsgSteamNetworkingICESessionSummary
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSteamNetworkingICESessionSummary.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSteamNetworkingICESessionSummary";
+        CMsgSteamNetworkingICESessionSummary.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSteamNetworkingICESessionSummary";
         };
     
         return CMsgSteamNetworkingICESessionSummary;
@@ -6690,28 +7355,41 @@
     
         /**
          * Properties of a CMsgSteamNetworkingIdentityLegacyBinary.
-         * @exports ICMsgSteamNetworkingIdentityLegacyBinary
-         * @interface ICMsgSteamNetworkingIdentityLegacyBinary
+         * @typedef {Object} CMsgSteamNetworkingIdentityLegacyBinary.$Properties
          * @property {number|Long|null} [steam_id] CMsgSteamNetworkingIdentityLegacyBinary steam_id
          * @property {Uint8Array|null} [generic_bytes] CMsgSteamNetworkingIdentityLegacyBinary generic_bytes
          * @property {string|null} [generic_string] CMsgSteamNetworkingIdentityLegacyBinary generic_string
          * @property {Uint8Array|null} [ipv6_and_port] CMsgSteamNetworkingIdentityLegacyBinary ipv6_and_port
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSteamNetworkingIdentityLegacyBinary.
+         * @exports ICMsgSteamNetworkingIdentityLegacyBinary
+         * @interface ICMsgSteamNetworkingIdentityLegacyBinary
+         * @augments CMsgSteamNetworkingIdentityLegacyBinary.$Properties
+         * @deprecated Use CMsgSteamNetworkingIdentityLegacyBinary.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSteamNetworkingIdentityLegacyBinary.
+         * @typedef {CMsgSteamNetworkingIdentityLegacyBinary.$Properties} CMsgSteamNetworkingIdentityLegacyBinary.$Shape
          */
     
         /**
          * Constructs a new CMsgSteamNetworkingIdentityLegacyBinary.
          * @exports CMsgSteamNetworkingIdentityLegacyBinary
          * @classdesc Represents a CMsgSteamNetworkingIdentityLegacyBinary.
-         * @implements ICMsgSteamNetworkingIdentityLegacyBinary
          * @constructor
-         * @param {ICMsgSteamNetworkingIdentityLegacyBinary=} [properties] Properties to set
+         * @param {CMsgSteamNetworkingIdentityLegacyBinary.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSteamNetworkingIdentityLegacyBinary(properties) {
+        var CMsgSteamNetworkingIdentityLegacyBinary = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSteamNetworkingIdentityLegacyBinary steam_id.
@@ -6750,10 +7428,14 @@
          * @function create
          * @memberof CMsgSteamNetworkingIdentityLegacyBinary
          * @static
-         * @param {ICMsgSteamNetworkingIdentityLegacyBinary=} [properties] Properties to set
+         * @param {CMsgSteamNetworkingIdentityLegacyBinary.$Properties=} [properties] Properties to set
          * @returns {CMsgSteamNetworkingIdentityLegacyBinary} CMsgSteamNetworkingIdentityLegacyBinary instance
+         * @type {{
+         *   (properties: CMsgSteamNetworkingIdentityLegacyBinary.$Shape): CMsgSteamNetworkingIdentityLegacyBinary & CMsgSteamNetworkingIdentityLegacyBinary.$Shape;
+         *   (properties?: CMsgSteamNetworkingIdentityLegacyBinary.$Properties): CMsgSteamNetworkingIdentityLegacyBinary;
+         * }}
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.create = function create(properties) {
+        CMsgSteamNetworkingIdentityLegacyBinary.create = function(properties) {
             return new CMsgSteamNetworkingIdentityLegacyBinary(properties);
         };
     
@@ -6762,25 +7444,28 @@
          * @function encode
          * @memberof CMsgSteamNetworkingIdentityLegacyBinary
          * @static
-         * @param {ICMsgSteamNetworkingIdentityLegacyBinary} message CMsgSteamNetworkingIdentityLegacyBinary message or plain object to encode
+         * @param {CMsgSteamNetworkingIdentityLegacyBinary.$Properties} message CMsgSteamNetworkingIdentityLegacyBinary message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.encode = function encode(message, writer, q) {
+        CMsgSteamNetworkingIdentityLegacyBinary.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.generic_bytes != null && Object.hasOwnProperty.call(message, "generic_bytes"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.generic_bytes != null && $Object.hasOwnProperty.call(message, "generic_bytes"))
                 writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.generic_bytes);
-            if (message.generic_string != null && Object.hasOwnProperty.call(message, "generic_string"))
+            if (message.generic_string != null && $Object.hasOwnProperty.call(message, "generic_string"))
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.generic_string);
-            if (message.ipv6_and_port != null && Object.hasOwnProperty.call(message, "ipv6_and_port"))
+            if (message.ipv6_and_port != null && $Object.hasOwnProperty.call(message, "ipv6_and_port"))
                 writer.uint32(/* id 4, wireType 2 =*/34).bytes(message.ipv6_and_port);
-            if (message.steam_id != null && Object.hasOwnProperty.call(message, "steam_id"))
+            if (message.steam_id != null && $Object.hasOwnProperty.call(message, "steam_id"))
                 writer.uint32(/* id 16, wireType 1 =*/129).fixed64(message.steam_id);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -6789,12 +7474,12 @@
          * @function encodeDelimited
          * @memberof CMsgSteamNetworkingIdentityLegacyBinary
          * @static
-         * @param {ICMsgSteamNetworkingIdentityLegacyBinary} message CMsgSteamNetworkingIdentityLegacyBinary message or plain object to encode
+         * @param {CMsgSteamNetworkingIdentityLegacyBinary.$Properties} message CMsgSteamNetworkingIdentityLegacyBinary message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSteamNetworkingIdentityLegacyBinary.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -6804,59 +7489,75 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSteamNetworkingIdentityLegacyBinary} CMsgSteamNetworkingIdentityLegacyBinary
+         * @returns {CMsgSteamNetworkingIdentityLegacyBinary & CMsgSteamNetworkingIdentityLegacyBinary.$Shape} CMsgSteamNetworkingIdentityLegacyBinary
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.decode = function decode(reader, length, error, long) {
+        CMsgSteamNetworkingIdentityLegacyBinary.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSteamNetworkingIdentityLegacyBinary();
+            message = _target || new $root.CMsgSteamNetworkingIdentityLegacyBinary();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 16: {
-                        message.steam_id = reader.fixed64();
-                        break;
-                    }
-                case 2: {
-                        message.generic_bytes = reader.bytes();
-                        break;
-                    }
-                case 3: {
-                        message.generic_string = reader.string();
-                        break;
-                    }
-                case 4: {
-                        message.ipv6_and_port = reader.bytes();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 16: {
+                        if (wireType !== 1)
+                            break;
+                        message.steam_id = reader.fixed64();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.generic_bytes = reader.bytes();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 2)
+                            break;
+                        message.generic_string = reader.string();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 2)
+                            break;
+                        message.ipv6_and_port = reader.bytes();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -6866,14 +7567,14 @@
          * @memberof CMsgSteamNetworkingIdentityLegacyBinary
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSteamNetworkingIdentityLegacyBinary} CMsgSteamNetworkingIdentityLegacyBinary
+         * @returns {CMsgSteamNetworkingIdentityLegacyBinary & CMsgSteamNetworkingIdentityLegacyBinary.$Shape} CMsgSteamNetworkingIdentityLegacyBinary
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSteamNetworkingIdentityLegacyBinary.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -6884,23 +7585,23 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.verify = function verify(message, long) {
+        CMsgSteamNetworkingIdentityLegacyBinary.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.steam_id != null && Object.hasOwnProperty.call(message, "steam_id"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.steam_id != null && $Object.hasOwnProperty.call(message, "steam_id"))
                 if (!$util.isInteger(message.steam_id) && !(message.steam_id && $util.isInteger(message.steam_id.low) && $util.isInteger(message.steam_id.high)))
                     return "steam_id: integer|Long expected";
-            if (message.generic_bytes != null && Object.hasOwnProperty.call(message, "generic_bytes"))
+            if (message.generic_bytes != null && $Object.hasOwnProperty.call(message, "generic_bytes"))
                 if (!(message.generic_bytes && typeof message.generic_bytes.length === "number" || $util.isString(message.generic_bytes)))
                     return "generic_bytes: buffer expected";
-            if (message.generic_string != null && Object.hasOwnProperty.call(message, "generic_string"))
+            if (message.generic_string != null && $Object.hasOwnProperty.call(message, "generic_string"))
                 if (!$util.isString(message.generic_string))
                     return "generic_string: string expected";
-            if (message.ipv6_and_port != null && Object.hasOwnProperty.call(message, "ipv6_and_port"))
+            if (message.ipv6_and_port != null && $Object.hasOwnProperty.call(message, "ipv6_and_port"))
                 if (!(message.ipv6_and_port && typeof message.ipv6_and_port.length === "number" || $util.isString(message.ipv6_and_port)))
                     return "ipv6_and_port: buffer expected";
             return null;
@@ -6914,21 +7615,21 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamNetworkingIdentityLegacyBinary} CMsgSteamNetworkingIdentityLegacyBinary
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.fromObject = function fromObject(object, long) {
+        CMsgSteamNetworkingIdentityLegacyBinary.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSteamNetworkingIdentityLegacyBinary)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSteamNetworkingIdentityLegacyBinary: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSteamNetworkingIdentityLegacyBinary: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSteamNetworkingIdentityLegacyBinary();
             if (object.steam_id != null)
                 if ($util.Long)
                     message.steam_id = $util.Long.fromValue(object.steam_id, true);
                 else if (typeof object.steam_id === "string")
-                    message.steam_id = parseInt(object.steam_id, 10);
+                    message.steam_id = $parseInt(object.steam_id, 10);
                 else if (typeof object.steam_id === "number")
                     message.steam_id = object.steam_id;
                 else if (typeof object.steam_id === "object")
@@ -6939,7 +7640,7 @@
                 else if (object.generic_bytes.length >= 0)
                     message.generic_bytes = object.generic_bytes;
             if (object.generic_string != null)
-                message.generic_string = String(object.generic_string);
+                message.generic_string = $String(object.generic_string);
             if (object.ipv6_and_port != null)
                 if (typeof object.ipv6_and_port === "string")
                     $util.base64.decode(object.ipv6_and_port, message.ipv6_and_port = $util.newBuffer($util.base64.length(object.ipv6_and_port)), 0);
@@ -6957,49 +7658,49 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.toObject = function toObject(message, options, q) {
+        CMsgSteamNetworkingIdentityLegacyBinary.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
-                if (options.bytes === String)
+                if (options.bytes === $String)
                     object.generic_bytes = "";
                 else {
                     object.generic_bytes = [];
-                    if (options.bytes !== Array)
+                    if (options.bytes !== $Array)
                         object.generic_bytes = $util.newBuffer(object.generic_bytes);
                 }
                 object.generic_string = "";
-                if (options.bytes === String)
+                if (options.bytes === $String)
                     object.ipv6_and_port = "";
                 else {
                     object.ipv6_and_port = [];
-                    if (options.bytes !== Array)
+                    if (options.bytes !== $Array)
                         object.ipv6_and_port = $util.newBuffer(object.ipv6_and_port);
                 }
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.steam_id = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.steam_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.steam_id = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
             }
-            if (message.generic_bytes != null && Object.hasOwnProperty.call(message, "generic_bytes"))
-                object.generic_bytes = options.bytes === String ? $util.base64.encode(message.generic_bytes, 0, message.generic_bytes.length) : options.bytes === Array ? Array.prototype.slice.call(message.generic_bytes) : message.generic_bytes;
-            if (message.generic_string != null && Object.hasOwnProperty.call(message, "generic_string"))
+            if (message.generic_bytes != null && $Object.hasOwnProperty.call(message, "generic_bytes"))
+                object.generic_bytes = options.bytes === $String ? $util.base64.encode(message.generic_bytes, 0, message.generic_bytes.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.generic_bytes) : message.generic_bytes;
+            if (message.generic_string != null && $Object.hasOwnProperty.call(message, "generic_string"))
                 object.generic_string = message.generic_string;
-            if (message.ipv6_and_port != null && Object.hasOwnProperty.call(message, "ipv6_and_port"))
-                object.ipv6_and_port = options.bytes === String ? $util.base64.encode(message.ipv6_and_port, 0, message.ipv6_and_port.length) : options.bytes === Array ? Array.prototype.slice.call(message.ipv6_and_port) : message.ipv6_and_port;
-            if (message.steam_id != null && Object.hasOwnProperty.call(message, "steam_id"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.steam_id = typeof message.steam_id === "number" ? BigInt(message.steam_id) : $util.Long.fromBits(message.steam_id.low >>> 0, message.steam_id.high >>> 0, true).toBigInt();
+            if (message.ipv6_and_port != null && $Object.hasOwnProperty.call(message, "ipv6_and_port"))
+                object.ipv6_and_port = options.bytes === $String ? $util.base64.encode(message.ipv6_and_port, 0, message.ipv6_and_port.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.ipv6_and_port) : message.ipv6_and_port;
+            if (message.steam_id != null && $Object.hasOwnProperty.call(message, "steam_id"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.steam_id = typeof message.steam_id === "number" ? $BigInt(message.steam_id) : $util.Long.fromBits(message.steam_id.low >>> 0, message.steam_id.high >>> 0, true).toBigInt();
                 else if (typeof message.steam_id === "number")
-                    object.steam_id = options.longs === String ? String(message.steam_id) : message.steam_id;
+                    object.steam_id = options.longs === $String ? $String(message.steam_id) : message.steam_id;
                 else
-                    object.steam_id = options.longs === String ? $util.Long.prototype.toString.call(message.steam_id) : options.longs === Number ? new $util.LongBits(message.steam_id.low >>> 0, message.steam_id.high >>> 0).toNumber(true) : message.steam_id;
+                    object.steam_id = options.longs === $String ? $util.Long.prototype.toString.call(message.steam_id) : options.longs === $Number ? new $util.LongBits(message.steam_id.low >>> 0, message.steam_id.high >>> 0).toNumber(true) : message.steam_id;
             return object;
         };
     
@@ -7010,23 +7711,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSteamNetworkingIdentityLegacyBinary.prototype.toJSON = function() {
+            return CMsgSteamNetworkingIdentityLegacyBinary.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSteamNetworkingIdentityLegacyBinary
+         * Gets the type url for CMsgSteamNetworkingIdentityLegacyBinary
          * @function getTypeUrl
          * @memberof CMsgSteamNetworkingIdentityLegacyBinary
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSteamNetworkingIdentityLegacyBinary.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSteamNetworkingIdentityLegacyBinary";
+        CMsgSteamNetworkingIdentityLegacyBinary.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSteamNetworkingIdentityLegacyBinary";
         };
     
         return CMsgSteamNetworkingIdentityLegacyBinary;
@@ -7036,37 +7736,50 @@
     
         /**
          * Properties of a CMsgSteamDatagramCertificate.
-         * @exports ICMsgSteamDatagramCertificate
-         * @interface ICMsgSteamDatagramCertificate
+         * @typedef {Object} CMsgSteamDatagramCertificate.$Properties
          * @property {CMsgSteamDatagramCertificate.EKeyType|null} [key_type] CMsgSteamDatagramCertificate key_type
          * @property {Uint8Array|null} [key_data] CMsgSteamDatagramCertificate key_data
          * @property {number|Long|null} [legacy_steam_id] CMsgSteamDatagramCertificate legacy_steam_id
-         * @property {ICMsgSteamNetworkingIdentityLegacyBinary|null} [legacy_identity_binary] CMsgSteamDatagramCertificate legacy_identity_binary
+         * @property {CMsgSteamNetworkingIdentityLegacyBinary.$Properties|null} [legacy_identity_binary] CMsgSteamDatagramCertificate legacy_identity_binary
          * @property {string|null} [identity_string] CMsgSteamDatagramCertificate identity_string
          * @property {Array.<number>|null} [gameserver_datacenter_ids] CMsgSteamDatagramCertificate gameserver_datacenter_ids
          * @property {number|null} [time_created] CMsgSteamDatagramCertificate time_created
          * @property {number|null} [time_expiry] CMsgSteamDatagramCertificate time_expiry
          * @property {Array.<number>|null} [app_ids] CMsgSteamDatagramCertificate app_ids
          * @property {Array.<string>|null} [ip_addresses] CMsgSteamDatagramCertificate ip_addresses
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSteamDatagramCertificate.
+         * @exports ICMsgSteamDatagramCertificate
+         * @interface ICMsgSteamDatagramCertificate
+         * @augments CMsgSteamDatagramCertificate.$Properties
+         * @deprecated Use CMsgSteamDatagramCertificate.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSteamDatagramCertificate.
+         * @typedef {CMsgSteamDatagramCertificate.$Properties} CMsgSteamDatagramCertificate.$Shape
          */
     
         /**
          * Constructs a new CMsgSteamDatagramCertificate.
          * @exports CMsgSteamDatagramCertificate
          * @classdesc Represents a CMsgSteamDatagramCertificate.
-         * @implements ICMsgSteamDatagramCertificate
          * @constructor
-         * @param {ICMsgSteamDatagramCertificate=} [properties] Properties to set
+         * @param {CMsgSteamDatagramCertificate.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSteamDatagramCertificate(properties) {
+        var CMsgSteamDatagramCertificate = function (properties) {
             this.gameserver_datacenter_ids = [];
             this.app_ids = [];
             this.ip_addresses = [];
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSteamDatagramCertificate key_type.
@@ -7094,7 +7807,7 @@
     
         /**
          * CMsgSteamDatagramCertificate legacy_identity_binary.
-         * @member {ICMsgSteamNetworkingIdentityLegacyBinary|null|undefined} legacy_identity_binary
+         * @member {CMsgSteamNetworkingIdentityLegacyBinary.$Properties|null|undefined} legacy_identity_binary
          * @memberof CMsgSteamDatagramCertificate
          * @instance
          */
@@ -7153,10 +7866,14 @@
          * @function create
          * @memberof CMsgSteamDatagramCertificate
          * @static
-         * @param {ICMsgSteamDatagramCertificate=} [properties] Properties to set
+         * @param {CMsgSteamDatagramCertificate.$Properties=} [properties] Properties to set
          * @returns {CMsgSteamDatagramCertificate} CMsgSteamDatagramCertificate instance
+         * @type {{
+         *   (properties: CMsgSteamDatagramCertificate.$Shape): CMsgSteamDatagramCertificate & CMsgSteamDatagramCertificate.$Shape;
+         *   (properties?: CMsgSteamDatagramCertificate.$Properties): CMsgSteamDatagramCertificate;
+         * }}
          */
-        CMsgSteamDatagramCertificate.create = function create(properties) {
+        CMsgSteamDatagramCertificate.create = function(properties) {
             return new CMsgSteamDatagramCertificate(properties);
         };
     
@@ -7165,40 +7882,43 @@
          * @function encode
          * @memberof CMsgSteamDatagramCertificate
          * @static
-         * @param {ICMsgSteamDatagramCertificate} message CMsgSteamDatagramCertificate message or plain object to encode
+         * @param {CMsgSteamDatagramCertificate.$Properties} message CMsgSteamDatagramCertificate message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramCertificate.encode = function encode(message, writer, q) {
+        CMsgSteamDatagramCertificate.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.key_type != null && Object.hasOwnProperty.call(message, "key_type"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.key_type != null && $Object.hasOwnProperty.call(message, "key_type"))
                 writer.uint32(/* id 1, wireType 0 =*/8).int32(message.key_type);
-            if (message.key_data != null && Object.hasOwnProperty.call(message, "key_data"))
+            if (message.key_data != null && $Object.hasOwnProperty.call(message, "key_data"))
                 writer.uint32(/* id 2, wireType 2 =*/18).bytes(message.key_data);
-            if (message.legacy_steam_id != null && Object.hasOwnProperty.call(message, "legacy_steam_id"))
+            if (message.legacy_steam_id != null && $Object.hasOwnProperty.call(message, "legacy_steam_id"))
                 writer.uint32(/* id 4, wireType 1 =*/33).fixed64(message.legacy_steam_id);
             if (message.gameserver_datacenter_ids != null && message.gameserver_datacenter_ids.length)
                 for (var i = 0; i < message.gameserver_datacenter_ids.length; ++i)
                     writer.uint32(/* id 5, wireType 5 =*/45).fixed32(message.gameserver_datacenter_ids[i]);
-            if (message.time_created != null && Object.hasOwnProperty.call(message, "time_created"))
+            if (message.time_created != null && $Object.hasOwnProperty.call(message, "time_created"))
                 writer.uint32(/* id 8, wireType 5 =*/69).fixed32(message.time_created);
-            if (message.time_expiry != null && Object.hasOwnProperty.call(message, "time_expiry"))
+            if (message.time_expiry != null && $Object.hasOwnProperty.call(message, "time_expiry"))
                 writer.uint32(/* id 9, wireType 5 =*/77).fixed32(message.time_expiry);
             if (message.app_ids != null && message.app_ids.length)
                 for (var i = 0; i < message.app_ids.length; ++i)
                     writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.app_ids[i]);
-            if (message.legacy_identity_binary != null && Object.hasOwnProperty.call(message, "legacy_identity_binary"))
-                $root.CMsgSteamNetworkingIdentityLegacyBinary.encode(message.legacy_identity_binary, writer.uint32(/* id 11, wireType 2 =*/90).fork(), q + 1).ldelim();
-            if (message.identity_string != null && Object.hasOwnProperty.call(message, "identity_string"))
+            if (message.legacy_identity_binary != null && $Object.hasOwnProperty.call(message, "legacy_identity_binary"))
+                $root.CMsgSteamNetworkingIdentityLegacyBinary.encode(message.legacy_identity_binary, writer.uint32(/* id 11, wireType 2 =*/90).fork(), _depth + 1).ldelim();
+            if (message.identity_string != null && $Object.hasOwnProperty.call(message, "identity_string"))
                 writer.uint32(/* id 12, wireType 2 =*/98).string(message.identity_string);
             if (message.ip_addresses != null && message.ip_addresses.length)
                 for (var i = 0; i < message.ip_addresses.length; ++i)
                     writer.uint32(/* id 13, wireType 2 =*/106).string(message.ip_addresses[i]);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -7207,12 +7927,12 @@
          * @function encodeDelimited
          * @memberof CMsgSteamDatagramCertificate
          * @static
-         * @param {ICMsgSteamDatagramCertificate} message CMsgSteamDatagramCertificate message or plain object to encode
+         * @param {CMsgSteamDatagramCertificate.$Properties} message CMsgSteamDatagramCertificate message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramCertificate.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSteamDatagramCertificate.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -7222,111 +7942,135 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSteamDatagramCertificate} CMsgSteamDatagramCertificate
+         * @returns {CMsgSteamDatagramCertificate & CMsgSteamDatagramCertificate.$Shape} CMsgSteamDatagramCertificate
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramCertificate.decode = function decode(reader, length, error, long) {
+        CMsgSteamDatagramCertificate.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var end, message;
-            if (length === undefined)
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
+            var end, message, value;
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSteamDatagramCertificate();
+            message = _target || new $root.CMsgSteamDatagramCertificate();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
-                switch (tag >>> 3) {
+                }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
                 case 1: {
-                        message.key_type = reader.int32();
-                        break;
+                        if (wireType !== 0)
+                            break;
+                        value = reader.int32();
+                        if ($root.CMsgSteamDatagramCertificate.EKeyType[value] !== $undefined)
+                            message.key_type = value;
+                        else if (!reader.discardUnknown) {
+                            $util.makeProp(message, "$unknowns", false);
+                            (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                        }
+                        continue;
                     }
                 case 2: {
+                        if (wireType !== 2)
+                            break;
                         message.key_data = reader.bytes();
-                        break;
+                        continue;
                     }
                 case 4: {
+                        if (wireType !== 1)
+                            break;
                         message.legacy_steam_id = reader.fixed64();
-                        break;
+                        continue;
                     }
                 case 11: {
-                        message.legacy_identity_binary = $root.CMsgSteamNetworkingIdentityLegacyBinary.decode(reader, reader.uint32(), undefined, long + 1);
-                        break;
+                        if (wireType !== 2)
+                            break;
+                        message.legacy_identity_binary = $root.CMsgSteamNetworkingIdentityLegacyBinary.decode(reader, reader.size(), $undefined, _depth + 1, message.legacy_identity_binary);
+                        continue;
                     }
                 case 12: {
+                        if (wireType !== 2)
+                            break;
                         message.identity_string = reader.string();
-                        break;
+                        continue;
                     }
                 case 5: {
+                        if (wireType === 2) {
+                            if (!(message.gameserver_datacenter_ids && message.gameserver_datacenter_ids.length))
+                                message.gameserver_datacenter_ids = [];
+                            reader.fixed32s(message.gameserver_datacenter_ids);
+                            continue;
+                        }
+                        if (wireType !== 5)
+                            break;
                         if (!(message.gameserver_datacenter_ids && message.gameserver_datacenter_ids.length))
                             message.gameserver_datacenter_ids = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.gameserver_datacenter_ids.push(reader.fixed32());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.gameserver_datacenter_ids.push(reader.fixed32());
-                        break;
+                        message.gameserver_datacenter_ids.push(reader.fixed32());
+                        continue;
                     }
                 case 8: {
+                        if (wireType !== 5)
+                            break;
                         message.time_created = reader.fixed32();
-                        break;
+                        continue;
                     }
                 case 9: {
+                        if (wireType !== 5)
+                            break;
                         message.time_expiry = reader.fixed32();
-                        break;
+                        continue;
                     }
                 case 10: {
+                        if (wireType === 2) {
+                            if (!(message.app_ids && message.app_ids.length))
+                                message.app_ids = [];
+                            reader.uint32s(message.app_ids);
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
                         if (!(message.app_ids && message.app_ids.length))
                             message.app_ids = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.app_ids.push(reader.uint32());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.app_ids.push(reader.uint32());
-                        break;
+                        message.app_ids.push(reader.uint32());
+                        continue;
                     }
                 case 13: {
+                        if (wireType !== 2)
+                            break;
                         if (!(message.ip_addresses && message.ip_addresses.length))
                             message.ip_addresses = [];
                         message.ip_addresses.push(reader.string());
-                        break;
+                        continue;
                     }
-                default:
-                    reader.skipType(tag & 7, long);
-                    break;
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                 }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -7336,14 +8080,14 @@
          * @memberof CMsgSteamDatagramCertificate
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSteamDatagramCertificate} CMsgSteamDatagramCertificate
+         * @returns {CMsgSteamDatagramCertificate & CMsgSteamDatagramCertificate.$Shape} CMsgSteamDatagramCertificate
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramCertificate.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSteamDatagramCertificate.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -7354,14 +8098,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramCertificate.verify = function verify(message, long) {
+        CMsgSteamDatagramCertificate.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.key_type != null && Object.hasOwnProperty.call(message, "key_type"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.key_type != null && $Object.hasOwnProperty.call(message, "key_type"))
                 switch (message.key_type) {
                 default:
                     return "key_type: enum value expected";
@@ -7369,42 +8113,42 @@
                 case 1:
                     break;
                 }
-            if (message.key_data != null && Object.hasOwnProperty.call(message, "key_data"))
+            if (message.key_data != null && $Object.hasOwnProperty.call(message, "key_data"))
                 if (!(message.key_data && typeof message.key_data.length === "number" || $util.isString(message.key_data)))
                     return "key_data: buffer expected";
-            if (message.legacy_steam_id != null && Object.hasOwnProperty.call(message, "legacy_steam_id"))
+            if (message.legacy_steam_id != null && $Object.hasOwnProperty.call(message, "legacy_steam_id"))
                 if (!$util.isInteger(message.legacy_steam_id) && !(message.legacy_steam_id && $util.isInteger(message.legacy_steam_id.low) && $util.isInteger(message.legacy_steam_id.high)))
                     return "legacy_steam_id: integer|Long expected";
-            if (message.legacy_identity_binary != null && Object.hasOwnProperty.call(message, "legacy_identity_binary")) {
-                var error = $root.CMsgSteamNetworkingIdentityLegacyBinary.verify(message.legacy_identity_binary, long + 1);
+            if (message.legacy_identity_binary != null && $Object.hasOwnProperty.call(message, "legacy_identity_binary")) {
+                var error = $root.CMsgSteamNetworkingIdentityLegacyBinary.verify(message.legacy_identity_binary, _depth + 1);
                 if (error)
                     return "legacy_identity_binary." + error;
             }
-            if (message.identity_string != null && Object.hasOwnProperty.call(message, "identity_string"))
+            if (message.identity_string != null && $Object.hasOwnProperty.call(message, "identity_string"))
                 if (!$util.isString(message.identity_string))
                     return "identity_string: string expected";
-            if (message.gameserver_datacenter_ids != null && Object.hasOwnProperty.call(message, "gameserver_datacenter_ids")) {
-                if (!Array.isArray(message.gameserver_datacenter_ids))
+            if (message.gameserver_datacenter_ids != null && $Object.hasOwnProperty.call(message, "gameserver_datacenter_ids")) {
+                if (!$Array.isArray(message.gameserver_datacenter_ids))
                     return "gameserver_datacenter_ids: array expected";
                 for (var i = 0; i < message.gameserver_datacenter_ids.length; ++i)
                     if (!$util.isInteger(message.gameserver_datacenter_ids[i]))
                         return "gameserver_datacenter_ids: integer[] expected";
             }
-            if (message.time_created != null && Object.hasOwnProperty.call(message, "time_created"))
+            if (message.time_created != null && $Object.hasOwnProperty.call(message, "time_created"))
                 if (!$util.isInteger(message.time_created))
                     return "time_created: integer expected";
-            if (message.time_expiry != null && Object.hasOwnProperty.call(message, "time_expiry"))
+            if (message.time_expiry != null && $Object.hasOwnProperty.call(message, "time_expiry"))
                 if (!$util.isInteger(message.time_expiry))
                     return "time_expiry: integer expected";
-            if (message.app_ids != null && Object.hasOwnProperty.call(message, "app_ids")) {
-                if (!Array.isArray(message.app_ids))
+            if (message.app_ids != null && $Object.hasOwnProperty.call(message, "app_ids")) {
+                if (!$Array.isArray(message.app_ids))
                     return "app_ids: array expected";
                 for (var i = 0; i < message.app_ids.length; ++i)
                     if (!$util.isInteger(message.app_ids[i]))
                         return "app_ids: integer[] expected";
             }
-            if (message.ip_addresses != null && Object.hasOwnProperty.call(message, "ip_addresses")) {
-                if (!Array.isArray(message.ip_addresses))
+            if (message.ip_addresses != null && $Object.hasOwnProperty.call(message, "ip_addresses")) {
+                if (!$Array.isArray(message.ip_addresses))
                     return "ip_addresses: array expected";
                 for (var i = 0; i < message.ip_addresses.length; ++i)
                     if (!$util.isString(message.ip_addresses[i]))
@@ -7421,23 +8165,17 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramCertificate} CMsgSteamDatagramCertificate
          */
-        CMsgSteamDatagramCertificate.fromObject = function fromObject(object, long) {
+        CMsgSteamDatagramCertificate.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSteamDatagramCertificate)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSteamDatagramCertificate: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSteamDatagramCertificate: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSteamDatagramCertificate();
             switch (object.key_type) {
-            default:
-                if (typeof object.key_type === "number") {
-                    message.key_type = object.key_type;
-                    break;
-                }
-                break;
             case "INVALID":
             case 0:
                 message.key_type = 0;
@@ -7446,6 +8184,7 @@
             case 1:
                 message.key_type = 1;
                 break;
+            default:
             }
             if (object.key_data != null)
                 if (typeof object.key_data === "string")
@@ -7456,22 +8195,22 @@
                 if ($util.Long)
                     message.legacy_steam_id = $util.Long.fromValue(object.legacy_steam_id, true);
                 else if (typeof object.legacy_steam_id === "string")
-                    message.legacy_steam_id = parseInt(object.legacy_steam_id, 10);
+                    message.legacy_steam_id = $parseInt(object.legacy_steam_id, 10);
                 else if (typeof object.legacy_steam_id === "number")
                     message.legacy_steam_id = object.legacy_steam_id;
                 else if (typeof object.legacy_steam_id === "object")
                     message.legacy_steam_id = new $util.LongBits(object.legacy_steam_id.low >>> 0, object.legacy_steam_id.high >>> 0).toNumber(true);
             if (object.legacy_identity_binary != null) {
                 if (!$util.isObject(object.legacy_identity_binary))
-                    throw TypeError(".CMsgSteamDatagramCertificate.legacy_identity_binary: object expected");
-                message.legacy_identity_binary = $root.CMsgSteamNetworkingIdentityLegacyBinary.fromObject(object.legacy_identity_binary, long + 1);
+                    throw $TypeError(".CMsgSteamDatagramCertificate.legacy_identity_binary: object expected");
+                message.legacy_identity_binary = $root.CMsgSteamNetworkingIdentityLegacyBinary.fromObject(object.legacy_identity_binary, _depth + 1);
             }
             if (object.identity_string != null)
-                message.identity_string = String(object.identity_string);
+                message.identity_string = $String(object.identity_string);
             if (object.gameserver_datacenter_ids) {
-                if (!Array.isArray(object.gameserver_datacenter_ids))
-                    throw TypeError(".CMsgSteamDatagramCertificate.gameserver_datacenter_ids: array expected");
-                message.gameserver_datacenter_ids = [];
+                if (!$Array.isArray(object.gameserver_datacenter_ids))
+                    throw $TypeError(".CMsgSteamDatagramCertificate.gameserver_datacenter_ids: array expected");
+                message.gameserver_datacenter_ids = $Array(object.gameserver_datacenter_ids.length);
                 for (var i = 0; i < object.gameserver_datacenter_ids.length; ++i)
                     message.gameserver_datacenter_ids[i] = object.gameserver_datacenter_ids[i] >>> 0;
             }
@@ -7480,18 +8219,18 @@
             if (object.time_expiry != null)
                 message.time_expiry = object.time_expiry >>> 0;
             if (object.app_ids) {
-                if (!Array.isArray(object.app_ids))
-                    throw TypeError(".CMsgSteamDatagramCertificate.app_ids: array expected");
-                message.app_ids = [];
+                if (!$Array.isArray(object.app_ids))
+                    throw $TypeError(".CMsgSteamDatagramCertificate.app_ids: array expected");
+                message.app_ids = $Array(object.app_ids.length);
                 for (var i = 0; i < object.app_ids.length; ++i)
                     message.app_ids[i] = object.app_ids[i] >>> 0;
             }
             if (object.ip_addresses) {
-                if (!Array.isArray(object.ip_addresses))
-                    throw TypeError(".CMsgSteamDatagramCertificate.ip_addresses: array expected");
-                message.ip_addresses = [];
+                if (!$Array.isArray(object.ip_addresses))
+                    throw $TypeError(".CMsgSteamDatagramCertificate.ip_addresses: array expected");
+                message.ip_addresses = $Array(object.ip_addresses.length);
                 for (var i = 0; i < object.ip_addresses.length; ++i)
-                    message.ip_addresses[i] = String(object.ip_addresses[i]);
+                    message.ip_addresses[i] = $String(object.ip_addresses[i]);
             }
             return message;
         };
@@ -7505,13 +8244,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramCertificate.toObject = function toObject(message, options, q) {
+        CMsgSteamDatagramCertificate.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults) {
                 object.gameserver_datacenter_ids = [];
@@ -7519,55 +8258,55 @@
                 object.ip_addresses = [];
             }
             if (options.defaults) {
-                object.key_type = options.enums === String ? "INVALID" : 0;
-                if (options.bytes === String)
+                object.key_type = options.enums === $String ? "INVALID" : 0;
+                if (options.bytes === $String)
                     object.key_data = "";
                 else {
                     object.key_data = [];
-                    if (options.bytes !== Array)
+                    if (options.bytes !== $Array)
                         object.key_data = $util.newBuffer(object.key_data);
                 }
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.legacy_steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.legacy_steam_id = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.legacy_steam_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.legacy_steam_id = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 object.time_created = 0;
                 object.time_expiry = 0;
                 object.legacy_identity_binary = null;
                 object.identity_string = "";
             }
-            if (message.key_type != null && Object.hasOwnProperty.call(message, "key_type"))
-                object.key_type = options.enums === String ? $root.CMsgSteamDatagramCertificate.EKeyType[message.key_type] === undefined ? message.key_type : $root.CMsgSteamDatagramCertificate.EKeyType[message.key_type] : message.key_type;
-            if (message.key_data != null && Object.hasOwnProperty.call(message, "key_data"))
-                object.key_data = options.bytes === String ? $util.base64.encode(message.key_data, 0, message.key_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.key_data) : message.key_data;
-            if (message.legacy_steam_id != null && Object.hasOwnProperty.call(message, "legacy_steam_id"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.legacy_steam_id = typeof message.legacy_steam_id === "number" ? BigInt(message.legacy_steam_id) : $util.Long.fromBits(message.legacy_steam_id.low >>> 0, message.legacy_steam_id.high >>> 0, true).toBigInt();
+            if (message.key_type != null && $Object.hasOwnProperty.call(message, "key_type"))
+                object.key_type = options.enums === $String ? $root.CMsgSteamDatagramCertificate.EKeyType[message.key_type] === $undefined ? message.key_type : $root.CMsgSteamDatagramCertificate.EKeyType[message.key_type] : message.key_type;
+            if (message.key_data != null && $Object.hasOwnProperty.call(message, "key_data"))
+                object.key_data = options.bytes === $String ? $util.base64.encode(message.key_data, 0, message.key_data.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.key_data) : message.key_data;
+            if (message.legacy_steam_id != null && $Object.hasOwnProperty.call(message, "legacy_steam_id"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.legacy_steam_id = typeof message.legacy_steam_id === "number" ? $BigInt(message.legacy_steam_id) : $util.Long.fromBits(message.legacy_steam_id.low >>> 0, message.legacy_steam_id.high >>> 0, true).toBigInt();
                 else if (typeof message.legacy_steam_id === "number")
-                    object.legacy_steam_id = options.longs === String ? String(message.legacy_steam_id) : message.legacy_steam_id;
+                    object.legacy_steam_id = options.longs === $String ? $String(message.legacy_steam_id) : message.legacy_steam_id;
                 else
-                    object.legacy_steam_id = options.longs === String ? $util.Long.prototype.toString.call(message.legacy_steam_id) : options.longs === Number ? new $util.LongBits(message.legacy_steam_id.low >>> 0, message.legacy_steam_id.high >>> 0).toNumber(true) : message.legacy_steam_id;
+                    object.legacy_steam_id = options.longs === $String ? $util.Long.prototype.toString.call(message.legacy_steam_id) : options.longs === $Number ? new $util.LongBits(message.legacy_steam_id.low >>> 0, message.legacy_steam_id.high >>> 0).toNumber(true) : message.legacy_steam_id;
             if (message.gameserver_datacenter_ids && message.gameserver_datacenter_ids.length) {
-                object.gameserver_datacenter_ids = [];
+                object.gameserver_datacenter_ids = $Array(message.gameserver_datacenter_ids.length);
                 for (var j = 0; j < message.gameserver_datacenter_ids.length; ++j)
                     object.gameserver_datacenter_ids[j] = message.gameserver_datacenter_ids[j];
             }
-            if (message.time_created != null && Object.hasOwnProperty.call(message, "time_created"))
+            if (message.time_created != null && $Object.hasOwnProperty.call(message, "time_created"))
                 object.time_created = message.time_created;
-            if (message.time_expiry != null && Object.hasOwnProperty.call(message, "time_expiry"))
+            if (message.time_expiry != null && $Object.hasOwnProperty.call(message, "time_expiry"))
                 object.time_expiry = message.time_expiry;
             if (message.app_ids && message.app_ids.length) {
-                object.app_ids = [];
+                object.app_ids = $Array(message.app_ids.length);
                 for (var j = 0; j < message.app_ids.length; ++j)
                     object.app_ids[j] = message.app_ids[j];
             }
-            if (message.legacy_identity_binary != null && Object.hasOwnProperty.call(message, "legacy_identity_binary"))
-                object.legacy_identity_binary = $root.CMsgSteamNetworkingIdentityLegacyBinary.toObject(message.legacy_identity_binary, options, q + 1);
-            if (message.identity_string != null && Object.hasOwnProperty.call(message, "identity_string"))
+            if (message.legacy_identity_binary != null && $Object.hasOwnProperty.call(message, "legacy_identity_binary"))
+                object.legacy_identity_binary = $root.CMsgSteamNetworkingIdentityLegacyBinary.toObject(message.legacy_identity_binary, options, _depth + 1);
+            if (message.identity_string != null && $Object.hasOwnProperty.call(message, "identity_string"))
                 object.identity_string = message.identity_string;
             if (message.ip_addresses && message.ip_addresses.length) {
-                object.ip_addresses = [];
+                object.ip_addresses = $Array(message.ip_addresses.length);
                 for (var j = 0; j < message.ip_addresses.length; ++j)
                     object.ip_addresses[j] = message.ip_addresses[j];
             }
@@ -7581,23 +8320,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSteamDatagramCertificate.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSteamDatagramCertificate.prototype.toJSON = function() {
+            return CMsgSteamDatagramCertificate.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSteamDatagramCertificate
+         * Gets the type url for CMsgSteamDatagramCertificate
          * @function getTypeUrl
          * @memberof CMsgSteamDatagramCertificate
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSteamDatagramCertificate.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSteamDatagramCertificate";
+        CMsgSteamDatagramCertificate.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSteamDatagramCertificate";
         };
     
         /**
@@ -7608,7 +8346,7 @@
          * @property {number} ED25519=1 ED25519 value
          */
         CMsgSteamDatagramCertificate.EKeyType = (function() {
-            var valuesById = {}, values = Object.create(valuesById);
+            var valuesById = $Object.create(null), values = $Object.create(valuesById);
             values[valuesById[0] = "INVALID"] = 0;
             values[valuesById[1] = "ED25519"] = 1;
             return values;
@@ -7621,28 +8359,41 @@
     
         /**
          * Properties of a CMsgSteamDatagramCertificateSigned.
-         * @exports ICMsgSteamDatagramCertificateSigned
-         * @interface ICMsgSteamDatagramCertificateSigned
+         * @typedef {Object} CMsgSteamDatagramCertificateSigned.$Properties
          * @property {Uint8Array|null} [cert] CMsgSteamDatagramCertificateSigned cert
          * @property {number|Long|null} [ca_key_id] CMsgSteamDatagramCertificateSigned ca_key_id
          * @property {Uint8Array|null} [ca_signature] CMsgSteamDatagramCertificateSigned ca_signature
          * @property {Uint8Array|null} [private_key_data] CMsgSteamDatagramCertificateSigned private_key_data
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSteamDatagramCertificateSigned.
+         * @exports ICMsgSteamDatagramCertificateSigned
+         * @interface ICMsgSteamDatagramCertificateSigned
+         * @augments CMsgSteamDatagramCertificateSigned.$Properties
+         * @deprecated Use CMsgSteamDatagramCertificateSigned.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSteamDatagramCertificateSigned.
+         * @typedef {CMsgSteamDatagramCertificateSigned.$Properties} CMsgSteamDatagramCertificateSigned.$Shape
          */
     
         /**
          * Constructs a new CMsgSteamDatagramCertificateSigned.
          * @exports CMsgSteamDatagramCertificateSigned
          * @classdesc Represents a CMsgSteamDatagramCertificateSigned.
-         * @implements ICMsgSteamDatagramCertificateSigned
          * @constructor
-         * @param {ICMsgSteamDatagramCertificateSigned=} [properties] Properties to set
+         * @param {CMsgSteamDatagramCertificateSigned.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSteamDatagramCertificateSigned(properties) {
+        var CMsgSteamDatagramCertificateSigned = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSteamDatagramCertificateSigned cert.
@@ -7681,10 +8432,14 @@
          * @function create
          * @memberof CMsgSteamDatagramCertificateSigned
          * @static
-         * @param {ICMsgSteamDatagramCertificateSigned=} [properties] Properties to set
+         * @param {CMsgSteamDatagramCertificateSigned.$Properties=} [properties] Properties to set
          * @returns {CMsgSteamDatagramCertificateSigned} CMsgSteamDatagramCertificateSigned instance
+         * @type {{
+         *   (properties: CMsgSteamDatagramCertificateSigned.$Shape): CMsgSteamDatagramCertificateSigned & CMsgSteamDatagramCertificateSigned.$Shape;
+         *   (properties?: CMsgSteamDatagramCertificateSigned.$Properties): CMsgSteamDatagramCertificateSigned;
+         * }}
          */
-        CMsgSteamDatagramCertificateSigned.create = function create(properties) {
+        CMsgSteamDatagramCertificateSigned.create = function(properties) {
             return new CMsgSteamDatagramCertificateSigned(properties);
         };
     
@@ -7693,25 +8448,28 @@
          * @function encode
          * @memberof CMsgSteamDatagramCertificateSigned
          * @static
-         * @param {ICMsgSteamDatagramCertificateSigned} message CMsgSteamDatagramCertificateSigned message or plain object to encode
+         * @param {CMsgSteamDatagramCertificateSigned.$Properties} message CMsgSteamDatagramCertificateSigned message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramCertificateSigned.encode = function encode(message, writer, q) {
+        CMsgSteamDatagramCertificateSigned.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.private_key_data != null && Object.hasOwnProperty.call(message, "private_key_data"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.private_key_data != null && $Object.hasOwnProperty.call(message, "private_key_data"))
                 writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.private_key_data);
-            if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
+            if (message.cert != null && $Object.hasOwnProperty.call(message, "cert"))
                 writer.uint32(/* id 4, wireType 2 =*/34).bytes(message.cert);
-            if (message.ca_key_id != null && Object.hasOwnProperty.call(message, "ca_key_id"))
+            if (message.ca_key_id != null && $Object.hasOwnProperty.call(message, "ca_key_id"))
                 writer.uint32(/* id 5, wireType 1 =*/41).fixed64(message.ca_key_id);
-            if (message.ca_signature != null && Object.hasOwnProperty.call(message, "ca_signature"))
+            if (message.ca_signature != null && $Object.hasOwnProperty.call(message, "ca_signature"))
                 writer.uint32(/* id 6, wireType 2 =*/50).bytes(message.ca_signature);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -7720,12 +8478,12 @@
          * @function encodeDelimited
          * @memberof CMsgSteamDatagramCertificateSigned
          * @static
-         * @param {ICMsgSteamDatagramCertificateSigned} message CMsgSteamDatagramCertificateSigned message or plain object to encode
+         * @param {CMsgSteamDatagramCertificateSigned.$Properties} message CMsgSteamDatagramCertificateSigned message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramCertificateSigned.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSteamDatagramCertificateSigned.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -7735,59 +8493,75 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSteamDatagramCertificateSigned} CMsgSteamDatagramCertificateSigned
+         * @returns {CMsgSteamDatagramCertificateSigned & CMsgSteamDatagramCertificateSigned.$Shape} CMsgSteamDatagramCertificateSigned
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramCertificateSigned.decode = function decode(reader, length, error, long) {
+        CMsgSteamDatagramCertificateSigned.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSteamDatagramCertificateSigned();
+            message = _target || new $root.CMsgSteamDatagramCertificateSigned();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 4: {
-                        message.cert = reader.bytes();
-                        break;
-                    }
-                case 5: {
-                        message.ca_key_id = reader.fixed64();
-                        break;
-                    }
-                case 6: {
-                        message.ca_signature = reader.bytes();
-                        break;
-                    }
-                case 1: {
-                        message.private_key_data = reader.bytes();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 4: {
+                        if (wireType !== 2)
+                            break;
+                        message.cert = reader.bytes();
+                        continue;
+                    }
+                case 5: {
+                        if (wireType !== 1)
+                            break;
+                        message.ca_key_id = reader.fixed64();
+                        continue;
+                    }
+                case 6: {
+                        if (wireType !== 2)
+                            break;
+                        message.ca_signature = reader.bytes();
+                        continue;
+                    }
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        message.private_key_data = reader.bytes();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -7797,14 +8571,14 @@
          * @memberof CMsgSteamDatagramCertificateSigned
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSteamDatagramCertificateSigned} CMsgSteamDatagramCertificateSigned
+         * @returns {CMsgSteamDatagramCertificateSigned & CMsgSteamDatagramCertificateSigned.$Shape} CMsgSteamDatagramCertificateSigned
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramCertificateSigned.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSteamDatagramCertificateSigned.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -7815,23 +8589,23 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramCertificateSigned.verify = function verify(message, long) {
+        CMsgSteamDatagramCertificateSigned.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.cert != null && $Object.hasOwnProperty.call(message, "cert"))
                 if (!(message.cert && typeof message.cert.length === "number" || $util.isString(message.cert)))
                     return "cert: buffer expected";
-            if (message.ca_key_id != null && Object.hasOwnProperty.call(message, "ca_key_id"))
+            if (message.ca_key_id != null && $Object.hasOwnProperty.call(message, "ca_key_id"))
                 if (!$util.isInteger(message.ca_key_id) && !(message.ca_key_id && $util.isInteger(message.ca_key_id.low) && $util.isInteger(message.ca_key_id.high)))
                     return "ca_key_id: integer|Long expected";
-            if (message.ca_signature != null && Object.hasOwnProperty.call(message, "ca_signature"))
+            if (message.ca_signature != null && $Object.hasOwnProperty.call(message, "ca_signature"))
                 if (!(message.ca_signature && typeof message.ca_signature.length === "number" || $util.isString(message.ca_signature)))
                     return "ca_signature: buffer expected";
-            if (message.private_key_data != null && Object.hasOwnProperty.call(message, "private_key_data"))
+            if (message.private_key_data != null && $Object.hasOwnProperty.call(message, "private_key_data"))
                 if (!(message.private_key_data && typeof message.private_key_data.length === "number" || $util.isString(message.private_key_data)))
                     return "private_key_data: buffer expected";
             return null;
@@ -7845,15 +8619,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramCertificateSigned} CMsgSteamDatagramCertificateSigned
          */
-        CMsgSteamDatagramCertificateSigned.fromObject = function fromObject(object, long) {
+        CMsgSteamDatagramCertificateSigned.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSteamDatagramCertificateSigned)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSteamDatagramCertificateSigned: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSteamDatagramCertificateSigned: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSteamDatagramCertificateSigned();
             if (object.cert != null)
                 if (typeof object.cert === "string")
@@ -7864,7 +8638,7 @@
                 if ($util.Long)
                     message.ca_key_id = $util.Long.fromValue(object.ca_key_id, true);
                 else if (typeof object.ca_key_id === "string")
-                    message.ca_key_id = parseInt(object.ca_key_id, 10);
+                    message.ca_key_id = $parseInt(object.ca_key_id, 10);
                 else if (typeof object.ca_key_id === "number")
                     message.ca_key_id = object.ca_key_id;
                 else if (typeof object.ca_key_id === "object")
@@ -7891,55 +8665,55 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramCertificateSigned.toObject = function toObject(message, options, q) {
+        CMsgSteamDatagramCertificateSigned.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
-                if (options.bytes === String)
+                if (options.bytes === $String)
                     object.private_key_data = "";
                 else {
                     object.private_key_data = [];
-                    if (options.bytes !== Array)
+                    if (options.bytes !== $Array)
                         object.private_key_data = $util.newBuffer(object.private_key_data);
                 }
-                if (options.bytes === String)
+                if (options.bytes === $String)
                     object.cert = "";
                 else {
                     object.cert = [];
-                    if (options.bytes !== Array)
+                    if (options.bytes !== $Array)
                         object.cert = $util.newBuffer(object.cert);
                 }
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.ca_key_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.ca_key_id = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.ca_key_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
-                if (options.bytes === String)
+                    object.ca_key_id = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
+                if (options.bytes === $String)
                     object.ca_signature = "";
                 else {
                     object.ca_signature = [];
-                    if (options.bytes !== Array)
+                    if (options.bytes !== $Array)
                         object.ca_signature = $util.newBuffer(object.ca_signature);
                 }
             }
-            if (message.private_key_data != null && Object.hasOwnProperty.call(message, "private_key_data"))
-                object.private_key_data = options.bytes === String ? $util.base64.encode(message.private_key_data, 0, message.private_key_data.length) : options.bytes === Array ? Array.prototype.slice.call(message.private_key_data) : message.private_key_data;
-            if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
-                object.cert = options.bytes === String ? $util.base64.encode(message.cert, 0, message.cert.length) : options.bytes === Array ? Array.prototype.slice.call(message.cert) : message.cert;
-            if (message.ca_key_id != null && Object.hasOwnProperty.call(message, "ca_key_id"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.ca_key_id = typeof message.ca_key_id === "number" ? BigInt(message.ca_key_id) : $util.Long.fromBits(message.ca_key_id.low >>> 0, message.ca_key_id.high >>> 0, true).toBigInt();
+            if (message.private_key_data != null && $Object.hasOwnProperty.call(message, "private_key_data"))
+                object.private_key_data = options.bytes === $String ? $util.base64.encode(message.private_key_data, 0, message.private_key_data.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.private_key_data) : message.private_key_data;
+            if (message.cert != null && $Object.hasOwnProperty.call(message, "cert"))
+                object.cert = options.bytes === $String ? $util.base64.encode(message.cert, 0, message.cert.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.cert) : message.cert;
+            if (message.ca_key_id != null && $Object.hasOwnProperty.call(message, "ca_key_id"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.ca_key_id = typeof message.ca_key_id === "number" ? $BigInt(message.ca_key_id) : $util.Long.fromBits(message.ca_key_id.low >>> 0, message.ca_key_id.high >>> 0, true).toBigInt();
                 else if (typeof message.ca_key_id === "number")
-                    object.ca_key_id = options.longs === String ? String(message.ca_key_id) : message.ca_key_id;
+                    object.ca_key_id = options.longs === $String ? $String(message.ca_key_id) : message.ca_key_id;
                 else
-                    object.ca_key_id = options.longs === String ? $util.Long.prototype.toString.call(message.ca_key_id) : options.longs === Number ? new $util.LongBits(message.ca_key_id.low >>> 0, message.ca_key_id.high >>> 0).toNumber(true) : message.ca_key_id;
-            if (message.ca_signature != null && Object.hasOwnProperty.call(message, "ca_signature"))
-                object.ca_signature = options.bytes === String ? $util.base64.encode(message.ca_signature, 0, message.ca_signature.length) : options.bytes === Array ? Array.prototype.slice.call(message.ca_signature) : message.ca_signature;
+                    object.ca_key_id = options.longs === $String ? $util.Long.prototype.toString.call(message.ca_key_id) : options.longs === $Number ? new $util.LongBits(message.ca_key_id.low >>> 0, message.ca_key_id.high >>> 0).toNumber(true) : message.ca_key_id;
+            if (message.ca_signature != null && $Object.hasOwnProperty.call(message, "ca_signature"))
+                object.ca_signature = options.bytes === $String ? $util.base64.encode(message.ca_signature, 0, message.ca_signature.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.ca_signature) : message.ca_signature;
             return object;
         };
     
@@ -7950,23 +8724,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSteamDatagramCertificateSigned.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSteamDatagramCertificateSigned.prototype.toJSON = function() {
+            return CMsgSteamDatagramCertificateSigned.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSteamDatagramCertificateSigned
+         * Gets the type url for CMsgSteamDatagramCertificateSigned
          * @function getTypeUrl
          * @memberof CMsgSteamDatagramCertificateSigned
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSteamDatagramCertificateSigned.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSteamDatagramCertificateSigned";
+        CMsgSteamDatagramCertificateSigned.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSteamDatagramCertificateSigned";
         };
     
         return CMsgSteamDatagramCertificateSigned;
@@ -7976,29 +8749,42 @@
     
         /**
          * Properties of a CMsgSteamDatagramCertificateRequest.
+         * @typedef {Object} CMsgSteamDatagramCertificateRequest.$Properties
+         * @property {CMsgSteamDatagramCertificate.$Properties|null} [cert] CMsgSteamDatagramCertificateRequest cert
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSteamDatagramCertificateRequest.
          * @exports ICMsgSteamDatagramCertificateRequest
          * @interface ICMsgSteamDatagramCertificateRequest
-         * @property {ICMsgSteamDatagramCertificate|null} [cert] CMsgSteamDatagramCertificateRequest cert
+         * @augments CMsgSteamDatagramCertificateRequest.$Properties
+         * @deprecated Use CMsgSteamDatagramCertificateRequest.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSteamDatagramCertificateRequest.
+         * @typedef {CMsgSteamDatagramCertificateRequest.$Properties} CMsgSteamDatagramCertificateRequest.$Shape
          */
     
         /**
          * Constructs a new CMsgSteamDatagramCertificateRequest.
          * @exports CMsgSteamDatagramCertificateRequest
          * @classdesc Represents a CMsgSteamDatagramCertificateRequest.
-         * @implements ICMsgSteamDatagramCertificateRequest
          * @constructor
-         * @param {ICMsgSteamDatagramCertificateRequest=} [properties] Properties to set
+         * @param {CMsgSteamDatagramCertificateRequest.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSteamDatagramCertificateRequest(properties) {
+        var CMsgSteamDatagramCertificateRequest = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSteamDatagramCertificateRequest cert.
-         * @member {ICMsgSteamDatagramCertificate|null|undefined} cert
+         * @member {CMsgSteamDatagramCertificate.$Properties|null|undefined} cert
          * @memberof CMsgSteamDatagramCertificateRequest
          * @instance
          */
@@ -8009,10 +8795,14 @@
          * @function create
          * @memberof CMsgSteamDatagramCertificateRequest
          * @static
-         * @param {ICMsgSteamDatagramCertificateRequest=} [properties] Properties to set
+         * @param {CMsgSteamDatagramCertificateRequest.$Properties=} [properties] Properties to set
          * @returns {CMsgSteamDatagramCertificateRequest} CMsgSteamDatagramCertificateRequest instance
+         * @type {{
+         *   (properties: CMsgSteamDatagramCertificateRequest.$Shape): CMsgSteamDatagramCertificateRequest & CMsgSteamDatagramCertificateRequest.$Shape;
+         *   (properties?: CMsgSteamDatagramCertificateRequest.$Properties): CMsgSteamDatagramCertificateRequest;
+         * }}
          */
-        CMsgSteamDatagramCertificateRequest.create = function create(properties) {
+        CMsgSteamDatagramCertificateRequest.create = function(properties) {
             return new CMsgSteamDatagramCertificateRequest(properties);
         };
     
@@ -8021,19 +8811,22 @@
          * @function encode
          * @memberof CMsgSteamDatagramCertificateRequest
          * @static
-         * @param {ICMsgSteamDatagramCertificateRequest} message CMsgSteamDatagramCertificateRequest message or plain object to encode
+         * @param {CMsgSteamDatagramCertificateRequest.$Properties} message CMsgSteamDatagramCertificateRequest message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramCertificateRequest.encode = function encode(message, writer, q) {
+        CMsgSteamDatagramCertificateRequest.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
-                $root.CMsgSteamDatagramCertificate.encode(message.cert, writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.cert != null && $Object.hasOwnProperty.call(message, "cert"))
+                $root.CMsgSteamDatagramCertificate.encode(message.cert, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -8042,12 +8835,12 @@
          * @function encodeDelimited
          * @memberof CMsgSteamDatagramCertificateRequest
          * @static
-         * @param {ICMsgSteamDatagramCertificateRequest} message CMsgSteamDatagramCertificateRequest message or plain object to encode
+         * @param {CMsgSteamDatagramCertificateRequest.$Properties} message CMsgSteamDatagramCertificateRequest message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSteamDatagramCertificateRequest.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSteamDatagramCertificateRequest.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -8057,47 +8850,57 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSteamDatagramCertificateRequest} CMsgSteamDatagramCertificateRequest
+         * @returns {CMsgSteamDatagramCertificateRequest & CMsgSteamDatagramCertificateRequest.$Shape} CMsgSteamDatagramCertificateRequest
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramCertificateRequest.decode = function decode(reader, length, error, long) {
+        CMsgSteamDatagramCertificateRequest.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSteamDatagramCertificateRequest();
+            message = _target || new $root.CMsgSteamDatagramCertificateRequest();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.cert = $root.CMsgSteamDatagramCertificate.decode(reader, reader.uint32(), undefined, long + 1);
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        message.cert = $root.CMsgSteamDatagramCertificate.decode(reader, reader.size(), $undefined, _depth + 1, message.cert);
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -8107,14 +8910,14 @@
          * @memberof CMsgSteamDatagramCertificateRequest
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSteamDatagramCertificateRequest} CMsgSteamDatagramCertificateRequest
+         * @returns {CMsgSteamDatagramCertificateRequest & CMsgSteamDatagramCertificateRequest.$Shape} CMsgSteamDatagramCertificateRequest
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSteamDatagramCertificateRequest.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSteamDatagramCertificateRequest.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -8125,15 +8928,15 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSteamDatagramCertificateRequest.verify = function verify(message, long) {
+        CMsgSteamDatagramCertificateRequest.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.cert != null && Object.hasOwnProperty.call(message, "cert")) {
-                var error = $root.CMsgSteamDatagramCertificate.verify(message.cert, long + 1);
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.cert != null && $Object.hasOwnProperty.call(message, "cert")) {
+                var error = $root.CMsgSteamDatagramCertificate.verify(message.cert, _depth + 1);
                 if (error)
                     return "cert." + error;
             }
@@ -8148,20 +8951,20 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSteamDatagramCertificateRequest} CMsgSteamDatagramCertificateRequest
          */
-        CMsgSteamDatagramCertificateRequest.fromObject = function fromObject(object, long) {
+        CMsgSteamDatagramCertificateRequest.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSteamDatagramCertificateRequest)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSteamDatagramCertificateRequest: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSteamDatagramCertificateRequest: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSteamDatagramCertificateRequest();
             if (object.cert != null) {
                 if (!$util.isObject(object.cert))
-                    throw TypeError(".CMsgSteamDatagramCertificateRequest.cert: object expected");
-                message.cert = $root.CMsgSteamDatagramCertificate.fromObject(object.cert, long + 1);
+                    throw $TypeError(".CMsgSteamDatagramCertificateRequest.cert: object expected");
+                message.cert = $root.CMsgSteamDatagramCertificate.fromObject(object.cert, _depth + 1);
             }
             return message;
         };
@@ -8175,18 +8978,18 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSteamDatagramCertificateRequest.toObject = function toObject(message, options, q) {
+        CMsgSteamDatagramCertificateRequest.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.cert = null;
-            if (message.cert != null && Object.hasOwnProperty.call(message, "cert"))
-                object.cert = $root.CMsgSteamDatagramCertificate.toObject(message.cert, options, q + 1);
+            if (message.cert != null && $Object.hasOwnProperty.call(message, "cert"))
+                object.cert = $root.CMsgSteamDatagramCertificate.toObject(message.cert, options, _depth + 1);
             return object;
         };
     
@@ -8197,23 +9000,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSteamDatagramCertificateRequest.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSteamDatagramCertificateRequest.prototype.toJSON = function() {
+            return CMsgSteamDatagramCertificateRequest.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSteamDatagramCertificateRequest
+         * Gets the type url for CMsgSteamDatagramCertificateRequest
          * @function getTypeUrl
          * @memberof CMsgSteamDatagramCertificateRequest
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSteamDatagramCertificateRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSteamDatagramCertificateRequest";
+        CMsgSteamDatagramCertificateRequest.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSteamDatagramCertificateRequest";
         };
     
         return CMsgSteamDatagramCertificateRequest;

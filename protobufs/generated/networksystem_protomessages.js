@@ -1,4 +1,4 @@
-/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
+/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-mixed-operators, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars, default-case, jsdoc/require-param*/
 (function(global, factory) { /* global define, require, module */
 
     /* AMD */ if (typeof define === 'function' && define.amd)
@@ -12,6 +12,7 @@
 
     // Common aliases
     var $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
+    var $Object = $util.global.Object, $undefined = $util.global.undefined, $Error = $util.global.Error, $RangeError = $util.global.RangeError, $TypeError = $util.global.TypeError, $String = $util.global.String;
     
     // Exported root namespace
     var $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
@@ -20,25 +21,38 @@
     
         /**
          * Properties of a NetMessageSplitscreenUserChanged.
+         * @typedef {Object} NetMessageSplitscreenUserChanged.$Properties
+         * @property {number|null} [slot] NetMessageSplitscreenUserChanged slot
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a NetMessageSplitscreenUserChanged.
          * @exports INetMessageSplitscreenUserChanged
          * @interface INetMessageSplitscreenUserChanged
-         * @property {number|null} [slot] NetMessageSplitscreenUserChanged slot
+         * @augments NetMessageSplitscreenUserChanged.$Properties
+         * @deprecated Use NetMessageSplitscreenUserChanged.$Properties instead.
+         */
+    
+        /**
+         * Shape of a NetMessageSplitscreenUserChanged.
+         * @typedef {NetMessageSplitscreenUserChanged.$Properties} NetMessageSplitscreenUserChanged.$Shape
          */
     
         /**
          * Constructs a new NetMessageSplitscreenUserChanged.
          * @exports NetMessageSplitscreenUserChanged
          * @classdesc Represents a NetMessageSplitscreenUserChanged.
-         * @implements INetMessageSplitscreenUserChanged
          * @constructor
-         * @param {INetMessageSplitscreenUserChanged=} [properties] Properties to set
+         * @param {NetMessageSplitscreenUserChanged.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function NetMessageSplitscreenUserChanged(properties) {
+        var NetMessageSplitscreenUserChanged = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * NetMessageSplitscreenUserChanged slot.
@@ -53,10 +67,14 @@
          * @function create
          * @memberof NetMessageSplitscreenUserChanged
          * @static
-         * @param {INetMessageSplitscreenUserChanged=} [properties] Properties to set
+         * @param {NetMessageSplitscreenUserChanged.$Properties=} [properties] Properties to set
          * @returns {NetMessageSplitscreenUserChanged} NetMessageSplitscreenUserChanged instance
+         * @type {{
+         *   (properties: NetMessageSplitscreenUserChanged.$Shape): NetMessageSplitscreenUserChanged & NetMessageSplitscreenUserChanged.$Shape;
+         *   (properties?: NetMessageSplitscreenUserChanged.$Properties): NetMessageSplitscreenUserChanged;
+         * }}
          */
-        NetMessageSplitscreenUserChanged.create = function create(properties) {
+        NetMessageSplitscreenUserChanged.create = function(properties) {
             return new NetMessageSplitscreenUserChanged(properties);
         };
     
@@ -65,19 +83,22 @@
          * @function encode
          * @memberof NetMessageSplitscreenUserChanged
          * @static
-         * @param {INetMessageSplitscreenUserChanged} message NetMessageSplitscreenUserChanged message or plain object to encode
+         * @param {NetMessageSplitscreenUserChanged.$Properties} message NetMessageSplitscreenUserChanged message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        NetMessageSplitscreenUserChanged.encode = function encode(message, writer, q) {
+        NetMessageSplitscreenUserChanged.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.slot != null && Object.hasOwnProperty.call(message, "slot"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.slot != null && $Object.hasOwnProperty.call(message, "slot"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.slot);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -86,12 +107,12 @@
          * @function encodeDelimited
          * @memberof NetMessageSplitscreenUserChanged
          * @static
-         * @param {INetMessageSplitscreenUserChanged} message NetMessageSplitscreenUserChanged message or plain object to encode
+         * @param {NetMessageSplitscreenUserChanged.$Properties} message NetMessageSplitscreenUserChanged message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        NetMessageSplitscreenUserChanged.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        NetMessageSplitscreenUserChanged.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -101,47 +122,57 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {NetMessageSplitscreenUserChanged} NetMessageSplitscreenUserChanged
+         * @returns {NetMessageSplitscreenUserChanged & NetMessageSplitscreenUserChanged.$Shape} NetMessageSplitscreenUserChanged
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        NetMessageSplitscreenUserChanged.decode = function decode(reader, length, error, long) {
+        NetMessageSplitscreenUserChanged.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.NetMessageSplitscreenUserChanged();
+            message = _target || new $root.NetMessageSplitscreenUserChanged();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.slot = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.slot = reader.uint32();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -151,14 +182,14 @@
          * @memberof NetMessageSplitscreenUserChanged
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {NetMessageSplitscreenUserChanged} NetMessageSplitscreenUserChanged
+         * @returns {NetMessageSplitscreenUserChanged & NetMessageSplitscreenUserChanged.$Shape} NetMessageSplitscreenUserChanged
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        NetMessageSplitscreenUserChanged.decodeDelimited = function decodeDelimited(reader) {
+        NetMessageSplitscreenUserChanged.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -169,14 +200,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        NetMessageSplitscreenUserChanged.verify = function verify(message, long) {
+        NetMessageSplitscreenUserChanged.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.slot != null && Object.hasOwnProperty.call(message, "slot"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.slot != null && $Object.hasOwnProperty.call(message, "slot"))
                 if (!$util.isInteger(message.slot))
                     return "slot: integer expected";
             return null;
@@ -190,15 +221,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {NetMessageSplitscreenUserChanged} NetMessageSplitscreenUserChanged
          */
-        NetMessageSplitscreenUserChanged.fromObject = function fromObject(object, long) {
+        NetMessageSplitscreenUserChanged.fromObject = function (object, _depth) {
             if (object instanceof $root.NetMessageSplitscreenUserChanged)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".NetMessageSplitscreenUserChanged: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".NetMessageSplitscreenUserChanged: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.NetMessageSplitscreenUserChanged();
             if (object.slot != null)
                 message.slot = object.slot >>> 0;
@@ -214,17 +245,17 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        NetMessageSplitscreenUserChanged.toObject = function toObject(message, options, q) {
+        NetMessageSplitscreenUserChanged.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.slot = 0;
-            if (message.slot != null && Object.hasOwnProperty.call(message, "slot"))
+            if (message.slot != null && $Object.hasOwnProperty.call(message, "slot"))
                 object.slot = message.slot;
             return object;
         };
@@ -236,23 +267,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        NetMessageSplitscreenUserChanged.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        NetMessageSplitscreenUserChanged.prototype.toJSON = function() {
+            return NetMessageSplitscreenUserChanged.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for NetMessageSplitscreenUserChanged
+         * Gets the type url for NetMessageSplitscreenUserChanged
          * @function getTypeUrl
          * @memberof NetMessageSplitscreenUserChanged
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        NetMessageSplitscreenUserChanged.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/NetMessageSplitscreenUserChanged";
+        NetMessageSplitscreenUserChanged.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/NetMessageSplitscreenUserChanged";
         };
     
         return NetMessageSplitscreenUserChanged;
@@ -262,26 +292,39 @@
     
         /**
          * Properties of a NetMessageConnectionClosed.
-         * @exports INetMessageConnectionClosed
-         * @interface INetMessageConnectionClosed
+         * @typedef {Object} NetMessageConnectionClosed.$Properties
          * @property {number|null} [reason] NetMessageConnectionClosed reason
          * @property {string|null} [message] NetMessageConnectionClosed message
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a NetMessageConnectionClosed.
+         * @exports INetMessageConnectionClosed
+         * @interface INetMessageConnectionClosed
+         * @augments NetMessageConnectionClosed.$Properties
+         * @deprecated Use NetMessageConnectionClosed.$Properties instead.
+         */
+    
+        /**
+         * Shape of a NetMessageConnectionClosed.
+         * @typedef {NetMessageConnectionClosed.$Properties} NetMessageConnectionClosed.$Shape
          */
     
         /**
          * Constructs a new NetMessageConnectionClosed.
          * @exports NetMessageConnectionClosed
          * @classdesc Represents a NetMessageConnectionClosed.
-         * @implements INetMessageConnectionClosed
          * @constructor
-         * @param {INetMessageConnectionClosed=} [properties] Properties to set
+         * @param {NetMessageConnectionClosed.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function NetMessageConnectionClosed(properties) {
+        var NetMessageConnectionClosed = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * NetMessageConnectionClosed reason.
@@ -304,10 +347,14 @@
          * @function create
          * @memberof NetMessageConnectionClosed
          * @static
-         * @param {INetMessageConnectionClosed=} [properties] Properties to set
+         * @param {NetMessageConnectionClosed.$Properties=} [properties] Properties to set
          * @returns {NetMessageConnectionClosed} NetMessageConnectionClosed instance
+         * @type {{
+         *   (properties: NetMessageConnectionClosed.$Shape): NetMessageConnectionClosed & NetMessageConnectionClosed.$Shape;
+         *   (properties?: NetMessageConnectionClosed.$Properties): NetMessageConnectionClosed;
+         * }}
          */
-        NetMessageConnectionClosed.create = function create(properties) {
+        NetMessageConnectionClosed.create = function(properties) {
             return new NetMessageConnectionClosed(properties);
         };
     
@@ -316,21 +363,24 @@
          * @function encode
          * @memberof NetMessageConnectionClosed
          * @static
-         * @param {INetMessageConnectionClosed} message NetMessageConnectionClosed message or plain object to encode
+         * @param {NetMessageConnectionClosed.$Properties} message NetMessageConnectionClosed message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        NetMessageConnectionClosed.encode = function encode(message, writer, q) {
+        NetMessageConnectionClosed.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.reason != null && Object.hasOwnProperty.call(message, "reason"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.reason != null && $Object.hasOwnProperty.call(message, "reason"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.reason);
-            if (message.message != null && Object.hasOwnProperty.call(message, "message"))
+            if (message.message != null && $Object.hasOwnProperty.call(message, "message"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.message);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -339,12 +389,12 @@
          * @function encodeDelimited
          * @memberof NetMessageConnectionClosed
          * @static
-         * @param {INetMessageConnectionClosed} message NetMessageConnectionClosed message or plain object to encode
+         * @param {NetMessageConnectionClosed.$Properties} message NetMessageConnectionClosed message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        NetMessageConnectionClosed.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        NetMessageConnectionClosed.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -354,51 +404,63 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {NetMessageConnectionClosed} NetMessageConnectionClosed
+         * @returns {NetMessageConnectionClosed & NetMessageConnectionClosed.$Shape} NetMessageConnectionClosed
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        NetMessageConnectionClosed.decode = function decode(reader, length, error, long) {
+        NetMessageConnectionClosed.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.NetMessageConnectionClosed();
+            message = _target || new $root.NetMessageConnectionClosed();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.reason = reader.uint32();
-                        break;
-                    }
-                case 2: {
-                        message.message = reader.string();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.reason = reader.uint32();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.message = reader.string();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -408,14 +470,14 @@
          * @memberof NetMessageConnectionClosed
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {NetMessageConnectionClosed} NetMessageConnectionClosed
+         * @returns {NetMessageConnectionClosed & NetMessageConnectionClosed.$Shape} NetMessageConnectionClosed
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        NetMessageConnectionClosed.decodeDelimited = function decodeDelimited(reader) {
+        NetMessageConnectionClosed.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -426,17 +488,17 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        NetMessageConnectionClosed.verify = function verify(message, long) {
+        NetMessageConnectionClosed.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.reason != null && Object.hasOwnProperty.call(message, "reason"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.reason != null && $Object.hasOwnProperty.call(message, "reason"))
                 if (!$util.isInteger(message.reason))
                     return "reason: integer expected";
-            if (message.message != null && Object.hasOwnProperty.call(message, "message"))
+            if (message.message != null && $Object.hasOwnProperty.call(message, "message"))
                 if (!$util.isString(message.message))
                     return "message: string expected";
             return null;
@@ -450,20 +512,20 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {NetMessageConnectionClosed} NetMessageConnectionClosed
          */
-        NetMessageConnectionClosed.fromObject = function fromObject(object, long) {
+        NetMessageConnectionClosed.fromObject = function (object, _depth) {
             if (object instanceof $root.NetMessageConnectionClosed)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".NetMessageConnectionClosed: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".NetMessageConnectionClosed: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.NetMessageConnectionClosed();
             if (object.reason != null)
                 message.reason = object.reason >>> 0;
             if (object.message != null)
-                message.message = String(object.message);
+                message.message = $String(object.message);
             return message;
         };
     
@@ -476,21 +538,21 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        NetMessageConnectionClosed.toObject = function toObject(message, options, q) {
+        NetMessageConnectionClosed.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.reason = 0;
                 object.message = "";
             }
-            if (message.reason != null && Object.hasOwnProperty.call(message, "reason"))
+            if (message.reason != null && $Object.hasOwnProperty.call(message, "reason"))
                 object.reason = message.reason;
-            if (message.message != null && Object.hasOwnProperty.call(message, "message"))
+            if (message.message != null && $Object.hasOwnProperty.call(message, "message"))
                 object.message = message.message;
             return object;
         };
@@ -502,23 +564,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        NetMessageConnectionClosed.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        NetMessageConnectionClosed.prototype.toJSON = function() {
+            return NetMessageConnectionClosed.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for NetMessageConnectionClosed
+         * Gets the type url for NetMessageConnectionClosed
          * @function getTypeUrl
          * @memberof NetMessageConnectionClosed
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        NetMessageConnectionClosed.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/NetMessageConnectionClosed";
+        NetMessageConnectionClosed.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/NetMessageConnectionClosed";
         };
     
         return NetMessageConnectionClosed;
@@ -528,26 +589,39 @@
     
         /**
          * Properties of a NetMessageConnectionCrashed.
-         * @exports INetMessageConnectionCrashed
-         * @interface INetMessageConnectionCrashed
+         * @typedef {Object} NetMessageConnectionCrashed.$Properties
          * @property {number|null} [reason] NetMessageConnectionCrashed reason
          * @property {string|null} [message] NetMessageConnectionCrashed message
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a NetMessageConnectionCrashed.
+         * @exports INetMessageConnectionCrashed
+         * @interface INetMessageConnectionCrashed
+         * @augments NetMessageConnectionCrashed.$Properties
+         * @deprecated Use NetMessageConnectionCrashed.$Properties instead.
+         */
+    
+        /**
+         * Shape of a NetMessageConnectionCrashed.
+         * @typedef {NetMessageConnectionCrashed.$Properties} NetMessageConnectionCrashed.$Shape
          */
     
         /**
          * Constructs a new NetMessageConnectionCrashed.
          * @exports NetMessageConnectionCrashed
          * @classdesc Represents a NetMessageConnectionCrashed.
-         * @implements INetMessageConnectionCrashed
          * @constructor
-         * @param {INetMessageConnectionCrashed=} [properties] Properties to set
+         * @param {NetMessageConnectionCrashed.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function NetMessageConnectionCrashed(properties) {
+        var NetMessageConnectionCrashed = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * NetMessageConnectionCrashed reason.
@@ -570,10 +644,14 @@
          * @function create
          * @memberof NetMessageConnectionCrashed
          * @static
-         * @param {INetMessageConnectionCrashed=} [properties] Properties to set
+         * @param {NetMessageConnectionCrashed.$Properties=} [properties] Properties to set
          * @returns {NetMessageConnectionCrashed} NetMessageConnectionCrashed instance
+         * @type {{
+         *   (properties: NetMessageConnectionCrashed.$Shape): NetMessageConnectionCrashed & NetMessageConnectionCrashed.$Shape;
+         *   (properties?: NetMessageConnectionCrashed.$Properties): NetMessageConnectionCrashed;
+         * }}
          */
-        NetMessageConnectionCrashed.create = function create(properties) {
+        NetMessageConnectionCrashed.create = function(properties) {
             return new NetMessageConnectionCrashed(properties);
         };
     
@@ -582,21 +660,24 @@
          * @function encode
          * @memberof NetMessageConnectionCrashed
          * @static
-         * @param {INetMessageConnectionCrashed} message NetMessageConnectionCrashed message or plain object to encode
+         * @param {NetMessageConnectionCrashed.$Properties} message NetMessageConnectionCrashed message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        NetMessageConnectionCrashed.encode = function encode(message, writer, q) {
+        NetMessageConnectionCrashed.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.reason != null && Object.hasOwnProperty.call(message, "reason"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.reason != null && $Object.hasOwnProperty.call(message, "reason"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.reason);
-            if (message.message != null && Object.hasOwnProperty.call(message, "message"))
+            if (message.message != null && $Object.hasOwnProperty.call(message, "message"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.message);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -605,12 +686,12 @@
          * @function encodeDelimited
          * @memberof NetMessageConnectionCrashed
          * @static
-         * @param {INetMessageConnectionCrashed} message NetMessageConnectionCrashed message or plain object to encode
+         * @param {NetMessageConnectionCrashed.$Properties} message NetMessageConnectionCrashed message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        NetMessageConnectionCrashed.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        NetMessageConnectionCrashed.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -620,51 +701,63 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {NetMessageConnectionCrashed} NetMessageConnectionCrashed
+         * @returns {NetMessageConnectionCrashed & NetMessageConnectionCrashed.$Shape} NetMessageConnectionCrashed
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        NetMessageConnectionCrashed.decode = function decode(reader, length, error, long) {
+        NetMessageConnectionCrashed.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.NetMessageConnectionCrashed();
+            message = _target || new $root.NetMessageConnectionCrashed();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.reason = reader.uint32();
-                        break;
-                    }
-                case 2: {
-                        message.message = reader.string();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.reason = reader.uint32();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.message = reader.string();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -674,14 +767,14 @@
          * @memberof NetMessageConnectionCrashed
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {NetMessageConnectionCrashed} NetMessageConnectionCrashed
+         * @returns {NetMessageConnectionCrashed & NetMessageConnectionCrashed.$Shape} NetMessageConnectionCrashed
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        NetMessageConnectionCrashed.decodeDelimited = function decodeDelimited(reader) {
+        NetMessageConnectionCrashed.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -692,17 +785,17 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        NetMessageConnectionCrashed.verify = function verify(message, long) {
+        NetMessageConnectionCrashed.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.reason != null && Object.hasOwnProperty.call(message, "reason"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.reason != null && $Object.hasOwnProperty.call(message, "reason"))
                 if (!$util.isInteger(message.reason))
                     return "reason: integer expected";
-            if (message.message != null && Object.hasOwnProperty.call(message, "message"))
+            if (message.message != null && $Object.hasOwnProperty.call(message, "message"))
                 if (!$util.isString(message.message))
                     return "message: string expected";
             return null;
@@ -716,20 +809,20 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {NetMessageConnectionCrashed} NetMessageConnectionCrashed
          */
-        NetMessageConnectionCrashed.fromObject = function fromObject(object, long) {
+        NetMessageConnectionCrashed.fromObject = function (object, _depth) {
             if (object instanceof $root.NetMessageConnectionCrashed)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".NetMessageConnectionCrashed: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".NetMessageConnectionCrashed: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.NetMessageConnectionCrashed();
             if (object.reason != null)
                 message.reason = object.reason >>> 0;
             if (object.message != null)
-                message.message = String(object.message);
+                message.message = $String(object.message);
             return message;
         };
     
@@ -742,21 +835,21 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        NetMessageConnectionCrashed.toObject = function toObject(message, options, q) {
+        NetMessageConnectionCrashed.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.reason = 0;
                 object.message = "";
             }
-            if (message.reason != null && Object.hasOwnProperty.call(message, "reason"))
+            if (message.reason != null && $Object.hasOwnProperty.call(message, "reason"))
                 object.reason = message.reason;
-            if (message.message != null && Object.hasOwnProperty.call(message, "message"))
+            if (message.message != null && $Object.hasOwnProperty.call(message, "message"))
                 object.message = message.message;
             return object;
         };
@@ -768,23 +861,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        NetMessageConnectionCrashed.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        NetMessageConnectionCrashed.prototype.toJSON = function() {
+            return NetMessageConnectionCrashed.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for NetMessageConnectionCrashed
+         * Gets the type url for NetMessageConnectionCrashed
          * @function getTypeUrl
          * @memberof NetMessageConnectionCrashed
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        NetMessageConnectionCrashed.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/NetMessageConnectionCrashed";
+        NetMessageConnectionCrashed.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/NetMessageConnectionCrashed";
         };
     
         return NetMessageConnectionCrashed;
@@ -794,34 +886,51 @@
     
         /**
          * Properties of a NetMessagePacketStart.
+         * @typedef {Object} NetMessagePacketStart.$Properties
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a NetMessagePacketStart.
          * @exports INetMessagePacketStart
          * @interface INetMessagePacketStart
+         * @augments NetMessagePacketStart.$Properties
+         * @deprecated Use NetMessagePacketStart.$Properties instead.
+         */
+    
+        /**
+         * Shape of a NetMessagePacketStart.
+         * @typedef {NetMessagePacketStart.$Properties} NetMessagePacketStart.$Shape
          */
     
         /**
          * Constructs a new NetMessagePacketStart.
          * @exports NetMessagePacketStart
          * @classdesc Represents a NetMessagePacketStart.
-         * @implements INetMessagePacketStart
          * @constructor
-         * @param {INetMessagePacketStart=} [properties] Properties to set
+         * @param {NetMessagePacketStart.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function NetMessagePacketStart(properties) {
+        var NetMessagePacketStart = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * Creates a new NetMessagePacketStart instance using the specified properties.
          * @function create
          * @memberof NetMessagePacketStart
          * @static
-         * @param {INetMessagePacketStart=} [properties] Properties to set
+         * @param {NetMessagePacketStart.$Properties=} [properties] Properties to set
          * @returns {NetMessagePacketStart} NetMessagePacketStart instance
+         * @type {{
+         *   (properties: NetMessagePacketStart.$Shape): NetMessagePacketStart & NetMessagePacketStart.$Shape;
+         *   (properties?: NetMessagePacketStart.$Properties): NetMessagePacketStart;
+         * }}
          */
-        NetMessagePacketStart.create = function create(properties) {
+        NetMessagePacketStart.create = function(properties) {
             return new NetMessagePacketStart(properties);
         };
     
@@ -830,17 +939,20 @@
          * @function encode
          * @memberof NetMessagePacketStart
          * @static
-         * @param {INetMessagePacketStart} message NetMessagePacketStart message or plain object to encode
+         * @param {NetMessagePacketStart.$Properties} message NetMessagePacketStart message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        NetMessagePacketStart.encode = function encode(message, writer, q) {
+        NetMessagePacketStart.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -849,12 +961,12 @@
          * @function encodeDelimited
          * @memberof NetMessagePacketStart
          * @static
-         * @param {INetMessagePacketStart} message NetMessagePacketStart message or plain object to encode
+         * @param {NetMessagePacketStart.$Properties} message NetMessagePacketStart message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        NetMessagePacketStart.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        NetMessagePacketStart.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -864,43 +976,48 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {NetMessagePacketStart} NetMessagePacketStart
+         * @returns {NetMessagePacketStart & NetMessagePacketStart.$Shape} NetMessagePacketStart
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        NetMessagePacketStart.decode = function decode(reader, length, error, long) {
+        NetMessagePacketStart.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.NetMessagePacketStart();
+            message = _target || new $root.NetMessagePacketStart();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                reader.skipType(tag & 7, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -910,14 +1027,14 @@
          * @memberof NetMessagePacketStart
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {NetMessagePacketStart} NetMessagePacketStart
+         * @returns {NetMessagePacketStart & NetMessagePacketStart.$Shape} NetMessagePacketStart
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        NetMessagePacketStart.decodeDelimited = function decodeDelimited(reader) {
+        NetMessagePacketStart.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -928,13 +1045,13 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        NetMessagePacketStart.verify = function verify(message, long) {
+        NetMessagePacketStart.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
             return null;
         };
     
@@ -946,9 +1063,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {NetMessagePacketStart} NetMessagePacketStart
          */
-        NetMessagePacketStart.fromObject = function fromObject(object, long) {
+        NetMessagePacketStart.fromObject = function (object, _depth) {
             if (object instanceof $root.NetMessagePacketStart)
                 return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".NetMessagePacketStart: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             return new $root.NetMessagePacketStart();
         };
     
@@ -961,7 +1084,7 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        NetMessagePacketStart.toObject = function toObject() {
+        NetMessagePacketStart.toObject = function () {
             return {};
         };
     
@@ -972,23 +1095,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        NetMessagePacketStart.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        NetMessagePacketStart.prototype.toJSON = function() {
+            return NetMessagePacketStart.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for NetMessagePacketStart
+         * Gets the type url for NetMessagePacketStart
          * @function getTypeUrl
          * @memberof NetMessagePacketStart
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        NetMessagePacketStart.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/NetMessagePacketStart";
+        NetMessagePacketStart.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/NetMessagePacketStart";
         };
     
         return NetMessagePacketStart;
@@ -998,34 +1120,51 @@
     
         /**
          * Properties of a NetMessagePacketEnd.
+         * @typedef {Object} NetMessagePacketEnd.$Properties
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a NetMessagePacketEnd.
          * @exports INetMessagePacketEnd
          * @interface INetMessagePacketEnd
+         * @augments NetMessagePacketEnd.$Properties
+         * @deprecated Use NetMessagePacketEnd.$Properties instead.
+         */
+    
+        /**
+         * Shape of a NetMessagePacketEnd.
+         * @typedef {NetMessagePacketEnd.$Properties} NetMessagePacketEnd.$Shape
          */
     
         /**
          * Constructs a new NetMessagePacketEnd.
          * @exports NetMessagePacketEnd
          * @classdesc Represents a NetMessagePacketEnd.
-         * @implements INetMessagePacketEnd
          * @constructor
-         * @param {INetMessagePacketEnd=} [properties] Properties to set
+         * @param {NetMessagePacketEnd.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function NetMessagePacketEnd(properties) {
+        var NetMessagePacketEnd = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * Creates a new NetMessagePacketEnd instance using the specified properties.
          * @function create
          * @memberof NetMessagePacketEnd
          * @static
-         * @param {INetMessagePacketEnd=} [properties] Properties to set
+         * @param {NetMessagePacketEnd.$Properties=} [properties] Properties to set
          * @returns {NetMessagePacketEnd} NetMessagePacketEnd instance
+         * @type {{
+         *   (properties: NetMessagePacketEnd.$Shape): NetMessagePacketEnd & NetMessagePacketEnd.$Shape;
+         *   (properties?: NetMessagePacketEnd.$Properties): NetMessagePacketEnd;
+         * }}
          */
-        NetMessagePacketEnd.create = function create(properties) {
+        NetMessagePacketEnd.create = function(properties) {
             return new NetMessagePacketEnd(properties);
         };
     
@@ -1034,17 +1173,20 @@
          * @function encode
          * @memberof NetMessagePacketEnd
          * @static
-         * @param {INetMessagePacketEnd} message NetMessagePacketEnd message or plain object to encode
+         * @param {NetMessagePacketEnd.$Properties} message NetMessagePacketEnd message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        NetMessagePacketEnd.encode = function encode(message, writer, q) {
+        NetMessagePacketEnd.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -1053,12 +1195,12 @@
          * @function encodeDelimited
          * @memberof NetMessagePacketEnd
          * @static
-         * @param {INetMessagePacketEnd} message NetMessagePacketEnd message or plain object to encode
+         * @param {NetMessagePacketEnd.$Properties} message NetMessagePacketEnd message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        NetMessagePacketEnd.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        NetMessagePacketEnd.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -1068,43 +1210,48 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {NetMessagePacketEnd} NetMessagePacketEnd
+         * @returns {NetMessagePacketEnd & NetMessagePacketEnd.$Shape} NetMessagePacketEnd
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        NetMessagePacketEnd.decode = function decode(reader, length, error, long) {
+        NetMessagePacketEnd.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.NetMessagePacketEnd();
+            message = _target || new $root.NetMessagePacketEnd();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                reader.skipType(tag & 7, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -1114,14 +1261,14 @@
          * @memberof NetMessagePacketEnd
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {NetMessagePacketEnd} NetMessagePacketEnd
+         * @returns {NetMessagePacketEnd & NetMessagePacketEnd.$Shape} NetMessagePacketEnd
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        NetMessagePacketEnd.decodeDelimited = function decodeDelimited(reader) {
+        NetMessagePacketEnd.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -1132,13 +1279,13 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        NetMessagePacketEnd.verify = function verify(message, long) {
+        NetMessagePacketEnd.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
             return null;
         };
     
@@ -1150,9 +1297,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {NetMessagePacketEnd} NetMessagePacketEnd
          */
-        NetMessagePacketEnd.fromObject = function fromObject(object, long) {
+        NetMessagePacketEnd.fromObject = function (object, _depth) {
             if (object instanceof $root.NetMessagePacketEnd)
                 return object;
+            if (!$util.isObject(object))
+                throw $TypeError(".NetMessagePacketEnd: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             return new $root.NetMessagePacketEnd();
         };
     
@@ -1165,7 +1318,7 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        NetMessagePacketEnd.toObject = function toObject() {
+        NetMessagePacketEnd.toObject = function () {
             return {};
         };
     
@@ -1176,23 +1329,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        NetMessagePacketEnd.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        NetMessagePacketEnd.prototype.toJSON = function() {
+            return NetMessagePacketEnd.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for NetMessagePacketEnd
+         * Gets the type url for NetMessagePacketEnd
          * @function getTypeUrl
          * @memberof NetMessagePacketEnd
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        NetMessagePacketEnd.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/NetMessagePacketEnd";
+        NetMessagePacketEnd.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/NetMessagePacketEnd";
         };
     
         return NetMessagePacketEnd;

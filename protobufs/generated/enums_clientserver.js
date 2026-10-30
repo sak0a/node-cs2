@@ -1,4 +1,4 @@
-/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
+/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-mixed-operators, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars, default-case, jsdoc/require-param*/
 (function(global, factory) { /* global define, require, module */
 
     /* AMD */ if (typeof define === 'function' && define.amd)
@@ -12,13 +12,14 @@
 
     // Common aliases
     var $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
+    var $Object = $util.global.Object;
     
     // Exported root namespace
     var $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
     
     /**
      * EMsg enum.
-     * @exports EMsg
+     * @name EMsg
      * @enum {number}
      * @property {number} k_EMsgInvalid=0 k_EMsgInvalid value
      * @property {number} k_EMsgMulti=1 k_EMsgMulti value
@@ -1507,7 +1508,7 @@
      * @property {number} k_EMsgServerSecretChanged=12100 k_EMsgServerSecretChanged value
      */
     $root.EMsg = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
+        var valuesById = $Object.create(null), values = $Object.create(valuesById);
         values[valuesById[0] = "k_EMsgInvalid"] = 0;
         values[valuesById[1] = "k_EMsgMulti"] = 1;
         values[valuesById[2] = "k_EMsgProtobufWrapped"] = 2;
@@ -2998,7 +2999,7 @@
     
     /**
      * EClientPersonaStateFlag enum.
-     * @exports EClientPersonaStateFlag
+     * @name EClientPersonaStateFlag
      * @enum {number}
      * @property {number} k_EClientPersonaStateFlagStatus=1 k_EClientPersonaStateFlagStatus value
      * @property {number} k_EClientPersonaStateFlagPlayerName=2 k_EClientPersonaStateFlagPlayerName value
@@ -3016,7 +3017,7 @@
      * @property {number} k_EClientPersonaStateFlagWatching=16384 k_EClientPersonaStateFlagWatching value
      */
     $root.EClientPersonaStateFlag = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
+        var valuesById = $Object.create(null), values = $Object.create(valuesById);
         values[valuesById[1] = "k_EClientPersonaStateFlagStatus"] = 1;
         values[valuesById[2] = "k_EClientPersonaStateFlagPlayerName"] = 2;
         values[valuesById[4] = "k_EClientPersonaStateFlagQueryPort"] = 4;
@@ -3036,7 +3037,7 @@
     
     /**
      * EMsgClanAccountFlags enum.
-     * @exports EMsgClanAccountFlags
+     * @name EMsgClanAccountFlags
      * @enum {number}
      * @property {number} k_EMsgClanAccountFlagPublic=1 k_EMsgClanAccountFlagPublic value
      * @property {number} k_EMsgClanAccountFlagLarge=2 k_EMsgClanAccountFlagLarge value
@@ -3045,7 +3046,7 @@
      * @property {number} k_EMsgClanAccountFlagOGG=16 k_EMsgClanAccountFlagOGG value
      */
     $root.EMsgClanAccountFlags = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
+        var valuesById = $Object.create(null), values = $Object.create(valuesById);
         values[valuesById[1] = "k_EMsgClanAccountFlagPublic"] = 1;
         values[valuesById[2] = "k_EMsgClanAccountFlagLarge"] = 2;
         values[valuesById[4] = "k_EMsgClanAccountFlagLocked"] = 4;
@@ -3056,7 +3057,7 @@
     
     /**
      * ESteamReviewScore enum.
-     * @exports ESteamReviewScore
+     * @name ESteamReviewScore
      * @enum {number}
      * @property {number} k_ESteamReviewScore_OverwhelminglyPositive=9 k_ESteamReviewScore_OverwhelminglyPositive value
      * @property {number} k_ESteamReviewScore_VeryPositive=8 k_ESteamReviewScore_VeryPositive value
@@ -3070,7 +3071,7 @@
      * @property {number} k_ESteamReviewScore_None=0 k_ESteamReviewScore_None value
      */
     $root.ESteamReviewScore = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
+        var valuesById = $Object.create(null), values = $Object.create(valuesById);
         values[valuesById[9] = "k_ESteamReviewScore_OverwhelminglyPositive"] = 9;
         values[valuesById[8] = "k_ESteamReviewScore_VeryPositive"] = 8;
         values[valuesById[7] = "k_ESteamReviewScore_Positive"] = 7;

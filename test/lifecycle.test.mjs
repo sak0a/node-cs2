@@ -257,6 +257,17 @@ it('rejects incoming known uint32 overflow and ignores missing connection status
 	steam.receive(L.Client2GCEconPreviewDataBlockResponse, bytes(1, [...uint(2, 11), ...uint(3, '4294967296')]));
 	expect(errors).toHaveBeenCalledOnce();
 });
+it('reports connection statuses missing from the schema and treats them as lost sessions', () => {
+	const statuses = vi.fn(),
+		disconnects = vi.fn();
+	cs.on('connectionStatus', statuses);
+	cs.on('disconnectedFromGC', disconnects);
+	cs.haveGCSession = true;
+	steam.receive(L.ClientConnectionStatus, [...uint(1, 99), ...uint(4, 3)]);
+	expect(statuses).toHaveBeenCalledWith(99, expect.objectContaining({ status: 99, queue_size: 3 }));
+	expect(disconnects).toHaveBeenCalledWith(99);
+	expect(cs.haveGCSession).toBe(false);
+});
 it('rejects int32 overflow and invalid UTF-8, while preserving signed encodings', () => {
 	const errors = vi.fn(),
 		items = vi.fn();
