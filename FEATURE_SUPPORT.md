@@ -36,7 +36,8 @@ Evidence is in `test/payloads.test.mjs`, `test/lifecycle.test.mjs`,
 `test/corpus.test.mjs`, `test/live-runner.test.mjs`, `test/types/usage.ts`, and
 `scripts/verify-consumers.js`. CI installs packed artifacts in separate consumer
 projects and exercises real steam-user 4.2.0, 4.29.3, and 5.3.0 constructors on
-Node 14, 16, 18, 20, 22, and 24. Runtime support does not imply upstream security
+Node 14, 16, 18, 20, 22, and 24, and compiles the packed declarations with
+TypeScript 5.9 and 7.0. Runtime support does not imply upstream security
 maintenance of old Node versions. Test/lint tooling itself requires Node 24.
 
 ## Lifecycle and migration notes
