@@ -268,6 +268,21 @@ it('reports connection statuses missing from the schema and treats them as lost 
 	expect(disconnects).toHaveBeenCalledWith(99);
 	expect(cs.haveGCSession).toBe(false);
 });
+it('uses the last wire connection status even when an earlier one is known', () => {
+	const statuses = vi.fn(),
+		disconnects = vi.fn();
+	cs.on('connectionStatus', statuses);
+	cs.on('disconnectedFromGC', disconnects);
+	cs.haveGCSession = true;
+	steam.receive(L.ClientConnectionStatus, [...uint(1, 0), ...uint(1, 99)]);
+	expect(statuses).toHaveBeenCalledWith(99, expect.objectContaining({ status: 99 }));
+	expect(disconnects).toHaveBeenCalledWith(99);
+	cs.haveGCSession = true;
+	steam.receive(L.ClientConnectionStatus, [...uint(1, 99), ...uint(1, 0)]);
+	expect(statuses).toHaveBeenLastCalledWith(0, expect.objectContaining({ status: 0 }));
+	expect(disconnects).toHaveBeenCalledTimes(1);
+	expect(cs.haveGCSession).toBe(true);
+});
 it('rejects int32 overflow and invalid UTF-8, while preserving signed encodings', () => {
 	const errors = vi.fn(),
 		items = vi.fn();
