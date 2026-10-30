@@ -46,6 +46,9 @@ async function main() {
 	console.log(`Upstream snapshot: ${ref}`);
 	const files = await getFileList(`${REPO_API_URL}/contents/Protobufs?ref=${ref}`, ref);
 	console.log(`Found ${files.length} proto files\n`);
+	if (files.length === 0) {
+		throw new Error('Upstream listed no proto files; refusing to prune local protos');
+	}
 
 	let updated = 0;
 	let unchanged = 0;
