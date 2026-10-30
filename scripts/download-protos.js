@@ -80,7 +80,33 @@ async function main() {
 		}
 	}
 
-	console.log(`\nDone! ${added} added, ${updated} updated, ${unchanged} unchanged`);
+	// Remove local protos that no longer exist upstream
+	const upstreamPaths = new Set(files.map((file) => path.normalize(file.path)));
+	let removed = 0;
+	for (const localPath of listLocalProtos(PROTO_DIR)) {
+		if (!upstreamPaths.has(localPath)) {
+			fs.unlinkSync(path.join(PROTO_DIR, localPath));
+			console.log(`Removed: ${localPath}`);
+			removed++;
+		}
+	}
+
+	console.log(`\nDone! ${added} added, ${updated} updated, ${removed} removed, ${unchanged} unchanged`);
+}
+
+function listLocalProtos(dir, prefix = '') {
+	let result = [];
+	for (const entry of fs.readdirSync(dir, {withFileTypes: true})) {
+		if (entry.isDirectory()) {
+			if (!prefix && entry.name === 'generated') {
+				continue;
+			}
+			result = result.concat(listLocalProtos(path.join(dir, entry.name), path.join(prefix, entry.name)));
+		} else if (entry.name.endsWith('.proto')) {
+			result.push(path.join(prefix, entry.name));
+		}
+	}
+	return result;
 }
 
 main().catch((err) => {

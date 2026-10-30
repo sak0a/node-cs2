@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Synced all 44 upstream protobuf files through GameTracking-CS2 commit `b73cfdeb35e48bb20a5e6b2edc8ee3aad14dcf39` (October 28, 2026): 15 changed files and one removed file
+- Regenerated the 43 schema modules and their loader. The wire schema and response types are unchanged.
+- `download-protos` now removes local protos deleted upstream, and `generate-protos` removes their stale generated modules
+- Updated ESLint to `^10.14.0`, Prettier to `^3.9.10`, Vitest to `^4.1.12`, and `@types/node` to `^24.19.2`; refreshed the Bun lockfile
+
+### Compatibility
+
+- No public API changes. Upstream renamed many legacy `EGCItemMsg` entries and `k_EGCMsgPreTestSetup` with a `_DEPRECATED` suffix; numeric IDs are unchanged.
+- Removed upstream definitions are no longer exported from the generated schema: `steammessages_gc.proto` (Steam-internal GC/AM messages), the GC init-system/secure-mode messages and `EInitSystemResult`, `EUnlockStyle`, and several legacy item messages such as `CMsgApplyStrangePart`. Direct protobuf consumers that referenced them must define them locally.
+- Added upstream `CMsgDeleteItem`, `CMsgModifyItemStringAttr`, and `CMsgCraftItemsRequest` definitions. Valve's new codegen field options (`boxed_type`, `synthetic_default`) do not change wire defaults.
+
 ## v2.6.0 - Request lifecycle and verification
 
 - Added a reusable fake Steam transport, independent outgoing/incoming wire fixtures,

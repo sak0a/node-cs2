@@ -7593,900 +7593,6 @@
         return CMsgApplyStatTrakSwap;
     })();
     
-    $root.CMsgApplyStrangePart = (function() {
-    
-        /**
-         * Properties of a CMsgApplyStrangePart.
-         * @exports ICMsgApplyStrangePart
-         * @interface ICMsgApplyStrangePart
-         * @property {number|Long|null} [strange_part_item_id] CMsgApplyStrangePart strange_part_item_id
-         * @property {number|Long|null} [item_item_id] CMsgApplyStrangePart item_item_id
-         */
-    
-        /**
-         * Constructs a new CMsgApplyStrangePart.
-         * @exports CMsgApplyStrangePart
-         * @classdesc Represents a CMsgApplyStrangePart.
-         * @implements ICMsgApplyStrangePart
-         * @constructor
-         * @param {ICMsgApplyStrangePart=} [properties] Properties to set
-         */
-        function CMsgApplyStrangePart(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CMsgApplyStrangePart strange_part_item_id.
-         * @member {number|Long} strange_part_item_id
-         * @memberof CMsgApplyStrangePart
-         * @instance
-         */
-        CMsgApplyStrangePart.prototype.strange_part_item_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * CMsgApplyStrangePart item_item_id.
-         * @member {number|Long} item_item_id
-         * @memberof CMsgApplyStrangePart
-         * @instance
-         */
-        CMsgApplyStrangePart.prototype.item_item_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * Creates a new CMsgApplyStrangePart instance using the specified properties.
-         * @function create
-         * @memberof CMsgApplyStrangePart
-         * @static
-         * @param {ICMsgApplyStrangePart=} [properties] Properties to set
-         * @returns {CMsgApplyStrangePart} CMsgApplyStrangePart instance
-         */
-        CMsgApplyStrangePart.create = function create(properties) {
-            return new CMsgApplyStrangePart(properties);
-        };
-    
-        /**
-         * Encodes the specified CMsgApplyStrangePart message. Does not implicitly {@link CMsgApplyStrangePart.verify|verify} messages.
-         * @function encode
-         * @memberof CMsgApplyStrangePart
-         * @static
-         * @param {ICMsgApplyStrangePart} message CMsgApplyStrangePart message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgApplyStrangePart.encode = function encode(message, writer, q) {
-            if (!writer)
-                writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.strange_part_item_id != null && Object.hasOwnProperty.call(message, "strange_part_item_id"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.strange_part_item_id);
-            if (message.item_item_id != null && Object.hasOwnProperty.call(message, "item_item_id"))
-                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.item_item_id);
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CMsgApplyStrangePart message, length delimited. Does not implicitly {@link CMsgApplyStrangePart.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CMsgApplyStrangePart
-         * @static
-         * @param {ICMsgApplyStrangePart} message CMsgApplyStrangePart message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgApplyStrangePart.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CMsgApplyStrangePart message from the specified reader or buffer.
-         * @function decode
-         * @memberof CMsgApplyStrangePart
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgApplyStrangePart} CMsgApplyStrangePart
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgApplyStrangePart.decode = function decode(reader, length, error, long) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var end, message;
-            if (length === undefined)
-                end = reader.len;
-            else {
-                end = reader.pos + length;
-                if (end > reader.len)
-                    throw RangeError("index out of range");
-                length = reader.len;
-                reader.len = end;
-            }
-            message = new $root.CMsgApplyStrangePart();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.strange_part_item_id = reader.uint64();
-                        break;
-                    }
-                case 2: {
-                        message.item_item_id = reader.uint64();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
-                    break;
-                }
-            }
-            if (length !== undefined) {
-                if (reader.pos !== end)
-                    throw RangeError("index out of range");
-                reader.len = length;
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CMsgApplyStrangePart message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CMsgApplyStrangePart
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgApplyStrangePart} CMsgApplyStrangePart
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgApplyStrangePart.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CMsgApplyStrangePart message.
-         * @function verify
-         * @memberof CMsgApplyStrangePart
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CMsgApplyStrangePart.verify = function verify(message, long) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.strange_part_item_id != null && Object.hasOwnProperty.call(message, "strange_part_item_id"))
-                if (!$util.isInteger(message.strange_part_item_id) && !(message.strange_part_item_id && $util.isInteger(message.strange_part_item_id.low) && $util.isInteger(message.strange_part_item_id.high)))
-                    return "strange_part_item_id: integer|Long expected";
-            if (message.item_item_id != null && Object.hasOwnProperty.call(message, "item_item_id"))
-                if (!$util.isInteger(message.item_item_id) && !(message.item_item_id && $util.isInteger(message.item_item_id.low) && $util.isInteger(message.item_item_id.high)))
-                    return "item_item_id: integer|Long expected";
-            return null;
-        };
-    
-        /**
-         * Creates a CMsgApplyStrangePart message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CMsgApplyStrangePart
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CMsgApplyStrangePart} CMsgApplyStrangePart
-         */
-        CMsgApplyStrangePart.fromObject = function fromObject(object, long) {
-            if (object instanceof $root.CMsgApplyStrangePart)
-                return object;
-            if (!$util.isObject(object))
-                throw TypeError(".CMsgApplyStrangePart: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var message = new $root.CMsgApplyStrangePart();
-            if (object.strange_part_item_id != null)
-                if ($util.Long)
-                    message.strange_part_item_id = $util.Long.fromValue(object.strange_part_item_id, true);
-                else if (typeof object.strange_part_item_id === "string")
-                    message.strange_part_item_id = parseInt(object.strange_part_item_id, 10);
-                else if (typeof object.strange_part_item_id === "number")
-                    message.strange_part_item_id = object.strange_part_item_id;
-                else if (typeof object.strange_part_item_id === "object")
-                    message.strange_part_item_id = new $util.LongBits(object.strange_part_item_id.low >>> 0, object.strange_part_item_id.high >>> 0).toNumber(true);
-            if (object.item_item_id != null)
-                if ($util.Long)
-                    message.item_item_id = $util.Long.fromValue(object.item_item_id, true);
-                else if (typeof object.item_item_id === "string")
-                    message.item_item_id = parseInt(object.item_item_id, 10);
-                else if (typeof object.item_item_id === "number")
-                    message.item_item_id = object.item_item_id;
-                else if (typeof object.item_item_id === "object")
-                    message.item_item_id = new $util.LongBits(object.item_item_id.low >>> 0, object.item_item_id.high >>> 0).toNumber(true);
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CMsgApplyStrangePart message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CMsgApplyStrangePart
-         * @static
-         * @param {CMsgApplyStrangePart} message CMsgApplyStrangePart
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CMsgApplyStrangePart.toObject = function toObject(message, options, q) {
-            if (!options)
-                options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            var object = {};
-            if (options.defaults) {
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.strange_part_item_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
-                } else
-                    object.strange_part_item_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.item_item_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
-                } else
-                    object.item_item_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
-            }
-            if (message.strange_part_item_id != null && Object.hasOwnProperty.call(message, "strange_part_item_id"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.strange_part_item_id = typeof message.strange_part_item_id === "number" ? BigInt(message.strange_part_item_id) : $util.Long.fromBits(message.strange_part_item_id.low >>> 0, message.strange_part_item_id.high >>> 0, true).toBigInt();
-                else if (typeof message.strange_part_item_id === "number")
-                    object.strange_part_item_id = options.longs === String ? String(message.strange_part_item_id) : message.strange_part_item_id;
-                else
-                    object.strange_part_item_id = options.longs === String ? $util.Long.prototype.toString.call(message.strange_part_item_id) : options.longs === Number ? new $util.LongBits(message.strange_part_item_id.low >>> 0, message.strange_part_item_id.high >>> 0).toNumber(true) : message.strange_part_item_id;
-            if (message.item_item_id != null && Object.hasOwnProperty.call(message, "item_item_id"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.item_item_id = typeof message.item_item_id === "number" ? BigInt(message.item_item_id) : $util.Long.fromBits(message.item_item_id.low >>> 0, message.item_item_id.high >>> 0, true).toBigInt();
-                else if (typeof message.item_item_id === "number")
-                    object.item_item_id = options.longs === String ? String(message.item_item_id) : message.item_item_id;
-                else
-                    object.item_item_id = options.longs === String ? $util.Long.prototype.toString.call(message.item_item_id) : options.longs === Number ? new $util.LongBits(message.item_item_id.low >>> 0, message.item_item_id.high >>> 0).toNumber(true) : message.item_item_id;
-            return object;
-        };
-    
-        /**
-         * Converts this CMsgApplyStrangePart to JSON.
-         * @function toJSON
-         * @memberof CMsgApplyStrangePart
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CMsgApplyStrangePart.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CMsgApplyStrangePart
-         * @function getTypeUrl
-         * @memberof CMsgApplyStrangePart
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CMsgApplyStrangePart.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgApplyStrangePart";
-        };
-    
-        return CMsgApplyStrangePart;
-    })();
-    
-    $root.CMsgApplyPennantUpgrade = (function() {
-    
-        /**
-         * Properties of a CMsgApplyPennantUpgrade.
-         * @exports ICMsgApplyPennantUpgrade
-         * @interface ICMsgApplyPennantUpgrade
-         * @property {number|Long|null} [upgrade_item_id] CMsgApplyPennantUpgrade upgrade_item_id
-         * @property {number|Long|null} [pennant_item_id] CMsgApplyPennantUpgrade pennant_item_id
-         */
-    
-        /**
-         * Constructs a new CMsgApplyPennantUpgrade.
-         * @exports CMsgApplyPennantUpgrade
-         * @classdesc Represents a CMsgApplyPennantUpgrade.
-         * @implements ICMsgApplyPennantUpgrade
-         * @constructor
-         * @param {ICMsgApplyPennantUpgrade=} [properties] Properties to set
-         */
-        function CMsgApplyPennantUpgrade(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CMsgApplyPennantUpgrade upgrade_item_id.
-         * @member {number|Long} upgrade_item_id
-         * @memberof CMsgApplyPennantUpgrade
-         * @instance
-         */
-        CMsgApplyPennantUpgrade.prototype.upgrade_item_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * CMsgApplyPennantUpgrade pennant_item_id.
-         * @member {number|Long} pennant_item_id
-         * @memberof CMsgApplyPennantUpgrade
-         * @instance
-         */
-        CMsgApplyPennantUpgrade.prototype.pennant_item_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * Creates a new CMsgApplyPennantUpgrade instance using the specified properties.
-         * @function create
-         * @memberof CMsgApplyPennantUpgrade
-         * @static
-         * @param {ICMsgApplyPennantUpgrade=} [properties] Properties to set
-         * @returns {CMsgApplyPennantUpgrade} CMsgApplyPennantUpgrade instance
-         */
-        CMsgApplyPennantUpgrade.create = function create(properties) {
-            return new CMsgApplyPennantUpgrade(properties);
-        };
-    
-        /**
-         * Encodes the specified CMsgApplyPennantUpgrade message. Does not implicitly {@link CMsgApplyPennantUpgrade.verify|verify} messages.
-         * @function encode
-         * @memberof CMsgApplyPennantUpgrade
-         * @static
-         * @param {ICMsgApplyPennantUpgrade} message CMsgApplyPennantUpgrade message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgApplyPennantUpgrade.encode = function encode(message, writer, q) {
-            if (!writer)
-                writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.upgrade_item_id != null && Object.hasOwnProperty.call(message, "upgrade_item_id"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.upgrade_item_id);
-            if (message.pennant_item_id != null && Object.hasOwnProperty.call(message, "pennant_item_id"))
-                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.pennant_item_id);
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CMsgApplyPennantUpgrade message, length delimited. Does not implicitly {@link CMsgApplyPennantUpgrade.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CMsgApplyPennantUpgrade
-         * @static
-         * @param {ICMsgApplyPennantUpgrade} message CMsgApplyPennantUpgrade message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgApplyPennantUpgrade.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CMsgApplyPennantUpgrade message from the specified reader or buffer.
-         * @function decode
-         * @memberof CMsgApplyPennantUpgrade
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgApplyPennantUpgrade} CMsgApplyPennantUpgrade
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgApplyPennantUpgrade.decode = function decode(reader, length, error, long) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var end, message;
-            if (length === undefined)
-                end = reader.len;
-            else {
-                end = reader.pos + length;
-                if (end > reader.len)
-                    throw RangeError("index out of range");
-                length = reader.len;
-                reader.len = end;
-            }
-            message = new $root.CMsgApplyPennantUpgrade();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.upgrade_item_id = reader.uint64();
-                        break;
-                    }
-                case 2: {
-                        message.pennant_item_id = reader.uint64();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
-                    break;
-                }
-            }
-            if (length !== undefined) {
-                if (reader.pos !== end)
-                    throw RangeError("index out of range");
-                reader.len = length;
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CMsgApplyPennantUpgrade message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CMsgApplyPennantUpgrade
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgApplyPennantUpgrade} CMsgApplyPennantUpgrade
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgApplyPennantUpgrade.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CMsgApplyPennantUpgrade message.
-         * @function verify
-         * @memberof CMsgApplyPennantUpgrade
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CMsgApplyPennantUpgrade.verify = function verify(message, long) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.upgrade_item_id != null && Object.hasOwnProperty.call(message, "upgrade_item_id"))
-                if (!$util.isInteger(message.upgrade_item_id) && !(message.upgrade_item_id && $util.isInteger(message.upgrade_item_id.low) && $util.isInteger(message.upgrade_item_id.high)))
-                    return "upgrade_item_id: integer|Long expected";
-            if (message.pennant_item_id != null && Object.hasOwnProperty.call(message, "pennant_item_id"))
-                if (!$util.isInteger(message.pennant_item_id) && !(message.pennant_item_id && $util.isInteger(message.pennant_item_id.low) && $util.isInteger(message.pennant_item_id.high)))
-                    return "pennant_item_id: integer|Long expected";
-            return null;
-        };
-    
-        /**
-         * Creates a CMsgApplyPennantUpgrade message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CMsgApplyPennantUpgrade
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CMsgApplyPennantUpgrade} CMsgApplyPennantUpgrade
-         */
-        CMsgApplyPennantUpgrade.fromObject = function fromObject(object, long) {
-            if (object instanceof $root.CMsgApplyPennantUpgrade)
-                return object;
-            if (!$util.isObject(object))
-                throw TypeError(".CMsgApplyPennantUpgrade: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var message = new $root.CMsgApplyPennantUpgrade();
-            if (object.upgrade_item_id != null)
-                if ($util.Long)
-                    message.upgrade_item_id = $util.Long.fromValue(object.upgrade_item_id, true);
-                else if (typeof object.upgrade_item_id === "string")
-                    message.upgrade_item_id = parseInt(object.upgrade_item_id, 10);
-                else if (typeof object.upgrade_item_id === "number")
-                    message.upgrade_item_id = object.upgrade_item_id;
-                else if (typeof object.upgrade_item_id === "object")
-                    message.upgrade_item_id = new $util.LongBits(object.upgrade_item_id.low >>> 0, object.upgrade_item_id.high >>> 0).toNumber(true);
-            if (object.pennant_item_id != null)
-                if ($util.Long)
-                    message.pennant_item_id = $util.Long.fromValue(object.pennant_item_id, true);
-                else if (typeof object.pennant_item_id === "string")
-                    message.pennant_item_id = parseInt(object.pennant_item_id, 10);
-                else if (typeof object.pennant_item_id === "number")
-                    message.pennant_item_id = object.pennant_item_id;
-                else if (typeof object.pennant_item_id === "object")
-                    message.pennant_item_id = new $util.LongBits(object.pennant_item_id.low >>> 0, object.pennant_item_id.high >>> 0).toNumber(true);
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CMsgApplyPennantUpgrade message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CMsgApplyPennantUpgrade
-         * @static
-         * @param {CMsgApplyPennantUpgrade} message CMsgApplyPennantUpgrade
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CMsgApplyPennantUpgrade.toObject = function toObject(message, options, q) {
-            if (!options)
-                options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            var object = {};
-            if (options.defaults) {
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.upgrade_item_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
-                } else
-                    object.upgrade_item_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.pennant_item_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
-                } else
-                    object.pennant_item_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
-            }
-            if (message.upgrade_item_id != null && Object.hasOwnProperty.call(message, "upgrade_item_id"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.upgrade_item_id = typeof message.upgrade_item_id === "number" ? BigInt(message.upgrade_item_id) : $util.Long.fromBits(message.upgrade_item_id.low >>> 0, message.upgrade_item_id.high >>> 0, true).toBigInt();
-                else if (typeof message.upgrade_item_id === "number")
-                    object.upgrade_item_id = options.longs === String ? String(message.upgrade_item_id) : message.upgrade_item_id;
-                else
-                    object.upgrade_item_id = options.longs === String ? $util.Long.prototype.toString.call(message.upgrade_item_id) : options.longs === Number ? new $util.LongBits(message.upgrade_item_id.low >>> 0, message.upgrade_item_id.high >>> 0).toNumber(true) : message.upgrade_item_id;
-            if (message.pennant_item_id != null && Object.hasOwnProperty.call(message, "pennant_item_id"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.pennant_item_id = typeof message.pennant_item_id === "number" ? BigInt(message.pennant_item_id) : $util.Long.fromBits(message.pennant_item_id.low >>> 0, message.pennant_item_id.high >>> 0, true).toBigInt();
-                else if (typeof message.pennant_item_id === "number")
-                    object.pennant_item_id = options.longs === String ? String(message.pennant_item_id) : message.pennant_item_id;
-                else
-                    object.pennant_item_id = options.longs === String ? $util.Long.prototype.toString.call(message.pennant_item_id) : options.longs === Number ? new $util.LongBits(message.pennant_item_id.low >>> 0, message.pennant_item_id.high >>> 0).toNumber(true) : message.pennant_item_id;
-            return object;
-        };
-    
-        /**
-         * Converts this CMsgApplyPennantUpgrade to JSON.
-         * @function toJSON
-         * @memberof CMsgApplyPennantUpgrade
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CMsgApplyPennantUpgrade.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CMsgApplyPennantUpgrade
-         * @function getTypeUrl
-         * @memberof CMsgApplyPennantUpgrade
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CMsgApplyPennantUpgrade.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgApplyPennantUpgrade";
-        };
-    
-        return CMsgApplyPennantUpgrade;
-    })();
-    
-    $root.CMsgApplyEggEssence = (function() {
-    
-        /**
-         * Properties of a CMsgApplyEggEssence.
-         * @exports ICMsgApplyEggEssence
-         * @interface ICMsgApplyEggEssence
-         * @property {number|Long|null} [essence_item_id] CMsgApplyEggEssence essence_item_id
-         * @property {number|Long|null} [egg_item_id] CMsgApplyEggEssence egg_item_id
-         */
-    
-        /**
-         * Constructs a new CMsgApplyEggEssence.
-         * @exports CMsgApplyEggEssence
-         * @classdesc Represents a CMsgApplyEggEssence.
-         * @implements ICMsgApplyEggEssence
-         * @constructor
-         * @param {ICMsgApplyEggEssence=} [properties] Properties to set
-         */
-        function CMsgApplyEggEssence(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CMsgApplyEggEssence essence_item_id.
-         * @member {number|Long} essence_item_id
-         * @memberof CMsgApplyEggEssence
-         * @instance
-         */
-        CMsgApplyEggEssence.prototype.essence_item_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * CMsgApplyEggEssence egg_item_id.
-         * @member {number|Long} egg_item_id
-         * @memberof CMsgApplyEggEssence
-         * @instance
-         */
-        CMsgApplyEggEssence.prototype.egg_item_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * Creates a new CMsgApplyEggEssence instance using the specified properties.
-         * @function create
-         * @memberof CMsgApplyEggEssence
-         * @static
-         * @param {ICMsgApplyEggEssence=} [properties] Properties to set
-         * @returns {CMsgApplyEggEssence} CMsgApplyEggEssence instance
-         */
-        CMsgApplyEggEssence.create = function create(properties) {
-            return new CMsgApplyEggEssence(properties);
-        };
-    
-        /**
-         * Encodes the specified CMsgApplyEggEssence message. Does not implicitly {@link CMsgApplyEggEssence.verify|verify} messages.
-         * @function encode
-         * @memberof CMsgApplyEggEssence
-         * @static
-         * @param {ICMsgApplyEggEssence} message CMsgApplyEggEssence message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgApplyEggEssence.encode = function encode(message, writer, q) {
-            if (!writer)
-                writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.essence_item_id != null && Object.hasOwnProperty.call(message, "essence_item_id"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.essence_item_id);
-            if (message.egg_item_id != null && Object.hasOwnProperty.call(message, "egg_item_id"))
-                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.egg_item_id);
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CMsgApplyEggEssence message, length delimited. Does not implicitly {@link CMsgApplyEggEssence.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CMsgApplyEggEssence
-         * @static
-         * @param {ICMsgApplyEggEssence} message CMsgApplyEggEssence message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgApplyEggEssence.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CMsgApplyEggEssence message from the specified reader or buffer.
-         * @function decode
-         * @memberof CMsgApplyEggEssence
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgApplyEggEssence} CMsgApplyEggEssence
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgApplyEggEssence.decode = function decode(reader, length, error, long) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var end, message;
-            if (length === undefined)
-                end = reader.len;
-            else {
-                end = reader.pos + length;
-                if (end > reader.len)
-                    throw RangeError("index out of range");
-                length = reader.len;
-                reader.len = end;
-            }
-            message = new $root.CMsgApplyEggEssence();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.essence_item_id = reader.uint64();
-                        break;
-                    }
-                case 2: {
-                        message.egg_item_id = reader.uint64();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
-                    break;
-                }
-            }
-            if (length !== undefined) {
-                if (reader.pos !== end)
-                    throw RangeError("index out of range");
-                reader.len = length;
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CMsgApplyEggEssence message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CMsgApplyEggEssence
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgApplyEggEssence} CMsgApplyEggEssence
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgApplyEggEssence.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CMsgApplyEggEssence message.
-         * @function verify
-         * @memberof CMsgApplyEggEssence
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CMsgApplyEggEssence.verify = function verify(message, long) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.essence_item_id != null && Object.hasOwnProperty.call(message, "essence_item_id"))
-                if (!$util.isInteger(message.essence_item_id) && !(message.essence_item_id && $util.isInteger(message.essence_item_id.low) && $util.isInteger(message.essence_item_id.high)))
-                    return "essence_item_id: integer|Long expected";
-            if (message.egg_item_id != null && Object.hasOwnProperty.call(message, "egg_item_id"))
-                if (!$util.isInteger(message.egg_item_id) && !(message.egg_item_id && $util.isInteger(message.egg_item_id.low) && $util.isInteger(message.egg_item_id.high)))
-                    return "egg_item_id: integer|Long expected";
-            return null;
-        };
-    
-        /**
-         * Creates a CMsgApplyEggEssence message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CMsgApplyEggEssence
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CMsgApplyEggEssence} CMsgApplyEggEssence
-         */
-        CMsgApplyEggEssence.fromObject = function fromObject(object, long) {
-            if (object instanceof $root.CMsgApplyEggEssence)
-                return object;
-            if (!$util.isObject(object))
-                throw TypeError(".CMsgApplyEggEssence: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var message = new $root.CMsgApplyEggEssence();
-            if (object.essence_item_id != null)
-                if ($util.Long)
-                    message.essence_item_id = $util.Long.fromValue(object.essence_item_id, true);
-                else if (typeof object.essence_item_id === "string")
-                    message.essence_item_id = parseInt(object.essence_item_id, 10);
-                else if (typeof object.essence_item_id === "number")
-                    message.essence_item_id = object.essence_item_id;
-                else if (typeof object.essence_item_id === "object")
-                    message.essence_item_id = new $util.LongBits(object.essence_item_id.low >>> 0, object.essence_item_id.high >>> 0).toNumber(true);
-            if (object.egg_item_id != null)
-                if ($util.Long)
-                    message.egg_item_id = $util.Long.fromValue(object.egg_item_id, true);
-                else if (typeof object.egg_item_id === "string")
-                    message.egg_item_id = parseInt(object.egg_item_id, 10);
-                else if (typeof object.egg_item_id === "number")
-                    message.egg_item_id = object.egg_item_id;
-                else if (typeof object.egg_item_id === "object")
-                    message.egg_item_id = new $util.LongBits(object.egg_item_id.low >>> 0, object.egg_item_id.high >>> 0).toNumber(true);
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CMsgApplyEggEssence message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CMsgApplyEggEssence
-         * @static
-         * @param {CMsgApplyEggEssence} message CMsgApplyEggEssence
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CMsgApplyEggEssence.toObject = function toObject(message, options, q) {
-            if (!options)
-                options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            var object = {};
-            if (options.defaults) {
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.essence_item_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
-                } else
-                    object.essence_item_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.egg_item_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
-                } else
-                    object.egg_item_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
-            }
-            if (message.essence_item_id != null && Object.hasOwnProperty.call(message, "essence_item_id"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.essence_item_id = typeof message.essence_item_id === "number" ? BigInt(message.essence_item_id) : $util.Long.fromBits(message.essence_item_id.low >>> 0, message.essence_item_id.high >>> 0, true).toBigInt();
-                else if (typeof message.essence_item_id === "number")
-                    object.essence_item_id = options.longs === String ? String(message.essence_item_id) : message.essence_item_id;
-                else
-                    object.essence_item_id = options.longs === String ? $util.Long.prototype.toString.call(message.essence_item_id) : options.longs === Number ? new $util.LongBits(message.essence_item_id.low >>> 0, message.essence_item_id.high >>> 0).toNumber(true) : message.essence_item_id;
-            if (message.egg_item_id != null && Object.hasOwnProperty.call(message, "egg_item_id"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.egg_item_id = typeof message.egg_item_id === "number" ? BigInt(message.egg_item_id) : $util.Long.fromBits(message.egg_item_id.low >>> 0, message.egg_item_id.high >>> 0, true).toBigInt();
-                else if (typeof message.egg_item_id === "number")
-                    object.egg_item_id = options.longs === String ? String(message.egg_item_id) : message.egg_item_id;
-                else
-                    object.egg_item_id = options.longs === String ? $util.Long.prototype.toString.call(message.egg_item_id) : options.longs === Number ? new $util.LongBits(message.egg_item_id.low >>> 0, message.egg_item_id.high >>> 0).toNumber(true) : message.egg_item_id;
-            return object;
-        };
-    
-        /**
-         * Converts this CMsgApplyEggEssence to JSON.
-         * @function toJSON
-         * @memberof CMsgApplyEggEssence
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CMsgApplyEggEssence.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CMsgApplyEggEssence
-         * @function getTypeUrl
-         * @memberof CMsgApplyEggEssence
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CMsgApplyEggEssence.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgApplyEggEssence";
-        };
-    
-        return CMsgApplyEggEssence;
-    })();
-    
     $root.CSOEconItemAttribute = (function() {
     
         /**
@@ -10006,6 +9112,913 @@
         };
     
         return CMsgSortItems;
+    })();
+    
+    $root.CMsgDeleteItem = (function() {
+    
+        /**
+         * Properties of a CMsgDeleteItem.
+         * @exports ICMsgDeleteItem
+         * @interface ICMsgDeleteItem
+         * @property {number|Long|null} [item_id] CMsgDeleteItem item_id
+         */
+    
+        /**
+         * Constructs a new CMsgDeleteItem.
+         * @exports CMsgDeleteItem
+         * @classdesc Represents a CMsgDeleteItem.
+         * @implements ICMsgDeleteItem
+         * @constructor
+         * @param {ICMsgDeleteItem=} [properties] Properties to set
+         */
+        function CMsgDeleteItem(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CMsgDeleteItem item_id.
+         * @member {number|Long} item_id
+         * @memberof CMsgDeleteItem
+         * @instance
+         */
+        CMsgDeleteItem.prototype.item_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+        /**
+         * Creates a new CMsgDeleteItem instance using the specified properties.
+         * @function create
+         * @memberof CMsgDeleteItem
+         * @static
+         * @param {ICMsgDeleteItem=} [properties] Properties to set
+         * @returns {CMsgDeleteItem} CMsgDeleteItem instance
+         */
+        CMsgDeleteItem.create = function create(properties) {
+            return new CMsgDeleteItem(properties);
+        };
+    
+        /**
+         * Encodes the specified CMsgDeleteItem message. Does not implicitly {@link CMsgDeleteItem.verify|verify} messages.
+         * @function encode
+         * @memberof CMsgDeleteItem
+         * @static
+         * @param {ICMsgDeleteItem} message CMsgDeleteItem message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgDeleteItem.encode = function encode(message, writer, q) {
+            if (!writer)
+                writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (message.item_id != null && Object.hasOwnProperty.call(message, "item_id"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.item_id);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CMsgDeleteItem message, length delimited. Does not implicitly {@link CMsgDeleteItem.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CMsgDeleteItem
+         * @static
+         * @param {ICMsgDeleteItem} message CMsgDeleteItem message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgDeleteItem.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CMsgDeleteItem message from the specified reader or buffer.
+         * @function decode
+         * @memberof CMsgDeleteItem
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CMsgDeleteItem} CMsgDeleteItem
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgDeleteItem.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgDeleteItem();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.item_id = reader.uint64();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CMsgDeleteItem message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CMsgDeleteItem
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CMsgDeleteItem} CMsgDeleteItem
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgDeleteItem.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CMsgDeleteItem message.
+         * @function verify
+         * @memberof CMsgDeleteItem
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CMsgDeleteItem.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.item_id != null && Object.hasOwnProperty.call(message, "item_id"))
+                if (!$util.isInteger(message.item_id) && !(message.item_id && $util.isInteger(message.item_id.low) && $util.isInteger(message.item_id.high)))
+                    return "item_id: integer|Long expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CMsgDeleteItem message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CMsgDeleteItem
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CMsgDeleteItem} CMsgDeleteItem
+         */
+        CMsgDeleteItem.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.CMsgDeleteItem)
+                return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgDeleteItem: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var message = new $root.CMsgDeleteItem();
+            if (object.item_id != null)
+                if ($util.Long)
+                    message.item_id = $util.Long.fromValue(object.item_id, true);
+                else if (typeof object.item_id === "string")
+                    message.item_id = parseInt(object.item_id, 10);
+                else if (typeof object.item_id === "number")
+                    message.item_id = object.item_id;
+                else if (typeof object.item_id === "object")
+                    message.item_id = new $util.LongBits(object.item_id.low >>> 0, object.item_id.high >>> 0).toNumber(true);
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CMsgDeleteItem message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CMsgDeleteItem
+         * @static
+         * @param {CMsgDeleteItem} message CMsgDeleteItem
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CMsgDeleteItem.toObject = function toObject(message, options, q) {
+            if (!options)
+                options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var object = {};
+            if (options.defaults)
+                if ($util.Long) {
+                    var long = new $util.Long(0, 0, true);
+                    object.item_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                } else
+                    object.item_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+            if (message.item_id != null && Object.hasOwnProperty.call(message, "item_id"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.item_id = typeof message.item_id === "number" ? BigInt(message.item_id) : $util.Long.fromBits(message.item_id.low >>> 0, message.item_id.high >>> 0, true).toBigInt();
+                else if (typeof message.item_id === "number")
+                    object.item_id = options.longs === String ? String(message.item_id) : message.item_id;
+                else
+                    object.item_id = options.longs === String ? $util.Long.prototype.toString.call(message.item_id) : options.longs === Number ? new $util.LongBits(message.item_id.low >>> 0, message.item_id.high >>> 0).toNumber(true) : message.item_id;
+            return object;
+        };
+    
+        /**
+         * Converts this CMsgDeleteItem to JSON.
+         * @function toJSON
+         * @memberof CMsgDeleteItem
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CMsgDeleteItem.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CMsgDeleteItem
+         * @function getTypeUrl
+         * @memberof CMsgDeleteItem
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CMsgDeleteItem.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CMsgDeleteItem";
+        };
+    
+        return CMsgDeleteItem;
+    })();
+    
+    $root.CMsgModifyItemStringAttr = (function() {
+    
+        /**
+         * Properties of a CMsgModifyItemStringAttr.
+         * @exports ICMsgModifyItemStringAttr
+         * @interface ICMsgModifyItemStringAttr
+         * @property {number|Long|null} [tool_item_id] CMsgModifyItemStringAttr tool_item_id
+         * @property {number|Long|null} [subject_item_id] CMsgModifyItemStringAttr subject_item_id
+         * @property {number|null} [attr_def] CMsgModifyItemStringAttr attr_def
+         * @property {string|null} [attr_value] CMsgModifyItemStringAttr attr_value
+         */
+    
+        /**
+         * Constructs a new CMsgModifyItemStringAttr.
+         * @exports CMsgModifyItemStringAttr
+         * @classdesc Represents a CMsgModifyItemStringAttr.
+         * @implements ICMsgModifyItemStringAttr
+         * @constructor
+         * @param {ICMsgModifyItemStringAttr=} [properties] Properties to set
+         */
+        function CMsgModifyItemStringAttr(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CMsgModifyItemStringAttr tool_item_id.
+         * @member {number|Long} tool_item_id
+         * @memberof CMsgModifyItemStringAttr
+         * @instance
+         */
+        CMsgModifyItemStringAttr.prototype.tool_item_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+        /**
+         * CMsgModifyItemStringAttr subject_item_id.
+         * @member {number|Long} subject_item_id
+         * @memberof CMsgModifyItemStringAttr
+         * @instance
+         */
+        CMsgModifyItemStringAttr.prototype.subject_item_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+        /**
+         * CMsgModifyItemStringAttr attr_def.
+         * @member {number} attr_def
+         * @memberof CMsgModifyItemStringAttr
+         * @instance
+         */
+        CMsgModifyItemStringAttr.prototype.attr_def = 0;
+    
+        /**
+         * CMsgModifyItemStringAttr attr_value.
+         * @member {string} attr_value
+         * @memberof CMsgModifyItemStringAttr
+         * @instance
+         */
+        CMsgModifyItemStringAttr.prototype.attr_value = "";
+    
+        /**
+         * Creates a new CMsgModifyItemStringAttr instance using the specified properties.
+         * @function create
+         * @memberof CMsgModifyItemStringAttr
+         * @static
+         * @param {ICMsgModifyItemStringAttr=} [properties] Properties to set
+         * @returns {CMsgModifyItemStringAttr} CMsgModifyItemStringAttr instance
+         */
+        CMsgModifyItemStringAttr.create = function create(properties) {
+            return new CMsgModifyItemStringAttr(properties);
+        };
+    
+        /**
+         * Encodes the specified CMsgModifyItemStringAttr message. Does not implicitly {@link CMsgModifyItemStringAttr.verify|verify} messages.
+         * @function encode
+         * @memberof CMsgModifyItemStringAttr
+         * @static
+         * @param {ICMsgModifyItemStringAttr} message CMsgModifyItemStringAttr message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgModifyItemStringAttr.encode = function encode(message, writer, q) {
+            if (!writer)
+                writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (message.tool_item_id != null && Object.hasOwnProperty.call(message, "tool_item_id"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.tool_item_id);
+            if (message.subject_item_id != null && Object.hasOwnProperty.call(message, "subject_item_id"))
+                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.subject_item_id);
+            if (message.attr_def != null && Object.hasOwnProperty.call(message, "attr_def"))
+                writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.attr_def);
+            if (message.attr_value != null && Object.hasOwnProperty.call(message, "attr_value"))
+                writer.uint32(/* id 4, wireType 2 =*/34).string(message.attr_value);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CMsgModifyItemStringAttr message, length delimited. Does not implicitly {@link CMsgModifyItemStringAttr.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CMsgModifyItemStringAttr
+         * @static
+         * @param {ICMsgModifyItemStringAttr} message CMsgModifyItemStringAttr message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgModifyItemStringAttr.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CMsgModifyItemStringAttr message from the specified reader or buffer.
+         * @function decode
+         * @memberof CMsgModifyItemStringAttr
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CMsgModifyItemStringAttr} CMsgModifyItemStringAttr
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgModifyItemStringAttr.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgModifyItemStringAttr();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.tool_item_id = reader.uint64();
+                        break;
+                    }
+                case 2: {
+                        message.subject_item_id = reader.uint64();
+                        break;
+                    }
+                case 3: {
+                        message.attr_def = reader.uint32();
+                        break;
+                    }
+                case 4: {
+                        message.attr_value = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CMsgModifyItemStringAttr message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CMsgModifyItemStringAttr
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CMsgModifyItemStringAttr} CMsgModifyItemStringAttr
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgModifyItemStringAttr.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CMsgModifyItemStringAttr message.
+         * @function verify
+         * @memberof CMsgModifyItemStringAttr
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CMsgModifyItemStringAttr.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.tool_item_id != null && Object.hasOwnProperty.call(message, "tool_item_id"))
+                if (!$util.isInteger(message.tool_item_id) && !(message.tool_item_id && $util.isInteger(message.tool_item_id.low) && $util.isInteger(message.tool_item_id.high)))
+                    return "tool_item_id: integer|Long expected";
+            if (message.subject_item_id != null && Object.hasOwnProperty.call(message, "subject_item_id"))
+                if (!$util.isInteger(message.subject_item_id) && !(message.subject_item_id && $util.isInteger(message.subject_item_id.low) && $util.isInteger(message.subject_item_id.high)))
+                    return "subject_item_id: integer|Long expected";
+            if (message.attr_def != null && Object.hasOwnProperty.call(message, "attr_def"))
+                if (!$util.isInteger(message.attr_def))
+                    return "attr_def: integer expected";
+            if (message.attr_value != null && Object.hasOwnProperty.call(message, "attr_value"))
+                if (!$util.isString(message.attr_value))
+                    return "attr_value: string expected";
+            return null;
+        };
+    
+        /**
+         * Creates a CMsgModifyItemStringAttr message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CMsgModifyItemStringAttr
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CMsgModifyItemStringAttr} CMsgModifyItemStringAttr
+         */
+        CMsgModifyItemStringAttr.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.CMsgModifyItemStringAttr)
+                return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgModifyItemStringAttr: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var message = new $root.CMsgModifyItemStringAttr();
+            if (object.tool_item_id != null)
+                if ($util.Long)
+                    message.tool_item_id = $util.Long.fromValue(object.tool_item_id, true);
+                else if (typeof object.tool_item_id === "string")
+                    message.tool_item_id = parseInt(object.tool_item_id, 10);
+                else if (typeof object.tool_item_id === "number")
+                    message.tool_item_id = object.tool_item_id;
+                else if (typeof object.tool_item_id === "object")
+                    message.tool_item_id = new $util.LongBits(object.tool_item_id.low >>> 0, object.tool_item_id.high >>> 0).toNumber(true);
+            if (object.subject_item_id != null)
+                if ($util.Long)
+                    message.subject_item_id = $util.Long.fromValue(object.subject_item_id, true);
+                else if (typeof object.subject_item_id === "string")
+                    message.subject_item_id = parseInt(object.subject_item_id, 10);
+                else if (typeof object.subject_item_id === "number")
+                    message.subject_item_id = object.subject_item_id;
+                else if (typeof object.subject_item_id === "object")
+                    message.subject_item_id = new $util.LongBits(object.subject_item_id.low >>> 0, object.subject_item_id.high >>> 0).toNumber(true);
+            if (object.attr_def != null)
+                message.attr_def = object.attr_def >>> 0;
+            if (object.attr_value != null)
+                message.attr_value = String(object.attr_value);
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CMsgModifyItemStringAttr message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CMsgModifyItemStringAttr
+         * @static
+         * @param {CMsgModifyItemStringAttr} message CMsgModifyItemStringAttr
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CMsgModifyItemStringAttr.toObject = function toObject(message, options, q) {
+            if (!options)
+                options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var object = {};
+            if (options.defaults) {
+                if ($util.Long) {
+                    var long = new $util.Long(0, 0, true);
+                    object.tool_item_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                } else
+                    object.tool_item_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                if ($util.Long) {
+                    var long = new $util.Long(0, 0, true);
+                    object.subject_item_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                } else
+                    object.subject_item_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                object.attr_def = 0;
+                object.attr_value = "";
+            }
+            if (message.tool_item_id != null && Object.hasOwnProperty.call(message, "tool_item_id"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.tool_item_id = typeof message.tool_item_id === "number" ? BigInt(message.tool_item_id) : $util.Long.fromBits(message.tool_item_id.low >>> 0, message.tool_item_id.high >>> 0, true).toBigInt();
+                else if (typeof message.tool_item_id === "number")
+                    object.tool_item_id = options.longs === String ? String(message.tool_item_id) : message.tool_item_id;
+                else
+                    object.tool_item_id = options.longs === String ? $util.Long.prototype.toString.call(message.tool_item_id) : options.longs === Number ? new $util.LongBits(message.tool_item_id.low >>> 0, message.tool_item_id.high >>> 0).toNumber(true) : message.tool_item_id;
+            if (message.subject_item_id != null && Object.hasOwnProperty.call(message, "subject_item_id"))
+                if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                    object.subject_item_id = typeof message.subject_item_id === "number" ? BigInt(message.subject_item_id) : $util.Long.fromBits(message.subject_item_id.low >>> 0, message.subject_item_id.high >>> 0, true).toBigInt();
+                else if (typeof message.subject_item_id === "number")
+                    object.subject_item_id = options.longs === String ? String(message.subject_item_id) : message.subject_item_id;
+                else
+                    object.subject_item_id = options.longs === String ? $util.Long.prototype.toString.call(message.subject_item_id) : options.longs === Number ? new $util.LongBits(message.subject_item_id.low >>> 0, message.subject_item_id.high >>> 0).toNumber(true) : message.subject_item_id;
+            if (message.attr_def != null && Object.hasOwnProperty.call(message, "attr_def"))
+                object.attr_def = message.attr_def;
+            if (message.attr_value != null && Object.hasOwnProperty.call(message, "attr_value"))
+                object.attr_value = message.attr_value;
+            return object;
+        };
+    
+        /**
+         * Converts this CMsgModifyItemStringAttr to JSON.
+         * @function toJSON
+         * @memberof CMsgModifyItemStringAttr
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CMsgModifyItemStringAttr.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CMsgModifyItemStringAttr
+         * @function getTypeUrl
+         * @memberof CMsgModifyItemStringAttr
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CMsgModifyItemStringAttr.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CMsgModifyItemStringAttr";
+        };
+    
+        return CMsgModifyItemStringAttr;
+    })();
+    
+    $root.CMsgCraftItemsRequest = (function() {
+    
+        /**
+         * Properties of a CMsgCraftItemsRequest.
+         * @exports ICMsgCraftItemsRequest
+         * @interface ICMsgCraftItemsRequest
+         * @property {number|null} [recipe_def] CMsgCraftItemsRequest recipe_def
+         * @property {Array.<number|Long>|null} [craft_items] CMsgCraftItemsRequest craft_items
+         */
+    
+        /**
+         * Constructs a new CMsgCraftItemsRequest.
+         * @exports CMsgCraftItemsRequest
+         * @classdesc Represents a CMsgCraftItemsRequest.
+         * @implements ICMsgCraftItemsRequest
+         * @constructor
+         * @param {ICMsgCraftItemsRequest=} [properties] Properties to set
+         */
+        function CMsgCraftItemsRequest(properties) {
+            this.craft_items = [];
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                        this[keys[i]] = properties[keys[i]];
+        }
+    
+        /**
+         * CMsgCraftItemsRequest recipe_def.
+         * @member {number} recipe_def
+         * @memberof CMsgCraftItemsRequest
+         * @instance
+         */
+        CMsgCraftItemsRequest.prototype.recipe_def = 0;
+    
+        /**
+         * CMsgCraftItemsRequest craft_items.
+         * @member {Array.<number|Long>} craft_items
+         * @memberof CMsgCraftItemsRequest
+         * @instance
+         */
+        CMsgCraftItemsRequest.prototype.craft_items = $util.emptyArray;
+    
+        /**
+         * Creates a new CMsgCraftItemsRequest instance using the specified properties.
+         * @function create
+         * @memberof CMsgCraftItemsRequest
+         * @static
+         * @param {ICMsgCraftItemsRequest=} [properties] Properties to set
+         * @returns {CMsgCraftItemsRequest} CMsgCraftItemsRequest instance
+         */
+        CMsgCraftItemsRequest.create = function create(properties) {
+            return new CMsgCraftItemsRequest(properties);
+        };
+    
+        /**
+         * Encodes the specified CMsgCraftItemsRequest message. Does not implicitly {@link CMsgCraftItemsRequest.verify|verify} messages.
+         * @function encode
+         * @memberof CMsgCraftItemsRequest
+         * @static
+         * @param {ICMsgCraftItemsRequest} message CMsgCraftItemsRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgCraftItemsRequest.encode = function encode(message, writer, q) {
+            if (!writer)
+                writer = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (message.recipe_def != null && Object.hasOwnProperty.call(message, "recipe_def"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.recipe_def);
+            if (message.craft_items != null && message.craft_items.length)
+                for (var i = 0; i < message.craft_items.length; ++i)
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.craft_items[i]);
+            return writer;
+        };
+    
+        /**
+         * Encodes the specified CMsgCraftItemsRequest message, length delimited. Does not implicitly {@link CMsgCraftItemsRequest.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof CMsgCraftItemsRequest
+         * @static
+         * @param {ICMsgCraftItemsRequest} message CMsgCraftItemsRequest message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        CMsgCraftItemsRequest.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        };
+    
+        /**
+         * Decodes a CMsgCraftItemsRequest message from the specified reader or buffer.
+         * @function decode
+         * @memberof CMsgCraftItemsRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {CMsgCraftItemsRequest} CMsgCraftItemsRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgCraftItemsRequest.decode = function decode(reader, length, error, long) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            if (long === undefined)
+                long = 0;
+            if (long > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var end, message;
+            if (length === undefined)
+                end = reader.len;
+            else {
+                end = reader.pos + length;
+                if (end > reader.len)
+                    throw RangeError("index out of range");
+                length = reader.len;
+                reader.len = end;
+            }
+            message = new $root.CMsgCraftItemsRequest();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                if (tag === error)
+                    break;
+                switch (tag >>> 3) {
+                case 1: {
+                        message.recipe_def = reader.uint32();
+                        break;
+                    }
+                case 2: {
+                        if (!(message.craft_items && message.craft_items.length))
+                            message.craft_items = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            if (end2 > reader.len)
+                                throw RangeError("index out of range");
+                            reader.len = end2;
+                            while (reader.pos < end2)
+                                message.craft_items.push(reader.uint64());
+                            if (reader.pos !== end2)
+                                throw RangeError("index out of range");
+                            reader.len = end;
+                        } else
+                            message.craft_items.push(reader.uint64());
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7, long);
+                    break;
+                }
+            }
+            if (length !== undefined) {
+                if (reader.pos !== end)
+                    throw RangeError("index out of range");
+                reader.len = length;
+            }
+            return message;
+        };
+    
+        /**
+         * Decodes a CMsgCraftItemsRequest message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof CMsgCraftItemsRequest
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {CMsgCraftItemsRequest} CMsgCraftItemsRequest
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        CMsgCraftItemsRequest.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+    
+        /**
+         * Verifies a CMsgCraftItemsRequest message.
+         * @function verify
+         * @memberof CMsgCraftItemsRequest
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        CMsgCraftItemsRequest.verify = function verify(message, long) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                return "maximum nesting depth exceeded";
+            if (message.recipe_def != null && Object.hasOwnProperty.call(message, "recipe_def"))
+                if (!$util.isInteger(message.recipe_def))
+                    return "recipe_def: integer expected";
+            if (message.craft_items != null && Object.hasOwnProperty.call(message, "craft_items")) {
+                if (!Array.isArray(message.craft_items))
+                    return "craft_items: array expected";
+                for (var i = 0; i < message.craft_items.length; ++i)
+                    if (!$util.isInteger(message.craft_items[i]) && !(message.craft_items[i] && $util.isInteger(message.craft_items[i].low) && $util.isInteger(message.craft_items[i].high)))
+                        return "craft_items: integer|Long[] expected";
+            }
+            return null;
+        };
+    
+        /**
+         * Creates a CMsgCraftItemsRequest message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof CMsgCraftItemsRequest
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {CMsgCraftItemsRequest} CMsgCraftItemsRequest
+         */
+        CMsgCraftItemsRequest.fromObject = function fromObject(object, long) {
+            if (object instanceof $root.CMsgCraftItemsRequest)
+                return object;
+            if (!$util.isObject(object))
+                throw TypeError(".CMsgCraftItemsRequest: object expected");
+            if (long === undefined)
+                long = 0;
+            if (long > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var message = new $root.CMsgCraftItemsRequest();
+            if (object.recipe_def != null)
+                message.recipe_def = object.recipe_def >>> 0;
+            if (object.craft_items) {
+                if (!Array.isArray(object.craft_items))
+                    throw TypeError(".CMsgCraftItemsRequest.craft_items: array expected");
+                message.craft_items = [];
+                for (var i = 0; i < object.craft_items.length; ++i)
+                    if ($util.Long)
+                        message.craft_items[i] = $util.Long.fromValue(object.craft_items[i], true);
+                    else if (typeof object.craft_items[i] === "string")
+                        message.craft_items[i] = parseInt(object.craft_items[i], 10);
+                    else if (typeof object.craft_items[i] === "number")
+                        message.craft_items[i] = object.craft_items[i];
+                    else if (typeof object.craft_items[i] === "object")
+                        message.craft_items[i] = new $util.LongBits(object.craft_items[i].low >>> 0, object.craft_items[i].high >>> 0).toNumber(true);
+            }
+            return message;
+        };
+    
+        /**
+         * Creates a plain object from a CMsgCraftItemsRequest message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof CMsgCraftItemsRequest
+         * @static
+         * @param {CMsgCraftItemsRequest} message CMsgCraftItemsRequest
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        CMsgCraftItemsRequest.toObject = function toObject(message, options, q) {
+            if (!options)
+                options = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var object = {};
+            if (options.arrays || options.defaults)
+                object.craft_items = [];
+            if (options.defaults)
+                object.recipe_def = 0;
+            if (message.recipe_def != null && Object.hasOwnProperty.call(message, "recipe_def"))
+                object.recipe_def = message.recipe_def;
+            if (message.craft_items && message.craft_items.length) {
+                object.craft_items = [];
+                for (var j = 0; j < message.craft_items.length; ++j)
+                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
+                        object.craft_items[j] = typeof message.craft_items[j] === "number" ? BigInt(message.craft_items[j]) : $util.Long.fromBits(message.craft_items[j].low >>> 0, message.craft_items[j].high >>> 0, true).toBigInt();
+                    else if (typeof message.craft_items[j] === "number")
+                        object.craft_items[j] = options.longs === String ? String(message.craft_items[j]) : message.craft_items[j];
+                    else
+                        object.craft_items[j] = options.longs === String ? $util.Long.prototype.toString.call(message.craft_items[j]) : options.longs === Number ? new $util.LongBits(message.craft_items[j].low >>> 0, message.craft_items[j].high >>> 0).toNumber(true) : message.craft_items[j];
+            }
+            return object;
+        };
+    
+        /**
+         * Converts this CMsgCraftItemsRequest to JSON.
+         * @function toJSON
+         * @memberof CMsgCraftItemsRequest
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        CMsgCraftItemsRequest.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+    
+        /**
+         * Gets the default type url for CMsgCraftItemsRequest
+         * @function getTypeUrl
+         * @memberof CMsgCraftItemsRequest
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        CMsgCraftItemsRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/CMsgCraftItemsRequest";
+        };
+    
+        return CMsgCraftItemsRequest;
     })();
     
     $root.CSOEconClaimCode = (function() {
@@ -11683,7 +11696,6 @@
          * @property {number|Long|null} [item_id] CMsgUseItem item_id
          * @property {number|Long|null} [target_steam_id] CMsgUseItem target_steam_id
          * @property {Array.<number>|null} [gift__potential_targets] CMsgUseItem gift__potential_targets
-         * @property {number|null} [duel__class_lock] CMsgUseItem duel__class_lock
          * @property {number|Long|null} [initiator_steam_id] CMsgUseItem initiator_steam_id
          */
     
@@ -11728,14 +11740,6 @@
         CMsgUseItem.prototype.gift__potential_targets = $util.emptyArray;
     
         /**
-         * CMsgUseItem duel__class_lock.
-         * @member {number} duel__class_lock
-         * @memberof CMsgUseItem
-         * @instance
-         */
-        CMsgUseItem.prototype.duel__class_lock = 0;
-    
-        /**
          * CMsgUseItem initiator_steam_id.
          * @member {number|Long} initiator_steam_id
          * @memberof CMsgUseItem
@@ -11778,8 +11782,6 @@
             if (message.gift__potential_targets != null && message.gift__potential_targets.length)
                 for (var i = 0; i < message.gift__potential_targets.length; ++i)
                     writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.gift__potential_targets[i]);
-            if (message.duel__class_lock != null && Object.hasOwnProperty.call(message, "duel__class_lock"))
-                writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.duel__class_lock);
             if (message.initiator_steam_id != null && Object.hasOwnProperty.call(message, "initiator_steam_id"))
                 writer.uint32(/* id 5, wireType 1 =*/41).fixed64(message.initiator_steam_id);
             return writer;
@@ -11857,10 +11859,6 @@
                             message.gift__potential_targets.push(reader.uint32());
                         break;
                     }
-                case 4: {
-                        message.duel__class_lock = reader.uint32();
-                        break;
-                    }
                 case 5: {
                         message.initiator_steam_id = reader.fixed64();
                         break;
@@ -11922,9 +11920,6 @@
                     if (!$util.isInteger(message.gift__potential_targets[i]))
                         return "gift__potential_targets: integer[] expected";
             }
-            if (message.duel__class_lock != null && Object.hasOwnProperty.call(message, "duel__class_lock"))
-                if (!$util.isInteger(message.duel__class_lock))
-                    return "duel__class_lock: integer expected";
             if (message.initiator_steam_id != null && Object.hasOwnProperty.call(message, "initiator_steam_id"))
                 if (!$util.isInteger(message.initiator_steam_id) && !(message.initiator_steam_id && $util.isInteger(message.initiator_steam_id.low) && $util.isInteger(message.initiator_steam_id.high)))
                     return "initiator_steam_id: integer|Long expected";
@@ -11974,8 +11969,6 @@
                 for (var i = 0; i < object.gift__potential_targets.length; ++i)
                     message.gift__potential_targets[i] = object.gift__potential_targets[i] >>> 0;
             }
-            if (object.duel__class_lock != null)
-                message.duel__class_lock = object.duel__class_lock >>> 0;
             if (object.initiator_steam_id != null)
                 if ($util.Long)
                     message.initiator_steam_id = $util.Long.fromValue(object.initiator_steam_id, true);
@@ -12018,7 +12011,6 @@
                     object.target_steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
                     object.target_steam_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
-                object.duel__class_lock = 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
                     object.initiator_steam_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
@@ -12044,8 +12036,6 @@
                 for (var j = 0; j < message.gift__potential_targets.length; ++j)
                     object.gift__potential_targets[j] = message.gift__potential_targets[j];
             }
-            if (message.duel__class_lock != null && Object.hasOwnProperty.call(message, "duel__class_lock"))
-                object.duel__class_lock = message.duel__class_lock;
             if (message.initiator_steam_id != null && Object.hasOwnProperty.call(message, "initiator_steam_id"))
                 if (typeof BigInt !== "undefined" && options.longs === BigInt)
                     object.initiator_steam_id = typeof message.initiator_steam_id === "number" ? BigInt(message.initiator_steam_id) : $util.Long.fromBits(message.initiator_steam_id.low >>> 0, message.initiator_steam_id.high >>> 0, true).toBigInt();
@@ -14620,352 +14610,6 @@
         return CMsgGCNameItemNotification;
     })();
     
-    $root.CMsgGCClientDisplayNotification = (function() {
-    
-        /**
-         * Properties of a CMsgGCClientDisplayNotification.
-         * @exports ICMsgGCClientDisplayNotification
-         * @interface ICMsgGCClientDisplayNotification
-         * @property {string|null} [notification_title_localization_key] CMsgGCClientDisplayNotification notification_title_localization_key
-         * @property {string|null} [notification_body_localization_key] CMsgGCClientDisplayNotification notification_body_localization_key
-         * @property {Array.<string>|null} [body_substring_keys] CMsgGCClientDisplayNotification body_substring_keys
-         * @property {Array.<string>|null} [body_substring_values] CMsgGCClientDisplayNotification body_substring_values
-         */
-    
-        /**
-         * Constructs a new CMsgGCClientDisplayNotification.
-         * @exports CMsgGCClientDisplayNotification
-         * @classdesc Represents a CMsgGCClientDisplayNotification.
-         * @implements ICMsgGCClientDisplayNotification
-         * @constructor
-         * @param {ICMsgGCClientDisplayNotification=} [properties] Properties to set
-         */
-        function CMsgGCClientDisplayNotification(properties) {
-            this.body_substring_keys = [];
-            this.body_substring_values = [];
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CMsgGCClientDisplayNotification notification_title_localization_key.
-         * @member {string} notification_title_localization_key
-         * @memberof CMsgGCClientDisplayNotification
-         * @instance
-         */
-        CMsgGCClientDisplayNotification.prototype.notification_title_localization_key = "";
-    
-        /**
-         * CMsgGCClientDisplayNotification notification_body_localization_key.
-         * @member {string} notification_body_localization_key
-         * @memberof CMsgGCClientDisplayNotification
-         * @instance
-         */
-        CMsgGCClientDisplayNotification.prototype.notification_body_localization_key = "";
-    
-        /**
-         * CMsgGCClientDisplayNotification body_substring_keys.
-         * @member {Array.<string>} body_substring_keys
-         * @memberof CMsgGCClientDisplayNotification
-         * @instance
-         */
-        CMsgGCClientDisplayNotification.prototype.body_substring_keys = $util.emptyArray;
-    
-        /**
-         * CMsgGCClientDisplayNotification body_substring_values.
-         * @member {Array.<string>} body_substring_values
-         * @memberof CMsgGCClientDisplayNotification
-         * @instance
-         */
-        CMsgGCClientDisplayNotification.prototype.body_substring_values = $util.emptyArray;
-    
-        /**
-         * Creates a new CMsgGCClientDisplayNotification instance using the specified properties.
-         * @function create
-         * @memberof CMsgGCClientDisplayNotification
-         * @static
-         * @param {ICMsgGCClientDisplayNotification=} [properties] Properties to set
-         * @returns {CMsgGCClientDisplayNotification} CMsgGCClientDisplayNotification instance
-         */
-        CMsgGCClientDisplayNotification.create = function create(properties) {
-            return new CMsgGCClientDisplayNotification(properties);
-        };
-    
-        /**
-         * Encodes the specified CMsgGCClientDisplayNotification message. Does not implicitly {@link CMsgGCClientDisplayNotification.verify|verify} messages.
-         * @function encode
-         * @memberof CMsgGCClientDisplayNotification
-         * @static
-         * @param {ICMsgGCClientDisplayNotification} message CMsgGCClientDisplayNotification message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgGCClientDisplayNotification.encode = function encode(message, writer, q) {
-            if (!writer)
-                writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.notification_title_localization_key != null && Object.hasOwnProperty.call(message, "notification_title_localization_key"))
-                writer.uint32(/* id 1, wireType 2 =*/10).string(message.notification_title_localization_key);
-            if (message.notification_body_localization_key != null && Object.hasOwnProperty.call(message, "notification_body_localization_key"))
-                writer.uint32(/* id 2, wireType 2 =*/18).string(message.notification_body_localization_key);
-            if (message.body_substring_keys != null && message.body_substring_keys.length)
-                for (var i = 0; i < message.body_substring_keys.length; ++i)
-                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.body_substring_keys[i]);
-            if (message.body_substring_values != null && message.body_substring_values.length)
-                for (var i = 0; i < message.body_substring_values.length; ++i)
-                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.body_substring_values[i]);
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CMsgGCClientDisplayNotification message, length delimited. Does not implicitly {@link CMsgGCClientDisplayNotification.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CMsgGCClientDisplayNotification
-         * @static
-         * @param {ICMsgGCClientDisplayNotification} message CMsgGCClientDisplayNotification message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgGCClientDisplayNotification.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CMsgGCClientDisplayNotification message from the specified reader or buffer.
-         * @function decode
-         * @memberof CMsgGCClientDisplayNotification
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgGCClientDisplayNotification} CMsgGCClientDisplayNotification
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgGCClientDisplayNotification.decode = function decode(reader, length, error, long) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var end, message;
-            if (length === undefined)
-                end = reader.len;
-            else {
-                end = reader.pos + length;
-                if (end > reader.len)
-                    throw RangeError("index out of range");
-                length = reader.len;
-                reader.len = end;
-            }
-            message = new $root.CMsgGCClientDisplayNotification();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.notification_title_localization_key = reader.string();
-                        break;
-                    }
-                case 2: {
-                        message.notification_body_localization_key = reader.string();
-                        break;
-                    }
-                case 3: {
-                        if (!(message.body_substring_keys && message.body_substring_keys.length))
-                            message.body_substring_keys = [];
-                        message.body_substring_keys.push(reader.string());
-                        break;
-                    }
-                case 4: {
-                        if (!(message.body_substring_values && message.body_substring_values.length))
-                            message.body_substring_values = [];
-                        message.body_substring_values.push(reader.string());
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
-                    break;
-                }
-            }
-            if (length !== undefined) {
-                if (reader.pos !== end)
-                    throw RangeError("index out of range");
-                reader.len = length;
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CMsgGCClientDisplayNotification message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CMsgGCClientDisplayNotification
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgGCClientDisplayNotification} CMsgGCClientDisplayNotification
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgGCClientDisplayNotification.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CMsgGCClientDisplayNotification message.
-         * @function verify
-         * @memberof CMsgGCClientDisplayNotification
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CMsgGCClientDisplayNotification.verify = function verify(message, long) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.notification_title_localization_key != null && Object.hasOwnProperty.call(message, "notification_title_localization_key"))
-                if (!$util.isString(message.notification_title_localization_key))
-                    return "notification_title_localization_key: string expected";
-            if (message.notification_body_localization_key != null && Object.hasOwnProperty.call(message, "notification_body_localization_key"))
-                if (!$util.isString(message.notification_body_localization_key))
-                    return "notification_body_localization_key: string expected";
-            if (message.body_substring_keys != null && Object.hasOwnProperty.call(message, "body_substring_keys")) {
-                if (!Array.isArray(message.body_substring_keys))
-                    return "body_substring_keys: array expected";
-                for (var i = 0; i < message.body_substring_keys.length; ++i)
-                    if (!$util.isString(message.body_substring_keys[i]))
-                        return "body_substring_keys: string[] expected";
-            }
-            if (message.body_substring_values != null && Object.hasOwnProperty.call(message, "body_substring_values")) {
-                if (!Array.isArray(message.body_substring_values))
-                    return "body_substring_values: array expected";
-                for (var i = 0; i < message.body_substring_values.length; ++i)
-                    if (!$util.isString(message.body_substring_values[i]))
-                        return "body_substring_values: string[] expected";
-            }
-            return null;
-        };
-    
-        /**
-         * Creates a CMsgGCClientDisplayNotification message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CMsgGCClientDisplayNotification
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CMsgGCClientDisplayNotification} CMsgGCClientDisplayNotification
-         */
-        CMsgGCClientDisplayNotification.fromObject = function fromObject(object, long) {
-            if (object instanceof $root.CMsgGCClientDisplayNotification)
-                return object;
-            if (!$util.isObject(object))
-                throw TypeError(".CMsgGCClientDisplayNotification: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var message = new $root.CMsgGCClientDisplayNotification();
-            if (object.notification_title_localization_key != null)
-                message.notification_title_localization_key = String(object.notification_title_localization_key);
-            if (object.notification_body_localization_key != null)
-                message.notification_body_localization_key = String(object.notification_body_localization_key);
-            if (object.body_substring_keys) {
-                if (!Array.isArray(object.body_substring_keys))
-                    throw TypeError(".CMsgGCClientDisplayNotification.body_substring_keys: array expected");
-                message.body_substring_keys = [];
-                for (var i = 0; i < object.body_substring_keys.length; ++i)
-                    message.body_substring_keys[i] = String(object.body_substring_keys[i]);
-            }
-            if (object.body_substring_values) {
-                if (!Array.isArray(object.body_substring_values))
-                    throw TypeError(".CMsgGCClientDisplayNotification.body_substring_values: array expected");
-                message.body_substring_values = [];
-                for (var i = 0; i < object.body_substring_values.length; ++i)
-                    message.body_substring_values[i] = String(object.body_substring_values[i]);
-            }
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CMsgGCClientDisplayNotification message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CMsgGCClientDisplayNotification
-         * @static
-         * @param {CMsgGCClientDisplayNotification} message CMsgGCClientDisplayNotification
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CMsgGCClientDisplayNotification.toObject = function toObject(message, options, q) {
-            if (!options)
-                options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            var object = {};
-            if (options.arrays || options.defaults) {
-                object.body_substring_keys = [];
-                object.body_substring_values = [];
-            }
-            if (options.defaults) {
-                object.notification_title_localization_key = "";
-                object.notification_body_localization_key = "";
-            }
-            if (message.notification_title_localization_key != null && Object.hasOwnProperty.call(message, "notification_title_localization_key"))
-                object.notification_title_localization_key = message.notification_title_localization_key;
-            if (message.notification_body_localization_key != null && Object.hasOwnProperty.call(message, "notification_body_localization_key"))
-                object.notification_body_localization_key = message.notification_body_localization_key;
-            if (message.body_substring_keys && message.body_substring_keys.length) {
-                object.body_substring_keys = [];
-                for (var j = 0; j < message.body_substring_keys.length; ++j)
-                    object.body_substring_keys[j] = message.body_substring_keys[j];
-            }
-            if (message.body_substring_values && message.body_substring_values.length) {
-                object.body_substring_values = [];
-                for (var j = 0; j < message.body_substring_values.length; ++j)
-                    object.body_substring_values[j] = message.body_substring_values[j];
-            }
-            return object;
-        };
-    
-        /**
-         * Converts this CMsgGCClientDisplayNotification to JSON.
-         * @function toJSON
-         * @memberof CMsgGCClientDisplayNotification
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CMsgGCClientDisplayNotification.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CMsgGCClientDisplayNotification
-         * @function getTypeUrl
-         * @memberof CMsgGCClientDisplayNotification
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CMsgGCClientDisplayNotification.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgGCClientDisplayNotification";
-        };
-    
-        return CMsgGCClientDisplayNotification;
-    })();
-    
     $root.CMsgGCShowItemsPickedUp = (function() {
     
         /**
@@ -16525,248 +16169,6 @@
         };
     
         return CSOEconItemEventTicket;
-    })();
-    
-    $root.CMsgGCItemPreviewItemBoughtNotification = (function() {
-    
-        /**
-         * Properties of a CMsgGCItemPreviewItemBoughtNotification.
-         * @exports ICMsgGCItemPreviewItemBoughtNotification
-         * @interface ICMsgGCItemPreviewItemBoughtNotification
-         * @property {number|null} [item_def_index] CMsgGCItemPreviewItemBoughtNotification item_def_index
-         */
-    
-        /**
-         * Constructs a new CMsgGCItemPreviewItemBoughtNotification.
-         * @exports CMsgGCItemPreviewItemBoughtNotification
-         * @classdesc Represents a CMsgGCItemPreviewItemBoughtNotification.
-         * @implements ICMsgGCItemPreviewItemBoughtNotification
-         * @constructor
-         * @param {ICMsgGCItemPreviewItemBoughtNotification=} [properties] Properties to set
-         */
-        function CMsgGCItemPreviewItemBoughtNotification(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CMsgGCItemPreviewItemBoughtNotification item_def_index.
-         * @member {number} item_def_index
-         * @memberof CMsgGCItemPreviewItemBoughtNotification
-         * @instance
-         */
-        CMsgGCItemPreviewItemBoughtNotification.prototype.item_def_index = 0;
-    
-        /**
-         * Creates a new CMsgGCItemPreviewItemBoughtNotification instance using the specified properties.
-         * @function create
-         * @memberof CMsgGCItemPreviewItemBoughtNotification
-         * @static
-         * @param {ICMsgGCItemPreviewItemBoughtNotification=} [properties] Properties to set
-         * @returns {CMsgGCItemPreviewItemBoughtNotification} CMsgGCItemPreviewItemBoughtNotification instance
-         */
-        CMsgGCItemPreviewItemBoughtNotification.create = function create(properties) {
-            return new CMsgGCItemPreviewItemBoughtNotification(properties);
-        };
-    
-        /**
-         * Encodes the specified CMsgGCItemPreviewItemBoughtNotification message. Does not implicitly {@link CMsgGCItemPreviewItemBoughtNotification.verify|verify} messages.
-         * @function encode
-         * @memberof CMsgGCItemPreviewItemBoughtNotification
-         * @static
-         * @param {ICMsgGCItemPreviewItemBoughtNotification} message CMsgGCItemPreviewItemBoughtNotification message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgGCItemPreviewItemBoughtNotification.encode = function encode(message, writer, q) {
-            if (!writer)
-                writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.item_def_index != null && Object.hasOwnProperty.call(message, "item_def_index"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.item_def_index);
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CMsgGCItemPreviewItemBoughtNotification message, length delimited. Does not implicitly {@link CMsgGCItemPreviewItemBoughtNotification.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CMsgGCItemPreviewItemBoughtNotification
-         * @static
-         * @param {ICMsgGCItemPreviewItemBoughtNotification} message CMsgGCItemPreviewItemBoughtNotification message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgGCItemPreviewItemBoughtNotification.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CMsgGCItemPreviewItemBoughtNotification message from the specified reader or buffer.
-         * @function decode
-         * @memberof CMsgGCItemPreviewItemBoughtNotification
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgGCItemPreviewItemBoughtNotification} CMsgGCItemPreviewItemBoughtNotification
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgGCItemPreviewItemBoughtNotification.decode = function decode(reader, length, error, long) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var end, message;
-            if (length === undefined)
-                end = reader.len;
-            else {
-                end = reader.pos + length;
-                if (end > reader.len)
-                    throw RangeError("index out of range");
-                length = reader.len;
-                reader.len = end;
-            }
-            message = new $root.CMsgGCItemPreviewItemBoughtNotification();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.item_def_index = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
-                    break;
-                }
-            }
-            if (length !== undefined) {
-                if (reader.pos !== end)
-                    throw RangeError("index out of range");
-                reader.len = length;
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CMsgGCItemPreviewItemBoughtNotification message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CMsgGCItemPreviewItemBoughtNotification
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgGCItemPreviewItemBoughtNotification} CMsgGCItemPreviewItemBoughtNotification
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgGCItemPreviewItemBoughtNotification.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CMsgGCItemPreviewItemBoughtNotification message.
-         * @function verify
-         * @memberof CMsgGCItemPreviewItemBoughtNotification
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CMsgGCItemPreviewItemBoughtNotification.verify = function verify(message, long) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.item_def_index != null && Object.hasOwnProperty.call(message, "item_def_index"))
-                if (!$util.isInteger(message.item_def_index))
-                    return "item_def_index: integer expected";
-            return null;
-        };
-    
-        /**
-         * Creates a CMsgGCItemPreviewItemBoughtNotification message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CMsgGCItemPreviewItemBoughtNotification
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CMsgGCItemPreviewItemBoughtNotification} CMsgGCItemPreviewItemBoughtNotification
-         */
-        CMsgGCItemPreviewItemBoughtNotification.fromObject = function fromObject(object, long) {
-            if (object instanceof $root.CMsgGCItemPreviewItemBoughtNotification)
-                return object;
-            if (!$util.isObject(object))
-                throw TypeError(".CMsgGCItemPreviewItemBoughtNotification: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var message = new $root.CMsgGCItemPreviewItemBoughtNotification();
-            if (object.item_def_index != null)
-                message.item_def_index = object.item_def_index >>> 0;
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CMsgGCItemPreviewItemBoughtNotification message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CMsgGCItemPreviewItemBoughtNotification
-         * @static
-         * @param {CMsgGCItemPreviewItemBoughtNotification} message CMsgGCItemPreviewItemBoughtNotification
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CMsgGCItemPreviewItemBoughtNotification.toObject = function toObject(message, options, q) {
-            if (!options)
-                options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            var object = {};
-            if (options.defaults)
-                object.item_def_index = 0;
-            if (message.item_def_index != null && Object.hasOwnProperty.call(message, "item_def_index"))
-                object.item_def_index = message.item_def_index;
-            return object;
-        };
-    
-        /**
-         * Converts this CMsgGCItemPreviewItemBoughtNotification to JSON.
-         * @function toJSON
-         * @memberof CMsgGCItemPreviewItemBoughtNotification
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CMsgGCItemPreviewItemBoughtNotification.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CMsgGCItemPreviewItemBoughtNotification
-         * @function getTypeUrl
-         * @memberof CMsgGCItemPreviewItemBoughtNotification
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CMsgGCItemPreviewItemBoughtNotification.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgGCItemPreviewItemBoughtNotification";
-        };
-    
-        return CMsgGCItemPreviewItemBoughtNotification;
     })();
     
     $root.CMsgGCStorePurchaseCancel = (function() {
@@ -20283,304 +19685,6 @@
         };
     
         return CMsgGCToGCDirtyMultipleSDOCache;
-    })();
-    
-    $root.CMsgGCCollectItem = (function() {
-    
-        /**
-         * Properties of a CMsgGCCollectItem.
-         * @exports ICMsgGCCollectItem
-         * @interface ICMsgGCCollectItem
-         * @property {number|Long|null} [collection_item_id] CMsgGCCollectItem collection_item_id
-         * @property {number|Long|null} [subject_item_id] CMsgGCCollectItem subject_item_id
-         */
-    
-        /**
-         * Constructs a new CMsgGCCollectItem.
-         * @exports CMsgGCCollectItem
-         * @classdesc Represents a CMsgGCCollectItem.
-         * @implements ICMsgGCCollectItem
-         * @constructor
-         * @param {ICMsgGCCollectItem=} [properties] Properties to set
-         */
-        function CMsgGCCollectItem(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null && keys[i] !== "__proto__")
-                        this[keys[i]] = properties[keys[i]];
-        }
-    
-        /**
-         * CMsgGCCollectItem collection_item_id.
-         * @member {number|Long} collection_item_id
-         * @memberof CMsgGCCollectItem
-         * @instance
-         */
-        CMsgGCCollectItem.prototype.collection_item_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * CMsgGCCollectItem subject_item_id.
-         * @member {number|Long} subject_item_id
-         * @memberof CMsgGCCollectItem
-         * @instance
-         */
-        CMsgGCCollectItem.prototype.subject_item_id = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-        /**
-         * Creates a new CMsgGCCollectItem instance using the specified properties.
-         * @function create
-         * @memberof CMsgGCCollectItem
-         * @static
-         * @param {ICMsgGCCollectItem=} [properties] Properties to set
-         * @returns {CMsgGCCollectItem} CMsgGCCollectItem instance
-         */
-        CMsgGCCollectItem.create = function create(properties) {
-            return new CMsgGCCollectItem(properties);
-        };
-    
-        /**
-         * Encodes the specified CMsgGCCollectItem message. Does not implicitly {@link CMsgGCCollectItem.verify|verify} messages.
-         * @function encode
-         * @memberof CMsgGCCollectItem
-         * @static
-         * @param {ICMsgGCCollectItem} message CMsgGCCollectItem message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgGCCollectItem.encode = function encode(message, writer, q) {
-            if (!writer)
-                writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.collection_item_id != null && Object.hasOwnProperty.call(message, "collection_item_id"))
-                writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.collection_item_id);
-            if (message.subject_item_id != null && Object.hasOwnProperty.call(message, "subject_item_id"))
-                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.subject_item_id);
-            return writer;
-        };
-    
-        /**
-         * Encodes the specified CMsgGCCollectItem message, length delimited. Does not implicitly {@link CMsgGCCollectItem.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof CMsgGCCollectItem
-         * @static
-         * @param {ICMsgGCCollectItem} message CMsgGCCollectItem message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        CMsgGCCollectItem.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
-        };
-    
-        /**
-         * Decodes a CMsgGCCollectItem message from the specified reader or buffer.
-         * @function decode
-         * @memberof CMsgGCCollectItem
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgGCCollectItem} CMsgGCCollectItem
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgGCCollectItem.decode = function decode(reader, length, error, long) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var end, message;
-            if (length === undefined)
-                end = reader.len;
-            else {
-                end = reader.pos + length;
-                if (end > reader.len)
-                    throw RangeError("index out of range");
-                length = reader.len;
-                reader.len = end;
-            }
-            message = new $root.CMsgGCCollectItem();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.collection_item_id = reader.uint64();
-                        break;
-                    }
-                case 2: {
-                        message.subject_item_id = reader.uint64();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
-                    break;
-                }
-            }
-            if (length !== undefined) {
-                if (reader.pos !== end)
-                    throw RangeError("index out of range");
-                reader.len = length;
-            }
-            return message;
-        };
-    
-        /**
-         * Decodes a CMsgGCCollectItem message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof CMsgGCCollectItem
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgGCCollectItem} CMsgGCCollectItem
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        CMsgGCCollectItem.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-    
-        /**
-         * Verifies a CMsgGCCollectItem message.
-         * @function verify
-         * @memberof CMsgGCCollectItem
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        CMsgGCCollectItem.verify = function verify(message, long) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.collection_item_id != null && Object.hasOwnProperty.call(message, "collection_item_id"))
-                if (!$util.isInteger(message.collection_item_id) && !(message.collection_item_id && $util.isInteger(message.collection_item_id.low) && $util.isInteger(message.collection_item_id.high)))
-                    return "collection_item_id: integer|Long expected";
-            if (message.subject_item_id != null && Object.hasOwnProperty.call(message, "subject_item_id"))
-                if (!$util.isInteger(message.subject_item_id) && !(message.subject_item_id && $util.isInteger(message.subject_item_id.low) && $util.isInteger(message.subject_item_id.high)))
-                    return "subject_item_id: integer|Long expected";
-            return null;
-        };
-    
-        /**
-         * Creates a CMsgGCCollectItem message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof CMsgGCCollectItem
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {CMsgGCCollectItem} CMsgGCCollectItem
-         */
-        CMsgGCCollectItem.fromObject = function fromObject(object, long) {
-            if (object instanceof $root.CMsgGCCollectItem)
-                return object;
-            if (!$util.isObject(object))
-                throw TypeError(".CMsgGCCollectItem: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var message = new $root.CMsgGCCollectItem();
-            if (object.collection_item_id != null)
-                if ($util.Long)
-                    message.collection_item_id = $util.Long.fromValue(object.collection_item_id, true);
-                else if (typeof object.collection_item_id === "string")
-                    message.collection_item_id = parseInt(object.collection_item_id, 10);
-                else if (typeof object.collection_item_id === "number")
-                    message.collection_item_id = object.collection_item_id;
-                else if (typeof object.collection_item_id === "object")
-                    message.collection_item_id = new $util.LongBits(object.collection_item_id.low >>> 0, object.collection_item_id.high >>> 0).toNumber(true);
-            if (object.subject_item_id != null)
-                if ($util.Long)
-                    message.subject_item_id = $util.Long.fromValue(object.subject_item_id, true);
-                else if (typeof object.subject_item_id === "string")
-                    message.subject_item_id = parseInt(object.subject_item_id, 10);
-                else if (typeof object.subject_item_id === "number")
-                    message.subject_item_id = object.subject_item_id;
-                else if (typeof object.subject_item_id === "object")
-                    message.subject_item_id = new $util.LongBits(object.subject_item_id.low >>> 0, object.subject_item_id.high >>> 0).toNumber(true);
-            return message;
-        };
-    
-        /**
-         * Creates a plain object from a CMsgGCCollectItem message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof CMsgGCCollectItem
-         * @static
-         * @param {CMsgGCCollectItem} message CMsgGCCollectItem
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        CMsgGCCollectItem.toObject = function toObject(message, options, q) {
-            if (!options)
-                options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            var object = {};
-            if (options.defaults) {
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.collection_item_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
-                } else
-                    object.collection_item_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.subject_item_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
-                } else
-                    object.subject_item_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
-            }
-            if (message.collection_item_id != null && Object.hasOwnProperty.call(message, "collection_item_id"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.collection_item_id = typeof message.collection_item_id === "number" ? BigInt(message.collection_item_id) : $util.Long.fromBits(message.collection_item_id.low >>> 0, message.collection_item_id.high >>> 0, true).toBigInt();
-                else if (typeof message.collection_item_id === "number")
-                    object.collection_item_id = options.longs === String ? String(message.collection_item_id) : message.collection_item_id;
-                else
-                    object.collection_item_id = options.longs === String ? $util.Long.prototype.toString.call(message.collection_item_id) : options.longs === Number ? new $util.LongBits(message.collection_item_id.low >>> 0, message.collection_item_id.high >>> 0).toNumber(true) : message.collection_item_id;
-            if (message.subject_item_id != null && Object.hasOwnProperty.call(message, "subject_item_id"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.subject_item_id = typeof message.subject_item_id === "number" ? BigInt(message.subject_item_id) : $util.Long.fromBits(message.subject_item_id.low >>> 0, message.subject_item_id.high >>> 0, true).toBigInt();
-                else if (typeof message.subject_item_id === "number")
-                    object.subject_item_id = options.longs === String ? String(message.subject_item_id) : message.subject_item_id;
-                else
-                    object.subject_item_id = options.longs === String ? $util.Long.prototype.toString.call(message.subject_item_id) : options.longs === Number ? new $util.LongBits(message.subject_item_id.low >>> 0, message.subject_item_id.high >>> 0).toNumber(true) : message.subject_item_id;
-            return object;
-        };
-    
-        /**
-         * Converts this CMsgGCCollectItem to JSON.
-         * @function toJSON
-         * @memberof CMsgGCCollectItem
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        CMsgGCCollectItem.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-    
-        /**
-         * Gets the default type url for CMsgGCCollectItem
-         * @function getTypeUrl
-         * @memberof CMsgGCCollectItem
-         * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
-         */
-        CMsgGCCollectItem.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgGCCollectItem";
-        };
-    
-        return CMsgGCCollectItem;
     })();
     
     $root.CMsgSDONoMemcached = (function() {
@@ -26817,12 +25921,15 @@
                  * @property {string|null} [name] FileDescriptorProto name
                  * @property {string|null} ["package"] FileDescriptorProto package
                  * @property {Array.<string>|null} [dependency] FileDescriptorProto dependency
+                 * @property {Array.<number>|null} [public_dependency] FileDescriptorProto public_dependency
+                 * @property {Array.<number>|null} [weak_dependency] FileDescriptorProto weak_dependency
                  * @property {Array.<google.protobuf.IDescriptorProto>|null} [message_type] FileDescriptorProto message_type
                  * @property {Array.<google.protobuf.IEnumDescriptorProto>|null} [enum_type] FileDescriptorProto enum_type
                  * @property {Array.<google.protobuf.IServiceDescriptorProto>|null} [service] FileDescriptorProto service
                  * @property {Array.<google.protobuf.IFieldDescriptorProto>|null} [extension] FileDescriptorProto extension
                  * @property {google.protobuf.IFileOptions|null} [options] FileDescriptorProto options
                  * @property {google.protobuf.ISourceCodeInfo|null} [source_code_info] FileDescriptorProto source_code_info
+                 * @property {string|null} [syntax] FileDescriptorProto syntax
                  */
     
                 /**
@@ -26835,6 +25942,8 @@
                  */
                 function FileDescriptorProto(properties) {
                     this.dependency = [];
+                    this.public_dependency = [];
+                    this.weak_dependency = [];
                     this.message_type = [];
                     this.enum_type = [];
                     this.service = [];
@@ -26868,6 +25977,22 @@
                  * @instance
                  */
                 FileDescriptorProto.prototype.dependency = $util.emptyArray;
+    
+                /**
+                 * FileDescriptorProto public_dependency.
+                 * @member {Array.<number>} public_dependency
+                 * @memberof google.protobuf.FileDescriptorProto
+                 * @instance
+                 */
+                FileDescriptorProto.prototype.public_dependency = $util.emptyArray;
+    
+                /**
+                 * FileDescriptorProto weak_dependency.
+                 * @member {Array.<number>} weak_dependency
+                 * @memberof google.protobuf.FileDescriptorProto
+                 * @instance
+                 */
+                FileDescriptorProto.prototype.weak_dependency = $util.emptyArray;
     
                 /**
                  * FileDescriptorProto message_type.
@@ -26916,6 +26041,14 @@
                  * @instance
                  */
                 FileDescriptorProto.prototype.source_code_info = null;
+    
+                /**
+                 * FileDescriptorProto syntax.
+                 * @member {string} syntax
+                 * @memberof google.protobuf.FileDescriptorProto
+                 * @instance
+                 */
+                FileDescriptorProto.prototype.syntax = "";
     
                 /**
                  * Creates a new FileDescriptorProto instance using the specified properties.
@@ -26968,6 +26101,14 @@
                         $root.google.protobuf.FileOptions.encode(message.options, writer.uint32(/* id 8, wireType 2 =*/66).fork(), q + 1).ldelim();
                     if (message.source_code_info != null && Object.hasOwnProperty.call(message, "source_code_info"))
                         $root.google.protobuf.SourceCodeInfo.encode(message.source_code_info, writer.uint32(/* id 9, wireType 2 =*/74).fork(), q + 1).ldelim();
+                    if (message.public_dependency != null && message.public_dependency.length)
+                        for (var i = 0; i < message.public_dependency.length; ++i)
+                            writer.uint32(/* id 10, wireType 0 =*/80).int32(message.public_dependency[i]);
+                    if (message.weak_dependency != null && message.weak_dependency.length)
+                        for (var i = 0; i < message.weak_dependency.length; ++i)
+                            writer.uint32(/* id 11, wireType 0 =*/88).int32(message.weak_dependency[i]);
+                    if (message.syntax != null && Object.hasOwnProperty.call(message, "syntax"))
+                        writer.uint32(/* id 12, wireType 2 =*/98).string(message.syntax);
                     return writer;
                 };
     
@@ -27032,6 +26173,40 @@
                                 message.dependency.push(reader.string());
                                 break;
                             }
+                        case 10: {
+                                if (!(message.public_dependency && message.public_dependency.length))
+                                    message.public_dependency = [];
+                                if ((tag & 7) === 2) {
+                                    var end2 = reader.uint32() + reader.pos;
+                                    if (end2 > reader.len)
+                                        throw RangeError("index out of range");
+                                    reader.len = end2;
+                                    while (reader.pos < end2)
+                                        message.public_dependency.push(reader.int32());
+                                    if (reader.pos !== end2)
+                                        throw RangeError("index out of range");
+                                    reader.len = end;
+                                } else
+                                    message.public_dependency.push(reader.int32());
+                                break;
+                            }
+                        case 11: {
+                                if (!(message.weak_dependency && message.weak_dependency.length))
+                                    message.weak_dependency = [];
+                                if ((tag & 7) === 2) {
+                                    var end2 = reader.uint32() + reader.pos;
+                                    if (end2 > reader.len)
+                                        throw RangeError("index out of range");
+                                    reader.len = end2;
+                                    while (reader.pos < end2)
+                                        message.weak_dependency.push(reader.int32());
+                                    if (reader.pos !== end2)
+                                        throw RangeError("index out of range");
+                                    reader.len = end;
+                                } else
+                                    message.weak_dependency.push(reader.int32());
+                                break;
+                            }
                         case 4: {
                                 if (!(message.message_type && message.message_type.length))
                                     message.message_type = [];
@@ -27062,6 +26237,10 @@
                             }
                         case 9: {
                                 message.source_code_info = $root.google.protobuf.SourceCodeInfo.decode(reader, reader.uint32(), undefined, long + 1);
+                                break;
+                            }
+                        case 12: {
+                                message.syntax = reader.string();
                                 break;
                             }
                         default:
@@ -27121,6 +26300,20 @@
                             if (!$util.isString(message.dependency[i]))
                                 return "dependency: string[] expected";
                     }
+                    if (message.public_dependency != null && Object.hasOwnProperty.call(message, "public_dependency")) {
+                        if (!Array.isArray(message.public_dependency))
+                            return "public_dependency: array expected";
+                        for (var i = 0; i < message.public_dependency.length; ++i)
+                            if (!$util.isInteger(message.public_dependency[i]))
+                                return "public_dependency: integer[] expected";
+                    }
+                    if (message.weak_dependency != null && Object.hasOwnProperty.call(message, "weak_dependency")) {
+                        if (!Array.isArray(message.weak_dependency))
+                            return "weak_dependency: array expected";
+                        for (var i = 0; i < message.weak_dependency.length; ++i)
+                            if (!$util.isInteger(message.weak_dependency[i]))
+                                return "weak_dependency: integer[] expected";
+                    }
                     if (message.message_type != null && Object.hasOwnProperty.call(message, "message_type")) {
                         if (!Array.isArray(message.message_type))
                             return "message_type: array expected";
@@ -27167,6 +26360,9 @@
                         if (error)
                             return "source_code_info." + error;
                     }
+                    if (message.syntax != null && Object.hasOwnProperty.call(message, "syntax"))
+                        if (!$util.isString(message.syntax))
+                            return "syntax: string expected";
                     return null;
                 };
     
@@ -27198,6 +26394,20 @@
                         message.dependency = [];
                         for (var i = 0; i < object.dependency.length; ++i)
                             message.dependency[i] = String(object.dependency[i]);
+                    }
+                    if (object.public_dependency) {
+                        if (!Array.isArray(object.public_dependency))
+                            throw TypeError(".google.protobuf.FileDescriptorProto.public_dependency: array expected");
+                        message.public_dependency = [];
+                        for (var i = 0; i < object.public_dependency.length; ++i)
+                            message.public_dependency[i] = object.public_dependency[i] | 0;
+                    }
+                    if (object.weak_dependency) {
+                        if (!Array.isArray(object.weak_dependency))
+                            throw TypeError(".google.protobuf.FileDescriptorProto.weak_dependency: array expected");
+                        message.weak_dependency = [];
+                        for (var i = 0; i < object.weak_dependency.length; ++i)
+                            message.weak_dependency[i] = object.weak_dependency[i] | 0;
                     }
                     if (object.message_type) {
                         if (!Array.isArray(object.message_type))
@@ -27249,6 +26459,8 @@
                             throw TypeError(".google.protobuf.FileDescriptorProto.source_code_info: object expected");
                         message.source_code_info = $root.google.protobuf.SourceCodeInfo.fromObject(object.source_code_info, long + 1);
                     }
+                    if (object.syntax != null)
+                        message.syntax = String(object.syntax);
                     return message;
                 };
     
@@ -27275,12 +26487,15 @@
                         object.enum_type = [];
                         object.service = [];
                         object.extension = [];
+                        object.public_dependency = [];
+                        object.weak_dependency = [];
                     }
                     if (options.defaults) {
                         object.name = "";
                         object["package"] = "";
                         object.options = null;
                         object.source_code_info = null;
+                        object.syntax = "";
                     }
                     if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         object.name = message.name;
@@ -27315,6 +26530,18 @@
                         object.options = $root.google.protobuf.FileOptions.toObject(message.options, options, q + 1);
                     if (message.source_code_info != null && Object.hasOwnProperty.call(message, "source_code_info"))
                         object.source_code_info = $root.google.protobuf.SourceCodeInfo.toObject(message.source_code_info, options, q + 1);
+                    if (message.public_dependency && message.public_dependency.length) {
+                        object.public_dependency = [];
+                        for (var j = 0; j < message.public_dependency.length; ++j)
+                            object.public_dependency[j] = message.public_dependency[j];
+                    }
+                    if (message.weak_dependency && message.weak_dependency.length) {
+                        object.weak_dependency = [];
+                        for (var j = 0; j < message.weak_dependency.length; ++j)
+                            object.weak_dependency[j] = message.weak_dependency[j];
+                    }
+                    if (message.syntax != null && Object.hasOwnProperty.call(message, "syntax"))
+                        object.syntax = message.syntax;
                     return object;
                 };
     
@@ -27359,7 +26586,10 @@
                  * @property {Array.<google.protobuf.IDescriptorProto>|null} [nested_type] DescriptorProto nested_type
                  * @property {Array.<google.protobuf.IEnumDescriptorProto>|null} [enum_type] DescriptorProto enum_type
                  * @property {Array.<google.protobuf.DescriptorProto.IExtensionRange>|null} [extension_range] DescriptorProto extension_range
+                 * @property {Array.<google.protobuf.IOneofDescriptorProto>|null} [oneof_decl] DescriptorProto oneof_decl
                  * @property {google.protobuf.IMessageOptions|null} [options] DescriptorProto options
+                 * @property {Array.<google.protobuf.DescriptorProto.IReservedRange>|null} [reserved_range] DescriptorProto reserved_range
+                 * @property {Array.<string>|null} [reserved_name] DescriptorProto reserved_name
                  */
     
                 /**
@@ -27376,6 +26606,9 @@
                     this.nested_type = [];
                     this.enum_type = [];
                     this.extension_range = [];
+                    this.oneof_decl = [];
+                    this.reserved_range = [];
+                    this.reserved_name = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                             if (properties[keys[i]] != null && keys[i] !== "__proto__")
@@ -27431,12 +26664,36 @@
                 DescriptorProto.prototype.extension_range = $util.emptyArray;
     
                 /**
+                 * DescriptorProto oneof_decl.
+                 * @member {Array.<google.protobuf.IOneofDescriptorProto>} oneof_decl
+                 * @memberof google.protobuf.DescriptorProto
+                 * @instance
+                 */
+                DescriptorProto.prototype.oneof_decl = $util.emptyArray;
+    
+                /**
                  * DescriptorProto options.
                  * @member {google.protobuf.IMessageOptions|null|undefined} options
                  * @memberof google.protobuf.DescriptorProto
                  * @instance
                  */
                 DescriptorProto.prototype.options = null;
+    
+                /**
+                 * DescriptorProto reserved_range.
+                 * @member {Array.<google.protobuf.DescriptorProto.IReservedRange>} reserved_range
+                 * @memberof google.protobuf.DescriptorProto
+                 * @instance
+                 */
+                DescriptorProto.prototype.reserved_range = $util.emptyArray;
+    
+                /**
+                 * DescriptorProto reserved_name.
+                 * @member {Array.<string>} reserved_name
+                 * @memberof google.protobuf.DescriptorProto
+                 * @instance
+                 */
+                DescriptorProto.prototype.reserved_name = $util.emptyArray;
     
                 /**
                  * Creates a new DescriptorProto instance using the specified properties.
@@ -27485,6 +26742,15 @@
                             $root.google.protobuf.FieldDescriptorProto.encode(message.extension[i], writer.uint32(/* id 6, wireType 2 =*/50).fork(), q + 1).ldelim();
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         $root.google.protobuf.MessageOptions.encode(message.options, writer.uint32(/* id 7, wireType 2 =*/58).fork(), q + 1).ldelim();
+                    if (message.oneof_decl != null && message.oneof_decl.length)
+                        for (var i = 0; i < message.oneof_decl.length; ++i)
+                            $root.google.protobuf.OneofDescriptorProto.encode(message.oneof_decl[i], writer.uint32(/* id 8, wireType 2 =*/66).fork(), q + 1).ldelim();
+                    if (message.reserved_range != null && message.reserved_range.length)
+                        for (var i = 0; i < message.reserved_range.length; ++i)
+                            $root.google.protobuf.DescriptorProto.ReservedRange.encode(message.reserved_range[i], writer.uint32(/* id 9, wireType 2 =*/74).fork(), q + 1).ldelim();
+                    if (message.reserved_name != null && message.reserved_name.length)
+                        for (var i = 0; i < message.reserved_name.length; ++i)
+                            writer.uint32(/* id 10, wireType 2 =*/82).string(message.reserved_name[i]);
                     return writer;
                 };
     
@@ -27569,8 +26835,26 @@
                                 message.extension_range.push($root.google.protobuf.DescriptorProto.ExtensionRange.decode(reader, reader.uint32(), undefined, long + 1));
                                 break;
                             }
+                        case 8: {
+                                if (!(message.oneof_decl && message.oneof_decl.length))
+                                    message.oneof_decl = [];
+                                message.oneof_decl.push($root.google.protobuf.OneofDescriptorProto.decode(reader, reader.uint32(), undefined, long + 1));
+                                break;
+                            }
                         case 7: {
                                 message.options = $root.google.protobuf.MessageOptions.decode(reader, reader.uint32(), undefined, long + 1);
+                                break;
+                            }
+                        case 9: {
+                                if (!(message.reserved_range && message.reserved_range.length))
+                                    message.reserved_range = [];
+                                message.reserved_range.push($root.google.protobuf.DescriptorProto.ReservedRange.decode(reader, reader.uint32(), undefined, long + 1));
+                                break;
+                            }
+                        case 10: {
+                                if (!(message.reserved_name && message.reserved_name.length))
+                                    message.reserved_name = [];
+                                message.reserved_name.push(reader.string());
                                 break;
                             }
                         default:
@@ -27665,10 +26949,35 @@
                                 return "extension_range." + error;
                         }
                     }
+                    if (message.oneof_decl != null && Object.hasOwnProperty.call(message, "oneof_decl")) {
+                        if (!Array.isArray(message.oneof_decl))
+                            return "oneof_decl: array expected";
+                        for (var i = 0; i < message.oneof_decl.length; ++i) {
+                            var error = $root.google.protobuf.OneofDescriptorProto.verify(message.oneof_decl[i], long + 1);
+                            if (error)
+                                return "oneof_decl." + error;
+                        }
+                    }
                     if (message.options != null && Object.hasOwnProperty.call(message, "options")) {
                         var error = $root.google.protobuf.MessageOptions.verify(message.options, long + 1);
                         if (error)
                             return "options." + error;
+                    }
+                    if (message.reserved_range != null && Object.hasOwnProperty.call(message, "reserved_range")) {
+                        if (!Array.isArray(message.reserved_range))
+                            return "reserved_range: array expected";
+                        for (var i = 0; i < message.reserved_range.length; ++i) {
+                            var error = $root.google.protobuf.DescriptorProto.ReservedRange.verify(message.reserved_range[i], long + 1);
+                            if (error)
+                                return "reserved_range." + error;
+                        }
+                    }
+                    if (message.reserved_name != null && Object.hasOwnProperty.call(message, "reserved_name")) {
+                        if (!Array.isArray(message.reserved_name))
+                            return "reserved_name: array expected";
+                        for (var i = 0; i < message.reserved_name.length; ++i)
+                            if (!$util.isString(message.reserved_name[i]))
+                                return "reserved_name: string[] expected";
                     }
                     return null;
                 };
@@ -27743,10 +27052,37 @@
                             message.extension_range[i] = $root.google.protobuf.DescriptorProto.ExtensionRange.fromObject(object.extension_range[i], long + 1);
                         }
                     }
+                    if (object.oneof_decl) {
+                        if (!Array.isArray(object.oneof_decl))
+                            throw TypeError(".google.protobuf.DescriptorProto.oneof_decl: array expected");
+                        message.oneof_decl = [];
+                        for (var i = 0; i < object.oneof_decl.length; ++i) {
+                            if (!$util.isObject(object.oneof_decl[i]))
+                                throw TypeError(".google.protobuf.DescriptorProto.oneof_decl: object expected");
+                            message.oneof_decl[i] = $root.google.protobuf.OneofDescriptorProto.fromObject(object.oneof_decl[i], long + 1);
+                        }
+                    }
                     if (object.options != null) {
                         if (!$util.isObject(object.options))
                             throw TypeError(".google.protobuf.DescriptorProto.options: object expected");
                         message.options = $root.google.protobuf.MessageOptions.fromObject(object.options, long + 1);
+                    }
+                    if (object.reserved_range) {
+                        if (!Array.isArray(object.reserved_range))
+                            throw TypeError(".google.protobuf.DescriptorProto.reserved_range: array expected");
+                        message.reserved_range = [];
+                        for (var i = 0; i < object.reserved_range.length; ++i) {
+                            if (!$util.isObject(object.reserved_range[i]))
+                                throw TypeError(".google.protobuf.DescriptorProto.reserved_range: object expected");
+                            message.reserved_range[i] = $root.google.protobuf.DescriptorProto.ReservedRange.fromObject(object.reserved_range[i], long + 1);
+                        }
+                    }
+                    if (object.reserved_name) {
+                        if (!Array.isArray(object.reserved_name))
+                            throw TypeError(".google.protobuf.DescriptorProto.reserved_name: array expected");
+                        message.reserved_name = [];
+                        for (var i = 0; i < object.reserved_name.length; ++i)
+                            message.reserved_name[i] = String(object.reserved_name[i]);
                     }
                     return message;
                 };
@@ -27774,6 +27110,9 @@
                         object.enum_type = [];
                         object.extension_range = [];
                         object.extension = [];
+                        object.oneof_decl = [];
+                        object.reserved_range = [];
+                        object.reserved_name = [];
                     }
                     if (options.defaults) {
                         object.name = "";
@@ -27808,6 +27147,21 @@
                     }
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         object.options = $root.google.protobuf.MessageOptions.toObject(message.options, options, q + 1);
+                    if (message.oneof_decl && message.oneof_decl.length) {
+                        object.oneof_decl = [];
+                        for (var j = 0; j < message.oneof_decl.length; ++j)
+                            object.oneof_decl[j] = $root.google.protobuf.OneofDescriptorProto.toObject(message.oneof_decl[j], options, q + 1);
+                    }
+                    if (message.reserved_range && message.reserved_range.length) {
+                        object.reserved_range = [];
+                        for (var j = 0; j < message.reserved_range.length; ++j)
+                            object.reserved_range[j] = $root.google.protobuf.DescriptorProto.ReservedRange.toObject(message.reserved_range[j], options, q + 1);
+                    }
+                    if (message.reserved_name && message.reserved_name.length) {
+                        object.reserved_name = [];
+                        for (var j = 0; j < message.reserved_name.length; ++j)
+                            object.reserved_name[j] = message.reserved_name[j];
+                    }
                     return object;
                 };
     
@@ -27845,6 +27199,7 @@
                      * @interface IExtensionRange
                      * @property {number|null} [start] ExtensionRange start
                      * @property {number|null} [end] ExtensionRange end
+                     * @property {google.protobuf.IExtensionRangeOptions|null} [options] ExtensionRange options
                      */
     
                     /**
@@ -27879,6 +27234,14 @@
                     ExtensionRange.prototype.end = 0;
     
                     /**
+                     * ExtensionRange options.
+                     * @member {google.protobuf.IExtensionRangeOptions|null|undefined} options
+                     * @memberof google.protobuf.DescriptorProto.ExtensionRange
+                     * @instance
+                     */
+                    ExtensionRange.prototype.options = null;
+    
+                    /**
                      * Creates a new ExtensionRange instance using the specified properties.
                      * @function create
                      * @memberof google.protobuf.DescriptorProto.ExtensionRange
@@ -27910,6 +27273,8 @@
                             writer.uint32(/* id 1, wireType 0 =*/8).int32(message.start);
                         if (message.end != null && Object.hasOwnProperty.call(message, "end"))
                             writer.uint32(/* id 2, wireType 0 =*/16).int32(message.end);
+                        if (message.options != null && Object.hasOwnProperty.call(message, "options"))
+                            $root.google.protobuf.ExtensionRangeOptions.encode(message.options, writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
                         return writer;
                     };
     
@@ -27968,6 +27333,10 @@
                                     message.end = reader.int32();
                                     break;
                                 }
+                            case 3: {
+                                    message.options = $root.google.protobuf.ExtensionRangeOptions.decode(reader, reader.uint32(), undefined, long + 1);
+                                    break;
+                                }
                             default:
                                 reader.skipType(tag & 7, long);
                                 break;
@@ -28018,6 +27387,11 @@
                         if (message.end != null && Object.hasOwnProperty.call(message, "end"))
                             if (!$util.isInteger(message.end))
                                 return "end: integer expected";
+                        if (message.options != null && Object.hasOwnProperty.call(message, "options")) {
+                            var error = $root.google.protobuf.ExtensionRangeOptions.verify(message.options, long + 1);
+                            if (error)
+                                return "options." + error;
+                        }
                         return null;
                     };
     
@@ -28043,6 +27417,11 @@
                             message.start = object.start | 0;
                         if (object.end != null)
                             message.end = object.end | 0;
+                        if (object.options != null) {
+                            if (!$util.isObject(object.options))
+                                throw TypeError(".google.protobuf.DescriptorProto.ExtensionRange.options: object expected");
+                            message.options = $root.google.protobuf.ExtensionRangeOptions.fromObject(object.options, long + 1);
+                        }
                         return message;
                     };
     
@@ -28066,11 +27445,14 @@
                         if (options.defaults) {
                             object.start = 0;
                             object.end = 0;
+                            object.options = null;
                         }
                         if (message.start != null && Object.hasOwnProperty.call(message, "start"))
                             object.start = message.start;
                         if (message.end != null && Object.hasOwnProperty.call(message, "end"))
                             object.end = message.end;
+                        if (message.options != null && Object.hasOwnProperty.call(message, "options"))
+                            object.options = $root.google.protobuf.ExtensionRangeOptions.toObject(message.options, options, q + 1);
                         return object;
                     };
     
@@ -28103,7 +27485,536 @@
                     return ExtensionRange;
                 })();
     
+                DescriptorProto.ReservedRange = (function() {
+    
+                    /**
+                     * Properties of a ReservedRange.
+                     * @memberof google.protobuf.DescriptorProto
+                     * @interface IReservedRange
+                     * @property {number|null} [start] ReservedRange start
+                     * @property {number|null} [end] ReservedRange end
+                     */
+    
+                    /**
+                     * Constructs a new ReservedRange.
+                     * @memberof google.protobuf.DescriptorProto
+                     * @classdesc Represents a ReservedRange.
+                     * @implements IReservedRange
+                     * @constructor
+                     * @param {google.protobuf.DescriptorProto.IReservedRange=} [properties] Properties to set
+                     */
+                    function ReservedRange(properties) {
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+    
+                    /**
+                     * ReservedRange start.
+                     * @member {number} start
+                     * @memberof google.protobuf.DescriptorProto.ReservedRange
+                     * @instance
+                     */
+                    ReservedRange.prototype.start = 0;
+    
+                    /**
+                     * ReservedRange end.
+                     * @member {number} end
+                     * @memberof google.protobuf.DescriptorProto.ReservedRange
+                     * @instance
+                     */
+                    ReservedRange.prototype.end = 0;
+    
+                    /**
+                     * Creates a new ReservedRange instance using the specified properties.
+                     * @function create
+                     * @memberof google.protobuf.DescriptorProto.ReservedRange
+                     * @static
+                     * @param {google.protobuf.DescriptorProto.IReservedRange=} [properties] Properties to set
+                     * @returns {google.protobuf.DescriptorProto.ReservedRange} ReservedRange instance
+                     */
+                    ReservedRange.create = function create(properties) {
+                        return new ReservedRange(properties);
+                    };
+    
+                    /**
+                     * Encodes the specified ReservedRange message. Does not implicitly {@link google.protobuf.DescriptorProto.ReservedRange.verify|verify} messages.
+                     * @function encode
+                     * @memberof google.protobuf.DescriptorProto.ReservedRange
+                     * @static
+                     * @param {google.protobuf.DescriptorProto.IReservedRange} message ReservedRange message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    ReservedRange.encode = function encode(message, writer, q) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $util.recursionLimit)
+                            throw Error("max depth exceeded");
+                        if (message.start != null && Object.hasOwnProperty.call(message, "start"))
+                            writer.uint32(/* id 1, wireType 0 =*/8).int32(message.start);
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
+                            writer.uint32(/* id 2, wireType 0 =*/16).int32(message.end);
+                        return writer;
+                    };
+    
+                    /**
+                     * Encodes the specified ReservedRange message, length delimited. Does not implicitly {@link google.protobuf.DescriptorProto.ReservedRange.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof google.protobuf.DescriptorProto.ReservedRange
+                     * @static
+                     * @param {google.protobuf.DescriptorProto.IReservedRange} message ReservedRange message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    ReservedRange.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+                    };
+    
+                    /**
+                     * Decodes a ReservedRange message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof google.protobuf.DescriptorProto.ReservedRange
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {google.protobuf.DescriptorProto.ReservedRange} ReservedRange
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    ReservedRange.decode = function decode(reader, length, error, long) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $Reader.recursionLimit)
+                            throw Error("maximum nesting depth exceeded");
+                        var end, message;
+                        if (length === undefined)
+                            end = reader.len;
+                        else {
+                            end = reader.pos + length;
+                            if (end > reader.len)
+                                throw RangeError("index out of range");
+                            length = reader.len;
+                            reader.len = end;
+                        }
+                        message = new $root.google.protobuf.DescriptorProto.ReservedRange();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            if (tag === error)
+                                break;
+                            switch (tag >>> 3) {
+                            case 1: {
+                                    message.start = reader.int32();
+                                    break;
+                                }
+                            case 2: {
+                                    message.end = reader.int32();
+                                    break;
+                                }
+                            default:
+                                reader.skipType(tag & 7, long);
+                                break;
+                            }
+                        }
+                        if (length !== undefined) {
+                            if (reader.pos !== end)
+                                throw RangeError("index out of range");
+                            reader.len = length;
+                        }
+                        return message;
+                    };
+    
+                    /**
+                     * Decodes a ReservedRange message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof google.protobuf.DescriptorProto.ReservedRange
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {google.protobuf.DescriptorProto.ReservedRange} ReservedRange
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    ReservedRange.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+    
+                    /**
+                     * Verifies a ReservedRange message.
+                     * @function verify
+                     * @memberof google.protobuf.DescriptorProto.ReservedRange
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    ReservedRange.verify = function verify(message, long) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $util.recursionLimit)
+                            return "maximum nesting depth exceeded";
+                        if (message.start != null && Object.hasOwnProperty.call(message, "start"))
+                            if (!$util.isInteger(message.start))
+                                return "start: integer expected";
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
+                            if (!$util.isInteger(message.end))
+                                return "end: integer expected";
+                        return null;
+                    };
+    
+                    /**
+                     * Creates a ReservedRange message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof google.protobuf.DescriptorProto.ReservedRange
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {google.protobuf.DescriptorProto.ReservedRange} ReservedRange
+                     */
+                    ReservedRange.fromObject = function fromObject(object, long) {
+                        if (object instanceof $root.google.protobuf.DescriptorProto.ReservedRange)
+                            return object;
+                        if (!$util.isObject(object))
+                            throw TypeError(".google.protobuf.DescriptorProto.ReservedRange: object expected");
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $util.recursionLimit)
+                            throw Error("maximum nesting depth exceeded");
+                        var message = new $root.google.protobuf.DescriptorProto.ReservedRange();
+                        if (object.start != null)
+                            message.start = object.start | 0;
+                        if (object.end != null)
+                            message.end = object.end | 0;
+                        return message;
+                    };
+    
+                    /**
+                     * Creates a plain object from a ReservedRange message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof google.protobuf.DescriptorProto.ReservedRange
+                     * @static
+                     * @param {google.protobuf.DescriptorProto.ReservedRange} message ReservedRange
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    ReservedRange.toObject = function toObject(message, options, q) {
+                        if (!options)
+                            options = {};
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $util.recursionLimit)
+                            throw Error("max depth exceeded");
+                        var object = {};
+                        if (options.defaults) {
+                            object.start = 0;
+                            object.end = 0;
+                        }
+                        if (message.start != null && Object.hasOwnProperty.call(message, "start"))
+                            object.start = message.start;
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
+                            object.end = message.end;
+                        return object;
+                    };
+    
+                    /**
+                     * Converts this ReservedRange to JSON.
+                     * @function toJSON
+                     * @memberof google.protobuf.DescriptorProto.ReservedRange
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    ReservedRange.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+    
+                    /**
+                     * Gets the default type url for ReservedRange
+                     * @function getTypeUrl
+                     * @memberof google.protobuf.DescriptorProto.ReservedRange
+                     * @static
+                     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                     * @returns {string} The default type url
+                     */
+                    ReservedRange.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                        if (typeUrlPrefix === undefined) {
+                            typeUrlPrefix = "type.googleapis.com";
+                        }
+                        return typeUrlPrefix + "/google.protobuf.DescriptorProto.ReservedRange";
+                    };
+    
+                    return ReservedRange;
+                })();
+    
                 return DescriptorProto;
+            })();
+    
+            protobuf.ExtensionRangeOptions = (function() {
+    
+                /**
+                 * Properties of an ExtensionRangeOptions.
+                 * @memberof google.protobuf
+                 * @interface IExtensionRangeOptions
+                 * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] ExtensionRangeOptions uninterpreted_option
+                 */
+    
+                /**
+                 * Constructs a new ExtensionRangeOptions.
+                 * @memberof google.protobuf
+                 * @classdesc Represents an ExtensionRangeOptions.
+                 * @implements IExtensionRangeOptions
+                 * @constructor
+                 * @param {google.protobuf.IExtensionRangeOptions=} [properties] Properties to set
+                 */
+                function ExtensionRangeOptions(properties) {
+                    this.uninterpreted_option = [];
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                                this[keys[i]] = properties[keys[i]];
+                }
+    
+                /**
+                 * ExtensionRangeOptions uninterpreted_option.
+                 * @member {Array.<google.protobuf.IUninterpretedOption>} uninterpreted_option
+                 * @memberof google.protobuf.ExtensionRangeOptions
+                 * @instance
+                 */
+                ExtensionRangeOptions.prototype.uninterpreted_option = $util.emptyArray;
+    
+                /**
+                 * Creates a new ExtensionRangeOptions instance using the specified properties.
+                 * @function create
+                 * @memberof google.protobuf.ExtensionRangeOptions
+                 * @static
+                 * @param {google.protobuf.IExtensionRangeOptions=} [properties] Properties to set
+                 * @returns {google.protobuf.ExtensionRangeOptions} ExtensionRangeOptions instance
+                 */
+                ExtensionRangeOptions.create = function create(properties) {
+                    return new ExtensionRangeOptions(properties);
+                };
+    
+                /**
+                 * Encodes the specified ExtensionRangeOptions message. Does not implicitly {@link google.protobuf.ExtensionRangeOptions.verify|verify} messages.
+                 * @function encode
+                 * @memberof google.protobuf.ExtensionRangeOptions
+                 * @static
+                 * @param {google.protobuf.IExtensionRangeOptions} message ExtensionRangeOptions message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ExtensionRangeOptions.encode = function encode(message, writer, q) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
+                    if (message.uninterpreted_option != null && message.uninterpreted_option.length)
+                        for (var i = 0; i < message.uninterpreted_option.length; ++i)
+                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
+                    return writer;
+                };
+    
+                /**
+                 * Encodes the specified ExtensionRangeOptions message, length delimited. Does not implicitly {@link google.protobuf.ExtensionRangeOptions.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof google.protobuf.ExtensionRangeOptions
+                 * @static
+                 * @param {google.protobuf.IExtensionRangeOptions} message ExtensionRangeOptions message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                ExtensionRangeOptions.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+                };
+    
+                /**
+                 * Decodes an ExtensionRangeOptions message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof google.protobuf.ExtensionRangeOptions
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {google.protobuf.ExtensionRangeOptions} ExtensionRangeOptions
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ExtensionRangeOptions.decode = function decode(reader, length, error, long) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.ExtensionRangeOptions();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        if (tag === error)
+                            break;
+                        switch (tag >>> 3) {
+                        case 999: {
+                                if (!(message.uninterpreted_option && message.uninterpreted_option.length))
+                                    message.uninterpreted_option = [];
+                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32(), undefined, long + 1));
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7, long);
+                            break;
+                        }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
+                    }
+                    return message;
+                };
+    
+                /**
+                 * Decodes an ExtensionRangeOptions message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof google.protobuf.ExtensionRangeOptions
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {google.protobuf.ExtensionRangeOptions} ExtensionRangeOptions
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                ExtensionRangeOptions.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+    
+                /**
+                 * Verifies an ExtensionRangeOptions message.
+                 * @function verify
+                 * @memberof google.protobuf.ExtensionRangeOptions
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                ExtensionRangeOptions.verify = function verify(message, long) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
+                        if (!Array.isArray(message.uninterpreted_option))
+                            return "uninterpreted_option: array expected";
+                        for (var i = 0; i < message.uninterpreted_option.length; ++i) {
+                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i], long + 1);
+                            if (error)
+                                return "uninterpreted_option." + error;
+                        }
+                    }
+                    return null;
+                };
+    
+                /**
+                 * Creates an ExtensionRangeOptions message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof google.protobuf.ExtensionRangeOptions
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {google.protobuf.ExtensionRangeOptions} ExtensionRangeOptions
+                 */
+                ExtensionRangeOptions.fromObject = function fromObject(object, long) {
+                    if (object instanceof $root.google.protobuf.ExtensionRangeOptions)
+                        return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.ExtensionRangeOptions: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var message = new $root.google.protobuf.ExtensionRangeOptions();
+                    if (object.uninterpreted_option) {
+                        if (!Array.isArray(object.uninterpreted_option))
+                            throw TypeError(".google.protobuf.ExtensionRangeOptions.uninterpreted_option: array expected");
+                        message.uninterpreted_option = [];
+                        for (var i = 0; i < object.uninterpreted_option.length; ++i) {
+                            if (!$util.isObject(object.uninterpreted_option[i]))
+                                throw TypeError(".google.protobuf.ExtensionRangeOptions.uninterpreted_option: object expected");
+                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i], long + 1);
+                        }
+                    }
+                    return message;
+                };
+    
+                /**
+                 * Creates a plain object from an ExtensionRangeOptions message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof google.protobuf.ExtensionRangeOptions
+                 * @static
+                 * @param {google.protobuf.ExtensionRangeOptions} message ExtensionRangeOptions
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                ExtensionRangeOptions.toObject = function toObject(message, options, q) {
+                    if (!options)
+                        options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
+                    var object = {};
+                    if (options.arrays || options.defaults)
+                        object.uninterpreted_option = [];
+                    if (message.uninterpreted_option && message.uninterpreted_option.length) {
+                        object.uninterpreted_option = [];
+                        for (var j = 0; j < message.uninterpreted_option.length; ++j)
+                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options, q + 1);
+                    }
+                    return object;
+                };
+    
+                /**
+                 * Converts this ExtensionRangeOptions to JSON.
+                 * @function toJSON
+                 * @memberof google.protobuf.ExtensionRangeOptions
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                ExtensionRangeOptions.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+    
+                /**
+                 * Gets the default type url for ExtensionRangeOptions
+                 * @function getTypeUrl
+                 * @memberof google.protobuf.ExtensionRangeOptions
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                ExtensionRangeOptions.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/google.protobuf.ExtensionRangeOptions";
+                };
+    
+                return ExtensionRangeOptions;
             })();
     
             protobuf.FieldDescriptorProto = (function() {
@@ -28119,7 +28030,10 @@
                  * @property {string|null} [type_name] FieldDescriptorProto type_name
                  * @property {string|null} [extendee] FieldDescriptorProto extendee
                  * @property {string|null} [default_value] FieldDescriptorProto default_value
+                 * @property {number|null} [oneof_index] FieldDescriptorProto oneof_index
+                 * @property {string|null} [json_name] FieldDescriptorProto json_name
                  * @property {google.protobuf.IFieldOptions|null} [options] FieldDescriptorProto options
+                 * @property {boolean|null} [proto3_optional] FieldDescriptorProto proto3_optional
                  */
     
                 /**
@@ -28194,12 +28108,36 @@
                 FieldDescriptorProto.prototype.default_value = "";
     
                 /**
+                 * FieldDescriptorProto oneof_index.
+                 * @member {number} oneof_index
+                 * @memberof google.protobuf.FieldDescriptorProto
+                 * @instance
+                 */
+                FieldDescriptorProto.prototype.oneof_index = 0;
+    
+                /**
+                 * FieldDescriptorProto json_name.
+                 * @member {string} json_name
+                 * @memberof google.protobuf.FieldDescriptorProto
+                 * @instance
+                 */
+                FieldDescriptorProto.prototype.json_name = "";
+    
+                /**
                  * FieldDescriptorProto options.
                  * @member {google.protobuf.IFieldOptions|null|undefined} options
                  * @memberof google.protobuf.FieldDescriptorProto
                  * @instance
                  */
                 FieldDescriptorProto.prototype.options = null;
+    
+                /**
+                 * FieldDescriptorProto proto3_optional.
+                 * @member {boolean} proto3_optional
+                 * @memberof google.protobuf.FieldDescriptorProto
+                 * @instance
+                 */
+                FieldDescriptorProto.prototype.proto3_optional = false;
     
                 /**
                  * Creates a new FieldDescriptorProto instance using the specified properties.
@@ -28245,6 +28183,12 @@
                         writer.uint32(/* id 7, wireType 2 =*/58).string(message.default_value);
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         $root.google.protobuf.FieldOptions.encode(message.options, writer.uint32(/* id 8, wireType 2 =*/66).fork(), q + 1).ldelim();
+                    if (message.oneof_index != null && Object.hasOwnProperty.call(message, "oneof_index"))
+                        writer.uint32(/* id 9, wireType 0 =*/72).int32(message.oneof_index);
+                    if (message.json_name != null && Object.hasOwnProperty.call(message, "json_name"))
+                        writer.uint32(/* id 10, wireType 2 =*/82).string(message.json_name);
+                    if (message.proto3_optional != null && Object.hasOwnProperty.call(message, "proto3_optional"))
+                        writer.uint32(/* id 17, wireType 0 =*/136).bool(message.proto3_optional);
                     return writer;
                 };
     
@@ -28323,8 +28267,20 @@
                                 message.default_value = reader.string();
                                 break;
                             }
+                        case 9: {
+                                message.oneof_index = reader.int32();
+                                break;
+                            }
+                        case 10: {
+                                message.json_name = reader.string();
+                                break;
+                            }
                         case 8: {
                                 message.options = $root.google.protobuf.FieldOptions.decode(reader, reader.uint32(), undefined, long + 1);
+                                break;
+                            }
+                        case 17: {
+                                message.proto3_optional = reader.bool();
                                 break;
                             }
                         default:
@@ -28419,11 +28375,20 @@
                     if (message.default_value != null && Object.hasOwnProperty.call(message, "default_value"))
                         if (!$util.isString(message.default_value))
                             return "default_value: string expected";
+                    if (message.oneof_index != null && Object.hasOwnProperty.call(message, "oneof_index"))
+                        if (!$util.isInteger(message.oneof_index))
+                            return "oneof_index: integer expected";
+                    if (message.json_name != null && Object.hasOwnProperty.call(message, "json_name"))
+                        if (!$util.isString(message.json_name))
+                            return "json_name: string expected";
                     if (message.options != null && Object.hasOwnProperty.call(message, "options")) {
                         var error = $root.google.protobuf.FieldOptions.verify(message.options, long + 1);
                         if (error)
                             return "options." + error;
                     }
+                    if (message.proto3_optional != null && Object.hasOwnProperty.call(message, "proto3_optional"))
+                        if (typeof message.proto3_optional !== "boolean")
+                            return "proto3_optional: boolean expected";
                     return null;
                 };
     
@@ -28555,11 +28520,17 @@
                         message.extendee = String(object.extendee);
                     if (object.default_value != null)
                         message.default_value = String(object.default_value);
+                    if (object.oneof_index != null)
+                        message.oneof_index = object.oneof_index | 0;
+                    if (object.json_name != null)
+                        message.json_name = String(object.json_name);
                     if (object.options != null) {
                         if (!$util.isObject(object.options))
                             throw TypeError(".google.protobuf.FieldDescriptorProto.options: object expected");
                         message.options = $root.google.protobuf.FieldOptions.fromObject(object.options, long + 1);
                     }
+                    if (object.proto3_optional != null)
+                        message.proto3_optional = Boolean(object.proto3_optional);
                     return message;
                 };
     
@@ -28589,6 +28560,9 @@
                         object.type_name = "";
                         object.default_value = "";
                         object.options = null;
+                        object.oneof_index = 0;
+                        object.json_name = "";
+                        object.proto3_optional = false;
                     }
                     if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         object.name = message.name;
@@ -28606,6 +28580,12 @@
                         object.default_value = message.default_value;
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         object.options = $root.google.protobuf.FieldOptions.toObject(message.options, options, q + 1);
+                    if (message.oneof_index != null && Object.hasOwnProperty.call(message, "oneof_index"))
+                        object.oneof_index = message.oneof_index;
+                    if (message.json_name != null && Object.hasOwnProperty.call(message, "json_name"))
+                        object.json_name = message.json_name;
+                    if (message.proto3_optional != null && Object.hasOwnProperty.call(message, "proto3_optional"))
+                        object.proto3_optional = message.proto3_optional;
                     return object;
                 };
     
@@ -28700,6 +28680,277 @@
                 return FieldDescriptorProto;
             })();
     
+            protobuf.OneofDescriptorProto = (function() {
+    
+                /**
+                 * Properties of an OneofDescriptorProto.
+                 * @memberof google.protobuf
+                 * @interface IOneofDescriptorProto
+                 * @property {string|null} [name] OneofDescriptorProto name
+                 * @property {google.protobuf.IOneofOptions|null} [options] OneofDescriptorProto options
+                 */
+    
+                /**
+                 * Constructs a new OneofDescriptorProto.
+                 * @memberof google.protobuf
+                 * @classdesc Represents an OneofDescriptorProto.
+                 * @implements IOneofDescriptorProto
+                 * @constructor
+                 * @param {google.protobuf.IOneofDescriptorProto=} [properties] Properties to set
+                 */
+                function OneofDescriptorProto(properties) {
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                                this[keys[i]] = properties[keys[i]];
+                }
+    
+                /**
+                 * OneofDescriptorProto name.
+                 * @member {string} name
+                 * @memberof google.protobuf.OneofDescriptorProto
+                 * @instance
+                 */
+                OneofDescriptorProto.prototype.name = "";
+    
+                /**
+                 * OneofDescriptorProto options.
+                 * @member {google.protobuf.IOneofOptions|null|undefined} options
+                 * @memberof google.protobuf.OneofDescriptorProto
+                 * @instance
+                 */
+                OneofDescriptorProto.prototype.options = null;
+    
+                /**
+                 * Creates a new OneofDescriptorProto instance using the specified properties.
+                 * @function create
+                 * @memberof google.protobuf.OneofDescriptorProto
+                 * @static
+                 * @param {google.protobuf.IOneofDescriptorProto=} [properties] Properties to set
+                 * @returns {google.protobuf.OneofDescriptorProto} OneofDescriptorProto instance
+                 */
+                OneofDescriptorProto.create = function create(properties) {
+                    return new OneofDescriptorProto(properties);
+                };
+    
+                /**
+                 * Encodes the specified OneofDescriptorProto message. Does not implicitly {@link google.protobuf.OneofDescriptorProto.verify|verify} messages.
+                 * @function encode
+                 * @memberof google.protobuf.OneofDescriptorProto
+                 * @static
+                 * @param {google.protobuf.IOneofDescriptorProto} message OneofDescriptorProto message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                OneofDescriptorProto.encode = function encode(message, writer, q) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                        writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
+                        $root.google.protobuf.OneofOptions.encode(message.options, writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
+                    return writer;
+                };
+    
+                /**
+                 * Encodes the specified OneofDescriptorProto message, length delimited. Does not implicitly {@link google.protobuf.OneofDescriptorProto.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof google.protobuf.OneofDescriptorProto
+                 * @static
+                 * @param {google.protobuf.IOneofDescriptorProto} message OneofDescriptorProto message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                OneofDescriptorProto.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+                };
+    
+                /**
+                 * Decodes an OneofDescriptorProto message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof google.protobuf.OneofDescriptorProto
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {google.protobuf.OneofDescriptorProto} OneofDescriptorProto
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                OneofDescriptorProto.decode = function decode(reader, length, error, long) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.OneofDescriptorProto();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        if (tag === error)
+                            break;
+                        switch (tag >>> 3) {
+                        case 1: {
+                                message.name = reader.string();
+                                break;
+                            }
+                        case 2: {
+                                message.options = $root.google.protobuf.OneofOptions.decode(reader, reader.uint32(), undefined, long + 1);
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7, long);
+                            break;
+                        }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
+                    }
+                    return message;
+                };
+    
+                /**
+                 * Decodes an OneofDescriptorProto message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof google.protobuf.OneofDescriptorProto
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {google.protobuf.OneofDescriptorProto} OneofDescriptorProto
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                OneofDescriptorProto.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+    
+                /**
+                 * Verifies an OneofDescriptorProto message.
+                 * @function verify
+                 * @memberof google.protobuf.OneofDescriptorProto
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                OneofDescriptorProto.verify = function verify(message, long) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                        if (!$util.isString(message.name))
+                            return "name: string expected";
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options")) {
+                        var error = $root.google.protobuf.OneofOptions.verify(message.options, long + 1);
+                        if (error)
+                            return "options." + error;
+                    }
+                    return null;
+                };
+    
+                /**
+                 * Creates an OneofDescriptorProto message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof google.protobuf.OneofDescriptorProto
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {google.protobuf.OneofDescriptorProto} OneofDescriptorProto
+                 */
+                OneofDescriptorProto.fromObject = function fromObject(object, long) {
+                    if (object instanceof $root.google.protobuf.OneofDescriptorProto)
+                        return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.OneofDescriptorProto: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var message = new $root.google.protobuf.OneofDescriptorProto();
+                    if (object.name != null)
+                        message.name = String(object.name);
+                    if (object.options != null) {
+                        if (!$util.isObject(object.options))
+                            throw TypeError(".google.protobuf.OneofDescriptorProto.options: object expected");
+                        message.options = $root.google.protobuf.OneofOptions.fromObject(object.options, long + 1);
+                    }
+                    return message;
+                };
+    
+                /**
+                 * Creates a plain object from an OneofDescriptorProto message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof google.protobuf.OneofDescriptorProto
+                 * @static
+                 * @param {google.protobuf.OneofDescriptorProto} message OneofDescriptorProto
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                OneofDescriptorProto.toObject = function toObject(message, options, q) {
+                    if (!options)
+                        options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
+                    var object = {};
+                    if (options.defaults) {
+                        object.name = "";
+                        object.options = null;
+                    }
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                        object.name = message.name;
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
+                        object.options = $root.google.protobuf.OneofOptions.toObject(message.options, options, q + 1);
+                    return object;
+                };
+    
+                /**
+                 * Converts this OneofDescriptorProto to JSON.
+                 * @function toJSON
+                 * @memberof google.protobuf.OneofDescriptorProto
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                OneofDescriptorProto.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+    
+                /**
+                 * Gets the default type url for OneofDescriptorProto
+                 * @function getTypeUrl
+                 * @memberof google.protobuf.OneofDescriptorProto
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                OneofDescriptorProto.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/google.protobuf.OneofDescriptorProto";
+                };
+    
+                return OneofDescriptorProto;
+            })();
+    
             protobuf.EnumDescriptorProto = (function() {
     
                 /**
@@ -28709,6 +28960,8 @@
                  * @property {string|null} [name] EnumDescriptorProto name
                  * @property {Array.<google.protobuf.IEnumValueDescriptorProto>|null} [value] EnumDescriptorProto value
                  * @property {google.protobuf.IEnumOptions|null} [options] EnumDescriptorProto options
+                 * @property {Array.<google.protobuf.EnumDescriptorProto.IEnumReservedRange>|null} [reserved_range] EnumDescriptorProto reserved_range
+                 * @property {Array.<string>|null} [reserved_name] EnumDescriptorProto reserved_name
                  */
     
                 /**
@@ -28721,6 +28974,8 @@
                  */
                 function EnumDescriptorProto(properties) {
                     this.value = [];
+                    this.reserved_range = [];
+                    this.reserved_name = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                             if (properties[keys[i]] != null && keys[i] !== "__proto__")
@@ -28750,6 +29005,22 @@
                  * @instance
                  */
                 EnumDescriptorProto.prototype.options = null;
+    
+                /**
+                 * EnumDescriptorProto reserved_range.
+                 * @member {Array.<google.protobuf.EnumDescriptorProto.IEnumReservedRange>} reserved_range
+                 * @memberof google.protobuf.EnumDescriptorProto
+                 * @instance
+                 */
+                EnumDescriptorProto.prototype.reserved_range = $util.emptyArray;
+    
+                /**
+                 * EnumDescriptorProto reserved_name.
+                 * @member {Array.<string>} reserved_name
+                 * @memberof google.protobuf.EnumDescriptorProto
+                 * @instance
+                 */
+                EnumDescriptorProto.prototype.reserved_name = $util.emptyArray;
     
                 /**
                  * Creates a new EnumDescriptorProto instance using the specified properties.
@@ -28786,6 +29057,12 @@
                             $root.google.protobuf.EnumValueDescriptorProto.encode(message.value[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         $root.google.protobuf.EnumOptions.encode(message.options, writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
+                    if (message.reserved_range != null && message.reserved_range.length)
+                        for (var i = 0; i < message.reserved_range.length; ++i)
+                            $root.google.protobuf.EnumDescriptorProto.EnumReservedRange.encode(message.reserved_range[i], writer.uint32(/* id 4, wireType 2 =*/34).fork(), q + 1).ldelim();
+                    if (message.reserved_name != null && message.reserved_name.length)
+                        for (var i = 0; i < message.reserved_name.length; ++i)
+                            writer.uint32(/* id 5, wireType 2 =*/42).string(message.reserved_name[i]);
                     return writer;
                 };
     
@@ -28850,6 +29127,18 @@
                                 message.options = $root.google.protobuf.EnumOptions.decode(reader, reader.uint32(), undefined, long + 1);
                                 break;
                             }
+                        case 4: {
+                                if (!(message.reserved_range && message.reserved_range.length))
+                                    message.reserved_range = [];
+                                message.reserved_range.push($root.google.protobuf.EnumDescriptorProto.EnumReservedRange.decode(reader, reader.uint32(), undefined, long + 1));
+                                break;
+                            }
+                        case 5: {
+                                if (!(message.reserved_name && message.reserved_name.length))
+                                    message.reserved_name = [];
+                                message.reserved_name.push(reader.string());
+                                break;
+                            }
                         default:
                             reader.skipType(tag & 7, long);
                             break;
@@ -28911,6 +29200,22 @@
                         if (error)
                             return "options." + error;
                     }
+                    if (message.reserved_range != null && Object.hasOwnProperty.call(message, "reserved_range")) {
+                        if (!Array.isArray(message.reserved_range))
+                            return "reserved_range: array expected";
+                        for (var i = 0; i < message.reserved_range.length; ++i) {
+                            var error = $root.google.protobuf.EnumDescriptorProto.EnumReservedRange.verify(message.reserved_range[i], long + 1);
+                            if (error)
+                                return "reserved_range." + error;
+                        }
+                    }
+                    if (message.reserved_name != null && Object.hasOwnProperty.call(message, "reserved_name")) {
+                        if (!Array.isArray(message.reserved_name))
+                            return "reserved_name: array expected";
+                        for (var i = 0; i < message.reserved_name.length; ++i)
+                            if (!$util.isString(message.reserved_name[i]))
+                                return "reserved_name: string[] expected";
+                    }
                     return null;
                 };
     
@@ -28949,6 +29254,23 @@
                             throw TypeError(".google.protobuf.EnumDescriptorProto.options: object expected");
                         message.options = $root.google.protobuf.EnumOptions.fromObject(object.options, long + 1);
                     }
+                    if (object.reserved_range) {
+                        if (!Array.isArray(object.reserved_range))
+                            throw TypeError(".google.protobuf.EnumDescriptorProto.reserved_range: array expected");
+                        message.reserved_range = [];
+                        for (var i = 0; i < object.reserved_range.length; ++i) {
+                            if (!$util.isObject(object.reserved_range[i]))
+                                throw TypeError(".google.protobuf.EnumDescriptorProto.reserved_range: object expected");
+                            message.reserved_range[i] = $root.google.protobuf.EnumDescriptorProto.EnumReservedRange.fromObject(object.reserved_range[i], long + 1);
+                        }
+                    }
+                    if (object.reserved_name) {
+                        if (!Array.isArray(object.reserved_name))
+                            throw TypeError(".google.protobuf.EnumDescriptorProto.reserved_name: array expected");
+                        message.reserved_name = [];
+                        for (var i = 0; i < object.reserved_name.length; ++i)
+                            message.reserved_name[i] = String(object.reserved_name[i]);
+                    }
                     return message;
                 };
     
@@ -28969,8 +29291,11 @@
                     if (q > $util.recursionLimit)
                         throw Error("max depth exceeded");
                     var object = {};
-                    if (options.arrays || options.defaults)
+                    if (options.arrays || options.defaults) {
                         object.value = [];
+                        object.reserved_range = [];
+                        object.reserved_name = [];
+                    }
                     if (options.defaults) {
                         object.name = "";
                         object.options = null;
@@ -28984,6 +29309,16 @@
                     }
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         object.options = $root.google.protobuf.EnumOptions.toObject(message.options, options, q + 1);
+                    if (message.reserved_range && message.reserved_range.length) {
+                        object.reserved_range = [];
+                        for (var j = 0; j < message.reserved_range.length; ++j)
+                            object.reserved_range[j] = $root.google.protobuf.EnumDescriptorProto.EnumReservedRange.toObject(message.reserved_range[j], options, q + 1);
+                    }
+                    if (message.reserved_name && message.reserved_name.length) {
+                        object.reserved_name = [];
+                        for (var j = 0; j < message.reserved_name.length; ++j)
+                            object.reserved_name[j] = message.reserved_name[j];
+                    }
                     return object;
                 };
     
@@ -29012,6 +29347,272 @@
                     }
                     return typeUrlPrefix + "/google.protobuf.EnumDescriptorProto";
                 };
+    
+                EnumDescriptorProto.EnumReservedRange = (function() {
+    
+                    /**
+                     * Properties of an EnumReservedRange.
+                     * @memberof google.protobuf.EnumDescriptorProto
+                     * @interface IEnumReservedRange
+                     * @property {number|null} [start] EnumReservedRange start
+                     * @property {number|null} [end] EnumReservedRange end
+                     */
+    
+                    /**
+                     * Constructs a new EnumReservedRange.
+                     * @memberof google.protobuf.EnumDescriptorProto
+                     * @classdesc Represents an EnumReservedRange.
+                     * @implements IEnumReservedRange
+                     * @constructor
+                     * @param {google.protobuf.EnumDescriptorProto.IEnumReservedRange=} [properties] Properties to set
+                     */
+                    function EnumReservedRange(properties) {
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+    
+                    /**
+                     * EnumReservedRange start.
+                     * @member {number} start
+                     * @memberof google.protobuf.EnumDescriptorProto.EnumReservedRange
+                     * @instance
+                     */
+                    EnumReservedRange.prototype.start = 0;
+    
+                    /**
+                     * EnumReservedRange end.
+                     * @member {number} end
+                     * @memberof google.protobuf.EnumDescriptorProto.EnumReservedRange
+                     * @instance
+                     */
+                    EnumReservedRange.prototype.end = 0;
+    
+                    /**
+                     * Creates a new EnumReservedRange instance using the specified properties.
+                     * @function create
+                     * @memberof google.protobuf.EnumDescriptorProto.EnumReservedRange
+                     * @static
+                     * @param {google.protobuf.EnumDescriptorProto.IEnumReservedRange=} [properties] Properties to set
+                     * @returns {google.protobuf.EnumDescriptorProto.EnumReservedRange} EnumReservedRange instance
+                     */
+                    EnumReservedRange.create = function create(properties) {
+                        return new EnumReservedRange(properties);
+                    };
+    
+                    /**
+                     * Encodes the specified EnumReservedRange message. Does not implicitly {@link google.protobuf.EnumDescriptorProto.EnumReservedRange.verify|verify} messages.
+                     * @function encode
+                     * @memberof google.protobuf.EnumDescriptorProto.EnumReservedRange
+                     * @static
+                     * @param {google.protobuf.EnumDescriptorProto.IEnumReservedRange} message EnumReservedRange message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    EnumReservedRange.encode = function encode(message, writer, q) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $util.recursionLimit)
+                            throw Error("max depth exceeded");
+                        if (message.start != null && Object.hasOwnProperty.call(message, "start"))
+                            writer.uint32(/* id 1, wireType 0 =*/8).int32(message.start);
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
+                            writer.uint32(/* id 2, wireType 0 =*/16).int32(message.end);
+                        return writer;
+                    };
+    
+                    /**
+                     * Encodes the specified EnumReservedRange message, length delimited. Does not implicitly {@link google.protobuf.EnumDescriptorProto.EnumReservedRange.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof google.protobuf.EnumDescriptorProto.EnumReservedRange
+                     * @static
+                     * @param {google.protobuf.EnumDescriptorProto.IEnumReservedRange} message EnumReservedRange message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    EnumReservedRange.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+                    };
+    
+                    /**
+                     * Decodes an EnumReservedRange message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof google.protobuf.EnumDescriptorProto.EnumReservedRange
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {google.protobuf.EnumDescriptorProto.EnumReservedRange} EnumReservedRange
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    EnumReservedRange.decode = function decode(reader, length, error, long) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $Reader.recursionLimit)
+                            throw Error("maximum nesting depth exceeded");
+                        var end, message;
+                        if (length === undefined)
+                            end = reader.len;
+                        else {
+                            end = reader.pos + length;
+                            if (end > reader.len)
+                                throw RangeError("index out of range");
+                            length = reader.len;
+                            reader.len = end;
+                        }
+                        message = new $root.google.protobuf.EnumDescriptorProto.EnumReservedRange();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            if (tag === error)
+                                break;
+                            switch (tag >>> 3) {
+                            case 1: {
+                                    message.start = reader.int32();
+                                    break;
+                                }
+                            case 2: {
+                                    message.end = reader.int32();
+                                    break;
+                                }
+                            default:
+                                reader.skipType(tag & 7, long);
+                                break;
+                            }
+                        }
+                        if (length !== undefined) {
+                            if (reader.pos !== end)
+                                throw RangeError("index out of range");
+                            reader.len = length;
+                        }
+                        return message;
+                    };
+    
+                    /**
+                     * Decodes an EnumReservedRange message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof google.protobuf.EnumDescriptorProto.EnumReservedRange
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {google.protobuf.EnumDescriptorProto.EnumReservedRange} EnumReservedRange
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    EnumReservedRange.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+    
+                    /**
+                     * Verifies an EnumReservedRange message.
+                     * @function verify
+                     * @memberof google.protobuf.EnumDescriptorProto.EnumReservedRange
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    EnumReservedRange.verify = function verify(message, long) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $util.recursionLimit)
+                            return "maximum nesting depth exceeded";
+                        if (message.start != null && Object.hasOwnProperty.call(message, "start"))
+                            if (!$util.isInteger(message.start))
+                                return "start: integer expected";
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
+                            if (!$util.isInteger(message.end))
+                                return "end: integer expected";
+                        return null;
+                    };
+    
+                    /**
+                     * Creates an EnumReservedRange message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof google.protobuf.EnumDescriptorProto.EnumReservedRange
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {google.protobuf.EnumDescriptorProto.EnumReservedRange} EnumReservedRange
+                     */
+                    EnumReservedRange.fromObject = function fromObject(object, long) {
+                        if (object instanceof $root.google.protobuf.EnumDescriptorProto.EnumReservedRange)
+                            return object;
+                        if (!$util.isObject(object))
+                            throw TypeError(".google.protobuf.EnumDescriptorProto.EnumReservedRange: object expected");
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $util.recursionLimit)
+                            throw Error("maximum nesting depth exceeded");
+                        var message = new $root.google.protobuf.EnumDescriptorProto.EnumReservedRange();
+                        if (object.start != null)
+                            message.start = object.start | 0;
+                        if (object.end != null)
+                            message.end = object.end | 0;
+                        return message;
+                    };
+    
+                    /**
+                     * Creates a plain object from an EnumReservedRange message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof google.protobuf.EnumDescriptorProto.EnumReservedRange
+                     * @static
+                     * @param {google.protobuf.EnumDescriptorProto.EnumReservedRange} message EnumReservedRange
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    EnumReservedRange.toObject = function toObject(message, options, q) {
+                        if (!options)
+                            options = {};
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $util.recursionLimit)
+                            throw Error("max depth exceeded");
+                        var object = {};
+                        if (options.defaults) {
+                            object.start = 0;
+                            object.end = 0;
+                        }
+                        if (message.start != null && Object.hasOwnProperty.call(message, "start"))
+                            object.start = message.start;
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
+                            object.end = message.end;
+                        return object;
+                    };
+    
+                    /**
+                     * Converts this EnumReservedRange to JSON.
+                     * @function toJSON
+                     * @memberof google.protobuf.EnumDescriptorProto.EnumReservedRange
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    EnumReservedRange.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+    
+                    /**
+                     * Gets the default type url for EnumReservedRange
+                     * @function getTypeUrl
+                     * @memberof google.protobuf.EnumDescriptorProto.EnumReservedRange
+                     * @static
+                     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                     * @returns {string} The default type url
+                     */
+                    EnumReservedRange.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                        if (typeUrlPrefix === undefined) {
+                            typeUrlPrefix = "type.googleapis.com";
+                        }
+                        return typeUrlPrefix + "/google.protobuf.EnumDescriptorProto.EnumReservedRange";
+                    };
+    
+                    return EnumReservedRange;
+                })();
     
                 return EnumDescriptorProto;
             })();
@@ -29636,6 +30237,8 @@
                  * @property {string|null} [input_type] MethodDescriptorProto input_type
                  * @property {string|null} [output_type] MethodDescriptorProto output_type
                  * @property {google.protobuf.IMethodOptions|null} [options] MethodDescriptorProto options
+                 * @property {boolean|null} [client_streaming] MethodDescriptorProto client_streaming
+                 * @property {boolean|null} [server_streaming] MethodDescriptorProto server_streaming
                  */
     
                 /**
@@ -29686,6 +30289,22 @@
                 MethodDescriptorProto.prototype.options = null;
     
                 /**
+                 * MethodDescriptorProto client_streaming.
+                 * @member {boolean} client_streaming
+                 * @memberof google.protobuf.MethodDescriptorProto
+                 * @instance
+                 */
+                MethodDescriptorProto.prototype.client_streaming = false;
+    
+                /**
+                 * MethodDescriptorProto server_streaming.
+                 * @member {boolean} server_streaming
+                 * @memberof google.protobuf.MethodDescriptorProto
+                 * @instance
+                 */
+                MethodDescriptorProto.prototype.server_streaming = false;
+    
+                /**
                  * Creates a new MethodDescriptorProto instance using the specified properties.
                  * @function create
                  * @memberof google.protobuf.MethodDescriptorProto
@@ -29721,6 +30340,10 @@
                         writer.uint32(/* id 3, wireType 2 =*/26).string(message.output_type);
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         $root.google.protobuf.MethodOptions.encode(message.options, writer.uint32(/* id 4, wireType 2 =*/34).fork(), q + 1).ldelim();
+                    if (message.client_streaming != null && Object.hasOwnProperty.call(message, "client_streaming"))
+                        writer.uint32(/* id 5, wireType 0 =*/40).bool(message.client_streaming);
+                    if (message.server_streaming != null && Object.hasOwnProperty.call(message, "server_streaming"))
+                        writer.uint32(/* id 6, wireType 0 =*/48).bool(message.server_streaming);
                     return writer;
                 };
     
@@ -29787,6 +30410,14 @@
                                 message.options = $root.google.protobuf.MethodOptions.decode(reader, reader.uint32(), undefined, long + 1);
                                 break;
                             }
+                        case 5: {
+                                message.client_streaming = reader.bool();
+                                break;
+                            }
+                        case 6: {
+                                message.server_streaming = reader.bool();
+                                break;
+                            }
                         default:
                             reader.skipType(tag & 7, long);
                             break;
@@ -29845,6 +30476,12 @@
                         if (error)
                             return "options." + error;
                     }
+                    if (message.client_streaming != null && Object.hasOwnProperty.call(message, "client_streaming"))
+                        if (typeof message.client_streaming !== "boolean")
+                            return "client_streaming: boolean expected";
+                    if (message.server_streaming != null && Object.hasOwnProperty.call(message, "server_streaming"))
+                        if (typeof message.server_streaming !== "boolean")
+                            return "server_streaming: boolean expected";
                     return null;
                 };
     
@@ -29877,6 +30514,10 @@
                             throw TypeError(".google.protobuf.MethodDescriptorProto.options: object expected");
                         message.options = $root.google.protobuf.MethodOptions.fromObject(object.options, long + 1);
                     }
+                    if (object.client_streaming != null)
+                        message.client_streaming = Boolean(object.client_streaming);
+                    if (object.server_streaming != null)
+                        message.server_streaming = Boolean(object.server_streaming);
                     return message;
                 };
     
@@ -29902,6 +30543,8 @@
                         object.input_type = "";
                         object.output_type = "";
                         object.options = null;
+                        object.client_streaming = false;
+                        object.server_streaming = false;
                     }
                     if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         object.name = message.name;
@@ -29911,6 +30554,10 @@
                         object.output_type = message.output_type;
                     if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         object.options = $root.google.protobuf.MethodOptions.toObject(message.options, options, q + 1);
+                    if (message.client_streaming != null && Object.hasOwnProperty.call(message, "client_streaming"))
+                        object.client_streaming = message.client_streaming;
+                    if (message.server_streaming != null && Object.hasOwnProperty.call(message, "server_streaming"))
+                        object.server_streaming = message.server_streaming;
                     return object;
                 };
     
@@ -29953,10 +30600,23 @@
                  * @property {string|null} [java_outer_classname] FileOptions java_outer_classname
                  * @property {boolean|null} [java_multiple_files] FileOptions java_multiple_files
                  * @property {boolean|null} [java_generate_equals_and_hash] FileOptions java_generate_equals_and_hash
+                 * @property {boolean|null} [java_string_check_utf8] FileOptions java_string_check_utf8
                  * @property {google.protobuf.FileOptions.OptimizeMode|null} [optimize_for] FileOptions optimize_for
+                 * @property {string|null} [go_package] FileOptions go_package
                  * @property {boolean|null} [cc_generic_services] FileOptions cc_generic_services
                  * @property {boolean|null} [java_generic_services] FileOptions java_generic_services
                  * @property {boolean|null} [py_generic_services] FileOptions py_generic_services
+                 * @property {boolean|null} [php_generic_services] FileOptions php_generic_services
+                 * @property {boolean|null} [deprecated] FileOptions deprecated
+                 * @property {boolean|null} [cc_enable_arenas] FileOptions cc_enable_arenas
+                 * @property {string|null} [objc_class_prefix] FileOptions objc_class_prefix
+                 * @property {string|null} [csharp_namespace] FileOptions csharp_namespace
+                 * @property {string|null} [swift_prefix] FileOptions swift_prefix
+                 * @property {string|null} [php_class_prefix] FileOptions php_class_prefix
+                 * @property {string|null} [php_namespace] FileOptions php_namespace
+                 * @property {string|null} [php_metadata_namespace] FileOptions php_metadata_namespace
+                 * @property {string|null} [ruby_package] FileOptions ruby_package
+                 * @property {Array.<string>|null} [additional_includes] FileOptions additional_includes
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] FileOptions uninterpreted_option
                  */
     
@@ -29969,6 +30629,7 @@
                  * @param {google.protobuf.IFileOptions=} [properties] Properties to set
                  */
                 function FileOptions(properties) {
+                    this.additional_includes = [];
                     this.uninterpreted_option = [];
                     if (properties)
                         for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
@@ -30009,12 +30670,28 @@
                 FileOptions.prototype.java_generate_equals_and_hash = false;
     
                 /**
+                 * FileOptions java_string_check_utf8.
+                 * @member {boolean} java_string_check_utf8
+                 * @memberof google.protobuf.FileOptions
+                 * @instance
+                 */
+                FileOptions.prototype.java_string_check_utf8 = false;
+    
+                /**
                  * FileOptions optimize_for.
                  * @member {google.protobuf.FileOptions.OptimizeMode} optimize_for
                  * @memberof google.protobuf.FileOptions
                  * @instance
                  */
                 FileOptions.prototype.optimize_for = 1;
+    
+                /**
+                 * FileOptions go_package.
+                 * @member {string} go_package
+                 * @memberof google.protobuf.FileOptions
+                 * @instance
+                 */
+                FileOptions.prototype.go_package = "";
     
                 /**
                  * FileOptions cc_generic_services.
@@ -30039,6 +30716,94 @@
                  * @instance
                  */
                 FileOptions.prototype.py_generic_services = false;
+    
+                /**
+                 * FileOptions php_generic_services.
+                 * @member {boolean} php_generic_services
+                 * @memberof google.protobuf.FileOptions
+                 * @instance
+                 */
+                FileOptions.prototype.php_generic_services = false;
+    
+                /**
+                 * FileOptions deprecated.
+                 * @member {boolean} deprecated
+                 * @memberof google.protobuf.FileOptions
+                 * @instance
+                 */
+                FileOptions.prototype.deprecated = false;
+    
+                /**
+                 * FileOptions cc_enable_arenas.
+                 * @member {boolean} cc_enable_arenas
+                 * @memberof google.protobuf.FileOptions
+                 * @instance
+                 */
+                FileOptions.prototype.cc_enable_arenas = true;
+    
+                /**
+                 * FileOptions objc_class_prefix.
+                 * @member {string} objc_class_prefix
+                 * @memberof google.protobuf.FileOptions
+                 * @instance
+                 */
+                FileOptions.prototype.objc_class_prefix = "";
+    
+                /**
+                 * FileOptions csharp_namespace.
+                 * @member {string} csharp_namespace
+                 * @memberof google.protobuf.FileOptions
+                 * @instance
+                 */
+                FileOptions.prototype.csharp_namespace = "";
+    
+                /**
+                 * FileOptions swift_prefix.
+                 * @member {string} swift_prefix
+                 * @memberof google.protobuf.FileOptions
+                 * @instance
+                 */
+                FileOptions.prototype.swift_prefix = "";
+    
+                /**
+                 * FileOptions php_class_prefix.
+                 * @member {string} php_class_prefix
+                 * @memberof google.protobuf.FileOptions
+                 * @instance
+                 */
+                FileOptions.prototype.php_class_prefix = "";
+    
+                /**
+                 * FileOptions php_namespace.
+                 * @member {string} php_namespace
+                 * @memberof google.protobuf.FileOptions
+                 * @instance
+                 */
+                FileOptions.prototype.php_namespace = "";
+    
+                /**
+                 * FileOptions php_metadata_namespace.
+                 * @member {string} php_metadata_namespace
+                 * @memberof google.protobuf.FileOptions
+                 * @instance
+                 */
+                FileOptions.prototype.php_metadata_namespace = "";
+    
+                /**
+                 * FileOptions ruby_package.
+                 * @member {string} ruby_package
+                 * @memberof google.protobuf.FileOptions
+                 * @instance
+                 */
+                FileOptions.prototype.ruby_package = "";
+    
+                /**
+                 * FileOptions additional_includes.
+                 * @member {Array.<string>} additional_includes
+                 * @memberof google.protobuf.FileOptions
+                 * @instance
+                 */
+                FileOptions.prototype.additional_includes = $util.emptyArray;
     
                 /**
                  * FileOptions uninterpreted_option.
@@ -30084,6 +30849,8 @@
                         writer.uint32(/* id 9, wireType 0 =*/72).int32(message.optimize_for);
                     if (message.java_multiple_files != null && Object.hasOwnProperty.call(message, "java_multiple_files"))
                         writer.uint32(/* id 10, wireType 0 =*/80).bool(message.java_multiple_files);
+                    if (message.go_package != null && Object.hasOwnProperty.call(message, "go_package"))
+                        writer.uint32(/* id 11, wireType 2 =*/90).string(message.go_package);
                     if (message.cc_generic_services != null && Object.hasOwnProperty.call(message, "cc_generic_services"))
                         writer.uint32(/* id 16, wireType 0 =*/128).bool(message.cc_generic_services);
                     if (message.java_generic_services != null && Object.hasOwnProperty.call(message, "java_generic_services"))
@@ -30092,6 +30859,31 @@
                         writer.uint32(/* id 18, wireType 0 =*/144).bool(message.py_generic_services);
                     if (message.java_generate_equals_and_hash != null && Object.hasOwnProperty.call(message, "java_generate_equals_and_hash"))
                         writer.uint32(/* id 20, wireType 0 =*/160).bool(message.java_generate_equals_and_hash);
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        writer.uint32(/* id 23, wireType 0 =*/184).bool(message.deprecated);
+                    if (message.java_string_check_utf8 != null && Object.hasOwnProperty.call(message, "java_string_check_utf8"))
+                        writer.uint32(/* id 27, wireType 0 =*/216).bool(message.java_string_check_utf8);
+                    if (message.cc_enable_arenas != null && Object.hasOwnProperty.call(message, "cc_enable_arenas"))
+                        writer.uint32(/* id 31, wireType 0 =*/248).bool(message.cc_enable_arenas);
+                    if (message.objc_class_prefix != null && Object.hasOwnProperty.call(message, "objc_class_prefix"))
+                        writer.uint32(/* id 36, wireType 2 =*/290).string(message.objc_class_prefix);
+                    if (message.csharp_namespace != null && Object.hasOwnProperty.call(message, "csharp_namespace"))
+                        writer.uint32(/* id 37, wireType 2 =*/298).string(message.csharp_namespace);
+                    if (message.swift_prefix != null && Object.hasOwnProperty.call(message, "swift_prefix"))
+                        writer.uint32(/* id 39, wireType 2 =*/314).string(message.swift_prefix);
+                    if (message.php_class_prefix != null && Object.hasOwnProperty.call(message, "php_class_prefix"))
+                        writer.uint32(/* id 40, wireType 2 =*/322).string(message.php_class_prefix);
+                    if (message.php_namespace != null && Object.hasOwnProperty.call(message, "php_namespace"))
+                        writer.uint32(/* id 41, wireType 2 =*/330).string(message.php_namespace);
+                    if (message.php_generic_services != null && Object.hasOwnProperty.call(message, "php_generic_services"))
+                        writer.uint32(/* id 42, wireType 0 =*/336).bool(message.php_generic_services);
+                    if (message.php_metadata_namespace != null && Object.hasOwnProperty.call(message, "php_metadata_namespace"))
+                        writer.uint32(/* id 44, wireType 2 =*/354).string(message.php_metadata_namespace);
+                    if (message.ruby_package != null && Object.hasOwnProperty.call(message, "ruby_package"))
+                        writer.uint32(/* id 45, wireType 2 =*/362).string(message.ruby_package);
+                    if (message.additional_includes != null && message.additional_includes.length)
+                        for (var i = 0; i < message.additional_includes.length; ++i)
+                            writer.uint32(/* id 50, wireType 2 =*/402).string(message.additional_includes[i]);
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
@@ -30161,8 +30953,16 @@
                                 message.java_generate_equals_and_hash = reader.bool();
                                 break;
                             }
+                        case 27: {
+                                message.java_string_check_utf8 = reader.bool();
+                                break;
+                            }
                         case 9: {
                                 message.optimize_for = reader.int32();
+                                break;
+                            }
+                        case 11: {
+                                message.go_package = reader.string();
                                 break;
                             }
                         case 16: {
@@ -30175,6 +30975,52 @@
                             }
                         case 18: {
                                 message.py_generic_services = reader.bool();
+                                break;
+                            }
+                        case 42: {
+                                message.php_generic_services = reader.bool();
+                                break;
+                            }
+                        case 23: {
+                                message.deprecated = reader.bool();
+                                break;
+                            }
+                        case 31: {
+                                message.cc_enable_arenas = reader.bool();
+                                break;
+                            }
+                        case 36: {
+                                message.objc_class_prefix = reader.string();
+                                break;
+                            }
+                        case 37: {
+                                message.csharp_namespace = reader.string();
+                                break;
+                            }
+                        case 39: {
+                                message.swift_prefix = reader.string();
+                                break;
+                            }
+                        case 40: {
+                                message.php_class_prefix = reader.string();
+                                break;
+                            }
+                        case 41: {
+                                message.php_namespace = reader.string();
+                                break;
+                            }
+                        case 44: {
+                                message.php_metadata_namespace = reader.string();
+                                break;
+                            }
+                        case 45: {
+                                message.ruby_package = reader.string();
+                                break;
+                            }
+                        case 50: {
+                                if (!(message.additional_includes && message.additional_includes.length))
+                                    message.additional_includes = [];
+                                message.additional_includes.push(reader.string());
                                 break;
                             }
                         case 999: {
@@ -30239,6 +31085,9 @@
                     if (message.java_generate_equals_and_hash != null && Object.hasOwnProperty.call(message, "java_generate_equals_and_hash"))
                         if (typeof message.java_generate_equals_and_hash !== "boolean")
                             return "java_generate_equals_and_hash: boolean expected";
+                    if (message.java_string_check_utf8 != null && Object.hasOwnProperty.call(message, "java_string_check_utf8"))
+                        if (typeof message.java_string_check_utf8 !== "boolean")
+                            return "java_string_check_utf8: boolean expected";
                     if (message.optimize_for != null && Object.hasOwnProperty.call(message, "optimize_for"))
                         switch (message.optimize_for) {
                         default:
@@ -30248,6 +31097,9 @@
                         case 3:
                             break;
                         }
+                    if (message.go_package != null && Object.hasOwnProperty.call(message, "go_package"))
+                        if (!$util.isString(message.go_package))
+                            return "go_package: string expected";
                     if (message.cc_generic_services != null && Object.hasOwnProperty.call(message, "cc_generic_services"))
                         if (typeof message.cc_generic_services !== "boolean")
                             return "cc_generic_services: boolean expected";
@@ -30257,6 +31109,43 @@
                     if (message.py_generic_services != null && Object.hasOwnProperty.call(message, "py_generic_services"))
                         if (typeof message.py_generic_services !== "boolean")
                             return "py_generic_services: boolean expected";
+                    if (message.php_generic_services != null && Object.hasOwnProperty.call(message, "php_generic_services"))
+                        if (typeof message.php_generic_services !== "boolean")
+                            return "php_generic_services: boolean expected";
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        if (typeof message.deprecated !== "boolean")
+                            return "deprecated: boolean expected";
+                    if (message.cc_enable_arenas != null && Object.hasOwnProperty.call(message, "cc_enable_arenas"))
+                        if (typeof message.cc_enable_arenas !== "boolean")
+                            return "cc_enable_arenas: boolean expected";
+                    if (message.objc_class_prefix != null && Object.hasOwnProperty.call(message, "objc_class_prefix"))
+                        if (!$util.isString(message.objc_class_prefix))
+                            return "objc_class_prefix: string expected";
+                    if (message.csharp_namespace != null && Object.hasOwnProperty.call(message, "csharp_namespace"))
+                        if (!$util.isString(message.csharp_namespace))
+                            return "csharp_namespace: string expected";
+                    if (message.swift_prefix != null && Object.hasOwnProperty.call(message, "swift_prefix"))
+                        if (!$util.isString(message.swift_prefix))
+                            return "swift_prefix: string expected";
+                    if (message.php_class_prefix != null && Object.hasOwnProperty.call(message, "php_class_prefix"))
+                        if (!$util.isString(message.php_class_prefix))
+                            return "php_class_prefix: string expected";
+                    if (message.php_namespace != null && Object.hasOwnProperty.call(message, "php_namespace"))
+                        if (!$util.isString(message.php_namespace))
+                            return "php_namespace: string expected";
+                    if (message.php_metadata_namespace != null && Object.hasOwnProperty.call(message, "php_metadata_namespace"))
+                        if (!$util.isString(message.php_metadata_namespace))
+                            return "php_metadata_namespace: string expected";
+                    if (message.ruby_package != null && Object.hasOwnProperty.call(message, "ruby_package"))
+                        if (!$util.isString(message.ruby_package))
+                            return "ruby_package: string expected";
+                    if (message.additional_includes != null && Object.hasOwnProperty.call(message, "additional_includes")) {
+                        if (!Array.isArray(message.additional_includes))
+                            return "additional_includes: array expected";
+                        for (var i = 0; i < message.additional_includes.length; ++i)
+                            if (!$util.isString(message.additional_includes[i]))
+                                return "additional_includes: string[] expected";
+                    }
                     if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
                         if (!Array.isArray(message.uninterpreted_option))
                             return "uninterpreted_option: array expected";
@@ -30295,6 +31184,8 @@
                         message.java_multiple_files = Boolean(object.java_multiple_files);
                     if (object.java_generate_equals_and_hash != null)
                         message.java_generate_equals_and_hash = Boolean(object.java_generate_equals_and_hash);
+                    if (object.java_string_check_utf8 != null)
+                        message.java_string_check_utf8 = Boolean(object.java_string_check_utf8);
                     switch (object.optimize_for) {
                     default:
                         if (typeof object.optimize_for === "number") {
@@ -30315,12 +31206,41 @@
                         message.optimize_for = 3;
                         break;
                     }
+                    if (object.go_package != null)
+                        message.go_package = String(object.go_package);
                     if (object.cc_generic_services != null)
                         message.cc_generic_services = Boolean(object.cc_generic_services);
                     if (object.java_generic_services != null)
                         message.java_generic_services = Boolean(object.java_generic_services);
                     if (object.py_generic_services != null)
                         message.py_generic_services = Boolean(object.py_generic_services);
+                    if (object.php_generic_services != null)
+                        message.php_generic_services = Boolean(object.php_generic_services);
+                    if (object.deprecated != null)
+                        message.deprecated = Boolean(object.deprecated);
+                    if (object.cc_enable_arenas != null)
+                        message.cc_enable_arenas = Boolean(object.cc_enable_arenas);
+                    if (object.objc_class_prefix != null)
+                        message.objc_class_prefix = String(object.objc_class_prefix);
+                    if (object.csharp_namespace != null)
+                        message.csharp_namespace = String(object.csharp_namespace);
+                    if (object.swift_prefix != null)
+                        message.swift_prefix = String(object.swift_prefix);
+                    if (object.php_class_prefix != null)
+                        message.php_class_prefix = String(object.php_class_prefix);
+                    if (object.php_namespace != null)
+                        message.php_namespace = String(object.php_namespace);
+                    if (object.php_metadata_namespace != null)
+                        message.php_metadata_namespace = String(object.php_metadata_namespace);
+                    if (object.ruby_package != null)
+                        message.ruby_package = String(object.ruby_package);
+                    if (object.additional_includes) {
+                        if (!Array.isArray(object.additional_includes))
+                            throw TypeError(".google.protobuf.FileOptions.additional_includes: array expected");
+                        message.additional_includes = [];
+                        for (var i = 0; i < object.additional_includes.length; ++i)
+                            message.additional_includes[i] = String(object.additional_includes[i]);
+                    }
                     if (object.uninterpreted_option) {
                         if (!Array.isArray(object.uninterpreted_option))
                             throw TypeError(".google.protobuf.FileOptions.uninterpreted_option: array expected");
@@ -30351,17 +31271,31 @@
                     if (q > $util.recursionLimit)
                         throw Error("max depth exceeded");
                     var object = {};
-                    if (options.arrays || options.defaults)
+                    if (options.arrays || options.defaults) {
+                        object.additional_includes = [];
                         object.uninterpreted_option = [];
+                    }
                     if (options.defaults) {
                         object.java_package = "";
                         object.java_outer_classname = "";
                         object.optimize_for = options.enums === String ? "SPEED" : 1;
                         object.java_multiple_files = false;
+                        object.go_package = "";
                         object.cc_generic_services = false;
                         object.java_generic_services = false;
                         object.py_generic_services = false;
                         object.java_generate_equals_and_hash = false;
+                        object.deprecated = false;
+                        object.java_string_check_utf8 = false;
+                        object.cc_enable_arenas = true;
+                        object.objc_class_prefix = "";
+                        object.csharp_namespace = "";
+                        object.swift_prefix = "";
+                        object.php_class_prefix = "";
+                        object.php_namespace = "";
+                        object.php_generic_services = false;
+                        object.php_metadata_namespace = "";
+                        object.ruby_package = "";
                     }
                     if (message.java_package != null && Object.hasOwnProperty.call(message, "java_package"))
                         object.java_package = message.java_package;
@@ -30371,6 +31305,8 @@
                         object.optimize_for = options.enums === String ? $root.google.protobuf.FileOptions.OptimizeMode[message.optimize_for] === undefined ? message.optimize_for : $root.google.protobuf.FileOptions.OptimizeMode[message.optimize_for] : message.optimize_for;
                     if (message.java_multiple_files != null && Object.hasOwnProperty.call(message, "java_multiple_files"))
                         object.java_multiple_files = message.java_multiple_files;
+                    if (message.go_package != null && Object.hasOwnProperty.call(message, "go_package"))
+                        object.go_package = message.go_package;
                     if (message.cc_generic_services != null && Object.hasOwnProperty.call(message, "cc_generic_services"))
                         object.cc_generic_services = message.cc_generic_services;
                     if (message.java_generic_services != null && Object.hasOwnProperty.call(message, "java_generic_services"))
@@ -30379,6 +31315,33 @@
                         object.py_generic_services = message.py_generic_services;
                     if (message.java_generate_equals_and_hash != null && Object.hasOwnProperty.call(message, "java_generate_equals_and_hash"))
                         object.java_generate_equals_and_hash = message.java_generate_equals_and_hash;
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        object.deprecated = message.deprecated;
+                    if (message.java_string_check_utf8 != null && Object.hasOwnProperty.call(message, "java_string_check_utf8"))
+                        object.java_string_check_utf8 = message.java_string_check_utf8;
+                    if (message.cc_enable_arenas != null && Object.hasOwnProperty.call(message, "cc_enable_arenas"))
+                        object.cc_enable_arenas = message.cc_enable_arenas;
+                    if (message.objc_class_prefix != null && Object.hasOwnProperty.call(message, "objc_class_prefix"))
+                        object.objc_class_prefix = message.objc_class_prefix;
+                    if (message.csharp_namespace != null && Object.hasOwnProperty.call(message, "csharp_namespace"))
+                        object.csharp_namespace = message.csharp_namespace;
+                    if (message.swift_prefix != null && Object.hasOwnProperty.call(message, "swift_prefix"))
+                        object.swift_prefix = message.swift_prefix;
+                    if (message.php_class_prefix != null && Object.hasOwnProperty.call(message, "php_class_prefix"))
+                        object.php_class_prefix = message.php_class_prefix;
+                    if (message.php_namespace != null && Object.hasOwnProperty.call(message, "php_namespace"))
+                        object.php_namespace = message.php_namespace;
+                    if (message.php_generic_services != null && Object.hasOwnProperty.call(message, "php_generic_services"))
+                        object.php_generic_services = message.php_generic_services;
+                    if (message.php_metadata_namespace != null && Object.hasOwnProperty.call(message, "php_metadata_namespace"))
+                        object.php_metadata_namespace = message.php_metadata_namespace;
+                    if (message.ruby_package != null && Object.hasOwnProperty.call(message, "ruby_package"))
+                        object.ruby_package = message.ruby_package;
+                    if (message.additional_includes && message.additional_includes.length) {
+                        object.additional_includes = [];
+                        for (var j = 0; j < message.additional_includes.length; ++j)
+                            object.additional_includes[j] = message.additional_includes[j];
+                    }
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
@@ -30440,6 +31403,8 @@
                  * @interface IMessageOptions
                  * @property {boolean|null} [message_set_wire_format] MessageOptions message_set_wire_format
                  * @property {boolean|null} [no_standard_descriptor_accessor] MessageOptions no_standard_descriptor_accessor
+                 * @property {boolean|null} [deprecated] MessageOptions deprecated
+                 * @property {boolean|null} [map_entry] MessageOptions map_entry
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] MessageOptions uninterpreted_option
                  * @property {number|null} [".msgpool_soft_limit"] MessageOptions .msgpool_soft_limit
                  * @property {number|null} [".msgpool_hard_limit"] MessageOptions .msgpool_hard_limit
@@ -30476,6 +31441,22 @@
                  * @instance
                  */
                 MessageOptions.prototype.no_standard_descriptor_accessor = false;
+    
+                /**
+                 * MessageOptions deprecated.
+                 * @member {boolean} deprecated
+                 * @memberof google.protobuf.MessageOptions
+                 * @instance
+                 */
+                MessageOptions.prototype.deprecated = false;
+    
+                /**
+                 * MessageOptions map_entry.
+                 * @member {boolean} map_entry
+                 * @memberof google.protobuf.MessageOptions
+                 * @instance
+                 */
+                MessageOptions.prototype.map_entry = false;
     
                 /**
                  * MessageOptions uninterpreted_option.
@@ -30533,6 +31514,10 @@
                         writer.uint32(/* id 1, wireType 0 =*/8).bool(message.message_set_wire_format);
                     if (message.no_standard_descriptor_accessor != null && Object.hasOwnProperty.call(message, "no_standard_descriptor_accessor"))
                         writer.uint32(/* id 2, wireType 0 =*/16).bool(message.no_standard_descriptor_accessor);
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        writer.uint32(/* id 3, wireType 0 =*/24).bool(message.deprecated);
+                    if (message.map_entry != null && Object.hasOwnProperty.call(message, "map_entry"))
+                        writer.uint32(/* id 7, wireType 0 =*/56).bool(message.map_entry);
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
@@ -30596,6 +31581,14 @@
                             }
                         case 2: {
                                 message.no_standard_descriptor_accessor = reader.bool();
+                                break;
+                            }
+                        case 3: {
+                                message.deprecated = reader.bool();
+                                break;
+                            }
+                        case 7: {
+                                message.map_entry = reader.bool();
                                 break;
                             }
                         case 999: {
@@ -30662,6 +31655,12 @@
                     if (message.no_standard_descriptor_accessor != null && Object.hasOwnProperty.call(message, "no_standard_descriptor_accessor"))
                         if (typeof message.no_standard_descriptor_accessor !== "boolean")
                             return "no_standard_descriptor_accessor: boolean expected";
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        if (typeof message.deprecated !== "boolean")
+                            return "deprecated: boolean expected";
+                    if (message.map_entry != null && Object.hasOwnProperty.call(message, "map_entry"))
+                        if (typeof message.map_entry !== "boolean")
+                            return "map_entry: boolean expected";
                     if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
                         if (!Array.isArray(message.uninterpreted_option))
                             return "uninterpreted_option: array expected";
@@ -30702,6 +31701,10 @@
                         message.message_set_wire_format = Boolean(object.message_set_wire_format);
                     if (object.no_standard_descriptor_accessor != null)
                         message.no_standard_descriptor_accessor = Boolean(object.no_standard_descriptor_accessor);
+                    if (object.deprecated != null)
+                        message.deprecated = Boolean(object.deprecated);
+                    if (object.map_entry != null)
+                        message.map_entry = Boolean(object.map_entry);
                     if (object.uninterpreted_option) {
                         if (!Array.isArray(object.uninterpreted_option))
                             throw TypeError(".google.protobuf.MessageOptions.uninterpreted_option: array expected");
@@ -30741,6 +31744,8 @@
                     if (options.defaults) {
                         object.message_set_wire_format = false;
                         object.no_standard_descriptor_accessor = false;
+                        object.deprecated = false;
+                        object.map_entry = false;
                         object[".msgpool_soft_limit"] = 32;
                         object[".msgpool_hard_limit"] = 384;
                     }
@@ -30748,6 +31753,10 @@
                         object.message_set_wire_format = message.message_set_wire_format;
                     if (message.no_standard_descriptor_accessor != null && Object.hasOwnProperty.call(message, "no_standard_descriptor_accessor"))
                         object.no_standard_descriptor_accessor = message.no_standard_descriptor_accessor;
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        object.deprecated = message.deprecated;
+                    if (message.map_entry != null && Object.hasOwnProperty.call(message, "map_entry"))
+                        object.map_entry = message.map_entry;
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
@@ -30797,8 +31806,13 @@
                  * @interface IFieldOptions
                  * @property {google.protobuf.FieldOptions.CType|null} [ctype] FieldOptions ctype
                  * @property {boolean|null} [packed] FieldOptions packed
+                 * @property {google.protobuf.FieldOptions.JSType|null} [jstype] FieldOptions jstype
+                 * @property {boolean|null} [lazy] FieldOptions lazy
+                 * @property {boolean|null} [unverified_lazy] FieldOptions unverified_lazy
                  * @property {boolean|null} [deprecated] FieldOptions deprecated
-                 * @property {string|null} [experimental_map_key] FieldOptions experimental_map_key
+                 * @property {boolean|null} [weak] FieldOptions weak
+                 * @property {string|null} [boxed_type] FieldOptions boxed_type
+                 * @property {string|null} [synthetic_default] FieldOptions synthetic_default
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] FieldOptions uninterpreted_option
                  * @property {boolean|null} [".key_field"] FieldOptions .key_field
                  */
@@ -30836,6 +31850,30 @@
                 FieldOptions.prototype.packed = false;
     
                 /**
+                 * FieldOptions jstype.
+                 * @member {google.protobuf.FieldOptions.JSType} jstype
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype.jstype = 0;
+    
+                /**
+                 * FieldOptions lazy.
+                 * @member {boolean} lazy
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype.lazy = false;
+    
+                /**
+                 * FieldOptions unverified_lazy.
+                 * @member {boolean} unverified_lazy
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype.unverified_lazy = false;
+    
+                /**
                  * FieldOptions deprecated.
                  * @member {boolean} deprecated
                  * @memberof google.protobuf.FieldOptions
@@ -30844,12 +31882,28 @@
                 FieldOptions.prototype.deprecated = false;
     
                 /**
-                 * FieldOptions experimental_map_key.
-                 * @member {string} experimental_map_key
+                 * FieldOptions weak.
+                 * @member {boolean} weak
                  * @memberof google.protobuf.FieldOptions
                  * @instance
                  */
-                FieldOptions.prototype.experimental_map_key = "";
+                FieldOptions.prototype.weak = false;
+    
+                /**
+                 * FieldOptions boxed_type.
+                 * @member {string} boxed_type
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype.boxed_type = "";
+    
+                /**
+                 * FieldOptions synthetic_default.
+                 * @member {string} synthetic_default
+                 * @memberof google.protobuf.FieldOptions
+                 * @instance
+                 */
+                FieldOptions.prototype.synthetic_default = "";
     
                 /**
                  * FieldOptions uninterpreted_option.
@@ -30901,8 +31955,18 @@
                         writer.uint32(/* id 2, wireType 0 =*/16).bool(message.packed);
                     if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
                         writer.uint32(/* id 3, wireType 0 =*/24).bool(message.deprecated);
-                    if (message.experimental_map_key != null && Object.hasOwnProperty.call(message, "experimental_map_key"))
-                        writer.uint32(/* id 9, wireType 2 =*/74).string(message.experimental_map_key);
+                    if (message.lazy != null && Object.hasOwnProperty.call(message, "lazy"))
+                        writer.uint32(/* id 5, wireType 0 =*/40).bool(message.lazy);
+                    if (message.jstype != null && Object.hasOwnProperty.call(message, "jstype"))
+                        writer.uint32(/* id 6, wireType 0 =*/48).int32(message.jstype);
+                    if (message.weak != null && Object.hasOwnProperty.call(message, "weak"))
+                        writer.uint32(/* id 10, wireType 0 =*/80).bool(message.weak);
+                    if (message.unverified_lazy != null && Object.hasOwnProperty.call(message, "unverified_lazy"))
+                        writer.uint32(/* id 15, wireType 0 =*/120).bool(message.unverified_lazy);
+                    if (message.boxed_type != null && Object.hasOwnProperty.call(message, "boxed_type"))
+                        writer.uint32(/* id 20, wireType 2 =*/162).string(message.boxed_type);
+                    if (message.synthetic_default != null && Object.hasOwnProperty.call(message, "synthetic_default"))
+                        writer.uint32(/* id 21, wireType 2 =*/170).string(message.synthetic_default);
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
@@ -30966,12 +32030,32 @@
                                 message.packed = reader.bool();
                                 break;
                             }
+                        case 6: {
+                                message.jstype = reader.int32();
+                                break;
+                            }
+                        case 5: {
+                                message.lazy = reader.bool();
+                                break;
+                            }
+                        case 15: {
+                                message.unverified_lazy = reader.bool();
+                                break;
+                            }
                         case 3: {
                                 message.deprecated = reader.bool();
                                 break;
                             }
-                        case 9: {
-                                message.experimental_map_key = reader.string();
+                        case 10: {
+                                message.weak = reader.bool();
+                                break;
+                            }
+                        case 20: {
+                                message.boxed_type = reader.string();
+                                break;
+                            }
+                        case 21: {
+                                message.synthetic_default = reader.string();
                                 break;
                             }
                         case 999: {
@@ -31040,12 +32124,33 @@
                     if (message.packed != null && Object.hasOwnProperty.call(message, "packed"))
                         if (typeof message.packed !== "boolean")
                             return "packed: boolean expected";
+                    if (message.jstype != null && Object.hasOwnProperty.call(message, "jstype"))
+                        switch (message.jstype) {
+                        default:
+                            return "jstype: enum value expected";
+                        case 0:
+                        case 1:
+                        case 2:
+                            break;
+                        }
+                    if (message.lazy != null && Object.hasOwnProperty.call(message, "lazy"))
+                        if (typeof message.lazy !== "boolean")
+                            return "lazy: boolean expected";
+                    if (message.unverified_lazy != null && Object.hasOwnProperty.call(message, "unverified_lazy"))
+                        if (typeof message.unverified_lazy !== "boolean")
+                            return "unverified_lazy: boolean expected";
                     if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
                         if (typeof message.deprecated !== "boolean")
                             return "deprecated: boolean expected";
-                    if (message.experimental_map_key != null && Object.hasOwnProperty.call(message, "experimental_map_key"))
-                        if (!$util.isString(message.experimental_map_key))
-                            return "experimental_map_key: string expected";
+                    if (message.weak != null && Object.hasOwnProperty.call(message, "weak"))
+                        if (typeof message.weak !== "boolean")
+                            return "weak: boolean expected";
+                    if (message.boxed_type != null && Object.hasOwnProperty.call(message, "boxed_type"))
+                        if (!$util.isString(message.boxed_type))
+                            return "boxed_type: string expected";
+                    if (message.synthetic_default != null && Object.hasOwnProperty.call(message, "synthetic_default"))
+                        if (!$util.isString(message.synthetic_default))
+                            return "synthetic_default: string expected";
                     if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
                         if (!Array.isArray(message.uninterpreted_option))
                             return "uninterpreted_option: array expected";
@@ -31101,10 +32206,38 @@
                     }
                     if (object.packed != null)
                         message.packed = Boolean(object.packed);
+                    switch (object.jstype) {
+                    default:
+                        if (typeof object.jstype === "number") {
+                            message.jstype = object.jstype;
+                            break;
+                        }
+                        break;
+                    case "JS_NORMAL":
+                    case 0:
+                        message.jstype = 0;
+                        break;
+                    case "JS_STRING":
+                    case 1:
+                        message.jstype = 1;
+                        break;
+                    case "JS_NUMBER":
+                    case 2:
+                        message.jstype = 2;
+                        break;
+                    }
+                    if (object.lazy != null)
+                        message.lazy = Boolean(object.lazy);
+                    if (object.unverified_lazy != null)
+                        message.unverified_lazy = Boolean(object.unverified_lazy);
                     if (object.deprecated != null)
                         message.deprecated = Boolean(object.deprecated);
-                    if (object.experimental_map_key != null)
-                        message.experimental_map_key = String(object.experimental_map_key);
+                    if (object.weak != null)
+                        message.weak = Boolean(object.weak);
+                    if (object.boxed_type != null)
+                        message.boxed_type = String(object.boxed_type);
+                    if (object.synthetic_default != null)
+                        message.synthetic_default = String(object.synthetic_default);
                     if (object.uninterpreted_option) {
                         if (!Array.isArray(object.uninterpreted_option))
                             throw TypeError(".google.protobuf.FieldOptions.uninterpreted_option: array expected");
@@ -31143,7 +32276,12 @@
                         object.ctype = options.enums === String ? "STRING" : 0;
                         object.packed = false;
                         object.deprecated = false;
-                        object.experimental_map_key = "";
+                        object.lazy = false;
+                        object.jstype = options.enums === String ? "JS_NORMAL" : 0;
+                        object.weak = false;
+                        object.unverified_lazy = false;
+                        object.boxed_type = "";
+                        object.synthetic_default = "";
                         object[".key_field"] = false;
                     }
                     if (message.ctype != null && Object.hasOwnProperty.call(message, "ctype"))
@@ -31152,8 +32290,18 @@
                         object.packed = message.packed;
                     if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
                         object.deprecated = message.deprecated;
-                    if (message.experimental_map_key != null && Object.hasOwnProperty.call(message, "experimental_map_key"))
-                        object.experimental_map_key = message.experimental_map_key;
+                    if (message.lazy != null && Object.hasOwnProperty.call(message, "lazy"))
+                        object.lazy = message.lazy;
+                    if (message.jstype != null && Object.hasOwnProperty.call(message, "jstype"))
+                        object.jstype = options.enums === String ? $root.google.protobuf.FieldOptions.JSType[message.jstype] === undefined ? message.jstype : $root.google.protobuf.FieldOptions.JSType[message.jstype] : message.jstype;
+                    if (message.weak != null && Object.hasOwnProperty.call(message, "weak"))
+                        object.weak = message.weak;
+                    if (message.unverified_lazy != null && Object.hasOwnProperty.call(message, "unverified_lazy"))
+                        object.unverified_lazy = message.unverified_lazy;
+                    if (message.boxed_type != null && Object.hasOwnProperty.call(message, "boxed_type"))
+                        object.boxed_type = message.boxed_type;
+                    if (message.synthetic_default != null && Object.hasOwnProperty.call(message, "synthetic_default"))
+                        object.synthetic_default = message.synthetic_default;
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
@@ -31206,7 +32354,286 @@
                     return values;
                 })();
     
+                /**
+                 * JSType enum.
+                 * @name google.protobuf.FieldOptions.JSType
+                 * @enum {number}
+                 * @property {number} JS_NORMAL=0 JS_NORMAL value
+                 * @property {number} JS_STRING=1 JS_STRING value
+                 * @property {number} JS_NUMBER=2 JS_NUMBER value
+                 */
+                FieldOptions.JSType = (function() {
+                    var valuesById = {}, values = Object.create(valuesById);
+                    values[valuesById[0] = "JS_NORMAL"] = 0;
+                    values[valuesById[1] = "JS_STRING"] = 1;
+                    values[valuesById[2] = "JS_NUMBER"] = 2;
+                    return values;
+                })();
+    
                 return FieldOptions;
+            })();
+    
+            protobuf.OneofOptions = (function() {
+    
+                /**
+                 * Properties of an OneofOptions.
+                 * @memberof google.protobuf
+                 * @interface IOneofOptions
+                 * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] OneofOptions uninterpreted_option
+                 */
+    
+                /**
+                 * Constructs a new OneofOptions.
+                 * @memberof google.protobuf
+                 * @classdesc Represents an OneofOptions.
+                 * @implements IOneofOptions
+                 * @constructor
+                 * @param {google.protobuf.IOneofOptions=} [properties] Properties to set
+                 */
+                function OneofOptions(properties) {
+                    this.uninterpreted_option = [];
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                                this[keys[i]] = properties[keys[i]];
+                }
+    
+                /**
+                 * OneofOptions uninterpreted_option.
+                 * @member {Array.<google.protobuf.IUninterpretedOption>} uninterpreted_option
+                 * @memberof google.protobuf.OneofOptions
+                 * @instance
+                 */
+                OneofOptions.prototype.uninterpreted_option = $util.emptyArray;
+    
+                /**
+                 * Creates a new OneofOptions instance using the specified properties.
+                 * @function create
+                 * @memberof google.protobuf.OneofOptions
+                 * @static
+                 * @param {google.protobuf.IOneofOptions=} [properties] Properties to set
+                 * @returns {google.protobuf.OneofOptions} OneofOptions instance
+                 */
+                OneofOptions.create = function create(properties) {
+                    return new OneofOptions(properties);
+                };
+    
+                /**
+                 * Encodes the specified OneofOptions message. Does not implicitly {@link google.protobuf.OneofOptions.verify|verify} messages.
+                 * @function encode
+                 * @memberof google.protobuf.OneofOptions
+                 * @static
+                 * @param {google.protobuf.IOneofOptions} message OneofOptions message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                OneofOptions.encode = function encode(message, writer, q) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
+                    if (message.uninterpreted_option != null && message.uninterpreted_option.length)
+                        for (var i = 0; i < message.uninterpreted_option.length; ++i)
+                            $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
+                    return writer;
+                };
+    
+                /**
+                 * Encodes the specified OneofOptions message, length delimited. Does not implicitly {@link google.protobuf.OneofOptions.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof google.protobuf.OneofOptions
+                 * @static
+                 * @param {google.protobuf.IOneofOptions} message OneofOptions message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                OneofOptions.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+                };
+    
+                /**
+                 * Decodes an OneofOptions message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof google.protobuf.OneofOptions
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {google.protobuf.OneofOptions} OneofOptions
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                OneofOptions.decode = function decode(reader, length, error, long) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.OneofOptions();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        if (tag === error)
+                            break;
+                        switch (tag >>> 3) {
+                        case 999: {
+                                if (!(message.uninterpreted_option && message.uninterpreted_option.length))
+                                    message.uninterpreted_option = [];
+                                message.uninterpreted_option.push($root.google.protobuf.UninterpretedOption.decode(reader, reader.uint32(), undefined, long + 1));
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7, long);
+                            break;
+                        }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
+                    }
+                    return message;
+                };
+    
+                /**
+                 * Decodes an OneofOptions message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof google.protobuf.OneofOptions
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {google.protobuf.OneofOptions} OneofOptions
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                OneofOptions.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+    
+                /**
+                 * Verifies an OneofOptions message.
+                 * @function verify
+                 * @memberof google.protobuf.OneofOptions
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                OneofOptions.verify = function verify(message, long) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
+                        if (!Array.isArray(message.uninterpreted_option))
+                            return "uninterpreted_option: array expected";
+                        for (var i = 0; i < message.uninterpreted_option.length; ++i) {
+                            var error = $root.google.protobuf.UninterpretedOption.verify(message.uninterpreted_option[i], long + 1);
+                            if (error)
+                                return "uninterpreted_option." + error;
+                        }
+                    }
+                    return null;
+                };
+    
+                /**
+                 * Creates an OneofOptions message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof google.protobuf.OneofOptions
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {google.protobuf.OneofOptions} OneofOptions
+                 */
+                OneofOptions.fromObject = function fromObject(object, long) {
+                    if (object instanceof $root.google.protobuf.OneofOptions)
+                        return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.OneofOptions: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var message = new $root.google.protobuf.OneofOptions();
+                    if (object.uninterpreted_option) {
+                        if (!Array.isArray(object.uninterpreted_option))
+                            throw TypeError(".google.protobuf.OneofOptions.uninterpreted_option: array expected");
+                        message.uninterpreted_option = [];
+                        for (var i = 0; i < object.uninterpreted_option.length; ++i) {
+                            if (!$util.isObject(object.uninterpreted_option[i]))
+                                throw TypeError(".google.protobuf.OneofOptions.uninterpreted_option: object expected");
+                            message.uninterpreted_option[i] = $root.google.protobuf.UninterpretedOption.fromObject(object.uninterpreted_option[i], long + 1);
+                        }
+                    }
+                    return message;
+                };
+    
+                /**
+                 * Creates a plain object from an OneofOptions message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof google.protobuf.OneofOptions
+                 * @static
+                 * @param {google.protobuf.OneofOptions} message OneofOptions
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                OneofOptions.toObject = function toObject(message, options, q) {
+                    if (!options)
+                        options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
+                    var object = {};
+                    if (options.arrays || options.defaults)
+                        object.uninterpreted_option = [];
+                    if (message.uninterpreted_option && message.uninterpreted_option.length) {
+                        object.uninterpreted_option = [];
+                        for (var j = 0; j < message.uninterpreted_option.length; ++j)
+                            object.uninterpreted_option[j] = $root.google.protobuf.UninterpretedOption.toObject(message.uninterpreted_option[j], options, q + 1);
+                    }
+                    return object;
+                };
+    
+                /**
+                 * Converts this OneofOptions to JSON.
+                 * @function toJSON
+                 * @memberof google.protobuf.OneofOptions
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                OneofOptions.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+    
+                /**
+                 * Gets the default type url for OneofOptions
+                 * @function getTypeUrl
+                 * @memberof google.protobuf.OneofOptions
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                OneofOptions.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/google.protobuf.OneofOptions";
+                };
+    
+                return OneofOptions;
             })();
     
             protobuf.EnumOptions = (function() {
@@ -31215,6 +32642,8 @@
                  * Properties of an EnumOptions.
                  * @memberof google.protobuf
                  * @interface IEnumOptions
+                 * @property {boolean|null} [allow_alias] EnumOptions allow_alias
+                 * @property {boolean|null} [deprecated] EnumOptions deprecated
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] EnumOptions uninterpreted_option
                  */
     
@@ -31233,6 +32662,22 @@
                             if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
+    
+                /**
+                 * EnumOptions allow_alias.
+                 * @member {boolean} allow_alias
+                 * @memberof google.protobuf.EnumOptions
+                 * @instance
+                 */
+                EnumOptions.prototype.allow_alias = false;
+    
+                /**
+                 * EnumOptions deprecated.
+                 * @member {boolean} deprecated
+                 * @memberof google.protobuf.EnumOptions
+                 * @instance
+                 */
+                EnumOptions.prototype.deprecated = false;
     
                 /**
                  * EnumOptions uninterpreted_option.
@@ -31270,6 +32715,10 @@
                         q = 0;
                     if (q > $util.recursionLimit)
                         throw Error("max depth exceeded");
+                    if (message.allow_alias != null && Object.hasOwnProperty.call(message, "allow_alias"))
+                        writer.uint32(/* id 2, wireType 0 =*/16).bool(message.allow_alias);
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        writer.uint32(/* id 3, wireType 0 =*/24).bool(message.deprecated);
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
@@ -31323,6 +32772,14 @@
                         if (tag === error)
                             break;
                         switch (tag >>> 3) {
+                        case 2: {
+                                message.allow_alias = reader.bool();
+                                break;
+                            }
+                        case 3: {
+                                message.deprecated = reader.bool();
+                                break;
+                            }
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
@@ -31373,6 +32830,12 @@
                         long = 0;
                     if (long > $util.recursionLimit)
                         return "maximum nesting depth exceeded";
+                    if (message.allow_alias != null && Object.hasOwnProperty.call(message, "allow_alias"))
+                        if (typeof message.allow_alias !== "boolean")
+                            return "allow_alias: boolean expected";
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        if (typeof message.deprecated !== "boolean")
+                            return "deprecated: boolean expected";
                     if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
                         if (!Array.isArray(message.uninterpreted_option))
                             return "uninterpreted_option: array expected";
@@ -31403,6 +32866,10 @@
                     if (long > $util.recursionLimit)
                         throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.EnumOptions();
+                    if (object.allow_alias != null)
+                        message.allow_alias = Boolean(object.allow_alias);
+                    if (object.deprecated != null)
+                        message.deprecated = Boolean(object.deprecated);
                     if (object.uninterpreted_option) {
                         if (!Array.isArray(object.uninterpreted_option))
                             throw TypeError(".google.protobuf.EnumOptions.uninterpreted_option: array expected");
@@ -31435,6 +32902,14 @@
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
+                    if (options.defaults) {
+                        object.allow_alias = false;
+                        object.deprecated = false;
+                    }
+                    if (message.allow_alias != null && Object.hasOwnProperty.call(message, "allow_alias"))
+                        object.allow_alias = message.allow_alias;
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        object.deprecated = message.deprecated;
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
@@ -31478,6 +32953,7 @@
                  * Properties of an EnumValueOptions.
                  * @memberof google.protobuf
                  * @interface IEnumValueOptions
+                 * @property {boolean|null} [deprecated] EnumValueOptions deprecated
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] EnumValueOptions uninterpreted_option
                  */
     
@@ -31496,6 +32972,14 @@
                             if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
+    
+                /**
+                 * EnumValueOptions deprecated.
+                 * @member {boolean} deprecated
+                 * @memberof google.protobuf.EnumValueOptions
+                 * @instance
+                 */
+                EnumValueOptions.prototype.deprecated = false;
     
                 /**
                  * EnumValueOptions uninterpreted_option.
@@ -31533,6 +33017,8 @@
                         q = 0;
                     if (q > $util.recursionLimit)
                         throw Error("max depth exceeded");
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        writer.uint32(/* id 1, wireType 0 =*/8).bool(message.deprecated);
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
@@ -31586,6 +33072,10 @@
                         if (tag === error)
                             break;
                         switch (tag >>> 3) {
+                        case 1: {
+                                message.deprecated = reader.bool();
+                                break;
+                            }
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
@@ -31636,6 +33126,9 @@
                         long = 0;
                     if (long > $util.recursionLimit)
                         return "maximum nesting depth exceeded";
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        if (typeof message.deprecated !== "boolean")
+                            return "deprecated: boolean expected";
                     if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
                         if (!Array.isArray(message.uninterpreted_option))
                             return "uninterpreted_option: array expected";
@@ -31666,6 +33159,8 @@
                     if (long > $util.recursionLimit)
                         throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.EnumValueOptions();
+                    if (object.deprecated != null)
+                        message.deprecated = Boolean(object.deprecated);
                     if (object.uninterpreted_option) {
                         if (!Array.isArray(object.uninterpreted_option))
                             throw TypeError(".google.protobuf.EnumValueOptions.uninterpreted_option: array expected");
@@ -31698,6 +33193,10 @@
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
+                    if (options.defaults)
+                        object.deprecated = false;
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        object.deprecated = message.deprecated;
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
@@ -31741,6 +33240,7 @@
                  * Properties of a ServiceOptions.
                  * @memberof google.protobuf
                  * @interface IServiceOptions
+                 * @property {boolean|null} [deprecated] ServiceOptions deprecated
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] ServiceOptions uninterpreted_option
                  */
     
@@ -31759,6 +33259,14 @@
                             if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
+    
+                /**
+                 * ServiceOptions deprecated.
+                 * @member {boolean} deprecated
+                 * @memberof google.protobuf.ServiceOptions
+                 * @instance
+                 */
+                ServiceOptions.prototype.deprecated = false;
     
                 /**
                  * ServiceOptions uninterpreted_option.
@@ -31796,6 +33304,8 @@
                         q = 0;
                     if (q > $util.recursionLimit)
                         throw Error("max depth exceeded");
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        writer.uint32(/* id 33, wireType 0 =*/264).bool(message.deprecated);
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
@@ -31849,6 +33359,10 @@
                         if (tag === error)
                             break;
                         switch (tag >>> 3) {
+                        case 33: {
+                                message.deprecated = reader.bool();
+                                break;
+                            }
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
@@ -31899,6 +33413,9 @@
                         long = 0;
                     if (long > $util.recursionLimit)
                         return "maximum nesting depth exceeded";
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        if (typeof message.deprecated !== "boolean")
+                            return "deprecated: boolean expected";
                     if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
                         if (!Array.isArray(message.uninterpreted_option))
                             return "uninterpreted_option: array expected";
@@ -31929,6 +33446,8 @@
                     if (long > $util.recursionLimit)
                         throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.ServiceOptions();
+                    if (object.deprecated != null)
+                        message.deprecated = Boolean(object.deprecated);
                     if (object.uninterpreted_option) {
                         if (!Array.isArray(object.uninterpreted_option))
                             throw TypeError(".google.protobuf.ServiceOptions.uninterpreted_option: array expected");
@@ -31961,6 +33480,10 @@
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
+                    if (options.defaults)
+                        object.deprecated = false;
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        object.deprecated = message.deprecated;
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
@@ -32004,6 +33527,8 @@
                  * Properties of a MethodOptions.
                  * @memberof google.protobuf
                  * @interface IMethodOptions
+                 * @property {boolean|null} [deprecated] MethodOptions deprecated
+                 * @property {google.protobuf.MethodOptions.IdempotencyLevel|null} [idempotency_level] MethodOptions idempotency_level
                  * @property {Array.<google.protobuf.IUninterpretedOption>|null} [uninterpreted_option] MethodOptions uninterpreted_option
                  */
     
@@ -32022,6 +33547,22 @@
                             if (properties[keys[i]] != null && keys[i] !== "__proto__")
                                 this[keys[i]] = properties[keys[i]];
                 }
+    
+                /**
+                 * MethodOptions deprecated.
+                 * @member {boolean} deprecated
+                 * @memberof google.protobuf.MethodOptions
+                 * @instance
+                 */
+                MethodOptions.prototype.deprecated = false;
+    
+                /**
+                 * MethodOptions idempotency_level.
+                 * @member {google.protobuf.MethodOptions.IdempotencyLevel} idempotency_level
+                 * @memberof google.protobuf.MethodOptions
+                 * @instance
+                 */
+                MethodOptions.prototype.idempotency_level = 0;
     
                 /**
                  * MethodOptions uninterpreted_option.
@@ -32059,6 +33600,10 @@
                         q = 0;
                     if (q > $util.recursionLimit)
                         throw Error("max depth exceeded");
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        writer.uint32(/* id 33, wireType 0 =*/264).bool(message.deprecated);
+                    if (message.idempotency_level != null && Object.hasOwnProperty.call(message, "idempotency_level"))
+                        writer.uint32(/* id 34, wireType 0 =*/272).int32(message.idempotency_level);
                     if (message.uninterpreted_option != null && message.uninterpreted_option.length)
                         for (var i = 0; i < message.uninterpreted_option.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpreted_option[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork(), q + 1).ldelim();
@@ -32112,6 +33657,14 @@
                         if (tag === error)
                             break;
                         switch (tag >>> 3) {
+                        case 33: {
+                                message.deprecated = reader.bool();
+                                break;
+                            }
+                        case 34: {
+                                message.idempotency_level = reader.int32();
+                                break;
+                            }
                         case 999: {
                                 if (!(message.uninterpreted_option && message.uninterpreted_option.length))
                                     message.uninterpreted_option = [];
@@ -32162,6 +33715,18 @@
                         long = 0;
                     if (long > $util.recursionLimit)
                         return "maximum nesting depth exceeded";
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        if (typeof message.deprecated !== "boolean")
+                            return "deprecated: boolean expected";
+                    if (message.idempotency_level != null && Object.hasOwnProperty.call(message, "idempotency_level"))
+                        switch (message.idempotency_level) {
+                        default:
+                            return "idempotency_level: enum value expected";
+                        case 0:
+                        case 1:
+                        case 2:
+                            break;
+                        }
                     if (message.uninterpreted_option != null && Object.hasOwnProperty.call(message, "uninterpreted_option")) {
                         if (!Array.isArray(message.uninterpreted_option))
                             return "uninterpreted_option: array expected";
@@ -32192,6 +33757,28 @@
                     if (long > $util.recursionLimit)
                         throw Error("maximum nesting depth exceeded");
                     var message = new $root.google.protobuf.MethodOptions();
+                    if (object.deprecated != null)
+                        message.deprecated = Boolean(object.deprecated);
+                    switch (object.idempotency_level) {
+                    default:
+                        if (typeof object.idempotency_level === "number") {
+                            message.idempotency_level = object.idempotency_level;
+                            break;
+                        }
+                        break;
+                    case "IDEMPOTENCY_UNKNOWN":
+                    case 0:
+                        message.idempotency_level = 0;
+                        break;
+                    case "NO_SIDE_EFFECTS":
+                    case 1:
+                        message.idempotency_level = 1;
+                        break;
+                    case "IDEMPOTENT":
+                    case 2:
+                        message.idempotency_level = 2;
+                        break;
+                    }
                     if (object.uninterpreted_option) {
                         if (!Array.isArray(object.uninterpreted_option))
                             throw TypeError(".google.protobuf.MethodOptions.uninterpreted_option: array expected");
@@ -32224,6 +33811,14 @@
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.uninterpreted_option = [];
+                    if (options.defaults) {
+                        object.deprecated = false;
+                        object.idempotency_level = options.enums === String ? "IDEMPOTENCY_UNKNOWN" : 0;
+                    }
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
+                        object.deprecated = message.deprecated;
+                    if (message.idempotency_level != null && Object.hasOwnProperty.call(message, "idempotency_level"))
+                        object.idempotency_level = options.enums === String ? $root.google.protobuf.MethodOptions.IdempotencyLevel[message.idempotency_level] === undefined ? message.idempotency_level : $root.google.protobuf.MethodOptions.IdempotencyLevel[message.idempotency_level] : message.idempotency_level;
                     if (message.uninterpreted_option && message.uninterpreted_option.length) {
                         object.uninterpreted_option = [];
                         for (var j = 0; j < message.uninterpreted_option.length; ++j)
@@ -32257,6 +33852,22 @@
                     }
                     return typeUrlPrefix + "/google.protobuf.MethodOptions";
                 };
+    
+                /**
+                 * IdempotencyLevel enum.
+                 * @name google.protobuf.MethodOptions.IdempotencyLevel
+                 * @enum {number}
+                 * @property {number} IDEMPOTENCY_UNKNOWN=0 IDEMPOTENCY_UNKNOWN value
+                 * @property {number} NO_SIDE_EFFECTS=1 NO_SIDE_EFFECTS value
+                 * @property {number} IDEMPOTENT=2 IDEMPOTENT value
+                 */
+                MethodOptions.IdempotencyLevel = (function() {
+                    var valuesById = {}, values = Object.create(valuesById);
+                    values[valuesById[0] = "IDEMPOTENCY_UNKNOWN"] = 0;
+                    values[valuesById[1] = "NO_SIDE_EFFECTS"] = 1;
+                    values[valuesById[2] = "IDEMPOTENT"] = 2;
+                    return values;
+                })();
     
                 return MethodOptions;
             })();
@@ -33239,6 +34850,9 @@
                      * @interface ILocation
                      * @property {Array.<number>|null} [path] Location path
                      * @property {Array.<number>|null} [span] Location span
+                     * @property {string|null} [leading_comments] Location leading_comments
+                     * @property {string|null} [trailing_comments] Location trailing_comments
+                     * @property {Array.<string>|null} [leading_detached_comments] Location leading_detached_comments
                      */
     
                     /**
@@ -33252,6 +34866,7 @@
                     function Location(properties) {
                         this.path = [];
                         this.span = [];
+                        this.leading_detached_comments = [];
                         if (properties)
                             for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                                 if (properties[keys[i]] != null && keys[i] !== "__proto__")
@@ -33273,6 +34888,30 @@
                      * @instance
                      */
                     Location.prototype.span = $util.emptyArray;
+    
+                    /**
+                     * Location leading_comments.
+                     * @member {string} leading_comments
+                     * @memberof google.protobuf.SourceCodeInfo.Location
+                     * @instance
+                     */
+                    Location.prototype.leading_comments = "";
+    
+                    /**
+                     * Location trailing_comments.
+                     * @member {string} trailing_comments
+                     * @memberof google.protobuf.SourceCodeInfo.Location
+                     * @instance
+                     */
+                    Location.prototype.trailing_comments = "";
+    
+                    /**
+                     * Location leading_detached_comments.
+                     * @member {Array.<string>} leading_detached_comments
+                     * @memberof google.protobuf.SourceCodeInfo.Location
+                     * @instance
+                     */
+                    Location.prototype.leading_detached_comments = $util.emptyArray;
     
                     /**
                      * Creates a new Location instance using the specified properties.
@@ -33314,6 +34953,13 @@
                                 writer.int32(message.span[i]);
                             writer.ldelim();
                         }
+                        if (message.leading_comments != null && Object.hasOwnProperty.call(message, "leading_comments"))
+                            writer.uint32(/* id 3, wireType 2 =*/26).string(message.leading_comments);
+                        if (message.trailing_comments != null && Object.hasOwnProperty.call(message, "trailing_comments"))
+                            writer.uint32(/* id 4, wireType 2 =*/34).string(message.trailing_comments);
+                        if (message.leading_detached_comments != null && message.leading_detached_comments.length)
+                            for (var i = 0; i < message.leading_detached_comments.length; ++i)
+                                writer.uint32(/* id 6, wireType 2 =*/50).string(message.leading_detached_comments[i]);
                         return writer;
                     };
     
@@ -33398,6 +35044,20 @@
                                         message.span.push(reader.int32());
                                     break;
                                 }
+                            case 3: {
+                                    message.leading_comments = reader.string();
+                                    break;
+                                }
+                            case 4: {
+                                    message.trailing_comments = reader.string();
+                                    break;
+                                }
+                            case 6: {
+                                    if (!(message.leading_detached_comments && message.leading_detached_comments.length))
+                                        message.leading_detached_comments = [];
+                                    message.leading_detached_comments.push(reader.string());
+                                    break;
+                                }
                             default:
                                 reader.skipType(tag & 7, long);
                                 break;
@@ -33456,6 +35116,19 @@
                                 if (!$util.isInteger(message.span[i]))
                                     return "span: integer[] expected";
                         }
+                        if (message.leading_comments != null && Object.hasOwnProperty.call(message, "leading_comments"))
+                            if (!$util.isString(message.leading_comments))
+                                return "leading_comments: string expected";
+                        if (message.trailing_comments != null && Object.hasOwnProperty.call(message, "trailing_comments"))
+                            if (!$util.isString(message.trailing_comments))
+                                return "trailing_comments: string expected";
+                        if (message.leading_detached_comments != null && Object.hasOwnProperty.call(message, "leading_detached_comments")) {
+                            if (!Array.isArray(message.leading_detached_comments))
+                                return "leading_detached_comments: array expected";
+                            for (var i = 0; i < message.leading_detached_comments.length; ++i)
+                                if (!$util.isString(message.leading_detached_comments[i]))
+                                    return "leading_detached_comments: string[] expected";
+                        }
                         return null;
                     };
     
@@ -33491,6 +35164,17 @@
                             for (var i = 0; i < object.span.length; ++i)
                                 message.span[i] = object.span[i] | 0;
                         }
+                        if (object.leading_comments != null)
+                            message.leading_comments = String(object.leading_comments);
+                        if (object.trailing_comments != null)
+                            message.trailing_comments = String(object.trailing_comments);
+                        if (object.leading_detached_comments) {
+                            if (!Array.isArray(object.leading_detached_comments))
+                                throw TypeError(".google.protobuf.SourceCodeInfo.Location.leading_detached_comments: array expected");
+                            message.leading_detached_comments = [];
+                            for (var i = 0; i < object.leading_detached_comments.length; ++i)
+                                message.leading_detached_comments[i] = String(object.leading_detached_comments[i]);
+                        }
                         return message;
                     };
     
@@ -33514,6 +35198,11 @@
                         if (options.arrays || options.defaults) {
                             object.path = [];
                             object.span = [];
+                            object.leading_detached_comments = [];
+                        }
+                        if (options.defaults) {
+                            object.leading_comments = "";
+                            object.trailing_comments = "";
                         }
                         if (message.path && message.path.length) {
                             object.path = [];
@@ -33524,6 +35213,15 @@
                             object.span = [];
                             for (var j = 0; j < message.span.length; ++j)
                                 object.span[j] = message.span[j];
+                        }
+                        if (message.leading_comments != null && Object.hasOwnProperty.call(message, "leading_comments"))
+                            object.leading_comments = message.leading_comments;
+                        if (message.trailing_comments != null && Object.hasOwnProperty.call(message, "trailing_comments"))
+                            object.trailing_comments = message.trailing_comments;
+                        if (message.leading_detached_comments && message.leading_detached_comments.length) {
+                            object.leading_detached_comments = [];
+                            for (var j = 0; j < message.leading_detached_comments.length; ++j)
+                                object.leading_detached_comments[j] = message.leading_detached_comments[j];
                         }
                         return object;
                     };
@@ -33558,6 +35256,612 @@
                 })();
     
                 return SourceCodeInfo;
+            })();
+    
+            protobuf.GeneratedCodeInfo = (function() {
+    
+                /**
+                 * Properties of a GeneratedCodeInfo.
+                 * @memberof google.protobuf
+                 * @interface IGeneratedCodeInfo
+                 * @property {Array.<google.protobuf.GeneratedCodeInfo.IAnnotation>|null} [annotation] GeneratedCodeInfo annotation
+                 */
+    
+                /**
+                 * Constructs a new GeneratedCodeInfo.
+                 * @memberof google.protobuf
+                 * @classdesc Represents a GeneratedCodeInfo.
+                 * @implements IGeneratedCodeInfo
+                 * @constructor
+                 * @param {google.protobuf.IGeneratedCodeInfo=} [properties] Properties to set
+                 */
+                function GeneratedCodeInfo(properties) {
+                    this.annotation = [];
+                    if (properties)
+                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                            if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                                this[keys[i]] = properties[keys[i]];
+                }
+    
+                /**
+                 * GeneratedCodeInfo annotation.
+                 * @member {Array.<google.protobuf.GeneratedCodeInfo.IAnnotation>} annotation
+                 * @memberof google.protobuf.GeneratedCodeInfo
+                 * @instance
+                 */
+                GeneratedCodeInfo.prototype.annotation = $util.emptyArray;
+    
+                /**
+                 * Creates a new GeneratedCodeInfo instance using the specified properties.
+                 * @function create
+                 * @memberof google.protobuf.GeneratedCodeInfo
+                 * @static
+                 * @param {google.protobuf.IGeneratedCodeInfo=} [properties] Properties to set
+                 * @returns {google.protobuf.GeneratedCodeInfo} GeneratedCodeInfo instance
+                 */
+                GeneratedCodeInfo.create = function create(properties) {
+                    return new GeneratedCodeInfo(properties);
+                };
+    
+                /**
+                 * Encodes the specified GeneratedCodeInfo message. Does not implicitly {@link google.protobuf.GeneratedCodeInfo.verify|verify} messages.
+                 * @function encode
+                 * @memberof google.protobuf.GeneratedCodeInfo
+                 * @static
+                 * @param {google.protobuf.IGeneratedCodeInfo} message GeneratedCodeInfo message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                GeneratedCodeInfo.encode = function encode(message, writer, q) {
+                    if (!writer)
+                        writer = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
+                    if (message.annotation != null && message.annotation.length)
+                        for (var i = 0; i < message.annotation.length; ++i)
+                            $root.google.protobuf.GeneratedCodeInfo.Annotation.encode(message.annotation[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
+                    return writer;
+                };
+    
+                /**
+                 * Encodes the specified GeneratedCodeInfo message, length delimited. Does not implicitly {@link google.protobuf.GeneratedCodeInfo.verify|verify} messages.
+                 * @function encodeDelimited
+                 * @memberof google.protobuf.GeneratedCodeInfo
+                 * @static
+                 * @param {google.protobuf.IGeneratedCodeInfo} message GeneratedCodeInfo message or plain object to encode
+                 * @param {$protobuf.Writer} [writer] Writer to encode to
+                 * @returns {$protobuf.Writer} Writer
+                 */
+                GeneratedCodeInfo.encodeDelimited = function encodeDelimited(message, writer) {
+                    return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+                };
+    
+                /**
+                 * Decodes a GeneratedCodeInfo message from the specified reader or buffer.
+                 * @function decode
+                 * @memberof google.protobuf.GeneratedCodeInfo
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @param {number} [length] Message length if known beforehand
+                 * @returns {google.protobuf.GeneratedCodeInfo} GeneratedCodeInfo
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                GeneratedCodeInfo.decode = function decode(reader, length, error, long) {
+                    if (!(reader instanceof $Reader))
+                        reader = $Reader.create(reader);
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var end, message;
+                    if (length === undefined)
+                        end = reader.len;
+                    else {
+                        end = reader.pos + length;
+                        if (end > reader.len)
+                            throw RangeError("index out of range");
+                        length = reader.len;
+                        reader.len = end;
+                    }
+                    message = new $root.google.protobuf.GeneratedCodeInfo();
+                    while (reader.pos < end) {
+                        var tag = reader.uint32();
+                        if (tag === error)
+                            break;
+                        switch (tag >>> 3) {
+                        case 1: {
+                                if (!(message.annotation && message.annotation.length))
+                                    message.annotation = [];
+                                message.annotation.push($root.google.protobuf.GeneratedCodeInfo.Annotation.decode(reader, reader.uint32(), undefined, long + 1));
+                                break;
+                            }
+                        default:
+                            reader.skipType(tag & 7, long);
+                            break;
+                        }
+                    }
+                    if (length !== undefined) {
+                        if (reader.pos !== end)
+                            throw RangeError("index out of range");
+                        reader.len = length;
+                    }
+                    return message;
+                };
+    
+                /**
+                 * Decodes a GeneratedCodeInfo message from the specified reader or buffer, length delimited.
+                 * @function decodeDelimited
+                 * @memberof google.protobuf.GeneratedCodeInfo
+                 * @static
+                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                 * @returns {google.protobuf.GeneratedCodeInfo} GeneratedCodeInfo
+                 * @throws {Error} If the payload is not a reader or valid buffer
+                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                 */
+                GeneratedCodeInfo.decodeDelimited = function decodeDelimited(reader) {
+                    if (!(reader instanceof $Reader))
+                        reader = new $Reader(reader);
+                    return this.decode(reader, reader.uint32());
+                };
+    
+                /**
+                 * Verifies a GeneratedCodeInfo message.
+                 * @function verify
+                 * @memberof google.protobuf.GeneratedCodeInfo
+                 * @static
+                 * @param {Object.<string,*>} message Plain object to verify
+                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                 */
+                GeneratedCodeInfo.verify = function verify(message, long) {
+                    if (typeof message !== "object" || message === null)
+                        return "object expected";
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        return "maximum nesting depth exceeded";
+                    if (message.annotation != null && Object.hasOwnProperty.call(message, "annotation")) {
+                        if (!Array.isArray(message.annotation))
+                            return "annotation: array expected";
+                        for (var i = 0; i < message.annotation.length; ++i) {
+                            var error = $root.google.protobuf.GeneratedCodeInfo.Annotation.verify(message.annotation[i], long + 1);
+                            if (error)
+                                return "annotation." + error;
+                        }
+                    }
+                    return null;
+                };
+    
+                /**
+                 * Creates a GeneratedCodeInfo message from a plain object. Also converts values to their respective internal types.
+                 * @function fromObject
+                 * @memberof google.protobuf.GeneratedCodeInfo
+                 * @static
+                 * @param {Object.<string,*>} object Plain object
+                 * @returns {google.protobuf.GeneratedCodeInfo} GeneratedCodeInfo
+                 */
+                GeneratedCodeInfo.fromObject = function fromObject(object, long) {
+                    if (object instanceof $root.google.protobuf.GeneratedCodeInfo)
+                        return object;
+                    if (!$util.isObject(object))
+                        throw TypeError(".google.protobuf.GeneratedCodeInfo: object expected");
+                    if (long === undefined)
+                        long = 0;
+                    if (long > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var message = new $root.google.protobuf.GeneratedCodeInfo();
+                    if (object.annotation) {
+                        if (!Array.isArray(object.annotation))
+                            throw TypeError(".google.protobuf.GeneratedCodeInfo.annotation: array expected");
+                        message.annotation = [];
+                        for (var i = 0; i < object.annotation.length; ++i) {
+                            if (!$util.isObject(object.annotation[i]))
+                                throw TypeError(".google.protobuf.GeneratedCodeInfo.annotation: object expected");
+                            message.annotation[i] = $root.google.protobuf.GeneratedCodeInfo.Annotation.fromObject(object.annotation[i], long + 1);
+                        }
+                    }
+                    return message;
+                };
+    
+                /**
+                 * Creates a plain object from a GeneratedCodeInfo message. Also converts values to other types if specified.
+                 * @function toObject
+                 * @memberof google.protobuf.GeneratedCodeInfo
+                 * @static
+                 * @param {google.protobuf.GeneratedCodeInfo} message GeneratedCodeInfo
+                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                 * @returns {Object.<string,*>} Plain object
+                 */
+                GeneratedCodeInfo.toObject = function toObject(message, options, q) {
+                    if (!options)
+                        options = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
+                    var object = {};
+                    if (options.arrays || options.defaults)
+                        object.annotation = [];
+                    if (message.annotation && message.annotation.length) {
+                        object.annotation = [];
+                        for (var j = 0; j < message.annotation.length; ++j)
+                            object.annotation[j] = $root.google.protobuf.GeneratedCodeInfo.Annotation.toObject(message.annotation[j], options, q + 1);
+                    }
+                    return object;
+                };
+    
+                /**
+                 * Converts this GeneratedCodeInfo to JSON.
+                 * @function toJSON
+                 * @memberof google.protobuf.GeneratedCodeInfo
+                 * @instance
+                 * @returns {Object.<string,*>} JSON object
+                 */
+                GeneratedCodeInfo.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+    
+                /**
+                 * Gets the default type url for GeneratedCodeInfo
+                 * @function getTypeUrl
+                 * @memberof google.protobuf.GeneratedCodeInfo
+                 * @static
+                 * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                 * @returns {string} The default type url
+                 */
+                GeneratedCodeInfo.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/google.protobuf.GeneratedCodeInfo";
+                };
+    
+                GeneratedCodeInfo.Annotation = (function() {
+    
+                    /**
+                     * Properties of an Annotation.
+                     * @memberof google.protobuf.GeneratedCodeInfo
+                     * @interface IAnnotation
+                     * @property {Array.<number>|null} [path] Annotation path
+                     * @property {string|null} [source_file] Annotation source_file
+                     * @property {number|null} [begin] Annotation begin
+                     * @property {number|null} [end] Annotation end
+                     */
+    
+                    /**
+                     * Constructs a new Annotation.
+                     * @memberof google.protobuf.GeneratedCodeInfo
+                     * @classdesc Represents an Annotation.
+                     * @implements IAnnotation
+                     * @constructor
+                     * @param {google.protobuf.GeneratedCodeInfo.IAnnotation=} [properties] Properties to set
+                     */
+                    function Annotation(properties) {
+                        this.path = [];
+                        if (properties)
+                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+    
+                    /**
+                     * Annotation path.
+                     * @member {Array.<number>} path
+                     * @memberof google.protobuf.GeneratedCodeInfo.Annotation
+                     * @instance
+                     */
+                    Annotation.prototype.path = $util.emptyArray;
+    
+                    /**
+                     * Annotation source_file.
+                     * @member {string} source_file
+                     * @memberof google.protobuf.GeneratedCodeInfo.Annotation
+                     * @instance
+                     */
+                    Annotation.prototype.source_file = "";
+    
+                    /**
+                     * Annotation begin.
+                     * @member {number} begin
+                     * @memberof google.protobuf.GeneratedCodeInfo.Annotation
+                     * @instance
+                     */
+                    Annotation.prototype.begin = 0;
+    
+                    /**
+                     * Annotation end.
+                     * @member {number} end
+                     * @memberof google.protobuf.GeneratedCodeInfo.Annotation
+                     * @instance
+                     */
+                    Annotation.prototype.end = 0;
+    
+                    /**
+                     * Creates a new Annotation instance using the specified properties.
+                     * @function create
+                     * @memberof google.protobuf.GeneratedCodeInfo.Annotation
+                     * @static
+                     * @param {google.protobuf.GeneratedCodeInfo.IAnnotation=} [properties] Properties to set
+                     * @returns {google.protobuf.GeneratedCodeInfo.Annotation} Annotation instance
+                     */
+                    Annotation.create = function create(properties) {
+                        return new Annotation(properties);
+                    };
+    
+                    /**
+                     * Encodes the specified Annotation message. Does not implicitly {@link google.protobuf.GeneratedCodeInfo.Annotation.verify|verify} messages.
+                     * @function encode
+                     * @memberof google.protobuf.GeneratedCodeInfo.Annotation
+                     * @static
+                     * @param {google.protobuf.GeneratedCodeInfo.IAnnotation} message Annotation message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    Annotation.encode = function encode(message, writer, q) {
+                        if (!writer)
+                            writer = $Writer.create();
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $util.recursionLimit)
+                            throw Error("max depth exceeded");
+                        if (message.path != null && message.path.length) {
+                            writer.uint32(/* id 1, wireType 2 =*/10).fork();
+                            for (var i = 0; i < message.path.length; ++i)
+                                writer.int32(message.path[i]);
+                            writer.ldelim();
+                        }
+                        if (message.source_file != null && Object.hasOwnProperty.call(message, "source_file"))
+                            writer.uint32(/* id 2, wireType 2 =*/18).string(message.source_file);
+                        if (message.begin != null && Object.hasOwnProperty.call(message, "begin"))
+                            writer.uint32(/* id 3, wireType 0 =*/24).int32(message.begin);
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
+                            writer.uint32(/* id 4, wireType 0 =*/32).int32(message.end);
+                        return writer;
+                    };
+    
+                    /**
+                     * Encodes the specified Annotation message, length delimited. Does not implicitly {@link google.protobuf.GeneratedCodeInfo.Annotation.verify|verify} messages.
+                     * @function encodeDelimited
+                     * @memberof google.protobuf.GeneratedCodeInfo.Annotation
+                     * @static
+                     * @param {google.protobuf.GeneratedCodeInfo.IAnnotation} message Annotation message or plain object to encode
+                     * @param {$protobuf.Writer} [writer] Writer to encode to
+                     * @returns {$protobuf.Writer} Writer
+                     */
+                    Annotation.encodeDelimited = function encodeDelimited(message, writer) {
+                        return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+                    };
+    
+                    /**
+                     * Decodes an Annotation message from the specified reader or buffer.
+                     * @function decode
+                     * @memberof google.protobuf.GeneratedCodeInfo.Annotation
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @param {number} [length] Message length if known beforehand
+                     * @returns {google.protobuf.GeneratedCodeInfo.Annotation} Annotation
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    Annotation.decode = function decode(reader, length, error, long) {
+                        if (!(reader instanceof $Reader))
+                            reader = $Reader.create(reader);
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $Reader.recursionLimit)
+                            throw Error("maximum nesting depth exceeded");
+                        var end, message;
+                        if (length === undefined)
+                            end = reader.len;
+                        else {
+                            end = reader.pos + length;
+                            if (end > reader.len)
+                                throw RangeError("index out of range");
+                            length = reader.len;
+                            reader.len = end;
+                        }
+                        message = new $root.google.protobuf.GeneratedCodeInfo.Annotation();
+                        while (reader.pos < end) {
+                            var tag = reader.uint32();
+                            if (tag === error)
+                                break;
+                            switch (tag >>> 3) {
+                            case 1: {
+                                    if (!(message.path && message.path.length))
+                                        message.path = [];
+                                    if ((tag & 7) === 2) {
+                                        var end2 = reader.uint32() + reader.pos;
+                                        if (end2 > reader.len)
+                                            throw RangeError("index out of range");
+                                        reader.len = end2;
+                                        while (reader.pos < end2)
+                                            message.path.push(reader.int32());
+                                        if (reader.pos !== end2)
+                                            throw RangeError("index out of range");
+                                        reader.len = end;
+                                    } else
+                                        message.path.push(reader.int32());
+                                    break;
+                                }
+                            case 2: {
+                                    message.source_file = reader.string();
+                                    break;
+                                }
+                            case 3: {
+                                    message.begin = reader.int32();
+                                    break;
+                                }
+                            case 4: {
+                                    message.end = reader.int32();
+                                    break;
+                                }
+                            default:
+                                reader.skipType(tag & 7, long);
+                                break;
+                            }
+                        }
+                        if (length !== undefined) {
+                            if (reader.pos !== end)
+                                throw RangeError("index out of range");
+                            reader.len = length;
+                        }
+                        return message;
+                    };
+    
+                    /**
+                     * Decodes an Annotation message from the specified reader or buffer, length delimited.
+                     * @function decodeDelimited
+                     * @memberof google.protobuf.GeneratedCodeInfo.Annotation
+                     * @static
+                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+                     * @returns {google.protobuf.GeneratedCodeInfo.Annotation} Annotation
+                     * @throws {Error} If the payload is not a reader or valid buffer
+                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+                     */
+                    Annotation.decodeDelimited = function decodeDelimited(reader) {
+                        if (!(reader instanceof $Reader))
+                            reader = new $Reader(reader);
+                        return this.decode(reader, reader.uint32());
+                    };
+    
+                    /**
+                     * Verifies an Annotation message.
+                     * @function verify
+                     * @memberof google.protobuf.GeneratedCodeInfo.Annotation
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    Annotation.verify = function verify(message, long) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $util.recursionLimit)
+                            return "maximum nesting depth exceeded";
+                        if (message.path != null && Object.hasOwnProperty.call(message, "path")) {
+                            if (!Array.isArray(message.path))
+                                return "path: array expected";
+                            for (var i = 0; i < message.path.length; ++i)
+                                if (!$util.isInteger(message.path[i]))
+                                    return "path: integer[] expected";
+                        }
+                        if (message.source_file != null && Object.hasOwnProperty.call(message, "source_file"))
+                            if (!$util.isString(message.source_file))
+                                return "source_file: string expected";
+                        if (message.begin != null && Object.hasOwnProperty.call(message, "begin"))
+                            if (!$util.isInteger(message.begin))
+                                return "begin: integer expected";
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
+                            if (!$util.isInteger(message.end))
+                                return "end: integer expected";
+                        return null;
+                    };
+    
+                    /**
+                     * Creates an Annotation message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof google.protobuf.GeneratedCodeInfo.Annotation
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {google.protobuf.GeneratedCodeInfo.Annotation} Annotation
+                     */
+                    Annotation.fromObject = function fromObject(object, long) {
+                        if (object instanceof $root.google.protobuf.GeneratedCodeInfo.Annotation)
+                            return object;
+                        if (!$util.isObject(object))
+                            throw TypeError(".google.protobuf.GeneratedCodeInfo.Annotation: object expected");
+                        if (long === undefined)
+                            long = 0;
+                        if (long > $util.recursionLimit)
+                            throw Error("maximum nesting depth exceeded");
+                        var message = new $root.google.protobuf.GeneratedCodeInfo.Annotation();
+                        if (object.path) {
+                            if (!Array.isArray(object.path))
+                                throw TypeError(".google.protobuf.GeneratedCodeInfo.Annotation.path: array expected");
+                            message.path = [];
+                            for (var i = 0; i < object.path.length; ++i)
+                                message.path[i] = object.path[i] | 0;
+                        }
+                        if (object.source_file != null)
+                            message.source_file = String(object.source_file);
+                        if (object.begin != null)
+                            message.begin = object.begin | 0;
+                        if (object.end != null)
+                            message.end = object.end | 0;
+                        return message;
+                    };
+    
+                    /**
+                     * Creates a plain object from an Annotation message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof google.protobuf.GeneratedCodeInfo.Annotation
+                     * @static
+                     * @param {google.protobuf.GeneratedCodeInfo.Annotation} message Annotation
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    Annotation.toObject = function toObject(message, options, q) {
+                        if (!options)
+                            options = {};
+                        if (q === undefined)
+                            q = 0;
+                        if (q > $util.recursionLimit)
+                            throw Error("max depth exceeded");
+                        var object = {};
+                        if (options.arrays || options.defaults)
+                            object.path = [];
+                        if (options.defaults) {
+                            object.source_file = "";
+                            object.begin = 0;
+                            object.end = 0;
+                        }
+                        if (message.path && message.path.length) {
+                            object.path = [];
+                            for (var j = 0; j < message.path.length; ++j)
+                                object.path[j] = message.path[j];
+                        }
+                        if (message.source_file != null && Object.hasOwnProperty.call(message, "source_file"))
+                            object.source_file = message.source_file;
+                        if (message.begin != null && Object.hasOwnProperty.call(message, "begin"))
+                            object.begin = message.begin;
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
+                            object.end = message.end;
+                        return object;
+                    };
+    
+                    /**
+                     * Converts this Annotation to JSON.
+                     * @function toJSON
+                     * @memberof google.protobuf.GeneratedCodeInfo.Annotation
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    Annotation.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+    
+                    /**
+                     * Gets the default type url for Annotation
+                     * @function getTypeUrl
+                     * @memberof google.protobuf.GeneratedCodeInfo.Annotation
+                     * @static
+                     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+                     * @returns {string} The default type url
+                     */
+                    Annotation.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                        if (typeUrlPrefix === undefined) {
+                            typeUrlPrefix = "type.googleapis.com";
+                        }
+                        return typeUrlPrefix + "/google.protobuf.GeneratedCodeInfo.Annotation";
+                    };
+    
+                    return Annotation;
+                })();
+    
+                return GeneratedCodeInfo;
             })();
     
             return protobuf;

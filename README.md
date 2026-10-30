@@ -81,6 +81,10 @@ Inspection results now include `customnames` (all names), `pet_food_expiration_d
 
 `cs2.ackPetEvent(petItemId)` sends the new pet-event acknowledgement using a decimal string item ID. This is a fire-and-forget protocol helper, with no defined GC response; live pet behavior has not been verified.
 
+### October 2026 protocol sync
+
+Synced with [GameTracking-CS2 through October 28, 2026](https://github.com/SteamTracking/GameTracking-CS2/commit/b73cfdeb35e48bb20a5e6b2edc8ee3aad14dcf39). No public API changes. Upstream marked many legacy item messages `_DEPRECATED` (numeric IDs unchanged) and removed unused GC definitions, including `steammessages_gc.proto`.
+
 ### Volatile Items
 
 ```javascript

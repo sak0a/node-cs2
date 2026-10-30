@@ -57,3 +57,29 @@ describe('September 2026 protocol compatibility', () => {
 		expect(Protos.EGCSystemMsg.k_EGCMsgGetClanDetailsResponse).toBe(539);
 	});
 });
+
+describe('October 2026 protocol compatibility', () => {
+	it('keeps message IDs when upstream renames entries as deprecated', () => {
+		expect(Protos.EGCItemMsg.k_EMsgGCPaintItem_DEPRECATED).toBe(1009);
+		expect(Protos.EGCItemMsg.k_EMsgGCPaintItem).toBeUndefined();
+		expect(Protos.EGCItemMsg.k_EMsgGCDelete).toBe(1004);
+		expect(Protos.EGCSystemMsg.k_EGCMsgPreTestSetup_DEPRECATED).toBe(69);
+	});
+
+	it('drops protocol definitions that upstream removed', () => {
+		expect(Protos.CMsgApplyStrangePart).toBeUndefined();
+		expect(Protos.CMsgGCCStrike15_v2_GC2ClientInitSystem).toBeUndefined();
+		expect(Protos.ECsgoGCMsg.k_EMsgGCCStrike15_v2_GC2ClientInitSystem).toBeUndefined();
+		// steammessages_gc.proto was deleted upstream
+		expect(Protos.CMsgWebAPIKey).toBeUndefined();
+	});
+
+	it('encodes newly added item messages without losing uint64 precision', () => {
+		const body = Protos.CMsgDeleteItem.encode({ item_id: '18446744073709551615' }).finish();
+		expect(Buffer.from(body).toString('hex')).toBe('08ffffffffffffffffff01');
+	});
+
+	it('preserves wire defaults on fields annotated with Valve codegen options', () => {
+		expect(Protos.CClientMsg_CustomGameEventBounce.decode(Buffer.alloc(0)).player_slot).toBe(-1);
+	});
+});

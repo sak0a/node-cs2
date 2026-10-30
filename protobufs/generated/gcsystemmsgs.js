@@ -42,7 +42,7 @@
      * @property {number} k_EGCMsgLookupAccountFromInput=66 k_EGCMsgLookupAccountFromInput value
      * @property {number} k_EGCMsgSendHTTPRequest=67 k_EGCMsgSendHTTPRequest value
      * @property {number} k_EGCMsgSendHTTPRequestResponse=68 k_EGCMsgSendHTTPRequestResponse value
-     * @property {number} k_EGCMsgPreTestSetup=69 k_EGCMsgPreTestSetup value
+     * @property {number} k_EGCMsgPreTestSetup_DEPRECATED=69 k_EGCMsgPreTestSetup_DEPRECATED value
      * @property {number} k_EGCMsgRecordSupportAction=70 k_EGCMsgRecordSupportAction value
      * @property {number} k_EGCMsgGetAccountDetails_DEPRECATED=71 k_EGCMsgGetAccountDetails_DEPRECATED value
      * @property {number} k_EGCMsgReceiveInterAppMessage=73 k_EGCMsgReceiveInterAppMessage value
@@ -144,7 +144,7 @@
         values[valuesById[66] = "k_EGCMsgLookupAccountFromInput"] = 66;
         values[valuesById[67] = "k_EGCMsgSendHTTPRequest"] = 67;
         values[valuesById[68] = "k_EGCMsgSendHTTPRequestResponse"] = 68;
-        values[valuesById[69] = "k_EGCMsgPreTestSetup"] = 69;
+        values[valuesById[69] = "k_EGCMsgPreTestSetup_DEPRECATED"] = 69;
         values[valuesById[70] = "k_EGCMsgRecordSupportAction"] = 70;
         values[valuesById[71] = "k_EGCMsgGetAccountDetails_DEPRECATED"] = 71;
         values[valuesById[73] = "k_EGCMsgReceiveInterAppMessage"] = 73;

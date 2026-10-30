@@ -1,7 +1,7 @@
 # Feature support and verification
 
-Evidence date: **2026-10-02**. Protocol snapshot: SteamDatabase/GameTracking-CS2
-`3fc98e763328f7d1627405b389d1b6b69c5b0e38` (2026-09-25), checked into `protobufs/`.
+Evidence date: **2026-10-30**. Protocol snapshot: SteamDatabase/GameTracking-CS2
+`b73cfdeb35e48bb20a5e6b2edc8ee3aad14dcf39` (2026-10-28), checked into `protobufs/`.
 
 “Payload” means actual transport bytes agree with separately written wire fixtures.
 “Decode” means independent incoming wire bytes reach the public event/result.
