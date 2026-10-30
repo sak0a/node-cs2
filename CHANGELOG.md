@@ -1,5 +1,30 @@
 # Changelog
 
+## v2.7.0 - October CS2 protocol refresh and protobufjs 8
+
+### Changed
+
+- Synced all 44 upstream protobuf files through GameTracking-CS2 commit `b73cfdeb35e48bb20a5e6b2edc8ee3aad14dcf39` (October 28, 2026): 15 changed files and one removed file
+- Upgraded the protobuf runtime to protobufjs `^8.8.1` and the generator to protobufjs-cli `^2.7.1`; regenerated the 43 schema modules and their loader. The wire schema and response types are unchanged.
+- `connectionStatus` and `disconnectedFromGC` keep reporting GC connection statuses that are missing from the schema. protobufjs 8 treats proto2 enums as closed and would otherwise drop them.
+- `download-protos` now removes local protos deleted upstream (and refuses to prune when upstream lists none), and `generate-protos` removes their stale generated modules
+- Updated TypeScript to `^7.0.2`, Vitest to `^5.0.5`, ESLint to `^10.14.0`, Prettier to `^3.9.10`, and `@types/node` to `^24.19.2`; refreshed the Bun lockfile
+- CI uses `actions/checkout@v7`, `actions/setup-node@v7`, and Bun 1.4.4
+
+### Tests
+
+- An offline differential check (not part of the repository) found no encode, decode, or `toObject` differences between protobufjs 7 and 8 for canonically encoded messages across all 974 distinct message types, on Node 14 and Node 24
+- The packed consumer check now compiles the published declarations with TypeScript 5.9 and 7.0
+- Added the constants, enums, and handler unit tests that the former test-directory ignore rule had hidden
+
+### Compatibility
+
+- No public API changes. Node.js 14+ runtime support is unchanged and verified with protobufjs 8.
+- Upstream renamed many legacy `EGCItemMsg` entries and `k_EGCMsgPreTestSetup` with a `_DEPRECATED` suffix; numeric IDs are unchanged.
+- Removed upstream definitions are no longer exported from the generated schema: `steammessages_gc.proto` (Steam-internal GC/AM messages), the GC init-system/secure-mode messages and `EInitSystemResult`, `EUnlockStyle`, and several legacy item messages such as `CMsgApplyStrangePart`. Direct protobuf consumers that referenced them must define them locally.
+- Added upstream `CMsgDeleteItem`, `CMsgModifyItemStringAttr`, and `CMsgCraftItemsRequest` definitions. Valve's new codegen field options (`boxed_type`, `synthetic_default`) do not change wire defaults.
+- Direct consumers of the generated modules get protobufjs 8 decoding: closed proto2 enums drop unknown values, fields with a mismatched wire type are skipped, repeated singular message fields are merged, truncated or overlong lengths and non-minimal field tags throw, and non-minimal varints are read correctly. Canonically encoded messages decode as before.
+
 ## v2.6.0 - Request lifecycle and verification
 
 - Added a reusable fake Steam transport, independent outgoing/incoming wire fixtures,

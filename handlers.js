@@ -128,6 +128,14 @@ handlers[Language.ClientConnectionStatus] = function (body) {
 		return;
 	}
 
+	if (proto) {
+		// Report statuses newer than our schema; the last status on the wire wins
+		const status = decodeProto.readEnumField(body, 1);
+		if (status != null) {
+			proto.status = status;
+		}
+	}
+
 	if (!proto || proto.status == null) {
 		this.emit('debug', 'ClientConnectionStatus missing status field');
 		return;

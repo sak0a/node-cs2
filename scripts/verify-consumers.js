@@ -24,6 +24,8 @@ try {
 	// advertised minimum and supported major release lines with actual binaries.
 	const versions = (process.env.NODE_CS2_TEST_RUNTIMES || '14.21.3,16.20.2,18.20.8,20.19.0,22.12.0,24.0.0').split(',');
 	const peers = ['4.2.0', '4.29.3', '5.3.0'];
+	// Consumers compile the published declarations with either TypeScript major
+	const typescripts = ['5.9.3', '7.0.2'];
 	const runtimeDeps = versions
 		.filter((version) => version !== 'current')
 		.map((version) => `runtime-${version.split('.')[0]}@npm:node@${version}`);
@@ -34,25 +36,27 @@ try {
 		path.join(temporary, packed.filename),
 		...peers.map((version) => `steam-${version.replace(/\./g, '-')}@npm:steam-user@${version}`),
 		...runtimeDeps,
-		'typescript@5.9.3',
-		'@types/node@24.19.1',
+		...typescripts.map((version) => `typescript-${version.split('.')[0]}@npm:typescript@${version}`),
+		'@types/node@24.19.2',
 		'@types/steam-user@5.1.1'
 	]);
 	const usage = fs
 		.readFileSync(path.join(root, 'test/types/usage.ts'), 'utf8')
 		.replace("require('../..')", "require('node-cs2')");
 	fs.writeFileSync(path.join(temporary, 'usage.ts'), usage);
-	run(process.execPath, [
-		path.join(temporary, 'node_modules/typescript/bin/tsc'),
-		'--strict',
-		'--noEmit',
-		'--target',
-		'ES2020',
-		'--module',
-		'commonjs',
-		'usage.ts'
-	]);
-	console.log('Packed TypeScript declarations and callback/Promise examples passed.');
+	for (const version of typescripts) {
+		run(process.execPath, [
+			path.join(temporary, `node_modules/typescript-${version.split('.')[0]}/bin/tsc`),
+			'--strict',
+			'--noEmit',
+			'--target',
+			'ES2020',
+			'--module',
+			'commonjs',
+			'usage.ts'
+		]);
+		console.log(`Packed TypeScript ${version} declarations and callback/Promise examples passed.`);
+	}
 	fs.copyFileSync(path.join(root, 'fixtures/inspect-corpus.json'), path.join(temporary, 'corpus.json'));
 	fs.writeFileSync(
 		path.join(temporary, 'consumer.cjs'),

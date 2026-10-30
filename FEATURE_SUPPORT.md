@@ -1,7 +1,7 @@
 # Feature support and verification
 
-Evidence date: **2026-10-02**. Protocol snapshot: SteamDatabase/GameTracking-CS2
-`3fc98e763328f7d1627405b389d1b6b69c5b0e38` (2026-09-25), checked into `protobufs/`.
+Evidence date: **2026-10-30**. Protocol snapshot: SteamDatabase/GameTracking-CS2
+`b73cfdeb35e48bb20a5e6b2edc8ee3aad14dcf39` (2026-10-28), checked into `protobufs/`.
 
 “Payload” means actual transport bytes agree with separately written wire fixtures.
 “Decode” means independent incoming wire bytes reach the public event/result.
@@ -36,7 +36,8 @@ Evidence is in `test/payloads.test.mjs`, `test/lifecycle.test.mjs`,
 `test/corpus.test.mjs`, `test/live-runner.test.mjs`, `test/types/usage.ts`, and
 `scripts/verify-consumers.js`. CI installs packed artifacts in separate consumer
 projects and exercises real steam-user 4.2.0, 4.29.3, and 5.3.0 constructors on
-Node 14, 16, 18, 20, 22, and 24. Runtime support does not imply upstream security
+Node 14, 16, 18, 20, 22, and 24, and compiles the packed declarations with
+TypeScript 5.9 and 7.0. Runtime support does not imply upstream security
 maintenance of old Node versions. Test/lint tooling itself requires Node 24.
 
 ## Lifecycle and migration notes

@@ -1,4 +1,4 @@
-/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
+/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-mixed-operators, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars, default-case, jsdoc/require-param*/
 (function(global, factory) { /* global define, require, module */
 
     /* AMD */ if (typeof define === 'function' && define.amd)
@@ -12,13 +12,14 @@
 
     // Common aliases
     var $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
+    var $Object = $util.global.Object, $undefined = $util.global.undefined, $Error = $util.global.Error, $RangeError = $util.global.RangeError, $TypeError = $util.global.TypeError, $parseInt = $util.global.parseInt, $Boolean = $util.global.Boolean, $String = $util.global.String, $Number = $util.global.Number, $BigInt = $util.global.BigInt, $Array = $util.global.Array;
     
     // Exported root namespace
     var $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
     
     /**
      * EGCSystemMsg enum.
-     * @exports EGCSystemMsg
+     * @name EGCSystemMsg
      * @enum {number}
      * @property {number} k_EGCMsgInvalid=0 k_EGCMsgInvalid value
      * @property {number} k_EGCMsgMulti=1 k_EGCMsgMulti value
@@ -42,7 +43,7 @@
      * @property {number} k_EGCMsgLookupAccountFromInput=66 k_EGCMsgLookupAccountFromInput value
      * @property {number} k_EGCMsgSendHTTPRequest=67 k_EGCMsgSendHTTPRequest value
      * @property {number} k_EGCMsgSendHTTPRequestResponse=68 k_EGCMsgSendHTTPRequestResponse value
-     * @property {number} k_EGCMsgPreTestSetup=69 k_EGCMsgPreTestSetup value
+     * @property {number} k_EGCMsgPreTestSetup_DEPRECATED=69 k_EGCMsgPreTestSetup_DEPRECATED value
      * @property {number} k_EGCMsgRecordSupportAction=70 k_EGCMsgRecordSupportAction value
      * @property {number} k_EGCMsgGetAccountDetails_DEPRECATED=71 k_EGCMsgGetAccountDetails_DEPRECATED value
      * @property {number} k_EGCMsgReceiveInterAppMessage=73 k_EGCMsgReceiveInterAppMessage value
@@ -121,7 +122,7 @@
      * @property {number} k_EGCMsgGetClanDetailsResponse=539 k_EGCMsgGetClanDetailsResponse value
      */
     $root.EGCSystemMsg = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
+        var valuesById = $Object.create(null), values = $Object.create(valuesById);
         values[valuesById[0] = "k_EGCMsgInvalid"] = 0;
         values[valuesById[1] = "k_EGCMsgMulti"] = 1;
         values[valuesById[10] = "k_EGCMsgGenericReply"] = 10;
@@ -144,7 +145,7 @@
         values[valuesById[66] = "k_EGCMsgLookupAccountFromInput"] = 66;
         values[valuesById[67] = "k_EGCMsgSendHTTPRequest"] = 67;
         values[valuesById[68] = "k_EGCMsgSendHTTPRequestResponse"] = 68;
-        values[valuesById[69] = "k_EGCMsgPreTestSetup"] = 69;
+        values[valuesById[69] = "k_EGCMsgPreTestSetup_DEPRECATED"] = 69;
         values[valuesById[70] = "k_EGCMsgRecordSupportAction"] = 70;
         values[valuesById[71] = "k_EGCMsgGetAccountDetails_DEPRECATED"] = 71;
         values[valuesById[73] = "k_EGCMsgReceiveInterAppMessage"] = 73;
@@ -226,7 +227,7 @@
     
     /**
      * ESOMsg enum.
-     * @exports ESOMsg
+     * @name ESOMsg
      * @enum {number}
      * @property {number} k_ESOMsg_Create=21 k_ESOMsg_Create value
      * @property {number} k_ESOMsg_Update=22 k_ESOMsg_Update value
@@ -238,7 +239,7 @@
      * @property {number} k_ESOMsg_CacheSubscriptionRefresh=28 k_ESOMsg_CacheSubscriptionRefresh value
      */
     $root.ESOMsg = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
+        var valuesById = $Object.create(null), values = $Object.create(valuesById);
         values[valuesById[21] = "k_ESOMsg_Create"] = 21;
         values[valuesById[22] = "k_ESOMsg_Update"] = 22;
         values[valuesById[23] = "k_ESOMsg_Destroy"] = 23;
@@ -252,7 +253,7 @@
     
     /**
      * EGCBaseClientMsg enum.
-     * @exports EGCBaseClientMsg
+     * @name EGCBaseClientMsg
      * @enum {number}
      * @property {number} k_EMsgGCClientWelcome=4004 k_EMsgGCClientWelcome value
      * @property {number} k_EMsgGCServerWelcome=4005 k_EMsgGCServerWelcome value
@@ -267,7 +268,7 @@
      * @property {number} k_EMsgGCClientHelloR4=4015 k_EMsgGCClientHelloR4 value
      */
     $root.EGCBaseClientMsg = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
+        var valuesById = $Object.create(null), values = $Object.create(valuesById);
         values[valuesById[4004] = "k_EMsgGCClientWelcome"] = 4004;
         values[valuesById[4005] = "k_EMsgGCServerWelcome"] = 4005;
         values[valuesById[4006] = "k_EMsgGCClientHello"] = 4006;
@@ -284,7 +285,7 @@
     
     /**
      * EGCToGCMsg enum.
-     * @exports EGCToGCMsg
+     * @name EGCToGCMsg
      * @enum {number}
      * @property {number} k_EGCToGCMsgMasterAck=150 k_EGCToGCMsgMasterAck value
      * @property {number} k_EGCToGCMsgMasterAckResponse=151 k_EGCToGCMsgMasterAckResponse value
@@ -296,7 +297,7 @@
      * @property {number} k_EGCToGCMsgMasterStartupComplete=157 k_EGCToGCMsgMasterStartupComplete value
      */
     $root.EGCToGCMsg = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
+        var valuesById = $Object.create(null), values = $Object.create(valuesById);
         values[valuesById[150] = "k_EGCToGCMsgMasterAck"] = 150;
         values[valuesById[151] = "k_EGCToGCMsgMasterAckResponse"] = 151;
         values[valuesById[152] = "k_EGCToGCMsgRouted"] = 152;
@@ -310,7 +311,7 @@
     
     /**
      * ECommunityItemClass enum.
-     * @exports ECommunityItemClass
+     * @name ECommunityItemClass
      * @enum {number}
      * @property {number} k_ECommunityItemClass_Invalid=0 k_ECommunityItemClass_Invalid value
      * @property {number} k_ECommunityItemClass_Badge=1 k_ECommunityItemClass_Badge value
@@ -325,7 +326,7 @@
      * @property {number} k_ECommunityItemClass_SalienItem=10 k_ECommunityItemClass_SalienItem value
      */
     $root.ECommunityItemClass = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
+        var valuesById = $Object.create(null), values = $Object.create(valuesById);
         values[valuesById[0] = "k_ECommunityItemClass_Invalid"] = 0;
         values[valuesById[1] = "k_ECommunityItemClass_Badge"] = 1;
         values[valuesById[2] = "k_ECommunityItemClass_GameCard"] = 2;
@@ -342,7 +343,7 @@
     
     /**
      * ECommunityItemAttribute enum.
-     * @exports ECommunityItemAttribute
+     * @name ECommunityItemAttribute
      * @enum {number}
      * @property {number} k_ECommunityItemAttribute_Invalid=0 k_ECommunityItemAttribute_Invalid value
      * @property {number} k_ECommunityItemAttribute_CardBorder=1 k_ECommunityItemAttribute_CardBorder value
@@ -356,7 +357,7 @@
      * @property {number} k_ECommunityItemAttribute_ExpiryTime=9 k_ECommunityItemAttribute_ExpiryTime value
      */
     $root.ECommunityItemAttribute = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
+        var valuesById = $Object.create(null), values = $Object.create(valuesById);
         values[valuesById[0] = "k_ECommunityItemAttribute_Invalid"] = 0;
         values[valuesById[1] = "k_ECommunityItemAttribute_CardBorder"] = 1;
         values[valuesById[2] = "k_ECommunityItemAttribute_Level"] = 2;
@@ -374,27 +375,40 @@
     
         /**
          * Properties of a CMsgGCHVacVerificationChange.
-         * @exports ICMsgGCHVacVerificationChange
-         * @interface ICMsgGCHVacVerificationChange
+         * @typedef {Object} CMsgGCHVacVerificationChange.$Properties
          * @property {number|Long|null} [steamid] CMsgGCHVacVerificationChange steamid
          * @property {number|null} [appid] CMsgGCHVacVerificationChange appid
          * @property {boolean|null} [is_verified] CMsgGCHVacVerificationChange is_verified
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgGCHVacVerificationChange.
+         * @exports ICMsgGCHVacVerificationChange
+         * @interface ICMsgGCHVacVerificationChange
+         * @augments CMsgGCHVacVerificationChange.$Properties
+         * @deprecated Use CMsgGCHVacVerificationChange.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgGCHVacVerificationChange.
+         * @typedef {CMsgGCHVacVerificationChange.$Properties} CMsgGCHVacVerificationChange.$Shape
          */
     
         /**
          * Constructs a new CMsgGCHVacVerificationChange.
          * @exports CMsgGCHVacVerificationChange
          * @classdesc Represents a CMsgGCHVacVerificationChange.
-         * @implements ICMsgGCHVacVerificationChange
          * @constructor
-         * @param {ICMsgGCHVacVerificationChange=} [properties] Properties to set
+         * @param {CMsgGCHVacVerificationChange.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgGCHVacVerificationChange(properties) {
+        var CMsgGCHVacVerificationChange = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgGCHVacVerificationChange steamid.
@@ -425,10 +439,14 @@
          * @function create
          * @memberof CMsgGCHVacVerificationChange
          * @static
-         * @param {ICMsgGCHVacVerificationChange=} [properties] Properties to set
+         * @param {CMsgGCHVacVerificationChange.$Properties=} [properties] Properties to set
          * @returns {CMsgGCHVacVerificationChange} CMsgGCHVacVerificationChange instance
+         * @type {{
+         *   (properties: CMsgGCHVacVerificationChange.$Shape): CMsgGCHVacVerificationChange & CMsgGCHVacVerificationChange.$Shape;
+         *   (properties?: CMsgGCHVacVerificationChange.$Properties): CMsgGCHVacVerificationChange;
+         * }}
          */
-        CMsgGCHVacVerificationChange.create = function create(properties) {
+        CMsgGCHVacVerificationChange.create = function(properties) {
             return new CMsgGCHVacVerificationChange(properties);
         };
     
@@ -437,23 +455,26 @@
          * @function encode
          * @memberof CMsgGCHVacVerificationChange
          * @static
-         * @param {ICMsgGCHVacVerificationChange} message CMsgGCHVacVerificationChange message or plain object to encode
+         * @param {CMsgGCHVacVerificationChange.$Properties} message CMsgGCHVacVerificationChange message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgGCHVacVerificationChange.encode = function encode(message, writer, q) {
+        CMsgGCHVacVerificationChange.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                 writer.uint32(/* id 1, wireType 1 =*/9).fixed64(message.steamid);
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.appid);
-            if (message.is_verified != null && Object.hasOwnProperty.call(message, "is_verified"))
+            if (message.is_verified != null && $Object.hasOwnProperty.call(message, "is_verified"))
                 writer.uint32(/* id 3, wireType 0 =*/24).bool(message.is_verified);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -462,12 +483,12 @@
          * @function encodeDelimited
          * @memberof CMsgGCHVacVerificationChange
          * @static
-         * @param {ICMsgGCHVacVerificationChange} message CMsgGCHVacVerificationChange message or plain object to encode
+         * @param {CMsgGCHVacVerificationChange.$Properties} message CMsgGCHVacVerificationChange message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgGCHVacVerificationChange.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgGCHVacVerificationChange.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -477,55 +498,69 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgGCHVacVerificationChange} CMsgGCHVacVerificationChange
+         * @returns {CMsgGCHVacVerificationChange & CMsgGCHVacVerificationChange.$Shape} CMsgGCHVacVerificationChange
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgGCHVacVerificationChange.decode = function decode(reader, length, error, long) {
+        CMsgGCHVacVerificationChange.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgGCHVacVerificationChange();
+            message = _target || new $root.CMsgGCHVacVerificationChange();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.steamid = reader.fixed64();
-                        break;
-                    }
-                case 2: {
-                        message.appid = reader.uint32();
-                        break;
-                    }
-                case 3: {
-                        message.is_verified = reader.bool();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 1)
+                            break;
+                        message.steamid = reader.fixed64();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.appid = reader.uint32();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 0)
+                            break;
+                        message.is_verified = reader.bool();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -535,14 +570,14 @@
          * @memberof CMsgGCHVacVerificationChange
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgGCHVacVerificationChange} CMsgGCHVacVerificationChange
+         * @returns {CMsgGCHVacVerificationChange & CMsgGCHVacVerificationChange.$Shape} CMsgGCHVacVerificationChange
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgGCHVacVerificationChange.decodeDelimited = function decodeDelimited(reader) {
+        CMsgGCHVacVerificationChange.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -553,20 +588,20 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgGCHVacVerificationChange.verify = function verify(message, long) {
+        CMsgGCHVacVerificationChange.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                 if (!$util.isInteger(message.steamid) && !(message.steamid && $util.isInteger(message.steamid.low) && $util.isInteger(message.steamid.high)))
                     return "steamid: integer|Long expected";
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.is_verified != null && Object.hasOwnProperty.call(message, "is_verified"))
+            if (message.is_verified != null && $Object.hasOwnProperty.call(message, "is_verified"))
                 if (typeof message.is_verified !== "boolean")
                     return "is_verified: boolean expected";
             return null;
@@ -580,21 +615,21 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgGCHVacVerificationChange} CMsgGCHVacVerificationChange
          */
-        CMsgGCHVacVerificationChange.fromObject = function fromObject(object, long) {
+        CMsgGCHVacVerificationChange.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgGCHVacVerificationChange)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgGCHVacVerificationChange: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgGCHVacVerificationChange: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgGCHVacVerificationChange();
             if (object.steamid != null)
                 if ($util.Long)
                     message.steamid = $util.Long.fromValue(object.steamid, true);
                 else if (typeof object.steamid === "string")
-                    message.steamid = parseInt(object.steamid, 10);
+                    message.steamid = $parseInt(object.steamid, 10);
                 else if (typeof object.steamid === "number")
                     message.steamid = object.steamid;
                 else if (typeof object.steamid === "object")
@@ -602,7 +637,7 @@
             if (object.appid != null)
                 message.appid = object.appid >>> 0;
             if (object.is_verified != null)
-                message.is_verified = Boolean(object.is_verified);
+                message.is_verified = $Boolean(object.is_verified);
             return message;
         };
     
@@ -615,33 +650,33 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgGCHVacVerificationChange.toObject = function toObject(message, options, q) {
+        CMsgGCHVacVerificationChange.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.steamid = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.steamid = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 object.appid = 0;
                 object.is_verified = false;
             }
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.steamid = typeof message.steamid === "number" ? BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.steamid = typeof message.steamid === "number" ? $BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
                 else if (typeof message.steamid === "number")
-                    object.steamid = options.longs === String ? String(message.steamid) : message.steamid;
+                    object.steamid = options.longs === $String ? $String(message.steamid) : message.steamid;
                 else
-                    object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+                    object.steamid = options.longs === $String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === $Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
-            if (message.is_verified != null && Object.hasOwnProperty.call(message, "is_verified"))
+            if (message.is_verified != null && $Object.hasOwnProperty.call(message, "is_verified"))
                 object.is_verified = message.is_verified;
             return object;
         };
@@ -653,23 +688,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgGCHVacVerificationChange.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgGCHVacVerificationChange.prototype.toJSON = function() {
+            return CMsgGCHVacVerificationChange.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgGCHVacVerificationChange
+         * Gets the type url for CMsgGCHVacVerificationChange
          * @function getTypeUrl
          * @memberof CMsgGCHVacVerificationChange
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgGCHVacVerificationChange.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgGCHVacVerificationChange";
+        CMsgGCHVacVerificationChange.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgGCHVacVerificationChange";
         };
     
         return CMsgGCHVacVerificationChange;
@@ -679,29 +713,42 @@
     
         /**
          * Properties of a CMsgGCHAccountPhoneNumberChange.
-         * @exports ICMsgGCHAccountPhoneNumberChange
-         * @interface ICMsgGCHAccountPhoneNumberChange
+         * @typedef {Object} CMsgGCHAccountPhoneNumberChange.$Properties
          * @property {number|Long|null} [steamid] CMsgGCHAccountPhoneNumberChange steamid
          * @property {number|null} [appid] CMsgGCHAccountPhoneNumberChange appid
          * @property {number|Long|null} [phone_id] CMsgGCHAccountPhoneNumberChange phone_id
          * @property {boolean|null} [is_verified] CMsgGCHAccountPhoneNumberChange is_verified
          * @property {boolean|null} [is_identifying] CMsgGCHAccountPhoneNumberChange is_identifying
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgGCHAccountPhoneNumberChange.
+         * @exports ICMsgGCHAccountPhoneNumberChange
+         * @interface ICMsgGCHAccountPhoneNumberChange
+         * @augments CMsgGCHAccountPhoneNumberChange.$Properties
+         * @deprecated Use CMsgGCHAccountPhoneNumberChange.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgGCHAccountPhoneNumberChange.
+         * @typedef {CMsgGCHAccountPhoneNumberChange.$Properties} CMsgGCHAccountPhoneNumberChange.$Shape
          */
     
         /**
          * Constructs a new CMsgGCHAccountPhoneNumberChange.
          * @exports CMsgGCHAccountPhoneNumberChange
          * @classdesc Represents a CMsgGCHAccountPhoneNumberChange.
-         * @implements ICMsgGCHAccountPhoneNumberChange
          * @constructor
-         * @param {ICMsgGCHAccountPhoneNumberChange=} [properties] Properties to set
+         * @param {CMsgGCHAccountPhoneNumberChange.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgGCHAccountPhoneNumberChange(properties) {
+        var CMsgGCHAccountPhoneNumberChange = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgGCHAccountPhoneNumberChange steamid.
@@ -748,10 +795,14 @@
          * @function create
          * @memberof CMsgGCHAccountPhoneNumberChange
          * @static
-         * @param {ICMsgGCHAccountPhoneNumberChange=} [properties] Properties to set
+         * @param {CMsgGCHAccountPhoneNumberChange.$Properties=} [properties] Properties to set
          * @returns {CMsgGCHAccountPhoneNumberChange} CMsgGCHAccountPhoneNumberChange instance
+         * @type {{
+         *   (properties: CMsgGCHAccountPhoneNumberChange.$Shape): CMsgGCHAccountPhoneNumberChange & CMsgGCHAccountPhoneNumberChange.$Shape;
+         *   (properties?: CMsgGCHAccountPhoneNumberChange.$Properties): CMsgGCHAccountPhoneNumberChange;
+         * }}
          */
-        CMsgGCHAccountPhoneNumberChange.create = function create(properties) {
+        CMsgGCHAccountPhoneNumberChange.create = function(properties) {
             return new CMsgGCHAccountPhoneNumberChange(properties);
         };
     
@@ -760,27 +811,30 @@
          * @function encode
          * @memberof CMsgGCHAccountPhoneNumberChange
          * @static
-         * @param {ICMsgGCHAccountPhoneNumberChange} message CMsgGCHAccountPhoneNumberChange message or plain object to encode
+         * @param {CMsgGCHAccountPhoneNumberChange.$Properties} message CMsgGCHAccountPhoneNumberChange message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgGCHAccountPhoneNumberChange.encode = function encode(message, writer, q) {
+        CMsgGCHAccountPhoneNumberChange.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                 writer.uint32(/* id 1, wireType 1 =*/9).fixed64(message.steamid);
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.appid);
-            if (message.phone_id != null && Object.hasOwnProperty.call(message, "phone_id"))
+            if (message.phone_id != null && $Object.hasOwnProperty.call(message, "phone_id"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.phone_id);
-            if (message.is_verified != null && Object.hasOwnProperty.call(message, "is_verified"))
+            if (message.is_verified != null && $Object.hasOwnProperty.call(message, "is_verified"))
                 writer.uint32(/* id 4, wireType 0 =*/32).bool(message.is_verified);
-            if (message.is_identifying != null && Object.hasOwnProperty.call(message, "is_identifying"))
+            if (message.is_identifying != null && $Object.hasOwnProperty.call(message, "is_identifying"))
                 writer.uint32(/* id 5, wireType 0 =*/40).bool(message.is_identifying);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -789,12 +843,12 @@
          * @function encodeDelimited
          * @memberof CMsgGCHAccountPhoneNumberChange
          * @static
-         * @param {ICMsgGCHAccountPhoneNumberChange} message CMsgGCHAccountPhoneNumberChange message or plain object to encode
+         * @param {CMsgGCHAccountPhoneNumberChange.$Properties} message CMsgGCHAccountPhoneNumberChange message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgGCHAccountPhoneNumberChange.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgGCHAccountPhoneNumberChange.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -804,63 +858,81 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgGCHAccountPhoneNumberChange} CMsgGCHAccountPhoneNumberChange
+         * @returns {CMsgGCHAccountPhoneNumberChange & CMsgGCHAccountPhoneNumberChange.$Shape} CMsgGCHAccountPhoneNumberChange
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgGCHAccountPhoneNumberChange.decode = function decode(reader, length, error, long) {
+        CMsgGCHAccountPhoneNumberChange.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgGCHAccountPhoneNumberChange();
+            message = _target || new $root.CMsgGCHAccountPhoneNumberChange();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.steamid = reader.fixed64();
-                        break;
-                    }
-                case 2: {
-                        message.appid = reader.uint32();
-                        break;
-                    }
-                case 3: {
-                        message.phone_id = reader.uint64();
-                        break;
-                    }
-                case 4: {
-                        message.is_verified = reader.bool();
-                        break;
-                    }
-                case 5: {
-                        message.is_identifying = reader.bool();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 1)
+                            break;
+                        message.steamid = reader.fixed64();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.appid = reader.uint32();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 0)
+                            break;
+                        message.phone_id = reader.uint64();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 0)
+                            break;
+                        message.is_verified = reader.bool();
+                        continue;
+                    }
+                case 5: {
+                        if (wireType !== 0)
+                            break;
+                        message.is_identifying = reader.bool();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -870,14 +942,14 @@
          * @memberof CMsgGCHAccountPhoneNumberChange
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgGCHAccountPhoneNumberChange} CMsgGCHAccountPhoneNumberChange
+         * @returns {CMsgGCHAccountPhoneNumberChange & CMsgGCHAccountPhoneNumberChange.$Shape} CMsgGCHAccountPhoneNumberChange
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgGCHAccountPhoneNumberChange.decodeDelimited = function decodeDelimited(reader) {
+        CMsgGCHAccountPhoneNumberChange.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -888,26 +960,26 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgGCHAccountPhoneNumberChange.verify = function verify(message, long) {
+        CMsgGCHAccountPhoneNumberChange.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                 if (!$util.isInteger(message.steamid) && !(message.steamid && $util.isInteger(message.steamid.low) && $util.isInteger(message.steamid.high)))
                     return "steamid: integer|Long expected";
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.phone_id != null && Object.hasOwnProperty.call(message, "phone_id"))
+            if (message.phone_id != null && $Object.hasOwnProperty.call(message, "phone_id"))
                 if (!$util.isInteger(message.phone_id) && !(message.phone_id && $util.isInteger(message.phone_id.low) && $util.isInteger(message.phone_id.high)))
                     return "phone_id: integer|Long expected";
-            if (message.is_verified != null && Object.hasOwnProperty.call(message, "is_verified"))
+            if (message.is_verified != null && $Object.hasOwnProperty.call(message, "is_verified"))
                 if (typeof message.is_verified !== "boolean")
                     return "is_verified: boolean expected";
-            if (message.is_identifying != null && Object.hasOwnProperty.call(message, "is_identifying"))
+            if (message.is_identifying != null && $Object.hasOwnProperty.call(message, "is_identifying"))
                 if (typeof message.is_identifying !== "boolean")
                     return "is_identifying: boolean expected";
             return null;
@@ -921,21 +993,21 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgGCHAccountPhoneNumberChange} CMsgGCHAccountPhoneNumberChange
          */
-        CMsgGCHAccountPhoneNumberChange.fromObject = function fromObject(object, long) {
+        CMsgGCHAccountPhoneNumberChange.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgGCHAccountPhoneNumberChange)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgGCHAccountPhoneNumberChange: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgGCHAccountPhoneNumberChange: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgGCHAccountPhoneNumberChange();
             if (object.steamid != null)
                 if ($util.Long)
                     message.steamid = $util.Long.fromValue(object.steamid, true);
                 else if (typeof object.steamid === "string")
-                    message.steamid = parseInt(object.steamid, 10);
+                    message.steamid = $parseInt(object.steamid, 10);
                 else if (typeof object.steamid === "number")
                     message.steamid = object.steamid;
                 else if (typeof object.steamid === "object")
@@ -946,15 +1018,15 @@
                 if ($util.Long)
                     message.phone_id = $util.Long.fromValue(object.phone_id, true);
                 else if (typeof object.phone_id === "string")
-                    message.phone_id = parseInt(object.phone_id, 10);
+                    message.phone_id = $parseInt(object.phone_id, 10);
                 else if (typeof object.phone_id === "number")
                     message.phone_id = object.phone_id;
                 else if (typeof object.phone_id === "object")
                     message.phone_id = new $util.LongBits(object.phone_id.low >>> 0, object.phone_id.high >>> 0).toNumber(true);
             if (object.is_verified != null)
-                message.is_verified = Boolean(object.is_verified);
+                message.is_verified = $Boolean(object.is_verified);
             if (object.is_identifying != null)
-                message.is_identifying = Boolean(object.is_identifying);
+                message.is_identifying = $Boolean(object.is_identifying);
             return message;
         };
     
@@ -967,48 +1039,48 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgGCHAccountPhoneNumberChange.toObject = function toObject(message, options, q) {
+        CMsgGCHAccountPhoneNumberChange.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.steamid = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.steamid = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 object.appid = 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.phone_id = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.phone_id = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.phone_id = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.phone_id = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 object.is_verified = false;
                 object.is_identifying = false;
             }
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.steamid = typeof message.steamid === "number" ? BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.steamid = typeof message.steamid === "number" ? $BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
                 else if (typeof message.steamid === "number")
-                    object.steamid = options.longs === String ? String(message.steamid) : message.steamid;
+                    object.steamid = options.longs === $String ? $String(message.steamid) : message.steamid;
                 else
-                    object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+                    object.steamid = options.longs === $String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === $Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
-            if (message.phone_id != null && Object.hasOwnProperty.call(message, "phone_id"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.phone_id = typeof message.phone_id === "number" ? BigInt(message.phone_id) : $util.Long.fromBits(message.phone_id.low >>> 0, message.phone_id.high >>> 0, true).toBigInt();
+            if (message.phone_id != null && $Object.hasOwnProperty.call(message, "phone_id"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.phone_id = typeof message.phone_id === "number" ? $BigInt(message.phone_id) : $util.Long.fromBits(message.phone_id.low >>> 0, message.phone_id.high >>> 0, true).toBigInt();
                 else if (typeof message.phone_id === "number")
-                    object.phone_id = options.longs === String ? String(message.phone_id) : message.phone_id;
+                    object.phone_id = options.longs === $String ? $String(message.phone_id) : message.phone_id;
                 else
-                    object.phone_id = options.longs === String ? $util.Long.prototype.toString.call(message.phone_id) : options.longs === Number ? new $util.LongBits(message.phone_id.low >>> 0, message.phone_id.high >>> 0).toNumber(true) : message.phone_id;
-            if (message.is_verified != null && Object.hasOwnProperty.call(message, "is_verified"))
+                    object.phone_id = options.longs === $String ? $util.Long.prototype.toString.call(message.phone_id) : options.longs === $Number ? new $util.LongBits(message.phone_id.low >>> 0, message.phone_id.high >>> 0).toNumber(true) : message.phone_id;
+            if (message.is_verified != null && $Object.hasOwnProperty.call(message, "is_verified"))
                 object.is_verified = message.is_verified;
-            if (message.is_identifying != null && Object.hasOwnProperty.call(message, "is_identifying"))
+            if (message.is_identifying != null && $Object.hasOwnProperty.call(message, "is_identifying"))
                 object.is_identifying = message.is_identifying;
             return object;
         };
@@ -1020,23 +1092,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgGCHAccountPhoneNumberChange.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgGCHAccountPhoneNumberChange.prototype.toJSON = function() {
+            return CMsgGCHAccountPhoneNumberChange.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgGCHAccountPhoneNumberChange
+         * Gets the type url for CMsgGCHAccountPhoneNumberChange
          * @function getTypeUrl
          * @memberof CMsgGCHAccountPhoneNumberChange
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgGCHAccountPhoneNumberChange.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgGCHAccountPhoneNumberChange";
+        CMsgGCHAccountPhoneNumberChange.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgGCHAccountPhoneNumberChange";
         };
     
         return CMsgGCHAccountPhoneNumberChange;
@@ -1046,28 +1117,41 @@
     
         /**
          * Properties of a CMsgGCHInviteUserToLobby.
-         * @exports ICMsgGCHInviteUserToLobby
-         * @interface ICMsgGCHInviteUserToLobby
+         * @typedef {Object} CMsgGCHInviteUserToLobby.$Properties
          * @property {number|Long|null} [steamid] CMsgGCHInviteUserToLobby steamid
          * @property {number|null} [appid] CMsgGCHInviteUserToLobby appid
          * @property {number|Long|null} [steamid_invited] CMsgGCHInviteUserToLobby steamid_invited
          * @property {number|Long|null} [steamid_lobby] CMsgGCHInviteUserToLobby steamid_lobby
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgGCHInviteUserToLobby.
+         * @exports ICMsgGCHInviteUserToLobby
+         * @interface ICMsgGCHInviteUserToLobby
+         * @augments CMsgGCHInviteUserToLobby.$Properties
+         * @deprecated Use CMsgGCHInviteUserToLobby.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgGCHInviteUserToLobby.
+         * @typedef {CMsgGCHInviteUserToLobby.$Properties} CMsgGCHInviteUserToLobby.$Shape
          */
     
         /**
          * Constructs a new CMsgGCHInviteUserToLobby.
          * @exports CMsgGCHInviteUserToLobby
          * @classdesc Represents a CMsgGCHInviteUserToLobby.
-         * @implements ICMsgGCHInviteUserToLobby
          * @constructor
-         * @param {ICMsgGCHInviteUserToLobby=} [properties] Properties to set
+         * @param {CMsgGCHInviteUserToLobby.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgGCHInviteUserToLobby(properties) {
+        var CMsgGCHInviteUserToLobby = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgGCHInviteUserToLobby steamid.
@@ -1106,10 +1190,14 @@
          * @function create
          * @memberof CMsgGCHInviteUserToLobby
          * @static
-         * @param {ICMsgGCHInviteUserToLobby=} [properties] Properties to set
+         * @param {CMsgGCHInviteUserToLobby.$Properties=} [properties] Properties to set
          * @returns {CMsgGCHInviteUserToLobby} CMsgGCHInviteUserToLobby instance
+         * @type {{
+         *   (properties: CMsgGCHInviteUserToLobby.$Shape): CMsgGCHInviteUserToLobby & CMsgGCHInviteUserToLobby.$Shape;
+         *   (properties?: CMsgGCHInviteUserToLobby.$Properties): CMsgGCHInviteUserToLobby;
+         * }}
          */
-        CMsgGCHInviteUserToLobby.create = function create(properties) {
+        CMsgGCHInviteUserToLobby.create = function(properties) {
             return new CMsgGCHInviteUserToLobby(properties);
         };
     
@@ -1118,25 +1206,28 @@
          * @function encode
          * @memberof CMsgGCHInviteUserToLobby
          * @static
-         * @param {ICMsgGCHInviteUserToLobby} message CMsgGCHInviteUserToLobby message or plain object to encode
+         * @param {CMsgGCHInviteUserToLobby.$Properties} message CMsgGCHInviteUserToLobby message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgGCHInviteUserToLobby.encode = function encode(message, writer, q) {
+        CMsgGCHInviteUserToLobby.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                 writer.uint32(/* id 1, wireType 1 =*/9).fixed64(message.steamid);
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.appid);
-            if (message.steamid_invited != null && Object.hasOwnProperty.call(message, "steamid_invited"))
+            if (message.steamid_invited != null && $Object.hasOwnProperty.call(message, "steamid_invited"))
                 writer.uint32(/* id 3, wireType 1 =*/25).fixed64(message.steamid_invited);
-            if (message.steamid_lobby != null && Object.hasOwnProperty.call(message, "steamid_lobby"))
+            if (message.steamid_lobby != null && $Object.hasOwnProperty.call(message, "steamid_lobby"))
                 writer.uint32(/* id 4, wireType 1 =*/33).fixed64(message.steamid_lobby);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -1145,12 +1236,12 @@
          * @function encodeDelimited
          * @memberof CMsgGCHInviteUserToLobby
          * @static
-         * @param {ICMsgGCHInviteUserToLobby} message CMsgGCHInviteUserToLobby message or plain object to encode
+         * @param {CMsgGCHInviteUserToLobby.$Properties} message CMsgGCHInviteUserToLobby message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgGCHInviteUserToLobby.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgGCHInviteUserToLobby.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -1160,59 +1251,75 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgGCHInviteUserToLobby} CMsgGCHInviteUserToLobby
+         * @returns {CMsgGCHInviteUserToLobby & CMsgGCHInviteUserToLobby.$Shape} CMsgGCHInviteUserToLobby
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgGCHInviteUserToLobby.decode = function decode(reader, length, error, long) {
+        CMsgGCHInviteUserToLobby.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgGCHInviteUserToLobby();
+            message = _target || new $root.CMsgGCHInviteUserToLobby();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.steamid = reader.fixed64();
-                        break;
-                    }
-                case 2: {
-                        message.appid = reader.uint32();
-                        break;
-                    }
-                case 3: {
-                        message.steamid_invited = reader.fixed64();
-                        break;
-                    }
-                case 4: {
-                        message.steamid_lobby = reader.fixed64();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 1)
+                            break;
+                        message.steamid = reader.fixed64();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.appid = reader.uint32();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 1)
+                            break;
+                        message.steamid_invited = reader.fixed64();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 1)
+                            break;
+                        message.steamid_lobby = reader.fixed64();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -1222,14 +1329,14 @@
          * @memberof CMsgGCHInviteUserToLobby
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgGCHInviteUserToLobby} CMsgGCHInviteUserToLobby
+         * @returns {CMsgGCHInviteUserToLobby & CMsgGCHInviteUserToLobby.$Shape} CMsgGCHInviteUserToLobby
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgGCHInviteUserToLobby.decodeDelimited = function decodeDelimited(reader) {
+        CMsgGCHInviteUserToLobby.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -1240,23 +1347,23 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgGCHInviteUserToLobby.verify = function verify(message, long) {
+        CMsgGCHInviteUserToLobby.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                 if (!$util.isInteger(message.steamid) && !(message.steamid && $util.isInteger(message.steamid.low) && $util.isInteger(message.steamid.high)))
                     return "steamid: integer|Long expected";
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.steamid_invited != null && Object.hasOwnProperty.call(message, "steamid_invited"))
+            if (message.steamid_invited != null && $Object.hasOwnProperty.call(message, "steamid_invited"))
                 if (!$util.isInteger(message.steamid_invited) && !(message.steamid_invited && $util.isInteger(message.steamid_invited.low) && $util.isInteger(message.steamid_invited.high)))
                     return "steamid_invited: integer|Long expected";
-            if (message.steamid_lobby != null && Object.hasOwnProperty.call(message, "steamid_lobby"))
+            if (message.steamid_lobby != null && $Object.hasOwnProperty.call(message, "steamid_lobby"))
                 if (!$util.isInteger(message.steamid_lobby) && !(message.steamid_lobby && $util.isInteger(message.steamid_lobby.low) && $util.isInteger(message.steamid_lobby.high)))
                     return "steamid_lobby: integer|Long expected";
             return null;
@@ -1270,21 +1377,21 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgGCHInviteUserToLobby} CMsgGCHInviteUserToLobby
          */
-        CMsgGCHInviteUserToLobby.fromObject = function fromObject(object, long) {
+        CMsgGCHInviteUserToLobby.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgGCHInviteUserToLobby)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgGCHInviteUserToLobby: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgGCHInviteUserToLobby: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgGCHInviteUserToLobby();
             if (object.steamid != null)
                 if ($util.Long)
                     message.steamid = $util.Long.fromValue(object.steamid, true);
                 else if (typeof object.steamid === "string")
-                    message.steamid = parseInt(object.steamid, 10);
+                    message.steamid = $parseInt(object.steamid, 10);
                 else if (typeof object.steamid === "number")
                     message.steamid = object.steamid;
                 else if (typeof object.steamid === "object")
@@ -1295,7 +1402,7 @@
                 if ($util.Long)
                     message.steamid_invited = $util.Long.fromValue(object.steamid_invited, true);
                 else if (typeof object.steamid_invited === "string")
-                    message.steamid_invited = parseInt(object.steamid_invited, 10);
+                    message.steamid_invited = $parseInt(object.steamid_invited, 10);
                 else if (typeof object.steamid_invited === "number")
                     message.steamid_invited = object.steamid_invited;
                 else if (typeof object.steamid_invited === "object")
@@ -1304,7 +1411,7 @@
                 if ($util.Long)
                     message.steamid_lobby = $util.Long.fromValue(object.steamid_lobby, true);
                 else if (typeof object.steamid_lobby === "string")
-                    message.steamid_lobby = parseInt(object.steamid_lobby, 10);
+                    message.steamid_lobby = $parseInt(object.steamid_lobby, 10);
                 else if (typeof object.steamid_lobby === "number")
                     message.steamid_lobby = object.steamid_lobby;
                 else if (typeof object.steamid_lobby === "object")
@@ -1321,55 +1428,55 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgGCHInviteUserToLobby.toObject = function toObject(message, options, q) {
+        CMsgGCHInviteUserToLobby.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.steamid = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.steamid = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 object.appid = 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.steamid_invited = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.steamid_invited = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.steamid_invited = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.steamid_invited = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.steamid_lobby = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.steamid_lobby = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.steamid_lobby = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.steamid_lobby = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
             }
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.steamid = typeof message.steamid === "number" ? BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.steamid = typeof message.steamid === "number" ? $BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
                 else if (typeof message.steamid === "number")
-                    object.steamid = options.longs === String ? String(message.steamid) : message.steamid;
+                    object.steamid = options.longs === $String ? $String(message.steamid) : message.steamid;
                 else
-                    object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+                    object.steamid = options.longs === $String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === $Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
-            if (message.steamid_invited != null && Object.hasOwnProperty.call(message, "steamid_invited"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.steamid_invited = typeof message.steamid_invited === "number" ? BigInt(message.steamid_invited) : $util.Long.fromBits(message.steamid_invited.low >>> 0, message.steamid_invited.high >>> 0, true).toBigInt();
+            if (message.steamid_invited != null && $Object.hasOwnProperty.call(message, "steamid_invited"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.steamid_invited = typeof message.steamid_invited === "number" ? $BigInt(message.steamid_invited) : $util.Long.fromBits(message.steamid_invited.low >>> 0, message.steamid_invited.high >>> 0, true).toBigInt();
                 else if (typeof message.steamid_invited === "number")
-                    object.steamid_invited = options.longs === String ? String(message.steamid_invited) : message.steamid_invited;
+                    object.steamid_invited = options.longs === $String ? $String(message.steamid_invited) : message.steamid_invited;
                 else
-                    object.steamid_invited = options.longs === String ? $util.Long.prototype.toString.call(message.steamid_invited) : options.longs === Number ? new $util.LongBits(message.steamid_invited.low >>> 0, message.steamid_invited.high >>> 0).toNumber(true) : message.steamid_invited;
-            if (message.steamid_lobby != null && Object.hasOwnProperty.call(message, "steamid_lobby"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.steamid_lobby = typeof message.steamid_lobby === "number" ? BigInt(message.steamid_lobby) : $util.Long.fromBits(message.steamid_lobby.low >>> 0, message.steamid_lobby.high >>> 0, true).toBigInt();
+                    object.steamid_invited = options.longs === $String ? $util.Long.prototype.toString.call(message.steamid_invited) : options.longs === $Number ? new $util.LongBits(message.steamid_invited.low >>> 0, message.steamid_invited.high >>> 0).toNumber(true) : message.steamid_invited;
+            if (message.steamid_lobby != null && $Object.hasOwnProperty.call(message, "steamid_lobby"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.steamid_lobby = typeof message.steamid_lobby === "number" ? $BigInt(message.steamid_lobby) : $util.Long.fromBits(message.steamid_lobby.low >>> 0, message.steamid_lobby.high >>> 0, true).toBigInt();
                 else if (typeof message.steamid_lobby === "number")
-                    object.steamid_lobby = options.longs === String ? String(message.steamid_lobby) : message.steamid_lobby;
+                    object.steamid_lobby = options.longs === $String ? $String(message.steamid_lobby) : message.steamid_lobby;
                 else
-                    object.steamid_lobby = options.longs === String ? $util.Long.prototype.toString.call(message.steamid_lobby) : options.longs === Number ? new $util.LongBits(message.steamid_lobby.low >>> 0, message.steamid_lobby.high >>> 0).toNumber(true) : message.steamid_lobby;
+                    object.steamid_lobby = options.longs === $String ? $util.Long.prototype.toString.call(message.steamid_lobby) : options.longs === $Number ? new $util.LongBits(message.steamid_lobby.low >>> 0, message.steamid_lobby.high >>> 0).toNumber(true) : message.steamid_lobby;
             return object;
         };
     
@@ -1380,23 +1487,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgGCHInviteUserToLobby.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgGCHInviteUserToLobby.prototype.toJSON = function() {
+            return CMsgGCHInviteUserToLobby.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgGCHInviteUserToLobby
+         * Gets the type url for CMsgGCHInviteUserToLobby
          * @function getTypeUrl
          * @memberof CMsgGCHInviteUserToLobby
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgGCHInviteUserToLobby.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgGCHInviteUserToLobby";
+        CMsgGCHInviteUserToLobby.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgGCHInviteUserToLobby";
         };
     
         return CMsgGCHInviteUserToLobby;
@@ -1406,28 +1512,41 @@
     
         /**
          * Properties of a CMsgGCHRecurringSubscriptionStatusChange.
-         * @exports ICMsgGCHRecurringSubscriptionStatusChange
-         * @interface ICMsgGCHRecurringSubscriptionStatusChange
+         * @typedef {Object} CMsgGCHRecurringSubscriptionStatusChange.$Properties
          * @property {number|Long|null} [steamid] CMsgGCHRecurringSubscriptionStatusChange steamid
          * @property {number|null} [appid] CMsgGCHRecurringSubscriptionStatusChange appid
          * @property {number|Long|null} [agreementid] CMsgGCHRecurringSubscriptionStatusChange agreementid
          * @property {boolean|null} [active] CMsgGCHRecurringSubscriptionStatusChange active
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgGCHRecurringSubscriptionStatusChange.
+         * @exports ICMsgGCHRecurringSubscriptionStatusChange
+         * @interface ICMsgGCHRecurringSubscriptionStatusChange
+         * @augments CMsgGCHRecurringSubscriptionStatusChange.$Properties
+         * @deprecated Use CMsgGCHRecurringSubscriptionStatusChange.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgGCHRecurringSubscriptionStatusChange.
+         * @typedef {CMsgGCHRecurringSubscriptionStatusChange.$Properties} CMsgGCHRecurringSubscriptionStatusChange.$Shape
          */
     
         /**
          * Constructs a new CMsgGCHRecurringSubscriptionStatusChange.
          * @exports CMsgGCHRecurringSubscriptionStatusChange
          * @classdesc Represents a CMsgGCHRecurringSubscriptionStatusChange.
-         * @implements ICMsgGCHRecurringSubscriptionStatusChange
          * @constructor
-         * @param {ICMsgGCHRecurringSubscriptionStatusChange=} [properties] Properties to set
+         * @param {CMsgGCHRecurringSubscriptionStatusChange.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgGCHRecurringSubscriptionStatusChange(properties) {
+        var CMsgGCHRecurringSubscriptionStatusChange = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgGCHRecurringSubscriptionStatusChange steamid.
@@ -1466,10 +1585,14 @@
          * @function create
          * @memberof CMsgGCHRecurringSubscriptionStatusChange
          * @static
-         * @param {ICMsgGCHRecurringSubscriptionStatusChange=} [properties] Properties to set
+         * @param {CMsgGCHRecurringSubscriptionStatusChange.$Properties=} [properties] Properties to set
          * @returns {CMsgGCHRecurringSubscriptionStatusChange} CMsgGCHRecurringSubscriptionStatusChange instance
+         * @type {{
+         *   (properties: CMsgGCHRecurringSubscriptionStatusChange.$Shape): CMsgGCHRecurringSubscriptionStatusChange & CMsgGCHRecurringSubscriptionStatusChange.$Shape;
+         *   (properties?: CMsgGCHRecurringSubscriptionStatusChange.$Properties): CMsgGCHRecurringSubscriptionStatusChange;
+         * }}
          */
-        CMsgGCHRecurringSubscriptionStatusChange.create = function create(properties) {
+        CMsgGCHRecurringSubscriptionStatusChange.create = function(properties) {
             return new CMsgGCHRecurringSubscriptionStatusChange(properties);
         };
     
@@ -1478,25 +1601,28 @@
          * @function encode
          * @memberof CMsgGCHRecurringSubscriptionStatusChange
          * @static
-         * @param {ICMsgGCHRecurringSubscriptionStatusChange} message CMsgGCHRecurringSubscriptionStatusChange message or plain object to encode
+         * @param {CMsgGCHRecurringSubscriptionStatusChange.$Properties} message CMsgGCHRecurringSubscriptionStatusChange message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgGCHRecurringSubscriptionStatusChange.encode = function encode(message, writer, q) {
+        CMsgGCHRecurringSubscriptionStatusChange.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                 writer.uint32(/* id 1, wireType 1 =*/9).fixed64(message.steamid);
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.appid);
-            if (message.agreementid != null && Object.hasOwnProperty.call(message, "agreementid"))
+            if (message.agreementid != null && $Object.hasOwnProperty.call(message, "agreementid"))
                 writer.uint32(/* id 3, wireType 1 =*/25).fixed64(message.agreementid);
-            if (message.active != null && Object.hasOwnProperty.call(message, "active"))
+            if (message.active != null && $Object.hasOwnProperty.call(message, "active"))
                 writer.uint32(/* id 4, wireType 0 =*/32).bool(message.active);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -1505,12 +1631,12 @@
          * @function encodeDelimited
          * @memberof CMsgGCHRecurringSubscriptionStatusChange
          * @static
-         * @param {ICMsgGCHRecurringSubscriptionStatusChange} message CMsgGCHRecurringSubscriptionStatusChange message or plain object to encode
+         * @param {CMsgGCHRecurringSubscriptionStatusChange.$Properties} message CMsgGCHRecurringSubscriptionStatusChange message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgGCHRecurringSubscriptionStatusChange.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgGCHRecurringSubscriptionStatusChange.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -1520,59 +1646,75 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgGCHRecurringSubscriptionStatusChange} CMsgGCHRecurringSubscriptionStatusChange
+         * @returns {CMsgGCHRecurringSubscriptionStatusChange & CMsgGCHRecurringSubscriptionStatusChange.$Shape} CMsgGCHRecurringSubscriptionStatusChange
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgGCHRecurringSubscriptionStatusChange.decode = function decode(reader, length, error, long) {
+        CMsgGCHRecurringSubscriptionStatusChange.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgGCHRecurringSubscriptionStatusChange();
+            message = _target || new $root.CMsgGCHRecurringSubscriptionStatusChange();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.steamid = reader.fixed64();
-                        break;
-                    }
-                case 2: {
-                        message.appid = reader.uint32();
-                        break;
-                    }
-                case 3: {
-                        message.agreementid = reader.fixed64();
-                        break;
-                    }
-                case 4: {
-                        message.active = reader.bool();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 1)
+                            break;
+                        message.steamid = reader.fixed64();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.appid = reader.uint32();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 1)
+                            break;
+                        message.agreementid = reader.fixed64();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 0)
+                            break;
+                        message.active = reader.bool();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -1582,14 +1724,14 @@
          * @memberof CMsgGCHRecurringSubscriptionStatusChange
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgGCHRecurringSubscriptionStatusChange} CMsgGCHRecurringSubscriptionStatusChange
+         * @returns {CMsgGCHRecurringSubscriptionStatusChange & CMsgGCHRecurringSubscriptionStatusChange.$Shape} CMsgGCHRecurringSubscriptionStatusChange
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgGCHRecurringSubscriptionStatusChange.decodeDelimited = function decodeDelimited(reader) {
+        CMsgGCHRecurringSubscriptionStatusChange.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -1600,23 +1742,23 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgGCHRecurringSubscriptionStatusChange.verify = function verify(message, long) {
+        CMsgGCHRecurringSubscriptionStatusChange.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                 if (!$util.isInteger(message.steamid) && !(message.steamid && $util.isInteger(message.steamid.low) && $util.isInteger(message.steamid.high)))
                     return "steamid: integer|Long expected";
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.agreementid != null && Object.hasOwnProperty.call(message, "agreementid"))
+            if (message.agreementid != null && $Object.hasOwnProperty.call(message, "agreementid"))
                 if (!$util.isInteger(message.agreementid) && !(message.agreementid && $util.isInteger(message.agreementid.low) && $util.isInteger(message.agreementid.high)))
                     return "agreementid: integer|Long expected";
-            if (message.active != null && Object.hasOwnProperty.call(message, "active"))
+            if (message.active != null && $Object.hasOwnProperty.call(message, "active"))
                 if (typeof message.active !== "boolean")
                     return "active: boolean expected";
             return null;
@@ -1630,21 +1772,21 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgGCHRecurringSubscriptionStatusChange} CMsgGCHRecurringSubscriptionStatusChange
          */
-        CMsgGCHRecurringSubscriptionStatusChange.fromObject = function fromObject(object, long) {
+        CMsgGCHRecurringSubscriptionStatusChange.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgGCHRecurringSubscriptionStatusChange)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgGCHRecurringSubscriptionStatusChange: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgGCHRecurringSubscriptionStatusChange: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgGCHRecurringSubscriptionStatusChange();
             if (object.steamid != null)
                 if ($util.Long)
                     message.steamid = $util.Long.fromValue(object.steamid, true);
                 else if (typeof object.steamid === "string")
-                    message.steamid = parseInt(object.steamid, 10);
+                    message.steamid = $parseInt(object.steamid, 10);
                 else if (typeof object.steamid === "number")
                     message.steamid = object.steamid;
                 else if (typeof object.steamid === "object")
@@ -1655,13 +1797,13 @@
                 if ($util.Long)
                     message.agreementid = $util.Long.fromValue(object.agreementid, true);
                 else if (typeof object.agreementid === "string")
-                    message.agreementid = parseInt(object.agreementid, 10);
+                    message.agreementid = $parseInt(object.agreementid, 10);
                 else if (typeof object.agreementid === "number")
                     message.agreementid = object.agreementid;
                 else if (typeof object.agreementid === "object")
                     message.agreementid = new $util.LongBits(object.agreementid.low >>> 0, object.agreementid.high >>> 0).toNumber(true);
             if (object.active != null)
-                message.active = Boolean(object.active);
+                message.active = $Boolean(object.active);
             return message;
         };
     
@@ -1674,45 +1816,45 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgGCHRecurringSubscriptionStatusChange.toObject = function toObject(message, options, q) {
+        CMsgGCHRecurringSubscriptionStatusChange.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.steamid = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.steamid = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 object.appid = 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.agreementid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.agreementid = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.agreementid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.agreementid = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 object.active = false;
             }
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.steamid = typeof message.steamid === "number" ? BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.steamid = typeof message.steamid === "number" ? $BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
                 else if (typeof message.steamid === "number")
-                    object.steamid = options.longs === String ? String(message.steamid) : message.steamid;
+                    object.steamid = options.longs === $String ? $String(message.steamid) : message.steamid;
                 else
-                    object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+                    object.steamid = options.longs === $String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === $Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
-            if (message.agreementid != null && Object.hasOwnProperty.call(message, "agreementid"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.agreementid = typeof message.agreementid === "number" ? BigInt(message.agreementid) : $util.Long.fromBits(message.agreementid.low >>> 0, message.agreementid.high >>> 0, true).toBigInt();
+            if (message.agreementid != null && $Object.hasOwnProperty.call(message, "agreementid"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.agreementid = typeof message.agreementid === "number" ? $BigInt(message.agreementid) : $util.Long.fromBits(message.agreementid.low >>> 0, message.agreementid.high >>> 0, true).toBigInt();
                 else if (typeof message.agreementid === "number")
-                    object.agreementid = options.longs === String ? String(message.agreementid) : message.agreementid;
+                    object.agreementid = options.longs === $String ? $String(message.agreementid) : message.agreementid;
                 else
-                    object.agreementid = options.longs === String ? $util.Long.prototype.toString.call(message.agreementid) : options.longs === Number ? new $util.LongBits(message.agreementid.low >>> 0, message.agreementid.high >>> 0).toNumber(true) : message.agreementid;
-            if (message.active != null && Object.hasOwnProperty.call(message, "active"))
+                    object.agreementid = options.longs === $String ? $util.Long.prototype.toString.call(message.agreementid) : options.longs === $Number ? new $util.LongBits(message.agreementid.low >>> 0, message.agreementid.high >>> 0).toNumber(true) : message.agreementid;
+            if (message.active != null && $Object.hasOwnProperty.call(message, "active"))
                 object.active = message.active;
             return object;
         };
@@ -1724,23 +1866,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgGCHRecurringSubscriptionStatusChange.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgGCHRecurringSubscriptionStatusChange.prototype.toJSON = function() {
+            return CMsgGCHRecurringSubscriptionStatusChange.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgGCHRecurringSubscriptionStatusChange
+         * Gets the type url for CMsgGCHRecurringSubscriptionStatusChange
          * @function getTypeUrl
          * @memberof CMsgGCHRecurringSubscriptionStatusChange
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgGCHRecurringSubscriptionStatusChange.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgGCHRecurringSubscriptionStatusChange";
+        CMsgGCHRecurringSubscriptionStatusChange.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgGCHRecurringSubscriptionStatusChange";
         };
     
         return CMsgGCHRecurringSubscriptionStatusChange;
@@ -1750,32 +1891,45 @@
     
         /**
          * Properties of a CQuest_PublisherAddCommunityItemsToPlayer_Request.
-         * @exports ICQuest_PublisherAddCommunityItemsToPlayer_Request
-         * @interface ICQuest_PublisherAddCommunityItemsToPlayer_Request
+         * @typedef {Object} CQuest_PublisherAddCommunityItemsToPlayer_Request.$Properties
          * @property {number|Long|null} [steamid] CQuest_PublisherAddCommunityItemsToPlayer_Request steamid
          * @property {number|null} [appid] CQuest_PublisherAddCommunityItemsToPlayer_Request appid
          * @property {number|null} [match_item_type] CQuest_PublisherAddCommunityItemsToPlayer_Request match_item_type
          * @property {number|null} [match_item_class] CQuest_PublisherAddCommunityItemsToPlayer_Request match_item_class
          * @property {string|null} [prefix_item_name] CQuest_PublisherAddCommunityItemsToPlayer_Request prefix_item_name
-         * @property {Array.<CQuest_PublisherAddCommunityItemsToPlayer_Request.IAttribute>|null} [attributes] CQuest_PublisherAddCommunityItemsToPlayer_Request attributes
+         * @property {Array.<CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Properties>|null} [attributes] CQuest_PublisherAddCommunityItemsToPlayer_Request attributes
          * @property {string|null} [note] CQuest_PublisherAddCommunityItemsToPlayer_Request note
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CQuest_PublisherAddCommunityItemsToPlayer_Request.
+         * @exports ICQuest_PublisherAddCommunityItemsToPlayer_Request
+         * @interface ICQuest_PublisherAddCommunityItemsToPlayer_Request
+         * @augments CQuest_PublisherAddCommunityItemsToPlayer_Request.$Properties
+         * @deprecated Use CQuest_PublisherAddCommunityItemsToPlayer_Request.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CQuest_PublisherAddCommunityItemsToPlayer_Request.
+         * @typedef {CQuest_PublisherAddCommunityItemsToPlayer_Request.$Properties} CQuest_PublisherAddCommunityItemsToPlayer_Request.$Shape
          */
     
         /**
          * Constructs a new CQuest_PublisherAddCommunityItemsToPlayer_Request.
          * @exports CQuest_PublisherAddCommunityItemsToPlayer_Request
          * @classdesc Represents a CQuest_PublisherAddCommunityItemsToPlayer_Request.
-         * @implements ICQuest_PublisherAddCommunityItemsToPlayer_Request
          * @constructor
-         * @param {ICQuest_PublisherAddCommunityItemsToPlayer_Request=} [properties] Properties to set
+         * @param {CQuest_PublisherAddCommunityItemsToPlayer_Request.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CQuest_PublisherAddCommunityItemsToPlayer_Request(properties) {
+        var CQuest_PublisherAddCommunityItemsToPlayer_Request = function (properties) {
             this.attributes = [];
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CQuest_PublisherAddCommunityItemsToPlayer_Request steamid.
@@ -1819,7 +1973,7 @@
     
         /**
          * CQuest_PublisherAddCommunityItemsToPlayer_Request attributes.
-         * @member {Array.<CQuest_PublisherAddCommunityItemsToPlayer_Request.IAttribute>} attributes
+         * @member {Array.<CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Properties>} attributes
          * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Request
          * @instance
          */
@@ -1838,10 +1992,14 @@
          * @function create
          * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Request
          * @static
-         * @param {ICQuest_PublisherAddCommunityItemsToPlayer_Request=} [properties] Properties to set
+         * @param {CQuest_PublisherAddCommunityItemsToPlayer_Request.$Properties=} [properties] Properties to set
          * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Request} CQuest_PublisherAddCommunityItemsToPlayer_Request instance
+         * @type {{
+         *   (properties: CQuest_PublisherAddCommunityItemsToPlayer_Request.$Shape): CQuest_PublisherAddCommunityItemsToPlayer_Request & CQuest_PublisherAddCommunityItemsToPlayer_Request.$Shape;
+         *   (properties?: CQuest_PublisherAddCommunityItemsToPlayer_Request.$Properties): CQuest_PublisherAddCommunityItemsToPlayer_Request;
+         * }}
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Request.create = function create(properties) {
+        CQuest_PublisherAddCommunityItemsToPlayer_Request.create = function(properties) {
             return new CQuest_PublisherAddCommunityItemsToPlayer_Request(properties);
         };
     
@@ -1850,32 +2008,35 @@
          * @function encode
          * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Request
          * @static
-         * @param {ICQuest_PublisherAddCommunityItemsToPlayer_Request} message CQuest_PublisherAddCommunityItemsToPlayer_Request message or plain object to encode
+         * @param {CQuest_PublisherAddCommunityItemsToPlayer_Request.$Properties} message CQuest_PublisherAddCommunityItemsToPlayer_Request message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Request.encode = function encode(message, writer, q) {
+        CQuest_PublisherAddCommunityItemsToPlayer_Request.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.steamid);
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.appid);
-            if (message.match_item_type != null && Object.hasOwnProperty.call(message, "match_item_type"))
+            if (message.match_item_type != null && $Object.hasOwnProperty.call(message, "match_item_type"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.match_item_type);
-            if (message.match_item_class != null && Object.hasOwnProperty.call(message, "match_item_class"))
+            if (message.match_item_class != null && $Object.hasOwnProperty.call(message, "match_item_class"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.match_item_class);
-            if (message.prefix_item_name != null && Object.hasOwnProperty.call(message, "prefix_item_name"))
+            if (message.prefix_item_name != null && $Object.hasOwnProperty.call(message, "prefix_item_name"))
                 writer.uint32(/* id 5, wireType 2 =*/42).string(message.prefix_item_name);
             if (message.attributes != null && message.attributes.length)
                 for (var i = 0; i < message.attributes.length; ++i)
-                    $root.CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.encode(message.attributes[i], writer.uint32(/* id 6, wireType 2 =*/50).fork(), q + 1).ldelim();
-            if (message.note != null && Object.hasOwnProperty.call(message, "note"))
+                    $root.CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.encode(message.attributes[i], writer.uint32(/* id 6, wireType 2 =*/50).fork(), _depth + 1).ldelim();
+            if (message.note != null && $Object.hasOwnProperty.call(message, "note"))
                 writer.uint32(/* id 7, wireType 2 =*/58).string(message.note);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -1884,12 +2045,12 @@
          * @function encodeDelimited
          * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Request
          * @static
-         * @param {ICQuest_PublisherAddCommunityItemsToPlayer_Request} message CQuest_PublisherAddCommunityItemsToPlayer_Request message or plain object to encode
+         * @param {CQuest_PublisherAddCommunityItemsToPlayer_Request.$Properties} message CQuest_PublisherAddCommunityItemsToPlayer_Request message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Request.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CQuest_PublisherAddCommunityItemsToPlayer_Request.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -1899,73 +2060,95 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Request} CQuest_PublisherAddCommunityItemsToPlayer_Request
+         * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Request & CQuest_PublisherAddCommunityItemsToPlayer_Request.$Shape} CQuest_PublisherAddCommunityItemsToPlayer_Request
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Request.decode = function decode(reader, length, error, long) {
+        CQuest_PublisherAddCommunityItemsToPlayer_Request.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CQuest_PublisherAddCommunityItemsToPlayer_Request();
+            message = _target || new $root.CQuest_PublisherAddCommunityItemsToPlayer_Request();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.steamid = reader.uint64();
-                        break;
-                    }
-                case 2: {
-                        message.appid = reader.uint32();
-                        break;
-                    }
-                case 3: {
-                        message.match_item_type = reader.uint32();
-                        break;
-                    }
-                case 4: {
-                        message.match_item_class = reader.uint32();
-                        break;
-                    }
-                case 5: {
-                        message.prefix_item_name = reader.string();
-                        break;
-                    }
-                case 6: {
-                        if (!(message.attributes && message.attributes.length))
-                            message.attributes = [];
-                        message.attributes.push($root.CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.decode(reader, reader.uint32(), undefined, long + 1));
-                        break;
-                    }
-                case 7: {
-                        message.note = reader.string();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.steamid = reader.uint64();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.appid = reader.uint32();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 0)
+                            break;
+                        message.match_item_type = reader.uint32();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 0)
+                            break;
+                        message.match_item_class = reader.uint32();
+                        continue;
+                    }
+                case 5: {
+                        if (wireType !== 2)
+                            break;
+                        message.prefix_item_name = reader.string();
+                        continue;
+                    }
+                case 6: {
+                        if (wireType !== 2)
+                            break;
+                        if (!(message.attributes && message.attributes.length))
+                            message.attributes = [];
+                        message.attributes.push($root.CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.decode(reader, reader.size(), $undefined, _depth + 1));
+                        continue;
+                    }
+                case 7: {
+                        if (wireType !== 2)
+                            break;
+                        message.note = reader.string();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -1975,14 +2158,14 @@
          * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Request
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Request} CQuest_PublisherAddCommunityItemsToPlayer_Request
+         * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Request & CQuest_PublisherAddCommunityItemsToPlayer_Request.$Shape} CQuest_PublisherAddCommunityItemsToPlayer_Request
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Request.decodeDelimited = function decodeDelimited(reader) {
+        CQuest_PublisherAddCommunityItemsToPlayer_Request.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -1993,38 +2176,38 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Request.verify = function verify(message, long) {
+        CQuest_PublisherAddCommunityItemsToPlayer_Request.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                 if (!$util.isInteger(message.steamid) && !(message.steamid && $util.isInteger(message.steamid.low) && $util.isInteger(message.steamid.high)))
                     return "steamid: integer|Long expected";
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.match_item_type != null && Object.hasOwnProperty.call(message, "match_item_type"))
+            if (message.match_item_type != null && $Object.hasOwnProperty.call(message, "match_item_type"))
                 if (!$util.isInteger(message.match_item_type))
                     return "match_item_type: integer expected";
-            if (message.match_item_class != null && Object.hasOwnProperty.call(message, "match_item_class"))
+            if (message.match_item_class != null && $Object.hasOwnProperty.call(message, "match_item_class"))
                 if (!$util.isInteger(message.match_item_class))
                     return "match_item_class: integer expected";
-            if (message.prefix_item_name != null && Object.hasOwnProperty.call(message, "prefix_item_name"))
+            if (message.prefix_item_name != null && $Object.hasOwnProperty.call(message, "prefix_item_name"))
                 if (!$util.isString(message.prefix_item_name))
                     return "prefix_item_name: string expected";
-            if (message.attributes != null && Object.hasOwnProperty.call(message, "attributes")) {
-                if (!Array.isArray(message.attributes))
+            if (message.attributes != null && $Object.hasOwnProperty.call(message, "attributes")) {
+                if (!$Array.isArray(message.attributes))
                     return "attributes: array expected";
                 for (var i = 0; i < message.attributes.length; ++i) {
-                    var error = $root.CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.verify(message.attributes[i], long + 1);
+                    var error = $root.CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.verify(message.attributes[i], _depth + 1);
                     if (error)
                         return "attributes." + error;
                 }
             }
-            if (message.note != null && Object.hasOwnProperty.call(message, "note"))
+            if (message.note != null && $Object.hasOwnProperty.call(message, "note"))
                 if (!$util.isString(message.note))
                     return "note: string expected";
             return null;
@@ -2038,21 +2221,21 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Request} CQuest_PublisherAddCommunityItemsToPlayer_Request
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Request.fromObject = function fromObject(object, long) {
+        CQuest_PublisherAddCommunityItemsToPlayer_Request.fromObject = function (object, _depth) {
             if (object instanceof $root.CQuest_PublisherAddCommunityItemsToPlayer_Request)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CQuest_PublisherAddCommunityItemsToPlayer_Request: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CQuest_PublisherAddCommunityItemsToPlayer_Request: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CQuest_PublisherAddCommunityItemsToPlayer_Request();
             if (object.steamid != null)
                 if ($util.Long)
                     message.steamid = $util.Long.fromValue(object.steamid, true);
                 else if (typeof object.steamid === "string")
-                    message.steamid = parseInt(object.steamid, 10);
+                    message.steamid = $parseInt(object.steamid, 10);
                 else if (typeof object.steamid === "number")
                     message.steamid = object.steamid;
                 else if (typeof object.steamid === "object")
@@ -2064,19 +2247,19 @@
             if (object.match_item_class != null)
                 message.match_item_class = object.match_item_class >>> 0;
             if (object.prefix_item_name != null)
-                message.prefix_item_name = String(object.prefix_item_name);
+                message.prefix_item_name = $String(object.prefix_item_name);
             if (object.attributes) {
-                if (!Array.isArray(object.attributes))
-                    throw TypeError(".CQuest_PublisherAddCommunityItemsToPlayer_Request.attributes: array expected");
-                message.attributes = [];
+                if (!$Array.isArray(object.attributes))
+                    throw $TypeError(".CQuest_PublisherAddCommunityItemsToPlayer_Request.attributes: array expected");
+                message.attributes = $Array(object.attributes.length);
                 for (var i = 0; i < object.attributes.length; ++i) {
                     if (!$util.isObject(object.attributes[i]))
-                        throw TypeError(".CQuest_PublisherAddCommunityItemsToPlayer_Request.attributes: object expected");
-                    message.attributes[i] = $root.CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.fromObject(object.attributes[i], long + 1);
+                        throw $TypeError(".CQuest_PublisherAddCommunityItemsToPlayer_Request.attributes: object expected");
+                    message.attributes[i] = $root.CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.fromObject(object.attributes[i], _depth + 1);
                 }
             }
             if (object.note != null)
-                message.note = String(object.note);
+                message.note = $String(object.note);
             return message;
         };
     
@@ -2089,49 +2272,49 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Request.toObject = function toObject(message, options, q) {
+        CQuest_PublisherAddCommunityItemsToPlayer_Request.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.attributes = [];
             if (options.defaults) {
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.steamid = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.steamid = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 object.appid = 0;
                 object.match_item_type = 0;
                 object.match_item_class = 0;
                 object.prefix_item_name = "";
                 object.note = "";
             }
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.steamid = typeof message.steamid === "number" ? BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.steamid = typeof message.steamid === "number" ? $BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
                 else if (typeof message.steamid === "number")
-                    object.steamid = options.longs === String ? String(message.steamid) : message.steamid;
+                    object.steamid = options.longs === $String ? $String(message.steamid) : message.steamid;
                 else
-                    object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+                    object.steamid = options.longs === $String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === $Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
-            if (message.match_item_type != null && Object.hasOwnProperty.call(message, "match_item_type"))
+            if (message.match_item_type != null && $Object.hasOwnProperty.call(message, "match_item_type"))
                 object.match_item_type = message.match_item_type;
-            if (message.match_item_class != null && Object.hasOwnProperty.call(message, "match_item_class"))
+            if (message.match_item_class != null && $Object.hasOwnProperty.call(message, "match_item_class"))
                 object.match_item_class = message.match_item_class;
-            if (message.prefix_item_name != null && Object.hasOwnProperty.call(message, "prefix_item_name"))
+            if (message.prefix_item_name != null && $Object.hasOwnProperty.call(message, "prefix_item_name"))
                 object.prefix_item_name = message.prefix_item_name;
             if (message.attributes && message.attributes.length) {
-                object.attributes = [];
+                object.attributes = $Array(message.attributes.length);
                 for (var j = 0; j < message.attributes.length; ++j)
-                    object.attributes[j] = $root.CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.toObject(message.attributes[j], options, q + 1);
+                    object.attributes[j] = $root.CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.toObject(message.attributes[j], options, _depth + 1);
             }
-            if (message.note != null && Object.hasOwnProperty.call(message, "note"))
+            if (message.note != null && $Object.hasOwnProperty.call(message, "note"))
                 object.note = message.note;
             return object;
         };
@@ -2143,49 +2326,61 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Request.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CQuest_PublisherAddCommunityItemsToPlayer_Request.prototype.toJSON = function() {
+            return CQuest_PublisherAddCommunityItemsToPlayer_Request.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CQuest_PublisherAddCommunityItemsToPlayer_Request
+         * Gets the type url for CQuest_PublisherAddCommunityItemsToPlayer_Request
          * @function getTypeUrl
          * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Request
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Request.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CQuest_PublisherAddCommunityItemsToPlayer_Request";
+        CQuest_PublisherAddCommunityItemsToPlayer_Request.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CQuest_PublisherAddCommunityItemsToPlayer_Request";
         };
     
         CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute = (function() {
     
             /**
              * Properties of an Attribute.
-             * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Request
-             * @interface IAttribute
+             * @typedef {Object} CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Properties
              * @property {number|null} [attribute] Attribute attribute
              * @property {number|Long|null} [value] Attribute value
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+    
+            /**
+             * Properties of an Attribute.
+             * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Request
+             * @interface IAttribute
+             * @augments CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Properties
+             * @deprecated Use CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Properties instead.
+             */
+    
+            /**
+             * Shape of an Attribute.
+             * @typedef {CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Properties} CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Shape
              */
     
             /**
              * Constructs a new Attribute.
              * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Request
              * @classdesc Represents an Attribute.
-             * @implements IAttribute
              * @constructor
-             * @param {CQuest_PublisherAddCommunityItemsToPlayer_Request.IAttribute=} [properties] Properties to set
+             * @param {CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function Attribute(properties) {
+            var Attribute = function (properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
     
             /**
              * Attribute attribute.
@@ -2208,10 +2403,14 @@
              * @function create
              * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute
              * @static
-             * @param {CQuest_PublisherAddCommunityItemsToPlayer_Request.IAttribute=} [properties] Properties to set
+             * @param {CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Properties=} [properties] Properties to set
              * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute} Attribute instance
+             * @type {{
+             *   (properties: CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Shape): CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute & CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Shape;
+             *   (properties?: CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Properties): CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute;
+             * }}
              */
-            Attribute.create = function create(properties) {
+            Attribute.create = function(properties) {
                 return new Attribute(properties);
             };
     
@@ -2220,21 +2419,24 @@
              * @function encode
              * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute
              * @static
-             * @param {CQuest_PublisherAddCommunityItemsToPlayer_Request.IAttribute} message Attribute message or plain object to encode
+             * @param {CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Properties} message Attribute message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Attribute.encode = function encode(message, writer, q) {
+            Attribute.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.attribute != null && Object.hasOwnProperty.call(message, "attribute"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.attribute != null && $Object.hasOwnProperty.call(message, "attribute"))
                     writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.attribute);
-                if (message.value != null && Object.hasOwnProperty.call(message, "value"))
+                if (message.value != null && $Object.hasOwnProperty.call(message, "value"))
                     writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.value);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
     
@@ -2243,12 +2445,12 @@
              * @function encodeDelimited
              * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute
              * @static
-             * @param {CQuest_PublisherAddCommunityItemsToPlayer_Request.IAttribute} message Attribute message or plain object to encode
+             * @param {CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Properties} message Attribute message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Attribute.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            Attribute.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
     
             /**
@@ -2258,51 +2460,63 @@
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute} Attribute
+             * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute & CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Shape} Attribute
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Attribute.decode = function decode(reader, length, error, long) {
+            Attribute.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (long === undefined)
-                    long = 0;
-                if (long > $Reader.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var end, message;
-                if (length === undefined)
+                if (length === $undefined)
                     end = reader.len;
                 else {
                     end = reader.pos + length;
                     if (end > reader.len)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     length = reader.len;
                     reader.len = end;
                 }
-                message = new $root.CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute();
+                message = _target || new $root.CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 1: {
-                            message.attribute = reader.uint32();
-                            break;
-                        }
-                    case 2: {
-                            message.value = reader.uint64();
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7, long);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            message.attribute = reader.uint32();
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            message.value = reader.uint64();
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
-                if (length !== undefined) {
+                if (length !== $undefined) {
                     if (reader.pos !== end)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     reader.len = length;
                 }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
     
@@ -2312,14 +2526,14 @@
              * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute} Attribute
+             * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute & CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute.$Shape} Attribute
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Attribute.decodeDelimited = function decodeDelimited(reader) {
+            Attribute.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
     
             /**
@@ -2330,17 +2544,17 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Attribute.verify = function verify(message, long) {
+            Attribute.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    return "maximum nesting depth exceeded";
-                if (message.attribute != null && Object.hasOwnProperty.call(message, "attribute"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.attribute != null && $Object.hasOwnProperty.call(message, "attribute"))
                     if (!$util.isInteger(message.attribute))
                         return "attribute: integer expected";
-                if (message.value != null && Object.hasOwnProperty.call(message, "value"))
+                if (message.value != null && $Object.hasOwnProperty.call(message, "value"))
                     if (!$util.isInteger(message.value) && !(message.value && $util.isInteger(message.value.low) && $util.isInteger(message.value.high)))
                         return "value: integer|Long expected";
                 return null;
@@ -2354,15 +2568,15 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute} Attribute
              */
-            Attribute.fromObject = function fromObject(object, long) {
+            Attribute.fromObject = function (object, _depth) {
                 if (object instanceof $root.CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute: object expected");
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                    throw $TypeError(".CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute();
                 if (object.attribute != null)
                     message.attribute = object.attribute >>> 0;
@@ -2370,7 +2584,7 @@
                     if ($util.Long)
                         message.value = $util.Long.fromValue(object.value, true);
                     else if (typeof object.value === "string")
-                        message.value = parseInt(object.value, 10);
+                        message.value = $parseInt(object.value, 10);
                     else if (typeof object.value === "number")
                         message.value = object.value;
                     else if (typeof object.value === "object")
@@ -2387,31 +2601,31 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Attribute.toObject = function toObject(message, options, q) {
+            Attribute.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.attribute = 0;
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, true);
-                        object.value = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                        object.value = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                     } else
-                        object.value = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                        object.value = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 }
-                if (message.attribute != null && Object.hasOwnProperty.call(message, "attribute"))
+                if (message.attribute != null && $Object.hasOwnProperty.call(message, "attribute"))
                     object.attribute = message.attribute;
-                if (message.value != null && Object.hasOwnProperty.call(message, "value"))
-                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                        object.value = typeof message.value === "number" ? BigInt(message.value) : $util.Long.fromBits(message.value.low >>> 0, message.value.high >>> 0, true).toBigInt();
+                if (message.value != null && $Object.hasOwnProperty.call(message, "value"))
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.value = typeof message.value === "number" ? $BigInt(message.value) : $util.Long.fromBits(message.value.low >>> 0, message.value.high >>> 0, true).toBigInt();
                     else if (typeof message.value === "number")
-                        object.value = options.longs === String ? String(message.value) : message.value;
+                        object.value = options.longs === $String ? $String(message.value) : message.value;
                     else
-                        object.value = options.longs === String ? $util.Long.prototype.toString.call(message.value) : options.longs === Number ? new $util.LongBits(message.value.low >>> 0, message.value.high >>> 0).toNumber(true) : message.value;
+                        object.value = options.longs === $String ? $util.Long.prototype.toString.call(message.value) : options.longs === $Number ? new $util.LongBits(message.value.low >>> 0, message.value.high >>> 0).toNumber(true) : message.value;
                 return object;
             };
     
@@ -2422,23 +2636,22 @@
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            Attribute.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            Attribute.prototype.toJSON = function() {
+                return Attribute.toObject(this, $protobuf.util.toJSONOptions);
             };
     
             /**
-             * Gets the default type url for Attribute
+             * Gets the type url for Attribute
              * @function getTypeUrl
              * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            Attribute.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute";
+            Attribute.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/CQuest_PublisherAddCommunityItemsToPlayer_Request.Attribute";
             };
     
             return Attribute;
@@ -2451,26 +2664,39 @@
     
         /**
          * Properties of a CQuest_PublisherAddCommunityItemsToPlayer_Response.
-         * @exports ICQuest_PublisherAddCommunityItemsToPlayer_Response
-         * @interface ICQuest_PublisherAddCommunityItemsToPlayer_Response
+         * @typedef {Object} CQuest_PublisherAddCommunityItemsToPlayer_Response.$Properties
          * @property {number|null} [items_matched] CQuest_PublisherAddCommunityItemsToPlayer_Response items_matched
          * @property {number|null} [items_granted] CQuest_PublisherAddCommunityItemsToPlayer_Response items_granted
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CQuest_PublisherAddCommunityItemsToPlayer_Response.
+         * @exports ICQuest_PublisherAddCommunityItemsToPlayer_Response
+         * @interface ICQuest_PublisherAddCommunityItemsToPlayer_Response
+         * @augments CQuest_PublisherAddCommunityItemsToPlayer_Response.$Properties
+         * @deprecated Use CQuest_PublisherAddCommunityItemsToPlayer_Response.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CQuest_PublisherAddCommunityItemsToPlayer_Response.
+         * @typedef {CQuest_PublisherAddCommunityItemsToPlayer_Response.$Properties} CQuest_PublisherAddCommunityItemsToPlayer_Response.$Shape
          */
     
         /**
          * Constructs a new CQuest_PublisherAddCommunityItemsToPlayer_Response.
          * @exports CQuest_PublisherAddCommunityItemsToPlayer_Response
          * @classdesc Represents a CQuest_PublisherAddCommunityItemsToPlayer_Response.
-         * @implements ICQuest_PublisherAddCommunityItemsToPlayer_Response
          * @constructor
-         * @param {ICQuest_PublisherAddCommunityItemsToPlayer_Response=} [properties] Properties to set
+         * @param {CQuest_PublisherAddCommunityItemsToPlayer_Response.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CQuest_PublisherAddCommunityItemsToPlayer_Response(properties) {
+        var CQuest_PublisherAddCommunityItemsToPlayer_Response = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CQuest_PublisherAddCommunityItemsToPlayer_Response items_matched.
@@ -2493,10 +2719,14 @@
          * @function create
          * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Response
          * @static
-         * @param {ICQuest_PublisherAddCommunityItemsToPlayer_Response=} [properties] Properties to set
+         * @param {CQuest_PublisherAddCommunityItemsToPlayer_Response.$Properties=} [properties] Properties to set
          * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Response} CQuest_PublisherAddCommunityItemsToPlayer_Response instance
+         * @type {{
+         *   (properties: CQuest_PublisherAddCommunityItemsToPlayer_Response.$Shape): CQuest_PublisherAddCommunityItemsToPlayer_Response & CQuest_PublisherAddCommunityItemsToPlayer_Response.$Shape;
+         *   (properties?: CQuest_PublisherAddCommunityItemsToPlayer_Response.$Properties): CQuest_PublisherAddCommunityItemsToPlayer_Response;
+         * }}
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Response.create = function create(properties) {
+        CQuest_PublisherAddCommunityItemsToPlayer_Response.create = function(properties) {
             return new CQuest_PublisherAddCommunityItemsToPlayer_Response(properties);
         };
     
@@ -2505,21 +2735,24 @@
          * @function encode
          * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Response
          * @static
-         * @param {ICQuest_PublisherAddCommunityItemsToPlayer_Response} message CQuest_PublisherAddCommunityItemsToPlayer_Response message or plain object to encode
+         * @param {CQuest_PublisherAddCommunityItemsToPlayer_Response.$Properties} message CQuest_PublisherAddCommunityItemsToPlayer_Response message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Response.encode = function encode(message, writer, q) {
+        CQuest_PublisherAddCommunityItemsToPlayer_Response.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.items_matched != null && Object.hasOwnProperty.call(message, "items_matched"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.items_matched != null && $Object.hasOwnProperty.call(message, "items_matched"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.items_matched);
-            if (message.items_granted != null && Object.hasOwnProperty.call(message, "items_granted"))
+            if (message.items_granted != null && $Object.hasOwnProperty.call(message, "items_granted"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.items_granted);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -2528,12 +2761,12 @@
          * @function encodeDelimited
          * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Response
          * @static
-         * @param {ICQuest_PublisherAddCommunityItemsToPlayer_Response} message CQuest_PublisherAddCommunityItemsToPlayer_Response message or plain object to encode
+         * @param {CQuest_PublisherAddCommunityItemsToPlayer_Response.$Properties} message CQuest_PublisherAddCommunityItemsToPlayer_Response message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Response.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CQuest_PublisherAddCommunityItemsToPlayer_Response.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -2543,51 +2776,63 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Response} CQuest_PublisherAddCommunityItemsToPlayer_Response
+         * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Response & CQuest_PublisherAddCommunityItemsToPlayer_Response.$Shape} CQuest_PublisherAddCommunityItemsToPlayer_Response
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Response.decode = function decode(reader, length, error, long) {
+        CQuest_PublisherAddCommunityItemsToPlayer_Response.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CQuest_PublisherAddCommunityItemsToPlayer_Response();
+            message = _target || new $root.CQuest_PublisherAddCommunityItemsToPlayer_Response();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.items_matched = reader.uint32();
-                        break;
-                    }
-                case 2: {
-                        message.items_granted = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.items_matched = reader.uint32();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.items_granted = reader.uint32();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -2597,14 +2842,14 @@
          * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Response
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Response} CQuest_PublisherAddCommunityItemsToPlayer_Response
+         * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Response & CQuest_PublisherAddCommunityItemsToPlayer_Response.$Shape} CQuest_PublisherAddCommunityItemsToPlayer_Response
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Response.decodeDelimited = function decodeDelimited(reader) {
+        CQuest_PublisherAddCommunityItemsToPlayer_Response.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -2615,17 +2860,17 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Response.verify = function verify(message, long) {
+        CQuest_PublisherAddCommunityItemsToPlayer_Response.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.items_matched != null && Object.hasOwnProperty.call(message, "items_matched"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.items_matched != null && $Object.hasOwnProperty.call(message, "items_matched"))
                 if (!$util.isInteger(message.items_matched))
                     return "items_matched: integer expected";
-            if (message.items_granted != null && Object.hasOwnProperty.call(message, "items_granted"))
+            if (message.items_granted != null && $Object.hasOwnProperty.call(message, "items_granted"))
                 if (!$util.isInteger(message.items_granted))
                     return "items_granted: integer expected";
             return null;
@@ -2639,15 +2884,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CQuest_PublisherAddCommunityItemsToPlayer_Response} CQuest_PublisherAddCommunityItemsToPlayer_Response
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Response.fromObject = function fromObject(object, long) {
+        CQuest_PublisherAddCommunityItemsToPlayer_Response.fromObject = function (object, _depth) {
             if (object instanceof $root.CQuest_PublisherAddCommunityItemsToPlayer_Response)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CQuest_PublisherAddCommunityItemsToPlayer_Response: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CQuest_PublisherAddCommunityItemsToPlayer_Response: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CQuest_PublisherAddCommunityItemsToPlayer_Response();
             if (object.items_matched != null)
                 message.items_matched = object.items_matched >>> 0;
@@ -2665,21 +2910,21 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Response.toObject = function toObject(message, options, q) {
+        CQuest_PublisherAddCommunityItemsToPlayer_Response.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.items_matched = 0;
                 object.items_granted = 0;
             }
-            if (message.items_matched != null && Object.hasOwnProperty.call(message, "items_matched"))
+            if (message.items_matched != null && $Object.hasOwnProperty.call(message, "items_matched"))
                 object.items_matched = message.items_matched;
-            if (message.items_granted != null && Object.hasOwnProperty.call(message, "items_granted"))
+            if (message.items_granted != null && $Object.hasOwnProperty.call(message, "items_granted"))
                 object.items_granted = message.items_granted;
             return object;
         };
@@ -2691,23 +2936,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Response.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CQuest_PublisherAddCommunityItemsToPlayer_Response.prototype.toJSON = function() {
+            return CQuest_PublisherAddCommunityItemsToPlayer_Response.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CQuest_PublisherAddCommunityItemsToPlayer_Response
+         * Gets the type url for CQuest_PublisherAddCommunityItemsToPlayer_Response
          * @function getTypeUrl
          * @memberof CQuest_PublisherAddCommunityItemsToPlayer_Response
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CQuest_PublisherAddCommunityItemsToPlayer_Response.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CQuest_PublisherAddCommunityItemsToPlayer_Response";
+        CQuest_PublisherAddCommunityItemsToPlayer_Response.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CQuest_PublisherAddCommunityItemsToPlayer_Response";
         };
     
         return CQuest_PublisherAddCommunityItemsToPlayer_Response;
@@ -2717,27 +2961,40 @@
     
         /**
          * Properties of a CCommunity_GamePersonalDataCategoryInfo.
-         * @exports ICCommunity_GamePersonalDataCategoryInfo
-         * @interface ICCommunity_GamePersonalDataCategoryInfo
+         * @typedef {Object} CCommunity_GamePersonalDataCategoryInfo.$Properties
          * @property {string|null} [type] CCommunity_GamePersonalDataCategoryInfo type
          * @property {string|null} [localization_token] CCommunity_GamePersonalDataCategoryInfo localization_token
          * @property {string|null} [template_file] CCommunity_GamePersonalDataCategoryInfo template_file
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CCommunity_GamePersonalDataCategoryInfo.
+         * @exports ICCommunity_GamePersonalDataCategoryInfo
+         * @interface ICCommunity_GamePersonalDataCategoryInfo
+         * @augments CCommunity_GamePersonalDataCategoryInfo.$Properties
+         * @deprecated Use CCommunity_GamePersonalDataCategoryInfo.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CCommunity_GamePersonalDataCategoryInfo.
+         * @typedef {CCommunity_GamePersonalDataCategoryInfo.$Properties} CCommunity_GamePersonalDataCategoryInfo.$Shape
          */
     
         /**
          * Constructs a new CCommunity_GamePersonalDataCategoryInfo.
          * @exports CCommunity_GamePersonalDataCategoryInfo
          * @classdesc Represents a CCommunity_GamePersonalDataCategoryInfo.
-         * @implements ICCommunity_GamePersonalDataCategoryInfo
          * @constructor
-         * @param {ICCommunity_GamePersonalDataCategoryInfo=} [properties] Properties to set
+         * @param {CCommunity_GamePersonalDataCategoryInfo.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CCommunity_GamePersonalDataCategoryInfo(properties) {
+        var CCommunity_GamePersonalDataCategoryInfo = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CCommunity_GamePersonalDataCategoryInfo type.
@@ -2768,10 +3025,14 @@
          * @function create
          * @memberof CCommunity_GamePersonalDataCategoryInfo
          * @static
-         * @param {ICCommunity_GamePersonalDataCategoryInfo=} [properties] Properties to set
+         * @param {CCommunity_GamePersonalDataCategoryInfo.$Properties=} [properties] Properties to set
          * @returns {CCommunity_GamePersonalDataCategoryInfo} CCommunity_GamePersonalDataCategoryInfo instance
+         * @type {{
+         *   (properties: CCommunity_GamePersonalDataCategoryInfo.$Shape): CCommunity_GamePersonalDataCategoryInfo & CCommunity_GamePersonalDataCategoryInfo.$Shape;
+         *   (properties?: CCommunity_GamePersonalDataCategoryInfo.$Properties): CCommunity_GamePersonalDataCategoryInfo;
+         * }}
          */
-        CCommunity_GamePersonalDataCategoryInfo.create = function create(properties) {
+        CCommunity_GamePersonalDataCategoryInfo.create = function(properties) {
             return new CCommunity_GamePersonalDataCategoryInfo(properties);
         };
     
@@ -2780,23 +3041,26 @@
          * @function encode
          * @memberof CCommunity_GamePersonalDataCategoryInfo
          * @static
-         * @param {ICCommunity_GamePersonalDataCategoryInfo} message CCommunity_GamePersonalDataCategoryInfo message or plain object to encode
+         * @param {CCommunity_GamePersonalDataCategoryInfo.$Properties} message CCommunity_GamePersonalDataCategoryInfo message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CCommunity_GamePersonalDataCategoryInfo.encode = function encode(message, writer, q) {
+        CCommunity_GamePersonalDataCategoryInfo.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.type != null && $Object.hasOwnProperty.call(message, "type"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.type);
-            if (message.localization_token != null && Object.hasOwnProperty.call(message, "localization_token"))
+            if (message.localization_token != null && $Object.hasOwnProperty.call(message, "localization_token"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.localization_token);
-            if (message.template_file != null && Object.hasOwnProperty.call(message, "template_file"))
+            if (message.template_file != null && $Object.hasOwnProperty.call(message, "template_file"))
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.template_file);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -2805,12 +3069,12 @@
          * @function encodeDelimited
          * @memberof CCommunity_GamePersonalDataCategoryInfo
          * @static
-         * @param {ICCommunity_GamePersonalDataCategoryInfo} message CCommunity_GamePersonalDataCategoryInfo message or plain object to encode
+         * @param {CCommunity_GamePersonalDataCategoryInfo.$Properties} message CCommunity_GamePersonalDataCategoryInfo message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CCommunity_GamePersonalDataCategoryInfo.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CCommunity_GamePersonalDataCategoryInfo.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -2820,55 +3084,69 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CCommunity_GamePersonalDataCategoryInfo} CCommunity_GamePersonalDataCategoryInfo
+         * @returns {CCommunity_GamePersonalDataCategoryInfo & CCommunity_GamePersonalDataCategoryInfo.$Shape} CCommunity_GamePersonalDataCategoryInfo
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCommunity_GamePersonalDataCategoryInfo.decode = function decode(reader, length, error, long) {
+        CCommunity_GamePersonalDataCategoryInfo.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CCommunity_GamePersonalDataCategoryInfo();
+            message = _target || new $root.CCommunity_GamePersonalDataCategoryInfo();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.type = reader.string();
-                        break;
-                    }
-                case 2: {
-                        message.localization_token = reader.string();
-                        break;
-                    }
-                case 3: {
-                        message.template_file = reader.string();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        message.type = reader.string();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.localization_token = reader.string();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 2)
+                            break;
+                        message.template_file = reader.string();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -2878,14 +3156,14 @@
          * @memberof CCommunity_GamePersonalDataCategoryInfo
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CCommunity_GamePersonalDataCategoryInfo} CCommunity_GamePersonalDataCategoryInfo
+         * @returns {CCommunity_GamePersonalDataCategoryInfo & CCommunity_GamePersonalDataCategoryInfo.$Shape} CCommunity_GamePersonalDataCategoryInfo
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCommunity_GamePersonalDataCategoryInfo.decodeDelimited = function decodeDelimited(reader) {
+        CCommunity_GamePersonalDataCategoryInfo.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -2896,20 +3174,20 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CCommunity_GamePersonalDataCategoryInfo.verify = function verify(message, long) {
+        CCommunity_GamePersonalDataCategoryInfo.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.type != null && $Object.hasOwnProperty.call(message, "type"))
                 if (!$util.isString(message.type))
                     return "type: string expected";
-            if (message.localization_token != null && Object.hasOwnProperty.call(message, "localization_token"))
+            if (message.localization_token != null && $Object.hasOwnProperty.call(message, "localization_token"))
                 if (!$util.isString(message.localization_token))
                     return "localization_token: string expected";
-            if (message.template_file != null && Object.hasOwnProperty.call(message, "template_file"))
+            if (message.template_file != null && $Object.hasOwnProperty.call(message, "template_file"))
                 if (!$util.isString(message.template_file))
                     return "template_file: string expected";
             return null;
@@ -2923,22 +3201,22 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CCommunity_GamePersonalDataCategoryInfo} CCommunity_GamePersonalDataCategoryInfo
          */
-        CCommunity_GamePersonalDataCategoryInfo.fromObject = function fromObject(object, long) {
+        CCommunity_GamePersonalDataCategoryInfo.fromObject = function (object, _depth) {
             if (object instanceof $root.CCommunity_GamePersonalDataCategoryInfo)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CCommunity_GamePersonalDataCategoryInfo: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CCommunity_GamePersonalDataCategoryInfo: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CCommunity_GamePersonalDataCategoryInfo();
             if (object.type != null)
-                message.type = String(object.type);
+                message.type = $String(object.type);
             if (object.localization_token != null)
-                message.localization_token = String(object.localization_token);
+                message.localization_token = $String(object.localization_token);
             if (object.template_file != null)
-                message.template_file = String(object.template_file);
+                message.template_file = $String(object.template_file);
             return message;
         };
     
@@ -2951,24 +3229,24 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CCommunity_GamePersonalDataCategoryInfo.toObject = function toObject(message, options, q) {
+        CCommunity_GamePersonalDataCategoryInfo.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.type = "";
                 object.localization_token = "";
                 object.template_file = "";
             }
-            if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+            if (message.type != null && $Object.hasOwnProperty.call(message, "type"))
                 object.type = message.type;
-            if (message.localization_token != null && Object.hasOwnProperty.call(message, "localization_token"))
+            if (message.localization_token != null && $Object.hasOwnProperty.call(message, "localization_token"))
                 object.localization_token = message.localization_token;
-            if (message.template_file != null && Object.hasOwnProperty.call(message, "template_file"))
+            if (message.template_file != null && $Object.hasOwnProperty.call(message, "template_file"))
                 object.template_file = message.template_file;
             return object;
         };
@@ -2980,23 +3258,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CCommunity_GamePersonalDataCategoryInfo.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CCommunity_GamePersonalDataCategoryInfo.prototype.toJSON = function() {
+            return CCommunity_GamePersonalDataCategoryInfo.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CCommunity_GamePersonalDataCategoryInfo
+         * Gets the type url for CCommunity_GamePersonalDataCategoryInfo
          * @function getTypeUrl
          * @memberof CCommunity_GamePersonalDataCategoryInfo
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CCommunity_GamePersonalDataCategoryInfo.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CCommunity_GamePersonalDataCategoryInfo";
+        CCommunity_GamePersonalDataCategoryInfo.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CCommunity_GamePersonalDataCategoryInfo";
         };
     
         return CCommunity_GamePersonalDataCategoryInfo;
@@ -3006,25 +3283,38 @@
     
         /**
          * Properties of a CCommunity_GetGamePersonalDataCategories_Request.
+         * @typedef {Object} CCommunity_GetGamePersonalDataCategories_Request.$Properties
+         * @property {number|null} [appid] CCommunity_GetGamePersonalDataCategories_Request appid
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CCommunity_GetGamePersonalDataCategories_Request.
          * @exports ICCommunity_GetGamePersonalDataCategories_Request
          * @interface ICCommunity_GetGamePersonalDataCategories_Request
-         * @property {number|null} [appid] CCommunity_GetGamePersonalDataCategories_Request appid
+         * @augments CCommunity_GetGamePersonalDataCategories_Request.$Properties
+         * @deprecated Use CCommunity_GetGamePersonalDataCategories_Request.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CCommunity_GetGamePersonalDataCategories_Request.
+         * @typedef {CCommunity_GetGamePersonalDataCategories_Request.$Properties} CCommunity_GetGamePersonalDataCategories_Request.$Shape
          */
     
         /**
          * Constructs a new CCommunity_GetGamePersonalDataCategories_Request.
          * @exports CCommunity_GetGamePersonalDataCategories_Request
          * @classdesc Represents a CCommunity_GetGamePersonalDataCategories_Request.
-         * @implements ICCommunity_GetGamePersonalDataCategories_Request
          * @constructor
-         * @param {ICCommunity_GetGamePersonalDataCategories_Request=} [properties] Properties to set
+         * @param {CCommunity_GetGamePersonalDataCategories_Request.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CCommunity_GetGamePersonalDataCategories_Request(properties) {
+        var CCommunity_GetGamePersonalDataCategories_Request = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CCommunity_GetGamePersonalDataCategories_Request appid.
@@ -3039,10 +3329,14 @@
          * @function create
          * @memberof CCommunity_GetGamePersonalDataCategories_Request
          * @static
-         * @param {ICCommunity_GetGamePersonalDataCategories_Request=} [properties] Properties to set
+         * @param {CCommunity_GetGamePersonalDataCategories_Request.$Properties=} [properties] Properties to set
          * @returns {CCommunity_GetGamePersonalDataCategories_Request} CCommunity_GetGamePersonalDataCategories_Request instance
+         * @type {{
+         *   (properties: CCommunity_GetGamePersonalDataCategories_Request.$Shape): CCommunity_GetGamePersonalDataCategories_Request & CCommunity_GetGamePersonalDataCategories_Request.$Shape;
+         *   (properties?: CCommunity_GetGamePersonalDataCategories_Request.$Properties): CCommunity_GetGamePersonalDataCategories_Request;
+         * }}
          */
-        CCommunity_GetGamePersonalDataCategories_Request.create = function create(properties) {
+        CCommunity_GetGamePersonalDataCategories_Request.create = function(properties) {
             return new CCommunity_GetGamePersonalDataCategories_Request(properties);
         };
     
@@ -3051,19 +3345,22 @@
          * @function encode
          * @memberof CCommunity_GetGamePersonalDataCategories_Request
          * @static
-         * @param {ICCommunity_GetGamePersonalDataCategories_Request} message CCommunity_GetGamePersonalDataCategories_Request message or plain object to encode
+         * @param {CCommunity_GetGamePersonalDataCategories_Request.$Properties} message CCommunity_GetGamePersonalDataCategories_Request message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CCommunity_GetGamePersonalDataCategories_Request.encode = function encode(message, writer, q) {
+        CCommunity_GetGamePersonalDataCategories_Request.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.appid);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -3072,12 +3369,12 @@
          * @function encodeDelimited
          * @memberof CCommunity_GetGamePersonalDataCategories_Request
          * @static
-         * @param {ICCommunity_GetGamePersonalDataCategories_Request} message CCommunity_GetGamePersonalDataCategories_Request message or plain object to encode
+         * @param {CCommunity_GetGamePersonalDataCategories_Request.$Properties} message CCommunity_GetGamePersonalDataCategories_Request message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CCommunity_GetGamePersonalDataCategories_Request.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CCommunity_GetGamePersonalDataCategories_Request.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -3087,47 +3384,57 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CCommunity_GetGamePersonalDataCategories_Request} CCommunity_GetGamePersonalDataCategories_Request
+         * @returns {CCommunity_GetGamePersonalDataCategories_Request & CCommunity_GetGamePersonalDataCategories_Request.$Shape} CCommunity_GetGamePersonalDataCategories_Request
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCommunity_GetGamePersonalDataCategories_Request.decode = function decode(reader, length, error, long) {
+        CCommunity_GetGamePersonalDataCategories_Request.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CCommunity_GetGamePersonalDataCategories_Request();
+            message = _target || new $root.CCommunity_GetGamePersonalDataCategories_Request();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.appid = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.appid = reader.uint32();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -3137,14 +3444,14 @@
          * @memberof CCommunity_GetGamePersonalDataCategories_Request
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CCommunity_GetGamePersonalDataCategories_Request} CCommunity_GetGamePersonalDataCategories_Request
+         * @returns {CCommunity_GetGamePersonalDataCategories_Request & CCommunity_GetGamePersonalDataCategories_Request.$Shape} CCommunity_GetGamePersonalDataCategories_Request
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCommunity_GetGamePersonalDataCategories_Request.decodeDelimited = function decodeDelimited(reader) {
+        CCommunity_GetGamePersonalDataCategories_Request.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -3155,14 +3462,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CCommunity_GetGamePersonalDataCategories_Request.verify = function verify(message, long) {
+        CCommunity_GetGamePersonalDataCategories_Request.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
             return null;
@@ -3176,15 +3483,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CCommunity_GetGamePersonalDataCategories_Request} CCommunity_GetGamePersonalDataCategories_Request
          */
-        CCommunity_GetGamePersonalDataCategories_Request.fromObject = function fromObject(object, long) {
+        CCommunity_GetGamePersonalDataCategories_Request.fromObject = function (object, _depth) {
             if (object instanceof $root.CCommunity_GetGamePersonalDataCategories_Request)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CCommunity_GetGamePersonalDataCategories_Request: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CCommunity_GetGamePersonalDataCategories_Request: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CCommunity_GetGamePersonalDataCategories_Request();
             if (object.appid != null)
                 message.appid = object.appid >>> 0;
@@ -3200,17 +3507,17 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CCommunity_GetGamePersonalDataCategories_Request.toObject = function toObject(message, options, q) {
+        CCommunity_GetGamePersonalDataCategories_Request.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.appid = 0;
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
             return object;
         };
@@ -3222,23 +3529,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CCommunity_GetGamePersonalDataCategories_Request.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CCommunity_GetGamePersonalDataCategories_Request.prototype.toJSON = function() {
+            return CCommunity_GetGamePersonalDataCategories_Request.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CCommunity_GetGamePersonalDataCategories_Request
+         * Gets the type url for CCommunity_GetGamePersonalDataCategories_Request
          * @function getTypeUrl
          * @memberof CCommunity_GetGamePersonalDataCategories_Request
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CCommunity_GetGamePersonalDataCategories_Request.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CCommunity_GetGamePersonalDataCategories_Request";
+        CCommunity_GetGamePersonalDataCategories_Request.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CCommunity_GetGamePersonalDataCategories_Request";
         };
     
         return CCommunity_GetGamePersonalDataCategories_Request;
@@ -3248,31 +3554,44 @@
     
         /**
          * Properties of a CCommunity_GetGamePersonalDataCategories_Response.
+         * @typedef {Object} CCommunity_GetGamePersonalDataCategories_Response.$Properties
+         * @property {Array.<CCommunity_GamePersonalDataCategoryInfo.$Properties>|null} [categories] CCommunity_GetGamePersonalDataCategories_Response categories
+         * @property {string|null} [app_assets_basename] CCommunity_GetGamePersonalDataCategories_Response app_assets_basename
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CCommunity_GetGamePersonalDataCategories_Response.
          * @exports ICCommunity_GetGamePersonalDataCategories_Response
          * @interface ICCommunity_GetGamePersonalDataCategories_Response
-         * @property {Array.<ICCommunity_GamePersonalDataCategoryInfo>|null} [categories] CCommunity_GetGamePersonalDataCategories_Response categories
-         * @property {string|null} [app_assets_basename] CCommunity_GetGamePersonalDataCategories_Response app_assets_basename
+         * @augments CCommunity_GetGamePersonalDataCategories_Response.$Properties
+         * @deprecated Use CCommunity_GetGamePersonalDataCategories_Response.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CCommunity_GetGamePersonalDataCategories_Response.
+         * @typedef {CCommunity_GetGamePersonalDataCategories_Response.$Properties} CCommunity_GetGamePersonalDataCategories_Response.$Shape
          */
     
         /**
          * Constructs a new CCommunity_GetGamePersonalDataCategories_Response.
          * @exports CCommunity_GetGamePersonalDataCategories_Response
          * @classdesc Represents a CCommunity_GetGamePersonalDataCategories_Response.
-         * @implements ICCommunity_GetGamePersonalDataCategories_Response
          * @constructor
-         * @param {ICCommunity_GetGamePersonalDataCategories_Response=} [properties] Properties to set
+         * @param {CCommunity_GetGamePersonalDataCategories_Response.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CCommunity_GetGamePersonalDataCategories_Response(properties) {
+        var CCommunity_GetGamePersonalDataCategories_Response = function (properties) {
             this.categories = [];
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CCommunity_GetGamePersonalDataCategories_Response categories.
-         * @member {Array.<ICCommunity_GamePersonalDataCategoryInfo>} categories
+         * @member {Array.<CCommunity_GamePersonalDataCategoryInfo.$Properties>} categories
          * @memberof CCommunity_GetGamePersonalDataCategories_Response
          * @instance
          */
@@ -3291,10 +3610,14 @@
          * @function create
          * @memberof CCommunity_GetGamePersonalDataCategories_Response
          * @static
-         * @param {ICCommunity_GetGamePersonalDataCategories_Response=} [properties] Properties to set
+         * @param {CCommunity_GetGamePersonalDataCategories_Response.$Properties=} [properties] Properties to set
          * @returns {CCommunity_GetGamePersonalDataCategories_Response} CCommunity_GetGamePersonalDataCategories_Response instance
+         * @type {{
+         *   (properties: CCommunity_GetGamePersonalDataCategories_Response.$Shape): CCommunity_GetGamePersonalDataCategories_Response & CCommunity_GetGamePersonalDataCategories_Response.$Shape;
+         *   (properties?: CCommunity_GetGamePersonalDataCategories_Response.$Properties): CCommunity_GetGamePersonalDataCategories_Response;
+         * }}
          */
-        CCommunity_GetGamePersonalDataCategories_Response.create = function create(properties) {
+        CCommunity_GetGamePersonalDataCategories_Response.create = function(properties) {
             return new CCommunity_GetGamePersonalDataCategories_Response(properties);
         };
     
@@ -3303,22 +3626,25 @@
          * @function encode
          * @memberof CCommunity_GetGamePersonalDataCategories_Response
          * @static
-         * @param {ICCommunity_GetGamePersonalDataCategories_Response} message CCommunity_GetGamePersonalDataCategories_Response message or plain object to encode
+         * @param {CCommunity_GetGamePersonalDataCategories_Response.$Properties} message CCommunity_GetGamePersonalDataCategories_Response message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CCommunity_GetGamePersonalDataCategories_Response.encode = function encode(message, writer, q) {
+        CCommunity_GetGamePersonalDataCategories_Response.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             if (message.categories != null && message.categories.length)
                 for (var i = 0; i < message.categories.length; ++i)
-                    $root.CCommunity_GamePersonalDataCategoryInfo.encode(message.categories[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
-            if (message.app_assets_basename != null && Object.hasOwnProperty.call(message, "app_assets_basename"))
+                    $root.CCommunity_GamePersonalDataCategoryInfo.encode(message.categories[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+            if (message.app_assets_basename != null && $Object.hasOwnProperty.call(message, "app_assets_basename"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.app_assets_basename);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -3327,12 +3653,12 @@
          * @function encodeDelimited
          * @memberof CCommunity_GetGamePersonalDataCategories_Response
          * @static
-         * @param {ICCommunity_GetGamePersonalDataCategories_Response} message CCommunity_GetGamePersonalDataCategories_Response message or plain object to encode
+         * @param {CCommunity_GetGamePersonalDataCategories_Response.$Properties} message CCommunity_GetGamePersonalDataCategories_Response message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CCommunity_GetGamePersonalDataCategories_Response.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CCommunity_GetGamePersonalDataCategories_Response.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -3342,53 +3668,65 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CCommunity_GetGamePersonalDataCategories_Response} CCommunity_GetGamePersonalDataCategories_Response
+         * @returns {CCommunity_GetGamePersonalDataCategories_Response & CCommunity_GetGamePersonalDataCategories_Response.$Shape} CCommunity_GetGamePersonalDataCategories_Response
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCommunity_GetGamePersonalDataCategories_Response.decode = function decode(reader, length, error, long) {
+        CCommunity_GetGamePersonalDataCategories_Response.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CCommunity_GetGamePersonalDataCategories_Response();
+            message = _target || new $root.CCommunity_GetGamePersonalDataCategories_Response();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        if (!(message.categories && message.categories.length))
-                            message.categories = [];
-                        message.categories.push($root.CCommunity_GamePersonalDataCategoryInfo.decode(reader, reader.uint32(), undefined, long + 1));
-                        break;
-                    }
-                case 2: {
-                        message.app_assets_basename = reader.string();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        if (!(message.categories && message.categories.length))
+                            message.categories = [];
+                        message.categories.push($root.CCommunity_GamePersonalDataCategoryInfo.decode(reader, reader.size(), $undefined, _depth + 1));
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.app_assets_basename = reader.string();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -3398,14 +3736,14 @@
          * @memberof CCommunity_GetGamePersonalDataCategories_Response
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CCommunity_GetGamePersonalDataCategories_Response} CCommunity_GetGamePersonalDataCategories_Response
+         * @returns {CCommunity_GetGamePersonalDataCategories_Response & CCommunity_GetGamePersonalDataCategories_Response.$Shape} CCommunity_GetGamePersonalDataCategories_Response
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCommunity_GetGamePersonalDataCategories_Response.decodeDelimited = function decodeDelimited(reader) {
+        CCommunity_GetGamePersonalDataCategories_Response.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -3416,23 +3754,23 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CCommunity_GetGamePersonalDataCategories_Response.verify = function verify(message, long) {
+        CCommunity_GetGamePersonalDataCategories_Response.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.categories != null && Object.hasOwnProperty.call(message, "categories")) {
-                if (!Array.isArray(message.categories))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.categories != null && $Object.hasOwnProperty.call(message, "categories")) {
+                if (!$Array.isArray(message.categories))
                     return "categories: array expected";
                 for (var i = 0; i < message.categories.length; ++i) {
-                    var error = $root.CCommunity_GamePersonalDataCategoryInfo.verify(message.categories[i], long + 1);
+                    var error = $root.CCommunity_GamePersonalDataCategoryInfo.verify(message.categories[i], _depth + 1);
                     if (error)
                         return "categories." + error;
                 }
             }
-            if (message.app_assets_basename != null && Object.hasOwnProperty.call(message, "app_assets_basename"))
+            if (message.app_assets_basename != null && $Object.hasOwnProperty.call(message, "app_assets_basename"))
                 if (!$util.isString(message.app_assets_basename))
                     return "app_assets_basename: string expected";
             return null;
@@ -3446,28 +3784,28 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CCommunity_GetGamePersonalDataCategories_Response} CCommunity_GetGamePersonalDataCategories_Response
          */
-        CCommunity_GetGamePersonalDataCategories_Response.fromObject = function fromObject(object, long) {
+        CCommunity_GetGamePersonalDataCategories_Response.fromObject = function (object, _depth) {
             if (object instanceof $root.CCommunity_GetGamePersonalDataCategories_Response)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CCommunity_GetGamePersonalDataCategories_Response: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CCommunity_GetGamePersonalDataCategories_Response: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CCommunity_GetGamePersonalDataCategories_Response();
             if (object.categories) {
-                if (!Array.isArray(object.categories))
-                    throw TypeError(".CCommunity_GetGamePersonalDataCategories_Response.categories: array expected");
-                message.categories = [];
+                if (!$Array.isArray(object.categories))
+                    throw $TypeError(".CCommunity_GetGamePersonalDataCategories_Response.categories: array expected");
+                message.categories = $Array(object.categories.length);
                 for (var i = 0; i < object.categories.length; ++i) {
                     if (!$util.isObject(object.categories[i]))
-                        throw TypeError(".CCommunity_GetGamePersonalDataCategories_Response.categories: object expected");
-                    message.categories[i] = $root.CCommunity_GamePersonalDataCategoryInfo.fromObject(object.categories[i], long + 1);
+                        throw $TypeError(".CCommunity_GetGamePersonalDataCategories_Response.categories: object expected");
+                    message.categories[i] = $root.CCommunity_GamePersonalDataCategoryInfo.fromObject(object.categories[i], _depth + 1);
                 }
             }
             if (object.app_assets_basename != null)
-                message.app_assets_basename = String(object.app_assets_basename);
+                message.app_assets_basename = $String(object.app_assets_basename);
             return message;
         };
     
@@ -3480,24 +3818,24 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CCommunity_GetGamePersonalDataCategories_Response.toObject = function toObject(message, options, q) {
+        CCommunity_GetGamePersonalDataCategories_Response.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.categories = [];
             if (options.defaults)
                 object.app_assets_basename = "";
             if (message.categories && message.categories.length) {
-                object.categories = [];
+                object.categories = $Array(message.categories.length);
                 for (var j = 0; j < message.categories.length; ++j)
-                    object.categories[j] = $root.CCommunity_GamePersonalDataCategoryInfo.toObject(message.categories[j], options, q + 1);
+                    object.categories[j] = $root.CCommunity_GamePersonalDataCategoryInfo.toObject(message.categories[j], options, _depth + 1);
             }
-            if (message.app_assets_basename != null && Object.hasOwnProperty.call(message, "app_assets_basename"))
+            if (message.app_assets_basename != null && $Object.hasOwnProperty.call(message, "app_assets_basename"))
                 object.app_assets_basename = message.app_assets_basename;
             return object;
         };
@@ -3509,23 +3847,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CCommunity_GetGamePersonalDataCategories_Response.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CCommunity_GetGamePersonalDataCategories_Response.prototype.toJSON = function() {
+            return CCommunity_GetGamePersonalDataCategories_Response.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CCommunity_GetGamePersonalDataCategories_Response
+         * Gets the type url for CCommunity_GetGamePersonalDataCategories_Response
          * @function getTypeUrl
          * @memberof CCommunity_GetGamePersonalDataCategories_Response
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CCommunity_GetGamePersonalDataCategories_Response.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CCommunity_GetGamePersonalDataCategories_Response";
+        CCommunity_GetGamePersonalDataCategories_Response.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CCommunity_GetGamePersonalDataCategories_Response";
         };
     
         return CCommunity_GetGamePersonalDataCategories_Response;
@@ -3535,28 +3872,41 @@
     
         /**
          * Properties of a CCommunity_GetGamePersonalDataEntries_Request.
-         * @exports ICCommunity_GetGamePersonalDataEntries_Request
-         * @interface ICCommunity_GetGamePersonalDataEntries_Request
+         * @typedef {Object} CCommunity_GetGamePersonalDataEntries_Request.$Properties
          * @property {number|null} [appid] CCommunity_GetGamePersonalDataEntries_Request appid
          * @property {number|Long|null} [steamid] CCommunity_GetGamePersonalDataEntries_Request steamid
          * @property {string|null} [type] CCommunity_GetGamePersonalDataEntries_Request type
          * @property {string|null} [continue_token] CCommunity_GetGamePersonalDataEntries_Request continue_token
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CCommunity_GetGamePersonalDataEntries_Request.
+         * @exports ICCommunity_GetGamePersonalDataEntries_Request
+         * @interface ICCommunity_GetGamePersonalDataEntries_Request
+         * @augments CCommunity_GetGamePersonalDataEntries_Request.$Properties
+         * @deprecated Use CCommunity_GetGamePersonalDataEntries_Request.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CCommunity_GetGamePersonalDataEntries_Request.
+         * @typedef {CCommunity_GetGamePersonalDataEntries_Request.$Properties} CCommunity_GetGamePersonalDataEntries_Request.$Shape
          */
     
         /**
          * Constructs a new CCommunity_GetGamePersonalDataEntries_Request.
          * @exports CCommunity_GetGamePersonalDataEntries_Request
          * @classdesc Represents a CCommunity_GetGamePersonalDataEntries_Request.
-         * @implements ICCommunity_GetGamePersonalDataEntries_Request
          * @constructor
-         * @param {ICCommunity_GetGamePersonalDataEntries_Request=} [properties] Properties to set
+         * @param {CCommunity_GetGamePersonalDataEntries_Request.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CCommunity_GetGamePersonalDataEntries_Request(properties) {
+        var CCommunity_GetGamePersonalDataEntries_Request = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CCommunity_GetGamePersonalDataEntries_Request appid.
@@ -3595,10 +3945,14 @@
          * @function create
          * @memberof CCommunity_GetGamePersonalDataEntries_Request
          * @static
-         * @param {ICCommunity_GetGamePersonalDataEntries_Request=} [properties] Properties to set
+         * @param {CCommunity_GetGamePersonalDataEntries_Request.$Properties=} [properties] Properties to set
          * @returns {CCommunity_GetGamePersonalDataEntries_Request} CCommunity_GetGamePersonalDataEntries_Request instance
+         * @type {{
+         *   (properties: CCommunity_GetGamePersonalDataEntries_Request.$Shape): CCommunity_GetGamePersonalDataEntries_Request & CCommunity_GetGamePersonalDataEntries_Request.$Shape;
+         *   (properties?: CCommunity_GetGamePersonalDataEntries_Request.$Properties): CCommunity_GetGamePersonalDataEntries_Request;
+         * }}
          */
-        CCommunity_GetGamePersonalDataEntries_Request.create = function create(properties) {
+        CCommunity_GetGamePersonalDataEntries_Request.create = function(properties) {
             return new CCommunity_GetGamePersonalDataEntries_Request(properties);
         };
     
@@ -3607,25 +3961,28 @@
          * @function encode
          * @memberof CCommunity_GetGamePersonalDataEntries_Request
          * @static
-         * @param {ICCommunity_GetGamePersonalDataEntries_Request} message CCommunity_GetGamePersonalDataEntries_Request message or plain object to encode
+         * @param {CCommunity_GetGamePersonalDataEntries_Request.$Properties} message CCommunity_GetGamePersonalDataEntries_Request message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CCommunity_GetGamePersonalDataEntries_Request.encode = function encode(message, writer, q) {
+        CCommunity_GetGamePersonalDataEntries_Request.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.appid);
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.steamid);
-            if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+            if (message.type != null && $Object.hasOwnProperty.call(message, "type"))
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.type);
-            if (message.continue_token != null && Object.hasOwnProperty.call(message, "continue_token"))
+            if (message.continue_token != null && $Object.hasOwnProperty.call(message, "continue_token"))
                 writer.uint32(/* id 4, wireType 2 =*/34).string(message.continue_token);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -3634,12 +3991,12 @@
          * @function encodeDelimited
          * @memberof CCommunity_GetGamePersonalDataEntries_Request
          * @static
-         * @param {ICCommunity_GetGamePersonalDataEntries_Request} message CCommunity_GetGamePersonalDataEntries_Request message or plain object to encode
+         * @param {CCommunity_GetGamePersonalDataEntries_Request.$Properties} message CCommunity_GetGamePersonalDataEntries_Request message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CCommunity_GetGamePersonalDataEntries_Request.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CCommunity_GetGamePersonalDataEntries_Request.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -3649,59 +4006,75 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CCommunity_GetGamePersonalDataEntries_Request} CCommunity_GetGamePersonalDataEntries_Request
+         * @returns {CCommunity_GetGamePersonalDataEntries_Request & CCommunity_GetGamePersonalDataEntries_Request.$Shape} CCommunity_GetGamePersonalDataEntries_Request
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCommunity_GetGamePersonalDataEntries_Request.decode = function decode(reader, length, error, long) {
+        CCommunity_GetGamePersonalDataEntries_Request.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CCommunity_GetGamePersonalDataEntries_Request();
+            message = _target || new $root.CCommunity_GetGamePersonalDataEntries_Request();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.appid = reader.uint32();
-                        break;
-                    }
-                case 2: {
-                        message.steamid = reader.uint64();
-                        break;
-                    }
-                case 3: {
-                        message.type = reader.string();
-                        break;
-                    }
-                case 4: {
-                        message.continue_token = reader.string();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.appid = reader.uint32();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.steamid = reader.uint64();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 2)
+                            break;
+                        message.type = reader.string();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 2)
+                            break;
+                        message.continue_token = reader.string();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -3711,14 +4084,14 @@
          * @memberof CCommunity_GetGamePersonalDataEntries_Request
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CCommunity_GetGamePersonalDataEntries_Request} CCommunity_GetGamePersonalDataEntries_Request
+         * @returns {CCommunity_GetGamePersonalDataEntries_Request & CCommunity_GetGamePersonalDataEntries_Request.$Shape} CCommunity_GetGamePersonalDataEntries_Request
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCommunity_GetGamePersonalDataEntries_Request.decodeDelimited = function decodeDelimited(reader) {
+        CCommunity_GetGamePersonalDataEntries_Request.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -3729,23 +4102,23 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CCommunity_GetGamePersonalDataEntries_Request.verify = function verify(message, long) {
+        CCommunity_GetGamePersonalDataEntries_Request.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                 if (!$util.isInteger(message.steamid) && !(message.steamid && $util.isInteger(message.steamid.low) && $util.isInteger(message.steamid.high)))
                     return "steamid: integer|Long expected";
-            if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+            if (message.type != null && $Object.hasOwnProperty.call(message, "type"))
                 if (!$util.isString(message.type))
                     return "type: string expected";
-            if (message.continue_token != null && Object.hasOwnProperty.call(message, "continue_token"))
+            if (message.continue_token != null && $Object.hasOwnProperty.call(message, "continue_token"))
                 if (!$util.isString(message.continue_token))
                     return "continue_token: string expected";
             return null;
@@ -3759,15 +4132,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CCommunity_GetGamePersonalDataEntries_Request} CCommunity_GetGamePersonalDataEntries_Request
          */
-        CCommunity_GetGamePersonalDataEntries_Request.fromObject = function fromObject(object, long) {
+        CCommunity_GetGamePersonalDataEntries_Request.fromObject = function (object, _depth) {
             if (object instanceof $root.CCommunity_GetGamePersonalDataEntries_Request)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CCommunity_GetGamePersonalDataEntries_Request: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CCommunity_GetGamePersonalDataEntries_Request: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CCommunity_GetGamePersonalDataEntries_Request();
             if (object.appid != null)
                 message.appid = object.appid >>> 0;
@@ -3775,15 +4148,15 @@
                 if ($util.Long)
                     message.steamid = $util.Long.fromValue(object.steamid, true);
                 else if (typeof object.steamid === "string")
-                    message.steamid = parseInt(object.steamid, 10);
+                    message.steamid = $parseInt(object.steamid, 10);
                 else if (typeof object.steamid === "number")
                     message.steamid = object.steamid;
                 else if (typeof object.steamid === "object")
                     message.steamid = new $util.LongBits(object.steamid.low >>> 0, object.steamid.high >>> 0).toNumber(true);
             if (object.type != null)
-                message.type = String(object.type);
+                message.type = $String(object.type);
             if (object.continue_token != null)
-                message.continue_token = String(object.continue_token);
+                message.continue_token = $String(object.continue_token);
             return message;
         };
     
@@ -3796,36 +4169,36 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CCommunity_GetGamePersonalDataEntries_Request.toObject = function toObject(message, options, q) {
+        CCommunity_GetGamePersonalDataEntries_Request.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.appid = 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.steamid = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.steamid = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 object.type = "";
                 object.continue_token = "";
             }
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.steamid = typeof message.steamid === "number" ? BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.steamid = typeof message.steamid === "number" ? $BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
                 else if (typeof message.steamid === "number")
-                    object.steamid = options.longs === String ? String(message.steamid) : message.steamid;
+                    object.steamid = options.longs === $String ? $String(message.steamid) : message.steamid;
                 else
-                    object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
-            if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+                    object.steamid = options.longs === $String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === $Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
+            if (message.type != null && $Object.hasOwnProperty.call(message, "type"))
                 object.type = message.type;
-            if (message.continue_token != null && Object.hasOwnProperty.call(message, "continue_token"))
+            if (message.continue_token != null && $Object.hasOwnProperty.call(message, "continue_token"))
                 object.continue_token = message.continue_token;
             return object;
         };
@@ -3837,23 +4210,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CCommunity_GetGamePersonalDataEntries_Request.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CCommunity_GetGamePersonalDataEntries_Request.prototype.toJSON = function() {
+            return CCommunity_GetGamePersonalDataEntries_Request.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CCommunity_GetGamePersonalDataEntries_Request
+         * Gets the type url for CCommunity_GetGamePersonalDataEntries_Request
          * @function getTypeUrl
          * @memberof CCommunity_GetGamePersonalDataEntries_Request
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CCommunity_GetGamePersonalDataEntries_Request.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CCommunity_GetGamePersonalDataEntries_Request";
+        CCommunity_GetGamePersonalDataEntries_Request.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CCommunity_GetGamePersonalDataEntries_Request";
         };
     
         return CCommunity_GetGamePersonalDataEntries_Request;
@@ -3863,29 +4235,42 @@
     
         /**
          * Properties of a CCommunity_GetGamePersonalDataEntries_Response.
-         * @exports ICCommunity_GetGamePersonalDataEntries_Response
-         * @interface ICCommunity_GetGamePersonalDataEntries_Response
+         * @typedef {Object} CCommunity_GetGamePersonalDataEntries_Response.$Properties
          * @property {number|null} [gceresult] CCommunity_GetGamePersonalDataEntries_Response gceresult
          * @property {Array.<string>|null} [entries] CCommunity_GetGamePersonalDataEntries_Response entries
          * @property {string|null} [continue_token] CCommunity_GetGamePersonalDataEntries_Response continue_token
          * @property {string|null} [continue_text] CCommunity_GetGamePersonalDataEntries_Response continue_text
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CCommunity_GetGamePersonalDataEntries_Response.
+         * @exports ICCommunity_GetGamePersonalDataEntries_Response
+         * @interface ICCommunity_GetGamePersonalDataEntries_Response
+         * @augments CCommunity_GetGamePersonalDataEntries_Response.$Properties
+         * @deprecated Use CCommunity_GetGamePersonalDataEntries_Response.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CCommunity_GetGamePersonalDataEntries_Response.
+         * @typedef {CCommunity_GetGamePersonalDataEntries_Response.$Properties} CCommunity_GetGamePersonalDataEntries_Response.$Shape
          */
     
         /**
          * Constructs a new CCommunity_GetGamePersonalDataEntries_Response.
          * @exports CCommunity_GetGamePersonalDataEntries_Response
          * @classdesc Represents a CCommunity_GetGamePersonalDataEntries_Response.
-         * @implements ICCommunity_GetGamePersonalDataEntries_Response
          * @constructor
-         * @param {ICCommunity_GetGamePersonalDataEntries_Response=} [properties] Properties to set
+         * @param {CCommunity_GetGamePersonalDataEntries_Response.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CCommunity_GetGamePersonalDataEntries_Response(properties) {
+        var CCommunity_GetGamePersonalDataEntries_Response = function (properties) {
             this.entries = [];
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CCommunity_GetGamePersonalDataEntries_Response gceresult.
@@ -3924,10 +4309,14 @@
          * @function create
          * @memberof CCommunity_GetGamePersonalDataEntries_Response
          * @static
-         * @param {ICCommunity_GetGamePersonalDataEntries_Response=} [properties] Properties to set
+         * @param {CCommunity_GetGamePersonalDataEntries_Response.$Properties=} [properties] Properties to set
          * @returns {CCommunity_GetGamePersonalDataEntries_Response} CCommunity_GetGamePersonalDataEntries_Response instance
+         * @type {{
+         *   (properties: CCommunity_GetGamePersonalDataEntries_Response.$Shape): CCommunity_GetGamePersonalDataEntries_Response & CCommunity_GetGamePersonalDataEntries_Response.$Shape;
+         *   (properties?: CCommunity_GetGamePersonalDataEntries_Response.$Properties): CCommunity_GetGamePersonalDataEntries_Response;
+         * }}
          */
-        CCommunity_GetGamePersonalDataEntries_Response.create = function create(properties) {
+        CCommunity_GetGamePersonalDataEntries_Response.create = function(properties) {
             return new CCommunity_GetGamePersonalDataEntries_Response(properties);
         };
     
@@ -3936,26 +4325,29 @@
          * @function encode
          * @memberof CCommunity_GetGamePersonalDataEntries_Response
          * @static
-         * @param {ICCommunity_GetGamePersonalDataEntries_Response} message CCommunity_GetGamePersonalDataEntries_Response message or plain object to encode
+         * @param {CCommunity_GetGamePersonalDataEntries_Response.$Properties} message CCommunity_GetGamePersonalDataEntries_Response message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CCommunity_GetGamePersonalDataEntries_Response.encode = function encode(message, writer, q) {
+        CCommunity_GetGamePersonalDataEntries_Response.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.gceresult != null && Object.hasOwnProperty.call(message, "gceresult"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.gceresult != null && $Object.hasOwnProperty.call(message, "gceresult"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.gceresult);
             if (message.entries != null && message.entries.length)
                 for (var i = 0; i < message.entries.length; ++i)
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.entries[i]);
-            if (message.continue_token != null && Object.hasOwnProperty.call(message, "continue_token"))
+            if (message.continue_token != null && $Object.hasOwnProperty.call(message, "continue_token"))
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.continue_token);
-            if (message.continue_text != null && Object.hasOwnProperty.call(message, "continue_text"))
+            if (message.continue_text != null && $Object.hasOwnProperty.call(message, "continue_text"))
                 writer.uint32(/* id 4, wireType 2 =*/34).string(message.continue_text);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -3964,12 +4356,12 @@
          * @function encodeDelimited
          * @memberof CCommunity_GetGamePersonalDataEntries_Response
          * @static
-         * @param {ICCommunity_GetGamePersonalDataEntries_Response} message CCommunity_GetGamePersonalDataEntries_Response message or plain object to encode
+         * @param {CCommunity_GetGamePersonalDataEntries_Response.$Properties} message CCommunity_GetGamePersonalDataEntries_Response message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CCommunity_GetGamePersonalDataEntries_Response.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CCommunity_GetGamePersonalDataEntries_Response.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -3979,61 +4371,77 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CCommunity_GetGamePersonalDataEntries_Response} CCommunity_GetGamePersonalDataEntries_Response
+         * @returns {CCommunity_GetGamePersonalDataEntries_Response & CCommunity_GetGamePersonalDataEntries_Response.$Shape} CCommunity_GetGamePersonalDataEntries_Response
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCommunity_GetGamePersonalDataEntries_Response.decode = function decode(reader, length, error, long) {
+        CCommunity_GetGamePersonalDataEntries_Response.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CCommunity_GetGamePersonalDataEntries_Response();
+            message = _target || new $root.CCommunity_GetGamePersonalDataEntries_Response();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
-                switch (tag >>> 3) {
+                }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
                 case 1: {
+                        if (wireType !== 0)
+                            break;
                         message.gceresult = reader.uint32();
-                        break;
+                        continue;
                     }
                 case 2: {
+                        if (wireType !== 2)
+                            break;
                         if (!(message.entries && message.entries.length))
                             message.entries = [];
                         message.entries.push(reader.string());
-                        break;
+                        continue;
                     }
                 case 3: {
+                        if (wireType !== 2)
+                            break;
                         message.continue_token = reader.string();
-                        break;
+                        continue;
                     }
                 case 4: {
+                        if (wireType !== 2)
+                            break;
                         message.continue_text = reader.string();
-                        break;
+                        continue;
                     }
-                default:
-                    reader.skipType(tag & 7, long);
-                    break;
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                 }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -4043,14 +4451,14 @@
          * @memberof CCommunity_GetGamePersonalDataEntries_Response
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CCommunity_GetGamePersonalDataEntries_Response} CCommunity_GetGamePersonalDataEntries_Response
+         * @returns {CCommunity_GetGamePersonalDataEntries_Response & CCommunity_GetGamePersonalDataEntries_Response.$Shape} CCommunity_GetGamePersonalDataEntries_Response
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCommunity_GetGamePersonalDataEntries_Response.decodeDelimited = function decodeDelimited(reader) {
+        CCommunity_GetGamePersonalDataEntries_Response.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -4061,27 +4469,27 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CCommunity_GetGamePersonalDataEntries_Response.verify = function verify(message, long) {
+        CCommunity_GetGamePersonalDataEntries_Response.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.gceresult != null && Object.hasOwnProperty.call(message, "gceresult"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.gceresult != null && $Object.hasOwnProperty.call(message, "gceresult"))
                 if (!$util.isInteger(message.gceresult))
                     return "gceresult: integer expected";
-            if (message.entries != null && Object.hasOwnProperty.call(message, "entries")) {
-                if (!Array.isArray(message.entries))
+            if (message.entries != null && $Object.hasOwnProperty.call(message, "entries")) {
+                if (!$Array.isArray(message.entries))
                     return "entries: array expected";
                 for (var i = 0; i < message.entries.length; ++i)
                     if (!$util.isString(message.entries[i]))
                         return "entries: string[] expected";
             }
-            if (message.continue_token != null && Object.hasOwnProperty.call(message, "continue_token"))
+            if (message.continue_token != null && $Object.hasOwnProperty.call(message, "continue_token"))
                 if (!$util.isString(message.continue_token))
                     return "continue_token: string expected";
-            if (message.continue_text != null && Object.hasOwnProperty.call(message, "continue_text"))
+            if (message.continue_text != null && $Object.hasOwnProperty.call(message, "continue_text"))
                 if (!$util.isString(message.continue_text))
                     return "continue_text: string expected";
             return null;
@@ -4095,29 +4503,29 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CCommunity_GetGamePersonalDataEntries_Response} CCommunity_GetGamePersonalDataEntries_Response
          */
-        CCommunity_GetGamePersonalDataEntries_Response.fromObject = function fromObject(object, long) {
+        CCommunity_GetGamePersonalDataEntries_Response.fromObject = function (object, _depth) {
             if (object instanceof $root.CCommunity_GetGamePersonalDataEntries_Response)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CCommunity_GetGamePersonalDataEntries_Response: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CCommunity_GetGamePersonalDataEntries_Response: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CCommunity_GetGamePersonalDataEntries_Response();
             if (object.gceresult != null)
                 message.gceresult = object.gceresult >>> 0;
             if (object.entries) {
-                if (!Array.isArray(object.entries))
-                    throw TypeError(".CCommunity_GetGamePersonalDataEntries_Response.entries: array expected");
-                message.entries = [];
+                if (!$Array.isArray(object.entries))
+                    throw $TypeError(".CCommunity_GetGamePersonalDataEntries_Response.entries: array expected");
+                message.entries = $Array(object.entries.length);
                 for (var i = 0; i < object.entries.length; ++i)
-                    message.entries[i] = String(object.entries[i]);
+                    message.entries[i] = $String(object.entries[i]);
             }
             if (object.continue_token != null)
-                message.continue_token = String(object.continue_token);
+                message.continue_token = $String(object.continue_token);
             if (object.continue_text != null)
-                message.continue_text = String(object.continue_text);
+                message.continue_text = $String(object.continue_text);
             return message;
         };
     
@@ -4130,13 +4538,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CCommunity_GetGamePersonalDataEntries_Response.toObject = function toObject(message, options, q) {
+        CCommunity_GetGamePersonalDataEntries_Response.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.entries = [];
@@ -4145,16 +4553,16 @@
                 object.continue_token = "";
                 object.continue_text = "";
             }
-            if (message.gceresult != null && Object.hasOwnProperty.call(message, "gceresult"))
+            if (message.gceresult != null && $Object.hasOwnProperty.call(message, "gceresult"))
                 object.gceresult = message.gceresult;
             if (message.entries && message.entries.length) {
-                object.entries = [];
+                object.entries = $Array(message.entries.length);
                 for (var j = 0; j < message.entries.length; ++j)
                     object.entries[j] = message.entries[j];
             }
-            if (message.continue_token != null && Object.hasOwnProperty.call(message, "continue_token"))
+            if (message.continue_token != null && $Object.hasOwnProperty.call(message, "continue_token"))
                 object.continue_token = message.continue_token;
-            if (message.continue_text != null && Object.hasOwnProperty.call(message, "continue_text"))
+            if (message.continue_text != null && $Object.hasOwnProperty.call(message, "continue_text"))
                 object.continue_text = message.continue_text;
             return object;
         };
@@ -4166,23 +4574,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CCommunity_GetGamePersonalDataEntries_Response.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CCommunity_GetGamePersonalDataEntries_Response.prototype.toJSON = function() {
+            return CCommunity_GetGamePersonalDataEntries_Response.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CCommunity_GetGamePersonalDataEntries_Response
+         * Gets the type url for CCommunity_GetGamePersonalDataEntries_Response
          * @function getTypeUrl
          * @memberof CCommunity_GetGamePersonalDataEntries_Response
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CCommunity_GetGamePersonalDataEntries_Response.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CCommunity_GetGamePersonalDataEntries_Response";
+        CCommunity_GetGamePersonalDataEntries_Response.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CCommunity_GetGamePersonalDataEntries_Response";
         };
     
         return CCommunity_GetGamePersonalDataEntries_Response;
@@ -4192,26 +4599,39 @@
     
         /**
          * Properties of a CCommunity_TerminateGamePersonalDataEntries_Request.
-         * @exports ICCommunity_TerminateGamePersonalDataEntries_Request
-         * @interface ICCommunity_TerminateGamePersonalDataEntries_Request
+         * @typedef {Object} CCommunity_TerminateGamePersonalDataEntries_Request.$Properties
          * @property {number|null} [appid] CCommunity_TerminateGamePersonalDataEntries_Request appid
          * @property {number|Long|null} [steamid] CCommunity_TerminateGamePersonalDataEntries_Request steamid
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CCommunity_TerminateGamePersonalDataEntries_Request.
+         * @exports ICCommunity_TerminateGamePersonalDataEntries_Request
+         * @interface ICCommunity_TerminateGamePersonalDataEntries_Request
+         * @augments CCommunity_TerminateGamePersonalDataEntries_Request.$Properties
+         * @deprecated Use CCommunity_TerminateGamePersonalDataEntries_Request.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CCommunity_TerminateGamePersonalDataEntries_Request.
+         * @typedef {CCommunity_TerminateGamePersonalDataEntries_Request.$Properties} CCommunity_TerminateGamePersonalDataEntries_Request.$Shape
          */
     
         /**
          * Constructs a new CCommunity_TerminateGamePersonalDataEntries_Request.
          * @exports CCommunity_TerminateGamePersonalDataEntries_Request
          * @classdesc Represents a CCommunity_TerminateGamePersonalDataEntries_Request.
-         * @implements ICCommunity_TerminateGamePersonalDataEntries_Request
          * @constructor
-         * @param {ICCommunity_TerminateGamePersonalDataEntries_Request=} [properties] Properties to set
+         * @param {CCommunity_TerminateGamePersonalDataEntries_Request.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CCommunity_TerminateGamePersonalDataEntries_Request(properties) {
+        var CCommunity_TerminateGamePersonalDataEntries_Request = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CCommunity_TerminateGamePersonalDataEntries_Request appid.
@@ -4234,10 +4654,14 @@
          * @function create
          * @memberof CCommunity_TerminateGamePersonalDataEntries_Request
          * @static
-         * @param {ICCommunity_TerminateGamePersonalDataEntries_Request=} [properties] Properties to set
+         * @param {CCommunity_TerminateGamePersonalDataEntries_Request.$Properties=} [properties] Properties to set
          * @returns {CCommunity_TerminateGamePersonalDataEntries_Request} CCommunity_TerminateGamePersonalDataEntries_Request instance
+         * @type {{
+         *   (properties: CCommunity_TerminateGamePersonalDataEntries_Request.$Shape): CCommunity_TerminateGamePersonalDataEntries_Request & CCommunity_TerminateGamePersonalDataEntries_Request.$Shape;
+         *   (properties?: CCommunity_TerminateGamePersonalDataEntries_Request.$Properties): CCommunity_TerminateGamePersonalDataEntries_Request;
+         * }}
          */
-        CCommunity_TerminateGamePersonalDataEntries_Request.create = function create(properties) {
+        CCommunity_TerminateGamePersonalDataEntries_Request.create = function(properties) {
             return new CCommunity_TerminateGamePersonalDataEntries_Request(properties);
         };
     
@@ -4246,21 +4670,24 @@
          * @function encode
          * @memberof CCommunity_TerminateGamePersonalDataEntries_Request
          * @static
-         * @param {ICCommunity_TerminateGamePersonalDataEntries_Request} message CCommunity_TerminateGamePersonalDataEntries_Request message or plain object to encode
+         * @param {CCommunity_TerminateGamePersonalDataEntries_Request.$Properties} message CCommunity_TerminateGamePersonalDataEntries_Request message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CCommunity_TerminateGamePersonalDataEntries_Request.encode = function encode(message, writer, q) {
+        CCommunity_TerminateGamePersonalDataEntries_Request.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.appid);
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.steamid);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -4269,12 +4696,12 @@
          * @function encodeDelimited
          * @memberof CCommunity_TerminateGamePersonalDataEntries_Request
          * @static
-         * @param {ICCommunity_TerminateGamePersonalDataEntries_Request} message CCommunity_TerminateGamePersonalDataEntries_Request message or plain object to encode
+         * @param {CCommunity_TerminateGamePersonalDataEntries_Request.$Properties} message CCommunity_TerminateGamePersonalDataEntries_Request message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CCommunity_TerminateGamePersonalDataEntries_Request.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CCommunity_TerminateGamePersonalDataEntries_Request.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -4284,51 +4711,63 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CCommunity_TerminateGamePersonalDataEntries_Request} CCommunity_TerminateGamePersonalDataEntries_Request
+         * @returns {CCommunity_TerminateGamePersonalDataEntries_Request & CCommunity_TerminateGamePersonalDataEntries_Request.$Shape} CCommunity_TerminateGamePersonalDataEntries_Request
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCommunity_TerminateGamePersonalDataEntries_Request.decode = function decode(reader, length, error, long) {
+        CCommunity_TerminateGamePersonalDataEntries_Request.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CCommunity_TerminateGamePersonalDataEntries_Request();
+            message = _target || new $root.CCommunity_TerminateGamePersonalDataEntries_Request();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.appid = reader.uint32();
-                        break;
-                    }
-                case 2: {
-                        message.steamid = reader.uint64();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.appid = reader.uint32();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.steamid = reader.uint64();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -4338,14 +4777,14 @@
          * @memberof CCommunity_TerminateGamePersonalDataEntries_Request
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CCommunity_TerminateGamePersonalDataEntries_Request} CCommunity_TerminateGamePersonalDataEntries_Request
+         * @returns {CCommunity_TerminateGamePersonalDataEntries_Request & CCommunity_TerminateGamePersonalDataEntries_Request.$Shape} CCommunity_TerminateGamePersonalDataEntries_Request
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCommunity_TerminateGamePersonalDataEntries_Request.decodeDelimited = function decodeDelimited(reader) {
+        CCommunity_TerminateGamePersonalDataEntries_Request.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -4356,17 +4795,17 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CCommunity_TerminateGamePersonalDataEntries_Request.verify = function verify(message, long) {
+        CCommunity_TerminateGamePersonalDataEntries_Request.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                 if (!$util.isInteger(message.steamid) && !(message.steamid && $util.isInteger(message.steamid.low) && $util.isInteger(message.steamid.high)))
                     return "steamid: integer|Long expected";
             return null;
@@ -4380,15 +4819,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CCommunity_TerminateGamePersonalDataEntries_Request} CCommunity_TerminateGamePersonalDataEntries_Request
          */
-        CCommunity_TerminateGamePersonalDataEntries_Request.fromObject = function fromObject(object, long) {
+        CCommunity_TerminateGamePersonalDataEntries_Request.fromObject = function (object, _depth) {
             if (object instanceof $root.CCommunity_TerminateGamePersonalDataEntries_Request)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CCommunity_TerminateGamePersonalDataEntries_Request: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CCommunity_TerminateGamePersonalDataEntries_Request: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CCommunity_TerminateGamePersonalDataEntries_Request();
             if (object.appid != null)
                 message.appid = object.appid >>> 0;
@@ -4396,7 +4835,7 @@
                 if ($util.Long)
                     message.steamid = $util.Long.fromValue(object.steamid, true);
                 else if (typeof object.steamid === "string")
-                    message.steamid = parseInt(object.steamid, 10);
+                    message.steamid = $parseInt(object.steamid, 10);
                 else if (typeof object.steamid === "number")
                     message.steamid = object.steamid;
                 else if (typeof object.steamid === "object")
@@ -4413,31 +4852,31 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CCommunity_TerminateGamePersonalDataEntries_Request.toObject = function toObject(message, options, q) {
+        CCommunity_TerminateGamePersonalDataEntries_Request.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.appid = 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.steamid = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.steamid = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
             }
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
-            if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.steamid = typeof message.steamid === "number" ? BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
+            if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.steamid = typeof message.steamid === "number" ? $BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
                 else if (typeof message.steamid === "number")
-                    object.steamid = options.longs === String ? String(message.steamid) : message.steamid;
+                    object.steamid = options.longs === $String ? $String(message.steamid) : message.steamid;
                 else
-                    object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
+                    object.steamid = options.longs === $String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === $Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
             return object;
         };
     
@@ -4448,23 +4887,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CCommunity_TerminateGamePersonalDataEntries_Request.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CCommunity_TerminateGamePersonalDataEntries_Request.prototype.toJSON = function() {
+            return CCommunity_TerminateGamePersonalDataEntries_Request.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CCommunity_TerminateGamePersonalDataEntries_Request
+         * Gets the type url for CCommunity_TerminateGamePersonalDataEntries_Request
          * @function getTypeUrl
          * @memberof CCommunity_TerminateGamePersonalDataEntries_Request
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CCommunity_TerminateGamePersonalDataEntries_Request.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CCommunity_TerminateGamePersonalDataEntries_Request";
+        CCommunity_TerminateGamePersonalDataEntries_Request.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CCommunity_TerminateGamePersonalDataEntries_Request";
         };
     
         return CCommunity_TerminateGamePersonalDataEntries_Request;
@@ -4474,25 +4912,38 @@
     
         /**
          * Properties of a CCommunity_TerminateGamePersonalDataEntries_Response.
+         * @typedef {Object} CCommunity_TerminateGamePersonalDataEntries_Response.$Properties
+         * @property {number|null} [gceresult] CCommunity_TerminateGamePersonalDataEntries_Response gceresult
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CCommunity_TerminateGamePersonalDataEntries_Response.
          * @exports ICCommunity_TerminateGamePersonalDataEntries_Response
          * @interface ICCommunity_TerminateGamePersonalDataEntries_Response
-         * @property {number|null} [gceresult] CCommunity_TerminateGamePersonalDataEntries_Response gceresult
+         * @augments CCommunity_TerminateGamePersonalDataEntries_Response.$Properties
+         * @deprecated Use CCommunity_TerminateGamePersonalDataEntries_Response.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CCommunity_TerminateGamePersonalDataEntries_Response.
+         * @typedef {CCommunity_TerminateGamePersonalDataEntries_Response.$Properties} CCommunity_TerminateGamePersonalDataEntries_Response.$Shape
          */
     
         /**
          * Constructs a new CCommunity_TerminateGamePersonalDataEntries_Response.
          * @exports CCommunity_TerminateGamePersonalDataEntries_Response
          * @classdesc Represents a CCommunity_TerminateGamePersonalDataEntries_Response.
-         * @implements ICCommunity_TerminateGamePersonalDataEntries_Response
          * @constructor
-         * @param {ICCommunity_TerminateGamePersonalDataEntries_Response=} [properties] Properties to set
+         * @param {CCommunity_TerminateGamePersonalDataEntries_Response.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CCommunity_TerminateGamePersonalDataEntries_Response(properties) {
+        var CCommunity_TerminateGamePersonalDataEntries_Response = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CCommunity_TerminateGamePersonalDataEntries_Response gceresult.
@@ -4507,10 +4958,14 @@
          * @function create
          * @memberof CCommunity_TerminateGamePersonalDataEntries_Response
          * @static
-         * @param {ICCommunity_TerminateGamePersonalDataEntries_Response=} [properties] Properties to set
+         * @param {CCommunity_TerminateGamePersonalDataEntries_Response.$Properties=} [properties] Properties to set
          * @returns {CCommunity_TerminateGamePersonalDataEntries_Response} CCommunity_TerminateGamePersonalDataEntries_Response instance
+         * @type {{
+         *   (properties: CCommunity_TerminateGamePersonalDataEntries_Response.$Shape): CCommunity_TerminateGamePersonalDataEntries_Response & CCommunity_TerminateGamePersonalDataEntries_Response.$Shape;
+         *   (properties?: CCommunity_TerminateGamePersonalDataEntries_Response.$Properties): CCommunity_TerminateGamePersonalDataEntries_Response;
+         * }}
          */
-        CCommunity_TerminateGamePersonalDataEntries_Response.create = function create(properties) {
+        CCommunity_TerminateGamePersonalDataEntries_Response.create = function(properties) {
             return new CCommunity_TerminateGamePersonalDataEntries_Response(properties);
         };
     
@@ -4519,19 +4974,22 @@
          * @function encode
          * @memberof CCommunity_TerminateGamePersonalDataEntries_Response
          * @static
-         * @param {ICCommunity_TerminateGamePersonalDataEntries_Response} message CCommunity_TerminateGamePersonalDataEntries_Response message or plain object to encode
+         * @param {CCommunity_TerminateGamePersonalDataEntries_Response.$Properties} message CCommunity_TerminateGamePersonalDataEntries_Response message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CCommunity_TerminateGamePersonalDataEntries_Response.encode = function encode(message, writer, q) {
+        CCommunity_TerminateGamePersonalDataEntries_Response.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.gceresult != null && Object.hasOwnProperty.call(message, "gceresult"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.gceresult != null && $Object.hasOwnProperty.call(message, "gceresult"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.gceresult);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -4540,12 +4998,12 @@
          * @function encodeDelimited
          * @memberof CCommunity_TerminateGamePersonalDataEntries_Response
          * @static
-         * @param {ICCommunity_TerminateGamePersonalDataEntries_Response} message CCommunity_TerminateGamePersonalDataEntries_Response message or plain object to encode
+         * @param {CCommunity_TerminateGamePersonalDataEntries_Response.$Properties} message CCommunity_TerminateGamePersonalDataEntries_Response message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CCommunity_TerminateGamePersonalDataEntries_Response.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CCommunity_TerminateGamePersonalDataEntries_Response.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -4555,47 +5013,57 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CCommunity_TerminateGamePersonalDataEntries_Response} CCommunity_TerminateGamePersonalDataEntries_Response
+         * @returns {CCommunity_TerminateGamePersonalDataEntries_Response & CCommunity_TerminateGamePersonalDataEntries_Response.$Shape} CCommunity_TerminateGamePersonalDataEntries_Response
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCommunity_TerminateGamePersonalDataEntries_Response.decode = function decode(reader, length, error, long) {
+        CCommunity_TerminateGamePersonalDataEntries_Response.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CCommunity_TerminateGamePersonalDataEntries_Response();
+            message = _target || new $root.CCommunity_TerminateGamePersonalDataEntries_Response();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.gceresult = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.gceresult = reader.uint32();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -4605,14 +5073,14 @@
          * @memberof CCommunity_TerminateGamePersonalDataEntries_Response
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CCommunity_TerminateGamePersonalDataEntries_Response} CCommunity_TerminateGamePersonalDataEntries_Response
+         * @returns {CCommunity_TerminateGamePersonalDataEntries_Response & CCommunity_TerminateGamePersonalDataEntries_Response.$Shape} CCommunity_TerminateGamePersonalDataEntries_Response
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CCommunity_TerminateGamePersonalDataEntries_Response.decodeDelimited = function decodeDelimited(reader) {
+        CCommunity_TerminateGamePersonalDataEntries_Response.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -4623,14 +5091,14 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CCommunity_TerminateGamePersonalDataEntries_Response.verify = function verify(message, long) {
+        CCommunity_TerminateGamePersonalDataEntries_Response.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.gceresult != null && Object.hasOwnProperty.call(message, "gceresult"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.gceresult != null && $Object.hasOwnProperty.call(message, "gceresult"))
                 if (!$util.isInteger(message.gceresult))
                     return "gceresult: integer expected";
             return null;
@@ -4644,15 +5112,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CCommunity_TerminateGamePersonalDataEntries_Response} CCommunity_TerminateGamePersonalDataEntries_Response
          */
-        CCommunity_TerminateGamePersonalDataEntries_Response.fromObject = function fromObject(object, long) {
+        CCommunity_TerminateGamePersonalDataEntries_Response.fromObject = function (object, _depth) {
             if (object instanceof $root.CCommunity_TerminateGamePersonalDataEntries_Response)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CCommunity_TerminateGamePersonalDataEntries_Response: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CCommunity_TerminateGamePersonalDataEntries_Response: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CCommunity_TerminateGamePersonalDataEntries_Response();
             if (object.gceresult != null)
                 message.gceresult = object.gceresult >>> 0;
@@ -4668,17 +5136,17 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CCommunity_TerminateGamePersonalDataEntries_Response.toObject = function toObject(message, options, q) {
+        CCommunity_TerminateGamePersonalDataEntries_Response.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults)
                 object.gceresult = 0;
-            if (message.gceresult != null && Object.hasOwnProperty.call(message, "gceresult"))
+            if (message.gceresult != null && $Object.hasOwnProperty.call(message, "gceresult"))
                 object.gceresult = message.gceresult;
             return object;
         };
@@ -4690,23 +5158,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CCommunity_TerminateGamePersonalDataEntries_Response.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CCommunity_TerminateGamePersonalDataEntries_Response.prototype.toJSON = function() {
+            return CCommunity_TerminateGamePersonalDataEntries_Response.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CCommunity_TerminateGamePersonalDataEntries_Response
+         * Gets the type url for CCommunity_TerminateGamePersonalDataEntries_Response
          * @function getTypeUrl
          * @memberof CCommunity_TerminateGamePersonalDataEntries_Response
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CCommunity_TerminateGamePersonalDataEntries_Response.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CCommunity_TerminateGamePersonalDataEntries_Response";
+        CCommunity_TerminateGamePersonalDataEntries_Response.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CCommunity_TerminateGamePersonalDataEntries_Response";
         };
     
         return CCommunity_TerminateGamePersonalDataEntries_Response;

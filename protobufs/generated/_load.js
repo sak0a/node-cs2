@@ -32,7 +32,6 @@ mergeObjects(Schema, require('./steammessages.js'));
 mergeObjects(Schema, require('./steammessages_base.js'));
 mergeObjects(Schema, require('./steammessages_cloud.steamworkssdk.js'));
 mergeObjects(Schema, require('./steammessages_gamenetworkingui.js'));
-mergeObjects(Schema, require('./steammessages_gc.js'));
 mergeObjects(Schema, require('./steammessages_helprequest.steamworkssdk.js'));
 mergeObjects(Schema, require('./steammessages_oauth.steamworkssdk.js'));
 mergeObjects(Schema, require('./steammessages_player.steamworkssdk.js'));

@@ -15,6 +15,18 @@ if (!FS.existsSync(GENERATED_DIR)) {
 	FS.mkdirSync(GENERATED_DIR);
 }
 
+// Remove generated modules whose proto file no longer exists
+FS.readdirSync(GENERATED_DIR).forEach((filename) => {
+	if (filename === '_load.js' || !filename.match(/\.js$/)) {
+		return;
+	}
+
+	if (!FS.existsSync(__dirname + '/../protobufs/' + filename.replace(/\.js$/, '.proto'))) {
+		console.log('Removing stale ' + filename);
+		FS.unlinkSync(GENERATED_DIR + '/' + filename);
+	}
+});
+
 FS.readdirSync(__dirname + '/../protobufs').sort().forEach((filename) => {
 	if (!filename.match(/\.proto$/)) {
 		return;

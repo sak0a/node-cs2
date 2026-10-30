@@ -1,4 +1,4 @@
-/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
+/*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-mixed-operators, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars, default-case, jsdoc/require-param*/
 (function(global, factory) { /* global define, require, module */
 
     /* AMD */ if (typeof define === 'function' && define.amd)
@@ -12,13 +12,14 @@
 
     // Common aliases
     var $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
+    var $Object = $util.global.Object, $undefined = $util.global.undefined, $Error = $util.global.Error, $RangeError = $util.global.RangeError, $TypeError = $util.global.TypeError, $String = $util.global.String, $Array = $util.global.Array, $parseInt = $util.global.parseInt, $Number = $util.global.Number, $BigInt = $util.global.BigInt, $isFinite = $util.global.isFinite, $Boolean = $util.global.Boolean;
     
     // Exported root namespace
     var $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
     
     /**
      * ESource2PlayStatsFieldType enum.
-     * @exports ESource2PlayStatsFieldType
+     * @name ESource2PlayStatsFieldType
      * @enum {number}
      * @property {number} Source2PlayStats_Invalid=0 Source2PlayStats_Invalid value
      * @property {number} Source2PlayStats_UInt64=1 Source2PlayStats_UInt64 value
@@ -40,7 +41,7 @@
      * @property {number} Source2PlayStats_SteamID=17 Source2PlayStats_SteamID value
      */
     $root.ESource2PlayStatsFieldType = (function() {
-        var valuesById = {}, values = Object.create(valuesById);
+        var valuesById = $Object.create(null), values = $Object.create(valuesById);
         values[valuesById[0] = "Source2PlayStats_Invalid"] = 0;
         values[valuesById[1] = "Source2PlayStats_UInt64"] = 1;
         values[valuesById[2] = "Source2PlayStats_UInt32"] = 2;
@@ -66,8 +67,7 @@
     
         /**
          * Properties of a CMsgSource2SystemSpecs.
-         * @exports ICMsgSource2SystemSpecs
-         * @interface ICMsgSource2SystemSpecs
+         * @typedef {Object} CMsgSource2SystemSpecs.$Properties
          * @property {string|null} [cpu_id] CMsgSource2SystemSpecs cpu_id
          * @property {string|null} [cpu_brand] CMsgSource2SystemSpecs cpu_brand
          * @property {number|null} [cpu_model] CMsgSource2SystemSpecs cpu_model
@@ -82,22 +82,36 @@
          * @property {number|null} [gpu_texture_memory_size_mb] CMsgSource2SystemSpecs gpu_texture_memory_size_mb
          * @property {number|null} [backbuffer_width] CMsgSource2SystemSpecs backbuffer_width
          * @property {number|null} [backbuffer_height] CMsgSource2SystemSpecs backbuffer_height
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSource2SystemSpecs.
+         * @exports ICMsgSource2SystemSpecs
+         * @interface ICMsgSource2SystemSpecs
+         * @augments CMsgSource2SystemSpecs.$Properties
+         * @deprecated Use CMsgSource2SystemSpecs.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSource2SystemSpecs.
+         * @typedef {CMsgSource2SystemSpecs.$Properties} CMsgSource2SystemSpecs.$Shape
          */
     
         /**
          * Constructs a new CMsgSource2SystemSpecs.
          * @exports CMsgSource2SystemSpecs
          * @classdesc Represents a CMsgSource2SystemSpecs.
-         * @implements ICMsgSource2SystemSpecs
          * @constructor
-         * @param {ICMsgSource2SystemSpecs=} [properties] Properties to set
+         * @param {CMsgSource2SystemSpecs.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSource2SystemSpecs(properties) {
+        var CMsgSource2SystemSpecs = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSource2SystemSpecs cpu_id.
@@ -216,10 +230,14 @@
          * @function create
          * @memberof CMsgSource2SystemSpecs
          * @static
-         * @param {ICMsgSource2SystemSpecs=} [properties] Properties to set
+         * @param {CMsgSource2SystemSpecs.$Properties=} [properties] Properties to set
          * @returns {CMsgSource2SystemSpecs} CMsgSource2SystemSpecs instance
+         * @type {{
+         *   (properties: CMsgSource2SystemSpecs.$Shape): CMsgSource2SystemSpecs & CMsgSource2SystemSpecs.$Shape;
+         *   (properties?: CMsgSource2SystemSpecs.$Properties): CMsgSource2SystemSpecs;
+         * }}
          */
-        CMsgSource2SystemSpecs.create = function create(properties) {
+        CMsgSource2SystemSpecs.create = function(properties) {
             return new CMsgSource2SystemSpecs(properties);
         };
     
@@ -228,45 +246,48 @@
          * @function encode
          * @memberof CMsgSource2SystemSpecs
          * @static
-         * @param {ICMsgSource2SystemSpecs} message CMsgSource2SystemSpecs message or plain object to encode
+         * @param {CMsgSource2SystemSpecs.$Properties} message CMsgSource2SystemSpecs message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSource2SystemSpecs.encode = function encode(message, writer, q) {
+        CMsgSource2SystemSpecs.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.cpu_id != null && Object.hasOwnProperty.call(message, "cpu_id"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.cpu_id != null && $Object.hasOwnProperty.call(message, "cpu_id"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.cpu_id);
-            if (message.cpu_brand != null && Object.hasOwnProperty.call(message, "cpu_brand"))
+            if (message.cpu_brand != null && $Object.hasOwnProperty.call(message, "cpu_brand"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.cpu_brand);
-            if (message.cpu_model != null && Object.hasOwnProperty.call(message, "cpu_model"))
+            if (message.cpu_model != null && $Object.hasOwnProperty.call(message, "cpu_model"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.cpu_model);
-            if (message.cpu_num_physical != null && Object.hasOwnProperty.call(message, "cpu_num_physical"))
+            if (message.cpu_num_physical != null && $Object.hasOwnProperty.call(message, "cpu_num_physical"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.cpu_num_physical);
-            if (message.ram_physical_total_mb != null && Object.hasOwnProperty.call(message, "ram_physical_total_mb"))
+            if (message.ram_physical_total_mb != null && $Object.hasOwnProperty.call(message, "ram_physical_total_mb"))
                 writer.uint32(/* id 21, wireType 0 =*/168).uint32(message.ram_physical_total_mb);
-            if (message.gpu_rendersystem_dll_name != null && Object.hasOwnProperty.call(message, "gpu_rendersystem_dll_name"))
+            if (message.gpu_rendersystem_dll_name != null && $Object.hasOwnProperty.call(message, "gpu_rendersystem_dll_name"))
                 writer.uint32(/* id 41, wireType 2 =*/330).string(message.gpu_rendersystem_dll_name);
-            if (message.gpu_vendor_id != null && Object.hasOwnProperty.call(message, "gpu_vendor_id"))
+            if (message.gpu_vendor_id != null && $Object.hasOwnProperty.call(message, "gpu_vendor_id"))
                 writer.uint32(/* id 42, wireType 0 =*/336).uint32(message.gpu_vendor_id);
-            if (message.gpu_driver_name != null && Object.hasOwnProperty.call(message, "gpu_driver_name"))
+            if (message.gpu_driver_name != null && $Object.hasOwnProperty.call(message, "gpu_driver_name"))
                 writer.uint32(/* id 43, wireType 2 =*/346).string(message.gpu_driver_name);
-            if (message.gpu_driver_version_high != null && Object.hasOwnProperty.call(message, "gpu_driver_version_high"))
+            if (message.gpu_driver_version_high != null && $Object.hasOwnProperty.call(message, "gpu_driver_version_high"))
                 writer.uint32(/* id 44, wireType 0 =*/352).uint32(message.gpu_driver_version_high);
-            if (message.gpu_driver_version_low != null && Object.hasOwnProperty.call(message, "gpu_driver_version_low"))
+            if (message.gpu_driver_version_low != null && $Object.hasOwnProperty.call(message, "gpu_driver_version_low"))
                 writer.uint32(/* id 45, wireType 0 =*/360).uint32(message.gpu_driver_version_low);
-            if (message.gpu_dx_support_level != null && Object.hasOwnProperty.call(message, "gpu_dx_support_level"))
+            if (message.gpu_dx_support_level != null && $Object.hasOwnProperty.call(message, "gpu_dx_support_level"))
                 writer.uint32(/* id 46, wireType 0 =*/368).uint32(message.gpu_dx_support_level);
-            if (message.gpu_texture_memory_size_mb != null && Object.hasOwnProperty.call(message, "gpu_texture_memory_size_mb"))
+            if (message.gpu_texture_memory_size_mb != null && $Object.hasOwnProperty.call(message, "gpu_texture_memory_size_mb"))
                 writer.uint32(/* id 47, wireType 0 =*/376).uint32(message.gpu_texture_memory_size_mb);
-            if (message.backbuffer_width != null && Object.hasOwnProperty.call(message, "backbuffer_width"))
+            if (message.backbuffer_width != null && $Object.hasOwnProperty.call(message, "backbuffer_width"))
                 writer.uint32(/* id 51, wireType 0 =*/408).uint32(message.backbuffer_width);
-            if (message.backbuffer_height != null && Object.hasOwnProperty.call(message, "backbuffer_height"))
+            if (message.backbuffer_height != null && $Object.hasOwnProperty.call(message, "backbuffer_height"))
                 writer.uint32(/* id 52, wireType 0 =*/416).uint32(message.backbuffer_height);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -275,12 +296,12 @@
          * @function encodeDelimited
          * @memberof CMsgSource2SystemSpecs
          * @static
-         * @param {ICMsgSource2SystemSpecs} message CMsgSource2SystemSpecs message or plain object to encode
+         * @param {CMsgSource2SystemSpecs.$Properties} message CMsgSource2SystemSpecs message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSource2SystemSpecs.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSource2SystemSpecs.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -290,99 +311,135 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSource2SystemSpecs} CMsgSource2SystemSpecs
+         * @returns {CMsgSource2SystemSpecs & CMsgSource2SystemSpecs.$Shape} CMsgSource2SystemSpecs
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSource2SystemSpecs.decode = function decode(reader, length, error, long) {
+        CMsgSource2SystemSpecs.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSource2SystemSpecs();
+            message = _target || new $root.CMsgSource2SystemSpecs();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.cpu_id = reader.string();
-                        break;
-                    }
-                case 2: {
-                        message.cpu_brand = reader.string();
-                        break;
-                    }
-                case 3: {
-                        message.cpu_model = reader.uint32();
-                        break;
-                    }
-                case 4: {
-                        message.cpu_num_physical = reader.uint32();
-                        break;
-                    }
-                case 21: {
-                        message.ram_physical_total_mb = reader.uint32();
-                        break;
-                    }
-                case 41: {
-                        message.gpu_rendersystem_dll_name = reader.string();
-                        break;
-                    }
-                case 42: {
-                        message.gpu_vendor_id = reader.uint32();
-                        break;
-                    }
-                case 43: {
-                        message.gpu_driver_name = reader.string();
-                        break;
-                    }
-                case 44: {
-                        message.gpu_driver_version_high = reader.uint32();
-                        break;
-                    }
-                case 45: {
-                        message.gpu_driver_version_low = reader.uint32();
-                        break;
-                    }
-                case 46: {
-                        message.gpu_dx_support_level = reader.uint32();
-                        break;
-                    }
-                case 47: {
-                        message.gpu_texture_memory_size_mb = reader.uint32();
-                        break;
-                    }
-                case 51: {
-                        message.backbuffer_width = reader.uint32();
-                        break;
-                    }
-                case 52: {
-                        message.backbuffer_height = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        message.cpu_id = reader.string();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.cpu_brand = reader.string();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 0)
+                            break;
+                        message.cpu_model = reader.uint32();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 0)
+                            break;
+                        message.cpu_num_physical = reader.uint32();
+                        continue;
+                    }
+                case 21: {
+                        if (wireType !== 0)
+                            break;
+                        message.ram_physical_total_mb = reader.uint32();
+                        continue;
+                    }
+                case 41: {
+                        if (wireType !== 2)
+                            break;
+                        message.gpu_rendersystem_dll_name = reader.string();
+                        continue;
+                    }
+                case 42: {
+                        if (wireType !== 0)
+                            break;
+                        message.gpu_vendor_id = reader.uint32();
+                        continue;
+                    }
+                case 43: {
+                        if (wireType !== 2)
+                            break;
+                        message.gpu_driver_name = reader.string();
+                        continue;
+                    }
+                case 44: {
+                        if (wireType !== 0)
+                            break;
+                        message.gpu_driver_version_high = reader.uint32();
+                        continue;
+                    }
+                case 45: {
+                        if (wireType !== 0)
+                            break;
+                        message.gpu_driver_version_low = reader.uint32();
+                        continue;
+                    }
+                case 46: {
+                        if (wireType !== 0)
+                            break;
+                        message.gpu_dx_support_level = reader.uint32();
+                        continue;
+                    }
+                case 47: {
+                        if (wireType !== 0)
+                            break;
+                        message.gpu_texture_memory_size_mb = reader.uint32();
+                        continue;
+                    }
+                case 51: {
+                        if (wireType !== 0)
+                            break;
+                        message.backbuffer_width = reader.uint32();
+                        continue;
+                    }
+                case 52: {
+                        if (wireType !== 0)
+                            break;
+                        message.backbuffer_height = reader.uint32();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -392,14 +449,14 @@
          * @memberof CMsgSource2SystemSpecs
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSource2SystemSpecs} CMsgSource2SystemSpecs
+         * @returns {CMsgSource2SystemSpecs & CMsgSource2SystemSpecs.$Shape} CMsgSource2SystemSpecs
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSource2SystemSpecs.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSource2SystemSpecs.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -410,53 +467,53 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSource2SystemSpecs.verify = function verify(message, long) {
+        CMsgSource2SystemSpecs.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.cpu_id != null && Object.hasOwnProperty.call(message, "cpu_id"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.cpu_id != null && $Object.hasOwnProperty.call(message, "cpu_id"))
                 if (!$util.isString(message.cpu_id))
                     return "cpu_id: string expected";
-            if (message.cpu_brand != null && Object.hasOwnProperty.call(message, "cpu_brand"))
+            if (message.cpu_brand != null && $Object.hasOwnProperty.call(message, "cpu_brand"))
                 if (!$util.isString(message.cpu_brand))
                     return "cpu_brand: string expected";
-            if (message.cpu_model != null && Object.hasOwnProperty.call(message, "cpu_model"))
+            if (message.cpu_model != null && $Object.hasOwnProperty.call(message, "cpu_model"))
                 if (!$util.isInteger(message.cpu_model))
                     return "cpu_model: integer expected";
-            if (message.cpu_num_physical != null && Object.hasOwnProperty.call(message, "cpu_num_physical"))
+            if (message.cpu_num_physical != null && $Object.hasOwnProperty.call(message, "cpu_num_physical"))
                 if (!$util.isInteger(message.cpu_num_physical))
                     return "cpu_num_physical: integer expected";
-            if (message.ram_physical_total_mb != null && Object.hasOwnProperty.call(message, "ram_physical_total_mb"))
+            if (message.ram_physical_total_mb != null && $Object.hasOwnProperty.call(message, "ram_physical_total_mb"))
                 if (!$util.isInteger(message.ram_physical_total_mb))
                     return "ram_physical_total_mb: integer expected";
-            if (message.gpu_rendersystem_dll_name != null && Object.hasOwnProperty.call(message, "gpu_rendersystem_dll_name"))
+            if (message.gpu_rendersystem_dll_name != null && $Object.hasOwnProperty.call(message, "gpu_rendersystem_dll_name"))
                 if (!$util.isString(message.gpu_rendersystem_dll_name))
                     return "gpu_rendersystem_dll_name: string expected";
-            if (message.gpu_vendor_id != null && Object.hasOwnProperty.call(message, "gpu_vendor_id"))
+            if (message.gpu_vendor_id != null && $Object.hasOwnProperty.call(message, "gpu_vendor_id"))
                 if (!$util.isInteger(message.gpu_vendor_id))
                     return "gpu_vendor_id: integer expected";
-            if (message.gpu_driver_name != null && Object.hasOwnProperty.call(message, "gpu_driver_name"))
+            if (message.gpu_driver_name != null && $Object.hasOwnProperty.call(message, "gpu_driver_name"))
                 if (!$util.isString(message.gpu_driver_name))
                     return "gpu_driver_name: string expected";
-            if (message.gpu_driver_version_high != null && Object.hasOwnProperty.call(message, "gpu_driver_version_high"))
+            if (message.gpu_driver_version_high != null && $Object.hasOwnProperty.call(message, "gpu_driver_version_high"))
                 if (!$util.isInteger(message.gpu_driver_version_high))
                     return "gpu_driver_version_high: integer expected";
-            if (message.gpu_driver_version_low != null && Object.hasOwnProperty.call(message, "gpu_driver_version_low"))
+            if (message.gpu_driver_version_low != null && $Object.hasOwnProperty.call(message, "gpu_driver_version_low"))
                 if (!$util.isInteger(message.gpu_driver_version_low))
                     return "gpu_driver_version_low: integer expected";
-            if (message.gpu_dx_support_level != null && Object.hasOwnProperty.call(message, "gpu_dx_support_level"))
+            if (message.gpu_dx_support_level != null && $Object.hasOwnProperty.call(message, "gpu_dx_support_level"))
                 if (!$util.isInteger(message.gpu_dx_support_level))
                     return "gpu_dx_support_level: integer expected";
-            if (message.gpu_texture_memory_size_mb != null && Object.hasOwnProperty.call(message, "gpu_texture_memory_size_mb"))
+            if (message.gpu_texture_memory_size_mb != null && $Object.hasOwnProperty.call(message, "gpu_texture_memory_size_mb"))
                 if (!$util.isInteger(message.gpu_texture_memory_size_mb))
                     return "gpu_texture_memory_size_mb: integer expected";
-            if (message.backbuffer_width != null && Object.hasOwnProperty.call(message, "backbuffer_width"))
+            if (message.backbuffer_width != null && $Object.hasOwnProperty.call(message, "backbuffer_width"))
                 if (!$util.isInteger(message.backbuffer_width))
                     return "backbuffer_width: integer expected";
-            if (message.backbuffer_height != null && Object.hasOwnProperty.call(message, "backbuffer_height"))
+            if (message.backbuffer_height != null && $Object.hasOwnProperty.call(message, "backbuffer_height"))
                 if (!$util.isInteger(message.backbuffer_height))
                     return "backbuffer_height: integer expected";
             return null;
@@ -470,20 +527,20 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSource2SystemSpecs} CMsgSource2SystemSpecs
          */
-        CMsgSource2SystemSpecs.fromObject = function fromObject(object, long) {
+        CMsgSource2SystemSpecs.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSource2SystemSpecs)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSource2SystemSpecs: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSource2SystemSpecs: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSource2SystemSpecs();
             if (object.cpu_id != null)
-                message.cpu_id = String(object.cpu_id);
+                message.cpu_id = $String(object.cpu_id);
             if (object.cpu_brand != null)
-                message.cpu_brand = String(object.cpu_brand);
+                message.cpu_brand = $String(object.cpu_brand);
             if (object.cpu_model != null)
                 message.cpu_model = object.cpu_model >>> 0;
             if (object.cpu_num_physical != null)
@@ -491,11 +548,11 @@
             if (object.ram_physical_total_mb != null)
                 message.ram_physical_total_mb = object.ram_physical_total_mb >>> 0;
             if (object.gpu_rendersystem_dll_name != null)
-                message.gpu_rendersystem_dll_name = String(object.gpu_rendersystem_dll_name);
+                message.gpu_rendersystem_dll_name = $String(object.gpu_rendersystem_dll_name);
             if (object.gpu_vendor_id != null)
                 message.gpu_vendor_id = object.gpu_vendor_id >>> 0;
             if (object.gpu_driver_name != null)
-                message.gpu_driver_name = String(object.gpu_driver_name);
+                message.gpu_driver_name = $String(object.gpu_driver_name);
             if (object.gpu_driver_version_high != null)
                 message.gpu_driver_version_high = object.gpu_driver_version_high >>> 0;
             if (object.gpu_driver_version_low != null)
@@ -520,13 +577,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSource2SystemSpecs.toObject = function toObject(message, options, q) {
+        CMsgSource2SystemSpecs.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.cpu_id = "";
@@ -544,33 +601,33 @@
                 object.backbuffer_width = 0;
                 object.backbuffer_height = 0;
             }
-            if (message.cpu_id != null && Object.hasOwnProperty.call(message, "cpu_id"))
+            if (message.cpu_id != null && $Object.hasOwnProperty.call(message, "cpu_id"))
                 object.cpu_id = message.cpu_id;
-            if (message.cpu_brand != null && Object.hasOwnProperty.call(message, "cpu_brand"))
+            if (message.cpu_brand != null && $Object.hasOwnProperty.call(message, "cpu_brand"))
                 object.cpu_brand = message.cpu_brand;
-            if (message.cpu_model != null && Object.hasOwnProperty.call(message, "cpu_model"))
+            if (message.cpu_model != null && $Object.hasOwnProperty.call(message, "cpu_model"))
                 object.cpu_model = message.cpu_model;
-            if (message.cpu_num_physical != null && Object.hasOwnProperty.call(message, "cpu_num_physical"))
+            if (message.cpu_num_physical != null && $Object.hasOwnProperty.call(message, "cpu_num_physical"))
                 object.cpu_num_physical = message.cpu_num_physical;
-            if (message.ram_physical_total_mb != null && Object.hasOwnProperty.call(message, "ram_physical_total_mb"))
+            if (message.ram_physical_total_mb != null && $Object.hasOwnProperty.call(message, "ram_physical_total_mb"))
                 object.ram_physical_total_mb = message.ram_physical_total_mb;
-            if (message.gpu_rendersystem_dll_name != null && Object.hasOwnProperty.call(message, "gpu_rendersystem_dll_name"))
+            if (message.gpu_rendersystem_dll_name != null && $Object.hasOwnProperty.call(message, "gpu_rendersystem_dll_name"))
                 object.gpu_rendersystem_dll_name = message.gpu_rendersystem_dll_name;
-            if (message.gpu_vendor_id != null && Object.hasOwnProperty.call(message, "gpu_vendor_id"))
+            if (message.gpu_vendor_id != null && $Object.hasOwnProperty.call(message, "gpu_vendor_id"))
                 object.gpu_vendor_id = message.gpu_vendor_id;
-            if (message.gpu_driver_name != null && Object.hasOwnProperty.call(message, "gpu_driver_name"))
+            if (message.gpu_driver_name != null && $Object.hasOwnProperty.call(message, "gpu_driver_name"))
                 object.gpu_driver_name = message.gpu_driver_name;
-            if (message.gpu_driver_version_high != null && Object.hasOwnProperty.call(message, "gpu_driver_version_high"))
+            if (message.gpu_driver_version_high != null && $Object.hasOwnProperty.call(message, "gpu_driver_version_high"))
                 object.gpu_driver_version_high = message.gpu_driver_version_high;
-            if (message.gpu_driver_version_low != null && Object.hasOwnProperty.call(message, "gpu_driver_version_low"))
+            if (message.gpu_driver_version_low != null && $Object.hasOwnProperty.call(message, "gpu_driver_version_low"))
                 object.gpu_driver_version_low = message.gpu_driver_version_low;
-            if (message.gpu_dx_support_level != null && Object.hasOwnProperty.call(message, "gpu_dx_support_level"))
+            if (message.gpu_dx_support_level != null && $Object.hasOwnProperty.call(message, "gpu_dx_support_level"))
                 object.gpu_dx_support_level = message.gpu_dx_support_level;
-            if (message.gpu_texture_memory_size_mb != null && Object.hasOwnProperty.call(message, "gpu_texture_memory_size_mb"))
+            if (message.gpu_texture_memory_size_mb != null && $Object.hasOwnProperty.call(message, "gpu_texture_memory_size_mb"))
                 object.gpu_texture_memory_size_mb = message.gpu_texture_memory_size_mb;
-            if (message.backbuffer_width != null && Object.hasOwnProperty.call(message, "backbuffer_width"))
+            if (message.backbuffer_width != null && $Object.hasOwnProperty.call(message, "backbuffer_width"))
                 object.backbuffer_width = message.backbuffer_width;
-            if (message.backbuffer_height != null && Object.hasOwnProperty.call(message, "backbuffer_height"))
+            if (message.backbuffer_height != null && $Object.hasOwnProperty.call(message, "backbuffer_height"))
                 object.backbuffer_height = message.backbuffer_height;
             return object;
         };
@@ -582,23 +639,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSource2SystemSpecs.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSource2SystemSpecs.prototype.toJSON = function() {
+            return CMsgSource2SystemSpecs.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSource2SystemSpecs
+         * Gets the type url for CMsgSource2SystemSpecs
          * @function getTypeUrl
          * @memberof CMsgSource2SystemSpecs
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSource2SystemSpecs.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSource2SystemSpecs";
+        CMsgSource2SystemSpecs.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSource2SystemSpecs";
         };
     
         return CMsgSource2SystemSpecs;
@@ -608,8 +664,7 @@
     
         /**
          * Properties of a CMsgSource2VProfLiteReportItem.
-         * @exports ICMsgSource2VProfLiteReportItem
-         * @interface ICMsgSource2VProfLiteReportItem
+         * @typedef {Object} CMsgSource2VProfLiteReportItem.$Properties
          * @property {string|null} [name] CMsgSource2VProfLiteReportItem name
          * @property {number|null} [active_samples] CMsgSource2VProfLiteReportItem active_samples
          * @property {number|null} [active_samples_1secmax] CMsgSource2VProfLiteReportItem active_samples_1secmax
@@ -628,22 +683,36 @@
          * @property {number|null} [usec_1secmax_p50_all] CMsgSource2VProfLiteReportItem usec_1secmax_p50_all
          * @property {number|null} [usec_1secmax_p95_all] CMsgSource2VProfLiteReportItem usec_1secmax_p95_all
          * @property {number|null} [usec_1secmax_p99_all] CMsgSource2VProfLiteReportItem usec_1secmax_p99_all
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSource2VProfLiteReportItem.
+         * @exports ICMsgSource2VProfLiteReportItem
+         * @interface ICMsgSource2VProfLiteReportItem
+         * @augments CMsgSource2VProfLiteReportItem.$Properties
+         * @deprecated Use CMsgSource2VProfLiteReportItem.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSource2VProfLiteReportItem.
+         * @typedef {CMsgSource2VProfLiteReportItem.$Properties} CMsgSource2VProfLiteReportItem.$Shape
          */
     
         /**
          * Constructs a new CMsgSource2VProfLiteReportItem.
          * @exports CMsgSource2VProfLiteReportItem
          * @classdesc Represents a CMsgSource2VProfLiteReportItem.
-         * @implements ICMsgSource2VProfLiteReportItem
          * @constructor
-         * @param {ICMsgSource2VProfLiteReportItem=} [properties] Properties to set
+         * @param {CMsgSource2VProfLiteReportItem.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSource2VProfLiteReportItem(properties) {
+        var CMsgSource2VProfLiteReportItem = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSource2VProfLiteReportItem name.
@@ -794,10 +863,14 @@
          * @function create
          * @memberof CMsgSource2VProfLiteReportItem
          * @static
-         * @param {ICMsgSource2VProfLiteReportItem=} [properties] Properties to set
+         * @param {CMsgSource2VProfLiteReportItem.$Properties=} [properties] Properties to set
          * @returns {CMsgSource2VProfLiteReportItem} CMsgSource2VProfLiteReportItem instance
+         * @type {{
+         *   (properties: CMsgSource2VProfLiteReportItem.$Shape): CMsgSource2VProfLiteReportItem & CMsgSource2VProfLiteReportItem.$Shape;
+         *   (properties?: CMsgSource2VProfLiteReportItem.$Properties): CMsgSource2VProfLiteReportItem;
+         * }}
          */
-        CMsgSource2VProfLiteReportItem.create = function create(properties) {
+        CMsgSource2VProfLiteReportItem.create = function(properties) {
             return new CMsgSource2VProfLiteReportItem(properties);
         };
     
@@ -806,53 +879,56 @@
          * @function encode
          * @memberof CMsgSource2VProfLiteReportItem
          * @static
-         * @param {ICMsgSource2VProfLiteReportItem} message CMsgSource2VProfLiteReportItem message or plain object to encode
+         * @param {CMsgSource2VProfLiteReportItem.$Properties} message CMsgSource2VProfLiteReportItem message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSource2VProfLiteReportItem.encode = function encode(message, writer, q) {
+        CMsgSource2VProfLiteReportItem.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-            if (message.active_samples != null && Object.hasOwnProperty.call(message, "active_samples"))
+            if (message.active_samples != null && $Object.hasOwnProperty.call(message, "active_samples"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.active_samples);
-            if (message.usec_max != null && Object.hasOwnProperty.call(message, "usec_max"))
+            if (message.usec_max != null && $Object.hasOwnProperty.call(message, "usec_max"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.usec_max);
-            if (message.active_samples_1secmax != null && Object.hasOwnProperty.call(message, "active_samples_1secmax"))
+            if (message.active_samples_1secmax != null && $Object.hasOwnProperty.call(message, "active_samples_1secmax"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.active_samples_1secmax);
-            if (message.usec_avg_active != null && Object.hasOwnProperty.call(message, "usec_avg_active"))
+            if (message.usec_avg_active != null && $Object.hasOwnProperty.call(message, "usec_avg_active"))
                 writer.uint32(/* id 11, wireType 0 =*/88).uint32(message.usec_avg_active);
-            if (message.usec_p50_active != null && Object.hasOwnProperty.call(message, "usec_p50_active"))
+            if (message.usec_p50_active != null && $Object.hasOwnProperty.call(message, "usec_p50_active"))
                 writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.usec_p50_active);
-            if (message.usec_p99_active != null && Object.hasOwnProperty.call(message, "usec_p99_active"))
+            if (message.usec_p99_active != null && $Object.hasOwnProperty.call(message, "usec_p99_active"))
                 writer.uint32(/* id 13, wireType 0 =*/104).uint32(message.usec_p99_active);
-            if (message.usec_avg_all != null && Object.hasOwnProperty.call(message, "usec_avg_all"))
+            if (message.usec_avg_all != null && $Object.hasOwnProperty.call(message, "usec_avg_all"))
                 writer.uint32(/* id 21, wireType 0 =*/168).uint32(message.usec_avg_all);
-            if (message.usec_p50_all != null && Object.hasOwnProperty.call(message, "usec_p50_all"))
+            if (message.usec_p50_all != null && $Object.hasOwnProperty.call(message, "usec_p50_all"))
                 writer.uint32(/* id 22, wireType 0 =*/176).uint32(message.usec_p50_all);
-            if (message.usec_p99_all != null && Object.hasOwnProperty.call(message, "usec_p99_all"))
+            if (message.usec_p99_all != null && $Object.hasOwnProperty.call(message, "usec_p99_all"))
                 writer.uint32(/* id 23, wireType 0 =*/184).uint32(message.usec_p99_all);
-            if (message.usec_1secmax_avg_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_avg_active"))
+            if (message.usec_1secmax_avg_active != null && $Object.hasOwnProperty.call(message, "usec_1secmax_avg_active"))
                 writer.uint32(/* id 31, wireType 0 =*/248).uint32(message.usec_1secmax_avg_active);
-            if (message.usec_1secmax_p50_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_p50_active"))
+            if (message.usec_1secmax_p50_active != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p50_active"))
                 writer.uint32(/* id 32, wireType 0 =*/256).uint32(message.usec_1secmax_p50_active);
-            if (message.usec_1secmax_p95_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_p95_active"))
+            if (message.usec_1secmax_p95_active != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p95_active"))
                 writer.uint32(/* id 33, wireType 0 =*/264).uint32(message.usec_1secmax_p95_active);
-            if (message.usec_1secmax_p99_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_p99_active"))
+            if (message.usec_1secmax_p99_active != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p99_active"))
                 writer.uint32(/* id 34, wireType 0 =*/272).uint32(message.usec_1secmax_p99_active);
-            if (message.usec_1secmax_avg_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_avg_all"))
+            if (message.usec_1secmax_avg_all != null && $Object.hasOwnProperty.call(message, "usec_1secmax_avg_all"))
                 writer.uint32(/* id 41, wireType 0 =*/328).uint32(message.usec_1secmax_avg_all);
-            if (message.usec_1secmax_p50_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_p50_all"))
+            if (message.usec_1secmax_p50_all != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p50_all"))
                 writer.uint32(/* id 42, wireType 0 =*/336).uint32(message.usec_1secmax_p50_all);
-            if (message.usec_1secmax_p95_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_p95_all"))
+            if (message.usec_1secmax_p95_all != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p95_all"))
                 writer.uint32(/* id 43, wireType 0 =*/344).uint32(message.usec_1secmax_p95_all);
-            if (message.usec_1secmax_p99_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_p99_all"))
+            if (message.usec_1secmax_p99_all != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p99_all"))
                 writer.uint32(/* id 44, wireType 0 =*/352).uint32(message.usec_1secmax_p99_all);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -861,12 +937,12 @@
          * @function encodeDelimited
          * @memberof CMsgSource2VProfLiteReportItem
          * @static
-         * @param {ICMsgSource2VProfLiteReportItem} message CMsgSource2VProfLiteReportItem message or plain object to encode
+         * @param {CMsgSource2VProfLiteReportItem.$Properties} message CMsgSource2VProfLiteReportItem message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSource2VProfLiteReportItem.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSource2VProfLiteReportItem.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -876,115 +952,159 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSource2VProfLiteReportItem} CMsgSource2VProfLiteReportItem
+         * @returns {CMsgSource2VProfLiteReportItem & CMsgSource2VProfLiteReportItem.$Shape} CMsgSource2VProfLiteReportItem
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSource2VProfLiteReportItem.decode = function decode(reader, length, error, long) {
+        CMsgSource2VProfLiteReportItem.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSource2VProfLiteReportItem();
+            message = _target || new $root.CMsgSource2VProfLiteReportItem();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.name = reader.string();
-                        break;
-                    }
-                case 2: {
-                        message.active_samples = reader.uint32();
-                        break;
-                    }
-                case 4: {
-                        message.active_samples_1secmax = reader.uint32();
-                        break;
-                    }
-                case 3: {
-                        message.usec_max = reader.uint32();
-                        break;
-                    }
-                case 11: {
-                        message.usec_avg_active = reader.uint32();
-                        break;
-                    }
-                case 12: {
-                        message.usec_p50_active = reader.uint32();
-                        break;
-                    }
-                case 13: {
-                        message.usec_p99_active = reader.uint32();
-                        break;
-                    }
-                case 21: {
-                        message.usec_avg_all = reader.uint32();
-                        break;
-                    }
-                case 22: {
-                        message.usec_p50_all = reader.uint32();
-                        break;
-                    }
-                case 23: {
-                        message.usec_p99_all = reader.uint32();
-                        break;
-                    }
-                case 31: {
-                        message.usec_1secmax_avg_active = reader.uint32();
-                        break;
-                    }
-                case 32: {
-                        message.usec_1secmax_p50_active = reader.uint32();
-                        break;
-                    }
-                case 33: {
-                        message.usec_1secmax_p95_active = reader.uint32();
-                        break;
-                    }
-                case 34: {
-                        message.usec_1secmax_p99_active = reader.uint32();
-                        break;
-                    }
-                case 41: {
-                        message.usec_1secmax_avg_all = reader.uint32();
-                        break;
-                    }
-                case 42: {
-                        message.usec_1secmax_p50_all = reader.uint32();
-                        break;
-                    }
-                case 43: {
-                        message.usec_1secmax_p95_all = reader.uint32();
-                        break;
-                    }
-                case 44: {
-                        message.usec_1secmax_p99_all = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        message.name = reader.string();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.active_samples = reader.uint32();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 0)
+                            break;
+                        message.active_samples_1secmax = reader.uint32();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_max = reader.uint32();
+                        continue;
+                    }
+                case 11: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_avg_active = reader.uint32();
+                        continue;
+                    }
+                case 12: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_p50_active = reader.uint32();
+                        continue;
+                    }
+                case 13: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_p99_active = reader.uint32();
+                        continue;
+                    }
+                case 21: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_avg_all = reader.uint32();
+                        continue;
+                    }
+                case 22: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_p50_all = reader.uint32();
+                        continue;
+                    }
+                case 23: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_p99_all = reader.uint32();
+                        continue;
+                    }
+                case 31: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_1secmax_avg_active = reader.uint32();
+                        continue;
+                    }
+                case 32: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_1secmax_p50_active = reader.uint32();
+                        continue;
+                    }
+                case 33: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_1secmax_p95_active = reader.uint32();
+                        continue;
+                    }
+                case 34: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_1secmax_p99_active = reader.uint32();
+                        continue;
+                    }
+                case 41: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_1secmax_avg_all = reader.uint32();
+                        continue;
+                    }
+                case 42: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_1secmax_p50_all = reader.uint32();
+                        continue;
+                    }
+                case 43: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_1secmax_p95_all = reader.uint32();
+                        continue;
+                    }
+                case 44: {
+                        if (wireType !== 0)
+                            break;
+                        message.usec_1secmax_p99_all = reader.uint32();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -994,14 +1114,14 @@
          * @memberof CMsgSource2VProfLiteReportItem
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSource2VProfLiteReportItem} CMsgSource2VProfLiteReportItem
+         * @returns {CMsgSource2VProfLiteReportItem & CMsgSource2VProfLiteReportItem.$Shape} CMsgSource2VProfLiteReportItem
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSource2VProfLiteReportItem.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSource2VProfLiteReportItem.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -1012,65 +1132,65 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSource2VProfLiteReportItem.verify = function verify(message, long) {
+        CMsgSource2VProfLiteReportItem.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
                 if (!$util.isString(message.name))
                     return "name: string expected";
-            if (message.active_samples != null && Object.hasOwnProperty.call(message, "active_samples"))
+            if (message.active_samples != null && $Object.hasOwnProperty.call(message, "active_samples"))
                 if (!$util.isInteger(message.active_samples))
                     return "active_samples: integer expected";
-            if (message.active_samples_1secmax != null && Object.hasOwnProperty.call(message, "active_samples_1secmax"))
+            if (message.active_samples_1secmax != null && $Object.hasOwnProperty.call(message, "active_samples_1secmax"))
                 if (!$util.isInteger(message.active_samples_1secmax))
                     return "active_samples_1secmax: integer expected";
-            if (message.usec_max != null && Object.hasOwnProperty.call(message, "usec_max"))
+            if (message.usec_max != null && $Object.hasOwnProperty.call(message, "usec_max"))
                 if (!$util.isInteger(message.usec_max))
                     return "usec_max: integer expected";
-            if (message.usec_avg_active != null && Object.hasOwnProperty.call(message, "usec_avg_active"))
+            if (message.usec_avg_active != null && $Object.hasOwnProperty.call(message, "usec_avg_active"))
                 if (!$util.isInteger(message.usec_avg_active))
                     return "usec_avg_active: integer expected";
-            if (message.usec_p50_active != null && Object.hasOwnProperty.call(message, "usec_p50_active"))
+            if (message.usec_p50_active != null && $Object.hasOwnProperty.call(message, "usec_p50_active"))
                 if (!$util.isInteger(message.usec_p50_active))
                     return "usec_p50_active: integer expected";
-            if (message.usec_p99_active != null && Object.hasOwnProperty.call(message, "usec_p99_active"))
+            if (message.usec_p99_active != null && $Object.hasOwnProperty.call(message, "usec_p99_active"))
                 if (!$util.isInteger(message.usec_p99_active))
                     return "usec_p99_active: integer expected";
-            if (message.usec_avg_all != null && Object.hasOwnProperty.call(message, "usec_avg_all"))
+            if (message.usec_avg_all != null && $Object.hasOwnProperty.call(message, "usec_avg_all"))
                 if (!$util.isInteger(message.usec_avg_all))
                     return "usec_avg_all: integer expected";
-            if (message.usec_p50_all != null && Object.hasOwnProperty.call(message, "usec_p50_all"))
+            if (message.usec_p50_all != null && $Object.hasOwnProperty.call(message, "usec_p50_all"))
                 if (!$util.isInteger(message.usec_p50_all))
                     return "usec_p50_all: integer expected";
-            if (message.usec_p99_all != null && Object.hasOwnProperty.call(message, "usec_p99_all"))
+            if (message.usec_p99_all != null && $Object.hasOwnProperty.call(message, "usec_p99_all"))
                 if (!$util.isInteger(message.usec_p99_all))
                     return "usec_p99_all: integer expected";
-            if (message.usec_1secmax_avg_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_avg_active"))
+            if (message.usec_1secmax_avg_active != null && $Object.hasOwnProperty.call(message, "usec_1secmax_avg_active"))
                 if (!$util.isInteger(message.usec_1secmax_avg_active))
                     return "usec_1secmax_avg_active: integer expected";
-            if (message.usec_1secmax_p50_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_p50_active"))
+            if (message.usec_1secmax_p50_active != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p50_active"))
                 if (!$util.isInteger(message.usec_1secmax_p50_active))
                     return "usec_1secmax_p50_active: integer expected";
-            if (message.usec_1secmax_p95_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_p95_active"))
+            if (message.usec_1secmax_p95_active != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p95_active"))
                 if (!$util.isInteger(message.usec_1secmax_p95_active))
                     return "usec_1secmax_p95_active: integer expected";
-            if (message.usec_1secmax_p99_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_p99_active"))
+            if (message.usec_1secmax_p99_active != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p99_active"))
                 if (!$util.isInteger(message.usec_1secmax_p99_active))
                     return "usec_1secmax_p99_active: integer expected";
-            if (message.usec_1secmax_avg_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_avg_all"))
+            if (message.usec_1secmax_avg_all != null && $Object.hasOwnProperty.call(message, "usec_1secmax_avg_all"))
                 if (!$util.isInteger(message.usec_1secmax_avg_all))
                     return "usec_1secmax_avg_all: integer expected";
-            if (message.usec_1secmax_p50_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_p50_all"))
+            if (message.usec_1secmax_p50_all != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p50_all"))
                 if (!$util.isInteger(message.usec_1secmax_p50_all))
                     return "usec_1secmax_p50_all: integer expected";
-            if (message.usec_1secmax_p95_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_p95_all"))
+            if (message.usec_1secmax_p95_all != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p95_all"))
                 if (!$util.isInteger(message.usec_1secmax_p95_all))
                     return "usec_1secmax_p95_all: integer expected";
-            if (message.usec_1secmax_p99_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_p99_all"))
+            if (message.usec_1secmax_p99_all != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p99_all"))
                 if (!$util.isInteger(message.usec_1secmax_p99_all))
                     return "usec_1secmax_p99_all: integer expected";
             return null;
@@ -1084,18 +1204,18 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSource2VProfLiteReportItem} CMsgSource2VProfLiteReportItem
          */
-        CMsgSource2VProfLiteReportItem.fromObject = function fromObject(object, long) {
+        CMsgSource2VProfLiteReportItem.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSource2VProfLiteReportItem)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSource2VProfLiteReportItem: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSource2VProfLiteReportItem: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSource2VProfLiteReportItem();
             if (object.name != null)
-                message.name = String(object.name);
+                message.name = $String(object.name);
             if (object.active_samples != null)
                 message.active_samples = object.active_samples >>> 0;
             if (object.active_samples_1secmax != null)
@@ -1142,13 +1262,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSource2VProfLiteReportItem.toObject = function toObject(message, options, q) {
+        CMsgSource2VProfLiteReportItem.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.name = "";
@@ -1170,41 +1290,41 @@
                 object.usec_1secmax_p95_all = 0;
                 object.usec_1secmax_p99_all = 0;
             }
-            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+            if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
                 object.name = message.name;
-            if (message.active_samples != null && Object.hasOwnProperty.call(message, "active_samples"))
+            if (message.active_samples != null && $Object.hasOwnProperty.call(message, "active_samples"))
                 object.active_samples = message.active_samples;
-            if (message.usec_max != null && Object.hasOwnProperty.call(message, "usec_max"))
+            if (message.usec_max != null && $Object.hasOwnProperty.call(message, "usec_max"))
                 object.usec_max = message.usec_max;
-            if (message.active_samples_1secmax != null && Object.hasOwnProperty.call(message, "active_samples_1secmax"))
+            if (message.active_samples_1secmax != null && $Object.hasOwnProperty.call(message, "active_samples_1secmax"))
                 object.active_samples_1secmax = message.active_samples_1secmax;
-            if (message.usec_avg_active != null && Object.hasOwnProperty.call(message, "usec_avg_active"))
+            if (message.usec_avg_active != null && $Object.hasOwnProperty.call(message, "usec_avg_active"))
                 object.usec_avg_active = message.usec_avg_active;
-            if (message.usec_p50_active != null && Object.hasOwnProperty.call(message, "usec_p50_active"))
+            if (message.usec_p50_active != null && $Object.hasOwnProperty.call(message, "usec_p50_active"))
                 object.usec_p50_active = message.usec_p50_active;
-            if (message.usec_p99_active != null && Object.hasOwnProperty.call(message, "usec_p99_active"))
+            if (message.usec_p99_active != null && $Object.hasOwnProperty.call(message, "usec_p99_active"))
                 object.usec_p99_active = message.usec_p99_active;
-            if (message.usec_avg_all != null && Object.hasOwnProperty.call(message, "usec_avg_all"))
+            if (message.usec_avg_all != null && $Object.hasOwnProperty.call(message, "usec_avg_all"))
                 object.usec_avg_all = message.usec_avg_all;
-            if (message.usec_p50_all != null && Object.hasOwnProperty.call(message, "usec_p50_all"))
+            if (message.usec_p50_all != null && $Object.hasOwnProperty.call(message, "usec_p50_all"))
                 object.usec_p50_all = message.usec_p50_all;
-            if (message.usec_p99_all != null && Object.hasOwnProperty.call(message, "usec_p99_all"))
+            if (message.usec_p99_all != null && $Object.hasOwnProperty.call(message, "usec_p99_all"))
                 object.usec_p99_all = message.usec_p99_all;
-            if (message.usec_1secmax_avg_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_avg_active"))
+            if (message.usec_1secmax_avg_active != null && $Object.hasOwnProperty.call(message, "usec_1secmax_avg_active"))
                 object.usec_1secmax_avg_active = message.usec_1secmax_avg_active;
-            if (message.usec_1secmax_p50_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_p50_active"))
+            if (message.usec_1secmax_p50_active != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p50_active"))
                 object.usec_1secmax_p50_active = message.usec_1secmax_p50_active;
-            if (message.usec_1secmax_p95_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_p95_active"))
+            if (message.usec_1secmax_p95_active != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p95_active"))
                 object.usec_1secmax_p95_active = message.usec_1secmax_p95_active;
-            if (message.usec_1secmax_p99_active != null && Object.hasOwnProperty.call(message, "usec_1secmax_p99_active"))
+            if (message.usec_1secmax_p99_active != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p99_active"))
                 object.usec_1secmax_p99_active = message.usec_1secmax_p99_active;
-            if (message.usec_1secmax_avg_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_avg_all"))
+            if (message.usec_1secmax_avg_all != null && $Object.hasOwnProperty.call(message, "usec_1secmax_avg_all"))
                 object.usec_1secmax_avg_all = message.usec_1secmax_avg_all;
-            if (message.usec_1secmax_p50_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_p50_all"))
+            if (message.usec_1secmax_p50_all != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p50_all"))
                 object.usec_1secmax_p50_all = message.usec_1secmax_p50_all;
-            if (message.usec_1secmax_p95_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_p95_all"))
+            if (message.usec_1secmax_p95_all != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p95_all"))
                 object.usec_1secmax_p95_all = message.usec_1secmax_p95_all;
-            if (message.usec_1secmax_p99_all != null && Object.hasOwnProperty.call(message, "usec_1secmax_p99_all"))
+            if (message.usec_1secmax_p99_all != null && $Object.hasOwnProperty.call(message, "usec_1secmax_p99_all"))
                 object.usec_1secmax_p99_all = message.usec_1secmax_p99_all;
             return object;
         };
@@ -1216,23 +1336,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSource2VProfLiteReportItem.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSource2VProfLiteReportItem.prototype.toJSON = function() {
+            return CMsgSource2VProfLiteReportItem.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSource2VProfLiteReportItem
+         * Gets the type url for CMsgSource2VProfLiteReportItem
          * @function getTypeUrl
          * @memberof CMsgSource2VProfLiteReportItem
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSource2VProfLiteReportItem.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSource2VProfLiteReportItem";
+        CMsgSource2VProfLiteReportItem.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSource2VProfLiteReportItem";
         };
     
         return CMsgSource2VProfLiteReportItem;
@@ -1242,32 +1361,45 @@
     
         /**
          * Properties of a CMsgSource2VProfLiteReport.
+         * @typedef {Object} CMsgSource2VProfLiteReport.$Properties
+         * @property {CMsgSource2VProfLiteReportItem.$Properties|null} [total] CMsgSource2VProfLiteReport total
+         * @property {Array.<CMsgSource2VProfLiteReportItem.$Properties>|null} [items] CMsgSource2VProfLiteReport items
+         * @property {number|null} [discarded_frames] CMsgSource2VProfLiteReport discarded_frames
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSource2VProfLiteReport.
          * @exports ICMsgSource2VProfLiteReport
          * @interface ICMsgSource2VProfLiteReport
-         * @property {ICMsgSource2VProfLiteReportItem|null} [total] CMsgSource2VProfLiteReport total
-         * @property {Array.<ICMsgSource2VProfLiteReportItem>|null} [items] CMsgSource2VProfLiteReport items
-         * @property {number|null} [discarded_frames] CMsgSource2VProfLiteReport discarded_frames
+         * @augments CMsgSource2VProfLiteReport.$Properties
+         * @deprecated Use CMsgSource2VProfLiteReport.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSource2VProfLiteReport.
+         * @typedef {CMsgSource2VProfLiteReport.$Properties} CMsgSource2VProfLiteReport.$Shape
          */
     
         /**
          * Constructs a new CMsgSource2VProfLiteReport.
          * @exports CMsgSource2VProfLiteReport
          * @classdesc Represents a CMsgSource2VProfLiteReport.
-         * @implements ICMsgSource2VProfLiteReport
          * @constructor
-         * @param {ICMsgSource2VProfLiteReport=} [properties] Properties to set
+         * @param {CMsgSource2VProfLiteReport.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSource2VProfLiteReport(properties) {
+        var CMsgSource2VProfLiteReport = function (properties) {
             this.items = [];
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSource2VProfLiteReport total.
-         * @member {ICMsgSource2VProfLiteReportItem|null|undefined} total
+         * @member {CMsgSource2VProfLiteReportItem.$Properties|null|undefined} total
          * @memberof CMsgSource2VProfLiteReport
          * @instance
          */
@@ -1275,7 +1407,7 @@
     
         /**
          * CMsgSource2VProfLiteReport items.
-         * @member {Array.<ICMsgSource2VProfLiteReportItem>} items
+         * @member {Array.<CMsgSource2VProfLiteReportItem.$Properties>} items
          * @memberof CMsgSource2VProfLiteReport
          * @instance
          */
@@ -1294,10 +1426,14 @@
          * @function create
          * @memberof CMsgSource2VProfLiteReport
          * @static
-         * @param {ICMsgSource2VProfLiteReport=} [properties] Properties to set
+         * @param {CMsgSource2VProfLiteReport.$Properties=} [properties] Properties to set
          * @returns {CMsgSource2VProfLiteReport} CMsgSource2VProfLiteReport instance
+         * @type {{
+         *   (properties: CMsgSource2VProfLiteReport.$Shape): CMsgSource2VProfLiteReport & CMsgSource2VProfLiteReport.$Shape;
+         *   (properties?: CMsgSource2VProfLiteReport.$Properties): CMsgSource2VProfLiteReport;
+         * }}
          */
-        CMsgSource2VProfLiteReport.create = function create(properties) {
+        CMsgSource2VProfLiteReport.create = function(properties) {
             return new CMsgSource2VProfLiteReport(properties);
         };
     
@@ -1306,24 +1442,27 @@
          * @function encode
          * @memberof CMsgSource2VProfLiteReport
          * @static
-         * @param {ICMsgSource2VProfLiteReport} message CMsgSource2VProfLiteReport message or plain object to encode
+         * @param {CMsgSource2VProfLiteReport.$Properties} message CMsgSource2VProfLiteReport message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSource2VProfLiteReport.encode = function encode(message, writer, q) {
+        CMsgSource2VProfLiteReport.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.total != null && Object.hasOwnProperty.call(message, "total"))
-                $root.CMsgSource2VProfLiteReportItem.encode(message.total, writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.total != null && $Object.hasOwnProperty.call(message, "total"))
+                $root.CMsgSource2VProfLiteReportItem.encode(message.total, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
             if (message.items != null && message.items.length)
                 for (var i = 0; i < message.items.length; ++i)
-                    $root.CMsgSource2VProfLiteReportItem.encode(message.items[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
-            if (message.discarded_frames != null && Object.hasOwnProperty.call(message, "discarded_frames"))
+                    $root.CMsgSource2VProfLiteReportItem.encode(message.items[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
+            if (message.discarded_frames != null && $Object.hasOwnProperty.call(message, "discarded_frames"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.discarded_frames);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -1332,12 +1471,12 @@
          * @function encodeDelimited
          * @memberof CMsgSource2VProfLiteReport
          * @static
-         * @param {ICMsgSource2VProfLiteReport} message CMsgSource2VProfLiteReport message or plain object to encode
+         * @param {CMsgSource2VProfLiteReport.$Properties} message CMsgSource2VProfLiteReport message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSource2VProfLiteReport.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSource2VProfLiteReport.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -1347,57 +1486,71 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSource2VProfLiteReport} CMsgSource2VProfLiteReport
+         * @returns {CMsgSource2VProfLiteReport & CMsgSource2VProfLiteReport.$Shape} CMsgSource2VProfLiteReport
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSource2VProfLiteReport.decode = function decode(reader, length, error, long) {
+        CMsgSource2VProfLiteReport.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSource2VProfLiteReport();
+            message = _target || new $root.CMsgSource2VProfLiteReport();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.total = $root.CMsgSource2VProfLiteReportItem.decode(reader, reader.uint32(), undefined, long + 1);
-                        break;
-                    }
-                case 2: {
-                        if (!(message.items && message.items.length))
-                            message.items = [];
-                        message.items.push($root.CMsgSource2VProfLiteReportItem.decode(reader, reader.uint32(), undefined, long + 1));
-                        break;
-                    }
-                case 3: {
-                        message.discarded_frames = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        message.total = $root.CMsgSource2VProfLiteReportItem.decode(reader, reader.size(), $undefined, _depth + 1, message.total);
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        if (!(message.items && message.items.length))
+                            message.items = [];
+                        message.items.push($root.CMsgSource2VProfLiteReportItem.decode(reader, reader.size(), $undefined, _depth + 1));
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 0)
+                            break;
+                        message.discarded_frames = reader.uint32();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -1407,14 +1560,14 @@
          * @memberof CMsgSource2VProfLiteReport
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSource2VProfLiteReport} CMsgSource2VProfLiteReport
+         * @returns {CMsgSource2VProfLiteReport & CMsgSource2VProfLiteReport.$Shape} CMsgSource2VProfLiteReport
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSource2VProfLiteReport.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSource2VProfLiteReport.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -1425,28 +1578,28 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSource2VProfLiteReport.verify = function verify(message, long) {
+        CMsgSource2VProfLiteReport.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.total != null && Object.hasOwnProperty.call(message, "total")) {
-                var error = $root.CMsgSource2VProfLiteReportItem.verify(message.total, long + 1);
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.total != null && $Object.hasOwnProperty.call(message, "total")) {
+                var error = $root.CMsgSource2VProfLiteReportItem.verify(message.total, _depth + 1);
                 if (error)
                     return "total." + error;
             }
-            if (message.items != null && Object.hasOwnProperty.call(message, "items")) {
-                if (!Array.isArray(message.items))
+            if (message.items != null && $Object.hasOwnProperty.call(message, "items")) {
+                if (!$Array.isArray(message.items))
                     return "items: array expected";
                 for (var i = 0; i < message.items.length; ++i) {
-                    var error = $root.CMsgSource2VProfLiteReportItem.verify(message.items[i], long + 1);
+                    var error = $root.CMsgSource2VProfLiteReportItem.verify(message.items[i], _depth + 1);
                     if (error)
                         return "items." + error;
                 }
             }
-            if (message.discarded_frames != null && Object.hasOwnProperty.call(message, "discarded_frames"))
+            if (message.discarded_frames != null && $Object.hasOwnProperty.call(message, "discarded_frames"))
                 if (!$util.isInteger(message.discarded_frames))
                     return "discarded_frames: integer expected";
             return null;
@@ -1460,29 +1613,29 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSource2VProfLiteReport} CMsgSource2VProfLiteReport
          */
-        CMsgSource2VProfLiteReport.fromObject = function fromObject(object, long) {
+        CMsgSource2VProfLiteReport.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSource2VProfLiteReport)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSource2VProfLiteReport: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSource2VProfLiteReport: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSource2VProfLiteReport();
             if (object.total != null) {
                 if (!$util.isObject(object.total))
-                    throw TypeError(".CMsgSource2VProfLiteReport.total: object expected");
-                message.total = $root.CMsgSource2VProfLiteReportItem.fromObject(object.total, long + 1);
+                    throw $TypeError(".CMsgSource2VProfLiteReport.total: object expected");
+                message.total = $root.CMsgSource2VProfLiteReportItem.fromObject(object.total, _depth + 1);
             }
             if (object.items) {
-                if (!Array.isArray(object.items))
-                    throw TypeError(".CMsgSource2VProfLiteReport.items: array expected");
-                message.items = [];
+                if (!$Array.isArray(object.items))
+                    throw $TypeError(".CMsgSource2VProfLiteReport.items: array expected");
+                message.items = $Array(object.items.length);
                 for (var i = 0; i < object.items.length; ++i) {
                     if (!$util.isObject(object.items[i]))
-                        throw TypeError(".CMsgSource2VProfLiteReport.items: object expected");
-                    message.items[i] = $root.CMsgSource2VProfLiteReportItem.fromObject(object.items[i], long + 1);
+                        throw $TypeError(".CMsgSource2VProfLiteReport.items: object expected");
+                    message.items[i] = $root.CMsgSource2VProfLiteReportItem.fromObject(object.items[i], _depth + 1);
                 }
             }
             if (object.discarded_frames != null)
@@ -1499,13 +1652,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSource2VProfLiteReport.toObject = function toObject(message, options, q) {
+        CMsgSource2VProfLiteReport.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.items = [];
@@ -1513,14 +1666,14 @@
                 object.total = null;
                 object.discarded_frames = 0;
             }
-            if (message.total != null && Object.hasOwnProperty.call(message, "total"))
-                object.total = $root.CMsgSource2VProfLiteReportItem.toObject(message.total, options, q + 1);
+            if (message.total != null && $Object.hasOwnProperty.call(message, "total"))
+                object.total = $root.CMsgSource2VProfLiteReportItem.toObject(message.total, options, _depth + 1);
             if (message.items && message.items.length) {
-                object.items = [];
+                object.items = $Array(message.items.length);
                 for (var j = 0; j < message.items.length; ++j)
-                    object.items[j] = $root.CMsgSource2VProfLiteReportItem.toObject(message.items[j], options, q + 1);
+                    object.items[j] = $root.CMsgSource2VProfLiteReportItem.toObject(message.items[j], options, _depth + 1);
             }
-            if (message.discarded_frames != null && Object.hasOwnProperty.call(message, "discarded_frames"))
+            if (message.discarded_frames != null && $Object.hasOwnProperty.call(message, "discarded_frames"))
                 object.discarded_frames = message.discarded_frames;
             return object;
         };
@@ -1532,23 +1685,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSource2VProfLiteReport.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSource2VProfLiteReport.prototype.toJSON = function() {
+            return CMsgSource2VProfLiteReport.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSource2VProfLiteReport
+         * Gets the type url for CMsgSource2VProfLiteReport
          * @function getTypeUrl
          * @memberof CMsgSource2VProfLiteReport
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSource2VProfLiteReport.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSource2VProfLiteReport";
+        CMsgSource2VProfLiteReport.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSource2VProfLiteReport";
         };
     
         return CMsgSource2VProfLiteReport;
@@ -1558,8 +1710,7 @@
     
         /**
          * Properties of a CMsgSource2NetworkFlowQuality.
-         * @exports ICMsgSource2NetworkFlowQuality
-         * @interface ICMsgSource2NetworkFlowQuality
+         * @typedef {Object} CMsgSource2NetworkFlowQuality.$Properties
          * @property {number|null} [duration] CMsgSource2NetworkFlowQuality duration
          * @property {number|Long|null} [bytes_total] CMsgSource2NetworkFlowQuality bytes_total
          * @property {number|Long|null} [bytes_total_reliable] CMsgSource2NetworkFlowQuality bytes_total_reliable
@@ -1624,22 +1775,36 @@
          * @property {number|null} [queuedmsgs_p95] CMsgSource2NetworkFlowQuality queuedmsgs_p95
          * @property {number|null} [queuedmsgs_p99] CMsgSource2NetworkFlowQuality queuedmsgs_p99
          * @property {number|null} [queuedmsgs_max] CMsgSource2NetworkFlowQuality queuedmsgs_max
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSource2NetworkFlowQuality.
+         * @exports ICMsgSource2NetworkFlowQuality
+         * @interface ICMsgSource2NetworkFlowQuality
+         * @augments CMsgSource2NetworkFlowQuality.$Properties
+         * @deprecated Use CMsgSource2NetworkFlowQuality.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSource2NetworkFlowQuality.
+         * @typedef {CMsgSource2NetworkFlowQuality.$Properties} CMsgSource2NetworkFlowQuality.$Shape
          */
     
         /**
          * Constructs a new CMsgSource2NetworkFlowQuality.
          * @exports CMsgSource2NetworkFlowQuality
          * @classdesc Represents a CMsgSource2NetworkFlowQuality.
-         * @implements ICMsgSource2NetworkFlowQuality
          * @constructor
-         * @param {ICMsgSource2NetworkFlowQuality=} [properties] Properties to set
+         * @param {CMsgSource2NetworkFlowQuality.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSource2NetworkFlowQuality(properties) {
+        var CMsgSource2NetworkFlowQuality = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSource2NetworkFlowQuality duration.
@@ -2158,10 +2323,14 @@
          * @function create
          * @memberof CMsgSource2NetworkFlowQuality
          * @static
-         * @param {ICMsgSource2NetworkFlowQuality=} [properties] Properties to set
+         * @param {CMsgSource2NetworkFlowQuality.$Properties=} [properties] Properties to set
          * @returns {CMsgSource2NetworkFlowQuality} CMsgSource2NetworkFlowQuality instance
+         * @type {{
+         *   (properties: CMsgSource2NetworkFlowQuality.$Shape): CMsgSource2NetworkFlowQuality & CMsgSource2NetworkFlowQuality.$Shape;
+         *   (properties?: CMsgSource2NetworkFlowQuality.$Properties): CMsgSource2NetworkFlowQuality;
+         * }}
          */
-        CMsgSource2NetworkFlowQuality.create = function create(properties) {
+        CMsgSource2NetworkFlowQuality.create = function(properties) {
             return new CMsgSource2NetworkFlowQuality(properties);
         };
     
@@ -2170,145 +2339,148 @@
          * @function encode
          * @memberof CMsgSource2NetworkFlowQuality
          * @static
-         * @param {ICMsgSource2NetworkFlowQuality} message CMsgSource2NetworkFlowQuality message or plain object to encode
+         * @param {CMsgSource2NetworkFlowQuality.$Properties} message CMsgSource2NetworkFlowQuality message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSource2NetworkFlowQuality.encode = function encode(message, writer, q) {
+        CMsgSource2NetworkFlowQuality.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.duration != null && Object.hasOwnProperty.call(message, "duration"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.duration != null && $Object.hasOwnProperty.call(message, "duration"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.duration);
-            if (message.bytes_total != null && Object.hasOwnProperty.call(message, "bytes_total"))
+            if (message.bytes_total != null && $Object.hasOwnProperty.call(message, "bytes_total"))
                 writer.uint32(/* id 5, wireType 0 =*/40).uint64(message.bytes_total);
-            if (message.bytes_total_reliable != null && Object.hasOwnProperty.call(message, "bytes_total_reliable"))
+            if (message.bytes_total_reliable != null && $Object.hasOwnProperty.call(message, "bytes_total_reliable"))
                 writer.uint32(/* id 6, wireType 0 =*/48).uint64(message.bytes_total_reliable);
-            if (message.bytes_total_voice != null && Object.hasOwnProperty.call(message, "bytes_total_voice"))
+            if (message.bytes_total_voice != null && $Object.hasOwnProperty.call(message, "bytes_total_voice"))
                 writer.uint32(/* id 7, wireType 0 =*/56).uint64(message.bytes_total_voice);
-            if (message.bytes_sec_p95 != null && Object.hasOwnProperty.call(message, "bytes_sec_p95"))
+            if (message.bytes_sec_p95 != null && $Object.hasOwnProperty.call(message, "bytes_sec_p95"))
                 writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.bytes_sec_p95);
-            if (message.bytes_sec_p99 != null && Object.hasOwnProperty.call(message, "bytes_sec_p99"))
+            if (message.bytes_sec_p99 != null && $Object.hasOwnProperty.call(message, "bytes_sec_p99"))
                 writer.uint32(/* id 11, wireType 0 =*/88).uint32(message.bytes_sec_p99);
-            if (message.netframes_size_uncompressed_p50 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p50"))
+            if (message.netframes_size_uncompressed_p50 != null && $Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p50"))
                 writer.uint32(/* id 12, wireType 0 =*/96).uint32(message.netframes_size_uncompressed_p50);
-            if (message.netframes_size_uncompressed_p95 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p95"))
+            if (message.netframes_size_uncompressed_p95 != null && $Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p95"))
                 writer.uint32(/* id 13, wireType 0 =*/104).uint32(message.netframes_size_uncompressed_p95);
-            if (message.netframes_size_uncompressed_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p99"))
+            if (message.netframes_size_uncompressed_p99 != null && $Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p99"))
                 writer.uint32(/* id 14, wireType 0 =*/112).uint32(message.netframes_size_uncompressed_p99);
-            if (message.netframes_size_uncompressed_max != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_max"))
+            if (message.netframes_size_uncompressed_max != null && $Object.hasOwnProperty.call(message, "netframes_size_uncompressed_max"))
                 writer.uint32(/* id 15, wireType 0 =*/120).uint32(message.netframes_size_uncompressed_max);
-            if (message.netframes_msgs_p50 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p50"))
+            if (message.netframes_msgs_p50 != null && $Object.hasOwnProperty.call(message, "netframes_msgs_p50"))
                 writer.uint32(/* id 16, wireType 0 =*/128).uint32(message.netframes_msgs_p50);
-            if (message.netframes_msgs_p95 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p95"))
+            if (message.netframes_msgs_p95 != null && $Object.hasOwnProperty.call(message, "netframes_msgs_p95"))
                 writer.uint32(/* id 17, wireType 0 =*/136).uint32(message.netframes_msgs_p95);
-            if (message.netframes_msgs_p99 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p99"))
+            if (message.netframes_msgs_p99 != null && $Object.hasOwnProperty.call(message, "netframes_msgs_p99"))
                 writer.uint32(/* id 18, wireType 0 =*/144).uint32(message.netframes_msgs_p99);
-            if (message.netframes_msgs_max != null && Object.hasOwnProperty.call(message, "netframes_msgs_max"))
+            if (message.netframes_msgs_max != null && $Object.hasOwnProperty.call(message, "netframes_msgs_max"))
                 writer.uint32(/* id 19, wireType 0 =*/152).uint32(message.netframes_msgs_max);
-            if (message.enginemsgs_total != null && Object.hasOwnProperty.call(message, "enginemsgs_total"))
+            if (message.enginemsgs_total != null && $Object.hasOwnProperty.call(message, "enginemsgs_total"))
                 writer.uint32(/* id 20, wireType 0 =*/160).uint32(message.enginemsgs_total);
-            if (message.enginemsgs_sec_p95 != null && Object.hasOwnProperty.call(message, "enginemsgs_sec_p95"))
+            if (message.enginemsgs_sec_p95 != null && $Object.hasOwnProperty.call(message, "enginemsgs_sec_p95"))
                 writer.uint32(/* id 21, wireType 0 =*/168).uint32(message.enginemsgs_sec_p95);
-            if (message.enginemsgs_sec_p99 != null && Object.hasOwnProperty.call(message, "enginemsgs_sec_p99"))
+            if (message.enginemsgs_sec_p99 != null && $Object.hasOwnProperty.call(message, "enginemsgs_sec_p99"))
                 writer.uint32(/* id 22, wireType 0 =*/176).uint32(message.enginemsgs_sec_p99);
-            if (message.netframes_total != null && Object.hasOwnProperty.call(message, "netframes_total"))
+            if (message.netframes_total != null && $Object.hasOwnProperty.call(message, "netframes_total"))
                 writer.uint32(/* id 30, wireType 0 =*/240).uint32(message.netframes_total);
-            if (message.netframes_dropped != null && Object.hasOwnProperty.call(message, "netframes_dropped"))
+            if (message.netframes_dropped != null && $Object.hasOwnProperty.call(message, "netframes_dropped"))
                 writer.uint32(/* id 31, wireType 0 =*/248).uint32(message.netframes_dropped);
-            if (message.netframes_outoforder != null && Object.hasOwnProperty.call(message, "netframes_outoforder"))
+            if (message.netframes_outoforder != null && $Object.hasOwnProperty.call(message, "netframes_outoforder"))
                 writer.uint32(/* id 32, wireType 0 =*/256).uint32(message.netframes_outoforder);
-            if (message.netframes_size_exceeds_mtu != null && Object.hasOwnProperty.call(message, "netframes_size_exceeds_mtu"))
+            if (message.netframes_size_exceeds_mtu != null && $Object.hasOwnProperty.call(message, "netframes_size_exceeds_mtu"))
                 writer.uint32(/* id 34, wireType 0 =*/272).uint32(message.netframes_size_exceeds_mtu);
-            if (message.netframes_size_p95 != null && Object.hasOwnProperty.call(message, "netframes_size_p95"))
+            if (message.netframes_size_p95 != null && $Object.hasOwnProperty.call(message, "netframes_size_p95"))
                 writer.uint32(/* id 35, wireType 0 =*/280).uint32(message.netframes_size_p95);
-            if (message.netframes_size_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_p99"))
+            if (message.netframes_size_p99 != null && $Object.hasOwnProperty.call(message, "netframes_size_p99"))
                 writer.uint32(/* id 36, wireType 0 =*/288).uint32(message.netframes_size_p99);
-            if (message.ticks_total != null && Object.hasOwnProperty.call(message, "ticks_total"))
+            if (message.ticks_total != null && $Object.hasOwnProperty.call(message, "ticks_total"))
                 writer.uint32(/* id 40, wireType 0 =*/320).uint32(message.ticks_total);
-            if (message.ticks_good != null && Object.hasOwnProperty.call(message, "ticks_good"))
+            if (message.ticks_good != null && $Object.hasOwnProperty.call(message, "ticks_good"))
                 writer.uint32(/* id 41, wireType 0 =*/328).uint32(message.ticks_good);
-            if (message.ticks_good_almost_late != null && Object.hasOwnProperty.call(message, "ticks_good_almost_late"))
+            if (message.ticks_good_almost_late != null && $Object.hasOwnProperty.call(message, "ticks_good_almost_late"))
                 writer.uint32(/* id 42, wireType 0 =*/336).uint32(message.ticks_good_almost_late);
-            if (message.ticks_fixed_dropped != null && Object.hasOwnProperty.call(message, "ticks_fixed_dropped"))
+            if (message.ticks_fixed_dropped != null && $Object.hasOwnProperty.call(message, "ticks_fixed_dropped"))
                 writer.uint32(/* id 43, wireType 0 =*/344).uint32(message.ticks_fixed_dropped);
-            if (message.ticks_fixed_late != null && Object.hasOwnProperty.call(message, "ticks_fixed_late"))
+            if (message.ticks_fixed_late != null && $Object.hasOwnProperty.call(message, "ticks_fixed_late"))
                 writer.uint32(/* id 44, wireType 0 =*/352).uint32(message.ticks_fixed_late);
-            if (message.ticks_bad_dropped != null && Object.hasOwnProperty.call(message, "ticks_bad_dropped"))
+            if (message.ticks_bad_dropped != null && $Object.hasOwnProperty.call(message, "ticks_bad_dropped"))
                 writer.uint32(/* id 45, wireType 0 =*/360).uint32(message.ticks_bad_dropped);
-            if (message.ticks_bad_late != null && Object.hasOwnProperty.call(message, "ticks_bad_late"))
+            if (message.ticks_bad_late != null && $Object.hasOwnProperty.call(message, "ticks_bad_late"))
                 writer.uint32(/* id 46, wireType 0 =*/368).uint32(message.ticks_bad_late);
-            if (message.ticks_bad_other != null && Object.hasOwnProperty.call(message, "ticks_bad_other"))
+            if (message.ticks_bad_other != null && $Object.hasOwnProperty.call(message, "ticks_bad_other"))
                 writer.uint32(/* id 47, wireType 0 =*/376).uint32(message.ticks_bad_other);
-            if (message.tick_missrate_samples_total != null && Object.hasOwnProperty.call(message, "tick_missrate_samples_total"))
+            if (message.tick_missrate_samples_total != null && $Object.hasOwnProperty.call(message, "tick_missrate_samples_total"))
                 writer.uint32(/* id 50, wireType 0 =*/400).uint32(message.tick_missrate_samples_total);
-            if (message.tick_missrate_samples_perfect != null && Object.hasOwnProperty.call(message, "tick_missrate_samples_perfect"))
+            if (message.tick_missrate_samples_perfect != null && $Object.hasOwnProperty.call(message, "tick_missrate_samples_perfect"))
                 writer.uint32(/* id 51, wireType 0 =*/408).uint32(message.tick_missrate_samples_perfect);
-            if (message.tick_missrate_samples_perfectnet != null && Object.hasOwnProperty.call(message, "tick_missrate_samples_perfectnet"))
+            if (message.tick_missrate_samples_perfectnet != null && $Object.hasOwnProperty.call(message, "tick_missrate_samples_perfectnet"))
                 writer.uint32(/* id 52, wireType 0 =*/416).uint32(message.tick_missrate_samples_perfectnet);
-            if (message.tick_missratenet_p75_x10 != null && Object.hasOwnProperty.call(message, "tick_missratenet_p75_x10"))
+            if (message.tick_missratenet_p75_x10 != null && $Object.hasOwnProperty.call(message, "tick_missratenet_p75_x10"))
                 writer.uint32(/* id 53, wireType 0 =*/424).uint32(message.tick_missratenet_p75_x10);
-            if (message.tick_missratenet_p95_x10 != null && Object.hasOwnProperty.call(message, "tick_missratenet_p95_x10"))
+            if (message.tick_missratenet_p95_x10 != null && $Object.hasOwnProperty.call(message, "tick_missratenet_p95_x10"))
                 writer.uint32(/* id 54, wireType 0 =*/432).uint32(message.tick_missratenet_p95_x10);
-            if (message.tick_missratenet_p99_x10 != null && Object.hasOwnProperty.call(message, "tick_missratenet_p99_x10"))
+            if (message.tick_missratenet_p99_x10 != null && $Object.hasOwnProperty.call(message, "tick_missratenet_p99_x10"))
                 writer.uint32(/* id 55, wireType 0 =*/440).uint32(message.tick_missratenet_p99_x10);
-            if (message.recvmargin_p1 != null && Object.hasOwnProperty.call(message, "recvmargin_p1"))
+            if (message.recvmargin_p1 != null && $Object.hasOwnProperty.call(message, "recvmargin_p1"))
                 writer.uint32(/* id 61, wireType 0 =*/488).sint32(message.recvmargin_p1);
-            if (message.recvmargin_p5 != null && Object.hasOwnProperty.call(message, "recvmargin_p5"))
+            if (message.recvmargin_p5 != null && $Object.hasOwnProperty.call(message, "recvmargin_p5"))
                 writer.uint32(/* id 62, wireType 0 =*/496).sint32(message.recvmargin_p5);
-            if (message.recvmargin_p25 != null && Object.hasOwnProperty.call(message, "recvmargin_p25"))
+            if (message.recvmargin_p25 != null && $Object.hasOwnProperty.call(message, "recvmargin_p25"))
                 writer.uint32(/* id 63, wireType 0 =*/504).sint32(message.recvmargin_p25);
-            if (message.recvmargin_p50 != null && Object.hasOwnProperty.call(message, "recvmargin_p50"))
+            if (message.recvmargin_p50 != null && $Object.hasOwnProperty.call(message, "recvmargin_p50"))
                 writer.uint32(/* id 64, wireType 0 =*/512).sint32(message.recvmargin_p50);
-            if (message.recvmargin_p75 != null && Object.hasOwnProperty.call(message, "recvmargin_p75"))
+            if (message.recvmargin_p75 != null && $Object.hasOwnProperty.call(message, "recvmargin_p75"))
                 writer.uint32(/* id 65, wireType 0 =*/520).sint32(message.recvmargin_p75);
-            if (message.recvmargin_p95 != null && Object.hasOwnProperty.call(message, "recvmargin_p95"))
+            if (message.recvmargin_p95 != null && $Object.hasOwnProperty.call(message, "recvmargin_p95"))
                 writer.uint32(/* id 66, wireType 0 =*/528).sint32(message.recvmargin_p95);
-            if (message.netframe_jitter_p50 != null && Object.hasOwnProperty.call(message, "netframe_jitter_p50"))
+            if (message.netframe_jitter_p50 != null && $Object.hasOwnProperty.call(message, "netframe_jitter_p50"))
                 writer.uint32(/* id 70, wireType 0 =*/560).uint32(message.netframe_jitter_p50);
-            if (message.netframe_jitter_p99 != null && Object.hasOwnProperty.call(message, "netframe_jitter_p99"))
+            if (message.netframe_jitter_p99 != null && $Object.hasOwnProperty.call(message, "netframe_jitter_p99"))
                 writer.uint32(/* id 71, wireType 0 =*/568).uint32(message.netframe_jitter_p99);
-            if (message.interval_peakjitter_p50 != null && Object.hasOwnProperty.call(message, "interval_peakjitter_p50"))
+            if (message.interval_peakjitter_p50 != null && $Object.hasOwnProperty.call(message, "interval_peakjitter_p50"))
                 writer.uint32(/* id 72, wireType 0 =*/576).uint32(message.interval_peakjitter_p50);
-            if (message.interval_peakjitter_p95 != null && Object.hasOwnProperty.call(message, "interval_peakjitter_p95"))
+            if (message.interval_peakjitter_p95 != null && $Object.hasOwnProperty.call(message, "interval_peakjitter_p95"))
                 writer.uint32(/* id 73, wireType 0 =*/584).uint32(message.interval_peakjitter_p95);
-            if (message.packet_misdelivery_rate_p50_x4 != null && Object.hasOwnProperty.call(message, "packet_misdelivery_rate_p50_x4"))
+            if (message.packet_misdelivery_rate_p50_x4 != null && $Object.hasOwnProperty.call(message, "packet_misdelivery_rate_p50_x4"))
                 writer.uint32(/* id 74, wireType 0 =*/592).uint32(message.packet_misdelivery_rate_p50_x4);
-            if (message.packet_misdelivery_rate_p95_x4 != null && Object.hasOwnProperty.call(message, "packet_misdelivery_rate_p95_x4"))
+            if (message.packet_misdelivery_rate_p95_x4 != null && $Object.hasOwnProperty.call(message, "packet_misdelivery_rate_p95_x4"))
                 writer.uint32(/* id 75, wireType 0 =*/600).uint32(message.packet_misdelivery_rate_p95_x4);
-            if (message.net_ping_p5 != null && Object.hasOwnProperty.call(message, "net_ping_p5"))
+            if (message.net_ping_p5 != null && $Object.hasOwnProperty.call(message, "net_ping_p5"))
                 writer.uint32(/* id 80, wireType 0 =*/640).uint32(message.net_ping_p5);
-            if (message.net_ping_p50 != null && Object.hasOwnProperty.call(message, "net_ping_p50"))
+            if (message.net_ping_p50 != null && $Object.hasOwnProperty.call(message, "net_ping_p50"))
                 writer.uint32(/* id 81, wireType 0 =*/648).uint32(message.net_ping_p50);
-            if (message.net_ping_p95 != null && Object.hasOwnProperty.call(message, "net_ping_p95"))
+            if (message.net_ping_p95 != null && $Object.hasOwnProperty.call(message, "net_ping_p95"))
                 writer.uint32(/* id 82, wireType 0 =*/656).uint32(message.net_ping_p95);
-            if (message.msgproc_usec_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p50"))
+            if (message.msgproc_usec_p50 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_p50"))
                 writer.uint32(/* id 90, wireType 0 =*/720).uint32(message.msgproc_usec_p50);
-            if (message.msgproc_usec_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p95"))
+            if (message.msgproc_usec_p95 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_p95"))
                 writer.uint32(/* id 91, wireType 0 =*/728).uint32(message.msgproc_usec_p95);
-            if (message.msgproc_usec_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p99"))
+            if (message.msgproc_usec_p99 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_p99"))
                 writer.uint32(/* id 92, wireType 0 =*/736).uint32(message.msgproc_usec_p99);
-            if (message.msgproc_usec_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_max"))
+            if (message.msgproc_usec_max != null && $Object.hasOwnProperty.call(message, "msgproc_usec_max"))
                 writer.uint32(/* id 93, wireType 0 =*/744).uint32(message.msgproc_usec_max);
-            if (message.msgproc_usec_avg_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p50"))
+            if (message.msgproc_usec_avg_p50 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_avg_p50"))
                 writer.uint32(/* id 94, wireType 0 =*/752).uint32(message.msgproc_usec_avg_p50);
-            if (message.msgproc_usec_avg_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p95"))
+            if (message.msgproc_usec_avg_p95 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_avg_p95"))
                 writer.uint32(/* id 95, wireType 0 =*/760).uint32(message.msgproc_usec_avg_p95);
-            if (message.msgproc_usec_avg_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p99"))
+            if (message.msgproc_usec_avg_p99 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_avg_p99"))
                 writer.uint32(/* id 96, wireType 0 =*/768).uint32(message.msgproc_usec_avg_p99);
-            if (message.msgproc_usec_avg_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_max"))
+            if (message.msgproc_usec_avg_max != null && $Object.hasOwnProperty.call(message, "msgproc_usec_avg_max"))
                 writer.uint32(/* id 97, wireType 0 =*/776).uint32(message.msgproc_usec_avg_max);
-            if (message.queuedmsgs_p50 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p50"))
+            if (message.queuedmsgs_p50 != null && $Object.hasOwnProperty.call(message, "queuedmsgs_p50"))
                 writer.uint32(/* id 100, wireType 0 =*/800).uint32(message.queuedmsgs_p50);
-            if (message.queuedmsgs_p95 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p95"))
+            if (message.queuedmsgs_p95 != null && $Object.hasOwnProperty.call(message, "queuedmsgs_p95"))
                 writer.uint32(/* id 101, wireType 0 =*/808).uint32(message.queuedmsgs_p95);
-            if (message.queuedmsgs_p99 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p99"))
+            if (message.queuedmsgs_p99 != null && $Object.hasOwnProperty.call(message, "queuedmsgs_p99"))
                 writer.uint32(/* id 102, wireType 0 =*/816).uint32(message.queuedmsgs_p99);
-            if (message.queuedmsgs_max != null && Object.hasOwnProperty.call(message, "queuedmsgs_max"))
+            if (message.queuedmsgs_max != null && $Object.hasOwnProperty.call(message, "queuedmsgs_max"))
                 writer.uint32(/* id 103, wireType 0 =*/824).uint32(message.queuedmsgs_max);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -2317,12 +2489,12 @@
          * @function encodeDelimited
          * @memberof CMsgSource2NetworkFlowQuality
          * @static
-         * @param {ICMsgSource2NetworkFlowQuality} message CMsgSource2NetworkFlowQuality message or plain object to encode
+         * @param {CMsgSource2NetworkFlowQuality.$Properties} message CMsgSource2NetworkFlowQuality message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSource2NetworkFlowQuality.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSource2NetworkFlowQuality.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -2332,299 +2504,435 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSource2NetworkFlowQuality} CMsgSource2NetworkFlowQuality
+         * @returns {CMsgSource2NetworkFlowQuality & CMsgSource2NetworkFlowQuality.$Shape} CMsgSource2NetworkFlowQuality
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSource2NetworkFlowQuality.decode = function decode(reader, length, error, long) {
+        CMsgSource2NetworkFlowQuality.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSource2NetworkFlowQuality();
+            message = _target || new $root.CMsgSource2NetworkFlowQuality();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.duration = reader.uint32();
-                        break;
-                    }
-                case 5: {
-                        message.bytes_total = reader.uint64();
-                        break;
-                    }
-                case 6: {
-                        message.bytes_total_reliable = reader.uint64();
-                        break;
-                    }
-                case 7: {
-                        message.bytes_total_voice = reader.uint64();
-                        break;
-                    }
-                case 10: {
-                        message.bytes_sec_p95 = reader.uint32();
-                        break;
-                    }
-                case 11: {
-                        message.bytes_sec_p99 = reader.uint32();
-                        break;
-                    }
-                case 20: {
-                        message.enginemsgs_total = reader.uint32();
-                        break;
-                    }
-                case 21: {
-                        message.enginemsgs_sec_p95 = reader.uint32();
-                        break;
-                    }
-                case 22: {
-                        message.enginemsgs_sec_p99 = reader.uint32();
-                        break;
-                    }
-                case 30: {
-                        message.netframes_total = reader.uint32();
-                        break;
-                    }
-                case 31: {
-                        message.netframes_dropped = reader.uint32();
-                        break;
-                    }
-                case 32: {
-                        message.netframes_outoforder = reader.uint32();
-                        break;
-                    }
-                case 34: {
-                        message.netframes_size_exceeds_mtu = reader.uint32();
-                        break;
-                    }
-                case 35: {
-                        message.netframes_size_p95 = reader.uint32();
-                        break;
-                    }
-                case 36: {
-                        message.netframes_size_p99 = reader.uint32();
-                        break;
-                    }
-                case 12: {
-                        message.netframes_size_uncompressed_p50 = reader.uint32();
-                        break;
-                    }
-                case 13: {
-                        message.netframes_size_uncompressed_p95 = reader.uint32();
-                        break;
-                    }
-                case 14: {
-                        message.netframes_size_uncompressed_p99 = reader.uint32();
-                        break;
-                    }
-                case 15: {
-                        message.netframes_size_uncompressed_max = reader.uint32();
-                        break;
-                    }
-                case 16: {
-                        message.netframes_msgs_p50 = reader.uint32();
-                        break;
-                    }
-                case 17: {
-                        message.netframes_msgs_p95 = reader.uint32();
-                        break;
-                    }
-                case 18: {
-                        message.netframes_msgs_p99 = reader.uint32();
-                        break;
-                    }
-                case 19: {
-                        message.netframes_msgs_max = reader.uint32();
-                        break;
-                    }
-                case 40: {
-                        message.ticks_total = reader.uint32();
-                        break;
-                    }
-                case 41: {
-                        message.ticks_good = reader.uint32();
-                        break;
-                    }
-                case 42: {
-                        message.ticks_good_almost_late = reader.uint32();
-                        break;
-                    }
-                case 43: {
-                        message.ticks_fixed_dropped = reader.uint32();
-                        break;
-                    }
-                case 44: {
-                        message.ticks_fixed_late = reader.uint32();
-                        break;
-                    }
-                case 45: {
-                        message.ticks_bad_dropped = reader.uint32();
-                        break;
-                    }
-                case 46: {
-                        message.ticks_bad_late = reader.uint32();
-                        break;
-                    }
-                case 47: {
-                        message.ticks_bad_other = reader.uint32();
-                        break;
-                    }
-                case 50: {
-                        message.tick_missrate_samples_total = reader.uint32();
-                        break;
-                    }
-                case 51: {
-                        message.tick_missrate_samples_perfect = reader.uint32();
-                        break;
-                    }
-                case 52: {
-                        message.tick_missrate_samples_perfectnet = reader.uint32();
-                        break;
-                    }
-                case 53: {
-                        message.tick_missratenet_p75_x10 = reader.uint32();
-                        break;
-                    }
-                case 54: {
-                        message.tick_missratenet_p95_x10 = reader.uint32();
-                        break;
-                    }
-                case 55: {
-                        message.tick_missratenet_p99_x10 = reader.uint32();
-                        break;
-                    }
-                case 61: {
-                        message.recvmargin_p1 = reader.sint32();
-                        break;
-                    }
-                case 62: {
-                        message.recvmargin_p5 = reader.sint32();
-                        break;
-                    }
-                case 63: {
-                        message.recvmargin_p25 = reader.sint32();
-                        break;
-                    }
-                case 64: {
-                        message.recvmargin_p50 = reader.sint32();
-                        break;
-                    }
-                case 65: {
-                        message.recvmargin_p75 = reader.sint32();
-                        break;
-                    }
-                case 66: {
-                        message.recvmargin_p95 = reader.sint32();
-                        break;
-                    }
-                case 70: {
-                        message.netframe_jitter_p50 = reader.uint32();
-                        break;
-                    }
-                case 71: {
-                        message.netframe_jitter_p99 = reader.uint32();
-                        break;
-                    }
-                case 72: {
-                        message.interval_peakjitter_p50 = reader.uint32();
-                        break;
-                    }
-                case 73: {
-                        message.interval_peakjitter_p95 = reader.uint32();
-                        break;
-                    }
-                case 74: {
-                        message.packet_misdelivery_rate_p50_x4 = reader.uint32();
-                        break;
-                    }
-                case 75: {
-                        message.packet_misdelivery_rate_p95_x4 = reader.uint32();
-                        break;
-                    }
-                case 80: {
-                        message.net_ping_p5 = reader.uint32();
-                        break;
-                    }
-                case 81: {
-                        message.net_ping_p50 = reader.uint32();
-                        break;
-                    }
-                case 82: {
-                        message.net_ping_p95 = reader.uint32();
-                        break;
-                    }
-                case 90: {
-                        message.msgproc_usec_p50 = reader.uint32();
-                        break;
-                    }
-                case 91: {
-                        message.msgproc_usec_p95 = reader.uint32();
-                        break;
-                    }
-                case 92: {
-                        message.msgproc_usec_p99 = reader.uint32();
-                        break;
-                    }
-                case 93: {
-                        message.msgproc_usec_max = reader.uint32();
-                        break;
-                    }
-                case 94: {
-                        message.msgproc_usec_avg_p50 = reader.uint32();
-                        break;
-                    }
-                case 95: {
-                        message.msgproc_usec_avg_p95 = reader.uint32();
-                        break;
-                    }
-                case 96: {
-                        message.msgproc_usec_avg_p99 = reader.uint32();
-                        break;
-                    }
-                case 97: {
-                        message.msgproc_usec_avg_max = reader.uint32();
-                        break;
-                    }
-                case 100: {
-                        message.queuedmsgs_p50 = reader.uint32();
-                        break;
-                    }
-                case 101: {
-                        message.queuedmsgs_p95 = reader.uint32();
-                        break;
-                    }
-                case 102: {
-                        message.queuedmsgs_p99 = reader.uint32();
-                        break;
-                    }
-                case 103: {
-                        message.queuedmsgs_max = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.duration = reader.uint32();
+                        continue;
+                    }
+                case 5: {
+                        if (wireType !== 0)
+                            break;
+                        message.bytes_total = reader.uint64();
+                        continue;
+                    }
+                case 6: {
+                        if (wireType !== 0)
+                            break;
+                        message.bytes_total_reliable = reader.uint64();
+                        continue;
+                    }
+                case 7: {
+                        if (wireType !== 0)
+                            break;
+                        message.bytes_total_voice = reader.uint64();
+                        continue;
+                    }
+                case 10: {
+                        if (wireType !== 0)
+                            break;
+                        message.bytes_sec_p95 = reader.uint32();
+                        continue;
+                    }
+                case 11: {
+                        if (wireType !== 0)
+                            break;
+                        message.bytes_sec_p99 = reader.uint32();
+                        continue;
+                    }
+                case 20: {
+                        if (wireType !== 0)
+                            break;
+                        message.enginemsgs_total = reader.uint32();
+                        continue;
+                    }
+                case 21: {
+                        if (wireType !== 0)
+                            break;
+                        message.enginemsgs_sec_p95 = reader.uint32();
+                        continue;
+                    }
+                case 22: {
+                        if (wireType !== 0)
+                            break;
+                        message.enginemsgs_sec_p99 = reader.uint32();
+                        continue;
+                    }
+                case 30: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframes_total = reader.uint32();
+                        continue;
+                    }
+                case 31: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframes_dropped = reader.uint32();
+                        continue;
+                    }
+                case 32: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframes_outoforder = reader.uint32();
+                        continue;
+                    }
+                case 34: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframes_size_exceeds_mtu = reader.uint32();
+                        continue;
+                    }
+                case 35: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframes_size_p95 = reader.uint32();
+                        continue;
+                    }
+                case 36: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframes_size_p99 = reader.uint32();
+                        continue;
+                    }
+                case 12: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframes_size_uncompressed_p50 = reader.uint32();
+                        continue;
+                    }
+                case 13: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframes_size_uncompressed_p95 = reader.uint32();
+                        continue;
+                    }
+                case 14: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframes_size_uncompressed_p99 = reader.uint32();
+                        continue;
+                    }
+                case 15: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframes_size_uncompressed_max = reader.uint32();
+                        continue;
+                    }
+                case 16: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframes_msgs_p50 = reader.uint32();
+                        continue;
+                    }
+                case 17: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframes_msgs_p95 = reader.uint32();
+                        continue;
+                    }
+                case 18: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframes_msgs_p99 = reader.uint32();
+                        continue;
+                    }
+                case 19: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframes_msgs_max = reader.uint32();
+                        continue;
+                    }
+                case 40: {
+                        if (wireType !== 0)
+                            break;
+                        message.ticks_total = reader.uint32();
+                        continue;
+                    }
+                case 41: {
+                        if (wireType !== 0)
+                            break;
+                        message.ticks_good = reader.uint32();
+                        continue;
+                    }
+                case 42: {
+                        if (wireType !== 0)
+                            break;
+                        message.ticks_good_almost_late = reader.uint32();
+                        continue;
+                    }
+                case 43: {
+                        if (wireType !== 0)
+                            break;
+                        message.ticks_fixed_dropped = reader.uint32();
+                        continue;
+                    }
+                case 44: {
+                        if (wireType !== 0)
+                            break;
+                        message.ticks_fixed_late = reader.uint32();
+                        continue;
+                    }
+                case 45: {
+                        if (wireType !== 0)
+                            break;
+                        message.ticks_bad_dropped = reader.uint32();
+                        continue;
+                    }
+                case 46: {
+                        if (wireType !== 0)
+                            break;
+                        message.ticks_bad_late = reader.uint32();
+                        continue;
+                    }
+                case 47: {
+                        if (wireType !== 0)
+                            break;
+                        message.ticks_bad_other = reader.uint32();
+                        continue;
+                    }
+                case 50: {
+                        if (wireType !== 0)
+                            break;
+                        message.tick_missrate_samples_total = reader.uint32();
+                        continue;
+                    }
+                case 51: {
+                        if (wireType !== 0)
+                            break;
+                        message.tick_missrate_samples_perfect = reader.uint32();
+                        continue;
+                    }
+                case 52: {
+                        if (wireType !== 0)
+                            break;
+                        message.tick_missrate_samples_perfectnet = reader.uint32();
+                        continue;
+                    }
+                case 53: {
+                        if (wireType !== 0)
+                            break;
+                        message.tick_missratenet_p75_x10 = reader.uint32();
+                        continue;
+                    }
+                case 54: {
+                        if (wireType !== 0)
+                            break;
+                        message.tick_missratenet_p95_x10 = reader.uint32();
+                        continue;
+                    }
+                case 55: {
+                        if (wireType !== 0)
+                            break;
+                        message.tick_missratenet_p99_x10 = reader.uint32();
+                        continue;
+                    }
+                case 61: {
+                        if (wireType !== 0)
+                            break;
+                        message.recvmargin_p1 = reader.sint32();
+                        continue;
+                    }
+                case 62: {
+                        if (wireType !== 0)
+                            break;
+                        message.recvmargin_p5 = reader.sint32();
+                        continue;
+                    }
+                case 63: {
+                        if (wireType !== 0)
+                            break;
+                        message.recvmargin_p25 = reader.sint32();
+                        continue;
+                    }
+                case 64: {
+                        if (wireType !== 0)
+                            break;
+                        message.recvmargin_p50 = reader.sint32();
+                        continue;
+                    }
+                case 65: {
+                        if (wireType !== 0)
+                            break;
+                        message.recvmargin_p75 = reader.sint32();
+                        continue;
+                    }
+                case 66: {
+                        if (wireType !== 0)
+                            break;
+                        message.recvmargin_p95 = reader.sint32();
+                        continue;
+                    }
+                case 70: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframe_jitter_p50 = reader.uint32();
+                        continue;
+                    }
+                case 71: {
+                        if (wireType !== 0)
+                            break;
+                        message.netframe_jitter_p99 = reader.uint32();
+                        continue;
+                    }
+                case 72: {
+                        if (wireType !== 0)
+                            break;
+                        message.interval_peakjitter_p50 = reader.uint32();
+                        continue;
+                    }
+                case 73: {
+                        if (wireType !== 0)
+                            break;
+                        message.interval_peakjitter_p95 = reader.uint32();
+                        continue;
+                    }
+                case 74: {
+                        if (wireType !== 0)
+                            break;
+                        message.packet_misdelivery_rate_p50_x4 = reader.uint32();
+                        continue;
+                    }
+                case 75: {
+                        if (wireType !== 0)
+                            break;
+                        message.packet_misdelivery_rate_p95_x4 = reader.uint32();
+                        continue;
+                    }
+                case 80: {
+                        if (wireType !== 0)
+                            break;
+                        message.net_ping_p5 = reader.uint32();
+                        continue;
+                    }
+                case 81: {
+                        if (wireType !== 0)
+                            break;
+                        message.net_ping_p50 = reader.uint32();
+                        continue;
+                    }
+                case 82: {
+                        if (wireType !== 0)
+                            break;
+                        message.net_ping_p95 = reader.uint32();
+                        continue;
+                    }
+                case 90: {
+                        if (wireType !== 0)
+                            break;
+                        message.msgproc_usec_p50 = reader.uint32();
+                        continue;
+                    }
+                case 91: {
+                        if (wireType !== 0)
+                            break;
+                        message.msgproc_usec_p95 = reader.uint32();
+                        continue;
+                    }
+                case 92: {
+                        if (wireType !== 0)
+                            break;
+                        message.msgproc_usec_p99 = reader.uint32();
+                        continue;
+                    }
+                case 93: {
+                        if (wireType !== 0)
+                            break;
+                        message.msgproc_usec_max = reader.uint32();
+                        continue;
+                    }
+                case 94: {
+                        if (wireType !== 0)
+                            break;
+                        message.msgproc_usec_avg_p50 = reader.uint32();
+                        continue;
+                    }
+                case 95: {
+                        if (wireType !== 0)
+                            break;
+                        message.msgproc_usec_avg_p95 = reader.uint32();
+                        continue;
+                    }
+                case 96: {
+                        if (wireType !== 0)
+                            break;
+                        message.msgproc_usec_avg_p99 = reader.uint32();
+                        continue;
+                    }
+                case 97: {
+                        if (wireType !== 0)
+                            break;
+                        message.msgproc_usec_avg_max = reader.uint32();
+                        continue;
+                    }
+                case 100: {
+                        if (wireType !== 0)
+                            break;
+                        message.queuedmsgs_p50 = reader.uint32();
+                        continue;
+                    }
+                case 101: {
+                        if (wireType !== 0)
+                            break;
+                        message.queuedmsgs_p95 = reader.uint32();
+                        continue;
+                    }
+                case 102: {
+                        if (wireType !== 0)
+                            break;
+                        message.queuedmsgs_p99 = reader.uint32();
+                        continue;
+                    }
+                case 103: {
+                        if (wireType !== 0)
+                            break;
+                        message.queuedmsgs_max = reader.uint32();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -2634,14 +2942,14 @@
          * @memberof CMsgSource2NetworkFlowQuality
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSource2NetworkFlowQuality} CMsgSource2NetworkFlowQuality
+         * @returns {CMsgSource2NetworkFlowQuality & CMsgSource2NetworkFlowQuality.$Shape} CMsgSource2NetworkFlowQuality
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSource2NetworkFlowQuality.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSource2NetworkFlowQuality.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -2652,203 +2960,203 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSource2NetworkFlowQuality.verify = function verify(message, long) {
+        CMsgSource2NetworkFlowQuality.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.duration != null && Object.hasOwnProperty.call(message, "duration"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.duration != null && $Object.hasOwnProperty.call(message, "duration"))
                 if (!$util.isInteger(message.duration))
                     return "duration: integer expected";
-            if (message.bytes_total != null && Object.hasOwnProperty.call(message, "bytes_total"))
+            if (message.bytes_total != null && $Object.hasOwnProperty.call(message, "bytes_total"))
                 if (!$util.isInteger(message.bytes_total) && !(message.bytes_total && $util.isInteger(message.bytes_total.low) && $util.isInteger(message.bytes_total.high)))
                     return "bytes_total: integer|Long expected";
-            if (message.bytes_total_reliable != null && Object.hasOwnProperty.call(message, "bytes_total_reliable"))
+            if (message.bytes_total_reliable != null && $Object.hasOwnProperty.call(message, "bytes_total_reliable"))
                 if (!$util.isInteger(message.bytes_total_reliable) && !(message.bytes_total_reliable && $util.isInteger(message.bytes_total_reliable.low) && $util.isInteger(message.bytes_total_reliable.high)))
                     return "bytes_total_reliable: integer|Long expected";
-            if (message.bytes_total_voice != null && Object.hasOwnProperty.call(message, "bytes_total_voice"))
+            if (message.bytes_total_voice != null && $Object.hasOwnProperty.call(message, "bytes_total_voice"))
                 if (!$util.isInteger(message.bytes_total_voice) && !(message.bytes_total_voice && $util.isInteger(message.bytes_total_voice.low) && $util.isInteger(message.bytes_total_voice.high)))
                     return "bytes_total_voice: integer|Long expected";
-            if (message.bytes_sec_p95 != null && Object.hasOwnProperty.call(message, "bytes_sec_p95"))
+            if (message.bytes_sec_p95 != null && $Object.hasOwnProperty.call(message, "bytes_sec_p95"))
                 if (!$util.isInteger(message.bytes_sec_p95))
                     return "bytes_sec_p95: integer expected";
-            if (message.bytes_sec_p99 != null && Object.hasOwnProperty.call(message, "bytes_sec_p99"))
+            if (message.bytes_sec_p99 != null && $Object.hasOwnProperty.call(message, "bytes_sec_p99"))
                 if (!$util.isInteger(message.bytes_sec_p99))
                     return "bytes_sec_p99: integer expected";
-            if (message.enginemsgs_total != null && Object.hasOwnProperty.call(message, "enginemsgs_total"))
+            if (message.enginemsgs_total != null && $Object.hasOwnProperty.call(message, "enginemsgs_total"))
                 if (!$util.isInteger(message.enginemsgs_total))
                     return "enginemsgs_total: integer expected";
-            if (message.enginemsgs_sec_p95 != null && Object.hasOwnProperty.call(message, "enginemsgs_sec_p95"))
+            if (message.enginemsgs_sec_p95 != null && $Object.hasOwnProperty.call(message, "enginemsgs_sec_p95"))
                 if (!$util.isInteger(message.enginemsgs_sec_p95))
                     return "enginemsgs_sec_p95: integer expected";
-            if (message.enginemsgs_sec_p99 != null && Object.hasOwnProperty.call(message, "enginemsgs_sec_p99"))
+            if (message.enginemsgs_sec_p99 != null && $Object.hasOwnProperty.call(message, "enginemsgs_sec_p99"))
                 if (!$util.isInteger(message.enginemsgs_sec_p99))
                     return "enginemsgs_sec_p99: integer expected";
-            if (message.netframes_total != null && Object.hasOwnProperty.call(message, "netframes_total"))
+            if (message.netframes_total != null && $Object.hasOwnProperty.call(message, "netframes_total"))
                 if (!$util.isInteger(message.netframes_total))
                     return "netframes_total: integer expected";
-            if (message.netframes_dropped != null && Object.hasOwnProperty.call(message, "netframes_dropped"))
+            if (message.netframes_dropped != null && $Object.hasOwnProperty.call(message, "netframes_dropped"))
                 if (!$util.isInteger(message.netframes_dropped))
                     return "netframes_dropped: integer expected";
-            if (message.netframes_outoforder != null && Object.hasOwnProperty.call(message, "netframes_outoforder"))
+            if (message.netframes_outoforder != null && $Object.hasOwnProperty.call(message, "netframes_outoforder"))
                 if (!$util.isInteger(message.netframes_outoforder))
                     return "netframes_outoforder: integer expected";
-            if (message.netframes_size_exceeds_mtu != null && Object.hasOwnProperty.call(message, "netframes_size_exceeds_mtu"))
+            if (message.netframes_size_exceeds_mtu != null && $Object.hasOwnProperty.call(message, "netframes_size_exceeds_mtu"))
                 if (!$util.isInteger(message.netframes_size_exceeds_mtu))
                     return "netframes_size_exceeds_mtu: integer expected";
-            if (message.netframes_size_p95 != null && Object.hasOwnProperty.call(message, "netframes_size_p95"))
+            if (message.netframes_size_p95 != null && $Object.hasOwnProperty.call(message, "netframes_size_p95"))
                 if (!$util.isInteger(message.netframes_size_p95))
                     return "netframes_size_p95: integer expected";
-            if (message.netframes_size_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_p99"))
+            if (message.netframes_size_p99 != null && $Object.hasOwnProperty.call(message, "netframes_size_p99"))
                 if (!$util.isInteger(message.netframes_size_p99))
                     return "netframes_size_p99: integer expected";
-            if (message.netframes_size_uncompressed_p50 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p50"))
+            if (message.netframes_size_uncompressed_p50 != null && $Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p50"))
                 if (!$util.isInteger(message.netframes_size_uncompressed_p50))
                     return "netframes_size_uncompressed_p50: integer expected";
-            if (message.netframes_size_uncompressed_p95 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p95"))
+            if (message.netframes_size_uncompressed_p95 != null && $Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p95"))
                 if (!$util.isInteger(message.netframes_size_uncompressed_p95))
                     return "netframes_size_uncompressed_p95: integer expected";
-            if (message.netframes_size_uncompressed_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p99"))
+            if (message.netframes_size_uncompressed_p99 != null && $Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p99"))
                 if (!$util.isInteger(message.netframes_size_uncompressed_p99))
                     return "netframes_size_uncompressed_p99: integer expected";
-            if (message.netframes_size_uncompressed_max != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_max"))
+            if (message.netframes_size_uncompressed_max != null && $Object.hasOwnProperty.call(message, "netframes_size_uncompressed_max"))
                 if (!$util.isInteger(message.netframes_size_uncompressed_max))
                     return "netframes_size_uncompressed_max: integer expected";
-            if (message.netframes_msgs_p50 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p50"))
+            if (message.netframes_msgs_p50 != null && $Object.hasOwnProperty.call(message, "netframes_msgs_p50"))
                 if (!$util.isInteger(message.netframes_msgs_p50))
                     return "netframes_msgs_p50: integer expected";
-            if (message.netframes_msgs_p95 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p95"))
+            if (message.netframes_msgs_p95 != null && $Object.hasOwnProperty.call(message, "netframes_msgs_p95"))
                 if (!$util.isInteger(message.netframes_msgs_p95))
                     return "netframes_msgs_p95: integer expected";
-            if (message.netframes_msgs_p99 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p99"))
+            if (message.netframes_msgs_p99 != null && $Object.hasOwnProperty.call(message, "netframes_msgs_p99"))
                 if (!$util.isInteger(message.netframes_msgs_p99))
                     return "netframes_msgs_p99: integer expected";
-            if (message.netframes_msgs_max != null && Object.hasOwnProperty.call(message, "netframes_msgs_max"))
+            if (message.netframes_msgs_max != null && $Object.hasOwnProperty.call(message, "netframes_msgs_max"))
                 if (!$util.isInteger(message.netframes_msgs_max))
                     return "netframes_msgs_max: integer expected";
-            if (message.ticks_total != null && Object.hasOwnProperty.call(message, "ticks_total"))
+            if (message.ticks_total != null && $Object.hasOwnProperty.call(message, "ticks_total"))
                 if (!$util.isInteger(message.ticks_total))
                     return "ticks_total: integer expected";
-            if (message.ticks_good != null && Object.hasOwnProperty.call(message, "ticks_good"))
+            if (message.ticks_good != null && $Object.hasOwnProperty.call(message, "ticks_good"))
                 if (!$util.isInteger(message.ticks_good))
                     return "ticks_good: integer expected";
-            if (message.ticks_good_almost_late != null && Object.hasOwnProperty.call(message, "ticks_good_almost_late"))
+            if (message.ticks_good_almost_late != null && $Object.hasOwnProperty.call(message, "ticks_good_almost_late"))
                 if (!$util.isInteger(message.ticks_good_almost_late))
                     return "ticks_good_almost_late: integer expected";
-            if (message.ticks_fixed_dropped != null && Object.hasOwnProperty.call(message, "ticks_fixed_dropped"))
+            if (message.ticks_fixed_dropped != null && $Object.hasOwnProperty.call(message, "ticks_fixed_dropped"))
                 if (!$util.isInteger(message.ticks_fixed_dropped))
                     return "ticks_fixed_dropped: integer expected";
-            if (message.ticks_fixed_late != null && Object.hasOwnProperty.call(message, "ticks_fixed_late"))
+            if (message.ticks_fixed_late != null && $Object.hasOwnProperty.call(message, "ticks_fixed_late"))
                 if (!$util.isInteger(message.ticks_fixed_late))
                     return "ticks_fixed_late: integer expected";
-            if (message.ticks_bad_dropped != null && Object.hasOwnProperty.call(message, "ticks_bad_dropped"))
+            if (message.ticks_bad_dropped != null && $Object.hasOwnProperty.call(message, "ticks_bad_dropped"))
                 if (!$util.isInteger(message.ticks_bad_dropped))
                     return "ticks_bad_dropped: integer expected";
-            if (message.ticks_bad_late != null && Object.hasOwnProperty.call(message, "ticks_bad_late"))
+            if (message.ticks_bad_late != null && $Object.hasOwnProperty.call(message, "ticks_bad_late"))
                 if (!$util.isInteger(message.ticks_bad_late))
                     return "ticks_bad_late: integer expected";
-            if (message.ticks_bad_other != null && Object.hasOwnProperty.call(message, "ticks_bad_other"))
+            if (message.ticks_bad_other != null && $Object.hasOwnProperty.call(message, "ticks_bad_other"))
                 if (!$util.isInteger(message.ticks_bad_other))
                     return "ticks_bad_other: integer expected";
-            if (message.tick_missrate_samples_total != null && Object.hasOwnProperty.call(message, "tick_missrate_samples_total"))
+            if (message.tick_missrate_samples_total != null && $Object.hasOwnProperty.call(message, "tick_missrate_samples_total"))
                 if (!$util.isInteger(message.tick_missrate_samples_total))
                     return "tick_missrate_samples_total: integer expected";
-            if (message.tick_missrate_samples_perfect != null && Object.hasOwnProperty.call(message, "tick_missrate_samples_perfect"))
+            if (message.tick_missrate_samples_perfect != null && $Object.hasOwnProperty.call(message, "tick_missrate_samples_perfect"))
                 if (!$util.isInteger(message.tick_missrate_samples_perfect))
                     return "tick_missrate_samples_perfect: integer expected";
-            if (message.tick_missrate_samples_perfectnet != null && Object.hasOwnProperty.call(message, "tick_missrate_samples_perfectnet"))
+            if (message.tick_missrate_samples_perfectnet != null && $Object.hasOwnProperty.call(message, "tick_missrate_samples_perfectnet"))
                 if (!$util.isInteger(message.tick_missrate_samples_perfectnet))
                     return "tick_missrate_samples_perfectnet: integer expected";
-            if (message.tick_missratenet_p75_x10 != null && Object.hasOwnProperty.call(message, "tick_missratenet_p75_x10"))
+            if (message.tick_missratenet_p75_x10 != null && $Object.hasOwnProperty.call(message, "tick_missratenet_p75_x10"))
                 if (!$util.isInteger(message.tick_missratenet_p75_x10))
                     return "tick_missratenet_p75_x10: integer expected";
-            if (message.tick_missratenet_p95_x10 != null && Object.hasOwnProperty.call(message, "tick_missratenet_p95_x10"))
+            if (message.tick_missratenet_p95_x10 != null && $Object.hasOwnProperty.call(message, "tick_missratenet_p95_x10"))
                 if (!$util.isInteger(message.tick_missratenet_p95_x10))
                     return "tick_missratenet_p95_x10: integer expected";
-            if (message.tick_missratenet_p99_x10 != null && Object.hasOwnProperty.call(message, "tick_missratenet_p99_x10"))
+            if (message.tick_missratenet_p99_x10 != null && $Object.hasOwnProperty.call(message, "tick_missratenet_p99_x10"))
                 if (!$util.isInteger(message.tick_missratenet_p99_x10))
                     return "tick_missratenet_p99_x10: integer expected";
-            if (message.recvmargin_p1 != null && Object.hasOwnProperty.call(message, "recvmargin_p1"))
+            if (message.recvmargin_p1 != null && $Object.hasOwnProperty.call(message, "recvmargin_p1"))
                 if (!$util.isInteger(message.recvmargin_p1))
                     return "recvmargin_p1: integer expected";
-            if (message.recvmargin_p5 != null && Object.hasOwnProperty.call(message, "recvmargin_p5"))
+            if (message.recvmargin_p5 != null && $Object.hasOwnProperty.call(message, "recvmargin_p5"))
                 if (!$util.isInteger(message.recvmargin_p5))
                     return "recvmargin_p5: integer expected";
-            if (message.recvmargin_p25 != null && Object.hasOwnProperty.call(message, "recvmargin_p25"))
+            if (message.recvmargin_p25 != null && $Object.hasOwnProperty.call(message, "recvmargin_p25"))
                 if (!$util.isInteger(message.recvmargin_p25))
                     return "recvmargin_p25: integer expected";
-            if (message.recvmargin_p50 != null && Object.hasOwnProperty.call(message, "recvmargin_p50"))
+            if (message.recvmargin_p50 != null && $Object.hasOwnProperty.call(message, "recvmargin_p50"))
                 if (!$util.isInteger(message.recvmargin_p50))
                     return "recvmargin_p50: integer expected";
-            if (message.recvmargin_p75 != null && Object.hasOwnProperty.call(message, "recvmargin_p75"))
+            if (message.recvmargin_p75 != null && $Object.hasOwnProperty.call(message, "recvmargin_p75"))
                 if (!$util.isInteger(message.recvmargin_p75))
                     return "recvmargin_p75: integer expected";
-            if (message.recvmargin_p95 != null && Object.hasOwnProperty.call(message, "recvmargin_p95"))
+            if (message.recvmargin_p95 != null && $Object.hasOwnProperty.call(message, "recvmargin_p95"))
                 if (!$util.isInteger(message.recvmargin_p95))
                     return "recvmargin_p95: integer expected";
-            if (message.netframe_jitter_p50 != null && Object.hasOwnProperty.call(message, "netframe_jitter_p50"))
+            if (message.netframe_jitter_p50 != null && $Object.hasOwnProperty.call(message, "netframe_jitter_p50"))
                 if (!$util.isInteger(message.netframe_jitter_p50))
                     return "netframe_jitter_p50: integer expected";
-            if (message.netframe_jitter_p99 != null && Object.hasOwnProperty.call(message, "netframe_jitter_p99"))
+            if (message.netframe_jitter_p99 != null && $Object.hasOwnProperty.call(message, "netframe_jitter_p99"))
                 if (!$util.isInteger(message.netframe_jitter_p99))
                     return "netframe_jitter_p99: integer expected";
-            if (message.interval_peakjitter_p50 != null && Object.hasOwnProperty.call(message, "interval_peakjitter_p50"))
+            if (message.interval_peakjitter_p50 != null && $Object.hasOwnProperty.call(message, "interval_peakjitter_p50"))
                 if (!$util.isInteger(message.interval_peakjitter_p50))
                     return "interval_peakjitter_p50: integer expected";
-            if (message.interval_peakjitter_p95 != null && Object.hasOwnProperty.call(message, "interval_peakjitter_p95"))
+            if (message.interval_peakjitter_p95 != null && $Object.hasOwnProperty.call(message, "interval_peakjitter_p95"))
                 if (!$util.isInteger(message.interval_peakjitter_p95))
                     return "interval_peakjitter_p95: integer expected";
-            if (message.packet_misdelivery_rate_p50_x4 != null && Object.hasOwnProperty.call(message, "packet_misdelivery_rate_p50_x4"))
+            if (message.packet_misdelivery_rate_p50_x4 != null && $Object.hasOwnProperty.call(message, "packet_misdelivery_rate_p50_x4"))
                 if (!$util.isInteger(message.packet_misdelivery_rate_p50_x4))
                     return "packet_misdelivery_rate_p50_x4: integer expected";
-            if (message.packet_misdelivery_rate_p95_x4 != null && Object.hasOwnProperty.call(message, "packet_misdelivery_rate_p95_x4"))
+            if (message.packet_misdelivery_rate_p95_x4 != null && $Object.hasOwnProperty.call(message, "packet_misdelivery_rate_p95_x4"))
                 if (!$util.isInteger(message.packet_misdelivery_rate_p95_x4))
                     return "packet_misdelivery_rate_p95_x4: integer expected";
-            if (message.net_ping_p5 != null && Object.hasOwnProperty.call(message, "net_ping_p5"))
+            if (message.net_ping_p5 != null && $Object.hasOwnProperty.call(message, "net_ping_p5"))
                 if (!$util.isInteger(message.net_ping_p5))
                     return "net_ping_p5: integer expected";
-            if (message.net_ping_p50 != null && Object.hasOwnProperty.call(message, "net_ping_p50"))
+            if (message.net_ping_p50 != null && $Object.hasOwnProperty.call(message, "net_ping_p50"))
                 if (!$util.isInteger(message.net_ping_p50))
                     return "net_ping_p50: integer expected";
-            if (message.net_ping_p95 != null && Object.hasOwnProperty.call(message, "net_ping_p95"))
+            if (message.net_ping_p95 != null && $Object.hasOwnProperty.call(message, "net_ping_p95"))
                 if (!$util.isInteger(message.net_ping_p95))
                     return "net_ping_p95: integer expected";
-            if (message.msgproc_usec_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p50"))
+            if (message.msgproc_usec_p50 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_p50"))
                 if (!$util.isInteger(message.msgproc_usec_p50))
                     return "msgproc_usec_p50: integer expected";
-            if (message.msgproc_usec_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p95"))
+            if (message.msgproc_usec_p95 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_p95"))
                 if (!$util.isInteger(message.msgproc_usec_p95))
                     return "msgproc_usec_p95: integer expected";
-            if (message.msgproc_usec_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p99"))
+            if (message.msgproc_usec_p99 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_p99"))
                 if (!$util.isInteger(message.msgproc_usec_p99))
                     return "msgproc_usec_p99: integer expected";
-            if (message.msgproc_usec_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_max"))
+            if (message.msgproc_usec_max != null && $Object.hasOwnProperty.call(message, "msgproc_usec_max"))
                 if (!$util.isInteger(message.msgproc_usec_max))
                     return "msgproc_usec_max: integer expected";
-            if (message.msgproc_usec_avg_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p50"))
+            if (message.msgproc_usec_avg_p50 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_avg_p50"))
                 if (!$util.isInteger(message.msgproc_usec_avg_p50))
                     return "msgproc_usec_avg_p50: integer expected";
-            if (message.msgproc_usec_avg_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p95"))
+            if (message.msgproc_usec_avg_p95 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_avg_p95"))
                 if (!$util.isInteger(message.msgproc_usec_avg_p95))
                     return "msgproc_usec_avg_p95: integer expected";
-            if (message.msgproc_usec_avg_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p99"))
+            if (message.msgproc_usec_avg_p99 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_avg_p99"))
                 if (!$util.isInteger(message.msgproc_usec_avg_p99))
                     return "msgproc_usec_avg_p99: integer expected";
-            if (message.msgproc_usec_avg_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_max"))
+            if (message.msgproc_usec_avg_max != null && $Object.hasOwnProperty.call(message, "msgproc_usec_avg_max"))
                 if (!$util.isInteger(message.msgproc_usec_avg_max))
                     return "msgproc_usec_avg_max: integer expected";
-            if (message.queuedmsgs_p50 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p50"))
+            if (message.queuedmsgs_p50 != null && $Object.hasOwnProperty.call(message, "queuedmsgs_p50"))
                 if (!$util.isInteger(message.queuedmsgs_p50))
                     return "queuedmsgs_p50: integer expected";
-            if (message.queuedmsgs_p95 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p95"))
+            if (message.queuedmsgs_p95 != null && $Object.hasOwnProperty.call(message, "queuedmsgs_p95"))
                 if (!$util.isInteger(message.queuedmsgs_p95))
                     return "queuedmsgs_p95: integer expected";
-            if (message.queuedmsgs_p99 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p99"))
+            if (message.queuedmsgs_p99 != null && $Object.hasOwnProperty.call(message, "queuedmsgs_p99"))
                 if (!$util.isInteger(message.queuedmsgs_p99))
                     return "queuedmsgs_p99: integer expected";
-            if (message.queuedmsgs_max != null && Object.hasOwnProperty.call(message, "queuedmsgs_max"))
+            if (message.queuedmsgs_max != null && $Object.hasOwnProperty.call(message, "queuedmsgs_max"))
                 if (!$util.isInteger(message.queuedmsgs_max))
                     return "queuedmsgs_max: integer expected";
             return null;
@@ -2862,15 +3170,15 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSource2NetworkFlowQuality} CMsgSource2NetworkFlowQuality
          */
-        CMsgSource2NetworkFlowQuality.fromObject = function fromObject(object, long) {
+        CMsgSource2NetworkFlowQuality.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSource2NetworkFlowQuality)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSource2NetworkFlowQuality: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSource2NetworkFlowQuality: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSource2NetworkFlowQuality();
             if (object.duration != null)
                 message.duration = object.duration >>> 0;
@@ -2878,7 +3186,7 @@
                 if ($util.Long)
                     message.bytes_total = $util.Long.fromValue(object.bytes_total, true);
                 else if (typeof object.bytes_total === "string")
-                    message.bytes_total = parseInt(object.bytes_total, 10);
+                    message.bytes_total = $parseInt(object.bytes_total, 10);
                 else if (typeof object.bytes_total === "number")
                     message.bytes_total = object.bytes_total;
                 else if (typeof object.bytes_total === "object")
@@ -2887,7 +3195,7 @@
                 if ($util.Long)
                     message.bytes_total_reliable = $util.Long.fromValue(object.bytes_total_reliable, true);
                 else if (typeof object.bytes_total_reliable === "string")
-                    message.bytes_total_reliable = parseInt(object.bytes_total_reliable, 10);
+                    message.bytes_total_reliable = $parseInt(object.bytes_total_reliable, 10);
                 else if (typeof object.bytes_total_reliable === "number")
                     message.bytes_total_reliable = object.bytes_total_reliable;
                 else if (typeof object.bytes_total_reliable === "object")
@@ -2896,7 +3204,7 @@
                 if ($util.Long)
                     message.bytes_total_voice = $util.Long.fromValue(object.bytes_total_voice, true);
                 else if (typeof object.bytes_total_voice === "string")
-                    message.bytes_total_voice = parseInt(object.bytes_total_voice, 10);
+                    message.bytes_total_voice = $parseInt(object.bytes_total_voice, 10);
                 else if (typeof object.bytes_total_voice === "number")
                     message.bytes_total_voice = object.bytes_total_voice;
                 else if (typeof object.bytes_total_voice === "object")
@@ -3033,31 +3341,31 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSource2NetworkFlowQuality.toObject = function toObject(message, options, q) {
+        CMsgSource2NetworkFlowQuality.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.duration = 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.bytes_total = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.bytes_total = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.bytes_total = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.bytes_total = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.bytes_total_reliable = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.bytes_total_reliable = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.bytes_total_reliable = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.bytes_total_reliable = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 if ($util.Long) {
                     var long = new $util.Long(0, 0, true);
-                    object.bytes_total_voice = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                    object.bytes_total_voice = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                 } else
-                    object.bytes_total_voice = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                    object.bytes_total_voice = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 object.bytes_sec_p95 = 0;
                 object.bytes_sec_p99 = 0;
                 object.netframes_size_uncompressed_p50 = 0;
@@ -3119,148 +3427,148 @@
                 object.queuedmsgs_p99 = 0;
                 object.queuedmsgs_max = 0;
             }
-            if (message.duration != null && Object.hasOwnProperty.call(message, "duration"))
+            if (message.duration != null && $Object.hasOwnProperty.call(message, "duration"))
                 object.duration = message.duration;
-            if (message.bytes_total != null && Object.hasOwnProperty.call(message, "bytes_total"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.bytes_total = typeof message.bytes_total === "number" ? BigInt(message.bytes_total) : $util.Long.fromBits(message.bytes_total.low >>> 0, message.bytes_total.high >>> 0, true).toBigInt();
+            if (message.bytes_total != null && $Object.hasOwnProperty.call(message, "bytes_total"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.bytes_total = typeof message.bytes_total === "number" ? $BigInt(message.bytes_total) : $util.Long.fromBits(message.bytes_total.low >>> 0, message.bytes_total.high >>> 0, true).toBigInt();
                 else if (typeof message.bytes_total === "number")
-                    object.bytes_total = options.longs === String ? String(message.bytes_total) : message.bytes_total;
+                    object.bytes_total = options.longs === $String ? $String(message.bytes_total) : message.bytes_total;
                 else
-                    object.bytes_total = options.longs === String ? $util.Long.prototype.toString.call(message.bytes_total) : options.longs === Number ? new $util.LongBits(message.bytes_total.low >>> 0, message.bytes_total.high >>> 0).toNumber(true) : message.bytes_total;
-            if (message.bytes_total_reliable != null && Object.hasOwnProperty.call(message, "bytes_total_reliable"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.bytes_total_reliable = typeof message.bytes_total_reliable === "number" ? BigInt(message.bytes_total_reliable) : $util.Long.fromBits(message.bytes_total_reliable.low >>> 0, message.bytes_total_reliable.high >>> 0, true).toBigInt();
+                    object.bytes_total = options.longs === $String ? $util.Long.prototype.toString.call(message.bytes_total) : options.longs === $Number ? new $util.LongBits(message.bytes_total.low >>> 0, message.bytes_total.high >>> 0).toNumber(true) : message.bytes_total;
+            if (message.bytes_total_reliable != null && $Object.hasOwnProperty.call(message, "bytes_total_reliable"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.bytes_total_reliable = typeof message.bytes_total_reliable === "number" ? $BigInt(message.bytes_total_reliable) : $util.Long.fromBits(message.bytes_total_reliable.low >>> 0, message.bytes_total_reliable.high >>> 0, true).toBigInt();
                 else if (typeof message.bytes_total_reliable === "number")
-                    object.bytes_total_reliable = options.longs === String ? String(message.bytes_total_reliable) : message.bytes_total_reliable;
+                    object.bytes_total_reliable = options.longs === $String ? $String(message.bytes_total_reliable) : message.bytes_total_reliable;
                 else
-                    object.bytes_total_reliable = options.longs === String ? $util.Long.prototype.toString.call(message.bytes_total_reliable) : options.longs === Number ? new $util.LongBits(message.bytes_total_reliable.low >>> 0, message.bytes_total_reliable.high >>> 0).toNumber(true) : message.bytes_total_reliable;
-            if (message.bytes_total_voice != null && Object.hasOwnProperty.call(message, "bytes_total_voice"))
-                if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                    object.bytes_total_voice = typeof message.bytes_total_voice === "number" ? BigInt(message.bytes_total_voice) : $util.Long.fromBits(message.bytes_total_voice.low >>> 0, message.bytes_total_voice.high >>> 0, true).toBigInt();
+                    object.bytes_total_reliable = options.longs === $String ? $util.Long.prototype.toString.call(message.bytes_total_reliable) : options.longs === $Number ? new $util.LongBits(message.bytes_total_reliable.low >>> 0, message.bytes_total_reliable.high >>> 0).toNumber(true) : message.bytes_total_reliable;
+            if (message.bytes_total_voice != null && $Object.hasOwnProperty.call(message, "bytes_total_voice"))
+                if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                    object.bytes_total_voice = typeof message.bytes_total_voice === "number" ? $BigInt(message.bytes_total_voice) : $util.Long.fromBits(message.bytes_total_voice.low >>> 0, message.bytes_total_voice.high >>> 0, true).toBigInt();
                 else if (typeof message.bytes_total_voice === "number")
-                    object.bytes_total_voice = options.longs === String ? String(message.bytes_total_voice) : message.bytes_total_voice;
+                    object.bytes_total_voice = options.longs === $String ? $String(message.bytes_total_voice) : message.bytes_total_voice;
                 else
-                    object.bytes_total_voice = options.longs === String ? $util.Long.prototype.toString.call(message.bytes_total_voice) : options.longs === Number ? new $util.LongBits(message.bytes_total_voice.low >>> 0, message.bytes_total_voice.high >>> 0).toNumber(true) : message.bytes_total_voice;
-            if (message.bytes_sec_p95 != null && Object.hasOwnProperty.call(message, "bytes_sec_p95"))
+                    object.bytes_total_voice = options.longs === $String ? $util.Long.prototype.toString.call(message.bytes_total_voice) : options.longs === $Number ? new $util.LongBits(message.bytes_total_voice.low >>> 0, message.bytes_total_voice.high >>> 0).toNumber(true) : message.bytes_total_voice;
+            if (message.bytes_sec_p95 != null && $Object.hasOwnProperty.call(message, "bytes_sec_p95"))
                 object.bytes_sec_p95 = message.bytes_sec_p95;
-            if (message.bytes_sec_p99 != null && Object.hasOwnProperty.call(message, "bytes_sec_p99"))
+            if (message.bytes_sec_p99 != null && $Object.hasOwnProperty.call(message, "bytes_sec_p99"))
                 object.bytes_sec_p99 = message.bytes_sec_p99;
-            if (message.netframes_size_uncompressed_p50 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p50"))
+            if (message.netframes_size_uncompressed_p50 != null && $Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p50"))
                 object.netframes_size_uncompressed_p50 = message.netframes_size_uncompressed_p50;
-            if (message.netframes_size_uncompressed_p95 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p95"))
+            if (message.netframes_size_uncompressed_p95 != null && $Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p95"))
                 object.netframes_size_uncompressed_p95 = message.netframes_size_uncompressed_p95;
-            if (message.netframes_size_uncompressed_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p99"))
+            if (message.netframes_size_uncompressed_p99 != null && $Object.hasOwnProperty.call(message, "netframes_size_uncompressed_p99"))
                 object.netframes_size_uncompressed_p99 = message.netframes_size_uncompressed_p99;
-            if (message.netframes_size_uncompressed_max != null && Object.hasOwnProperty.call(message, "netframes_size_uncompressed_max"))
+            if (message.netframes_size_uncompressed_max != null && $Object.hasOwnProperty.call(message, "netframes_size_uncompressed_max"))
                 object.netframes_size_uncompressed_max = message.netframes_size_uncompressed_max;
-            if (message.netframes_msgs_p50 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p50"))
+            if (message.netframes_msgs_p50 != null && $Object.hasOwnProperty.call(message, "netframes_msgs_p50"))
                 object.netframes_msgs_p50 = message.netframes_msgs_p50;
-            if (message.netframes_msgs_p95 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p95"))
+            if (message.netframes_msgs_p95 != null && $Object.hasOwnProperty.call(message, "netframes_msgs_p95"))
                 object.netframes_msgs_p95 = message.netframes_msgs_p95;
-            if (message.netframes_msgs_p99 != null && Object.hasOwnProperty.call(message, "netframes_msgs_p99"))
+            if (message.netframes_msgs_p99 != null && $Object.hasOwnProperty.call(message, "netframes_msgs_p99"))
                 object.netframes_msgs_p99 = message.netframes_msgs_p99;
-            if (message.netframes_msgs_max != null && Object.hasOwnProperty.call(message, "netframes_msgs_max"))
+            if (message.netframes_msgs_max != null && $Object.hasOwnProperty.call(message, "netframes_msgs_max"))
                 object.netframes_msgs_max = message.netframes_msgs_max;
-            if (message.enginemsgs_total != null && Object.hasOwnProperty.call(message, "enginemsgs_total"))
+            if (message.enginemsgs_total != null && $Object.hasOwnProperty.call(message, "enginemsgs_total"))
                 object.enginemsgs_total = message.enginemsgs_total;
-            if (message.enginemsgs_sec_p95 != null && Object.hasOwnProperty.call(message, "enginemsgs_sec_p95"))
+            if (message.enginemsgs_sec_p95 != null && $Object.hasOwnProperty.call(message, "enginemsgs_sec_p95"))
                 object.enginemsgs_sec_p95 = message.enginemsgs_sec_p95;
-            if (message.enginemsgs_sec_p99 != null && Object.hasOwnProperty.call(message, "enginemsgs_sec_p99"))
+            if (message.enginemsgs_sec_p99 != null && $Object.hasOwnProperty.call(message, "enginemsgs_sec_p99"))
                 object.enginemsgs_sec_p99 = message.enginemsgs_sec_p99;
-            if (message.netframes_total != null && Object.hasOwnProperty.call(message, "netframes_total"))
+            if (message.netframes_total != null && $Object.hasOwnProperty.call(message, "netframes_total"))
                 object.netframes_total = message.netframes_total;
-            if (message.netframes_dropped != null && Object.hasOwnProperty.call(message, "netframes_dropped"))
+            if (message.netframes_dropped != null && $Object.hasOwnProperty.call(message, "netframes_dropped"))
                 object.netframes_dropped = message.netframes_dropped;
-            if (message.netframes_outoforder != null && Object.hasOwnProperty.call(message, "netframes_outoforder"))
+            if (message.netframes_outoforder != null && $Object.hasOwnProperty.call(message, "netframes_outoforder"))
                 object.netframes_outoforder = message.netframes_outoforder;
-            if (message.netframes_size_exceeds_mtu != null && Object.hasOwnProperty.call(message, "netframes_size_exceeds_mtu"))
+            if (message.netframes_size_exceeds_mtu != null && $Object.hasOwnProperty.call(message, "netframes_size_exceeds_mtu"))
                 object.netframes_size_exceeds_mtu = message.netframes_size_exceeds_mtu;
-            if (message.netframes_size_p95 != null && Object.hasOwnProperty.call(message, "netframes_size_p95"))
+            if (message.netframes_size_p95 != null && $Object.hasOwnProperty.call(message, "netframes_size_p95"))
                 object.netframes_size_p95 = message.netframes_size_p95;
-            if (message.netframes_size_p99 != null && Object.hasOwnProperty.call(message, "netframes_size_p99"))
+            if (message.netframes_size_p99 != null && $Object.hasOwnProperty.call(message, "netframes_size_p99"))
                 object.netframes_size_p99 = message.netframes_size_p99;
-            if (message.ticks_total != null && Object.hasOwnProperty.call(message, "ticks_total"))
+            if (message.ticks_total != null && $Object.hasOwnProperty.call(message, "ticks_total"))
                 object.ticks_total = message.ticks_total;
-            if (message.ticks_good != null && Object.hasOwnProperty.call(message, "ticks_good"))
+            if (message.ticks_good != null && $Object.hasOwnProperty.call(message, "ticks_good"))
                 object.ticks_good = message.ticks_good;
-            if (message.ticks_good_almost_late != null && Object.hasOwnProperty.call(message, "ticks_good_almost_late"))
+            if (message.ticks_good_almost_late != null && $Object.hasOwnProperty.call(message, "ticks_good_almost_late"))
                 object.ticks_good_almost_late = message.ticks_good_almost_late;
-            if (message.ticks_fixed_dropped != null && Object.hasOwnProperty.call(message, "ticks_fixed_dropped"))
+            if (message.ticks_fixed_dropped != null && $Object.hasOwnProperty.call(message, "ticks_fixed_dropped"))
                 object.ticks_fixed_dropped = message.ticks_fixed_dropped;
-            if (message.ticks_fixed_late != null && Object.hasOwnProperty.call(message, "ticks_fixed_late"))
+            if (message.ticks_fixed_late != null && $Object.hasOwnProperty.call(message, "ticks_fixed_late"))
                 object.ticks_fixed_late = message.ticks_fixed_late;
-            if (message.ticks_bad_dropped != null && Object.hasOwnProperty.call(message, "ticks_bad_dropped"))
+            if (message.ticks_bad_dropped != null && $Object.hasOwnProperty.call(message, "ticks_bad_dropped"))
                 object.ticks_bad_dropped = message.ticks_bad_dropped;
-            if (message.ticks_bad_late != null && Object.hasOwnProperty.call(message, "ticks_bad_late"))
+            if (message.ticks_bad_late != null && $Object.hasOwnProperty.call(message, "ticks_bad_late"))
                 object.ticks_bad_late = message.ticks_bad_late;
-            if (message.ticks_bad_other != null && Object.hasOwnProperty.call(message, "ticks_bad_other"))
+            if (message.ticks_bad_other != null && $Object.hasOwnProperty.call(message, "ticks_bad_other"))
                 object.ticks_bad_other = message.ticks_bad_other;
-            if (message.tick_missrate_samples_total != null && Object.hasOwnProperty.call(message, "tick_missrate_samples_total"))
+            if (message.tick_missrate_samples_total != null && $Object.hasOwnProperty.call(message, "tick_missrate_samples_total"))
                 object.tick_missrate_samples_total = message.tick_missrate_samples_total;
-            if (message.tick_missrate_samples_perfect != null && Object.hasOwnProperty.call(message, "tick_missrate_samples_perfect"))
+            if (message.tick_missrate_samples_perfect != null && $Object.hasOwnProperty.call(message, "tick_missrate_samples_perfect"))
                 object.tick_missrate_samples_perfect = message.tick_missrate_samples_perfect;
-            if (message.tick_missrate_samples_perfectnet != null && Object.hasOwnProperty.call(message, "tick_missrate_samples_perfectnet"))
+            if (message.tick_missrate_samples_perfectnet != null && $Object.hasOwnProperty.call(message, "tick_missrate_samples_perfectnet"))
                 object.tick_missrate_samples_perfectnet = message.tick_missrate_samples_perfectnet;
-            if (message.tick_missratenet_p75_x10 != null && Object.hasOwnProperty.call(message, "tick_missratenet_p75_x10"))
+            if (message.tick_missratenet_p75_x10 != null && $Object.hasOwnProperty.call(message, "tick_missratenet_p75_x10"))
                 object.tick_missratenet_p75_x10 = message.tick_missratenet_p75_x10;
-            if (message.tick_missratenet_p95_x10 != null && Object.hasOwnProperty.call(message, "tick_missratenet_p95_x10"))
+            if (message.tick_missratenet_p95_x10 != null && $Object.hasOwnProperty.call(message, "tick_missratenet_p95_x10"))
                 object.tick_missratenet_p95_x10 = message.tick_missratenet_p95_x10;
-            if (message.tick_missratenet_p99_x10 != null && Object.hasOwnProperty.call(message, "tick_missratenet_p99_x10"))
+            if (message.tick_missratenet_p99_x10 != null && $Object.hasOwnProperty.call(message, "tick_missratenet_p99_x10"))
                 object.tick_missratenet_p99_x10 = message.tick_missratenet_p99_x10;
-            if (message.recvmargin_p1 != null && Object.hasOwnProperty.call(message, "recvmargin_p1"))
+            if (message.recvmargin_p1 != null && $Object.hasOwnProperty.call(message, "recvmargin_p1"))
                 object.recvmargin_p1 = message.recvmargin_p1;
-            if (message.recvmargin_p5 != null && Object.hasOwnProperty.call(message, "recvmargin_p5"))
+            if (message.recvmargin_p5 != null && $Object.hasOwnProperty.call(message, "recvmargin_p5"))
                 object.recvmargin_p5 = message.recvmargin_p5;
-            if (message.recvmargin_p25 != null && Object.hasOwnProperty.call(message, "recvmargin_p25"))
+            if (message.recvmargin_p25 != null && $Object.hasOwnProperty.call(message, "recvmargin_p25"))
                 object.recvmargin_p25 = message.recvmargin_p25;
-            if (message.recvmargin_p50 != null && Object.hasOwnProperty.call(message, "recvmargin_p50"))
+            if (message.recvmargin_p50 != null && $Object.hasOwnProperty.call(message, "recvmargin_p50"))
                 object.recvmargin_p50 = message.recvmargin_p50;
-            if (message.recvmargin_p75 != null && Object.hasOwnProperty.call(message, "recvmargin_p75"))
+            if (message.recvmargin_p75 != null && $Object.hasOwnProperty.call(message, "recvmargin_p75"))
                 object.recvmargin_p75 = message.recvmargin_p75;
-            if (message.recvmargin_p95 != null && Object.hasOwnProperty.call(message, "recvmargin_p95"))
+            if (message.recvmargin_p95 != null && $Object.hasOwnProperty.call(message, "recvmargin_p95"))
                 object.recvmargin_p95 = message.recvmargin_p95;
-            if (message.netframe_jitter_p50 != null && Object.hasOwnProperty.call(message, "netframe_jitter_p50"))
+            if (message.netframe_jitter_p50 != null && $Object.hasOwnProperty.call(message, "netframe_jitter_p50"))
                 object.netframe_jitter_p50 = message.netframe_jitter_p50;
-            if (message.netframe_jitter_p99 != null && Object.hasOwnProperty.call(message, "netframe_jitter_p99"))
+            if (message.netframe_jitter_p99 != null && $Object.hasOwnProperty.call(message, "netframe_jitter_p99"))
                 object.netframe_jitter_p99 = message.netframe_jitter_p99;
-            if (message.interval_peakjitter_p50 != null && Object.hasOwnProperty.call(message, "interval_peakjitter_p50"))
+            if (message.interval_peakjitter_p50 != null && $Object.hasOwnProperty.call(message, "interval_peakjitter_p50"))
                 object.interval_peakjitter_p50 = message.interval_peakjitter_p50;
-            if (message.interval_peakjitter_p95 != null && Object.hasOwnProperty.call(message, "interval_peakjitter_p95"))
+            if (message.interval_peakjitter_p95 != null && $Object.hasOwnProperty.call(message, "interval_peakjitter_p95"))
                 object.interval_peakjitter_p95 = message.interval_peakjitter_p95;
-            if (message.packet_misdelivery_rate_p50_x4 != null && Object.hasOwnProperty.call(message, "packet_misdelivery_rate_p50_x4"))
+            if (message.packet_misdelivery_rate_p50_x4 != null && $Object.hasOwnProperty.call(message, "packet_misdelivery_rate_p50_x4"))
                 object.packet_misdelivery_rate_p50_x4 = message.packet_misdelivery_rate_p50_x4;
-            if (message.packet_misdelivery_rate_p95_x4 != null && Object.hasOwnProperty.call(message, "packet_misdelivery_rate_p95_x4"))
+            if (message.packet_misdelivery_rate_p95_x4 != null && $Object.hasOwnProperty.call(message, "packet_misdelivery_rate_p95_x4"))
                 object.packet_misdelivery_rate_p95_x4 = message.packet_misdelivery_rate_p95_x4;
-            if (message.net_ping_p5 != null && Object.hasOwnProperty.call(message, "net_ping_p5"))
+            if (message.net_ping_p5 != null && $Object.hasOwnProperty.call(message, "net_ping_p5"))
                 object.net_ping_p5 = message.net_ping_p5;
-            if (message.net_ping_p50 != null && Object.hasOwnProperty.call(message, "net_ping_p50"))
+            if (message.net_ping_p50 != null && $Object.hasOwnProperty.call(message, "net_ping_p50"))
                 object.net_ping_p50 = message.net_ping_p50;
-            if (message.net_ping_p95 != null && Object.hasOwnProperty.call(message, "net_ping_p95"))
+            if (message.net_ping_p95 != null && $Object.hasOwnProperty.call(message, "net_ping_p95"))
                 object.net_ping_p95 = message.net_ping_p95;
-            if (message.msgproc_usec_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p50"))
+            if (message.msgproc_usec_p50 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_p50"))
                 object.msgproc_usec_p50 = message.msgproc_usec_p50;
-            if (message.msgproc_usec_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p95"))
+            if (message.msgproc_usec_p95 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_p95"))
                 object.msgproc_usec_p95 = message.msgproc_usec_p95;
-            if (message.msgproc_usec_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_p99"))
+            if (message.msgproc_usec_p99 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_p99"))
                 object.msgproc_usec_p99 = message.msgproc_usec_p99;
-            if (message.msgproc_usec_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_max"))
+            if (message.msgproc_usec_max != null && $Object.hasOwnProperty.call(message, "msgproc_usec_max"))
                 object.msgproc_usec_max = message.msgproc_usec_max;
-            if (message.msgproc_usec_avg_p50 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p50"))
+            if (message.msgproc_usec_avg_p50 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_avg_p50"))
                 object.msgproc_usec_avg_p50 = message.msgproc_usec_avg_p50;
-            if (message.msgproc_usec_avg_p95 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p95"))
+            if (message.msgproc_usec_avg_p95 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_avg_p95"))
                 object.msgproc_usec_avg_p95 = message.msgproc_usec_avg_p95;
-            if (message.msgproc_usec_avg_p99 != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_p99"))
+            if (message.msgproc_usec_avg_p99 != null && $Object.hasOwnProperty.call(message, "msgproc_usec_avg_p99"))
                 object.msgproc_usec_avg_p99 = message.msgproc_usec_avg_p99;
-            if (message.msgproc_usec_avg_max != null && Object.hasOwnProperty.call(message, "msgproc_usec_avg_max"))
+            if (message.msgproc_usec_avg_max != null && $Object.hasOwnProperty.call(message, "msgproc_usec_avg_max"))
                 object.msgproc_usec_avg_max = message.msgproc_usec_avg_max;
-            if (message.queuedmsgs_p50 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p50"))
+            if (message.queuedmsgs_p50 != null && $Object.hasOwnProperty.call(message, "queuedmsgs_p50"))
                 object.queuedmsgs_p50 = message.queuedmsgs_p50;
-            if (message.queuedmsgs_p95 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p95"))
+            if (message.queuedmsgs_p95 != null && $Object.hasOwnProperty.call(message, "queuedmsgs_p95"))
                 object.queuedmsgs_p95 = message.queuedmsgs_p95;
-            if (message.queuedmsgs_p99 != null && Object.hasOwnProperty.call(message, "queuedmsgs_p99"))
+            if (message.queuedmsgs_p99 != null && $Object.hasOwnProperty.call(message, "queuedmsgs_p99"))
                 object.queuedmsgs_p99 = message.queuedmsgs_p99;
-            if (message.queuedmsgs_max != null && Object.hasOwnProperty.call(message, "queuedmsgs_max"))
+            if (message.queuedmsgs_max != null && $Object.hasOwnProperty.call(message, "queuedmsgs_max"))
                 object.queuedmsgs_max = message.queuedmsgs_max;
             return object;
         };
@@ -3272,23 +3580,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSource2NetworkFlowQuality.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSource2NetworkFlowQuality.prototype.toJSON = function() {
+            return CMsgSource2NetworkFlowQuality.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSource2NetworkFlowQuality
+         * Gets the type url for CMsgSource2NetworkFlowQuality
          * @function getTypeUrl
          * @memberof CMsgSource2NetworkFlowQuality
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSource2NetworkFlowQuality.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSource2NetworkFlowQuality";
+        CMsgSource2NetworkFlowQuality.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSource2NetworkFlowQuality";
         };
     
         return CMsgSource2NetworkFlowQuality;
@@ -3298,31 +3605,44 @@
     
         /**
          * Properties of a CMsgSource2PerfIntervalSample.
-         * @exports ICMsgSource2PerfIntervalSample
-         * @interface ICMsgSource2PerfIntervalSample
+         * @typedef {Object} CMsgSource2PerfIntervalSample.$Properties
          * @property {number|null} [frame_time_max_ms] CMsgSource2PerfIntervalSample frame_time_max_ms
          * @property {number|null} [frame_time_avg_ms] CMsgSource2PerfIntervalSample frame_time_avg_ms
          * @property {number|null} [frame_time_min_ms] CMsgSource2PerfIntervalSample frame_time_min_ms
          * @property {number|null} [frame_count] CMsgSource2PerfIntervalSample frame_count
          * @property {number|null} [frame_time_total_ms] CMsgSource2PerfIntervalSample frame_time_total_ms
-         * @property {Array.<CMsgSource2PerfIntervalSample.ITag>|null} [tags] CMsgSource2PerfIntervalSample tags
+         * @property {Array.<CMsgSource2PerfIntervalSample.Tag.$Properties>|null} [tags] CMsgSource2PerfIntervalSample tags
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSource2PerfIntervalSample.
+         * @exports ICMsgSource2PerfIntervalSample
+         * @interface ICMsgSource2PerfIntervalSample
+         * @augments CMsgSource2PerfIntervalSample.$Properties
+         * @deprecated Use CMsgSource2PerfIntervalSample.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSource2PerfIntervalSample.
+         * @typedef {CMsgSource2PerfIntervalSample.$Properties} CMsgSource2PerfIntervalSample.$Shape
          */
     
         /**
          * Constructs a new CMsgSource2PerfIntervalSample.
          * @exports CMsgSource2PerfIntervalSample
          * @classdesc Represents a CMsgSource2PerfIntervalSample.
-         * @implements ICMsgSource2PerfIntervalSample
          * @constructor
-         * @param {ICMsgSource2PerfIntervalSample=} [properties] Properties to set
+         * @param {CMsgSource2PerfIntervalSample.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSource2PerfIntervalSample(properties) {
+        var CMsgSource2PerfIntervalSample = function (properties) {
             this.tags = [];
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSource2PerfIntervalSample frame_time_max_ms.
@@ -3366,7 +3686,7 @@
     
         /**
          * CMsgSource2PerfIntervalSample tags.
-         * @member {Array.<CMsgSource2PerfIntervalSample.ITag>} tags
+         * @member {Array.<CMsgSource2PerfIntervalSample.Tag.$Properties>} tags
          * @memberof CMsgSource2PerfIntervalSample
          * @instance
          */
@@ -3377,10 +3697,14 @@
          * @function create
          * @memberof CMsgSource2PerfIntervalSample
          * @static
-         * @param {ICMsgSource2PerfIntervalSample=} [properties] Properties to set
+         * @param {CMsgSource2PerfIntervalSample.$Properties=} [properties] Properties to set
          * @returns {CMsgSource2PerfIntervalSample} CMsgSource2PerfIntervalSample instance
+         * @type {{
+         *   (properties: CMsgSource2PerfIntervalSample.$Shape): CMsgSource2PerfIntervalSample & CMsgSource2PerfIntervalSample.$Shape;
+         *   (properties?: CMsgSource2PerfIntervalSample.$Properties): CMsgSource2PerfIntervalSample;
+         * }}
          */
-        CMsgSource2PerfIntervalSample.create = function create(properties) {
+        CMsgSource2PerfIntervalSample.create = function(properties) {
             return new CMsgSource2PerfIntervalSample(properties);
         };
     
@@ -3389,30 +3713,33 @@
          * @function encode
          * @memberof CMsgSource2PerfIntervalSample
          * @static
-         * @param {ICMsgSource2PerfIntervalSample} message CMsgSource2PerfIntervalSample message or plain object to encode
+         * @param {CMsgSource2PerfIntervalSample.$Properties} message CMsgSource2PerfIntervalSample message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSource2PerfIntervalSample.encode = function encode(message, writer, q) {
+        CMsgSource2PerfIntervalSample.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.frame_time_max_ms != null && Object.hasOwnProperty.call(message, "frame_time_max_ms"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.frame_time_max_ms != null && $Object.hasOwnProperty.call(message, "frame_time_max_ms"))
                 writer.uint32(/* id 1, wireType 5 =*/13).float(message.frame_time_max_ms);
-            if (message.frame_time_avg_ms != null && Object.hasOwnProperty.call(message, "frame_time_avg_ms"))
+            if (message.frame_time_avg_ms != null && $Object.hasOwnProperty.call(message, "frame_time_avg_ms"))
                 writer.uint32(/* id 2, wireType 5 =*/21).float(message.frame_time_avg_ms);
-            if (message.frame_time_min_ms != null && Object.hasOwnProperty.call(message, "frame_time_min_ms"))
+            if (message.frame_time_min_ms != null && $Object.hasOwnProperty.call(message, "frame_time_min_ms"))
                 writer.uint32(/* id 3, wireType 5 =*/29).float(message.frame_time_min_ms);
-            if (message.frame_count != null && Object.hasOwnProperty.call(message, "frame_count"))
+            if (message.frame_count != null && $Object.hasOwnProperty.call(message, "frame_count"))
                 writer.uint32(/* id 4, wireType 0 =*/32).int32(message.frame_count);
-            if (message.frame_time_total_ms != null && Object.hasOwnProperty.call(message, "frame_time_total_ms"))
+            if (message.frame_time_total_ms != null && $Object.hasOwnProperty.call(message, "frame_time_total_ms"))
                 writer.uint32(/* id 5, wireType 5 =*/45).float(message.frame_time_total_ms);
             if (message.tags != null && message.tags.length)
                 for (var i = 0; i < message.tags.length; ++i)
-                    $root.CMsgSource2PerfIntervalSample.Tag.encode(message.tags[i], writer.uint32(/* id 6, wireType 2 =*/50).fork(), q + 1).ldelim();
+                    $root.CMsgSource2PerfIntervalSample.Tag.encode(message.tags[i], writer.uint32(/* id 6, wireType 2 =*/50).fork(), _depth + 1).ldelim();
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -3421,12 +3748,12 @@
          * @function encodeDelimited
          * @memberof CMsgSource2PerfIntervalSample
          * @static
-         * @param {ICMsgSource2PerfIntervalSample} message CMsgSource2PerfIntervalSample message or plain object to encode
+         * @param {CMsgSource2PerfIntervalSample.$Properties} message CMsgSource2PerfIntervalSample message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSource2PerfIntervalSample.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSource2PerfIntervalSample.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -3436,69 +3763,89 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSource2PerfIntervalSample} CMsgSource2PerfIntervalSample
+         * @returns {CMsgSource2PerfIntervalSample & CMsgSource2PerfIntervalSample.$Shape} CMsgSource2PerfIntervalSample
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSource2PerfIntervalSample.decode = function decode(reader, length, error, long) {
+        CMsgSource2PerfIntervalSample.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSource2PerfIntervalSample();
+            message = _target || new $root.CMsgSource2PerfIntervalSample();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.frame_time_max_ms = reader.float();
-                        break;
-                    }
-                case 2: {
-                        message.frame_time_avg_ms = reader.float();
-                        break;
-                    }
-                case 3: {
-                        message.frame_time_min_ms = reader.float();
-                        break;
-                    }
-                case 4: {
-                        message.frame_count = reader.int32();
-                        break;
-                    }
-                case 5: {
-                        message.frame_time_total_ms = reader.float();
-                        break;
-                    }
-                case 6: {
-                        if (!(message.tags && message.tags.length))
-                            message.tags = [];
-                        message.tags.push($root.CMsgSource2PerfIntervalSample.Tag.decode(reader, reader.uint32(), undefined, long + 1));
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 5)
+                            break;
+                        message.frame_time_max_ms = reader.float();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 5)
+                            break;
+                        message.frame_time_avg_ms = reader.float();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 5)
+                            break;
+                        message.frame_time_min_ms = reader.float();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 0)
+                            break;
+                        message.frame_count = reader.int32();
+                        continue;
+                    }
+                case 5: {
+                        if (wireType !== 5)
+                            break;
+                        message.frame_time_total_ms = reader.float();
+                        continue;
+                    }
+                case 6: {
+                        if (wireType !== 2)
+                            break;
+                        if (!(message.tags && message.tags.length))
+                            message.tags = [];
+                        message.tags.push($root.CMsgSource2PerfIntervalSample.Tag.decode(reader, reader.size(), $undefined, _depth + 1));
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -3508,14 +3855,14 @@
          * @memberof CMsgSource2PerfIntervalSample
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSource2PerfIntervalSample} CMsgSource2PerfIntervalSample
+         * @returns {CMsgSource2PerfIntervalSample & CMsgSource2PerfIntervalSample.$Shape} CMsgSource2PerfIntervalSample
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSource2PerfIntervalSample.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSource2PerfIntervalSample.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -3526,33 +3873,33 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSource2PerfIntervalSample.verify = function verify(message, long) {
+        CMsgSource2PerfIntervalSample.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.frame_time_max_ms != null && Object.hasOwnProperty.call(message, "frame_time_max_ms"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.frame_time_max_ms != null && $Object.hasOwnProperty.call(message, "frame_time_max_ms"))
                 if (typeof message.frame_time_max_ms !== "number")
                     return "frame_time_max_ms: number expected";
-            if (message.frame_time_avg_ms != null && Object.hasOwnProperty.call(message, "frame_time_avg_ms"))
+            if (message.frame_time_avg_ms != null && $Object.hasOwnProperty.call(message, "frame_time_avg_ms"))
                 if (typeof message.frame_time_avg_ms !== "number")
                     return "frame_time_avg_ms: number expected";
-            if (message.frame_time_min_ms != null && Object.hasOwnProperty.call(message, "frame_time_min_ms"))
+            if (message.frame_time_min_ms != null && $Object.hasOwnProperty.call(message, "frame_time_min_ms"))
                 if (typeof message.frame_time_min_ms !== "number")
                     return "frame_time_min_ms: number expected";
-            if (message.frame_count != null && Object.hasOwnProperty.call(message, "frame_count"))
+            if (message.frame_count != null && $Object.hasOwnProperty.call(message, "frame_count"))
                 if (!$util.isInteger(message.frame_count))
                     return "frame_count: integer expected";
-            if (message.frame_time_total_ms != null && Object.hasOwnProperty.call(message, "frame_time_total_ms"))
+            if (message.frame_time_total_ms != null && $Object.hasOwnProperty.call(message, "frame_time_total_ms"))
                 if (typeof message.frame_time_total_ms !== "number")
                     return "frame_time_total_ms: number expected";
-            if (message.tags != null && Object.hasOwnProperty.call(message, "tags")) {
-                if (!Array.isArray(message.tags))
+            if (message.tags != null && $Object.hasOwnProperty.call(message, "tags")) {
+                if (!$Array.isArray(message.tags))
                     return "tags: array expected";
                 for (var i = 0; i < message.tags.length; ++i) {
-                    var error = $root.CMsgSource2PerfIntervalSample.Tag.verify(message.tags[i], long + 1);
+                    var error = $root.CMsgSource2PerfIntervalSample.Tag.verify(message.tags[i], _depth + 1);
                     if (error)
                         return "tags." + error;
                 }
@@ -3568,34 +3915,34 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSource2PerfIntervalSample} CMsgSource2PerfIntervalSample
          */
-        CMsgSource2PerfIntervalSample.fromObject = function fromObject(object, long) {
+        CMsgSource2PerfIntervalSample.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSource2PerfIntervalSample)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSource2PerfIntervalSample: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSource2PerfIntervalSample: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSource2PerfIntervalSample();
             if (object.frame_time_max_ms != null)
-                message.frame_time_max_ms = Number(object.frame_time_max_ms);
+                message.frame_time_max_ms = $Number(object.frame_time_max_ms);
             if (object.frame_time_avg_ms != null)
-                message.frame_time_avg_ms = Number(object.frame_time_avg_ms);
+                message.frame_time_avg_ms = $Number(object.frame_time_avg_ms);
             if (object.frame_time_min_ms != null)
-                message.frame_time_min_ms = Number(object.frame_time_min_ms);
+                message.frame_time_min_ms = $Number(object.frame_time_min_ms);
             if (object.frame_count != null)
                 message.frame_count = object.frame_count | 0;
             if (object.frame_time_total_ms != null)
-                message.frame_time_total_ms = Number(object.frame_time_total_ms);
+                message.frame_time_total_ms = $Number(object.frame_time_total_ms);
             if (object.tags) {
-                if (!Array.isArray(object.tags))
-                    throw TypeError(".CMsgSource2PerfIntervalSample.tags: array expected");
-                message.tags = [];
+                if (!$Array.isArray(object.tags))
+                    throw $TypeError(".CMsgSource2PerfIntervalSample.tags: array expected");
+                message.tags = $Array(object.tags.length);
                 for (var i = 0; i < object.tags.length; ++i) {
                     if (!$util.isObject(object.tags[i]))
-                        throw TypeError(".CMsgSource2PerfIntervalSample.tags: object expected");
-                    message.tags[i] = $root.CMsgSource2PerfIntervalSample.Tag.fromObject(object.tags[i], long + 1);
+                        throw $TypeError(".CMsgSource2PerfIntervalSample.tags: object expected");
+                    message.tags[i] = $root.CMsgSource2PerfIntervalSample.Tag.fromObject(object.tags[i], _depth + 1);
                 }
             }
             return message;
@@ -3610,13 +3957,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSource2PerfIntervalSample.toObject = function toObject(message, options, q) {
+        CMsgSource2PerfIntervalSample.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.tags = [];
@@ -3627,20 +3974,20 @@
                 object.frame_count = 0;
                 object.frame_time_total_ms = 0;
             }
-            if (message.frame_time_max_ms != null && Object.hasOwnProperty.call(message, "frame_time_max_ms"))
-                object.frame_time_max_ms = options.json && !isFinite(message.frame_time_max_ms) ? String(message.frame_time_max_ms) : message.frame_time_max_ms;
-            if (message.frame_time_avg_ms != null && Object.hasOwnProperty.call(message, "frame_time_avg_ms"))
-                object.frame_time_avg_ms = options.json && !isFinite(message.frame_time_avg_ms) ? String(message.frame_time_avg_ms) : message.frame_time_avg_ms;
-            if (message.frame_time_min_ms != null && Object.hasOwnProperty.call(message, "frame_time_min_ms"))
-                object.frame_time_min_ms = options.json && !isFinite(message.frame_time_min_ms) ? String(message.frame_time_min_ms) : message.frame_time_min_ms;
-            if (message.frame_count != null && Object.hasOwnProperty.call(message, "frame_count"))
+            if (message.frame_time_max_ms != null && $Object.hasOwnProperty.call(message, "frame_time_max_ms"))
+                object.frame_time_max_ms = options.json && !$isFinite(message.frame_time_max_ms) ? $String(message.frame_time_max_ms) : message.frame_time_max_ms;
+            if (message.frame_time_avg_ms != null && $Object.hasOwnProperty.call(message, "frame_time_avg_ms"))
+                object.frame_time_avg_ms = options.json && !$isFinite(message.frame_time_avg_ms) ? $String(message.frame_time_avg_ms) : message.frame_time_avg_ms;
+            if (message.frame_time_min_ms != null && $Object.hasOwnProperty.call(message, "frame_time_min_ms"))
+                object.frame_time_min_ms = options.json && !$isFinite(message.frame_time_min_ms) ? $String(message.frame_time_min_ms) : message.frame_time_min_ms;
+            if (message.frame_count != null && $Object.hasOwnProperty.call(message, "frame_count"))
                 object.frame_count = message.frame_count;
-            if (message.frame_time_total_ms != null && Object.hasOwnProperty.call(message, "frame_time_total_ms"))
-                object.frame_time_total_ms = options.json && !isFinite(message.frame_time_total_ms) ? String(message.frame_time_total_ms) : message.frame_time_total_ms;
+            if (message.frame_time_total_ms != null && $Object.hasOwnProperty.call(message, "frame_time_total_ms"))
+                object.frame_time_total_ms = options.json && !$isFinite(message.frame_time_total_ms) ? $String(message.frame_time_total_ms) : message.frame_time_total_ms;
             if (message.tags && message.tags.length) {
-                object.tags = [];
+                object.tags = $Array(message.tags.length);
                 for (var j = 0; j < message.tags.length; ++j)
-                    object.tags[j] = $root.CMsgSource2PerfIntervalSample.Tag.toObject(message.tags[j], options, q + 1);
+                    object.tags[j] = $root.CMsgSource2PerfIntervalSample.Tag.toObject(message.tags[j], options, _depth + 1);
             }
             return object;
         };
@@ -3652,49 +3999,61 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSource2PerfIntervalSample.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSource2PerfIntervalSample.prototype.toJSON = function() {
+            return CMsgSource2PerfIntervalSample.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSource2PerfIntervalSample
+         * Gets the type url for CMsgSource2PerfIntervalSample
          * @function getTypeUrl
          * @memberof CMsgSource2PerfIntervalSample
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSource2PerfIntervalSample.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSource2PerfIntervalSample";
+        CMsgSource2PerfIntervalSample.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSource2PerfIntervalSample";
         };
     
         CMsgSource2PerfIntervalSample.Tag = (function() {
     
             /**
              * Properties of a Tag.
-             * @memberof CMsgSource2PerfIntervalSample
-             * @interface ITag
+             * @typedef {Object} CMsgSource2PerfIntervalSample.Tag.$Properties
              * @property {string|null} [tag] Tag tag
              * @property {number|null} [max_value] Tag max_value
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+    
+            /**
+             * Properties of a Tag.
+             * @memberof CMsgSource2PerfIntervalSample
+             * @interface ITag
+             * @augments CMsgSource2PerfIntervalSample.Tag.$Properties
+             * @deprecated Use CMsgSource2PerfIntervalSample.Tag.$Properties instead.
+             */
+    
+            /**
+             * Shape of a Tag.
+             * @typedef {CMsgSource2PerfIntervalSample.Tag.$Properties} CMsgSource2PerfIntervalSample.Tag.$Shape
              */
     
             /**
              * Constructs a new Tag.
              * @memberof CMsgSource2PerfIntervalSample
              * @classdesc Represents a Tag.
-             * @implements ITag
              * @constructor
-             * @param {CMsgSource2PerfIntervalSample.ITag=} [properties] Properties to set
+             * @param {CMsgSource2PerfIntervalSample.Tag.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function Tag(properties) {
+            var Tag = function (properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
     
             /**
              * Tag tag.
@@ -3717,10 +4076,14 @@
              * @function create
              * @memberof CMsgSource2PerfIntervalSample.Tag
              * @static
-             * @param {CMsgSource2PerfIntervalSample.ITag=} [properties] Properties to set
+             * @param {CMsgSource2PerfIntervalSample.Tag.$Properties=} [properties] Properties to set
              * @returns {CMsgSource2PerfIntervalSample.Tag} Tag instance
+             * @type {{
+             *   (properties: CMsgSource2PerfIntervalSample.Tag.$Shape): CMsgSource2PerfIntervalSample.Tag & CMsgSource2PerfIntervalSample.Tag.$Shape;
+             *   (properties?: CMsgSource2PerfIntervalSample.Tag.$Properties): CMsgSource2PerfIntervalSample.Tag;
+             * }}
              */
-            Tag.create = function create(properties) {
+            Tag.create = function(properties) {
                 return new Tag(properties);
             };
     
@@ -3729,21 +4092,24 @@
              * @function encode
              * @memberof CMsgSource2PerfIntervalSample.Tag
              * @static
-             * @param {CMsgSource2PerfIntervalSample.ITag} message Tag message or plain object to encode
+             * @param {CMsgSource2PerfIntervalSample.Tag.$Properties} message Tag message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Tag.encode = function encode(message, writer, q) {
+            Tag.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.tag != null && Object.hasOwnProperty.call(message, "tag"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.tag != null && $Object.hasOwnProperty.call(message, "tag"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.tag);
-                if (message.max_value != null && Object.hasOwnProperty.call(message, "max_value"))
+                if (message.max_value != null && $Object.hasOwnProperty.call(message, "max_value"))
                     writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.max_value);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
     
@@ -3752,12 +4118,12 @@
              * @function encodeDelimited
              * @memberof CMsgSource2PerfIntervalSample.Tag
              * @static
-             * @param {CMsgSource2PerfIntervalSample.ITag} message Tag message or plain object to encode
+             * @param {CMsgSource2PerfIntervalSample.Tag.$Properties} message Tag message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Tag.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            Tag.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
     
             /**
@@ -3767,51 +4133,63 @@
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {CMsgSource2PerfIntervalSample.Tag} Tag
+             * @returns {CMsgSource2PerfIntervalSample.Tag & CMsgSource2PerfIntervalSample.Tag.$Shape} Tag
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Tag.decode = function decode(reader, length, error, long) {
+            Tag.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (long === undefined)
-                    long = 0;
-                if (long > $Reader.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var end, message;
-                if (length === undefined)
+                if (length === $undefined)
                     end = reader.len;
                 else {
                     end = reader.pos + length;
                     if (end > reader.len)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     length = reader.len;
                     reader.len = end;
                 }
-                message = new $root.CMsgSource2PerfIntervalSample.Tag();
+                message = _target || new $root.CMsgSource2PerfIntervalSample.Tag();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 1: {
-                            message.tag = reader.string();
-                            break;
-                        }
-                    case 2: {
-                            message.max_value = reader.uint32();
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7, long);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            message.tag = reader.string();
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            message.max_value = reader.uint32();
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
-                if (length !== undefined) {
+                if (length !== $undefined) {
                     if (reader.pos !== end)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     reader.len = length;
                 }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
     
@@ -3821,14 +4199,14 @@
              * @memberof CMsgSource2PerfIntervalSample.Tag
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {CMsgSource2PerfIntervalSample.Tag} Tag
+             * @returns {CMsgSource2PerfIntervalSample.Tag & CMsgSource2PerfIntervalSample.Tag.$Shape} Tag
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Tag.decodeDelimited = function decodeDelimited(reader) {
+            Tag.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
     
             /**
@@ -3839,17 +4217,17 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Tag.verify = function verify(message, long) {
+            Tag.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    return "maximum nesting depth exceeded";
-                if (message.tag != null && Object.hasOwnProperty.call(message, "tag"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.tag != null && $Object.hasOwnProperty.call(message, "tag"))
                     if (!$util.isString(message.tag))
                         return "tag: string expected";
-                if (message.max_value != null && Object.hasOwnProperty.call(message, "max_value"))
+                if (message.max_value != null && $Object.hasOwnProperty.call(message, "max_value"))
                     if (!$util.isInteger(message.max_value))
                         return "max_value: integer expected";
                 return null;
@@ -3863,18 +4241,18 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgSource2PerfIntervalSample.Tag} Tag
              */
-            Tag.fromObject = function fromObject(object, long) {
+            Tag.fromObject = function (object, _depth) {
                 if (object instanceof $root.CMsgSource2PerfIntervalSample.Tag)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".CMsgSource2PerfIntervalSample.Tag: object expected");
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                    throw $TypeError(".CMsgSource2PerfIntervalSample.Tag: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.CMsgSource2PerfIntervalSample.Tag();
                 if (object.tag != null)
-                    message.tag = String(object.tag);
+                    message.tag = $String(object.tag);
                 if (object.max_value != null)
                     message.max_value = object.max_value >>> 0;
                 return message;
@@ -3889,21 +4267,21 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Tag.toObject = function toObject(message, options, q) {
+            Tag.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.tag = "";
                     object.max_value = 0;
                 }
-                if (message.tag != null && Object.hasOwnProperty.call(message, "tag"))
+                if (message.tag != null && $Object.hasOwnProperty.call(message, "tag"))
                     object.tag = message.tag;
-                if (message.max_value != null && Object.hasOwnProperty.call(message, "max_value"))
+                if (message.max_value != null && $Object.hasOwnProperty.call(message, "max_value"))
                     object.max_value = message.max_value;
                 return object;
             };
@@ -3915,23 +4293,22 @@
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            Tag.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            Tag.prototype.toJSON = function() {
+                return Tag.toObject(this, $protobuf.util.toJSONOptions);
             };
     
             /**
-             * Gets the default type url for Tag
+             * Gets the type url for Tag
              * @function getTypeUrl
              * @memberof CMsgSource2PerfIntervalSample.Tag
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            Tag.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/CMsgSource2PerfIntervalSample.Tag";
+            Tag.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/CMsgSource2PerfIntervalSample.Tag";
             };
     
             return Tag;
@@ -3944,32 +4321,45 @@
     
         /**
          * Properties of a CSource2Metrics_MatchPerfSummary_Notification.
-         * @exports ICSource2Metrics_MatchPerfSummary_Notification
-         * @interface ICSource2Metrics_MatchPerfSummary_Notification
+         * @typedef {Object} CSource2Metrics_MatchPerfSummary_Notification.$Properties
          * @property {number|null} [appid] CSource2Metrics_MatchPerfSummary_Notification appid
          * @property {string|null} [game_mode] CSource2Metrics_MatchPerfSummary_Notification game_mode
          * @property {number|null} [server_build_id] CSource2Metrics_MatchPerfSummary_Notification server_build_id
          * @property {number|null} [server_popid] CSource2Metrics_MatchPerfSummary_Notification server_popid
-         * @property {ICMsgSource2VProfLiteReport|null} [server_profile] CSource2Metrics_MatchPerfSummary_Notification server_profile
-         * @property {Array.<CSource2Metrics_MatchPerfSummary_Notification.IClient>|null} [clients] CSource2Metrics_MatchPerfSummary_Notification clients
+         * @property {CMsgSource2VProfLiteReport.$Properties|null} [server_profile] CSource2Metrics_MatchPerfSummary_Notification server_profile
+         * @property {Array.<CSource2Metrics_MatchPerfSummary_Notification.Client.$Properties>|null} [clients] CSource2Metrics_MatchPerfSummary_Notification clients
          * @property {string|null} [map] CSource2Metrics_MatchPerfSummary_Notification map
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CSource2Metrics_MatchPerfSummary_Notification.
+         * @exports ICSource2Metrics_MatchPerfSummary_Notification
+         * @interface ICSource2Metrics_MatchPerfSummary_Notification
+         * @augments CSource2Metrics_MatchPerfSummary_Notification.$Properties
+         * @deprecated Use CSource2Metrics_MatchPerfSummary_Notification.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CSource2Metrics_MatchPerfSummary_Notification.
+         * @typedef {CSource2Metrics_MatchPerfSummary_Notification.$Properties} CSource2Metrics_MatchPerfSummary_Notification.$Shape
          */
     
         /**
          * Constructs a new CSource2Metrics_MatchPerfSummary_Notification.
          * @exports CSource2Metrics_MatchPerfSummary_Notification
          * @classdesc Represents a CSource2Metrics_MatchPerfSummary_Notification.
-         * @implements ICSource2Metrics_MatchPerfSummary_Notification
          * @constructor
-         * @param {ICSource2Metrics_MatchPerfSummary_Notification=} [properties] Properties to set
+         * @param {CSource2Metrics_MatchPerfSummary_Notification.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CSource2Metrics_MatchPerfSummary_Notification(properties) {
+        var CSource2Metrics_MatchPerfSummary_Notification = function (properties) {
             this.clients = [];
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CSource2Metrics_MatchPerfSummary_Notification appid.
@@ -4005,7 +4395,7 @@
     
         /**
          * CSource2Metrics_MatchPerfSummary_Notification server_profile.
-         * @member {ICMsgSource2VProfLiteReport|null|undefined} server_profile
+         * @member {CMsgSource2VProfLiteReport.$Properties|null|undefined} server_profile
          * @memberof CSource2Metrics_MatchPerfSummary_Notification
          * @instance
          */
@@ -4013,7 +4403,7 @@
     
         /**
          * CSource2Metrics_MatchPerfSummary_Notification clients.
-         * @member {Array.<CSource2Metrics_MatchPerfSummary_Notification.IClient>} clients
+         * @member {Array.<CSource2Metrics_MatchPerfSummary_Notification.Client.$Properties>} clients
          * @memberof CSource2Metrics_MatchPerfSummary_Notification
          * @instance
          */
@@ -4032,10 +4422,14 @@
          * @function create
          * @memberof CSource2Metrics_MatchPerfSummary_Notification
          * @static
-         * @param {ICSource2Metrics_MatchPerfSummary_Notification=} [properties] Properties to set
+         * @param {CSource2Metrics_MatchPerfSummary_Notification.$Properties=} [properties] Properties to set
          * @returns {CSource2Metrics_MatchPerfSummary_Notification} CSource2Metrics_MatchPerfSummary_Notification instance
+         * @type {{
+         *   (properties: CSource2Metrics_MatchPerfSummary_Notification.$Shape): CSource2Metrics_MatchPerfSummary_Notification & CSource2Metrics_MatchPerfSummary_Notification.$Shape;
+         *   (properties?: CSource2Metrics_MatchPerfSummary_Notification.$Properties): CSource2Metrics_MatchPerfSummary_Notification;
+         * }}
          */
-        CSource2Metrics_MatchPerfSummary_Notification.create = function create(properties) {
+        CSource2Metrics_MatchPerfSummary_Notification.create = function(properties) {
             return new CSource2Metrics_MatchPerfSummary_Notification(properties);
         };
     
@@ -4044,32 +4438,35 @@
          * @function encode
          * @memberof CSource2Metrics_MatchPerfSummary_Notification
          * @static
-         * @param {ICSource2Metrics_MatchPerfSummary_Notification} message CSource2Metrics_MatchPerfSummary_Notification message or plain object to encode
+         * @param {CSource2Metrics_MatchPerfSummary_Notification.$Properties} message CSource2Metrics_MatchPerfSummary_Notification message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CSource2Metrics_MatchPerfSummary_Notification.encode = function encode(message, writer, q) {
+        CSource2Metrics_MatchPerfSummary_Notification.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.appid);
-            if (message.game_mode != null && Object.hasOwnProperty.call(message, "game_mode"))
+            if (message.game_mode != null && $Object.hasOwnProperty.call(message, "game_mode"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.game_mode);
-            if (message.server_build_id != null && Object.hasOwnProperty.call(message, "server_build_id"))
+            if (message.server_build_id != null && $Object.hasOwnProperty.call(message, "server_build_id"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.server_build_id);
-            if (message.server_popid != null && Object.hasOwnProperty.call(message, "server_popid"))
+            if (message.server_popid != null && $Object.hasOwnProperty.call(message, "server_popid"))
                 writer.uint32(/* id 4, wireType 5 =*/37).fixed32(message.server_popid);
-            if (message.server_profile != null && Object.hasOwnProperty.call(message, "server_profile"))
-                $root.CMsgSource2VProfLiteReport.encode(message.server_profile, writer.uint32(/* id 10, wireType 2 =*/82).fork(), q + 1).ldelim();
+            if (message.server_profile != null && $Object.hasOwnProperty.call(message, "server_profile"))
+                $root.CMsgSource2VProfLiteReport.encode(message.server_profile, writer.uint32(/* id 10, wireType 2 =*/82).fork(), _depth + 1).ldelim();
             if (message.clients != null && message.clients.length)
                 for (var i = 0; i < message.clients.length; ++i)
-                    $root.CSource2Metrics_MatchPerfSummary_Notification.Client.encode(message.clients[i], writer.uint32(/* id 11, wireType 2 =*/90).fork(), q + 1).ldelim();
-            if (message.map != null && Object.hasOwnProperty.call(message, "map"))
+                    $root.CSource2Metrics_MatchPerfSummary_Notification.Client.encode(message.clients[i], writer.uint32(/* id 11, wireType 2 =*/90).fork(), _depth + 1).ldelim();
+            if (message.map != null && $Object.hasOwnProperty.call(message, "map"))
                 writer.uint32(/* id 20, wireType 2 =*/162).string(message.map);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -4078,12 +4475,12 @@
          * @function encodeDelimited
          * @memberof CSource2Metrics_MatchPerfSummary_Notification
          * @static
-         * @param {ICSource2Metrics_MatchPerfSummary_Notification} message CSource2Metrics_MatchPerfSummary_Notification message or plain object to encode
+         * @param {CSource2Metrics_MatchPerfSummary_Notification.$Properties} message CSource2Metrics_MatchPerfSummary_Notification message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CSource2Metrics_MatchPerfSummary_Notification.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CSource2Metrics_MatchPerfSummary_Notification.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -4093,73 +4490,95 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CSource2Metrics_MatchPerfSummary_Notification} CSource2Metrics_MatchPerfSummary_Notification
+         * @returns {CSource2Metrics_MatchPerfSummary_Notification & CSource2Metrics_MatchPerfSummary_Notification.$Shape} CSource2Metrics_MatchPerfSummary_Notification
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSource2Metrics_MatchPerfSummary_Notification.decode = function decode(reader, length, error, long) {
+        CSource2Metrics_MatchPerfSummary_Notification.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CSource2Metrics_MatchPerfSummary_Notification();
+            message = _target || new $root.CSource2Metrics_MatchPerfSummary_Notification();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.appid = reader.uint32();
-                        break;
-                    }
-                case 2: {
-                        message.game_mode = reader.string();
-                        break;
-                    }
-                case 3: {
-                        message.server_build_id = reader.uint32();
-                        break;
-                    }
-                case 4: {
-                        message.server_popid = reader.fixed32();
-                        break;
-                    }
-                case 10: {
-                        message.server_profile = $root.CMsgSource2VProfLiteReport.decode(reader, reader.uint32(), undefined, long + 1);
-                        break;
-                    }
-                case 11: {
-                        if (!(message.clients && message.clients.length))
-                            message.clients = [];
-                        message.clients.push($root.CSource2Metrics_MatchPerfSummary_Notification.Client.decode(reader, reader.uint32(), undefined, long + 1));
-                        break;
-                    }
-                case 20: {
-                        message.map = reader.string();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.appid = reader.uint32();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.game_mode = reader.string();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 0)
+                            break;
+                        message.server_build_id = reader.uint32();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 5)
+                            break;
+                        message.server_popid = reader.fixed32();
+                        continue;
+                    }
+                case 10: {
+                        if (wireType !== 2)
+                            break;
+                        message.server_profile = $root.CMsgSource2VProfLiteReport.decode(reader, reader.size(), $undefined, _depth + 1, message.server_profile);
+                        continue;
+                    }
+                case 11: {
+                        if (wireType !== 2)
+                            break;
+                        if (!(message.clients && message.clients.length))
+                            message.clients = [];
+                        message.clients.push($root.CSource2Metrics_MatchPerfSummary_Notification.Client.decode(reader, reader.size(), $undefined, _depth + 1));
+                        continue;
+                    }
+                case 20: {
+                        if (wireType !== 2)
+                            break;
+                        message.map = reader.string();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -4169,14 +4588,14 @@
          * @memberof CSource2Metrics_MatchPerfSummary_Notification
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CSource2Metrics_MatchPerfSummary_Notification} CSource2Metrics_MatchPerfSummary_Notification
+         * @returns {CSource2Metrics_MatchPerfSummary_Notification & CSource2Metrics_MatchPerfSummary_Notification.$Shape} CSource2Metrics_MatchPerfSummary_Notification
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSource2Metrics_MatchPerfSummary_Notification.decodeDelimited = function decodeDelimited(reader) {
+        CSource2Metrics_MatchPerfSummary_Notification.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -4187,40 +4606,40 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CSource2Metrics_MatchPerfSummary_Notification.verify = function verify(message, long) {
+        CSource2Metrics_MatchPerfSummary_Notification.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.game_mode != null && Object.hasOwnProperty.call(message, "game_mode"))
+            if (message.game_mode != null && $Object.hasOwnProperty.call(message, "game_mode"))
                 if (!$util.isString(message.game_mode))
                     return "game_mode: string expected";
-            if (message.server_build_id != null && Object.hasOwnProperty.call(message, "server_build_id"))
+            if (message.server_build_id != null && $Object.hasOwnProperty.call(message, "server_build_id"))
                 if (!$util.isInteger(message.server_build_id))
                     return "server_build_id: integer expected";
-            if (message.server_popid != null && Object.hasOwnProperty.call(message, "server_popid"))
+            if (message.server_popid != null && $Object.hasOwnProperty.call(message, "server_popid"))
                 if (!$util.isInteger(message.server_popid))
                     return "server_popid: integer expected";
-            if (message.server_profile != null && Object.hasOwnProperty.call(message, "server_profile")) {
-                var error = $root.CMsgSource2VProfLiteReport.verify(message.server_profile, long + 1);
+            if (message.server_profile != null && $Object.hasOwnProperty.call(message, "server_profile")) {
+                var error = $root.CMsgSource2VProfLiteReport.verify(message.server_profile, _depth + 1);
                 if (error)
                     return "server_profile." + error;
             }
-            if (message.clients != null && Object.hasOwnProperty.call(message, "clients")) {
-                if (!Array.isArray(message.clients))
+            if (message.clients != null && $Object.hasOwnProperty.call(message, "clients")) {
+                if (!$Array.isArray(message.clients))
                     return "clients: array expected";
                 for (var i = 0; i < message.clients.length; ++i) {
-                    var error = $root.CSource2Metrics_MatchPerfSummary_Notification.Client.verify(message.clients[i], long + 1);
+                    var error = $root.CSource2Metrics_MatchPerfSummary_Notification.Client.verify(message.clients[i], _depth + 1);
                     if (error)
                         return "clients." + error;
                 }
             }
-            if (message.map != null && Object.hasOwnProperty.call(message, "map"))
+            if (message.map != null && $Object.hasOwnProperty.call(message, "map"))
                 if (!$util.isString(message.map))
                     return "map: string expected";
             return null;
@@ -4234,41 +4653,41 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CSource2Metrics_MatchPerfSummary_Notification} CSource2Metrics_MatchPerfSummary_Notification
          */
-        CSource2Metrics_MatchPerfSummary_Notification.fromObject = function fromObject(object, long) {
+        CSource2Metrics_MatchPerfSummary_Notification.fromObject = function (object, _depth) {
             if (object instanceof $root.CSource2Metrics_MatchPerfSummary_Notification)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CSource2Metrics_MatchPerfSummary_Notification: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CSource2Metrics_MatchPerfSummary_Notification();
             if (object.appid != null)
                 message.appid = object.appid >>> 0;
             if (object.game_mode != null)
-                message.game_mode = String(object.game_mode);
+                message.game_mode = $String(object.game_mode);
             if (object.server_build_id != null)
                 message.server_build_id = object.server_build_id >>> 0;
             if (object.server_popid != null)
                 message.server_popid = object.server_popid >>> 0;
             if (object.server_profile != null) {
                 if (!$util.isObject(object.server_profile))
-                    throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.server_profile: object expected");
-                message.server_profile = $root.CMsgSource2VProfLiteReport.fromObject(object.server_profile, long + 1);
+                    throw $TypeError(".CSource2Metrics_MatchPerfSummary_Notification.server_profile: object expected");
+                message.server_profile = $root.CMsgSource2VProfLiteReport.fromObject(object.server_profile, _depth + 1);
             }
             if (object.clients) {
-                if (!Array.isArray(object.clients))
-                    throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.clients: array expected");
-                message.clients = [];
+                if (!$Array.isArray(object.clients))
+                    throw $TypeError(".CSource2Metrics_MatchPerfSummary_Notification.clients: array expected");
+                message.clients = $Array(object.clients.length);
                 for (var i = 0; i < object.clients.length; ++i) {
                     if (!$util.isObject(object.clients[i]))
-                        throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.clients: object expected");
-                    message.clients[i] = $root.CSource2Metrics_MatchPerfSummary_Notification.Client.fromObject(object.clients[i], long + 1);
+                        throw $TypeError(".CSource2Metrics_MatchPerfSummary_Notification.clients: object expected");
+                    message.clients[i] = $root.CSource2Metrics_MatchPerfSummary_Notification.Client.fromObject(object.clients[i], _depth + 1);
                 }
             }
             if (object.map != null)
-                message.map = String(object.map);
+                message.map = $String(object.map);
             return message;
         };
     
@@ -4281,13 +4700,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CSource2Metrics_MatchPerfSummary_Notification.toObject = function toObject(message, options, q) {
+        CSource2Metrics_MatchPerfSummary_Notification.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.clients = [];
@@ -4299,22 +4718,22 @@
                 object.server_profile = null;
                 object.map = "";
             }
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
-            if (message.game_mode != null && Object.hasOwnProperty.call(message, "game_mode"))
+            if (message.game_mode != null && $Object.hasOwnProperty.call(message, "game_mode"))
                 object.game_mode = message.game_mode;
-            if (message.server_build_id != null && Object.hasOwnProperty.call(message, "server_build_id"))
+            if (message.server_build_id != null && $Object.hasOwnProperty.call(message, "server_build_id"))
                 object.server_build_id = message.server_build_id;
-            if (message.server_popid != null && Object.hasOwnProperty.call(message, "server_popid"))
+            if (message.server_popid != null && $Object.hasOwnProperty.call(message, "server_popid"))
                 object.server_popid = message.server_popid;
-            if (message.server_profile != null && Object.hasOwnProperty.call(message, "server_profile"))
-                object.server_profile = $root.CMsgSource2VProfLiteReport.toObject(message.server_profile, options, q + 1);
+            if (message.server_profile != null && $Object.hasOwnProperty.call(message, "server_profile"))
+                object.server_profile = $root.CMsgSource2VProfLiteReport.toObject(message.server_profile, options, _depth + 1);
             if (message.clients && message.clients.length) {
-                object.clients = [];
+                object.clients = $Array(message.clients.length);
                 for (var j = 0; j < message.clients.length; ++j)
-                    object.clients[j] = $root.CSource2Metrics_MatchPerfSummary_Notification.Client.toObject(message.clients[j], options, q + 1);
+                    object.clients[j] = $root.CSource2Metrics_MatchPerfSummary_Notification.Client.toObject(message.clients[j], options, _depth + 1);
             }
-            if (message.map != null && Object.hasOwnProperty.call(message, "map"))
+            if (message.map != null && $Object.hasOwnProperty.call(message, "map"))
                 object.map = message.map;
             return object;
         };
@@ -4326,59 +4745,71 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CSource2Metrics_MatchPerfSummary_Notification.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CSource2Metrics_MatchPerfSummary_Notification.prototype.toJSON = function() {
+            return CSource2Metrics_MatchPerfSummary_Notification.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CSource2Metrics_MatchPerfSummary_Notification
+         * Gets the type url for CSource2Metrics_MatchPerfSummary_Notification
          * @function getTypeUrl
          * @memberof CSource2Metrics_MatchPerfSummary_Notification
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CSource2Metrics_MatchPerfSummary_Notification.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CSource2Metrics_MatchPerfSummary_Notification";
+        CSource2Metrics_MatchPerfSummary_Notification.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CSource2Metrics_MatchPerfSummary_Notification";
         };
     
         CSource2Metrics_MatchPerfSummary_Notification.Client = (function() {
     
             /**
              * Properties of a Client.
+             * @typedef {Object} CSource2Metrics_MatchPerfSummary_Notification.Client.$Properties
+             * @property {CMsgSource2SystemSpecs.$Properties|null} [system_specs] Client system_specs
+             * @property {CMsgSource2VProfLiteReport.$Properties|null} [profile] Client profile
+             * @property {number|null} [build_id] Client build_id
+             * @property {CMsgSource2NetworkFlowQuality.$Properties|null} [downstream_flow] Client downstream_flow
+             * @property {CMsgSource2NetworkFlowQuality.$Properties|null} [upstream_flow] Client upstream_flow
+             * @property {number|Long|null} [steamid] Client steamid
+             * @property {Array.<CMsgSource2PerfIntervalSample.$Properties>|null} [perf_samples] Client perf_samples
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+    
+            /**
+             * Properties of a Client.
              * @memberof CSource2Metrics_MatchPerfSummary_Notification
              * @interface IClient
-             * @property {ICMsgSource2SystemSpecs|null} [system_specs] Client system_specs
-             * @property {ICMsgSource2VProfLiteReport|null} [profile] Client profile
-             * @property {number|null} [build_id] Client build_id
-             * @property {ICMsgSource2NetworkFlowQuality|null} [downstream_flow] Client downstream_flow
-             * @property {ICMsgSource2NetworkFlowQuality|null} [upstream_flow] Client upstream_flow
-             * @property {number|Long|null} [steamid] Client steamid
-             * @property {Array.<ICMsgSource2PerfIntervalSample>|null} [perf_samples] Client perf_samples
+             * @augments CSource2Metrics_MatchPerfSummary_Notification.Client.$Properties
+             * @deprecated Use CSource2Metrics_MatchPerfSummary_Notification.Client.$Properties instead.
+             */
+    
+            /**
+             * Shape of a Client.
+             * @typedef {CSource2Metrics_MatchPerfSummary_Notification.Client.$Properties} CSource2Metrics_MatchPerfSummary_Notification.Client.$Shape
              */
     
             /**
              * Constructs a new Client.
              * @memberof CSource2Metrics_MatchPerfSummary_Notification
              * @classdesc Represents a Client.
-             * @implements IClient
              * @constructor
-             * @param {CSource2Metrics_MatchPerfSummary_Notification.IClient=} [properties] Properties to set
+             * @param {CSource2Metrics_MatchPerfSummary_Notification.Client.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function Client(properties) {
+            var Client = function (properties) {
                 this.perf_samples = [];
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
     
             /**
              * Client system_specs.
-             * @member {ICMsgSource2SystemSpecs|null|undefined} system_specs
+             * @member {CMsgSource2SystemSpecs.$Properties|null|undefined} system_specs
              * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
              * @instance
              */
@@ -4386,7 +4817,7 @@
     
             /**
              * Client profile.
-             * @member {ICMsgSource2VProfLiteReport|null|undefined} profile
+             * @member {CMsgSource2VProfLiteReport.$Properties|null|undefined} profile
              * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
              * @instance
              */
@@ -4402,7 +4833,7 @@
     
             /**
              * Client downstream_flow.
-             * @member {ICMsgSource2NetworkFlowQuality|null|undefined} downstream_flow
+             * @member {CMsgSource2NetworkFlowQuality.$Properties|null|undefined} downstream_flow
              * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
              * @instance
              */
@@ -4410,7 +4841,7 @@
     
             /**
              * Client upstream_flow.
-             * @member {ICMsgSource2NetworkFlowQuality|null|undefined} upstream_flow
+             * @member {CMsgSource2NetworkFlowQuality.$Properties|null|undefined} upstream_flow
              * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
              * @instance
              */
@@ -4426,7 +4857,7 @@
     
             /**
              * Client perf_samples.
-             * @member {Array.<ICMsgSource2PerfIntervalSample>} perf_samples
+             * @member {Array.<CMsgSource2PerfIntervalSample.$Properties>} perf_samples
              * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
              * @instance
              */
@@ -4437,10 +4868,14 @@
              * @function create
              * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
              * @static
-             * @param {CSource2Metrics_MatchPerfSummary_Notification.IClient=} [properties] Properties to set
+             * @param {CSource2Metrics_MatchPerfSummary_Notification.Client.$Properties=} [properties] Properties to set
              * @returns {CSource2Metrics_MatchPerfSummary_Notification.Client} Client instance
+             * @type {{
+             *   (properties: CSource2Metrics_MatchPerfSummary_Notification.Client.$Shape): CSource2Metrics_MatchPerfSummary_Notification.Client & CSource2Metrics_MatchPerfSummary_Notification.Client.$Shape;
+             *   (properties?: CSource2Metrics_MatchPerfSummary_Notification.Client.$Properties): CSource2Metrics_MatchPerfSummary_Notification.Client;
+             * }}
              */
-            Client.create = function create(properties) {
+            Client.create = function(properties) {
                 return new Client(properties);
             };
     
@@ -4449,32 +4884,35 @@
              * @function encode
              * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
              * @static
-             * @param {CSource2Metrics_MatchPerfSummary_Notification.IClient} message Client message or plain object to encode
+             * @param {CSource2Metrics_MatchPerfSummary_Notification.Client.$Properties} message Client message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Client.encode = function encode(message, writer, q) {
+            Client.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.system_specs != null && Object.hasOwnProperty.call(message, "system_specs"))
-                    $root.CMsgSource2SystemSpecs.encode(message.system_specs, writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
-                if (message.profile != null && Object.hasOwnProperty.call(message, "profile"))
-                    $root.CMsgSource2VProfLiteReport.encode(message.profile, writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
-                if (message.build_id != null && Object.hasOwnProperty.call(message, "build_id"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.system_specs != null && $Object.hasOwnProperty.call(message, "system_specs"))
+                    $root.CMsgSource2SystemSpecs.encode(message.system_specs, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+                if (message.profile != null && $Object.hasOwnProperty.call(message, "profile"))
+                    $root.CMsgSource2VProfLiteReport.encode(message.profile, writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
+                if (message.build_id != null && $Object.hasOwnProperty.call(message, "build_id"))
                     writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.build_id);
-                if (message.downstream_flow != null && Object.hasOwnProperty.call(message, "downstream_flow"))
-                    $root.CMsgSource2NetworkFlowQuality.encode(message.downstream_flow, writer.uint32(/* id 4, wireType 2 =*/34).fork(), q + 1).ldelim();
-                if (message.upstream_flow != null && Object.hasOwnProperty.call(message, "upstream_flow"))
-                    $root.CMsgSource2NetworkFlowQuality.encode(message.upstream_flow, writer.uint32(/* id 5, wireType 2 =*/42).fork(), q + 1).ldelim();
-                if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+                if (message.downstream_flow != null && $Object.hasOwnProperty.call(message, "downstream_flow"))
+                    $root.CMsgSource2NetworkFlowQuality.encode(message.downstream_flow, writer.uint32(/* id 4, wireType 2 =*/34).fork(), _depth + 1).ldelim();
+                if (message.upstream_flow != null && $Object.hasOwnProperty.call(message, "upstream_flow"))
+                    $root.CMsgSource2NetworkFlowQuality.encode(message.upstream_flow, writer.uint32(/* id 5, wireType 2 =*/42).fork(), _depth + 1).ldelim();
+                if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                     writer.uint32(/* id 10, wireType 1 =*/81).fixed64(message.steamid);
                 if (message.perf_samples != null && message.perf_samples.length)
                     for (var i = 0; i < message.perf_samples.length; ++i)
-                        $root.CMsgSource2PerfIntervalSample.encode(message.perf_samples[i], writer.uint32(/* id 11, wireType 2 =*/90).fork(), q + 1).ldelim();
+                        $root.CMsgSource2PerfIntervalSample.encode(message.perf_samples[i], writer.uint32(/* id 11, wireType 2 =*/90).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
     
@@ -4483,12 +4921,12 @@
              * @function encodeDelimited
              * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
              * @static
-             * @param {CSource2Metrics_MatchPerfSummary_Notification.IClient} message Client message or plain object to encode
+             * @param {CSource2Metrics_MatchPerfSummary_Notification.Client.$Properties} message Client message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Client.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            Client.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
     
             /**
@@ -4498,73 +4936,95 @@
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {CSource2Metrics_MatchPerfSummary_Notification.Client} Client
+             * @returns {CSource2Metrics_MatchPerfSummary_Notification.Client & CSource2Metrics_MatchPerfSummary_Notification.Client.$Shape} Client
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Client.decode = function decode(reader, length, error, long) {
+            Client.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (long === undefined)
-                    long = 0;
-                if (long > $Reader.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var end, message;
-                if (length === undefined)
+                if (length === $undefined)
                     end = reader.len;
                 else {
                     end = reader.pos + length;
                     if (end > reader.len)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     length = reader.len;
                     reader.len = end;
                 }
-                message = new $root.CSource2Metrics_MatchPerfSummary_Notification.Client();
+                message = _target || new $root.CSource2Metrics_MatchPerfSummary_Notification.Client();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 1: {
-                            message.system_specs = $root.CMsgSource2SystemSpecs.decode(reader, reader.uint32(), undefined, long + 1);
-                            break;
-                        }
-                    case 2: {
-                            message.profile = $root.CMsgSource2VProfLiteReport.decode(reader, reader.uint32(), undefined, long + 1);
-                            break;
-                        }
-                    case 3: {
-                            message.build_id = reader.uint32();
-                            break;
-                        }
-                    case 4: {
-                            message.downstream_flow = $root.CMsgSource2NetworkFlowQuality.decode(reader, reader.uint32(), undefined, long + 1);
-                            break;
-                        }
-                    case 5: {
-                            message.upstream_flow = $root.CMsgSource2NetworkFlowQuality.decode(reader, reader.uint32(), undefined, long + 1);
-                            break;
-                        }
-                    case 10: {
-                            message.steamid = reader.fixed64();
-                            break;
-                        }
-                    case 11: {
-                            if (!(message.perf_samples && message.perf_samples.length))
-                                message.perf_samples = [];
-                            message.perf_samples.push($root.CMsgSource2PerfIntervalSample.decode(reader, reader.uint32(), undefined, long + 1));
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7, long);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            message.system_specs = $root.CMsgSource2SystemSpecs.decode(reader, reader.size(), $undefined, _depth + 1, message.system_specs);
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            message.profile = $root.CMsgSource2VProfLiteReport.decode(reader, reader.size(), $undefined, _depth + 1, message.profile);
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 0)
+                                break;
+                            message.build_id = reader.uint32();
+                            continue;
+                        }
+                    case 4: {
+                            if (wireType !== 2)
+                                break;
+                            message.downstream_flow = $root.CMsgSource2NetworkFlowQuality.decode(reader, reader.size(), $undefined, _depth + 1, message.downstream_flow);
+                            continue;
+                        }
+                    case 5: {
+                            if (wireType !== 2)
+                                break;
+                            message.upstream_flow = $root.CMsgSource2NetworkFlowQuality.decode(reader, reader.size(), $undefined, _depth + 1, message.upstream_flow);
+                            continue;
+                        }
+                    case 10: {
+                            if (wireType !== 1)
+                                break;
+                            message.steamid = reader.fixed64();
+                            continue;
+                        }
+                    case 11: {
+                            if (wireType !== 2)
+                                break;
+                            if (!(message.perf_samples && message.perf_samples.length))
+                                message.perf_samples = [];
+                            message.perf_samples.push($root.CMsgSource2PerfIntervalSample.decode(reader, reader.size(), $undefined, _depth + 1));
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
-                if (length !== undefined) {
+                if (length !== $undefined) {
                     if (reader.pos !== end)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     reader.len = length;
                 }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
     
@@ -4574,14 +5034,14 @@
              * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {CSource2Metrics_MatchPerfSummary_Notification.Client} Client
+             * @returns {CSource2Metrics_MatchPerfSummary_Notification.Client & CSource2Metrics_MatchPerfSummary_Notification.Client.$Shape} Client
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Client.decodeDelimited = function decodeDelimited(reader) {
+            Client.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
     
             /**
@@ -4592,44 +5052,44 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Client.verify = function verify(message, long) {
+            Client.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    return "maximum nesting depth exceeded";
-                if (message.system_specs != null && Object.hasOwnProperty.call(message, "system_specs")) {
-                    var error = $root.CMsgSource2SystemSpecs.verify(message.system_specs, long + 1);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.system_specs != null && $Object.hasOwnProperty.call(message, "system_specs")) {
+                    var error = $root.CMsgSource2SystemSpecs.verify(message.system_specs, _depth + 1);
                     if (error)
                         return "system_specs." + error;
                 }
-                if (message.profile != null && Object.hasOwnProperty.call(message, "profile")) {
-                    var error = $root.CMsgSource2VProfLiteReport.verify(message.profile, long + 1);
+                if (message.profile != null && $Object.hasOwnProperty.call(message, "profile")) {
+                    var error = $root.CMsgSource2VProfLiteReport.verify(message.profile, _depth + 1);
                     if (error)
                         return "profile." + error;
                 }
-                if (message.build_id != null && Object.hasOwnProperty.call(message, "build_id"))
+                if (message.build_id != null && $Object.hasOwnProperty.call(message, "build_id"))
                     if (!$util.isInteger(message.build_id))
                         return "build_id: integer expected";
-                if (message.downstream_flow != null && Object.hasOwnProperty.call(message, "downstream_flow")) {
-                    var error = $root.CMsgSource2NetworkFlowQuality.verify(message.downstream_flow, long + 1);
+                if (message.downstream_flow != null && $Object.hasOwnProperty.call(message, "downstream_flow")) {
+                    var error = $root.CMsgSource2NetworkFlowQuality.verify(message.downstream_flow, _depth + 1);
                     if (error)
                         return "downstream_flow." + error;
                 }
-                if (message.upstream_flow != null && Object.hasOwnProperty.call(message, "upstream_flow")) {
-                    var error = $root.CMsgSource2NetworkFlowQuality.verify(message.upstream_flow, long + 1);
+                if (message.upstream_flow != null && $Object.hasOwnProperty.call(message, "upstream_flow")) {
+                    var error = $root.CMsgSource2NetworkFlowQuality.verify(message.upstream_flow, _depth + 1);
                     if (error)
                         return "upstream_flow." + error;
                 }
-                if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
+                if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
                     if (!$util.isInteger(message.steamid) && !(message.steamid && $util.isInteger(message.steamid.low) && $util.isInteger(message.steamid.high)))
                         return "steamid: integer|Long expected";
-                if (message.perf_samples != null && Object.hasOwnProperty.call(message, "perf_samples")) {
-                    if (!Array.isArray(message.perf_samples))
+                if (message.perf_samples != null && $Object.hasOwnProperty.call(message, "perf_samples")) {
+                    if (!$Array.isArray(message.perf_samples))
                         return "perf_samples: array expected";
                     for (var i = 0; i < message.perf_samples.length; ++i) {
-                        var error = $root.CMsgSource2PerfIntervalSample.verify(message.perf_samples[i], long + 1);
+                        var error = $root.CMsgSource2PerfIntervalSample.verify(message.perf_samples[i], _depth + 1);
                         if (error)
                             return "perf_samples." + error;
                     }
@@ -4645,55 +5105,55 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CSource2Metrics_MatchPerfSummary_Notification.Client} Client
              */
-            Client.fromObject = function fromObject(object, long) {
+            Client.fromObject = function (object, _depth) {
                 if (object instanceof $root.CSource2Metrics_MatchPerfSummary_Notification.Client)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client: object expected");
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                    throw $TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.CSource2Metrics_MatchPerfSummary_Notification.Client();
                 if (object.system_specs != null) {
                     if (!$util.isObject(object.system_specs))
-                        throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.system_specs: object expected");
-                    message.system_specs = $root.CMsgSource2SystemSpecs.fromObject(object.system_specs, long + 1);
+                        throw $TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.system_specs: object expected");
+                    message.system_specs = $root.CMsgSource2SystemSpecs.fromObject(object.system_specs, _depth + 1);
                 }
                 if (object.profile != null) {
                     if (!$util.isObject(object.profile))
-                        throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.profile: object expected");
-                    message.profile = $root.CMsgSource2VProfLiteReport.fromObject(object.profile, long + 1);
+                        throw $TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.profile: object expected");
+                    message.profile = $root.CMsgSource2VProfLiteReport.fromObject(object.profile, _depth + 1);
                 }
                 if (object.build_id != null)
                     message.build_id = object.build_id >>> 0;
                 if (object.downstream_flow != null) {
                     if (!$util.isObject(object.downstream_flow))
-                        throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.downstream_flow: object expected");
-                    message.downstream_flow = $root.CMsgSource2NetworkFlowQuality.fromObject(object.downstream_flow, long + 1);
+                        throw $TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.downstream_flow: object expected");
+                    message.downstream_flow = $root.CMsgSource2NetworkFlowQuality.fromObject(object.downstream_flow, _depth + 1);
                 }
                 if (object.upstream_flow != null) {
                     if (!$util.isObject(object.upstream_flow))
-                        throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.upstream_flow: object expected");
-                    message.upstream_flow = $root.CMsgSource2NetworkFlowQuality.fromObject(object.upstream_flow, long + 1);
+                        throw $TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.upstream_flow: object expected");
+                    message.upstream_flow = $root.CMsgSource2NetworkFlowQuality.fromObject(object.upstream_flow, _depth + 1);
                 }
                 if (object.steamid != null)
                     if ($util.Long)
                         message.steamid = $util.Long.fromValue(object.steamid, true);
                     else if (typeof object.steamid === "string")
-                        message.steamid = parseInt(object.steamid, 10);
+                        message.steamid = $parseInt(object.steamid, 10);
                     else if (typeof object.steamid === "number")
                         message.steamid = object.steamid;
                     else if (typeof object.steamid === "object")
                         message.steamid = new $util.LongBits(object.steamid.low >>> 0, object.steamid.high >>> 0).toNumber(true);
                 if (object.perf_samples) {
-                    if (!Array.isArray(object.perf_samples))
-                        throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.perf_samples: array expected");
-                    message.perf_samples = [];
+                    if (!$Array.isArray(object.perf_samples))
+                        throw $TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.perf_samples: array expected");
+                    message.perf_samples = $Array(object.perf_samples.length);
                     for (var i = 0; i < object.perf_samples.length; ++i) {
                         if (!$util.isObject(object.perf_samples[i]))
-                            throw TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.perf_samples: object expected");
-                        message.perf_samples[i] = $root.CMsgSource2PerfIntervalSample.fromObject(object.perf_samples[i], long + 1);
+                            throw $TypeError(".CSource2Metrics_MatchPerfSummary_Notification.Client.perf_samples: object expected");
+                        message.perf_samples[i] = $root.CMsgSource2PerfIntervalSample.fromObject(object.perf_samples[i], _depth + 1);
                     }
                 }
                 return message;
@@ -4708,13 +5168,13 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Client.toObject = function toObject(message, options, q) {
+            Client.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.arrays || options.defaults)
                     object.perf_samples = [];
@@ -4726,31 +5186,31 @@
                     object.upstream_flow = null;
                     if ($util.Long) {
                         var long = new $util.Long(0, 0, true);
-                        object.steamid = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                        object.steamid = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                     } else
-                        object.steamid = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                        object.steamid = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 }
-                if (message.system_specs != null && Object.hasOwnProperty.call(message, "system_specs"))
-                    object.system_specs = $root.CMsgSource2SystemSpecs.toObject(message.system_specs, options, q + 1);
-                if (message.profile != null && Object.hasOwnProperty.call(message, "profile"))
-                    object.profile = $root.CMsgSource2VProfLiteReport.toObject(message.profile, options, q + 1);
-                if (message.build_id != null && Object.hasOwnProperty.call(message, "build_id"))
+                if (message.system_specs != null && $Object.hasOwnProperty.call(message, "system_specs"))
+                    object.system_specs = $root.CMsgSource2SystemSpecs.toObject(message.system_specs, options, _depth + 1);
+                if (message.profile != null && $Object.hasOwnProperty.call(message, "profile"))
+                    object.profile = $root.CMsgSource2VProfLiteReport.toObject(message.profile, options, _depth + 1);
+                if (message.build_id != null && $Object.hasOwnProperty.call(message, "build_id"))
                     object.build_id = message.build_id;
-                if (message.downstream_flow != null && Object.hasOwnProperty.call(message, "downstream_flow"))
-                    object.downstream_flow = $root.CMsgSource2NetworkFlowQuality.toObject(message.downstream_flow, options, q + 1);
-                if (message.upstream_flow != null && Object.hasOwnProperty.call(message, "upstream_flow"))
-                    object.upstream_flow = $root.CMsgSource2NetworkFlowQuality.toObject(message.upstream_flow, options, q + 1);
-                if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid"))
-                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                        object.steamid = typeof message.steamid === "number" ? BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
+                if (message.downstream_flow != null && $Object.hasOwnProperty.call(message, "downstream_flow"))
+                    object.downstream_flow = $root.CMsgSource2NetworkFlowQuality.toObject(message.downstream_flow, options, _depth + 1);
+                if (message.upstream_flow != null && $Object.hasOwnProperty.call(message, "upstream_flow"))
+                    object.upstream_flow = $root.CMsgSource2NetworkFlowQuality.toObject(message.upstream_flow, options, _depth + 1);
+                if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid"))
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.steamid = typeof message.steamid === "number" ? $BigInt(message.steamid) : $util.Long.fromBits(message.steamid.low >>> 0, message.steamid.high >>> 0, true).toBigInt();
                     else if (typeof message.steamid === "number")
-                        object.steamid = options.longs === String ? String(message.steamid) : message.steamid;
+                        object.steamid = options.longs === $String ? $String(message.steamid) : message.steamid;
                     else
-                        object.steamid = options.longs === String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
+                        object.steamid = options.longs === $String ? $util.Long.prototype.toString.call(message.steamid) : options.longs === $Number ? new $util.LongBits(message.steamid.low >>> 0, message.steamid.high >>> 0).toNumber(true) : message.steamid;
                 if (message.perf_samples && message.perf_samples.length) {
-                    object.perf_samples = [];
+                    object.perf_samples = $Array(message.perf_samples.length);
                     for (var j = 0; j < message.perf_samples.length; ++j)
-                        object.perf_samples[j] = $root.CMsgSource2PerfIntervalSample.toObject(message.perf_samples[j], options, q + 1);
+                        object.perf_samples[j] = $root.CMsgSource2PerfIntervalSample.toObject(message.perf_samples[j], options, _depth + 1);
                 }
                 return object;
             };
@@ -4762,23 +5222,22 @@
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            Client.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            Client.prototype.toJSON = function() {
+                return Client.toObject(this, $protobuf.util.toJSONOptions);
             };
     
             /**
-             * Gets the default type url for Client
+             * Gets the type url for Client
              * @function getTypeUrl
              * @memberof CSource2Metrics_MatchPerfSummary_Notification.Client
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            Client.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/CSource2Metrics_MatchPerfSummary_Notification.Client";
+            Client.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/CSource2Metrics_MatchPerfSummary_Notification.Client";
             };
     
             return Client;
@@ -4791,10 +5250,9 @@
     
         /**
          * Properties of a CMsgSource2PlayStatsPackedRecordList.
-         * @exports ICMsgSource2PlayStatsPackedRecordList
-         * @interface ICMsgSource2PlayStatsPackedRecordList
+         * @typedef {Object} CMsgSource2PlayStatsPackedRecordList.$Properties
          * @property {string|null} [record_name] CMsgSource2PlayStatsPackedRecordList record_name
-         * @property {Array.<CMsgSource2PlayStatsPackedRecordList.IFieldDef>|null} [field_defs] CMsgSource2PlayStatsPackedRecordList field_defs
+         * @property {Array.<CMsgSource2PlayStatsPackedRecordList.FieldDef.$Properties>|null} [field_defs] CMsgSource2PlayStatsPackedRecordList field_defs
          * @property {number|null} [record_count] CMsgSource2PlayStatsPackedRecordList record_count
          * @property {Array.<number|Long>|null} [uint64_vals] CMsgSource2PlayStatsPackedRecordList uint64_vals
          * @property {Array.<number>|null} [uint32_vals] CMsgSource2PlayStatsPackedRecordList uint32_vals
@@ -4811,19 +5269,33 @@
          * @property {Array.<string>|null} [low_cardinality_string_vals] CMsgSource2PlayStatsPackedRecordList low_cardinality_string_vals
          * @property {Array.<number>|null} [utcdatetime_vals] CMsgSource2PlayStatsPackedRecordList utcdatetime_vals
          * @property {Array.<number|Long>|null} [steamidtrustbucket_vals] CMsgSource2PlayStatsPackedRecordList steamidtrustbucket_vals
-         * @property {Array.<CMsgSource2PlayStatsPackedRecordList.ISteamIDList>|null} [trustbucket_vals] CMsgSource2PlayStatsPackedRecordList trustbucket_vals
+         * @property {Array.<CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Properties>|null} [trustbucket_vals] CMsgSource2PlayStatsPackedRecordList trustbucket_vals
          * @property {Array.<number|Long>|null} [steamid_vals] CMsgSource2PlayStatsPackedRecordList steamid_vals
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CMsgSource2PlayStatsPackedRecordList.
+         * @exports ICMsgSource2PlayStatsPackedRecordList
+         * @interface ICMsgSource2PlayStatsPackedRecordList
+         * @augments CMsgSource2PlayStatsPackedRecordList.$Properties
+         * @deprecated Use CMsgSource2PlayStatsPackedRecordList.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CMsgSource2PlayStatsPackedRecordList.
+         * @typedef {CMsgSource2PlayStatsPackedRecordList.$Properties} CMsgSource2PlayStatsPackedRecordList.$Shape
          */
     
         /**
          * Constructs a new CMsgSource2PlayStatsPackedRecordList.
          * @exports CMsgSource2PlayStatsPackedRecordList
          * @classdesc Represents a CMsgSource2PlayStatsPackedRecordList.
-         * @implements ICMsgSource2PlayStatsPackedRecordList
          * @constructor
-         * @param {ICMsgSource2PlayStatsPackedRecordList=} [properties] Properties to set
+         * @param {CMsgSource2PlayStatsPackedRecordList.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CMsgSource2PlayStatsPackedRecordList(properties) {
+        var CMsgSource2PlayStatsPackedRecordList = function (properties) {
             this.field_defs = [];
             this.uint64_vals = [];
             this.uint32_vals = [];
@@ -4843,10 +5315,10 @@
             this.trustbucket_vals = [];
             this.steamid_vals = [];
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CMsgSource2PlayStatsPackedRecordList record_name.
@@ -4858,7 +5330,7 @@
     
         /**
          * CMsgSource2PlayStatsPackedRecordList field_defs.
-         * @member {Array.<CMsgSource2PlayStatsPackedRecordList.IFieldDef>} field_defs
+         * @member {Array.<CMsgSource2PlayStatsPackedRecordList.FieldDef.$Properties>} field_defs
          * @memberof CMsgSource2PlayStatsPackedRecordList
          * @instance
          */
@@ -4994,7 +5466,7 @@
     
         /**
          * CMsgSource2PlayStatsPackedRecordList trustbucket_vals.
-         * @member {Array.<CMsgSource2PlayStatsPackedRecordList.ISteamIDList>} trustbucket_vals
+         * @member {Array.<CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Properties>} trustbucket_vals
          * @memberof CMsgSource2PlayStatsPackedRecordList
          * @instance
          */
@@ -5013,10 +5485,14 @@
          * @function create
          * @memberof CMsgSource2PlayStatsPackedRecordList
          * @static
-         * @param {ICMsgSource2PlayStatsPackedRecordList=} [properties] Properties to set
+         * @param {CMsgSource2PlayStatsPackedRecordList.$Properties=} [properties] Properties to set
          * @returns {CMsgSource2PlayStatsPackedRecordList} CMsgSource2PlayStatsPackedRecordList instance
+         * @type {{
+         *   (properties: CMsgSource2PlayStatsPackedRecordList.$Shape): CMsgSource2PlayStatsPackedRecordList & CMsgSource2PlayStatsPackedRecordList.$Shape;
+         *   (properties?: CMsgSource2PlayStatsPackedRecordList.$Properties): CMsgSource2PlayStatsPackedRecordList;
+         * }}
          */
-        CMsgSource2PlayStatsPackedRecordList.create = function create(properties) {
+        CMsgSource2PlayStatsPackedRecordList.create = function(properties) {
             return new CMsgSource2PlayStatsPackedRecordList(properties);
         };
     
@@ -5025,117 +5501,64 @@
          * @function encode
          * @memberof CMsgSource2PlayStatsPackedRecordList
          * @static
-         * @param {ICMsgSource2PlayStatsPackedRecordList} message CMsgSource2PlayStatsPackedRecordList message or plain object to encode
+         * @param {CMsgSource2PlayStatsPackedRecordList.$Properties} message CMsgSource2PlayStatsPackedRecordList message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSource2PlayStatsPackedRecordList.encode = function encode(message, writer, q) {
+        CMsgSource2PlayStatsPackedRecordList.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.record_name != null && Object.hasOwnProperty.call(message, "record_name"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.record_name != null && $Object.hasOwnProperty.call(message, "record_name"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.record_name);
             if (message.field_defs != null && message.field_defs.length)
                 for (var i = 0; i < message.field_defs.length; ++i)
-                    $root.CMsgSource2PlayStatsPackedRecordList.FieldDef.encode(message.field_defs[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), q + 1).ldelim();
-            if (message.record_count != null && Object.hasOwnProperty.call(message, "record_count"))
+                    $root.CMsgSource2PlayStatsPackedRecordList.FieldDef.encode(message.field_defs[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
+            if (message.record_count != null && $Object.hasOwnProperty.call(message, "record_count"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.record_count);
-            if (message.uint64_vals != null && message.uint64_vals.length) {
-                writer.uint32(/* id 4, wireType 2 =*/34).fork();
-                for (var i = 0; i < message.uint64_vals.length; ++i)
-                    writer.uint64(message.uint64_vals[i]);
-                writer.ldelim();
-            }
-            if (message.uint32_vals != null && message.uint32_vals.length) {
-                writer.uint32(/* id 5, wireType 2 =*/42).fork();
-                for (var i = 0; i < message.uint32_vals.length; ++i)
-                    writer.uint32(message.uint32_vals[i]);
-                writer.ldelim();
-            }
-            if (message.uint16_vals != null && message.uint16_vals.length) {
-                writer.uint32(/* id 6, wireType 2 =*/50).fork();
-                for (var i = 0; i < message.uint16_vals.length; ++i)
-                    writer.uint32(message.uint16_vals[i]);
-                writer.ldelim();
-            }
-            if (message.uint8_vals != null && message.uint8_vals.length) {
-                writer.uint32(/* id 7, wireType 2 =*/58).fork();
-                for (var i = 0; i < message.uint8_vals.length; ++i)
-                    writer.uint32(message.uint8_vals[i]);
-                writer.ldelim();
-            }
-            if (message.int64_vals != null && message.int64_vals.length) {
-                writer.uint32(/* id 8, wireType 2 =*/66).fork();
-                for (var i = 0; i < message.int64_vals.length; ++i)
-                    writer.int64(message.int64_vals[i]);
-                writer.ldelim();
-            }
-            if (message.int32_vals != null && message.int32_vals.length) {
-                writer.uint32(/* id 9, wireType 2 =*/74).fork();
-                for (var i = 0; i < message.int32_vals.length; ++i)
-                    writer.int32(message.int32_vals[i]);
-                writer.ldelim();
-            }
-            if (message.int16_vals != null && message.int16_vals.length) {
-                writer.uint32(/* id 10, wireType 2 =*/82).fork();
-                for (var i = 0; i < message.int16_vals.length; ++i)
-                    writer.int32(message.int16_vals[i]);
-                writer.ldelim();
-            }
-            if (message.int8_vals != null && message.int8_vals.length) {
-                writer.uint32(/* id 11, wireType 2 =*/90).fork();
-                for (var i = 0; i < message.int8_vals.length; ++i)
-                    writer.int32(message.int8_vals[i]);
-                writer.ldelim();
-            }
-            if (message.float64_vals != null && message.float64_vals.length) {
-                writer.uint32(/* id 12, wireType 2 =*/98).fork();
-                for (var i = 0; i < message.float64_vals.length; ++i)
-                    writer.double(message.float64_vals[i]);
-                writer.ldelim();
-            }
-            if (message.float32_vals != null && message.float32_vals.length) {
-                writer.uint32(/* id 13, wireType 2 =*/106).fork();
-                for (var i = 0; i < message.float32_vals.length; ++i)
-                    writer.float(message.float32_vals[i]);
-                writer.ldelim();
-            }
-            if (message.bool_vals != null && message.bool_vals.length) {
-                writer.uint32(/* id 14, wireType 2 =*/114).fork();
-                for (var i = 0; i < message.bool_vals.length; ++i)
-                    writer.bool(message.bool_vals[i]);
-                writer.ldelim();
-            }
+            if (message.uint64_vals != null && message.uint64_vals.length)
+                writer.uint32(/* id 4, wireType 2 =*/34).uint64s(message.uint64_vals);
+            if (message.uint32_vals != null && message.uint32_vals.length)
+                writer.uint32(/* id 5, wireType 2 =*/42).uint32s(message.uint32_vals);
+            if (message.uint16_vals != null && message.uint16_vals.length)
+                writer.uint32(/* id 6, wireType 2 =*/50).uint32s(message.uint16_vals);
+            if (message.uint8_vals != null && message.uint8_vals.length)
+                writer.uint32(/* id 7, wireType 2 =*/58).uint32s(message.uint8_vals);
+            if (message.int64_vals != null && message.int64_vals.length)
+                writer.uint32(/* id 8, wireType 2 =*/66).int64s(message.int64_vals);
+            if (message.int32_vals != null && message.int32_vals.length)
+                writer.uint32(/* id 9, wireType 2 =*/74).int32s(message.int32_vals);
+            if (message.int16_vals != null && message.int16_vals.length)
+                writer.uint32(/* id 10, wireType 2 =*/82).int32s(message.int16_vals);
+            if (message.int8_vals != null && message.int8_vals.length)
+                writer.uint32(/* id 11, wireType 2 =*/90).int32s(message.int8_vals);
+            if (message.float64_vals != null && message.float64_vals.length)
+                writer.uint32(/* id 12, wireType 2 =*/98).doubles(message.float64_vals);
+            if (message.float32_vals != null && message.float32_vals.length)
+                writer.uint32(/* id 13, wireType 2 =*/106).floats(message.float32_vals);
+            if (message.bool_vals != null && message.bool_vals.length)
+                writer.uint32(/* id 14, wireType 2 =*/114).bools(message.bool_vals);
             if (message.string_vals != null && message.string_vals.length)
                 for (var i = 0; i < message.string_vals.length; ++i)
                     writer.uint32(/* id 15, wireType 2 =*/122).string(message.string_vals[i]);
             if (message.low_cardinality_string_vals != null && message.low_cardinality_string_vals.length)
                 for (var i = 0; i < message.low_cardinality_string_vals.length; ++i)
                     writer.uint32(/* id 16, wireType 2 =*/130).string(message.low_cardinality_string_vals[i]);
-            if (message.utcdatetime_vals != null && message.utcdatetime_vals.length) {
-                writer.uint32(/* id 17, wireType 2 =*/138).fork();
-                for (var i = 0; i < message.utcdatetime_vals.length; ++i)
-                    writer.fixed32(message.utcdatetime_vals[i]);
-                writer.ldelim();
-            }
-            if (message.steamidtrustbucket_vals != null && message.steamidtrustbucket_vals.length) {
-                writer.uint32(/* id 18, wireType 2 =*/146).fork();
-                for (var i = 0; i < message.steamidtrustbucket_vals.length; ++i)
-                    writer.fixed64(message.steamidtrustbucket_vals[i]);
-                writer.ldelim();
-            }
+            if (message.utcdatetime_vals != null && message.utcdatetime_vals.length)
+                writer.uint32(/* id 17, wireType 2 =*/138).fixed32s(message.utcdatetime_vals);
+            if (message.steamidtrustbucket_vals != null && message.steamidtrustbucket_vals.length)
+                writer.uint32(/* id 18, wireType 2 =*/146).fixed64s(message.steamidtrustbucket_vals);
             if (message.trustbucket_vals != null && message.trustbucket_vals.length)
                 for (var i = 0; i < message.trustbucket_vals.length; ++i)
-                    $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList.encode(message.trustbucket_vals[i], writer.uint32(/* id 19, wireType 2 =*/154).fork(), q + 1).ldelim();
-            if (message.steamid_vals != null && message.steamid_vals.length) {
-                writer.uint32(/* id 20, wireType 2 =*/162).fork();
-                for (var i = 0; i < message.steamid_vals.length; ++i)
-                    writer.uint64(message.steamid_vals[i]);
-                writer.ldelim();
-            }
+                    $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList.encode(message.trustbucket_vals[i], writer.uint32(/* id 19, wireType 2 =*/154).fork(), _depth + 1).ldelim();
+            if (message.steamid_vals != null && message.steamid_vals.length)
+                writer.uint32(/* id 20, wireType 2 =*/162).uint64s(message.steamid_vals);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -5144,12 +5567,12 @@
          * @function encodeDelimited
          * @memberof CMsgSource2PlayStatsPackedRecordList
          * @static
-         * @param {ICMsgSource2PlayStatsPackedRecordList} message CMsgSource2PlayStatsPackedRecordList message or plain object to encode
+         * @param {CMsgSource2PlayStatsPackedRecordList.$Properties} message CMsgSource2PlayStatsPackedRecordList message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CMsgSource2PlayStatsPackedRecordList.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CMsgSource2PlayStatsPackedRecordList.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -5159,313 +5582,291 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CMsgSource2PlayStatsPackedRecordList} CMsgSource2PlayStatsPackedRecordList
+         * @returns {CMsgSource2PlayStatsPackedRecordList & CMsgSource2PlayStatsPackedRecordList.$Shape} CMsgSource2PlayStatsPackedRecordList
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSource2PlayStatsPackedRecordList.decode = function decode(reader, length, error, long) {
+        CMsgSource2PlayStatsPackedRecordList.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CMsgSource2PlayStatsPackedRecordList();
+            message = _target || new $root.CMsgSource2PlayStatsPackedRecordList();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
-                switch (tag >>> 3) {
+                }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
                 case 1: {
+                        if (wireType !== 2)
+                            break;
                         message.record_name = reader.string();
-                        break;
+                        continue;
                     }
                 case 2: {
+                        if (wireType !== 2)
+                            break;
                         if (!(message.field_defs && message.field_defs.length))
                             message.field_defs = [];
-                        message.field_defs.push($root.CMsgSource2PlayStatsPackedRecordList.FieldDef.decode(reader, reader.uint32(), undefined, long + 1));
-                        break;
+                        message.field_defs.push($root.CMsgSource2PlayStatsPackedRecordList.FieldDef.decode(reader, reader.size(), $undefined, _depth + 1));
+                        continue;
                     }
                 case 3: {
+                        if (wireType !== 0)
+                            break;
                         message.record_count = reader.uint32();
-                        break;
+                        continue;
                     }
                 case 4: {
+                        if (wireType === 2) {
+                            if (!(message.uint64_vals && message.uint64_vals.length))
+                                message.uint64_vals = [];
+                            reader.uint64s(message.uint64_vals);
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
                         if (!(message.uint64_vals && message.uint64_vals.length))
                             message.uint64_vals = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.uint64_vals.push(reader.uint64());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.uint64_vals.push(reader.uint64());
-                        break;
+                        message.uint64_vals.push(reader.uint64());
+                        continue;
                     }
                 case 5: {
+                        if (wireType === 2) {
+                            if (!(message.uint32_vals && message.uint32_vals.length))
+                                message.uint32_vals = [];
+                            reader.uint32s(message.uint32_vals);
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
                         if (!(message.uint32_vals && message.uint32_vals.length))
                             message.uint32_vals = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.uint32_vals.push(reader.uint32());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.uint32_vals.push(reader.uint32());
-                        break;
+                        message.uint32_vals.push(reader.uint32());
+                        continue;
                     }
                 case 6: {
+                        if (wireType === 2) {
+                            if (!(message.uint16_vals && message.uint16_vals.length))
+                                message.uint16_vals = [];
+                            reader.uint32s(message.uint16_vals);
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
                         if (!(message.uint16_vals && message.uint16_vals.length))
                             message.uint16_vals = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.uint16_vals.push(reader.uint32());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.uint16_vals.push(reader.uint32());
-                        break;
+                        message.uint16_vals.push(reader.uint32());
+                        continue;
                     }
                 case 7: {
+                        if (wireType === 2) {
+                            if (!(message.uint8_vals && message.uint8_vals.length))
+                                message.uint8_vals = [];
+                            reader.uint32s(message.uint8_vals);
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
                         if (!(message.uint8_vals && message.uint8_vals.length))
                             message.uint8_vals = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.uint8_vals.push(reader.uint32());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.uint8_vals.push(reader.uint32());
-                        break;
+                        message.uint8_vals.push(reader.uint32());
+                        continue;
                     }
                 case 8: {
+                        if (wireType === 2) {
+                            if (!(message.int64_vals && message.int64_vals.length))
+                                message.int64_vals = [];
+                            reader.int64s(message.int64_vals);
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
                         if (!(message.int64_vals && message.int64_vals.length))
                             message.int64_vals = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.int64_vals.push(reader.int64());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.int64_vals.push(reader.int64());
-                        break;
+                        message.int64_vals.push(reader.int64());
+                        continue;
                     }
                 case 9: {
+                        if (wireType === 2) {
+                            if (!(message.int32_vals && message.int32_vals.length))
+                                message.int32_vals = [];
+                            reader.int32s(message.int32_vals);
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
                         if (!(message.int32_vals && message.int32_vals.length))
                             message.int32_vals = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.int32_vals.push(reader.int32());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.int32_vals.push(reader.int32());
-                        break;
+                        message.int32_vals.push(reader.int32());
+                        continue;
                     }
                 case 10: {
+                        if (wireType === 2) {
+                            if (!(message.int16_vals && message.int16_vals.length))
+                                message.int16_vals = [];
+                            reader.int32s(message.int16_vals);
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
                         if (!(message.int16_vals && message.int16_vals.length))
                             message.int16_vals = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.int16_vals.push(reader.int32());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.int16_vals.push(reader.int32());
-                        break;
+                        message.int16_vals.push(reader.int32());
+                        continue;
                     }
                 case 11: {
+                        if (wireType === 2) {
+                            if (!(message.int8_vals && message.int8_vals.length))
+                                message.int8_vals = [];
+                            reader.int32s(message.int8_vals);
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
                         if (!(message.int8_vals && message.int8_vals.length))
                             message.int8_vals = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.int8_vals.push(reader.int32());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.int8_vals.push(reader.int32());
-                        break;
+                        message.int8_vals.push(reader.int32());
+                        continue;
                     }
                 case 12: {
+                        if (wireType === 2) {
+                            if (!(message.float64_vals && message.float64_vals.length))
+                                message.float64_vals = [];
+                            reader.doubles(message.float64_vals);
+                            continue;
+                        }
+                        if (wireType !== 1)
+                            break;
                         if (!(message.float64_vals && message.float64_vals.length))
                             message.float64_vals = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.float64_vals.push(reader.double());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.float64_vals.push(reader.double());
-                        break;
+                        message.float64_vals.push(reader.double());
+                        continue;
                     }
                 case 13: {
+                        if (wireType === 2) {
+                            if (!(message.float32_vals && message.float32_vals.length))
+                                message.float32_vals = [];
+                            reader.floats(message.float32_vals);
+                            continue;
+                        }
+                        if (wireType !== 5)
+                            break;
                         if (!(message.float32_vals && message.float32_vals.length))
                             message.float32_vals = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.float32_vals.push(reader.float());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.float32_vals.push(reader.float());
-                        break;
+                        message.float32_vals.push(reader.float());
+                        continue;
                     }
                 case 14: {
+                        if (wireType === 2) {
+                            if (!(message.bool_vals && message.bool_vals.length))
+                                message.bool_vals = [];
+                            reader.bools(message.bool_vals);
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
                         if (!(message.bool_vals && message.bool_vals.length))
                             message.bool_vals = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.bool_vals.push(reader.bool());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.bool_vals.push(reader.bool());
-                        break;
+                        message.bool_vals.push(reader.bool());
+                        continue;
                     }
                 case 15: {
+                        if (wireType !== 2)
+                            break;
                         if (!(message.string_vals && message.string_vals.length))
                             message.string_vals = [];
                         message.string_vals.push(reader.string());
-                        break;
+                        continue;
                     }
                 case 16: {
+                        if (wireType !== 2)
+                            break;
                         if (!(message.low_cardinality_string_vals && message.low_cardinality_string_vals.length))
                             message.low_cardinality_string_vals = [];
                         message.low_cardinality_string_vals.push(reader.string());
-                        break;
+                        continue;
                     }
                 case 17: {
+                        if (wireType === 2) {
+                            if (!(message.utcdatetime_vals && message.utcdatetime_vals.length))
+                                message.utcdatetime_vals = [];
+                            reader.fixed32s(message.utcdatetime_vals);
+                            continue;
+                        }
+                        if (wireType !== 5)
+                            break;
                         if (!(message.utcdatetime_vals && message.utcdatetime_vals.length))
                             message.utcdatetime_vals = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.utcdatetime_vals.push(reader.fixed32());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.utcdatetime_vals.push(reader.fixed32());
-                        break;
+                        message.utcdatetime_vals.push(reader.fixed32());
+                        continue;
                     }
                 case 18: {
+                        if (wireType === 2) {
+                            if (!(message.steamidtrustbucket_vals && message.steamidtrustbucket_vals.length))
+                                message.steamidtrustbucket_vals = [];
+                            reader.fixed64s(message.steamidtrustbucket_vals);
+                            continue;
+                        }
+                        if (wireType !== 1)
+                            break;
                         if (!(message.steamidtrustbucket_vals && message.steamidtrustbucket_vals.length))
                             message.steamidtrustbucket_vals = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.steamidtrustbucket_vals.push(reader.fixed64());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.steamidtrustbucket_vals.push(reader.fixed64());
-                        break;
+                        message.steamidtrustbucket_vals.push(reader.fixed64());
+                        continue;
                     }
                 case 19: {
+                        if (wireType !== 2)
+                            break;
                         if (!(message.trustbucket_vals && message.trustbucket_vals.length))
                             message.trustbucket_vals = [];
-                        message.trustbucket_vals.push($root.CMsgSource2PlayStatsPackedRecordList.SteamIDList.decode(reader, reader.uint32(), undefined, long + 1));
-                        break;
+                        message.trustbucket_vals.push($root.CMsgSource2PlayStatsPackedRecordList.SteamIDList.decode(reader, reader.size(), $undefined, _depth + 1));
+                        continue;
                     }
                 case 20: {
+                        if (wireType === 2) {
+                            if (!(message.steamid_vals && message.steamid_vals.length))
+                                message.steamid_vals = [];
+                            reader.uint64s(message.steamid_vals);
+                            continue;
+                        }
+                        if (wireType !== 0)
+                            break;
                         if (!(message.steamid_vals && message.steamid_vals.length))
                             message.steamid_vals = [];
-                        if ((tag & 7) === 2) {
-                            var end2 = reader.uint32() + reader.pos;
-                            if (end2 > reader.len)
-                                throw RangeError("index out of range");
-                            reader.len = end2;
-                            while (reader.pos < end2)
-                                message.steamid_vals.push(reader.uint64());
-                            if (reader.pos !== end2)
-                                throw RangeError("index out of range");
-                            reader.len = end;
-                        } else
-                            message.steamid_vals.push(reader.uint64());
-                        break;
+                        message.steamid_vals.push(reader.uint64());
+                        continue;
                     }
-                default:
-                    reader.skipType(tag & 7, long);
-                    break;
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                 }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -5475,14 +5876,14 @@
          * @memberof CMsgSource2PlayStatsPackedRecordList
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CMsgSource2PlayStatsPackedRecordList} CMsgSource2PlayStatsPackedRecordList
+         * @returns {CMsgSource2PlayStatsPackedRecordList & CMsgSource2PlayStatsPackedRecordList.$Shape} CMsgSource2PlayStatsPackedRecordList
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CMsgSource2PlayStatsPackedRecordList.decodeDelimited = function decodeDelimited(reader) {
+        CMsgSource2PlayStatsPackedRecordList.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -5493,144 +5894,144 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CMsgSource2PlayStatsPackedRecordList.verify = function verify(message, long) {
+        CMsgSource2PlayStatsPackedRecordList.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.record_name != null && Object.hasOwnProperty.call(message, "record_name"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.record_name != null && $Object.hasOwnProperty.call(message, "record_name"))
                 if (!$util.isString(message.record_name))
                     return "record_name: string expected";
-            if (message.field_defs != null && Object.hasOwnProperty.call(message, "field_defs")) {
-                if (!Array.isArray(message.field_defs))
+            if (message.field_defs != null && $Object.hasOwnProperty.call(message, "field_defs")) {
+                if (!$Array.isArray(message.field_defs))
                     return "field_defs: array expected";
                 for (var i = 0; i < message.field_defs.length; ++i) {
-                    var error = $root.CMsgSource2PlayStatsPackedRecordList.FieldDef.verify(message.field_defs[i], long + 1);
+                    var error = $root.CMsgSource2PlayStatsPackedRecordList.FieldDef.verify(message.field_defs[i], _depth + 1);
                     if (error)
                         return "field_defs." + error;
                 }
             }
-            if (message.record_count != null && Object.hasOwnProperty.call(message, "record_count"))
+            if (message.record_count != null && $Object.hasOwnProperty.call(message, "record_count"))
                 if (!$util.isInteger(message.record_count))
                     return "record_count: integer expected";
-            if (message.uint64_vals != null && Object.hasOwnProperty.call(message, "uint64_vals")) {
-                if (!Array.isArray(message.uint64_vals))
+            if (message.uint64_vals != null && $Object.hasOwnProperty.call(message, "uint64_vals")) {
+                if (!$Array.isArray(message.uint64_vals))
                     return "uint64_vals: array expected";
                 for (var i = 0; i < message.uint64_vals.length; ++i)
                     if (!$util.isInteger(message.uint64_vals[i]) && !(message.uint64_vals[i] && $util.isInteger(message.uint64_vals[i].low) && $util.isInteger(message.uint64_vals[i].high)))
                         return "uint64_vals: integer|Long[] expected";
             }
-            if (message.uint32_vals != null && Object.hasOwnProperty.call(message, "uint32_vals")) {
-                if (!Array.isArray(message.uint32_vals))
+            if (message.uint32_vals != null && $Object.hasOwnProperty.call(message, "uint32_vals")) {
+                if (!$Array.isArray(message.uint32_vals))
                     return "uint32_vals: array expected";
                 for (var i = 0; i < message.uint32_vals.length; ++i)
                     if (!$util.isInteger(message.uint32_vals[i]))
                         return "uint32_vals: integer[] expected";
             }
-            if (message.uint16_vals != null && Object.hasOwnProperty.call(message, "uint16_vals")) {
-                if (!Array.isArray(message.uint16_vals))
+            if (message.uint16_vals != null && $Object.hasOwnProperty.call(message, "uint16_vals")) {
+                if (!$Array.isArray(message.uint16_vals))
                     return "uint16_vals: array expected";
                 for (var i = 0; i < message.uint16_vals.length; ++i)
                     if (!$util.isInteger(message.uint16_vals[i]))
                         return "uint16_vals: integer[] expected";
             }
-            if (message.uint8_vals != null && Object.hasOwnProperty.call(message, "uint8_vals")) {
-                if (!Array.isArray(message.uint8_vals))
+            if (message.uint8_vals != null && $Object.hasOwnProperty.call(message, "uint8_vals")) {
+                if (!$Array.isArray(message.uint8_vals))
                     return "uint8_vals: array expected";
                 for (var i = 0; i < message.uint8_vals.length; ++i)
                     if (!$util.isInteger(message.uint8_vals[i]))
                         return "uint8_vals: integer[] expected";
             }
-            if (message.int64_vals != null && Object.hasOwnProperty.call(message, "int64_vals")) {
-                if (!Array.isArray(message.int64_vals))
+            if (message.int64_vals != null && $Object.hasOwnProperty.call(message, "int64_vals")) {
+                if (!$Array.isArray(message.int64_vals))
                     return "int64_vals: array expected";
                 for (var i = 0; i < message.int64_vals.length; ++i)
                     if (!$util.isInteger(message.int64_vals[i]) && !(message.int64_vals[i] && $util.isInteger(message.int64_vals[i].low) && $util.isInteger(message.int64_vals[i].high)))
                         return "int64_vals: integer|Long[] expected";
             }
-            if (message.int32_vals != null && Object.hasOwnProperty.call(message, "int32_vals")) {
-                if (!Array.isArray(message.int32_vals))
+            if (message.int32_vals != null && $Object.hasOwnProperty.call(message, "int32_vals")) {
+                if (!$Array.isArray(message.int32_vals))
                     return "int32_vals: array expected";
                 for (var i = 0; i < message.int32_vals.length; ++i)
                     if (!$util.isInteger(message.int32_vals[i]))
                         return "int32_vals: integer[] expected";
             }
-            if (message.int16_vals != null && Object.hasOwnProperty.call(message, "int16_vals")) {
-                if (!Array.isArray(message.int16_vals))
+            if (message.int16_vals != null && $Object.hasOwnProperty.call(message, "int16_vals")) {
+                if (!$Array.isArray(message.int16_vals))
                     return "int16_vals: array expected";
                 for (var i = 0; i < message.int16_vals.length; ++i)
                     if (!$util.isInteger(message.int16_vals[i]))
                         return "int16_vals: integer[] expected";
             }
-            if (message.int8_vals != null && Object.hasOwnProperty.call(message, "int8_vals")) {
-                if (!Array.isArray(message.int8_vals))
+            if (message.int8_vals != null && $Object.hasOwnProperty.call(message, "int8_vals")) {
+                if (!$Array.isArray(message.int8_vals))
                     return "int8_vals: array expected";
                 for (var i = 0; i < message.int8_vals.length; ++i)
                     if (!$util.isInteger(message.int8_vals[i]))
                         return "int8_vals: integer[] expected";
             }
-            if (message.float64_vals != null && Object.hasOwnProperty.call(message, "float64_vals")) {
-                if (!Array.isArray(message.float64_vals))
+            if (message.float64_vals != null && $Object.hasOwnProperty.call(message, "float64_vals")) {
+                if (!$Array.isArray(message.float64_vals))
                     return "float64_vals: array expected";
                 for (var i = 0; i < message.float64_vals.length; ++i)
                     if (typeof message.float64_vals[i] !== "number")
                         return "float64_vals: number[] expected";
             }
-            if (message.float32_vals != null && Object.hasOwnProperty.call(message, "float32_vals")) {
-                if (!Array.isArray(message.float32_vals))
+            if (message.float32_vals != null && $Object.hasOwnProperty.call(message, "float32_vals")) {
+                if (!$Array.isArray(message.float32_vals))
                     return "float32_vals: array expected";
                 for (var i = 0; i < message.float32_vals.length; ++i)
                     if (typeof message.float32_vals[i] !== "number")
                         return "float32_vals: number[] expected";
             }
-            if (message.bool_vals != null && Object.hasOwnProperty.call(message, "bool_vals")) {
-                if (!Array.isArray(message.bool_vals))
+            if (message.bool_vals != null && $Object.hasOwnProperty.call(message, "bool_vals")) {
+                if (!$Array.isArray(message.bool_vals))
                     return "bool_vals: array expected";
                 for (var i = 0; i < message.bool_vals.length; ++i)
                     if (typeof message.bool_vals[i] !== "boolean")
                         return "bool_vals: boolean[] expected";
             }
-            if (message.string_vals != null && Object.hasOwnProperty.call(message, "string_vals")) {
-                if (!Array.isArray(message.string_vals))
+            if (message.string_vals != null && $Object.hasOwnProperty.call(message, "string_vals")) {
+                if (!$Array.isArray(message.string_vals))
                     return "string_vals: array expected";
                 for (var i = 0; i < message.string_vals.length; ++i)
                     if (!$util.isString(message.string_vals[i]))
                         return "string_vals: string[] expected";
             }
-            if (message.low_cardinality_string_vals != null && Object.hasOwnProperty.call(message, "low_cardinality_string_vals")) {
-                if (!Array.isArray(message.low_cardinality_string_vals))
+            if (message.low_cardinality_string_vals != null && $Object.hasOwnProperty.call(message, "low_cardinality_string_vals")) {
+                if (!$Array.isArray(message.low_cardinality_string_vals))
                     return "low_cardinality_string_vals: array expected";
                 for (var i = 0; i < message.low_cardinality_string_vals.length; ++i)
                     if (!$util.isString(message.low_cardinality_string_vals[i]))
                         return "low_cardinality_string_vals: string[] expected";
             }
-            if (message.utcdatetime_vals != null && Object.hasOwnProperty.call(message, "utcdatetime_vals")) {
-                if (!Array.isArray(message.utcdatetime_vals))
+            if (message.utcdatetime_vals != null && $Object.hasOwnProperty.call(message, "utcdatetime_vals")) {
+                if (!$Array.isArray(message.utcdatetime_vals))
                     return "utcdatetime_vals: array expected";
                 for (var i = 0; i < message.utcdatetime_vals.length; ++i)
                     if (!$util.isInteger(message.utcdatetime_vals[i]))
                         return "utcdatetime_vals: integer[] expected";
             }
-            if (message.steamidtrustbucket_vals != null && Object.hasOwnProperty.call(message, "steamidtrustbucket_vals")) {
-                if (!Array.isArray(message.steamidtrustbucket_vals))
+            if (message.steamidtrustbucket_vals != null && $Object.hasOwnProperty.call(message, "steamidtrustbucket_vals")) {
+                if (!$Array.isArray(message.steamidtrustbucket_vals))
                     return "steamidtrustbucket_vals: array expected";
                 for (var i = 0; i < message.steamidtrustbucket_vals.length; ++i)
                     if (!$util.isInteger(message.steamidtrustbucket_vals[i]) && !(message.steamidtrustbucket_vals[i] && $util.isInteger(message.steamidtrustbucket_vals[i].low) && $util.isInteger(message.steamidtrustbucket_vals[i].high)))
                         return "steamidtrustbucket_vals: integer|Long[] expected";
             }
-            if (message.trustbucket_vals != null && Object.hasOwnProperty.call(message, "trustbucket_vals")) {
-                if (!Array.isArray(message.trustbucket_vals))
+            if (message.trustbucket_vals != null && $Object.hasOwnProperty.call(message, "trustbucket_vals")) {
+                if (!$Array.isArray(message.trustbucket_vals))
                     return "trustbucket_vals: array expected";
                 for (var i = 0; i < message.trustbucket_vals.length; ++i) {
-                    var error = $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList.verify(message.trustbucket_vals[i], long + 1);
+                    var error = $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList.verify(message.trustbucket_vals[i], _depth + 1);
                     if (error)
                         return "trustbucket_vals." + error;
                 }
             }
-            if (message.steamid_vals != null && Object.hasOwnProperty.call(message, "steamid_vals")) {
-                if (!Array.isArray(message.steamid_vals))
+            if (message.steamid_vals != null && $Object.hasOwnProperty.call(message, "steamid_vals")) {
+                if (!$Array.isArray(message.steamid_vals))
                     return "steamid_vals: array expected";
                 for (var i = 0; i < message.steamid_vals.length; ++i)
                     if (!$util.isInteger(message.steamid_vals[i]) && !(message.steamid_vals[i] && $util.isInteger(message.steamid_vals[i].low) && $util.isInteger(message.steamid_vals[i].high)))
@@ -5647,175 +6048,175 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CMsgSource2PlayStatsPackedRecordList} CMsgSource2PlayStatsPackedRecordList
          */
-        CMsgSource2PlayStatsPackedRecordList.fromObject = function fromObject(object, long) {
+        CMsgSource2PlayStatsPackedRecordList.fromObject = function (object, _depth) {
             if (object instanceof $root.CMsgSource2PlayStatsPackedRecordList)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CMsgSource2PlayStatsPackedRecordList: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CMsgSource2PlayStatsPackedRecordList: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CMsgSource2PlayStatsPackedRecordList();
             if (object.record_name != null)
-                message.record_name = String(object.record_name);
+                message.record_name = $String(object.record_name);
             if (object.field_defs) {
-                if (!Array.isArray(object.field_defs))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.field_defs: array expected");
-                message.field_defs = [];
+                if (!$Array.isArray(object.field_defs))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.field_defs: array expected");
+                message.field_defs = $Array(object.field_defs.length);
                 for (var i = 0; i < object.field_defs.length; ++i) {
                     if (!$util.isObject(object.field_defs[i]))
-                        throw TypeError(".CMsgSource2PlayStatsPackedRecordList.field_defs: object expected");
-                    message.field_defs[i] = $root.CMsgSource2PlayStatsPackedRecordList.FieldDef.fromObject(object.field_defs[i], long + 1);
+                        throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.field_defs: object expected");
+                    message.field_defs[i] = $root.CMsgSource2PlayStatsPackedRecordList.FieldDef.fromObject(object.field_defs[i], _depth + 1);
                 }
             }
             if (object.record_count != null)
                 message.record_count = object.record_count >>> 0;
             if (object.uint64_vals) {
-                if (!Array.isArray(object.uint64_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.uint64_vals: array expected");
-                message.uint64_vals = [];
+                if (!$Array.isArray(object.uint64_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.uint64_vals: array expected");
+                message.uint64_vals = $Array(object.uint64_vals.length);
                 for (var i = 0; i < object.uint64_vals.length; ++i)
                     if ($util.Long)
                         message.uint64_vals[i] = $util.Long.fromValue(object.uint64_vals[i], true);
                     else if (typeof object.uint64_vals[i] === "string")
-                        message.uint64_vals[i] = parseInt(object.uint64_vals[i], 10);
+                        message.uint64_vals[i] = $parseInt(object.uint64_vals[i], 10);
                     else if (typeof object.uint64_vals[i] === "number")
                         message.uint64_vals[i] = object.uint64_vals[i];
                     else if (typeof object.uint64_vals[i] === "object")
                         message.uint64_vals[i] = new $util.LongBits(object.uint64_vals[i].low >>> 0, object.uint64_vals[i].high >>> 0).toNumber(true);
             }
             if (object.uint32_vals) {
-                if (!Array.isArray(object.uint32_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.uint32_vals: array expected");
-                message.uint32_vals = [];
+                if (!$Array.isArray(object.uint32_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.uint32_vals: array expected");
+                message.uint32_vals = $Array(object.uint32_vals.length);
                 for (var i = 0; i < object.uint32_vals.length; ++i)
                     message.uint32_vals[i] = object.uint32_vals[i] >>> 0;
             }
             if (object.uint16_vals) {
-                if (!Array.isArray(object.uint16_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.uint16_vals: array expected");
-                message.uint16_vals = [];
+                if (!$Array.isArray(object.uint16_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.uint16_vals: array expected");
+                message.uint16_vals = $Array(object.uint16_vals.length);
                 for (var i = 0; i < object.uint16_vals.length; ++i)
                     message.uint16_vals[i] = object.uint16_vals[i] >>> 0;
             }
             if (object.uint8_vals) {
-                if (!Array.isArray(object.uint8_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.uint8_vals: array expected");
-                message.uint8_vals = [];
+                if (!$Array.isArray(object.uint8_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.uint8_vals: array expected");
+                message.uint8_vals = $Array(object.uint8_vals.length);
                 for (var i = 0; i < object.uint8_vals.length; ++i)
                     message.uint8_vals[i] = object.uint8_vals[i] >>> 0;
             }
             if (object.int64_vals) {
-                if (!Array.isArray(object.int64_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.int64_vals: array expected");
-                message.int64_vals = [];
+                if (!$Array.isArray(object.int64_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.int64_vals: array expected");
+                message.int64_vals = $Array(object.int64_vals.length);
                 for (var i = 0; i < object.int64_vals.length; ++i)
                     if ($util.Long)
                         message.int64_vals[i] = $util.Long.fromValue(object.int64_vals[i], false);
                     else if (typeof object.int64_vals[i] === "string")
-                        message.int64_vals[i] = parseInt(object.int64_vals[i], 10);
+                        message.int64_vals[i] = $parseInt(object.int64_vals[i], 10);
                     else if (typeof object.int64_vals[i] === "number")
                         message.int64_vals[i] = object.int64_vals[i];
                     else if (typeof object.int64_vals[i] === "object")
                         message.int64_vals[i] = new $util.LongBits(object.int64_vals[i].low >>> 0, object.int64_vals[i].high >>> 0).toNumber();
             }
             if (object.int32_vals) {
-                if (!Array.isArray(object.int32_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.int32_vals: array expected");
-                message.int32_vals = [];
+                if (!$Array.isArray(object.int32_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.int32_vals: array expected");
+                message.int32_vals = $Array(object.int32_vals.length);
                 for (var i = 0; i < object.int32_vals.length; ++i)
                     message.int32_vals[i] = object.int32_vals[i] | 0;
             }
             if (object.int16_vals) {
-                if (!Array.isArray(object.int16_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.int16_vals: array expected");
-                message.int16_vals = [];
+                if (!$Array.isArray(object.int16_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.int16_vals: array expected");
+                message.int16_vals = $Array(object.int16_vals.length);
                 for (var i = 0; i < object.int16_vals.length; ++i)
                     message.int16_vals[i] = object.int16_vals[i] | 0;
             }
             if (object.int8_vals) {
-                if (!Array.isArray(object.int8_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.int8_vals: array expected");
-                message.int8_vals = [];
+                if (!$Array.isArray(object.int8_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.int8_vals: array expected");
+                message.int8_vals = $Array(object.int8_vals.length);
                 for (var i = 0; i < object.int8_vals.length; ++i)
                     message.int8_vals[i] = object.int8_vals[i] | 0;
             }
             if (object.float64_vals) {
-                if (!Array.isArray(object.float64_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.float64_vals: array expected");
-                message.float64_vals = [];
+                if (!$Array.isArray(object.float64_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.float64_vals: array expected");
+                message.float64_vals = $Array(object.float64_vals.length);
                 for (var i = 0; i < object.float64_vals.length; ++i)
-                    message.float64_vals[i] = Number(object.float64_vals[i]);
+                    message.float64_vals[i] = $Number(object.float64_vals[i]);
             }
             if (object.float32_vals) {
-                if (!Array.isArray(object.float32_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.float32_vals: array expected");
-                message.float32_vals = [];
+                if (!$Array.isArray(object.float32_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.float32_vals: array expected");
+                message.float32_vals = $Array(object.float32_vals.length);
                 for (var i = 0; i < object.float32_vals.length; ++i)
-                    message.float32_vals[i] = Number(object.float32_vals[i]);
+                    message.float32_vals[i] = $Number(object.float32_vals[i]);
             }
             if (object.bool_vals) {
-                if (!Array.isArray(object.bool_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.bool_vals: array expected");
-                message.bool_vals = [];
+                if (!$Array.isArray(object.bool_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.bool_vals: array expected");
+                message.bool_vals = $Array(object.bool_vals.length);
                 for (var i = 0; i < object.bool_vals.length; ++i)
-                    message.bool_vals[i] = Boolean(object.bool_vals[i]);
+                    message.bool_vals[i] = $Boolean(object.bool_vals[i]);
             }
             if (object.string_vals) {
-                if (!Array.isArray(object.string_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.string_vals: array expected");
-                message.string_vals = [];
+                if (!$Array.isArray(object.string_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.string_vals: array expected");
+                message.string_vals = $Array(object.string_vals.length);
                 for (var i = 0; i < object.string_vals.length; ++i)
-                    message.string_vals[i] = String(object.string_vals[i]);
+                    message.string_vals[i] = $String(object.string_vals[i]);
             }
             if (object.low_cardinality_string_vals) {
-                if (!Array.isArray(object.low_cardinality_string_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.low_cardinality_string_vals: array expected");
-                message.low_cardinality_string_vals = [];
+                if (!$Array.isArray(object.low_cardinality_string_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.low_cardinality_string_vals: array expected");
+                message.low_cardinality_string_vals = $Array(object.low_cardinality_string_vals.length);
                 for (var i = 0; i < object.low_cardinality_string_vals.length; ++i)
-                    message.low_cardinality_string_vals[i] = String(object.low_cardinality_string_vals[i]);
+                    message.low_cardinality_string_vals[i] = $String(object.low_cardinality_string_vals[i]);
             }
             if (object.utcdatetime_vals) {
-                if (!Array.isArray(object.utcdatetime_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.utcdatetime_vals: array expected");
-                message.utcdatetime_vals = [];
+                if (!$Array.isArray(object.utcdatetime_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.utcdatetime_vals: array expected");
+                message.utcdatetime_vals = $Array(object.utcdatetime_vals.length);
                 for (var i = 0; i < object.utcdatetime_vals.length; ++i)
                     message.utcdatetime_vals[i] = object.utcdatetime_vals[i] >>> 0;
             }
             if (object.steamidtrustbucket_vals) {
-                if (!Array.isArray(object.steamidtrustbucket_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.steamidtrustbucket_vals: array expected");
-                message.steamidtrustbucket_vals = [];
+                if (!$Array.isArray(object.steamidtrustbucket_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.steamidtrustbucket_vals: array expected");
+                message.steamidtrustbucket_vals = $Array(object.steamidtrustbucket_vals.length);
                 for (var i = 0; i < object.steamidtrustbucket_vals.length; ++i)
                     if ($util.Long)
                         message.steamidtrustbucket_vals[i] = $util.Long.fromValue(object.steamidtrustbucket_vals[i], true);
                     else if (typeof object.steamidtrustbucket_vals[i] === "string")
-                        message.steamidtrustbucket_vals[i] = parseInt(object.steamidtrustbucket_vals[i], 10);
+                        message.steamidtrustbucket_vals[i] = $parseInt(object.steamidtrustbucket_vals[i], 10);
                     else if (typeof object.steamidtrustbucket_vals[i] === "number")
                         message.steamidtrustbucket_vals[i] = object.steamidtrustbucket_vals[i];
                     else if (typeof object.steamidtrustbucket_vals[i] === "object")
                         message.steamidtrustbucket_vals[i] = new $util.LongBits(object.steamidtrustbucket_vals[i].low >>> 0, object.steamidtrustbucket_vals[i].high >>> 0).toNumber(true);
             }
             if (object.trustbucket_vals) {
-                if (!Array.isArray(object.trustbucket_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.trustbucket_vals: array expected");
-                message.trustbucket_vals = [];
+                if (!$Array.isArray(object.trustbucket_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.trustbucket_vals: array expected");
+                message.trustbucket_vals = $Array(object.trustbucket_vals.length);
                 for (var i = 0; i < object.trustbucket_vals.length; ++i) {
                     if (!$util.isObject(object.trustbucket_vals[i]))
-                        throw TypeError(".CMsgSource2PlayStatsPackedRecordList.trustbucket_vals: object expected");
-                    message.trustbucket_vals[i] = $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList.fromObject(object.trustbucket_vals[i], long + 1);
+                        throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.trustbucket_vals: object expected");
+                    message.trustbucket_vals[i] = $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList.fromObject(object.trustbucket_vals[i], _depth + 1);
                 }
             }
             if (object.steamid_vals) {
-                if (!Array.isArray(object.steamid_vals))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.steamid_vals: array expected");
-                message.steamid_vals = [];
+                if (!$Array.isArray(object.steamid_vals))
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.steamid_vals: array expected");
+                message.steamid_vals = $Array(object.steamid_vals.length);
                 for (var i = 0; i < object.steamid_vals.length; ++i)
                     if ($util.Long)
                         message.steamid_vals[i] = $util.Long.fromValue(object.steamid_vals[i], true);
                     else if (typeof object.steamid_vals[i] === "string")
-                        message.steamid_vals[i] = parseInt(object.steamid_vals[i], 10);
+                        message.steamid_vals[i] = $parseInt(object.steamid_vals[i], 10);
                     else if (typeof object.steamid_vals[i] === "number")
                         message.steamid_vals[i] = object.steamid_vals[i];
                     else if (typeof object.steamid_vals[i] === "object")
@@ -5833,13 +6234,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CMsgSource2PlayStatsPackedRecordList.toObject = function toObject(message, options, q) {
+        CMsgSource2PlayStatsPackedRecordList.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults) {
                 object.field_defs = [];
@@ -5865,119 +6266,119 @@
                 object.record_name = "";
                 object.record_count = 0;
             }
-            if (message.record_name != null && Object.hasOwnProperty.call(message, "record_name"))
+            if (message.record_name != null && $Object.hasOwnProperty.call(message, "record_name"))
                 object.record_name = message.record_name;
             if (message.field_defs && message.field_defs.length) {
-                object.field_defs = [];
+                object.field_defs = $Array(message.field_defs.length);
                 for (var j = 0; j < message.field_defs.length; ++j)
-                    object.field_defs[j] = $root.CMsgSource2PlayStatsPackedRecordList.FieldDef.toObject(message.field_defs[j], options, q + 1);
+                    object.field_defs[j] = $root.CMsgSource2PlayStatsPackedRecordList.FieldDef.toObject(message.field_defs[j], options, _depth + 1);
             }
-            if (message.record_count != null && Object.hasOwnProperty.call(message, "record_count"))
+            if (message.record_count != null && $Object.hasOwnProperty.call(message, "record_count"))
                 object.record_count = message.record_count;
             if (message.uint64_vals && message.uint64_vals.length) {
-                object.uint64_vals = [];
+                object.uint64_vals = $Array(message.uint64_vals.length);
                 for (var j = 0; j < message.uint64_vals.length; ++j)
-                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                        object.uint64_vals[j] = typeof message.uint64_vals[j] === "number" ? BigInt(message.uint64_vals[j]) : $util.Long.fromBits(message.uint64_vals[j].low >>> 0, message.uint64_vals[j].high >>> 0, true).toBigInt();
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.uint64_vals[j] = typeof message.uint64_vals[j] === "number" ? $BigInt(message.uint64_vals[j]) : $util.Long.fromBits(message.uint64_vals[j].low >>> 0, message.uint64_vals[j].high >>> 0, true).toBigInt();
                     else if (typeof message.uint64_vals[j] === "number")
-                        object.uint64_vals[j] = options.longs === String ? String(message.uint64_vals[j]) : message.uint64_vals[j];
+                        object.uint64_vals[j] = options.longs === $String ? $String(message.uint64_vals[j]) : message.uint64_vals[j];
                     else
-                        object.uint64_vals[j] = options.longs === String ? $util.Long.prototype.toString.call(message.uint64_vals[j]) : options.longs === Number ? new $util.LongBits(message.uint64_vals[j].low >>> 0, message.uint64_vals[j].high >>> 0).toNumber(true) : message.uint64_vals[j];
+                        object.uint64_vals[j] = options.longs === $String ? $util.Long.prototype.toString.call(message.uint64_vals[j]) : options.longs === $Number ? new $util.LongBits(message.uint64_vals[j].low >>> 0, message.uint64_vals[j].high >>> 0).toNumber(true) : message.uint64_vals[j];
             }
             if (message.uint32_vals && message.uint32_vals.length) {
-                object.uint32_vals = [];
+                object.uint32_vals = $Array(message.uint32_vals.length);
                 for (var j = 0; j < message.uint32_vals.length; ++j)
                     object.uint32_vals[j] = message.uint32_vals[j];
             }
             if (message.uint16_vals && message.uint16_vals.length) {
-                object.uint16_vals = [];
+                object.uint16_vals = $Array(message.uint16_vals.length);
                 for (var j = 0; j < message.uint16_vals.length; ++j)
                     object.uint16_vals[j] = message.uint16_vals[j];
             }
             if (message.uint8_vals && message.uint8_vals.length) {
-                object.uint8_vals = [];
+                object.uint8_vals = $Array(message.uint8_vals.length);
                 for (var j = 0; j < message.uint8_vals.length; ++j)
                     object.uint8_vals[j] = message.uint8_vals[j];
             }
             if (message.int64_vals && message.int64_vals.length) {
-                object.int64_vals = [];
+                object.int64_vals = $Array(message.int64_vals.length);
                 for (var j = 0; j < message.int64_vals.length; ++j)
-                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                        object.int64_vals[j] = typeof message.int64_vals[j] === "number" ? BigInt(message.int64_vals[j]) : $util.Long.fromBits(message.int64_vals[j].low >>> 0, message.int64_vals[j].high >>> 0, false).toBigInt();
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.int64_vals[j] = typeof message.int64_vals[j] === "number" ? $BigInt(message.int64_vals[j]) : $util.Long.fromBits(message.int64_vals[j].low >>> 0, message.int64_vals[j].high >>> 0, false).toBigInt();
                     else if (typeof message.int64_vals[j] === "number")
-                        object.int64_vals[j] = options.longs === String ? String(message.int64_vals[j]) : message.int64_vals[j];
+                        object.int64_vals[j] = options.longs === $String ? $String(message.int64_vals[j]) : message.int64_vals[j];
                     else
-                        object.int64_vals[j] = options.longs === String ? $util.Long.prototype.toString.call(message.int64_vals[j]) : options.longs === Number ? new $util.LongBits(message.int64_vals[j].low >>> 0, message.int64_vals[j].high >>> 0).toNumber() : message.int64_vals[j];
+                        object.int64_vals[j] = options.longs === $String ? $util.Long.prototype.toString.call(message.int64_vals[j]) : options.longs === $Number ? new $util.LongBits(message.int64_vals[j].low >>> 0, message.int64_vals[j].high >>> 0).toNumber() : message.int64_vals[j];
             }
             if (message.int32_vals && message.int32_vals.length) {
-                object.int32_vals = [];
+                object.int32_vals = $Array(message.int32_vals.length);
                 for (var j = 0; j < message.int32_vals.length; ++j)
                     object.int32_vals[j] = message.int32_vals[j];
             }
             if (message.int16_vals && message.int16_vals.length) {
-                object.int16_vals = [];
+                object.int16_vals = $Array(message.int16_vals.length);
                 for (var j = 0; j < message.int16_vals.length; ++j)
                     object.int16_vals[j] = message.int16_vals[j];
             }
             if (message.int8_vals && message.int8_vals.length) {
-                object.int8_vals = [];
+                object.int8_vals = $Array(message.int8_vals.length);
                 for (var j = 0; j < message.int8_vals.length; ++j)
                     object.int8_vals[j] = message.int8_vals[j];
             }
             if (message.float64_vals && message.float64_vals.length) {
-                object.float64_vals = [];
+                object.float64_vals = $Array(message.float64_vals.length);
                 for (var j = 0; j < message.float64_vals.length; ++j)
-                    object.float64_vals[j] = options.json && !isFinite(message.float64_vals[j]) ? String(message.float64_vals[j]) : message.float64_vals[j];
+                    object.float64_vals[j] = options.json && !$isFinite(message.float64_vals[j]) ? $String(message.float64_vals[j]) : message.float64_vals[j];
             }
             if (message.float32_vals && message.float32_vals.length) {
-                object.float32_vals = [];
+                object.float32_vals = $Array(message.float32_vals.length);
                 for (var j = 0; j < message.float32_vals.length; ++j)
-                    object.float32_vals[j] = options.json && !isFinite(message.float32_vals[j]) ? String(message.float32_vals[j]) : message.float32_vals[j];
+                    object.float32_vals[j] = options.json && !$isFinite(message.float32_vals[j]) ? $String(message.float32_vals[j]) : message.float32_vals[j];
             }
             if (message.bool_vals && message.bool_vals.length) {
-                object.bool_vals = [];
+                object.bool_vals = $Array(message.bool_vals.length);
                 for (var j = 0; j < message.bool_vals.length; ++j)
                     object.bool_vals[j] = message.bool_vals[j];
             }
             if (message.string_vals && message.string_vals.length) {
-                object.string_vals = [];
+                object.string_vals = $Array(message.string_vals.length);
                 for (var j = 0; j < message.string_vals.length; ++j)
                     object.string_vals[j] = message.string_vals[j];
             }
             if (message.low_cardinality_string_vals && message.low_cardinality_string_vals.length) {
-                object.low_cardinality_string_vals = [];
+                object.low_cardinality_string_vals = $Array(message.low_cardinality_string_vals.length);
                 for (var j = 0; j < message.low_cardinality_string_vals.length; ++j)
                     object.low_cardinality_string_vals[j] = message.low_cardinality_string_vals[j];
             }
             if (message.utcdatetime_vals && message.utcdatetime_vals.length) {
-                object.utcdatetime_vals = [];
+                object.utcdatetime_vals = $Array(message.utcdatetime_vals.length);
                 for (var j = 0; j < message.utcdatetime_vals.length; ++j)
                     object.utcdatetime_vals[j] = message.utcdatetime_vals[j];
             }
             if (message.steamidtrustbucket_vals && message.steamidtrustbucket_vals.length) {
-                object.steamidtrustbucket_vals = [];
+                object.steamidtrustbucket_vals = $Array(message.steamidtrustbucket_vals.length);
                 for (var j = 0; j < message.steamidtrustbucket_vals.length; ++j)
-                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                        object.steamidtrustbucket_vals[j] = typeof message.steamidtrustbucket_vals[j] === "number" ? BigInt(message.steamidtrustbucket_vals[j]) : $util.Long.fromBits(message.steamidtrustbucket_vals[j].low >>> 0, message.steamidtrustbucket_vals[j].high >>> 0, true).toBigInt();
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.steamidtrustbucket_vals[j] = typeof message.steamidtrustbucket_vals[j] === "number" ? $BigInt(message.steamidtrustbucket_vals[j]) : $util.Long.fromBits(message.steamidtrustbucket_vals[j].low >>> 0, message.steamidtrustbucket_vals[j].high >>> 0, true).toBigInt();
                     else if (typeof message.steamidtrustbucket_vals[j] === "number")
-                        object.steamidtrustbucket_vals[j] = options.longs === String ? String(message.steamidtrustbucket_vals[j]) : message.steamidtrustbucket_vals[j];
+                        object.steamidtrustbucket_vals[j] = options.longs === $String ? $String(message.steamidtrustbucket_vals[j]) : message.steamidtrustbucket_vals[j];
                     else
-                        object.steamidtrustbucket_vals[j] = options.longs === String ? $util.Long.prototype.toString.call(message.steamidtrustbucket_vals[j]) : options.longs === Number ? new $util.LongBits(message.steamidtrustbucket_vals[j].low >>> 0, message.steamidtrustbucket_vals[j].high >>> 0).toNumber(true) : message.steamidtrustbucket_vals[j];
+                        object.steamidtrustbucket_vals[j] = options.longs === $String ? $util.Long.prototype.toString.call(message.steamidtrustbucket_vals[j]) : options.longs === $Number ? new $util.LongBits(message.steamidtrustbucket_vals[j].low >>> 0, message.steamidtrustbucket_vals[j].high >>> 0).toNumber(true) : message.steamidtrustbucket_vals[j];
             }
             if (message.trustbucket_vals && message.trustbucket_vals.length) {
-                object.trustbucket_vals = [];
+                object.trustbucket_vals = $Array(message.trustbucket_vals.length);
                 for (var j = 0; j < message.trustbucket_vals.length; ++j)
-                    object.trustbucket_vals[j] = $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList.toObject(message.trustbucket_vals[j], options, q + 1);
+                    object.trustbucket_vals[j] = $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList.toObject(message.trustbucket_vals[j], options, _depth + 1);
             }
             if (message.steamid_vals && message.steamid_vals.length) {
-                object.steamid_vals = [];
+                object.steamid_vals = $Array(message.steamid_vals.length);
                 for (var j = 0; j < message.steamid_vals.length; ++j)
-                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                        object.steamid_vals[j] = typeof message.steamid_vals[j] === "number" ? BigInt(message.steamid_vals[j]) : $util.Long.fromBits(message.steamid_vals[j].low >>> 0, message.steamid_vals[j].high >>> 0, true).toBigInt();
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.steamid_vals[j] = typeof message.steamid_vals[j] === "number" ? $BigInt(message.steamid_vals[j]) : $util.Long.fromBits(message.steamid_vals[j].low >>> 0, message.steamid_vals[j].high >>> 0, true).toBigInt();
                     else if (typeof message.steamid_vals[j] === "number")
-                        object.steamid_vals[j] = options.longs === String ? String(message.steamid_vals[j]) : message.steamid_vals[j];
+                        object.steamid_vals[j] = options.longs === $String ? $String(message.steamid_vals[j]) : message.steamid_vals[j];
                     else
-                        object.steamid_vals[j] = options.longs === String ? $util.Long.prototype.toString.call(message.steamid_vals[j]) : options.longs === Number ? new $util.LongBits(message.steamid_vals[j].low >>> 0, message.steamid_vals[j].high >>> 0).toNumber(true) : message.steamid_vals[j];
+                        object.steamid_vals[j] = options.longs === $String ? $util.Long.prototype.toString.call(message.steamid_vals[j]) : options.longs === $Number ? new $util.LongBits(message.steamid_vals[j].low >>> 0, message.steamid_vals[j].high >>> 0).toNumber(true) : message.steamid_vals[j];
             }
             return object;
         };
@@ -5989,49 +6390,61 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CMsgSource2PlayStatsPackedRecordList.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CMsgSource2PlayStatsPackedRecordList.prototype.toJSON = function() {
+            return CMsgSource2PlayStatsPackedRecordList.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CMsgSource2PlayStatsPackedRecordList
+         * Gets the type url for CMsgSource2PlayStatsPackedRecordList
          * @function getTypeUrl
          * @memberof CMsgSource2PlayStatsPackedRecordList
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CMsgSource2PlayStatsPackedRecordList.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CMsgSource2PlayStatsPackedRecordList";
+        CMsgSource2PlayStatsPackedRecordList.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CMsgSource2PlayStatsPackedRecordList";
         };
     
         CMsgSource2PlayStatsPackedRecordList.FieldDef = (function() {
     
             /**
              * Properties of a FieldDef.
-             * @memberof CMsgSource2PlayStatsPackedRecordList
-             * @interface IFieldDef
+             * @typedef {Object} CMsgSource2PlayStatsPackedRecordList.FieldDef.$Properties
              * @property {string|null} [field_name] FieldDef field_name
              * @property {ESource2PlayStatsFieldType|null} [field_type] FieldDef field_type
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+    
+            /**
+             * Properties of a FieldDef.
+             * @memberof CMsgSource2PlayStatsPackedRecordList
+             * @interface IFieldDef
+             * @augments CMsgSource2PlayStatsPackedRecordList.FieldDef.$Properties
+             * @deprecated Use CMsgSource2PlayStatsPackedRecordList.FieldDef.$Properties instead.
+             */
+    
+            /**
+             * Shape of a FieldDef.
+             * @typedef {CMsgSource2PlayStatsPackedRecordList.FieldDef.$Properties} CMsgSource2PlayStatsPackedRecordList.FieldDef.$Shape
              */
     
             /**
              * Constructs a new FieldDef.
              * @memberof CMsgSource2PlayStatsPackedRecordList
              * @classdesc Represents a FieldDef.
-             * @implements IFieldDef
              * @constructor
-             * @param {CMsgSource2PlayStatsPackedRecordList.IFieldDef=} [properties] Properties to set
+             * @param {CMsgSource2PlayStatsPackedRecordList.FieldDef.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function FieldDef(properties) {
+            var FieldDef = function (properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
     
             /**
              * FieldDef field_name.
@@ -6054,10 +6467,14 @@
              * @function create
              * @memberof CMsgSource2PlayStatsPackedRecordList.FieldDef
              * @static
-             * @param {CMsgSource2PlayStatsPackedRecordList.IFieldDef=} [properties] Properties to set
+             * @param {CMsgSource2PlayStatsPackedRecordList.FieldDef.$Properties=} [properties] Properties to set
              * @returns {CMsgSource2PlayStatsPackedRecordList.FieldDef} FieldDef instance
+             * @type {{
+             *   (properties: CMsgSource2PlayStatsPackedRecordList.FieldDef.$Shape): CMsgSource2PlayStatsPackedRecordList.FieldDef & CMsgSource2PlayStatsPackedRecordList.FieldDef.$Shape;
+             *   (properties?: CMsgSource2PlayStatsPackedRecordList.FieldDef.$Properties): CMsgSource2PlayStatsPackedRecordList.FieldDef;
+             * }}
              */
-            FieldDef.create = function create(properties) {
+            FieldDef.create = function(properties) {
                 return new FieldDef(properties);
             };
     
@@ -6066,21 +6483,24 @@
              * @function encode
              * @memberof CMsgSource2PlayStatsPackedRecordList.FieldDef
              * @static
-             * @param {CMsgSource2PlayStatsPackedRecordList.IFieldDef} message FieldDef message or plain object to encode
+             * @param {CMsgSource2PlayStatsPackedRecordList.FieldDef.$Properties} message FieldDef message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            FieldDef.encode = function encode(message, writer, q) {
+            FieldDef.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.field_name != null && Object.hasOwnProperty.call(message, "field_name"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.field_name != null && $Object.hasOwnProperty.call(message, "field_name"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.field_name);
-                if (message.field_type != null && Object.hasOwnProperty.call(message, "field_type"))
+                if (message.field_type != null && $Object.hasOwnProperty.call(message, "field_type"))
                     writer.uint32(/* id 2, wireType 0 =*/16).int32(message.field_type);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
     
@@ -6089,12 +6509,12 @@
              * @function encodeDelimited
              * @memberof CMsgSource2PlayStatsPackedRecordList.FieldDef
              * @static
-             * @param {CMsgSource2PlayStatsPackedRecordList.IFieldDef} message FieldDef message or plain object to encode
+             * @param {CMsgSource2PlayStatsPackedRecordList.FieldDef.$Properties} message FieldDef message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            FieldDef.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            FieldDef.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
     
             /**
@@ -6104,51 +6524,69 @@
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {CMsgSource2PlayStatsPackedRecordList.FieldDef} FieldDef
+             * @returns {CMsgSource2PlayStatsPackedRecordList.FieldDef & CMsgSource2PlayStatsPackedRecordList.FieldDef.$Shape} FieldDef
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            FieldDef.decode = function decode(reader, length, error, long) {
+            FieldDef.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (long === undefined)
-                    long = 0;
-                if (long > $Reader.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
-                var end, message;
-                if (length === undefined)
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                var end, message, value;
+                if (length === $undefined)
                     end = reader.len;
                 else {
                     end = reader.pos + length;
                     if (end > reader.len)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     length = reader.len;
                     reader.len = end;
                 }
-                message = new $root.CMsgSource2PlayStatsPackedRecordList.FieldDef();
+                message = _target || new $root.CMsgSource2PlayStatsPackedRecordList.FieldDef();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 1: {
-                            message.field_name = reader.string();
-                            break;
-                        }
-                    case 2: {
-                            message.field_type = reader.int32();
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7, long);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            message.field_name = reader.string();
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            value = reader.int32();
+                            if ($root.ESource2PlayStatsFieldType[value] !== $undefined)
+                                message.field_type = value;
+                            else if (!reader.discardUnknown) {
+                                $util.makeProp(message, "$unknowns", false);
+                                (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                            }
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
-                if (length !== undefined) {
+                if (length !== $undefined) {
                     if (reader.pos !== end)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     reader.len = length;
                 }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
     
@@ -6158,14 +6596,14 @@
              * @memberof CMsgSource2PlayStatsPackedRecordList.FieldDef
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {CMsgSource2PlayStatsPackedRecordList.FieldDef} FieldDef
+             * @returns {CMsgSource2PlayStatsPackedRecordList.FieldDef & CMsgSource2PlayStatsPackedRecordList.FieldDef.$Shape} FieldDef
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            FieldDef.decodeDelimited = function decodeDelimited(reader) {
+            FieldDef.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
     
             /**
@@ -6176,17 +6614,17 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            FieldDef.verify = function verify(message, long) {
+            FieldDef.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    return "maximum nesting depth exceeded";
-                if (message.field_name != null && Object.hasOwnProperty.call(message, "field_name"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.field_name != null && $Object.hasOwnProperty.call(message, "field_name"))
                     if (!$util.isString(message.field_name))
                         return "field_name: string expected";
-                if (message.field_type != null && Object.hasOwnProperty.call(message, "field_type"))
+                if (message.field_type != null && $Object.hasOwnProperty.call(message, "field_type"))
                     switch (message.field_type) {
                     default:
                         return "field_type: enum value expected";
@@ -6221,25 +6659,19 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgSource2PlayStatsPackedRecordList.FieldDef} FieldDef
              */
-            FieldDef.fromObject = function fromObject(object, long) {
+            FieldDef.fromObject = function (object, _depth) {
                 if (object instanceof $root.CMsgSource2PlayStatsPackedRecordList.FieldDef)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.FieldDef: object expected");
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.FieldDef: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.CMsgSource2PlayStatsPackedRecordList.FieldDef();
                 if (object.field_name != null)
-                    message.field_name = String(object.field_name);
+                    message.field_name = $String(object.field_name);
                 switch (object.field_type) {
-                default:
-                    if (typeof object.field_type === "number") {
-                        message.field_type = object.field_type;
-                        break;
-                    }
-                    break;
                 case "Source2PlayStats_Invalid":
                 case 0:
                     message.field_type = 0;
@@ -6312,6 +6744,7 @@
                 case 17:
                     message.field_type = 17;
                     break;
+                default:
                 }
                 return message;
             };
@@ -6325,22 +6758,22 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            FieldDef.toObject = function toObject(message, options, q) {
+            FieldDef.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.field_name = "";
-                    object.field_type = options.enums === String ? "Source2PlayStats_Invalid" : 0;
+                    object.field_type = options.enums === $String ? "Source2PlayStats_Invalid" : 0;
                 }
-                if (message.field_name != null && Object.hasOwnProperty.call(message, "field_name"))
+                if (message.field_name != null && $Object.hasOwnProperty.call(message, "field_name"))
                     object.field_name = message.field_name;
-                if (message.field_type != null && Object.hasOwnProperty.call(message, "field_type"))
-                    object.field_type = options.enums === String ? $root.ESource2PlayStatsFieldType[message.field_type] === undefined ? message.field_type : $root.ESource2PlayStatsFieldType[message.field_type] : message.field_type;
+                if (message.field_type != null && $Object.hasOwnProperty.call(message, "field_type"))
+                    object.field_type = options.enums === $String ? $root.ESource2PlayStatsFieldType[message.field_type] === $undefined ? message.field_type : $root.ESource2PlayStatsFieldType[message.field_type] : message.field_type;
                 return object;
             };
     
@@ -6351,23 +6784,22 @@
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            FieldDef.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            FieldDef.prototype.toJSON = function() {
+                return FieldDef.toObject(this, $protobuf.util.toJSONOptions);
             };
     
             /**
-             * Gets the default type url for FieldDef
+             * Gets the type url for FieldDef
              * @function getTypeUrl
              * @memberof CMsgSource2PlayStatsPackedRecordList.FieldDef
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            FieldDef.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/CMsgSource2PlayStatsPackedRecordList.FieldDef";
+            FieldDef.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/CMsgSource2PlayStatsPackedRecordList.FieldDef";
             };
     
             return FieldDef;
@@ -6377,26 +6809,39 @@
     
             /**
              * Properties of a SteamIDList.
+             * @typedef {Object} CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Properties
+             * @property {Array.<number|Long>|null} [steamid] SteamIDList steamid
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+    
+            /**
+             * Properties of a SteamIDList.
              * @memberof CMsgSource2PlayStatsPackedRecordList
              * @interface ISteamIDList
-             * @property {Array.<number|Long>|null} [steamid] SteamIDList steamid
+             * @augments CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Properties
+             * @deprecated Use CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Properties instead.
+             */
+    
+            /**
+             * Shape of a SteamIDList.
+             * @typedef {CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Properties} CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Shape
              */
     
             /**
              * Constructs a new SteamIDList.
              * @memberof CMsgSource2PlayStatsPackedRecordList
              * @classdesc Represents a SteamIDList.
-             * @implements ISteamIDList
              * @constructor
-             * @param {CMsgSource2PlayStatsPackedRecordList.ISteamIDList=} [properties] Properties to set
+             * @param {CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function SteamIDList(properties) {
+            var SteamIDList = function (properties) {
                 this.steamid = [];
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
     
             /**
              * SteamIDList steamid.
@@ -6411,10 +6856,14 @@
              * @function create
              * @memberof CMsgSource2PlayStatsPackedRecordList.SteamIDList
              * @static
-             * @param {CMsgSource2PlayStatsPackedRecordList.ISteamIDList=} [properties] Properties to set
+             * @param {CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Properties=} [properties] Properties to set
              * @returns {CMsgSource2PlayStatsPackedRecordList.SteamIDList} SteamIDList instance
+             * @type {{
+             *   (properties: CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Shape): CMsgSource2PlayStatsPackedRecordList.SteamIDList & CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Shape;
+             *   (properties?: CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Properties): CMsgSource2PlayStatsPackedRecordList.SteamIDList;
+             * }}
              */
-            SteamIDList.create = function create(properties) {
+            SteamIDList.create = function(properties) {
                 return new SteamIDList(properties);
             };
     
@@ -6423,23 +6872,22 @@
              * @function encode
              * @memberof CMsgSource2PlayStatsPackedRecordList.SteamIDList
              * @static
-             * @param {CMsgSource2PlayStatsPackedRecordList.ISteamIDList} message SteamIDList message or plain object to encode
+             * @param {CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Properties} message SteamIDList message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            SteamIDList.encode = function encode(message, writer, q) {
+            SteamIDList.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.steamid != null && message.steamid.length) {
-                    writer.uint32(/* id 1, wireType 2 =*/10).fork();
-                    for (var i = 0; i < message.steamid.length; ++i)
-                        writer.fixed64(message.steamid[i]);
-                    writer.ldelim();
-                }
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.steamid != null && message.steamid.length)
+                    writer.uint32(/* id 1, wireType 2 =*/10).fixed64s(message.steamid);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
     
@@ -6448,12 +6896,12 @@
              * @function encodeDelimited
              * @memberof CMsgSource2PlayStatsPackedRecordList.SteamIDList
              * @static
-             * @param {CMsgSource2PlayStatsPackedRecordList.ISteamIDList} message SteamIDList message or plain object to encode
+             * @param {CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Properties} message SteamIDList message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            SteamIDList.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            SteamIDList.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
     
             /**
@@ -6463,60 +6911,65 @@
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {CMsgSource2PlayStatsPackedRecordList.SteamIDList} SteamIDList
+             * @returns {CMsgSource2PlayStatsPackedRecordList.SteamIDList & CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Shape} SteamIDList
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            SteamIDList.decode = function decode(reader, length, error, long) {
+            SteamIDList.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (long === undefined)
-                    long = 0;
-                if (long > $Reader.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var end, message;
-                if (length === undefined)
+                if (length === $undefined)
                     end = reader.len;
                 else {
                     end = reader.pos + length;
                     if (end > reader.len)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     length = reader.len;
                     reader.len = end;
                 }
-                message = new $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList();
+                message = _target || new $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 1: {
-                            if (!(message.steamid && message.steamid.length))
-                                message.steamid = [];
-                            if ((tag & 7) === 2) {
-                                var end2 = reader.uint32() + reader.pos;
-                                if (end2 > reader.len)
-                                    throw RangeError("index out of range");
-                                reader.len = end2;
-                                while (reader.pos < end2)
-                                    message.steamid.push(reader.fixed64());
-                                if (reader.pos !== end2)
-                                    throw RangeError("index out of range");
-                                reader.len = end;
-                            } else
-                                message.steamid.push(reader.fixed64());
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7, long);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType === 2) {
+                                if (!(message.steamid && message.steamid.length))
+                                    message.steamid = [];
+                                reader.fixed64s(message.steamid);
+                                continue;
+                            }
+                            if (wireType !== 1)
+                                break;
+                            if (!(message.steamid && message.steamid.length))
+                                message.steamid = [];
+                            message.steamid.push(reader.fixed64());
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
-                if (length !== undefined) {
+                if (length !== $undefined) {
                     if (reader.pos !== end)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     reader.len = length;
                 }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
     
@@ -6526,14 +6979,14 @@
              * @memberof CMsgSource2PlayStatsPackedRecordList.SteamIDList
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {CMsgSource2PlayStatsPackedRecordList.SteamIDList} SteamIDList
+             * @returns {CMsgSource2PlayStatsPackedRecordList.SteamIDList & CMsgSource2PlayStatsPackedRecordList.SteamIDList.$Shape} SteamIDList
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            SteamIDList.decodeDelimited = function decodeDelimited(reader) {
+            SteamIDList.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
     
             /**
@@ -6544,15 +6997,15 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            SteamIDList.verify = function verify(message, long) {
+            SteamIDList.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    return "maximum nesting depth exceeded";
-                if (message.steamid != null && Object.hasOwnProperty.call(message, "steamid")) {
-                    if (!Array.isArray(message.steamid))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.steamid != null && $Object.hasOwnProperty.call(message, "steamid")) {
+                    if (!$Array.isArray(message.steamid))
                         return "steamid: array expected";
                     for (var i = 0; i < message.steamid.length; ++i)
                         if (!$util.isInteger(message.steamid[i]) && !(message.steamid[i] && $util.isInteger(message.steamid[i].low) && $util.isInteger(message.steamid[i].high)))
@@ -6569,25 +7022,25 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CMsgSource2PlayStatsPackedRecordList.SteamIDList} SteamIDList
              */
-            SteamIDList.fromObject = function fromObject(object, long) {
+            SteamIDList.fromObject = function (object, _depth) {
                 if (object instanceof $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".CMsgSource2PlayStatsPackedRecordList.SteamIDList: object expected");
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                    throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.SteamIDList: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.CMsgSource2PlayStatsPackedRecordList.SteamIDList();
                 if (object.steamid) {
-                    if (!Array.isArray(object.steamid))
-                        throw TypeError(".CMsgSource2PlayStatsPackedRecordList.SteamIDList.steamid: array expected");
-                    message.steamid = [];
+                    if (!$Array.isArray(object.steamid))
+                        throw $TypeError(".CMsgSource2PlayStatsPackedRecordList.SteamIDList.steamid: array expected");
+                    message.steamid = $Array(object.steamid.length);
                     for (var i = 0; i < object.steamid.length; ++i)
                         if ($util.Long)
                             message.steamid[i] = $util.Long.fromValue(object.steamid[i], true);
                         else if (typeof object.steamid[i] === "string")
-                            message.steamid[i] = parseInt(object.steamid[i], 10);
+                            message.steamid[i] = $parseInt(object.steamid[i], 10);
                         else if (typeof object.steamid[i] === "number")
                             message.steamid[i] = object.steamid[i];
                         else if (typeof object.steamid[i] === "object")
@@ -6605,25 +7058,25 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            SteamIDList.toObject = function toObject(message, options, q) {
+            SteamIDList.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.arrays || options.defaults)
                     object.steamid = [];
                 if (message.steamid && message.steamid.length) {
-                    object.steamid = [];
+                    object.steamid = $Array(message.steamid.length);
                     for (var j = 0; j < message.steamid.length; ++j)
-                        if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                            object.steamid[j] = typeof message.steamid[j] === "number" ? BigInt(message.steamid[j]) : $util.Long.fromBits(message.steamid[j].low >>> 0, message.steamid[j].high >>> 0, true).toBigInt();
+                        if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                            object.steamid[j] = typeof message.steamid[j] === "number" ? $BigInt(message.steamid[j]) : $util.Long.fromBits(message.steamid[j].low >>> 0, message.steamid[j].high >>> 0, true).toBigInt();
                         else if (typeof message.steamid[j] === "number")
-                            object.steamid[j] = options.longs === String ? String(message.steamid[j]) : message.steamid[j];
+                            object.steamid[j] = options.longs === $String ? $String(message.steamid[j]) : message.steamid[j];
                         else
-                            object.steamid[j] = options.longs === String ? $util.Long.prototype.toString.call(message.steamid[j]) : options.longs === Number ? new $util.LongBits(message.steamid[j].low >>> 0, message.steamid[j].high >>> 0).toNumber(true) : message.steamid[j];
+                            object.steamid[j] = options.longs === $String ? $util.Long.prototype.toString.call(message.steamid[j]) : options.longs === $Number ? new $util.LongBits(message.steamid[j].low >>> 0, message.steamid[j].high >>> 0).toNumber(true) : message.steamid[j];
                 }
                 return object;
             };
@@ -6635,23 +7088,22 @@
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            SteamIDList.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            SteamIDList.prototype.toJSON = function() {
+                return SteamIDList.toObject(this, $protobuf.util.toJSONOptions);
             };
     
             /**
-             * Gets the default type url for SteamIDList
+             * Gets the type url for SteamIDList
              * @function getTypeUrl
              * @memberof CMsgSource2PlayStatsPackedRecordList.SteamIDList
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            SteamIDList.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/CMsgSource2PlayStatsPackedRecordList.SteamIDList";
+            SteamIDList.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/CMsgSource2PlayStatsPackedRecordList.SteamIDList";
             };
     
             return SteamIDList;
@@ -6664,31 +7116,44 @@
     
         /**
          * Properties of a CSource2Metrics_RecordPlayStats_Notification.
+         * @typedef {Object} CSource2Metrics_RecordPlayStats_Notification.$Properties
+         * @property {Array.<CMsgSource2PlayStatsPackedRecordList.$Properties>|null} [record_types] CSource2Metrics_RecordPlayStats_Notification record_types
+         * @property {number|null} [appid] CSource2Metrics_RecordPlayStats_Notification appid
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CSource2Metrics_RecordPlayStats_Notification.
          * @exports ICSource2Metrics_RecordPlayStats_Notification
          * @interface ICSource2Metrics_RecordPlayStats_Notification
-         * @property {Array.<ICMsgSource2PlayStatsPackedRecordList>|null} [record_types] CSource2Metrics_RecordPlayStats_Notification record_types
-         * @property {number|null} [appid] CSource2Metrics_RecordPlayStats_Notification appid
+         * @augments CSource2Metrics_RecordPlayStats_Notification.$Properties
+         * @deprecated Use CSource2Metrics_RecordPlayStats_Notification.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CSource2Metrics_RecordPlayStats_Notification.
+         * @typedef {CSource2Metrics_RecordPlayStats_Notification.$Properties} CSource2Metrics_RecordPlayStats_Notification.$Shape
          */
     
         /**
          * Constructs a new CSource2Metrics_RecordPlayStats_Notification.
          * @exports CSource2Metrics_RecordPlayStats_Notification
          * @classdesc Represents a CSource2Metrics_RecordPlayStats_Notification.
-         * @implements ICSource2Metrics_RecordPlayStats_Notification
          * @constructor
-         * @param {ICSource2Metrics_RecordPlayStats_Notification=} [properties] Properties to set
+         * @param {CSource2Metrics_RecordPlayStats_Notification.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CSource2Metrics_RecordPlayStats_Notification(properties) {
+        var CSource2Metrics_RecordPlayStats_Notification = function (properties) {
             this.record_types = [];
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CSource2Metrics_RecordPlayStats_Notification record_types.
-         * @member {Array.<ICMsgSource2PlayStatsPackedRecordList>} record_types
+         * @member {Array.<CMsgSource2PlayStatsPackedRecordList.$Properties>} record_types
          * @memberof CSource2Metrics_RecordPlayStats_Notification
          * @instance
          */
@@ -6707,10 +7172,14 @@
          * @function create
          * @memberof CSource2Metrics_RecordPlayStats_Notification
          * @static
-         * @param {ICSource2Metrics_RecordPlayStats_Notification=} [properties] Properties to set
+         * @param {CSource2Metrics_RecordPlayStats_Notification.$Properties=} [properties] Properties to set
          * @returns {CSource2Metrics_RecordPlayStats_Notification} CSource2Metrics_RecordPlayStats_Notification instance
+         * @type {{
+         *   (properties: CSource2Metrics_RecordPlayStats_Notification.$Shape): CSource2Metrics_RecordPlayStats_Notification & CSource2Metrics_RecordPlayStats_Notification.$Shape;
+         *   (properties?: CSource2Metrics_RecordPlayStats_Notification.$Properties): CSource2Metrics_RecordPlayStats_Notification;
+         * }}
          */
-        CSource2Metrics_RecordPlayStats_Notification.create = function create(properties) {
+        CSource2Metrics_RecordPlayStats_Notification.create = function(properties) {
             return new CSource2Metrics_RecordPlayStats_Notification(properties);
         };
     
@@ -6719,22 +7188,25 @@
          * @function encode
          * @memberof CSource2Metrics_RecordPlayStats_Notification
          * @static
-         * @param {ICSource2Metrics_RecordPlayStats_Notification} message CSource2Metrics_RecordPlayStats_Notification message or plain object to encode
+         * @param {CSource2Metrics_RecordPlayStats_Notification.$Properties} message CSource2Metrics_RecordPlayStats_Notification message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CSource2Metrics_RecordPlayStats_Notification.encode = function encode(message, writer, q) {
+        CSource2Metrics_RecordPlayStats_Notification.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             if (message.record_types != null && message.record_types.length)
                 for (var i = 0; i < message.record_types.length; ++i)
-                    $root.CMsgSource2PlayStatsPackedRecordList.encode(message.record_types[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+                    $root.CMsgSource2PlayStatsPackedRecordList.encode(message.record_types[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.appid);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -6743,12 +7215,12 @@
          * @function encodeDelimited
          * @memberof CSource2Metrics_RecordPlayStats_Notification
          * @static
-         * @param {ICSource2Metrics_RecordPlayStats_Notification} message CSource2Metrics_RecordPlayStats_Notification message or plain object to encode
+         * @param {CSource2Metrics_RecordPlayStats_Notification.$Properties} message CSource2Metrics_RecordPlayStats_Notification message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CSource2Metrics_RecordPlayStats_Notification.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CSource2Metrics_RecordPlayStats_Notification.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -6758,53 +7230,65 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CSource2Metrics_RecordPlayStats_Notification} CSource2Metrics_RecordPlayStats_Notification
+         * @returns {CSource2Metrics_RecordPlayStats_Notification & CSource2Metrics_RecordPlayStats_Notification.$Shape} CSource2Metrics_RecordPlayStats_Notification
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSource2Metrics_RecordPlayStats_Notification.decode = function decode(reader, length, error, long) {
+        CSource2Metrics_RecordPlayStats_Notification.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CSource2Metrics_RecordPlayStats_Notification();
+            message = _target || new $root.CSource2Metrics_RecordPlayStats_Notification();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        if (!(message.record_types && message.record_types.length))
-                            message.record_types = [];
-                        message.record_types.push($root.CMsgSource2PlayStatsPackedRecordList.decode(reader, reader.uint32(), undefined, long + 1));
-                        break;
-                    }
-                case 2: {
-                        message.appid = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        if (!(message.record_types && message.record_types.length))
+                            message.record_types = [];
+                        message.record_types.push($root.CMsgSource2PlayStatsPackedRecordList.decode(reader, reader.size(), $undefined, _depth + 1));
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 0)
+                            break;
+                        message.appid = reader.uint32();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -6814,14 +7298,14 @@
          * @memberof CSource2Metrics_RecordPlayStats_Notification
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CSource2Metrics_RecordPlayStats_Notification} CSource2Metrics_RecordPlayStats_Notification
+         * @returns {CSource2Metrics_RecordPlayStats_Notification & CSource2Metrics_RecordPlayStats_Notification.$Shape} CSource2Metrics_RecordPlayStats_Notification
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSource2Metrics_RecordPlayStats_Notification.decodeDelimited = function decodeDelimited(reader) {
+        CSource2Metrics_RecordPlayStats_Notification.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -6832,23 +7316,23 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CSource2Metrics_RecordPlayStats_Notification.verify = function verify(message, long) {
+        CSource2Metrics_RecordPlayStats_Notification.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.record_types != null && Object.hasOwnProperty.call(message, "record_types")) {
-                if (!Array.isArray(message.record_types))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.record_types != null && $Object.hasOwnProperty.call(message, "record_types")) {
+                if (!$Array.isArray(message.record_types))
                     return "record_types: array expected";
                 for (var i = 0; i < message.record_types.length; ++i) {
-                    var error = $root.CMsgSource2PlayStatsPackedRecordList.verify(message.record_types[i], long + 1);
+                    var error = $root.CMsgSource2PlayStatsPackedRecordList.verify(message.record_types[i], _depth + 1);
                     if (error)
                         return "record_types." + error;
                 }
             }
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
             return null;
@@ -6862,24 +7346,24 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CSource2Metrics_RecordPlayStats_Notification} CSource2Metrics_RecordPlayStats_Notification
          */
-        CSource2Metrics_RecordPlayStats_Notification.fromObject = function fromObject(object, long) {
+        CSource2Metrics_RecordPlayStats_Notification.fromObject = function (object, _depth) {
             if (object instanceof $root.CSource2Metrics_RecordPlayStats_Notification)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CSource2Metrics_RecordPlayStats_Notification: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CSource2Metrics_RecordPlayStats_Notification: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CSource2Metrics_RecordPlayStats_Notification();
             if (object.record_types) {
-                if (!Array.isArray(object.record_types))
-                    throw TypeError(".CSource2Metrics_RecordPlayStats_Notification.record_types: array expected");
-                message.record_types = [];
+                if (!$Array.isArray(object.record_types))
+                    throw $TypeError(".CSource2Metrics_RecordPlayStats_Notification.record_types: array expected");
+                message.record_types = $Array(object.record_types.length);
                 for (var i = 0; i < object.record_types.length; ++i) {
                     if (!$util.isObject(object.record_types[i]))
-                        throw TypeError(".CSource2Metrics_RecordPlayStats_Notification.record_types: object expected");
-                    message.record_types[i] = $root.CMsgSource2PlayStatsPackedRecordList.fromObject(object.record_types[i], long + 1);
+                        throw $TypeError(".CSource2Metrics_RecordPlayStats_Notification.record_types: object expected");
+                    message.record_types[i] = $root.CMsgSource2PlayStatsPackedRecordList.fromObject(object.record_types[i], _depth + 1);
                 }
             }
             if (object.appid != null)
@@ -6896,24 +7380,24 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CSource2Metrics_RecordPlayStats_Notification.toObject = function toObject(message, options, q) {
+        CSource2Metrics_RecordPlayStats_Notification.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.record_types = [];
             if (options.defaults)
                 object.appid = 0;
             if (message.record_types && message.record_types.length) {
-                object.record_types = [];
+                object.record_types = $Array(message.record_types.length);
                 for (var j = 0; j < message.record_types.length; ++j)
-                    object.record_types[j] = $root.CMsgSource2PlayStatsPackedRecordList.toObject(message.record_types[j], options, q + 1);
+                    object.record_types[j] = $root.CMsgSource2PlayStatsPackedRecordList.toObject(message.record_types[j], options, _depth + 1);
             }
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
             return object;
         };
@@ -6925,23 +7409,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CSource2Metrics_RecordPlayStats_Notification.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CSource2Metrics_RecordPlayStats_Notification.prototype.toJSON = function() {
+            return CSource2Metrics_RecordPlayStats_Notification.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CSource2Metrics_RecordPlayStats_Notification
+         * Gets the type url for CSource2Metrics_RecordPlayStats_Notification
          * @function getTypeUrl
          * @memberof CSource2Metrics_RecordPlayStats_Notification
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CSource2Metrics_RecordPlayStats_Notification.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CSource2Metrics_RecordPlayStats_Notification";
+        CSource2Metrics_RecordPlayStats_Notification.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CSource2Metrics_RecordPlayStats_Notification";
         };
     
         return CSource2Metrics_RecordPlayStats_Notification;
@@ -6951,30 +7434,43 @@
     
         /**
          * Properties of a CSource2Metrics_FetchMapData_Request.
-         * @exports ICSource2Metrics_FetchMapData_Request
-         * @interface ICSource2Metrics_FetchMapData_Request
+         * @typedef {Object} CSource2Metrics_FetchMapData_Request.$Properties
          * @property {number|null} [appid] CSource2Metrics_FetchMapData_Request appid
          * @property {string|null} [map_name] CSource2Metrics_FetchMapData_Request map_name
          * @property {number|null} [game_type] CSource2Metrics_FetchMapData_Request game_type
          * @property {number|null} [game_mode] CSource2Metrics_FetchMapData_Request game_mode
          * @property {string|null} [param] CSource2Metrics_FetchMapData_Request param
          * @property {number|null} [time_span] CSource2Metrics_FetchMapData_Request time_span
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CSource2Metrics_FetchMapData_Request.
+         * @exports ICSource2Metrics_FetchMapData_Request
+         * @interface ICSource2Metrics_FetchMapData_Request
+         * @augments CSource2Metrics_FetchMapData_Request.$Properties
+         * @deprecated Use CSource2Metrics_FetchMapData_Request.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CSource2Metrics_FetchMapData_Request.
+         * @typedef {CSource2Metrics_FetchMapData_Request.$Properties} CSource2Metrics_FetchMapData_Request.$Shape
          */
     
         /**
          * Constructs a new CSource2Metrics_FetchMapData_Request.
          * @exports CSource2Metrics_FetchMapData_Request
          * @classdesc Represents a CSource2Metrics_FetchMapData_Request.
-         * @implements ICSource2Metrics_FetchMapData_Request
          * @constructor
-         * @param {ICSource2Metrics_FetchMapData_Request=} [properties] Properties to set
+         * @param {CSource2Metrics_FetchMapData_Request.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CSource2Metrics_FetchMapData_Request(properties) {
+        var CSource2Metrics_FetchMapData_Request = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CSource2Metrics_FetchMapData_Request appid.
@@ -7029,10 +7525,14 @@
          * @function create
          * @memberof CSource2Metrics_FetchMapData_Request
          * @static
-         * @param {ICSource2Metrics_FetchMapData_Request=} [properties] Properties to set
+         * @param {CSource2Metrics_FetchMapData_Request.$Properties=} [properties] Properties to set
          * @returns {CSource2Metrics_FetchMapData_Request} CSource2Metrics_FetchMapData_Request instance
+         * @type {{
+         *   (properties: CSource2Metrics_FetchMapData_Request.$Shape): CSource2Metrics_FetchMapData_Request & CSource2Metrics_FetchMapData_Request.$Shape;
+         *   (properties?: CSource2Metrics_FetchMapData_Request.$Properties): CSource2Metrics_FetchMapData_Request;
+         * }}
          */
-        CSource2Metrics_FetchMapData_Request.create = function create(properties) {
+        CSource2Metrics_FetchMapData_Request.create = function(properties) {
             return new CSource2Metrics_FetchMapData_Request(properties);
         };
     
@@ -7041,29 +7541,32 @@
          * @function encode
          * @memberof CSource2Metrics_FetchMapData_Request
          * @static
-         * @param {ICSource2Metrics_FetchMapData_Request} message CSource2Metrics_FetchMapData_Request message or plain object to encode
+         * @param {CSource2Metrics_FetchMapData_Request.$Properties} message CSource2Metrics_FetchMapData_Request message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CSource2Metrics_FetchMapData_Request.encode = function encode(message, writer, q) {
+        CSource2Metrics_FetchMapData_Request.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.appid);
-            if (message.map_name != null && Object.hasOwnProperty.call(message, "map_name"))
+            if (message.map_name != null && $Object.hasOwnProperty.call(message, "map_name"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.map_name);
-            if (message.game_type != null && Object.hasOwnProperty.call(message, "game_type"))
+            if (message.game_type != null && $Object.hasOwnProperty.call(message, "game_type"))
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.game_type);
-            if (message.game_mode != null && Object.hasOwnProperty.call(message, "game_mode"))
+            if (message.game_mode != null && $Object.hasOwnProperty.call(message, "game_mode"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.game_mode);
-            if (message.param != null && Object.hasOwnProperty.call(message, "param"))
+            if (message.param != null && $Object.hasOwnProperty.call(message, "param"))
                 writer.uint32(/* id 5, wireType 2 =*/42).string(message.param);
-            if (message.time_span != null && Object.hasOwnProperty.call(message, "time_span"))
+            if (message.time_span != null && $Object.hasOwnProperty.call(message, "time_span"))
                 writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.time_span);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -7072,12 +7575,12 @@
          * @function encodeDelimited
          * @memberof CSource2Metrics_FetchMapData_Request
          * @static
-         * @param {ICSource2Metrics_FetchMapData_Request} message CSource2Metrics_FetchMapData_Request message or plain object to encode
+         * @param {CSource2Metrics_FetchMapData_Request.$Properties} message CSource2Metrics_FetchMapData_Request message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CSource2Metrics_FetchMapData_Request.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CSource2Metrics_FetchMapData_Request.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -7087,67 +7590,87 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CSource2Metrics_FetchMapData_Request} CSource2Metrics_FetchMapData_Request
+         * @returns {CSource2Metrics_FetchMapData_Request & CSource2Metrics_FetchMapData_Request.$Shape} CSource2Metrics_FetchMapData_Request
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSource2Metrics_FetchMapData_Request.decode = function decode(reader, length, error, long) {
+        CSource2Metrics_FetchMapData_Request.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CSource2Metrics_FetchMapData_Request();
+            message = _target || new $root.CSource2Metrics_FetchMapData_Request();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.appid = reader.uint32();
-                        break;
-                    }
-                case 2: {
-                        message.map_name = reader.string();
-                        break;
-                    }
-                case 3: {
-                        message.game_type = reader.uint32();
-                        break;
-                    }
-                case 4: {
-                        message.game_mode = reader.uint32();
-                        break;
-                    }
-                case 5: {
-                        message.param = reader.string();
-                        break;
-                    }
-                case 6: {
-                        message.time_span = reader.uint32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 0)
+                            break;
+                        message.appid = reader.uint32();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.map_name = reader.string();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 0)
+                            break;
+                        message.game_type = reader.uint32();
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 0)
+                            break;
+                        message.game_mode = reader.uint32();
+                        continue;
+                    }
+                case 5: {
+                        if (wireType !== 2)
+                            break;
+                        message.param = reader.string();
+                        continue;
+                    }
+                case 6: {
+                        if (wireType !== 0)
+                            break;
+                        message.time_span = reader.uint32();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -7157,14 +7680,14 @@
          * @memberof CSource2Metrics_FetchMapData_Request
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CSource2Metrics_FetchMapData_Request} CSource2Metrics_FetchMapData_Request
+         * @returns {CSource2Metrics_FetchMapData_Request & CSource2Metrics_FetchMapData_Request.$Shape} CSource2Metrics_FetchMapData_Request
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSource2Metrics_FetchMapData_Request.decodeDelimited = function decodeDelimited(reader) {
+        CSource2Metrics_FetchMapData_Request.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -7175,29 +7698,29 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CSource2Metrics_FetchMapData_Request.verify = function verify(message, long) {
+        CSource2Metrics_FetchMapData_Request.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 if (!$util.isInteger(message.appid))
                     return "appid: integer expected";
-            if (message.map_name != null && Object.hasOwnProperty.call(message, "map_name"))
+            if (message.map_name != null && $Object.hasOwnProperty.call(message, "map_name"))
                 if (!$util.isString(message.map_name))
                     return "map_name: string expected";
-            if (message.game_type != null && Object.hasOwnProperty.call(message, "game_type"))
+            if (message.game_type != null && $Object.hasOwnProperty.call(message, "game_type"))
                 if (!$util.isInteger(message.game_type))
                     return "game_type: integer expected";
-            if (message.game_mode != null && Object.hasOwnProperty.call(message, "game_mode"))
+            if (message.game_mode != null && $Object.hasOwnProperty.call(message, "game_mode"))
                 if (!$util.isInteger(message.game_mode))
                     return "game_mode: integer expected";
-            if (message.param != null && Object.hasOwnProperty.call(message, "param"))
+            if (message.param != null && $Object.hasOwnProperty.call(message, "param"))
                 if (!$util.isString(message.param))
                     return "param: string expected";
-            if (message.time_span != null && Object.hasOwnProperty.call(message, "time_span"))
+            if (message.time_span != null && $Object.hasOwnProperty.call(message, "time_span"))
                 if (!$util.isInteger(message.time_span))
                     return "time_span: integer expected";
             return null;
@@ -7211,26 +7734,26 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CSource2Metrics_FetchMapData_Request} CSource2Metrics_FetchMapData_Request
          */
-        CSource2Metrics_FetchMapData_Request.fromObject = function fromObject(object, long) {
+        CSource2Metrics_FetchMapData_Request.fromObject = function (object, _depth) {
             if (object instanceof $root.CSource2Metrics_FetchMapData_Request)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CSource2Metrics_FetchMapData_Request: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CSource2Metrics_FetchMapData_Request: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CSource2Metrics_FetchMapData_Request();
             if (object.appid != null)
                 message.appid = object.appid >>> 0;
             if (object.map_name != null)
-                message.map_name = String(object.map_name);
+                message.map_name = $String(object.map_name);
             if (object.game_type != null)
                 message.game_type = object.game_type >>> 0;
             if (object.game_mode != null)
                 message.game_mode = object.game_mode >>> 0;
             if (object.param != null)
-                message.param = String(object.param);
+                message.param = $String(object.param);
             if (object.time_span != null)
                 message.time_span = object.time_span >>> 0;
             return message;
@@ -7245,13 +7768,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CSource2Metrics_FetchMapData_Request.toObject = function toObject(message, options, q) {
+        CSource2Metrics_FetchMapData_Request.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.appid = 0;
@@ -7261,17 +7784,17 @@
                 object.param = "";
                 object.time_span = 0;
             }
-            if (message.appid != null && Object.hasOwnProperty.call(message, "appid"))
+            if (message.appid != null && $Object.hasOwnProperty.call(message, "appid"))
                 object.appid = message.appid;
-            if (message.map_name != null && Object.hasOwnProperty.call(message, "map_name"))
+            if (message.map_name != null && $Object.hasOwnProperty.call(message, "map_name"))
                 object.map_name = message.map_name;
-            if (message.game_type != null && Object.hasOwnProperty.call(message, "game_type"))
+            if (message.game_type != null && $Object.hasOwnProperty.call(message, "game_type"))
                 object.game_type = message.game_type;
-            if (message.game_mode != null && Object.hasOwnProperty.call(message, "game_mode"))
+            if (message.game_mode != null && $Object.hasOwnProperty.call(message, "game_mode"))
                 object.game_mode = message.game_mode;
-            if (message.param != null && Object.hasOwnProperty.call(message, "param"))
+            if (message.param != null && $Object.hasOwnProperty.call(message, "param"))
                 object.param = message.param;
-            if (message.time_span != null && Object.hasOwnProperty.call(message, "time_span"))
+            if (message.time_span != null && $Object.hasOwnProperty.call(message, "time_span"))
                 object.time_span = message.time_span;
             return object;
         };
@@ -7283,23 +7806,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CSource2Metrics_FetchMapData_Request.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CSource2Metrics_FetchMapData_Request.prototype.toJSON = function() {
+            return CSource2Metrics_FetchMapData_Request.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CSource2Metrics_FetchMapData_Request
+         * Gets the type url for CSource2Metrics_FetchMapData_Request
          * @function getTypeUrl
          * @memberof CSource2Metrics_FetchMapData_Request
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CSource2Metrics_FetchMapData_Request.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CSource2Metrics_FetchMapData_Request";
+        CSource2Metrics_FetchMapData_Request.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CSource2Metrics_FetchMapData_Request";
         };
     
         return CSource2Metrics_FetchMapData_Request;
@@ -7309,30 +7831,43 @@
     
         /**
          * Properties of a CSource2Metrics_FetchMapData_Response.
+         * @typedef {Object} CSource2Metrics_FetchMapData_Response.$Properties
+         * @property {Array.<CSource2Metrics_FetchMapData_Response.MapData.$Properties>|null} [results] CSource2Metrics_FetchMapData_Response results
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CSource2Metrics_FetchMapData_Response.
          * @exports ICSource2Metrics_FetchMapData_Response
          * @interface ICSource2Metrics_FetchMapData_Response
-         * @property {Array.<CSource2Metrics_FetchMapData_Response.IMapData>|null} [results] CSource2Metrics_FetchMapData_Response results
+         * @augments CSource2Metrics_FetchMapData_Response.$Properties
+         * @deprecated Use CSource2Metrics_FetchMapData_Response.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CSource2Metrics_FetchMapData_Response.
+         * @typedef {CSource2Metrics_FetchMapData_Response.$Properties} CSource2Metrics_FetchMapData_Response.$Shape
          */
     
         /**
          * Constructs a new CSource2Metrics_FetchMapData_Response.
          * @exports CSource2Metrics_FetchMapData_Response
          * @classdesc Represents a CSource2Metrics_FetchMapData_Response.
-         * @implements ICSource2Metrics_FetchMapData_Response
          * @constructor
-         * @param {ICSource2Metrics_FetchMapData_Response=} [properties] Properties to set
+         * @param {CSource2Metrics_FetchMapData_Response.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CSource2Metrics_FetchMapData_Response(properties) {
+        var CSource2Metrics_FetchMapData_Response = function (properties) {
             this.results = [];
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CSource2Metrics_FetchMapData_Response results.
-         * @member {Array.<CSource2Metrics_FetchMapData_Response.IMapData>} results
+         * @member {Array.<CSource2Metrics_FetchMapData_Response.MapData.$Properties>} results
          * @memberof CSource2Metrics_FetchMapData_Response
          * @instance
          */
@@ -7343,10 +7878,14 @@
          * @function create
          * @memberof CSource2Metrics_FetchMapData_Response
          * @static
-         * @param {ICSource2Metrics_FetchMapData_Response=} [properties] Properties to set
+         * @param {CSource2Metrics_FetchMapData_Response.$Properties=} [properties] Properties to set
          * @returns {CSource2Metrics_FetchMapData_Response} CSource2Metrics_FetchMapData_Response instance
+         * @type {{
+         *   (properties: CSource2Metrics_FetchMapData_Response.$Shape): CSource2Metrics_FetchMapData_Response & CSource2Metrics_FetchMapData_Response.$Shape;
+         *   (properties?: CSource2Metrics_FetchMapData_Response.$Properties): CSource2Metrics_FetchMapData_Response;
+         * }}
          */
-        CSource2Metrics_FetchMapData_Response.create = function create(properties) {
+        CSource2Metrics_FetchMapData_Response.create = function(properties) {
             return new CSource2Metrics_FetchMapData_Response(properties);
         };
     
@@ -7355,20 +7894,23 @@
          * @function encode
          * @memberof CSource2Metrics_FetchMapData_Response
          * @static
-         * @param {ICSource2Metrics_FetchMapData_Response} message CSource2Metrics_FetchMapData_Response message or plain object to encode
+         * @param {CSource2Metrics_FetchMapData_Response.$Properties} message CSource2Metrics_FetchMapData_Response message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CSource2Metrics_FetchMapData_Response.encode = function encode(message, writer, q) {
+        CSource2Metrics_FetchMapData_Response.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             if (message.results != null && message.results.length)
                 for (var i = 0; i < message.results.length; ++i)
-                    $root.CSource2Metrics_FetchMapData_Response.MapData.encode(message.results[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), q + 1).ldelim();
+                    $root.CSource2Metrics_FetchMapData_Response.MapData.encode(message.results[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -7377,12 +7919,12 @@
          * @function encodeDelimited
          * @memberof CSource2Metrics_FetchMapData_Response
          * @static
-         * @param {ICSource2Metrics_FetchMapData_Response} message CSource2Metrics_FetchMapData_Response message or plain object to encode
+         * @param {CSource2Metrics_FetchMapData_Response.$Properties} message CSource2Metrics_FetchMapData_Response message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CSource2Metrics_FetchMapData_Response.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CSource2Metrics_FetchMapData_Response.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -7392,49 +7934,59 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CSource2Metrics_FetchMapData_Response} CSource2Metrics_FetchMapData_Response
+         * @returns {CSource2Metrics_FetchMapData_Response & CSource2Metrics_FetchMapData_Response.$Shape} CSource2Metrics_FetchMapData_Response
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSource2Metrics_FetchMapData_Response.decode = function decode(reader, length, error, long) {
+        CSource2Metrics_FetchMapData_Response.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CSource2Metrics_FetchMapData_Response();
+            message = _target || new $root.CSource2Metrics_FetchMapData_Response();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        if (!(message.results && message.results.length))
-                            message.results = [];
-                        message.results.push($root.CSource2Metrics_FetchMapData_Response.MapData.decode(reader, reader.uint32(), undefined, long + 1));
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        if (!(message.results && message.results.length))
+                            message.results = [];
+                        message.results.push($root.CSource2Metrics_FetchMapData_Response.MapData.decode(reader, reader.size(), $undefined, _depth + 1));
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -7444,14 +7996,14 @@
          * @memberof CSource2Metrics_FetchMapData_Response
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CSource2Metrics_FetchMapData_Response} CSource2Metrics_FetchMapData_Response
+         * @returns {CSource2Metrics_FetchMapData_Response & CSource2Metrics_FetchMapData_Response.$Shape} CSource2Metrics_FetchMapData_Response
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CSource2Metrics_FetchMapData_Response.decodeDelimited = function decodeDelimited(reader) {
+        CSource2Metrics_FetchMapData_Response.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -7462,18 +8014,18 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CSource2Metrics_FetchMapData_Response.verify = function verify(message, long) {
+        CSource2Metrics_FetchMapData_Response.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.results != null && Object.hasOwnProperty.call(message, "results")) {
-                if (!Array.isArray(message.results))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.results != null && $Object.hasOwnProperty.call(message, "results")) {
+                if (!$Array.isArray(message.results))
                     return "results: array expected";
                 for (var i = 0; i < message.results.length; ++i) {
-                    var error = $root.CSource2Metrics_FetchMapData_Response.MapData.verify(message.results[i], long + 1);
+                    var error = $root.CSource2Metrics_FetchMapData_Response.MapData.verify(message.results[i], _depth + 1);
                     if (error)
                         return "results." + error;
                 }
@@ -7489,24 +8041,24 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CSource2Metrics_FetchMapData_Response} CSource2Metrics_FetchMapData_Response
          */
-        CSource2Metrics_FetchMapData_Response.fromObject = function fromObject(object, long) {
+        CSource2Metrics_FetchMapData_Response.fromObject = function (object, _depth) {
             if (object instanceof $root.CSource2Metrics_FetchMapData_Response)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CSource2Metrics_FetchMapData_Response: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CSource2Metrics_FetchMapData_Response: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CSource2Metrics_FetchMapData_Response();
             if (object.results) {
-                if (!Array.isArray(object.results))
-                    throw TypeError(".CSource2Metrics_FetchMapData_Response.results: array expected");
-                message.results = [];
+                if (!$Array.isArray(object.results))
+                    throw $TypeError(".CSource2Metrics_FetchMapData_Response.results: array expected");
+                message.results = $Array(object.results.length);
                 for (var i = 0; i < object.results.length; ++i) {
                     if (!$util.isObject(object.results[i]))
-                        throw TypeError(".CSource2Metrics_FetchMapData_Response.results: object expected");
-                    message.results[i] = $root.CSource2Metrics_FetchMapData_Response.MapData.fromObject(object.results[i], long + 1);
+                        throw $TypeError(".CSource2Metrics_FetchMapData_Response.results: object expected");
+                    message.results[i] = $root.CSource2Metrics_FetchMapData_Response.MapData.fromObject(object.results[i], _depth + 1);
                 }
             }
             return message;
@@ -7521,20 +8073,20 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CSource2Metrics_FetchMapData_Response.toObject = function toObject(message, options, q) {
+        CSource2Metrics_FetchMapData_Response.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.arrays || options.defaults)
                 object.results = [];
             if (message.results && message.results.length) {
-                object.results = [];
+                object.results = $Array(message.results.length);
                 for (var j = 0; j < message.results.length; ++j)
-                    object.results[j] = $root.CSource2Metrics_FetchMapData_Response.MapData.toObject(message.results[j], options, q + 1);
+                    object.results[j] = $root.CSource2Metrics_FetchMapData_Response.MapData.toObject(message.results[j], options, _depth + 1);
             }
             return object;
         };
@@ -7546,50 +8098,62 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CSource2Metrics_FetchMapData_Response.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CSource2Metrics_FetchMapData_Response.prototype.toJSON = function() {
+            return CSource2Metrics_FetchMapData_Response.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CSource2Metrics_FetchMapData_Response
+         * Gets the type url for CSource2Metrics_FetchMapData_Response
          * @function getTypeUrl
          * @memberof CSource2Metrics_FetchMapData_Response
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CSource2Metrics_FetchMapData_Response.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CSource2Metrics_FetchMapData_Response";
+        CSource2Metrics_FetchMapData_Response.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CSource2Metrics_FetchMapData_Response";
         };
     
         CSource2Metrics_FetchMapData_Response.MapData = (function() {
     
             /**
              * Properties of a MapData.
-             * @memberof CSource2Metrics_FetchMapData_Response
-             * @interface IMapData
+             * @typedef {Object} CSource2Metrics_FetchMapData_Response.MapData.$Properties
              * @property {string|null} [name] MapData name
              * @property {string|null} [type] MapData type
              * @property {string|null} [data] MapData data
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+    
+            /**
+             * Properties of a MapData.
+             * @memberof CSource2Metrics_FetchMapData_Response
+             * @interface IMapData
+             * @augments CSource2Metrics_FetchMapData_Response.MapData.$Properties
+             * @deprecated Use CSource2Metrics_FetchMapData_Response.MapData.$Properties instead.
+             */
+    
+            /**
+             * Shape of a MapData.
+             * @typedef {CSource2Metrics_FetchMapData_Response.MapData.$Properties} CSource2Metrics_FetchMapData_Response.MapData.$Shape
              */
     
             /**
              * Constructs a new MapData.
              * @memberof CSource2Metrics_FetchMapData_Response
              * @classdesc Represents a MapData.
-             * @implements IMapData
              * @constructor
-             * @param {CSource2Metrics_FetchMapData_Response.IMapData=} [properties] Properties to set
+             * @param {CSource2Metrics_FetchMapData_Response.MapData.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function MapData(properties) {
+            var MapData = function (properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
     
             /**
              * MapData name.
@@ -7620,10 +8184,14 @@
              * @function create
              * @memberof CSource2Metrics_FetchMapData_Response.MapData
              * @static
-             * @param {CSource2Metrics_FetchMapData_Response.IMapData=} [properties] Properties to set
+             * @param {CSource2Metrics_FetchMapData_Response.MapData.$Properties=} [properties] Properties to set
              * @returns {CSource2Metrics_FetchMapData_Response.MapData} MapData instance
+             * @type {{
+             *   (properties: CSource2Metrics_FetchMapData_Response.MapData.$Shape): CSource2Metrics_FetchMapData_Response.MapData & CSource2Metrics_FetchMapData_Response.MapData.$Shape;
+             *   (properties?: CSource2Metrics_FetchMapData_Response.MapData.$Properties): CSource2Metrics_FetchMapData_Response.MapData;
+             * }}
              */
-            MapData.create = function create(properties) {
+            MapData.create = function(properties) {
                 return new MapData(properties);
             };
     
@@ -7632,23 +8200,26 @@
              * @function encode
              * @memberof CSource2Metrics_FetchMapData_Response.MapData
              * @static
-             * @param {CSource2Metrics_FetchMapData_Response.IMapData} message MapData message or plain object to encode
+             * @param {CSource2Metrics_FetchMapData_Response.MapData.$Properties} message MapData message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            MapData.encode = function encode(message, writer, q) {
+            MapData.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-                if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+                if (message.type != null && $Object.hasOwnProperty.call(message, "type"))
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.type);
-                if (message.data != null && Object.hasOwnProperty.call(message, "data"))
+                if (message.data != null && $Object.hasOwnProperty.call(message, "data"))
                     writer.uint32(/* id 3, wireType 2 =*/26).string(message.data);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (var i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
                 return writer;
             };
     
@@ -7657,12 +8228,12 @@
              * @function encodeDelimited
              * @memberof CSource2Metrics_FetchMapData_Response.MapData
              * @static
-             * @param {CSource2Metrics_FetchMapData_Response.IMapData} message MapData message or plain object to encode
+             * @param {CSource2Metrics_FetchMapData_Response.MapData.$Properties} message MapData message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            MapData.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            MapData.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
     
             /**
@@ -7672,55 +8243,69 @@
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {CSource2Metrics_FetchMapData_Response.MapData} MapData
+             * @returns {CSource2Metrics_FetchMapData_Response.MapData & CSource2Metrics_FetchMapData_Response.MapData.$Shape} MapData
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            MapData.decode = function decode(reader, length, error, long) {
+            MapData.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (long === undefined)
-                    long = 0;
-                if (long > $Reader.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var end, message;
-                if (length === undefined)
+                if (length === $undefined)
                     end = reader.len;
                 else {
                     end = reader.pos + length;
                     if (end > reader.len)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     length = reader.len;
                     reader.len = end;
                 }
-                message = new $root.CSource2Metrics_FetchMapData_Response.MapData();
+                message = _target || new $root.CSource2Metrics_FetchMapData_Response.MapData();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    if (tag === error)
-                        break;
-                    switch (tag >>> 3) {
-                    case 1: {
-                            message.name = reader.string();
-                            break;
-                        }
-                    case 2: {
-                            message.type = reader.string();
-                            break;
-                        }
-                    case 3: {
-                            message.data = reader.string();
-                            break;
-                        }
-                    default:
-                        reader.skipType(tag & 7, long);
+                    var start = reader.pos;
+                    var tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
                         break;
                     }
+                    var wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            message.name = reader.string();
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            message.type = reader.string();
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 2)
+                                break;
+                            message.data = reader.string();
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
-                if (length !== undefined) {
+                if (length !== $undefined) {
                     if (reader.pos !== end)
-                        throw RangeError("index out of range");
+                        throw $RangeError("index out of range");
                     reader.len = length;
                 }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
     
@@ -7730,14 +8315,14 @@
              * @memberof CSource2Metrics_FetchMapData_Response.MapData
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {CSource2Metrics_FetchMapData_Response.MapData} MapData
+             * @returns {CSource2Metrics_FetchMapData_Response.MapData & CSource2Metrics_FetchMapData_Response.MapData.$Shape} MapData
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            MapData.decodeDelimited = function decodeDelimited(reader) {
+            MapData.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
+                return this.decode(reader, reader.size());
             };
     
             /**
@@ -7748,20 +8333,20 @@
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            MapData.verify = function verify(message, long) {
+            MapData.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    return "maximum nesting depth exceeded";
-                if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
                     if (!$util.isString(message.name))
                         return "name: string expected";
-                if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+                if (message.type != null && $Object.hasOwnProperty.call(message, "type"))
                     if (!$util.isString(message.type))
                         return "type: string expected";
-                if (message.data != null && Object.hasOwnProperty.call(message, "data"))
+                if (message.data != null && $Object.hasOwnProperty.call(message, "data"))
                     if (!$util.isString(message.data))
                         return "data: string expected";
                 return null;
@@ -7775,22 +8360,22 @@
              * @param {Object.<string,*>} object Plain object
              * @returns {CSource2Metrics_FetchMapData_Response.MapData} MapData
              */
-            MapData.fromObject = function fromObject(object, long) {
+            MapData.fromObject = function (object, _depth) {
                 if (object instanceof $root.CSource2Metrics_FetchMapData_Response.MapData)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".CSource2Metrics_FetchMapData_Response.MapData: object expected");
-                if (long === undefined)
-                    long = 0;
-                if (long > $util.recursionLimit)
-                    throw Error("maximum nesting depth exceeded");
+                    throw $TypeError(".CSource2Metrics_FetchMapData_Response.MapData: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var message = new $root.CSource2Metrics_FetchMapData_Response.MapData();
                 if (object.name != null)
-                    message.name = String(object.name);
+                    message.name = $String(object.name);
                 if (object.type != null)
-                    message.type = String(object.type);
+                    message.type = $String(object.type);
                 if (object.data != null)
-                    message.data = String(object.data);
+                    message.data = $String(object.data);
                 return message;
             };
     
@@ -7803,24 +8388,24 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            MapData.toObject = function toObject(message, options, q) {
+            MapData.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (q === undefined)
-                    q = 0;
-                if (q > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
                 var object = {};
                 if (options.defaults) {
                     object.name = "";
                     object.type = "";
                     object.data = "";
                 }
-                if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
                     object.name = message.name;
-                if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+                if (message.type != null && $Object.hasOwnProperty.call(message, "type"))
                     object.type = message.type;
-                if (message.data != null && Object.hasOwnProperty.call(message, "data"))
+                if (message.data != null && $Object.hasOwnProperty.call(message, "data"))
                     object.data = message.data;
                 return object;
             };
@@ -7832,23 +8417,22 @@
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            MapData.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            MapData.prototype.toJSON = function() {
+                return MapData.toObject(this, $protobuf.util.toJSONOptions);
             };
     
             /**
-             * Gets the default type url for MapData
+             * Gets the type url for MapData
              * @function getTypeUrl
              * @memberof CSource2Metrics_FetchMapData_Response.MapData
              * @static
-             * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-             * @returns {string} The default type url
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
              */
-            MapData.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-                if (typeUrlPrefix === undefined) {
-                    typeUrlPrefix = "type.googleapis.com";
-                }
-                return typeUrlPrefix + "/CSource2Metrics_FetchMapData_Response.MapData";
+            MapData.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/CSource2Metrics_FetchMapData_Response.MapData";
             };
     
             return MapData;
@@ -7861,31 +8445,44 @@
     
         /**
          * Properties of a CUserMessage_UserSentBugBug.
-         * @exports ICUserMessage_UserSentBugBug
-         * @interface ICUserMessage_UserSentBugBug
+         * @typedef {Object} CUserMessage_UserSentBugBug.$Properties
          * @property {string|null} [command_line] CUserMessage_UserSentBugBug command_line
          * @property {string|null} [autoexec_cfg] CUserMessage_UserSentBugBug autoexec_cfg
-         * @property {ICMsgSource2SystemSpecs|null} [system_specs] CUserMessage_UserSentBugBug system_specs
+         * @property {CMsgSource2SystemSpecs.$Properties|null} [system_specs] CUserMessage_UserSentBugBug system_specs
          * @property {number|null} [build_id] CUserMessage_UserSentBugBug build_id
          * @property {number|null} [osversion] CUserMessage_UserSentBugBug osversion
          * @property {string|null} [command_logs] CUserMessage_UserSentBugBug command_logs
          * @property {number|null} [bugbug_no] CUserMessage_UserSentBugBug bugbug_no
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+         */
+    
+        /**
+         * Properties of a CUserMessage_UserSentBugBug.
+         * @exports ICUserMessage_UserSentBugBug
+         * @interface ICUserMessage_UserSentBugBug
+         * @augments CUserMessage_UserSentBugBug.$Properties
+         * @deprecated Use CUserMessage_UserSentBugBug.$Properties instead.
+         */
+    
+        /**
+         * Shape of a CUserMessage_UserSentBugBug.
+         * @typedef {CUserMessage_UserSentBugBug.$Properties} CUserMessage_UserSentBugBug.$Shape
          */
     
         /**
          * Constructs a new CUserMessage_UserSentBugBug.
          * @exports CUserMessage_UserSentBugBug
          * @classdesc Represents a CUserMessage_UserSentBugBug.
-         * @implements ICUserMessage_UserSentBugBug
          * @constructor
-         * @param {ICUserMessage_UserSentBugBug=} [properties] Properties to set
+         * @param {CUserMessage_UserSentBugBug.$Properties=} [properties] Properties to set
+         * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
-        function CUserMessage_UserSentBugBug(properties) {
+        var CUserMessage_UserSentBugBug = function (properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (var keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null && keys[i] !== "__proto__")
                         this[keys[i]] = properties[keys[i]];
-        }
+        };
     
         /**
          * CUserMessage_UserSentBugBug command_line.
@@ -7905,7 +8502,7 @@
     
         /**
          * CUserMessage_UserSentBugBug system_specs.
-         * @member {ICMsgSource2SystemSpecs|null|undefined} system_specs
+         * @member {CMsgSource2SystemSpecs.$Properties|null|undefined} system_specs
          * @memberof CUserMessage_UserSentBugBug
          * @instance
          */
@@ -7948,10 +8545,14 @@
          * @function create
          * @memberof CUserMessage_UserSentBugBug
          * @static
-         * @param {ICUserMessage_UserSentBugBug=} [properties] Properties to set
+         * @param {CUserMessage_UserSentBugBug.$Properties=} [properties] Properties to set
          * @returns {CUserMessage_UserSentBugBug} CUserMessage_UserSentBugBug instance
+         * @type {{
+         *   (properties: CUserMessage_UserSentBugBug.$Shape): CUserMessage_UserSentBugBug & CUserMessage_UserSentBugBug.$Shape;
+         *   (properties?: CUserMessage_UserSentBugBug.$Properties): CUserMessage_UserSentBugBug;
+         * }}
          */
-        CUserMessage_UserSentBugBug.create = function create(properties) {
+        CUserMessage_UserSentBugBug.create = function(properties) {
             return new CUserMessage_UserSentBugBug(properties);
         };
     
@@ -7960,31 +8561,34 @@
          * @function encode
          * @memberof CUserMessage_UserSentBugBug
          * @static
-         * @param {ICUserMessage_UserSentBugBug} message CUserMessage_UserSentBugBug message or plain object to encode
+         * @param {CUserMessage_UserSentBugBug.$Properties} message CUserMessage_UserSentBugBug message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CUserMessage_UserSentBugBug.encode = function encode(message, writer, q) {
+        CUserMessage_UserSentBugBug.encode = function (message, writer, _depth) {
             if (!writer)
                 writer = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (message.command_line != null && Object.hasOwnProperty.call(message, "command_line"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
+            if (message.command_line != null && $Object.hasOwnProperty.call(message, "command_line"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.command_line);
-            if (message.autoexec_cfg != null && Object.hasOwnProperty.call(message, "autoexec_cfg"))
+            if (message.autoexec_cfg != null && $Object.hasOwnProperty.call(message, "autoexec_cfg"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.autoexec_cfg);
-            if (message.system_specs != null && Object.hasOwnProperty.call(message, "system_specs"))
-                $root.CMsgSource2SystemSpecs.encode(message.system_specs, writer.uint32(/* id 3, wireType 2 =*/26).fork(), q + 1).ldelim();
-            if (message.build_id != null && Object.hasOwnProperty.call(message, "build_id"))
+            if (message.system_specs != null && $Object.hasOwnProperty.call(message, "system_specs"))
+                $root.CMsgSource2SystemSpecs.encode(message.system_specs, writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
+            if (message.build_id != null && $Object.hasOwnProperty.call(message, "build_id"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.build_id);
-            if (message.osversion != null && Object.hasOwnProperty.call(message, "osversion"))
+            if (message.osversion != null && $Object.hasOwnProperty.call(message, "osversion"))
                 writer.uint32(/* id 5, wireType 0 =*/40).int32(message.osversion);
-            if (message.command_logs != null && Object.hasOwnProperty.call(message, "command_logs"))
+            if (message.command_logs != null && $Object.hasOwnProperty.call(message, "command_logs"))
                 writer.uint32(/* id 6, wireType 2 =*/50).string(message.command_logs);
-            if (message.bugbug_no != null && Object.hasOwnProperty.call(message, "bugbug_no"))
+            if (message.bugbug_no != null && $Object.hasOwnProperty.call(message, "bugbug_no"))
                 writer.uint32(/* id 7, wireType 0 =*/56).int32(message.bugbug_no);
+            if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                for (var i = 0; i < message.$unknowns.length; ++i)
+                    writer.raw(message.$unknowns[i]);
             return writer;
         };
     
@@ -7993,12 +8597,12 @@
          * @function encodeDelimited
          * @memberof CUserMessage_UserSentBugBug
          * @static
-         * @param {ICUserMessage_UserSentBugBug} message CUserMessage_UserSentBugBug message or plain object to encode
+         * @param {CUserMessage_UserSentBugBug.$Properties} message CUserMessage_UserSentBugBug message or plain object to encode
          * @param {$protobuf.Writer} [writer] Writer to encode to
          * @returns {$protobuf.Writer} Writer
          */
-        CUserMessage_UserSentBugBug.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+        CUserMessage_UserSentBugBug.encodeDelimited = function(message, writer) {
+            return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
         };
     
         /**
@@ -8008,71 +8612,93 @@
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
          * @param {number} [length] Message length if known beforehand
-         * @returns {CUserMessage_UserSentBugBug} CUserMessage_UserSentBugBug
+         * @returns {CUserMessage_UserSentBugBug & CUserMessage_UserSentBugBug.$Shape} CUserMessage_UserSentBugBug
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CUserMessage_UserSentBugBug.decode = function decode(reader, length, error, long) {
+        CUserMessage_UserSentBugBug.decode = function (reader, length, _end, _depth, _target) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            if (long === undefined)
-                long = 0;
-            if (long > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $Reader.recursionLimit)
+                throw $Error("max depth exceeded");
             var end, message;
-            if (length === undefined)
+            if (length === $undefined)
                 end = reader.len;
             else {
                 end = reader.pos + length;
                 if (end > reader.len)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 length = reader.len;
                 reader.len = end;
             }
-            message = new $root.CUserMessage_UserSentBugBug();
+            message = _target || new $root.CUserMessage_UserSentBugBug();
             while (reader.pos < end) {
-                var tag = reader.uint32();
-                if (tag === error)
-                    break;
-                switch (tag >>> 3) {
-                case 1: {
-                        message.command_line = reader.string();
-                        break;
-                    }
-                case 2: {
-                        message.autoexec_cfg = reader.string();
-                        break;
-                    }
-                case 3: {
-                        message.system_specs = $root.CMsgSource2SystemSpecs.decode(reader, reader.uint32(), undefined, long + 1);
-                        break;
-                    }
-                case 4: {
-                        message.build_id = reader.uint32();
-                        break;
-                    }
-                case 5: {
-                        message.osversion = reader.int32();
-                        break;
-                    }
-                case 6: {
-                        message.command_logs = reader.string();
-                        break;
-                    }
-                case 7: {
-                        message.bugbug_no = reader.int32();
-                        break;
-                    }
-                default:
-                    reader.skipType(tag & 7, long);
+                var start = reader.pos;
+                var tag = reader.tag();
+                if (tag === _end) {
+                    _end = $undefined;
                     break;
                 }
+                var wireType = tag & 7;
+                switch (tag >>>= 3) {
+                case 1: {
+                        if (wireType !== 2)
+                            break;
+                        message.command_line = reader.string();
+                        continue;
+                    }
+                case 2: {
+                        if (wireType !== 2)
+                            break;
+                        message.autoexec_cfg = reader.string();
+                        continue;
+                    }
+                case 3: {
+                        if (wireType !== 2)
+                            break;
+                        message.system_specs = $root.CMsgSource2SystemSpecs.decode(reader, reader.size(), $undefined, _depth + 1, message.system_specs);
+                        continue;
+                    }
+                case 4: {
+                        if (wireType !== 0)
+                            break;
+                        message.build_id = reader.uint32();
+                        continue;
+                    }
+                case 5: {
+                        if (wireType !== 0)
+                            break;
+                        message.osversion = reader.int32();
+                        continue;
+                    }
+                case 6: {
+                        if (wireType !== 2)
+                            break;
+                        message.command_logs = reader.string();
+                        continue;
+                    }
+                case 7: {
+                        if (wireType !== 0)
+                            break;
+                        message.bugbug_no = reader.int32();
+                        continue;
+                    }
+                }
+                reader.skipType(wireType, _depth, tag);
+                if (!reader.discardUnknown) {
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
             }
-            if (length !== undefined) {
+            if (length !== $undefined) {
                 if (reader.pos !== end)
-                    throw RangeError("index out of range");
+                    throw $RangeError("index out of range");
                 reader.len = length;
             }
+            if (_end !== $undefined)
+                throw $Error("missing end group");
             return message;
         };
     
@@ -8082,14 +8708,14 @@
          * @memberof CUserMessage_UserSentBugBug
          * @static
          * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {CUserMessage_UserSentBugBug} CUserMessage_UserSentBugBug
+         * @returns {CUserMessage_UserSentBugBug & CUserMessage_UserSentBugBug.$Shape} CUserMessage_UserSentBugBug
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        CUserMessage_UserSentBugBug.decodeDelimited = function decodeDelimited(reader) {
+        CUserMessage_UserSentBugBug.decodeDelimited = function(reader) {
             if (!(reader instanceof $Reader))
                 reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
+            return this.decode(reader, reader.size());
         };
     
         /**
@@ -8100,34 +8726,34 @@
          * @param {Object.<string,*>} message Plain object to verify
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
-        CUserMessage_UserSentBugBug.verify = function verify(message, long) {
+        CUserMessage_UserSentBugBug.verify = function (message, _depth) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                return "maximum nesting depth exceeded";
-            if (message.command_line != null && Object.hasOwnProperty.call(message, "command_line"))
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                return "max depth exceeded";
+            if (message.command_line != null && $Object.hasOwnProperty.call(message, "command_line"))
                 if (!$util.isString(message.command_line))
                     return "command_line: string expected";
-            if (message.autoexec_cfg != null && Object.hasOwnProperty.call(message, "autoexec_cfg"))
+            if (message.autoexec_cfg != null && $Object.hasOwnProperty.call(message, "autoexec_cfg"))
                 if (!$util.isString(message.autoexec_cfg))
                     return "autoexec_cfg: string expected";
-            if (message.system_specs != null && Object.hasOwnProperty.call(message, "system_specs")) {
-                var error = $root.CMsgSource2SystemSpecs.verify(message.system_specs, long + 1);
+            if (message.system_specs != null && $Object.hasOwnProperty.call(message, "system_specs")) {
+                var error = $root.CMsgSource2SystemSpecs.verify(message.system_specs, _depth + 1);
                 if (error)
                     return "system_specs." + error;
             }
-            if (message.build_id != null && Object.hasOwnProperty.call(message, "build_id"))
+            if (message.build_id != null && $Object.hasOwnProperty.call(message, "build_id"))
                 if (!$util.isInteger(message.build_id))
                     return "build_id: integer expected";
-            if (message.osversion != null && Object.hasOwnProperty.call(message, "osversion"))
+            if (message.osversion != null && $Object.hasOwnProperty.call(message, "osversion"))
                 if (!$util.isInteger(message.osversion))
                     return "osversion: integer expected";
-            if (message.command_logs != null && Object.hasOwnProperty.call(message, "command_logs"))
+            if (message.command_logs != null && $Object.hasOwnProperty.call(message, "command_logs"))
                 if (!$util.isString(message.command_logs))
                     return "command_logs: string expected";
-            if (message.bugbug_no != null && Object.hasOwnProperty.call(message, "bugbug_no"))
+            if (message.bugbug_no != null && $Object.hasOwnProperty.call(message, "bugbug_no"))
                 if (!$util.isInteger(message.bugbug_no))
                     return "bugbug_no: integer expected";
             return null;
@@ -8141,31 +8767,31 @@
          * @param {Object.<string,*>} object Plain object
          * @returns {CUserMessage_UserSentBugBug} CUserMessage_UserSentBugBug
          */
-        CUserMessage_UserSentBugBug.fromObject = function fromObject(object, long) {
+        CUserMessage_UserSentBugBug.fromObject = function (object, _depth) {
             if (object instanceof $root.CUserMessage_UserSentBugBug)
                 return object;
             if (!$util.isObject(object))
-                throw TypeError(".CUserMessage_UserSentBugBug: object expected");
-            if (long === undefined)
-                long = 0;
-            if (long > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
+                throw $TypeError(".CUserMessage_UserSentBugBug: object expected");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var message = new $root.CUserMessage_UserSentBugBug();
             if (object.command_line != null)
-                message.command_line = String(object.command_line);
+                message.command_line = $String(object.command_line);
             if (object.autoexec_cfg != null)
-                message.autoexec_cfg = String(object.autoexec_cfg);
+                message.autoexec_cfg = $String(object.autoexec_cfg);
             if (object.system_specs != null) {
                 if (!$util.isObject(object.system_specs))
-                    throw TypeError(".CUserMessage_UserSentBugBug.system_specs: object expected");
-                message.system_specs = $root.CMsgSource2SystemSpecs.fromObject(object.system_specs, long + 1);
+                    throw $TypeError(".CUserMessage_UserSentBugBug.system_specs: object expected");
+                message.system_specs = $root.CMsgSource2SystemSpecs.fromObject(object.system_specs, _depth + 1);
             }
             if (object.build_id != null)
                 message.build_id = object.build_id >>> 0;
             if (object.osversion != null)
                 message.osversion = object.osversion | 0;
             if (object.command_logs != null)
-                message.command_logs = String(object.command_logs);
+                message.command_logs = $String(object.command_logs);
             if (object.bugbug_no != null)
                 message.bugbug_no = object.bugbug_no | 0;
             return message;
@@ -8180,13 +8806,13 @@
          * @param {$protobuf.IConversionOptions} [options] Conversion options
          * @returns {Object.<string,*>} Plain object
          */
-        CUserMessage_UserSentBugBug.toObject = function toObject(message, options, q) {
+        CUserMessage_UserSentBugBug.toObject = function (message, options, _depth) {
             if (!options)
                 options = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
+            if (_depth === $undefined)
+                _depth = 0;
+            if (_depth > $util.recursionLimit)
+                throw $Error("max depth exceeded");
             var object = {};
             if (options.defaults) {
                 object.command_line = "";
@@ -8197,19 +8823,19 @@
                 object.command_logs = "";
                 object.bugbug_no = 0;
             }
-            if (message.command_line != null && Object.hasOwnProperty.call(message, "command_line"))
+            if (message.command_line != null && $Object.hasOwnProperty.call(message, "command_line"))
                 object.command_line = message.command_line;
-            if (message.autoexec_cfg != null && Object.hasOwnProperty.call(message, "autoexec_cfg"))
+            if (message.autoexec_cfg != null && $Object.hasOwnProperty.call(message, "autoexec_cfg"))
                 object.autoexec_cfg = message.autoexec_cfg;
-            if (message.system_specs != null && Object.hasOwnProperty.call(message, "system_specs"))
-                object.system_specs = $root.CMsgSource2SystemSpecs.toObject(message.system_specs, options, q + 1);
-            if (message.build_id != null && Object.hasOwnProperty.call(message, "build_id"))
+            if (message.system_specs != null && $Object.hasOwnProperty.call(message, "system_specs"))
+                object.system_specs = $root.CMsgSource2SystemSpecs.toObject(message.system_specs, options, _depth + 1);
+            if (message.build_id != null && $Object.hasOwnProperty.call(message, "build_id"))
                 object.build_id = message.build_id;
-            if (message.osversion != null && Object.hasOwnProperty.call(message, "osversion"))
+            if (message.osversion != null && $Object.hasOwnProperty.call(message, "osversion"))
                 object.osversion = message.osversion;
-            if (message.command_logs != null && Object.hasOwnProperty.call(message, "command_logs"))
+            if (message.command_logs != null && $Object.hasOwnProperty.call(message, "command_logs"))
                 object.command_logs = message.command_logs;
-            if (message.bugbug_no != null && Object.hasOwnProperty.call(message, "bugbug_no"))
+            if (message.bugbug_no != null && $Object.hasOwnProperty.call(message, "bugbug_no"))
                 object.bugbug_no = message.bugbug_no;
             return object;
         };
@@ -8221,23 +8847,22 @@
          * @instance
          * @returns {Object.<string,*>} JSON object
          */
-        CUserMessage_UserSentBugBug.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        CUserMessage_UserSentBugBug.prototype.toJSON = function() {
+            return CUserMessage_UserSentBugBug.toObject(this, $protobuf.util.toJSONOptions);
         };
     
         /**
-         * Gets the default type url for CUserMessage_UserSentBugBug
+         * Gets the type url for CUserMessage_UserSentBugBug
          * @function getTypeUrl
          * @memberof CUserMessage_UserSentBugBug
          * @static
-         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-         * @returns {string} The default type url
+         * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+         * @returns {string} The type url
          */
-        CUserMessage_UserSentBugBug.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/CUserMessage_UserSentBugBug";
+        CUserMessage_UserSentBugBug.getTypeUrl = function(prefix) {
+            if (prefix === $undefined)
+                prefix = "type.googleapis.com";
+            return prefix + "/CUserMessage_UserSentBugBug";
         };
     
         return CUserMessage_UserSentBugBug;
