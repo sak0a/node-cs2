@@ -1,5 +1,24 @@
 # Release Notes
 
+## v2.7.0 - October CS2 protocol refresh and protobufjs 8
+
+- Synced all 44 upstream protobuf files through GameTracking-CS2 commit `b73cfdeb35e48bb20a5e6b2edc8ee3aad14dcf39`
+  (October 28, 2026). Upstream marked many legacy item messages `_DEPRECATED` with unchanged numeric IDs and
+  removed unused GC definitions, including `steammessages_gc.proto`.
+- Upgraded the protobuf runtime to protobufjs 8.8.1 and regenerated all schema modules with protobufjs-cli 2.7.1.
+  Canonically encoded messages encode and decode exactly as with protobufjs 7.
+- `connectionStatus` and `disconnectedFromGC` keep reporting GC connection statuses missing from the schema,
+  which protobufjs 8 would otherwise drop as closed proto2 enum values.
+- `download-protos` prunes protos deleted upstream (refusing when upstream lists none), and `generate-protos`
+  removes their stale generated modules.
+- Updated TypeScript to 7.0, Vitest to 5.0, ESLint, Prettier, and `@types/node`; CI uses checkout v7,
+  setup-node v7, and Bun 1.4.4. Packed declarations are compiled with TypeScript 5.9 and 7.0.
+
+Compatibility: no public API changes, and Node.js 14+ runtime support is unchanged. Direct consumers of the
+generated protobuf modules lose the definitions upstream removed and get protobufjs 8's stricter decoding of
+malformed or non-canonical input; see CHANGELOG.md. Live Steam/GC behavior remains unverified.
+
+
 ## v2.6.0 - Request lifecycle and verification
 
 - Added a reusable fake Steam transport, independent outgoing/incoming wire fixtures,

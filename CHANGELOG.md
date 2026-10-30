@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v2.7.0 - October CS2 protocol refresh and protobufjs 8
 
 ### Changed
 
