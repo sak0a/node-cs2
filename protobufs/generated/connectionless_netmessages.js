@@ -16270,7 +16270,6 @@
          * @property {number|null} [user_data_size_bits] CSVCMsg_CreateStringTable user_data_size_bits
          * @property {number|null} [flags] CSVCMsg_CreateStringTable flags
          * @property {Uint8Array|null} [string_data] CSVCMsg_CreateStringTable string_data
-         * @property {number|null} [uncompressed_size] CSVCMsg_CreateStringTable uncompressed_size
          * @property {boolean|null} [data_compressed] CSVCMsg_CreateStringTable data_compressed
          * @property {boolean|null} [using_varint_bitcounts] CSVCMsg_CreateStringTable using_varint_bitcounts
          * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
@@ -16361,14 +16360,6 @@
         CSVCMsg_CreateStringTable.prototype.string_data = $util.newBuffer([]);
     
         /**
-         * CSVCMsg_CreateStringTable uncompressed_size.
-         * @member {number} uncompressed_size
-         * @memberof CSVCMsg_CreateStringTable
-         * @instance
-         */
-        CSVCMsg_CreateStringTable.prototype.uncompressed_size = 0;
-    
-        /**
          * CSVCMsg_CreateStringTable data_compressed.
          * @member {boolean} data_compressed
          * @memberof CSVCMsg_CreateStringTable
@@ -16430,8 +16421,6 @@
                 writer.uint32(/* id 6, wireType 0 =*/48).int32(message.flags);
             if (message.string_data != null && $Object.hasOwnProperty.call(message, "string_data"))
                 writer.uint32(/* id 7, wireType 2 =*/58).bytes(message.string_data);
-            if (message.uncompressed_size != null && $Object.hasOwnProperty.call(message, "uncompressed_size"))
-                writer.uint32(/* id 8, wireType 0 =*/64).int32(message.uncompressed_size);
             if (message.data_compressed != null && $Object.hasOwnProperty.call(message, "data_compressed"))
                 writer.uint32(/* id 9, wireType 0 =*/72).bool(message.data_compressed);
             if (message.using_varint_bitcounts != null && $Object.hasOwnProperty.call(message, "using_varint_bitcounts"))
@@ -16535,12 +16524,6 @@
                         message.string_data = reader.bytes();
                         continue;
                     }
-                case 8: {
-                        if (wireType !== 0)
-                            break;
-                        message.uncompressed_size = reader.int32();
-                        continue;
-                    }
                 case 9: {
                         if (wireType !== 0)
                             break;
@@ -16622,9 +16605,6 @@
             if (message.string_data != null && $Object.hasOwnProperty.call(message, "string_data"))
                 if (!(message.string_data && typeof message.string_data.length === "number" || $util.isString(message.string_data)))
                     return "string_data: buffer expected";
-            if (message.uncompressed_size != null && $Object.hasOwnProperty.call(message, "uncompressed_size"))
-                if (!$util.isInteger(message.uncompressed_size))
-                    return "uncompressed_size: integer expected";
             if (message.data_compressed != null && $Object.hasOwnProperty.call(message, "data_compressed"))
                 if (typeof message.data_compressed !== "boolean")
                     return "data_compressed: boolean expected";
@@ -16669,8 +16649,6 @@
                     $util.base64.decode(object.string_data, message.string_data = $util.newBuffer($util.base64.length(object.string_data)), 0);
                 else if (object.string_data.length >= 0)
                     message.string_data = object.string_data;
-            if (object.uncompressed_size != null)
-                message.uncompressed_size = object.uncompressed_size | 0;
             if (object.data_compressed != null)
                 message.data_compressed = $Boolean(object.data_compressed);
             if (object.using_varint_bitcounts != null)
@@ -16709,7 +16687,6 @@
                     if (options.bytes !== $Array)
                         object.string_data = $util.newBuffer(object.string_data);
                 }
-                object.uncompressed_size = 0;
                 object.data_compressed = false;
                 object.using_varint_bitcounts = false;
             }
@@ -16727,8 +16704,6 @@
                 object.flags = message.flags;
             if (message.string_data != null && $Object.hasOwnProperty.call(message, "string_data"))
                 object.string_data = options.bytes === $String ? $util.base64.encode(message.string_data, 0, message.string_data.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.string_data) : message.string_data;
-            if (message.uncompressed_size != null && $Object.hasOwnProperty.call(message, "uncompressed_size"))
-                object.uncompressed_size = message.uncompressed_size;
             if (message.data_compressed != null && $Object.hasOwnProperty.call(message, "data_compressed"))
                 object.data_compressed = message.data_compressed;
             if (message.using_varint_bitcounts != null && $Object.hasOwnProperty.call(message, "using_varint_bitcounts"))
@@ -51826,6 +51801,9 @@
          * @property {string|null} [cpu_brand] CMsgSource2SystemSpecs cpu_brand
          * @property {number|null} [cpu_model] CMsgSource2SystemSpecs cpu_model
          * @property {number|null} [cpu_num_physical] CMsgSource2SystemSpecs cpu_num_physical
+         * @property {number|null} [cpu_num_logical] CMsgSource2SystemSpecs cpu_num_logical
+         * @property {number|null} [cpu_num_performance] CMsgSource2SystemSpecs cpu_num_performance
+         * @property {number|null} [cpu_num_efficiency] CMsgSource2SystemSpecs cpu_num_efficiency
          * @property {number|null} [ram_physical_total_mb] CMsgSource2SystemSpecs ram_physical_total_mb
          * @property {string|null} [gpu_rendersystem_dll_name] CMsgSource2SystemSpecs gpu_rendersystem_dll_name
          * @property {number|null} [gpu_vendor_id] CMsgSource2SystemSpecs gpu_vendor_id
@@ -51836,6 +51814,7 @@
          * @property {number|null} [gpu_texture_memory_size_mb] CMsgSource2SystemSpecs gpu_texture_memory_size_mb
          * @property {number|null} [backbuffer_width] CMsgSource2SystemSpecs backbuffer_width
          * @property {number|null} [backbuffer_height] CMsgSource2SystemSpecs backbuffer_height
+         * @property {number|null} [thread_pool_workers] CMsgSource2SystemSpecs thread_pool_workers
          * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
          */
     
@@ -51898,6 +51877,30 @@
          * @instance
          */
         CMsgSource2SystemSpecs.prototype.cpu_num_physical = 0;
+    
+        /**
+         * CMsgSource2SystemSpecs cpu_num_logical.
+         * @member {number} cpu_num_logical
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.cpu_num_logical = 0;
+    
+        /**
+         * CMsgSource2SystemSpecs cpu_num_performance.
+         * @member {number} cpu_num_performance
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.cpu_num_performance = 0;
+    
+        /**
+         * CMsgSource2SystemSpecs cpu_num_efficiency.
+         * @member {number} cpu_num_efficiency
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.cpu_num_efficiency = 0;
     
         /**
          * CMsgSource2SystemSpecs ram_physical_total_mb.
@@ -51980,6 +51983,14 @@
         CMsgSource2SystemSpecs.prototype.backbuffer_height = 0;
     
         /**
+         * CMsgSource2SystemSpecs thread_pool_workers.
+         * @member {number} thread_pool_workers
+         * @memberof CMsgSource2SystemSpecs
+         * @instance
+         */
+        CMsgSource2SystemSpecs.prototype.thread_pool_workers = 0;
+    
+        /**
          * Creates a new CMsgSource2SystemSpecs instance using the specified properties.
          * @function create
          * @memberof CMsgSource2SystemSpecs
@@ -52019,6 +52030,12 @@
                 writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.cpu_model);
             if (message.cpu_num_physical != null && $Object.hasOwnProperty.call(message, "cpu_num_physical"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.cpu_num_physical);
+            if (message.cpu_num_logical != null && $Object.hasOwnProperty.call(message, "cpu_num_logical"))
+                writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.cpu_num_logical);
+            if (message.cpu_num_performance != null && $Object.hasOwnProperty.call(message, "cpu_num_performance"))
+                writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.cpu_num_performance);
+            if (message.cpu_num_efficiency != null && $Object.hasOwnProperty.call(message, "cpu_num_efficiency"))
+                writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.cpu_num_efficiency);
             if (message.ram_physical_total_mb != null && $Object.hasOwnProperty.call(message, "ram_physical_total_mb"))
                 writer.uint32(/* id 21, wireType 0 =*/168).uint32(message.ram_physical_total_mb);
             if (message.gpu_rendersystem_dll_name != null && $Object.hasOwnProperty.call(message, "gpu_rendersystem_dll_name"))
@@ -52039,6 +52056,8 @@
                 writer.uint32(/* id 51, wireType 0 =*/408).uint32(message.backbuffer_width);
             if (message.backbuffer_height != null && $Object.hasOwnProperty.call(message, "backbuffer_height"))
                 writer.uint32(/* id 52, wireType 0 =*/416).uint32(message.backbuffer_height);
+            if (message.thread_pool_workers != null && $Object.hasOwnProperty.call(message, "thread_pool_workers"))
+                writer.uint32(/* id 61, wireType 0 =*/488).uint32(message.thread_pool_workers);
             if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                 for (var i = 0; i < message.$unknowns.length; ++i)
                     writer.raw(message.$unknowns[i]);
@@ -52120,6 +52139,24 @@
                         message.cpu_num_physical = reader.uint32();
                         continue;
                     }
+                case 5: {
+                        if (wireType !== 0)
+                            break;
+                        message.cpu_num_logical = reader.uint32();
+                        continue;
+                    }
+                case 6: {
+                        if (wireType !== 0)
+                            break;
+                        message.cpu_num_performance = reader.uint32();
+                        continue;
+                    }
+                case 7: {
+                        if (wireType !== 0)
+                            break;
+                        message.cpu_num_efficiency = reader.uint32();
+                        continue;
+                    }
                 case 21: {
                         if (wireType !== 0)
                             break;
@@ -52178,6 +52215,12 @@
                         if (wireType !== 0)
                             break;
                         message.backbuffer_height = reader.uint32();
+                        continue;
+                    }
+                case 61: {
+                        if (wireType !== 0)
+                            break;
+                        message.thread_pool_workers = reader.uint32();
                         continue;
                     }
                 }
@@ -52240,6 +52283,15 @@
             if (message.cpu_num_physical != null && $Object.hasOwnProperty.call(message, "cpu_num_physical"))
                 if (!$util.isInteger(message.cpu_num_physical))
                     return "cpu_num_physical: integer expected";
+            if (message.cpu_num_logical != null && $Object.hasOwnProperty.call(message, "cpu_num_logical"))
+                if (!$util.isInteger(message.cpu_num_logical))
+                    return "cpu_num_logical: integer expected";
+            if (message.cpu_num_performance != null && $Object.hasOwnProperty.call(message, "cpu_num_performance"))
+                if (!$util.isInteger(message.cpu_num_performance))
+                    return "cpu_num_performance: integer expected";
+            if (message.cpu_num_efficiency != null && $Object.hasOwnProperty.call(message, "cpu_num_efficiency"))
+                if (!$util.isInteger(message.cpu_num_efficiency))
+                    return "cpu_num_efficiency: integer expected";
             if (message.ram_physical_total_mb != null && $Object.hasOwnProperty.call(message, "ram_physical_total_mb"))
                 if (!$util.isInteger(message.ram_physical_total_mb))
                     return "ram_physical_total_mb: integer expected";
@@ -52270,6 +52322,9 @@
             if (message.backbuffer_height != null && $Object.hasOwnProperty.call(message, "backbuffer_height"))
                 if (!$util.isInteger(message.backbuffer_height))
                     return "backbuffer_height: integer expected";
+            if (message.thread_pool_workers != null && $Object.hasOwnProperty.call(message, "thread_pool_workers"))
+                if (!$util.isInteger(message.thread_pool_workers))
+                    return "thread_pool_workers: integer expected";
             return null;
         };
     
@@ -52299,6 +52354,12 @@
                 message.cpu_model = object.cpu_model >>> 0;
             if (object.cpu_num_physical != null)
                 message.cpu_num_physical = object.cpu_num_physical >>> 0;
+            if (object.cpu_num_logical != null)
+                message.cpu_num_logical = object.cpu_num_logical >>> 0;
+            if (object.cpu_num_performance != null)
+                message.cpu_num_performance = object.cpu_num_performance >>> 0;
+            if (object.cpu_num_efficiency != null)
+                message.cpu_num_efficiency = object.cpu_num_efficiency >>> 0;
             if (object.ram_physical_total_mb != null)
                 message.ram_physical_total_mb = object.ram_physical_total_mb >>> 0;
             if (object.gpu_rendersystem_dll_name != null)
@@ -52319,6 +52380,8 @@
                 message.backbuffer_width = object.backbuffer_width >>> 0;
             if (object.backbuffer_height != null)
                 message.backbuffer_height = object.backbuffer_height >>> 0;
+            if (object.thread_pool_workers != null)
+                message.thread_pool_workers = object.thread_pool_workers >>> 0;
             return message;
         };
     
@@ -52344,6 +52407,9 @@
                 object.cpu_brand = "";
                 object.cpu_model = 0;
                 object.cpu_num_physical = 0;
+                object.cpu_num_logical = 0;
+                object.cpu_num_performance = 0;
+                object.cpu_num_efficiency = 0;
                 object.ram_physical_total_mb = 0;
                 object.gpu_rendersystem_dll_name = "";
                 object.gpu_vendor_id = 0;
@@ -52354,6 +52420,7 @@
                 object.gpu_texture_memory_size_mb = 0;
                 object.backbuffer_width = 0;
                 object.backbuffer_height = 0;
+                object.thread_pool_workers = 0;
             }
             if (message.cpu_id != null && $Object.hasOwnProperty.call(message, "cpu_id"))
                 object.cpu_id = message.cpu_id;
@@ -52363,6 +52430,12 @@
                 object.cpu_model = message.cpu_model;
             if (message.cpu_num_physical != null && $Object.hasOwnProperty.call(message, "cpu_num_physical"))
                 object.cpu_num_physical = message.cpu_num_physical;
+            if (message.cpu_num_logical != null && $Object.hasOwnProperty.call(message, "cpu_num_logical"))
+                object.cpu_num_logical = message.cpu_num_logical;
+            if (message.cpu_num_performance != null && $Object.hasOwnProperty.call(message, "cpu_num_performance"))
+                object.cpu_num_performance = message.cpu_num_performance;
+            if (message.cpu_num_efficiency != null && $Object.hasOwnProperty.call(message, "cpu_num_efficiency"))
+                object.cpu_num_efficiency = message.cpu_num_efficiency;
             if (message.ram_physical_total_mb != null && $Object.hasOwnProperty.call(message, "ram_physical_total_mb"))
                 object.ram_physical_total_mb = message.ram_physical_total_mb;
             if (message.gpu_rendersystem_dll_name != null && $Object.hasOwnProperty.call(message, "gpu_rendersystem_dll_name"))
@@ -52383,6 +52456,8 @@
                 object.backbuffer_width = message.backbuffer_width;
             if (message.backbuffer_height != null && $Object.hasOwnProperty.call(message, "backbuffer_height"))
                 object.backbuffer_height = message.backbuffer_height;
+            if (message.thread_pool_workers != null && $Object.hasOwnProperty.call(message, "thread_pool_workers"))
+                object.thread_pool_workers = message.thread_pool_workers;
             return object;
         };
     
