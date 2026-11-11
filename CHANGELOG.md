@@ -1,5 +1,20 @@
 # Changelog
 
+## v2.7.1 - November CS2 protocol sync
+
+### Changed
+
+- Synced protobufs through GameTracking-CS2 commit `82e2b9d62cc97f1358c68a220a4a392c9e41c509` (November 11, 2026): 2 changed files, 42 unchanged
+  - `netmessages.proto`: upstream removed `uncompressed_size` (field 8) and reserved its number
+  - `source2_steam_stats.proto`: added `cpu_num_logical`, `cpu_num_performance`, `cpu_num_efficiency`, and `thread_pool_workers`
+- Regenerated `netmessages`, `source2_steam_stats`, and the dependent `c_peer2peer_netmessages` and `connectionless_netmessages` modules. The wire schema and response types are unchanged.
+- Updated Vitest to `^5.1.0` and Prettier to `^3.10.0`; refreshed the Bun lockfile
+
+### Compatibility
+
+- No public API changes; no Game Coordinator messages changed.
+- Direct consumers of the generated `netmessages` module no longer get the removed `uncompressed_size` field.
+
 ## v2.7.0 - October CS2 protocol refresh and protobufjs 8
 
 ### Changed

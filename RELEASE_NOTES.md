@@ -1,5 +1,15 @@
 # Release Notes
 
+## v2.7.1 - November CS2 protocol sync
+
+- Synced protobufs through GameTracking-CS2 commit `82e2b9d62cc97f1358c68a220a4a392c9e41c509`
+  (November 11, 2026). Only `netmessages.proto` (removed `uncompressed_size`, field 8 reserved) and
+  `source2_steam_stats.proto` (new CPU and thread-pool fields) changed; their generated modules were regenerated.
+- Updated Vitest to 5.1 and Prettier to 3.10.
+
+Compatibility: no public API changes and no Game Coordinator schema changes. Live Steam/GC behavior remains unverified.
+
+
 ## v2.7.0 - October CS2 protocol refresh and protobufjs 8
 
 - Synced all 44 upstream protobuf files through GameTracking-CS2 commit `b73cfdeb35e48bb20a5e6b2edc8ee3aad14dcf39`
