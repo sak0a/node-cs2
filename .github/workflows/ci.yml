@@ -7,7 +7,8 @@ permissions:
   contents: read
 jobs:
   offline:
-    runs-on: ubuntu-latest
+    # Runner pool routing: CI_* repository variables pick the runner; the literal is the default.
+    runs-on: ${{ fromJSON(format(vars.CI_LINUX || '["ubuntu-latest"]', github.run_id, github.run_attempt)) }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -23,7 +24,7 @@ jobs:
       - run: npm run generate-wire-schema && npm run generate-response-types
       - run: git diff --exit-code -- lib/wire-schema.json types/responses.d.ts
   packed-consumers:
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(format(vars.CI_LINUX || '["ubuntu-latest"]', github.run_id, github.run_attempt)) }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
